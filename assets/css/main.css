@@ -39,8 +39,10 @@ img { height: auto; }
 
 /* Header / footer */
 .site-header { border-bottom: 1px solid var(--rule); margin-bottom: clamp(2rem, 5vw, 4rem); }
-.header-inner { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0.5rem 2rem; padding-top: 1.5rem; padding-bottom: 1.25rem; }
+.header-inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.5rem 2rem; padding-top: 1.5rem; padding-bottom: 1.25rem; }
 .site-title { font-family: var(--serif); font-size: clamp(2rem, 1.5rem + 2vw, 2.986rem); line-height: 1; text-decoration: none; }
+.site-logo { display: block; line-height: 0; }
+.site-logo img { display: block; width: clamp(180px, 40vw, 300px); height: auto; }
 .site-description { margin: 0.35rem 0 0; color: var(--muted); font-size: 0.95rem; }
 .site-nav { display: flex; flex-wrap: wrap; gap: 0.25rem 1.5rem; }
 .site-nav a { text-decoration: none; font-weight: 500; }
