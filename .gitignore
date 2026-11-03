@@ -12,3 +12,6 @@ _site/
 
 # Local tooling
 .claude/
+
+# Wrangler
+.wrangler/

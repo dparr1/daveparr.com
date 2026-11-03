@@ -1,0 +1,13 @@
+// Cloudflare Worker that serves the built Jekyll site from _site/.
+// `npx wrangler deploy` runs the build command first, then uploads _site/.
+{
+  "name": "daveparr-com",
+  "compatibility_date": "2026-10-01",
+  "build": {
+    "command": "bundle install && bundle exec jekyll build"
+  },
+  "assets": {
+    "directory": "./_site",
+    "not_found_handling": "404-page"
+  }
+}
