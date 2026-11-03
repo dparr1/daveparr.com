@@ -1,6 +1,12 @@
 ---
 title: How to get involved in research as an undergraduate
+image: /assets/img/posts/unc-davis-library-stacks-2019.jpg
 ---
+
+<figure>
+  <img src="{{ '/assets/img/posts/unc-davis-library-stacks-2019.jpg' | relative_url }}" alt="A long central hallway lined with bookshelves on the sixth floor of Davis Library" width="1600" height="1200">
+  <figcaption>The stacks on the sixth floor of Davis Library, home of UNC's Research Hub. Photo by <a href="https://commons.wikimedia.org/wiki/File:UNC_Davis_Library_stacks_2019.jpg">Hameltion</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>, via Wikimedia Commons.</figcaption>
+</figure>
 
 Undergraduate students in Geography, Geospatial Data Science, or related fields at UNC-Chapel Hill have access to a wide array of research opportunities ranging from departmental honors programs to interdisciplinary research centers and external internships.
 

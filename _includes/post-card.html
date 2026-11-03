@@ -6,5 +6,5 @@
   {% endif %}
   <h2 class="post-card-title"><a href="{{ include.post.url | relative_url }}">{{ include.post.title }}</a></h2>
   <time class="post-meta" datetime="{{ include.post.date | date_to_xmlschema }}">{{ include.post.date | date: "%B %-d, %Y" }}</time>
-  <p class="post-card-excerpt">{{ include.post.content | strip_html | normalize_whitespace | truncatewords: 30 }}</p>
+  <p class="post-card-excerpt">{{ include.post.content | split: '</figure>' | last | strip_html | normalize_whitespace | truncatewords: 30 }}</p>
 </article>
