@@ -30,6 +30,8 @@ plugins:
 navigation:
   - title: About
     url: /about/
+  - title: Research
+    url: /research/
 
 exclude:
   - README.md
