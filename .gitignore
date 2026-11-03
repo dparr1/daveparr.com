@@ -9,3 +9,6 @@ _site/
 .sass-cache/
 vendor/
 .bundle/
+
+# Local tooling
+.claude/

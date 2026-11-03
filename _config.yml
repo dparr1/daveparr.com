@@ -1,25 +1,50 @@
-title: Dave Parr
-description: Dave Parr's personal website.
-url: "https://daveparr.com"
-baseurl: ""
-author: Dave Parr
-lang: en
+# Site
+title:              Dave Parr
+bio:                'Welcome to my website.'
+description:        "Dave Parr's personal website."
+author:             Dave Parr
+reading_time:       true
+words_per_minute:   200
+logo:               'assets/img/logo.png'
+background:         'assets/img/placeholder-big.jpg'
+tiled_bg:           false   # true tiles the background image, false stretches it to cover
+locale:             en_US
+url:                "https://daveparr.com"
+baseurl:            ""
 
-permalink: /blog/:year/:month/:title/
+# Jekyll
+permalink:          /blog/:year/:month/:title/
+markdown:           kramdown
+highlighter:        rouge
+kramdown:
+  auto_ids:         true
+  footnote_nr:      1
+  entity_output:    as_char
+  toc_levels:       1..6
+mathjax:            false   # true loads MathJax on posts and pages
+sass:
+  sass_dir:         _sass
+  style:            compressed
+  # Moon's Sass predates Dart Sass; hide its harmless deprecation warnings.
+  quiet_deps:       true
+  silence_deprecations: [import, global-builtin, color-functions, slash-div]
+
+# Comments: set a Disqus shortname to turn comments on.
+# disqus_shortname:
+
+# Social links, shown on the home page and in the menu.
+# Uncomment and fill in the ones you use.
+github-url:         dparr1
+# email:
+# linkedin:         username
+# twitter:          username
+# instagram:        username
+# youtube:          username
+# stackoverflow:    123456/username
 
 plugins:
   - jekyll-feed
-  - jekyll-seo-tag
   - jekyll-sitemap
-
-# Top navigation, in order.
-nav:
-  - title: Home
-    url: /
-  - title: Blog
-    url: /blog/
-  - title: About
-    url: /about/
 
 defaults:
   - scope:
@@ -27,9 +52,11 @@ defaults:
       type: posts
     values:
       layout: post
+      comments: true
 
 exclude:
   - README.md
+  - LICENSE-moon.txt
   - Gemfile
   - Gemfile.lock
   - .ruby-version

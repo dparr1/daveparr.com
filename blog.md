@@ -1,7 +1,0 @@
----
-layout: page
-title: Blog
-permalink: /blog/
----
-
-{% include post-list.html posts=site.posts %}
