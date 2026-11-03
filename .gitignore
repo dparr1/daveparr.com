@@ -1,6 +1,11 @@
 .DS_Store
 Thumbs.db
 desktop.ini
-node_modules/
-.wrangler/
-.dev.vars
+
+# Jekyll
+_site/
+.jekyll-cache/
+.jekyll-metadata
+.sass-cache/
+vendor/
+.bundle/

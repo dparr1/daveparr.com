@@ -1,0 +1,36 @@
+title: Dave Parr
+description: Dave Parr's personal website.
+url: "https://daveparr.com"
+baseurl: ""
+author: Dave Parr
+lang: en
+
+permalink: /blog/:year/:month/:title/
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+# Top navigation, in order.
+nav:
+  - title: Home
+    url: /
+  - title: Blog
+    url: /blog/
+  - title: About
+    url: /about/
+
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
+
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - .ruby-version
+  - vendor/

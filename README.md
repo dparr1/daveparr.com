@@ -1,29 +1,50 @@
 # daveparr.com
 
-Source for [daveparr.com](https://daveparr.com), a static site hosted on Cloudflare Pages.
+Source for [daveparr.com](https://daveparr.com), a [Jekyll](https://jekyllrb.com) site hosted on Cloudflare Pages.
 
 ## Layout
 
-- `public/` is the site. Everything in it is deployed as-is.
-- Anything outside `public/` (like this README) is not published.
+| Path                 | What it is                                        |
+| -------------------- | ------------------------------------------------- |
+| `_config.yml`        | Site title, URL, navigation and plugins           |
+| `_layouts/`          | Page templates (`default`, `page`, `post`)        |
+| `_includes/`         | Reusable snippets, like the post list             |
+| `_posts/`            | Blog posts, named `YYYY-MM-DD-title.md`           |
+| `assets/css/`        | Stylesheet                                        |
+| `index.md`, `*.md`   | Top-level pages                                   |
+
+## Writing a post
+
+Add a file to `_posts/` such as `2026-11-10-my-post.md`:
+
+```markdown
+---
+title: My post
+---
+
+Post body in Markdown.
+```
+
+Push to `main` and it goes live.
 
 ## Deploying
 
-Cloudflare Pages is connected to this repo. Every push to `main` deploys to
-production, and every other branch gets its own preview URL.
+Cloudflare Pages builds this repo on every push. `main` deploys to production and
+other branches get preview URLs.
 
-Pages build settings:
-
-| Setting                | Value    |
-| ---------------------- | -------- |
-| Framework preset       | None     |
-| Build command          | *(empty)* |
-| Build output directory | `public` |
+| Setting                | Value          |
+| ---------------------- | -------------- |
+| Framework preset       | Jekyll         |
+| Build command          | `bundle exec jekyll build` |
+| Build output directory | `_site`        |
 
 ## Previewing locally
 
-Open `public/index.html` in a browser, or serve the folder:
+Needs Ruby (on Windows, RubyInstaller with DevKit).
 
 ```bash
-npx serve public
+bundle install
+bundle exec jekyll serve --livereload
 ```
+
+Then open http://localhost:4000.
