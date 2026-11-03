@@ -8,8 +8,16 @@ timezone: America/New_York
 url: "https://daveparr.com"
 baseurl: ""
 
-# Same URL scheme as the old WordPress site, so old links keep working
-permalink: /:year/:month/:day/:title/
+# Jekyll's standard post URLs, e.g. /2026/07/28/post-title.html
+permalink: date
+
+# Every post uses the post layout (and its stylesheet) unless it says otherwise
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
 
 markdown: kramdown
 
