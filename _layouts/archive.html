@@ -1,0 +1,19 @@
+---
+layout: default
+---
+{% if page.category %}
+  {% assign archive_posts = site.categories[page.category] %}
+  {% assign label = "Category" %}
+{% else %}
+  {% assign archive_posts = site.tags[page.tag] %}
+  {% assign label = "Tag" %}
+{% endif %}
+<header class="archive-header">
+  <p class="archive-label">{{ label }}</p>
+  <h1 class="entry-title">{{ page.title }}</h1>
+</header>
+<div class="post-grid">
+  {% for post in archive_posts %}
+    {% include post-card.html post=post %}
+  {% endfor %}
+</div>

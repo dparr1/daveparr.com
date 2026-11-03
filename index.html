@@ -1,5 +1,9 @@
 ---
-layout: home
-title: Home
-comments: false
+layout: default
 ---
+<h1 class="visually-hidden">Recent posts</h1>
+<div class="post-grid">
+  {% for post in site.posts %}
+    {% include post-card.html post=post %}
+  {% endfor %}
+</div>

@@ -7,7 +7,7 @@ comments: false
 
 ![Strips of satellite imagery showing coastlines, farmland, rivers, deltas and mountains]({{ '/assets/img/about/satellite-banner.jpg' | relative_url }})
 
-<img src="{{ '/assets/img/about/dave-parr-headshot.jpg' | relative_url }}" alt="Dave Parr" width="200" height="200" style="display:block; margin:2rem auto; border-radius:50%;">
+<img src="{{ '/assets/img/about/dave-parr-headshot.jpg' | relative_url }}" alt="Dave Parr" width="200" height="200">
 
 I am currently a Teaching Assistant Professor in the Department of Geography and the Environment at the University of North Carolina at Chapel Hill. I teach classes in Spatial Data Science, GIS, programming, web mapping, spatial databases, cartography, spatial modeling and analysis, data acquisition and integration.
 

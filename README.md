@@ -4,14 +4,19 @@ Source for [daveparr.com](https://daveparr.com), a [Jekyll](https://jekyllrb.com
 
 ## Layout
 
-| Path                 | What it is                                        |
-| -------------------- | ------------------------------------------------- |
-| `_config.yml`        | Site title, URL, navigation and plugins           |
-| `_layouts/`          | Page templates (`default`, `page`, `post`)        |
-| `_includes/`         | Reusable snippets, like the post list             |
-| `_posts/`            | Blog posts, named `YYYY-MM-DD-title.md`           |
-| `assets/css/`        | Stylesheet                                        |
-| `index.md`, `*.md`   | Top-level pages                                   |
+The look follows the old WordPress "Luminance" theme: Instrument Serif and Sans,
+a warm off-white palette, and a grid of post cards on the home page.
+
+| Path                 | What it is                                             |
+| -------------------- | ------------------------------------------------------ |
+| `_config.yml`        | Site title, URL, header navigation and plugins          |
+| `_layouts/`          | Page templates (`default`, `page`, `post`, `archive`) |
+| `_includes/`         | Header, footer, head tags and the post card             |
+| `_posts/`            | Blog posts, named `YYYY-MM-DD-title.md`                   |
+| `assets/css/main.css`| Stylesheet                                              |
+| `index.html`         | Home page: every post as a card, newest first           |
+
+Add `image: /assets/...` to a post's front matter to give its card a picture.
 
 ## Writing a post
 

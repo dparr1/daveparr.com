@@ -1,0 +1,12 @@
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <span>&copy; {{ site.time | date: "%Y" }} {{ site.author }}</span>
+    <nav aria-label="Topics">
+      {% assign categories = site.categories | sort %}
+      {% for c in categories %}
+        <a href="{{ '/category/' | append: c[0] | append: '/' | relative_url }}">{{ c[0] }}</a>
+      {% endfor %}
+      <a href="{{ '/feed.xml' | relative_url }}">RSS</a>
+    </nav>
+  </div>
+</footer>
