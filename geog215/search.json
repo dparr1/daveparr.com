@@ -24,7 +24,17 @@
     "href": "intro.html",
     "title": "1  Introduction",
     "section": "",
-    "text": "Please enable JavaScript to experience the dynamic code cell content on this page.",
+    "text": "1.1 Check your understanding\nRun the code above, then answer these questions.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
+    ]
+  },
+  {
+    "objectID": "intro.html#check-your-understanding",
+    "href": "intro.html#check-your-understanding",
+    "title": "1  Introduction",
+    "section": "",
+    "text": "What is the mean of scores? \nWhich function computes the standard deviation in R? var()sd()mean()range()\nTrue or false: c() combines values into a vector. TRUEFALSE\n\n\n\nShow hint\n\nAdd the five scores and divide by 5: (88 + 92 + 79 + 95 + 84) / 5.",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
     ]
