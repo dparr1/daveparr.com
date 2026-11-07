@@ -41,3 +41,4 @@ exclude:
   - .ruby-version
   - vendor/
   - wrangler.jsonc
+  - geog-215-spatial-data-science/
