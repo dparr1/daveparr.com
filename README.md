@@ -43,6 +43,15 @@ other branches get preview URLs.
 | Build command          | `bundle exec jekyll build` |
 | Build output directory | `_site`        |
 
+## The GEOG 215 book (`geog215/`)
+
+`geog215/` holds the rendered HTML of the Quarto book
+[dparr1/geog-215-spatial-data-science](https://github.com/dparr1/geog-215-spatial-data-science),
+served at <https://daveparr.com/geog215/>. **Don't edit it here.** The book
+repo's GitHub Action renders the book and commits it into this folder on every
+push, using a deploy key (repo Settings > Deploy keys), and that commit
+triggers the normal Cloudflare build. Edit the book in its own repo.
+
 ## Previewing locally
 
 Needs Ruby (on Windows, RubyInstaller with DevKit).
