@@ -20,6 +20,12 @@ defaults:
     values:
       layout: post
 
+# Added to every page by _plugins/google_tag_manager.rb.
+# GA4 is loaded directly here, so don't also add a Google tag with this
+# measurement ID inside the GTM container, or page views count twice.
+google_tag_manager: GTM-522PXQTD
+google_analytics: G-BNNGB3KD36
+
 markdown: kramdown
 
 plugins:
