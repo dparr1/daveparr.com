@@ -39,6 +39,8 @@ navigation:
     url: /about/
   - title: Research
     url: /research/
+  - title: GIS@UNC Newsletters
+    url: /newsletters/
 
 exclude:
   - README.md
