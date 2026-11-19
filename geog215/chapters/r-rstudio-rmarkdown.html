@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>1&nbsp; Introduction – Spatial Data Science</title>
+<title>1&nbsp; R, RStudio, and R Markdown – Spatial Data Science</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -26,29 +26,64 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./chapters/census-data-apis.html" rel="next">
-<link href="./index.html" rel="prev">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-4c5e755a3bfe43f3706dcc37cc2065fe.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/census-data-apis.html" rel="next">
+<link href="../index.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-7f6c64e0d652c61cb9aac081886fc576.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -76,6 +111,9 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script src="../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/monaco-editor@0.47.0/min/vs/editor/editor.main.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
   
@@ -376,7 +414,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"# 1. Define a vector of scores\nscores \u003c- c(88, 92, 79, 95, 84)\n\n# 2. Compute summary statistics\nmean_score \u003c- mean(scores)\nsd_score   \u003c- sd(scores)\n\ncat(\"Mean:\", mean_score, \"\\nSD:\", sd_score)","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qwebrCellDetails = [{"code":"5 + 6","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# How many months are in a century?\nmonths \u003c- 12\nyears \u003c- 100\nmonths * years","id":2,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"months \u003c- 12\nMonths","id":3,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Five daily high temperatures, in degrees F\ntemps \u003c- c(71, 75, 68, 80, 77)\n\nmean(temps)   # the average\nmax(temps)    # the highest value\nround((mean(temps) - 32) * 5 / 9, digits = 1)   # the average in degrees C","id":4,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"temps |>\n  max() |>\n  sqrt() |>\n  round(digits = 1)","id":5,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-5","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
 
 </script>
 <script type="module">
@@ -1631,7 +1669,7 @@ globalThis.qwebrExecuteCode = async function (
 </script>
 
 
-<link rel="stylesheet" href="include/webex.css">
+<link rel="stylesheet" href="../include/webex.css">
 </head>
 
 <body class="nav-sidebar floating quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a>
@@ -1643,7 +1681,7 @@ globalThis.qwebrExecuteCode = async function (
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./intro.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/r-rstudio-rmarkdown.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">R, RStudio, and R Markdown</span></a></li></ol></nav>
         <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -1658,7 +1696,7 @@ globalThis.qwebrExecuteCode = async function (
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Site">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">Spatial Data Science</a> 
+      <a href="../">Spatial Data Science</a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -1670,19 +1708,19 @@ globalThis.qwebrExecuteCode = async function (
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link">
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Preface</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./intro.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  <a href="../chapters/r-rstudio-rmarkdown.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">R, RStudio, and R Markdown</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/census-data-apis.html" class="sidebar-item-text sidebar-link">
+  <a href="../chapters/census-data-apis.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Census Data and APIs</span></span></a>
   </div>
 </li>
@@ -1696,7 +1734,38 @@ globalThis.qwebrExecuteCode = async function (
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#check-your-understanding" id="toc-check-your-understanding" class="nav-link active" data-scroll-target="#check-your-understanding"><span class="header-section-number">1.1</span> Check your understanding</a></li>
+  <li><a href="#sec-what-is-r" id="toc-sec-what-is-r" class="nav-link active" data-scroll-target="#sec-what-is-r"><span class="header-section-number">1.1</span> What is R?</a>
+  <ul class="collapse">
+  <li><a href="#why-use-r" id="toc-why-use-r" class="nav-link" data-scroll-target="#why-use-r"><span class="header-section-number">1.1.1</span> Why use R?</a></li>
+  </ul></li>
+  <li><a href="#sec-what-is-rstudio" id="toc-sec-what-is-rstudio" class="nav-link" data-scroll-target="#sec-what-is-rstudio"><span class="header-section-number">1.2</span> What is RStudio?</a>
+  <ul class="collapse">
+  <li><a href="#the-four-panes" id="toc-the-four-panes" class="nav-link" data-scroll-target="#the-four-panes"><span class="header-section-number">1.2.1</span> The four panes</a></li>
+  <li><a href="#rstudio-during-a-working-session" id="toc-rstudio-during-a-working-session" class="nav-link" data-scroll-target="#rstudio-during-a-working-session"><span class="header-section-number">1.2.2</span> RStudio during a working session</a></li>
+  </ul></li>
+  <li><a href="#sec-scripts-and-rmarkdown" id="toc-sec-scripts-and-rmarkdown" class="nav-link" data-scroll-target="#sec-scripts-and-rmarkdown"><span class="header-section-number">1.3</span> R scripts and R Markdown</a>
+  <ul class="collapse">
+  <li><a href="#what-is-r-markdown" id="toc-what-is-r-markdown" class="nav-link" data-scroll-target="#what-is-r-markdown"><span class="header-section-number">1.3.1</span> What is R Markdown?</a></li>
+  <li><a href="#anatomy-of-an-r-markdown-file" id="toc-anatomy-of-an-r-markdown-file" class="nav-link" data-scroll-target="#anatomy-of-an-r-markdown-file"><span class="header-section-number">1.3.2</span> Anatomy of an R Markdown file</a></li>
+  <li><a href="#the-r-markdown-workflow" id="toc-the-r-markdown-workflow" class="nav-link" data-scroll-target="#the-r-markdown-workflow"><span class="header-section-number">1.3.3</span> The R Markdown workflow</a></li>
+  <li><a href="#keep-all-course-files-in-one-folder" id="toc-keep-all-course-files-in-one-folder" class="nav-link" data-scroll-target="#keep-all-course-files-in-one-folder"><span class="header-section-number">1.3.4</span> Keep all course files in one folder</a></li>
+  </ul></li>
+  <li><a href="#sec-code-basics" id="toc-sec-code-basics" class="nav-link" data-scroll-target="#sec-code-basics"><span class="header-section-number">1.4</span> Code basics</a>
+  <ul class="collapse">
+  <li><a href="#a-line-of-code" id="toc-a-line-of-code" class="nav-link" data-scroll-target="#a-line-of-code"><span class="header-section-number">1.4.1</span> A line of code</a></li>
+  <li><a href="#a-block-of-code" id="toc-a-block-of-code" class="nav-link" data-scroll-target="#a-block-of-code"><span class="header-section-number">1.4.2</span> A block of code</a></li>
+  <li><a href="#variables" id="toc-variables" class="nav-link" data-scroll-target="#variables"><span class="header-section-number">1.4.3</span> Variables</a></li>
+  <li><a href="#comments" id="toc-comments" class="nav-link" data-scroll-target="#comments"><span class="header-section-number">1.4.4</span> Comments</a></li>
+  <li><a href="#functions" id="toc-functions" class="nav-link" data-scroll-target="#functions"><span class="header-section-number">1.4.5</span> Functions</a></li>
+  <li><a href="#chaining-functions-with-the-pipe" id="toc-chaining-functions-with-the-pipe" class="nav-link" data-scroll-target="#chaining-functions-with-the-pipe"><span class="header-section-number">1.4.6</span> Chaining functions with the pipe</a></li>
+  <li><a href="#a-program" id="toc-a-program" class="nav-link" data-scroll-target="#a-program"><span class="header-section-number">1.4.7</span> A program</a></li>
+  </ul></li>
+  <li><a href="#sec-coding-hints" id="toc-sec-coding-hints" class="nav-link" data-scroll-target="#sec-coding-hints"><span class="header-section-number">1.5</span> Some hints for coding</a></li>
+  <li><a href="#sec-setup" id="toc-sec-setup" class="nav-link" data-scroll-target="#sec-setup"><span class="header-section-number">1.6</span> Setting up R and RStudio</a></li>
+  <li><a href="#check-your-understanding" id="toc-check-your-understanding" class="nav-link" data-scroll-target="#check-your-understanding"><span class="header-section-number">1.7</span> Check your understanding</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">1.8</span> Summary</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">1.9</span> Exercises</a></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">1.10</span> Further reading</a></li>
   </ul>
 </nav>
     </div>
@@ -1989,7 +2058,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></h1>
+<h1 class="title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">R, RStudio, and R Markdown</span></h1>
 </div>
 
 
@@ -2006,22 +2075,471 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </header>
 
 
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Learning objectives
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>By the end of this chapter you should be able to:</p>
+<ol type="1">
+<li>Explain how R, RStudio, and R Markdown differ, and how they fit together.</li>
+<li>Find your way around the four panes of RStudio.</li>
+<li>Create, run, and knit an R Markdown document.</li>
+<li>Read basic R code: lines, blocks, variables, comments, and functions.</li>
+</ol>
+</div>
+</div>
+<p>Every chapter after this one asks you to <em>do</em> spatial data science: download data, clean it, analyze it, and map it. You will do all of that by writing code. This chapter introduces the three tools you will use for every lab and assignment, and the small vocabulary you need to read and write your first lines of R.</p>
+<p>The three tools are easy to mix up, so it helps to keep one sentence in mind from the start: <strong>R is the language, RStudio is the workspace, and R Markdown is the document format.</strong> The first half of the chapter takes each in turn. The second half covers the building blocks of code that appear in every script you will write.</p>
+<section id="sec-what-is-r" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="sec-what-is-r"><span class="header-section-number">1.1</span> What is R?</h2>
+<p><strong>R</strong> is a programming language and free software environment for statistical computing and graphics. It was created by statisticians, and its strengths still reflect that: cleaning, analyzing, modeling, and visualizing data. Statisticians, data scientists, and geographers all use it for the same reason. A few lines of R can do what would take dozens of clicks in a spreadsheet or a desktop GIS, and those lines can be run again tomorrow.</p>
+<p>On its own, R knows how to do arithmetic, statistics, and basic plots. What makes it useful for geography is its <strong>packages</strong> (also called libraries): bundles of code, written by other users, that add new abilities. There are thousands of them. In this course you will use <strong>sf</strong> for vector data such as points, lines, and polygons, <strong>terra</strong> for rasters, <strong>tidyverse</strong> for cleaning and reshaping data, and <strong>tmap</strong> and <strong>ggplot2</strong> for maps.</p>
+<section id="why-use-r" class="level3" data-number="1.1.1">
+<h3 data-number="1.1.1" class="anchored" data-anchor-id="why-use-r"><span class="header-section-number">1.1.1</span> Why use R?</h3>
+<p>R has four strengths that make it the tool for this course.</p>
+<ul>
+<li><strong>Power.</strong> R has a huge range of tools for statistics, machine learning, and spatial analysis, and new methods often appear as R packages before they appear anywhere else.</li>
+<li><strong>Visualization.</strong> R makes high-quality, fully customizable plots, charts, and maps. Every figure in this book was made in R.</li>
+<li><strong>Reproducibility.</strong> A script records every step of an analysis, so you, a classmate, or a reviewer can rerun it and check the result.</li>
+<li><strong>Community.</strong> A large, global community of users builds packages, answers questions, and writes tutorials. When you get stuck, someone has almost always asked the same question online.</li>
+</ul>
+<p>Reproducibility matters most for us. A point-and-click GIS workflow is hard to repeat exactly: which tool did you run, with which settings, in which order? An R script answers all of those questions in writing. When the data are updated, or when you find a mistake in step two of ten, you fix it and run the script again, and every later step updates with it.</p>
+<p>There are practical reasons, too. R is free and open source, so everything you learn here keeps working after you graduate, with no license fees. It is updated frequently, it is popular in both research and industry, and it is consistently ranked among the most widely used languages for statistics and data analysis. The skills transfer to jobs and to graduate research.</p>
+</section>
+</section>
+<section id="sec-what-is-rstudio" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="sec-what-is-rstudio"><span class="header-section-number">1.2</span> What is RStudio?</h2>
+<p>You can type R commands into a plain window, but almost nobody works that way. <strong>RStudio</strong> is an <strong>integrated development environment (IDE)</strong> for R: one window where you write code, run it, see the results, and check your data. A good way to think about the relationship is that R is the engine and RStudio is the dashboard. R does the computing underneath; RStudio is where you work.</p>
+<p>Because RStudio drives R, you need both, and you must <strong>install R first, then RStudio</strong>. RStudio cannot run any code until R is installed. Both are free. Installation steps are in <a href="#sec-setup" class="quarto-xref"><span>Section 1.6</span></a> at the end of this chapter.</p>
+<section id="the-four-panes" class="level3" data-number="1.2.1">
+<h3 data-number="1.2.1" class="anchored" data-anchor-id="the-four-panes"><span class="header-section-number">1.2.1</span> The four panes</h3>
+<p>When you open RStudio, the window is divided into four panes (<a href="#fig-rstudio-panes" class="quarto-xref">Figure&nbsp;<span>1.1</span></a>).</p>
+<div id="fig-rstudio-panes" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Screenshot of an empty RStudio window divided into four panes. Top left is an empty script editor labeled Untitled1. Bottom left is the Console, showing R's startup message and a prompt. Top right is the Environment pane, which says Environment is empty. Bottom right is the Files pane, listing folders in the home directory.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-rstudio-panes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/rstudio-four-panes.png" class="img-fluid figure-img" alt="Screenshot of an empty RStudio window divided into four panes. Top left is an empty script editor labeled Untitled1. Bottom left is the Console, showing R's startup message and a prompt. Top right is the Environment pane, which says Environment is empty. Bottom right is the Files pane, listing folders in the home directory.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rstudio-panes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.1: RStudio’s default four-pane layout, just after opening. The Editor is at the top left, the Console at the bottom left, the Environment at the top right, and Files, Plots, and Help at the bottom right.
+</figcaption>
+</figure>
+</div>
+<div id="tbl-rstudio-panes" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-rstudio-panes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1.1: The four panes of RStudio.
+</figcaption>
+<div aria-describedby="tbl-rstudio-panes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Pane</th>
+<th style="text-align: left;">Default position</th>
+<th style="text-align: left;">What it is for</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Editor</strong></td>
+<td style="text-align: left;">Top left</td>
+<td style="text-align: left;">Writing and saving scripts and R Markdown files</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Console</strong></td>
+<td style="text-align: left;">Bottom left</td>
+<td style="text-align: left;">Running commands and reading results, warnings, and errors</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Environment</strong></td>
+<td style="text-align: left;">Top right</td>
+<td style="text-align: left;">Listing the variables and data currently in memory</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Files, Plots, Help</strong></td>
+<td style="text-align: left;">Bottom right</td>
+<td style="text-align: left;">Browsing folders, viewing graphs, and reading documentation</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>The difference between the Editor and the Console is the most important one in <a href="#tbl-rstudio-panes" class="quarto-xref">Table&nbsp;<span>1.1</span></a>. The <strong>Editor</strong> is where your work is saved. Anything you type there can be kept in a file and run again. The <strong>Console</strong> is for quick tests: R runs a command the moment you press Enter, but nothing you type there is saved. A useful habit is to experiment in the Console and keep what works in the Editor.</p>
+<p>The <strong>Environment</strong> pane lists every variable you have created, with a short description of what it holds. It is the first place to look when you are debugging: if a variable you expected is missing, or holds something unexpected, the Environment will show it. The bottom-right pane holds several tabs, including <strong>Files</strong>, <strong>Plots</strong>, <strong>Packages</strong>, and <strong>Help</strong>.</p>
+</section>
+<section id="rstudio-during-a-working-session" class="level3" data-number="1.2.2">
+<h3 data-number="1.2.2" class="anchored" data-anchor-id="rstudio-during-a-working-session"><span class="header-section-number">1.2.2</span> RStudio during a working session</h3>
+<p><a href="#fig-rstudio-session" class="quarto-xref">Figure&nbsp;<span>1.2</span></a> shows RStudio partway through an analysis, with every pane in use.</p>
+<div id="fig-rstudio-session" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Screenshot of RStudio in use. The Editor shows an R script with comments and two calls to plot() for hospital locations in Michigan. The Environment lists a data set called mi.hosps with 168 observations of 21 variables, plus about a dozen other variables. The Console shows the commands that were run, including one red error message reading figure margins too large. The Plots pane shows a scatterplot of hospital locations.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-rstudio-session-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/rstudio-working-session.png" class="img-fluid figure-img" alt="Screenshot of RStudio in use. The Editor shows an R script with comments and two calls to plot() for hospital locations in Michigan. The Environment lists a data set called mi.hosps with 168 observations of 21 variables, plus about a dozen other variables. The Console shows the commands that were run, including one red error message reading figure margins too large. The Plots pane shows a scatterplot of hospital locations.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rstudio-session-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.2: RStudio during a working session. Code in the Editor (top left) has been run, the variables it created are listed in the Environment (top right), output and an error message appear in the Console (bottom left), and the resulting scatterplot is in the Plots pane (bottom right).
+</figcaption>
+</figure>
+</div>
+<p>The screenshot captures the loop you will repeat constantly:</p>
+<ol type="1">
+<li><strong>Write</strong> a line of code in the Editor.</li>
+<li><strong>Run</strong> it. Click <strong>Run</strong>, or press Ctrl+Enter (Cmd+Return on a Mac), to send the current line to the Console.</li>
+<li><strong>Check the Environment.</strong> If the line created a variable, it appears there.</li>
+<li><strong>Read the Console.</strong> Output, warnings, and errors print here.</li>
+<li><strong>Look at the Plots pane</strong> if the line drew a graph.</li>
+</ol>
+<p>Notice the red error message in the Console of <a href="#fig-rstudio-session" class="quarto-xref">Figure&nbsp;<span>1.2</span></a>. Errors are a normal part of writing code, and they are not something to skip past. Read them. They usually say what went wrong, and often where. (This one, “figure margins too large,” just means the Plots pane was too small to draw the graph, and it went away when the pane was enlarged.)</p>
+</section>
+</section>
+<section id="sec-scripts-and-rmarkdown" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="sec-scripts-and-rmarkdown"><span class="header-section-number">1.3</span> R scripts and R Markdown</h2>
+<p>There are two kinds of files you will write R in, and it is worth being clear about the difference (<a href="#tbl-r-vs-rmd" class="quarto-xref">Table&nbsp;<span>1.2</span></a>).</p>
+<div id="tbl-r-vs-rmd" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-r-vs-rmd-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1.2: R scripts compared with R Markdown documents.
+</figcaption>
+<div aria-describedby="tbl-r-vs-rmd-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 27%">
+<col style="width: 36%">
+<col style="width: 36%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">R script</th>
+<th style="text-align: left;">R Markdown</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">File extension</td>
+<td style="text-align: left;"><code>.R</code></td>
+<td style="text-align: left;"><code>.Rmd</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Contains</td>
+<td style="text-align: left;">Code only</td>
+<td style="text-align: left;">Formatted text with code chunks</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Notes and explanation</td>
+<td style="text-align: left;">Comments that start with <code>#</code></td>
+<td style="text-align: left;">Ordinary text, headings, and lists</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Produces</td>
+<td style="text-align: left;">Results in the Console and Plots pane</td>
+<td style="text-align: left;">A finished document in HTML, PDF, or Word</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Best for</td>
+<td style="text-align: left;">Short tasks and reusable code</td>
+<td style="text-align: left;">Reports, labs, and assignments</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>An <strong>R script</strong> is only code. Anything in it that is not code has to be written as a comment. An <strong>R Markdown</strong> file mixes formatted text and code, so the explanation of an analysis lives right next to the analysis itself. It is easier to read and easier to share. All assignments in this course are R Markdown files, so you will write both kinds of content: prose in Markdown and code inside chunks.</p>
+<section id="what-is-r-markdown" class="level3" data-number="1.3.1">
+<h3 data-number="1.3.1" class="anchored" data-anchor-id="what-is-r-markdown"><span class="header-section-number">1.3.1</span> What is R Markdown?</h3>
+<p><strong>R Markdown</strong> is a file format for dynamic, reproducible documents. An <code>.Rmd</code> file combines text written in <strong>Markdown</strong>, a simple way of formatting plain text, with chunks of R code. When you <strong>knit</strong> the file, R runs every code chunk and places the results (numbers, tables, and plots) into a finished document, as HTML, PDF, or Word (<a href="#fig-knit" class="quarto-xref">Figure&nbsp;<span>1.3</span></a>).</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div id="fig-knit" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-knit-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div>
+
+<pre class="mermaid mermaid-js" data-label="fig-knit">flowchart LR
+  A["analysis.Rmd&lt;br/&gt;(text + code chunks)"] -- "Knit" --&gt; B{{"R runs&lt;br/&gt;every chunk"}}
+  B --&gt; C["analysis.html&lt;br/&gt;(text + code + results)"]
+</pre>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-knit-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.3: Knitting an R Markdown file. R runs every code chunk from top to bottom and combines your text with the code’s results in a finished report.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The key idea is that the document and the analysis are the same file. If the data change, you knit again, and every number and figure in the report updates with them. Nothing has to be copied and pasted by hand, so nothing can fall out of date. In this course we mostly knit to HTML, because it is fastest and needs no extra software.</p>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>R Markdown and Quarto
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This book is written in <strong>Quarto</strong>, the newer successor to R Markdown, made by the same developers. Quarto files end in <code>.qmd</code> instead of <code>.Rmd</code>, but the YAML header, Markdown text, and code chunks work the same way. Everything in this chapter applies to both.</p>
+</div>
+</div>
+</section>
+<section id="anatomy-of-an-r-markdown-file" class="level3" data-number="1.3.2">
+<h3 data-number="1.3.2" class="anchored" data-anchor-id="anatomy-of-an-r-markdown-file"><span class="header-section-number">1.3.2</span> Anatomy of an R Markdown file</h3>
+<p>Every R Markdown file has three kinds of content: a YAML header, Markdown text, and code chunks.</p>
+<p><strong>The YAML header</strong> sits at the very top of the file, between two lines of exactly three dashes. It holds <strong>metadata</strong>, which is data about data. Here it describes the document rather than the analysis: its title, author, date, and output format.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="pp">---</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"My First R Markdown Document"</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">author</span><span class="kw">:</span><span class="at"> </span><span class="st">"Jane Doe"</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">date</span><span class="kw">:</span><span class="at"> </span><span class="st">"August 14, 2025"</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">output</span><span class="kw">:</span><span class="at"> html_document</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="pp">---</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>R reads the header to know what to put at the top of the report and what kind of document to produce. YAML is picky: the dashes must be exactly three, each line needs a space after the colon, and indentation matters.</p>
+<p><strong>Markdown text</strong> is plain text with a few simple formatting marks. A line that starts with <code>#</code> becomes a heading (<code>##</code> a smaller heading, <code>###</code> smaller still). Wrapping a word in single asterisks makes it <em>italic</em>, and double asterisks make it <strong>bold</strong>. A line that starts with <code>-</code> becomes an item in a bulleted list.</p>
+<p><strong>Code chunks</strong> hold R code. A chunk starts with three backticks followed by <code>{r}</code>, and ends with three backticks:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">+</span> <span class="dv">2</span> <span class="sc">+</span> <span class="dv">3</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The <code>{r}</code> tells R Markdown that the chunk contains R code. Click the small green “play” arrow at the top right of a chunk to run just that chunk. When the file is knit, the result prints directly below the chunk in the report:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">+</span> <span class="dv">2</span> <span class="sc">+</span> <span class="dv">3</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 6</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The <code>[1]</code> in front of the answer is R’s way of saying “this is the first element of the result.” You will see it in front of almost every result R prints, and you can ignore it for now.</p>
+<p>Putting the three pieces together, a complete (very short) R Markdown file looks like this:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Lab 1"</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> "Jane Doe"</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="an">output:</span><span class="co"> html_document</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">## How many months are in a century?</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>There are 12 months in a year and 100 years in a century.</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Months in a century</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>months <span class="ot">&lt;-</span> <span class="dv">12</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>years <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>months <span class="sc">*</span> years</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>So a century has **1,200** months.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="the-r-markdown-workflow" class="level3" data-number="1.3.3">
+<h3 data-number="1.3.3" class="anchored" data-anchor-id="the-r-markdown-workflow"><span class="header-section-number">1.3.3</span> The R Markdown workflow</h3>
+<p>You will follow the same four steps for every assignment.</p>
+<ol type="1">
+<li><strong>Create a file.</strong> In RStudio, choose <strong>File &gt; New File &gt; R Markdown…</strong>, give the document a title, and click OK. RStudio opens a new file that already contains a YAML header and some example content.</li>
+<li><strong>Edit the document.</strong> Write your narrative in Markdown, and insert code chunks where you need them (<strong>Code &gt; Insert Chunk</strong>, or Ctrl+Alt+I; Cmd+Option+I on a Mac).</li>
+<li><strong>Run code chunks</strong> as you go, by clicking each chunk’s green play arrow, to check that each one does what you expect.</li>
+<li><strong>Knit the document.</strong> Click <strong>Knit</strong> in the Editor toolbar. R builds an HTML report with all of your text, code, output, and plots, and opens it in a preview window.</li>
+</ol>
+<p>Knitting does something important that is easy to miss: it reruns <em>all</em> of your code, from the top, in a fresh R session that knows nothing about what you have already run. A file that knits successfully is therefore a file that anyone can reproduce from scratch. If it fails to knit, the error message names the chunk that broke.</p>
+</section>
+<section id="keep-all-course-files-in-one-folder" class="level3" data-number="1.3.4">
+<h3 data-number="1.3.4" class="anchored" data-anchor-id="keep-all-course-files-in-one-folder"><span class="header-section-number">1.3.4</span> Keep all course files in one folder</h3>
+<p>Most of the errors students run into early in the semester are not really coding errors. They are file path errors: R cannot find a data file because the <code>.Rmd</code> file and the data are saved in different places. When you knit, R looks for files <strong>relative to the folder where the <code>.Rmd</code> file is saved</strong>, so a tidy folder structure prevents a whole category of “file not found” errors.</p>
+<p>Create one folder for the class, called <code>geog215</code>, and save all of your work there, with subfolders for data, labs, and notes:</p>
+<pre><code>geog215/
+├── data/
+├── labs/
+│   └── lab01.Rmd
+└── notes/</code></pre>
+<p>Use short file names with no spaces, such as <code>lab01.Rmd</code>. Spaces and special characters in file names cause trouble in code, and a consistent naming pattern makes files easy to find.</p>
+</section>
+</section>
+<section id="sec-code-basics" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="sec-code-basics"><span class="header-section-number">1.4</span> Code basics</h2>
+<p>The rest of this chapter introduces five ideas that appear in every R script: lines, blocks, variables, comments, and functions. A cooking analogy runs through all of them (<a href="#tbl-cooking" class="quarto-xref">Table&nbsp;<span>1.3</span></a>).</p>
+<div id="tbl-cooking" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-cooking-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1.3: Code ideas and their cooking analogies.
+</figcaption>
+<div aria-describedby="tbl-cooking-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Code</th>
+<th style="text-align: left;">Cooking analogy</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">A line of code</td>
+<td style="text-align: left;">One step in a recipe</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">A block of code</td>
+<td style="text-align: left;">A recipe: several steps that make one dish</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">A program</td>
+<td style="text-align: left;">A full meal: several recipes combined</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">A function</td>
+<td style="text-align: left;">An appliance: ingredients go in, a dish comes out</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>The code boxes in the rest of this chapter are live. Click <strong>Run Code</strong> to run the R inside them, right here in your browser. You can also edit the code and run it again, which is the best way to learn what each piece does. The first time you run a box, R takes a few seconds to load.</p>
+<section id="a-line-of-code" class="level3" data-number="1.4.1">
+<h3 data-number="1.4.1" class="anchored" data-anchor-id="a-line-of-code"><span class="header-section-number">1.4.1</span> A line of code</h3>
+<p>Every program starts with one line of code, and every line does something. When you run a line, R <strong>evaluates</strong> it and returns the result. Try it:</p>
 <div id="qwebr-insertion-location-1"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<section id="check-your-understanding" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="check-your-understanding"><span class="header-section-number">1.1</span> Check your understanding</h2>
-<p>Run the code above, then answer these questions.</p>
+<p>R returns <code>11</code>, again with <code>[1]</code> in front to mark the first element of the result. A single line is like a single step in a recipe: “chop the onion,” or “add 5 and 6.”</p>
+<p>Sometimes a line produces no visible result. Storing a value in a variable, which you will see below, prints nothing at all. The line still did something, though. It changed what R is holding in memory.</p>
+</section>
+<section id="a-block-of-code" class="level3" data-number="1.4.2">
+<h3 data-number="1.4.2" class="anchored" data-anchor-id="a-block-of-code"><span class="header-section-number">1.4.2</span> A block of code</h3>
+<p>A <strong>block</strong> of code is a sequence of lines that work together on one related task, the way the steps of a recipe work together to make one dish. In an R Markdown file, a block usually lives in one code chunk. Here is a block that answers a question: how many months are in a century?</p>
+<div id="qwebr-insertion-location-2"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>The block stores 12 in <code>months</code>, stores 100 in <code>years</code>, multiplies them, and prints the answer, 1200. Its first line starts with <code>#</code>, which makes it a comment, covered below.</p>
+</section>
+<section id="variables" class="level3" data-number="1.4.3">
+<h3 data-number="1.4.3" class="anchored" data-anchor-id="variables"><span class="header-section-number">1.4.3</span> Variables</h3>
+<p>A <strong>variable</strong> is a named piece of memory that holds data. Once a value is stored in a variable, you can reuse it by name instead of typing it again.</p>
+<p>You store a value with the <strong>assignment operator</strong>, <code>&lt;-</code>, which looks like an arrow pointing left. The value on the right is stored in the name on the left. Read it out loud as “gets”: <code>months &lt;- 12</code> is “months gets 12.” In RStudio, the shortcut Alt+- (Option+- on a Mac) types the arrow for you.</p>
+<p>Variable names are <strong>case-sensitive</strong>: <code>Months</code> and <code>months</code> are two different variables. Run this box, which asks for <code>Months</code> with a capital M:</p>
+<div id="qwebr-insertion-location-3"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>R replies with an error, <code>object 'Months' not found</code>, because no variable has exactly that name. This is one of the most common errors you will see, and now you know how to read it. Change <code>Months</code> to <code>months</code> and run the box again.</p>
+<p>When you run code in RStudio, each new variable appears in the Environment pane. Checking that pane after you run a line is a good way to confirm that the line did what you meant.</p>
+</section>
+<section id="comments" class="level3" data-number="1.4.4">
+<h3 data-number="1.4.4" class="anchored" data-anchor-id="comments"><span class="header-section-number">1.4.4</span> Comments</h3>
+<p>A <strong>comment</strong> is a note for people, not for R. A comment begins with <code>#</code>, and R ignores everything after the <code>#</code> on that line. In the century example above, R skipped <code># How many months are in a century?</code>, but a reader knows straight away what the block is for.</p>
+<p>Use comments to explain <em>why</em> your code does what it does, not just <em>what</em> it does. The code itself already says that <code>months * years</code> multiplies two numbers. A good comment says why you needed that number. When you return to an assignment weeks later, comments are what let you understand your own reasoning, and in this course they are also how your instructor sees it.</p>
+</section>
+<section id="functions" class="level3" data-number="1.4.5">
+<h3 data-number="1.4.5" class="anchored" data-anchor-id="functions"><span class="header-section-number">1.4.5</span> Functions</h3>
+<p>A <strong>function</strong> takes inputs, does a job, and returns an output. The inputs are called <strong>arguments</strong>, and they go inside parentheses after the function’s name. If variables are the nouns of R, functions are the verbs.</p>
+<p>In the cooking analogy, a function is an appliance, such as an oven. To make a pizza, you put bread, cheese, and tomato sauce into the oven, and the oven returns a pizza (<a href="#fig-function" class="quarto-xref">Figure&nbsp;<span>1.4</span></a>).</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div id="fig-function" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-function-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div>
+
+<pre class="mermaid mermaid-js" data-label="fig-function">flowchart LR
+  A["bread"] --&gt; D{{"bake()"}}
+  B["cheese"] --&gt; D
+  C["tomato_sauce"] --&gt; D
+  D --&gt; E["pizza"]
+</pre>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-function-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.4: A function takes inputs (arguments), does a job, and returns an output. In R this would be written pizza &lt;- bake(bread, cheese, tomato_sauce).
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>In R, that would be written:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>pizza <span class="ot">&lt;-</span> <span class="fu">bake</span>(bread, cheese, tomato_sauce)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Here <code>bake()</code> is the function; <code>bread</code>, <code>cheese</code>, and <code>tomato_sauce</code> are the arguments; and the result is stored in a new variable, <code>pizza</code>. (<code>bake()</code> isn’t a real R function, but the pattern is exactly the one every real function follows.)</p>
+<p>R comes with hundreds of real functions, and packages add thousands more. Run this box to try a few:</p>
+<div id="qwebr-insertion-location-4"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><code>c()</code> is itself a function: it <strong>combines</strong> values into a <strong>vector</strong>, a sequence of values that R stores together. <code>mean()</code> and <code>max()</code> each take a vector and return one number. The last line converts the average to degrees Celsius. It <strong>nests</strong> one function inside another, so <code>mean()</code> runs first and <code>round()</code> rounds its result, and it shows a <strong>named argument</strong>, <code>digits = 1</code>, which tells <code>round()</code> how many decimal places to keep. Every function has a help page that lists its arguments; type <code>?round</code> in the Console to see one in the Help pane.</p>
+</section>
+<section id="chaining-functions-with-the-pipe" class="level3" data-number="1.4.6">
+<h3 data-number="1.4.6" class="anchored" data-anchor-id="chaining-functions-with-the-pipe"><span class="header-section-number">1.4.6</span> Chaining functions with the pipe</h3>
+<p>Nested functions like the last line above are read from the inside out, which gets hard to follow as they grow. The <strong>pipe</strong> operator, <code>|&gt;</code>, lets you write the same steps from left to right instead. The pipe takes the result on its left and passes it as the first argument to the function on its right:</p>
+<div id="qwebr-insertion-location-5"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>This gives the same answer as <code>round(sqrt(max(temps)), digits = 1)</code>, but reads in the order the steps happen. Read the pipe out loud as “and then”: take <code>temps</code>, <em>and then</em> find the maximum, <em>and then</em> take its square root, <em>and then</em> round it to one decimal place. You will use the pipe constantly in later chapters to string together steps that clean, analyze, and map data, and it is required in the course’s assignments.</p>
+</section>
+<section id="a-program" class="level3" data-number="1.4.7">
+<h3 data-number="1.4.7" class="anchored" data-anchor-id="a-program"><span class="header-section-number">1.4.7</span> A program</h3>
+<p>A <strong>program</strong> is a set of lines and blocks of code that work together to do a task, the way several recipes combine into a full meal. Every assignment in this course is a program: an R Markdown file that loads data, analyzes it, and makes a map.</p>
+<p>R runs a program from top to bottom, so <strong>order matters</strong>. A variable must be created before it is used. When you work interactively, it is easy to run chunks out of order, or to delete a line that created a variable that is still sitting in your Environment. Everything seems to work until you knit, and then the fresh session that knitting starts in reports <code>object not found</code>. That error is doing you a favor: it means your file, as written, would not have worked for anyone else either.</p>
+</section>
+</section>
+<section id="sec-coding-hints" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="sec-coding-hints"><span class="header-section-number">1.5</span> Some hints for coding</h2>
+<p>Two habits make the biggest difference when you start writing code.</p>
+<p><strong>Think about the syntax.</strong> R is exact. Spelling, capital letters, commas, quotation marks, and brackets all have to be right, and every opening parenthesis needs a closing one. A single missing comma is enough to stop a program. When something fails, check the syntax of the line the error points to first.</p>
+<p><strong>Think about the purpose.</strong> Before you type a line, say in plain words what it should do: “store the number of years,” “find the average temperature.” If you can’t say it, you aren’t ready to write it yet. If you can, the words make a good comment.</p>
+<p>And leave lots of comments. They are notes to <strong>Future You</strong>, who will not remember, three weeks from now, why you wrote that line.</p>
+</section>
+<section id="sec-setup" class="level2" data-number="1.6">
+<h2 data-number="1.6" class="anchored" data-anchor-id="sec-setup"><span class="header-section-number">1.6</span> Setting up R and RStudio</h2>
+<p>Before the first lab, set up your computer:</p>
 <ol type="1">
-<li><p>What is the mean of <code>scores</code>? <input class="webex-solveme nospaces" data-tol="0.05" size="4" data-answer="[&quot;87.6&quot;]"></p></li>
-<li><p>Which function computes the standard deviation in R? <select class="webex-select"><option value="blank"></option><option value="">var()</option><option value="answer">sd()</option><option value="">mean()</option><option value="">range()</option></select></p></li>
-<li><p>True or false: <code>c()</code> combines values into a vector. <select class="webex-select"><option value="blank"></option><option value="answer">TRUE</option><option value="NA">FALSE</option></select></p></li>
+<li><strong>Install R</strong> from CRAN, <a href="https://cran.r-project.org" class="uri">https://cran.r-project.org</a>. Choose the download for your operating system (Windows, macOS, or Linux) and run the installer with its default settings.</li>
+<li><strong>Install RStudio Desktop</strong> from Posit, <a href="https://posit.co/download/rstudio-desktop/" class="uri">https://posit.co/download/rstudio-desktop/</a>. Remember the order: R first, then RStudio.</li>
+<li><strong>Create your <code>geog215</code> folder</strong>, with <code>data</code>, <code>labs</code>, and <code>notes</code> subfolders, somewhere you will find it easily.</li>
+<li><strong>Test everything.</strong> Open RStudio, create a new R Markdown file (<strong>File &gt; New File &gt; R Markdown…</strong>), save it in <code>geog215/labs</code>, and click <strong>Knit</strong>. If an HTML report appears, you are ready.</li>
+</ol>
+</section>
+<section id="check-your-understanding" class="level2" data-number="1.7">
+<h2 data-number="1.7" class="anchored" data-anchor-id="check-your-understanding"><span class="header-section-number">1.7</span> Check your understanding</h2>
+<ol type="1">
+<li><p>Which program does the actual computing when you run code: R or RStudio? <select class="webex-select"><option value="blank"></option><option value="answer">R</option><option value="">RStudio</option></select></p></li>
+<li><p>In which RStudio pane would you look to see the variables currently in memory? <select class="webex-select"><option value="blank"></option><option value="">Editor</option><option value="">Console</option><option value="answer">Environment</option><option value="">Files</option></select></p></li>
+<li><p>What file extension does an R Markdown document have? <input class="webex-solveme nospaces ignorecase" size="4" data-answer="[&quot;.Rmd&quot;,&quot;Rmd&quot;]"></p></li>
+<li><p>After running <code>months &lt;- 12</code> and <code>years &lt;- 100</code>, what does <code>months * years / 10</code> return? <input class="webex-solveme nospaces" data-tol="0.01" size="3" data-answer="[&quot;120&quot;]"></p></li>
+<li><p>Which character starts a comment in R? <select class="webex-select"><option value="blank"></option><option value="">//</option><option value="answer">#</option><option value="">–</option><option value="">%</option></select></p></li>
+<li><p>In <code>round(3.14159, digits = 2)</code>, what is <code>digits = 2</code>? <select class="webex-select"><option value="blank"></option><option value="">A variable</option><option value="">A comment</option><option value="answer">A named argument</option><option value="">A function</option></select></p></li>
+<li><p>True or false: knitting runs your code in a fresh R session, so a variable you created only in the Console will not exist. <select class="webex-select"><option value="blank"></option><option value="answer">TRUE</option><option value="NA">FALSE</option></select></p></li>
 </ol>
 <div class="webex-solution">
 <button>
-Show hint
+Show hint for question 4
 </button>
-<p>Add the five scores and divide by 5: (88 + 92 + 79 + 95 + 84) / 5.</p>
+<p><code>months * years</code> is 1200. Dividing by 10 gives the answer.</p>
 </div>
+</section>
+<section id="summary" class="level2" data-number="1.8">
+<h2 data-number="1.8" class="anchored" data-anchor-id="summary"><span class="header-section-number">1.8</span> Summary</h2>
+<ul>
+<li><strong>R</strong> is the language that does the computing. <strong>RStudio</strong> is the workspace where you write and run R. <strong>R Markdown</strong> is the document format that combines your writing with your code and its results.</li>
+<li>RStudio has four panes: the <strong>Editor</strong> for writing and saving code, the <strong>Console</strong> for running commands and reading output, the <strong>Environment</strong> for the variables in memory, and <strong>Files, Plots, and Help</strong>.</li>
+<li>An R Markdown file has a <strong>YAML header</strong>, <strong>Markdown text</strong>, and <strong>code chunks</strong>. <strong>Knitting</strong> reruns every chunk from the top in a fresh session and builds a finished report, which is what makes the work reproducible.</li>
+<li>A <strong>line</strong> of code does one thing; a <strong>block</strong> of lines does one task; a <strong>program</strong> combines blocks to do a whole job, and runs from top to bottom.</li>
+<li><strong>Variables</strong> store values with <code>&lt;-</code> and are case-sensitive. <strong>Comments</strong> start with <code>#</code> and are notes for people. <strong>Functions</strong> take arguments and return an output, and the pipe <code>|&gt;</code> chains them from left to right.</li>
+<li>Keep all course files in one folder, mind your syntax, and comment generously.</li>
+</ul>
+</section>
+<section id="exercises" class="level2" data-number="1.9">
+<h2 data-number="1.9" class="anchored" data-anchor-id="exercises"><span class="header-section-number">1.9</span> Exercises</h2>
+<ol type="1">
+<li><p><strong>Your first R Markdown file.</strong> Create a new R Markdown file titled “Exercise 1” with your name as the author. Delete the example content below the YAML header, add a heading, and write one sentence about why you are taking this course. Knit it to HTML.</p></li>
+<li><p><strong>Arithmetic.</strong> In a code chunk, calculate how many hours are in a year, and how many seconds. Store each intermediate value (days, hours per day, and so on) in a variable with a clear name, and add a comment to each line.</p></li>
+<li><p><strong>Read the error.</strong> Run each line below, one at a time, in the Console, and explain in your own words what is wrong. Two of them give an error message. The first gives a <code>+</code> prompt instead: what is R waiting for? (Press Esc to get back to the normal <code>&gt;</code> prompt.)</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">Mean</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>))</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span> <span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<li><p><strong>Functions and help.</strong> Look up the help page for <code>seq()</code> with <code>?seq</code>. Use it to create the sequence 0, 5, 10, …, 100, and store it in a variable. Then use <code>length()</code>, <code>sum()</code>, and <code>mean()</code> on your variable.</p></li>
+<li><p><strong>Nesting versus piping.</strong> Rewrite <code>round(sqrt(sum(c(4, 9, 16))), 2)</code> using the pipe <code>|&gt;</code>. Check that both versions give the same result.</p></li>
+<li><p><strong>Order matters.</strong> Write a chunk that uses a variable before it is created, and knit the file. What happens? Fix the chunk so that the file knits.</p></li>
+</ol>
+</section>
+<section id="further-reading" class="level2" data-number="1.10">
+<h2 data-number="1.10" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">1.10</span> Further reading</h2>
+<ul>
+<li><em>R for Data Science</em> by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund is free online at <a href="https://r4ds.hadley.nz" class="uri">https://r4ds.hadley.nz</a>. Its early chapters cover the RStudio workflow, the basics of R code, and the pipe in more depth.</li>
+<li><em>R Markdown: The Definitive Guide</em> by Yihui Xie, J. J. Allaire, and Garrett Grolemund, free at <a href="https://bookdown.org/yihui/rmarkdown/" class="uri">https://bookdown.org/yihui/rmarkdown/</a>, is the full reference for R Markdown.</li>
+<li>In RStudio, <strong>Help &gt; Cheat Sheets</strong> links to one-page summaries of the RStudio IDE and R Markdown that are worth printing and keeping by your computer.</li>
+</ul>
 
 
 </section>
@@ -2711,12 +3229,12 @@ window.onload = function() {
   </script>
 <nav class="page-navigation" aria-label="Page">
   <div class="nav-page nav-page-previous">
-      <a href="./index.html" class="pagination-link" aria-label="Preface">
+      <a href="../index.html" class="pagination-link" aria-label="Preface">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Preface</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./chapters/census-data-apis.html" class="pagination-link" aria-label="Census Data and APIs">
+      <a href="../chapters/census-data-apis.html" class="pagination-link" aria-label="Census Data and APIs">
         <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Census Data and APIs</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
