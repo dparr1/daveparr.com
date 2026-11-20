@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>1&nbsp; R, RStudio, and R Markdown – Spatial Data Science</title>
+<title>2&nbsp; R, RStudio, and R Markdown – Spatial Data Science</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -71,8 +71,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../chapters/census-data-apis.html" rel="next">
-<link href="../index.html" rel="prev">
+<link href="../chapters/r-rstudio-rmarkdown-quiz.html" rel="next">
+<link href="../chapters/intro-spatial-data-science-quiz.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
@@ -83,7 +83,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-554944da459c622dc457c1ed647c448c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-4c5e755a3bfe43f3706dcc37cc2065fe.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1681,7 +1681,7 @@ globalThis.qwebrExecuteCode = async function (
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/r-rstudio-rmarkdown.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">R, RStudio, and R Markdown</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/r-rstudio-rmarkdown.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">R, RStudio, and R Markdown</span></a></li></ol></nav>
         <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -1714,14 +1714,38 @@ globalThis.qwebrExecuteCode = async function (
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../chapters/intro-spatial-data-science.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction to Spatial Data Science</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/intro-spatial-data-science-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Introduction to Spatial Data Science</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../chapters/r-rstudio-rmarkdown.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">R, RStudio, and R Markdown</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">R, RStudio, and R Markdown</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/r-rstudio-rmarkdown-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: R, RStudio, and R Markdown</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/census-data-apis.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Census Data and APIs</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Census Data and APIs</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/census-data-apis-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Census Data and APIs</span></a>
   </div>
 </li>
     </ul>
@@ -1734,38 +1758,38 @@ globalThis.qwebrExecuteCode = async function (
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#sec-what-is-r" id="toc-sec-what-is-r" class="nav-link active" data-scroll-target="#sec-what-is-r"><span class="header-section-number">1.1</span> What is R?</a>
+  <li><a href="#sec-what-is-r" id="toc-sec-what-is-r" class="nav-link active" data-scroll-target="#sec-what-is-r"><span class="header-section-number">2.1</span> What is R?</a>
   <ul class="collapse">
-  <li><a href="#why-use-r" id="toc-why-use-r" class="nav-link" data-scroll-target="#why-use-r"><span class="header-section-number">1.1.1</span> Why use R?</a></li>
+  <li><a href="#why-use-r" id="toc-why-use-r" class="nav-link" data-scroll-target="#why-use-r"><span class="header-section-number">2.1.1</span> Why use R?</a></li>
   </ul></li>
-  <li><a href="#sec-what-is-rstudio" id="toc-sec-what-is-rstudio" class="nav-link" data-scroll-target="#sec-what-is-rstudio"><span class="header-section-number">1.2</span> What is RStudio?</a>
+  <li><a href="#sec-what-is-rstudio" id="toc-sec-what-is-rstudio" class="nav-link" data-scroll-target="#sec-what-is-rstudio"><span class="header-section-number">2.2</span> What is RStudio?</a>
   <ul class="collapse">
-  <li><a href="#the-four-panes" id="toc-the-four-panes" class="nav-link" data-scroll-target="#the-four-panes"><span class="header-section-number">1.2.1</span> The four panes</a></li>
-  <li><a href="#rstudio-during-a-working-session" id="toc-rstudio-during-a-working-session" class="nav-link" data-scroll-target="#rstudio-during-a-working-session"><span class="header-section-number">1.2.2</span> RStudio during a working session</a></li>
+  <li><a href="#the-four-panes" id="toc-the-four-panes" class="nav-link" data-scroll-target="#the-four-panes"><span class="header-section-number">2.2.1</span> The four panes</a></li>
+  <li><a href="#rstudio-during-a-working-session" id="toc-rstudio-during-a-working-session" class="nav-link" data-scroll-target="#rstudio-during-a-working-session"><span class="header-section-number">2.2.2</span> RStudio during a working session</a></li>
   </ul></li>
-  <li><a href="#sec-scripts-and-rmarkdown" id="toc-sec-scripts-and-rmarkdown" class="nav-link" data-scroll-target="#sec-scripts-and-rmarkdown"><span class="header-section-number">1.3</span> R scripts and R Markdown</a>
+  <li><a href="#sec-scripts-and-rmarkdown" id="toc-sec-scripts-and-rmarkdown" class="nav-link" data-scroll-target="#sec-scripts-and-rmarkdown"><span class="header-section-number">2.3</span> R scripts and R Markdown</a>
   <ul class="collapse">
-  <li><a href="#what-is-r-markdown" id="toc-what-is-r-markdown" class="nav-link" data-scroll-target="#what-is-r-markdown"><span class="header-section-number">1.3.1</span> What is R Markdown?</a></li>
-  <li><a href="#anatomy-of-an-r-markdown-file" id="toc-anatomy-of-an-r-markdown-file" class="nav-link" data-scroll-target="#anatomy-of-an-r-markdown-file"><span class="header-section-number">1.3.2</span> Anatomy of an R Markdown file</a></li>
-  <li><a href="#the-r-markdown-workflow" id="toc-the-r-markdown-workflow" class="nav-link" data-scroll-target="#the-r-markdown-workflow"><span class="header-section-number">1.3.3</span> The R Markdown workflow</a></li>
-  <li><a href="#keep-all-course-files-in-one-folder" id="toc-keep-all-course-files-in-one-folder" class="nav-link" data-scroll-target="#keep-all-course-files-in-one-folder"><span class="header-section-number">1.3.4</span> Keep all course files in one folder</a></li>
+  <li><a href="#what-is-r-markdown" id="toc-what-is-r-markdown" class="nav-link" data-scroll-target="#what-is-r-markdown"><span class="header-section-number">2.3.1</span> What is R Markdown?</a></li>
+  <li><a href="#anatomy-of-an-r-markdown-file" id="toc-anatomy-of-an-r-markdown-file" class="nav-link" data-scroll-target="#anatomy-of-an-r-markdown-file"><span class="header-section-number">2.3.2</span> Anatomy of an R Markdown file</a></li>
+  <li><a href="#the-r-markdown-workflow" id="toc-the-r-markdown-workflow" class="nav-link" data-scroll-target="#the-r-markdown-workflow"><span class="header-section-number">2.3.3</span> The R Markdown workflow</a></li>
+  <li><a href="#keep-all-course-files-in-one-folder" id="toc-keep-all-course-files-in-one-folder" class="nav-link" data-scroll-target="#keep-all-course-files-in-one-folder"><span class="header-section-number">2.3.4</span> Keep all course files in one folder</a></li>
   </ul></li>
-  <li><a href="#sec-code-basics" id="toc-sec-code-basics" class="nav-link" data-scroll-target="#sec-code-basics"><span class="header-section-number">1.4</span> Code basics</a>
+  <li><a href="#sec-code-basics" id="toc-sec-code-basics" class="nav-link" data-scroll-target="#sec-code-basics"><span class="header-section-number">2.4</span> Code basics</a>
   <ul class="collapse">
-  <li><a href="#a-line-of-code" id="toc-a-line-of-code" class="nav-link" data-scroll-target="#a-line-of-code"><span class="header-section-number">1.4.1</span> A line of code</a></li>
-  <li><a href="#a-block-of-code" id="toc-a-block-of-code" class="nav-link" data-scroll-target="#a-block-of-code"><span class="header-section-number">1.4.2</span> A block of code</a></li>
-  <li><a href="#variables" id="toc-variables" class="nav-link" data-scroll-target="#variables"><span class="header-section-number">1.4.3</span> Variables</a></li>
-  <li><a href="#comments" id="toc-comments" class="nav-link" data-scroll-target="#comments"><span class="header-section-number">1.4.4</span> Comments</a></li>
-  <li><a href="#functions" id="toc-functions" class="nav-link" data-scroll-target="#functions"><span class="header-section-number">1.4.5</span> Functions</a></li>
-  <li><a href="#chaining-functions-with-the-pipe" id="toc-chaining-functions-with-the-pipe" class="nav-link" data-scroll-target="#chaining-functions-with-the-pipe"><span class="header-section-number">1.4.6</span> Chaining functions with the pipe</a></li>
-  <li><a href="#a-program" id="toc-a-program" class="nav-link" data-scroll-target="#a-program"><span class="header-section-number">1.4.7</span> A program</a></li>
+  <li><a href="#a-line-of-code" id="toc-a-line-of-code" class="nav-link" data-scroll-target="#a-line-of-code"><span class="header-section-number">2.4.1</span> A line of code</a></li>
+  <li><a href="#a-block-of-code" id="toc-a-block-of-code" class="nav-link" data-scroll-target="#a-block-of-code"><span class="header-section-number">2.4.2</span> A block of code</a></li>
+  <li><a href="#variables" id="toc-variables" class="nav-link" data-scroll-target="#variables"><span class="header-section-number">2.4.3</span> Variables</a></li>
+  <li><a href="#comments" id="toc-comments" class="nav-link" data-scroll-target="#comments"><span class="header-section-number">2.4.4</span> Comments</a></li>
+  <li><a href="#functions" id="toc-functions" class="nav-link" data-scroll-target="#functions"><span class="header-section-number">2.4.5</span> Functions</a></li>
+  <li><a href="#chaining-functions-with-the-pipe" id="toc-chaining-functions-with-the-pipe" class="nav-link" data-scroll-target="#chaining-functions-with-the-pipe"><span class="header-section-number">2.4.6</span> Chaining functions with the pipe</a></li>
+  <li><a href="#a-program" id="toc-a-program" class="nav-link" data-scroll-target="#a-program"><span class="header-section-number">2.4.7</span> A program</a></li>
   </ul></li>
-  <li><a href="#sec-coding-hints" id="toc-sec-coding-hints" class="nav-link" data-scroll-target="#sec-coding-hints"><span class="header-section-number">1.5</span> Some hints for coding</a></li>
-  <li><a href="#sec-setup" id="toc-sec-setup" class="nav-link" data-scroll-target="#sec-setup"><span class="header-section-number">1.6</span> Setting up R and RStudio</a></li>
-  <li><a href="#check-your-understanding" id="toc-check-your-understanding" class="nav-link" data-scroll-target="#check-your-understanding"><span class="header-section-number">1.7</span> Check your understanding</a></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">1.8</span> Summary</a></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">1.9</span> Exercises</a></li>
-  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">1.10</span> Further reading</a></li>
+  <li><a href="#sec-coding-hints" id="toc-sec-coding-hints" class="nav-link" data-scroll-target="#sec-coding-hints"><span class="header-section-number">2.5</span> Some hints for coding</a></li>
+  <li><a href="#sec-setup" id="toc-sec-setup" class="nav-link" data-scroll-target="#sec-setup"><span class="header-section-number">2.6</span> Setting up R and RStudio</a></li>
+  <li><a href="#check-your-understanding" id="toc-check-your-understanding" class="nav-link" data-scroll-target="#check-your-understanding"><span class="header-section-number">2.7</span> Check your understanding</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">2.8</span> Summary</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">2.9</span> Exercises</a></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">2.10</span> Further reading</a></li>
   </ul>
 </nav>
     </div>
@@ -2058,7 +2082,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">R, RStudio, and R Markdown</span></h1>
+<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">R, RStudio, and R Markdown</span></h1>
 </div>
 
 
@@ -2096,12 +2120,12 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </div>
 <p>Every chapter after this one asks you to <em>do</em> spatial data science: download data, clean it, analyze it, and map it. You will do all of that by writing code. This chapter introduces the three tools you will use for every lab and assignment, and the small vocabulary you need to read and write your first lines of R.</p>
 <p>The three tools are easy to mix up, so it helps to keep one sentence in mind from the start: <strong>R is the language, RStudio is the workspace, and R Markdown is the document format.</strong> The first half of the chapter takes each in turn. The second half covers the building blocks of code that appear in every script you will write.</p>
-<section id="sec-what-is-r" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="sec-what-is-r"><span class="header-section-number">1.1</span> What is R?</h2>
+<section id="sec-what-is-r" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="sec-what-is-r"><span class="header-section-number">2.1</span> What is R?</h2>
 <p><strong>R</strong> is a programming language and free software environment for statistical computing and graphics. It was created by statisticians, and its strengths still reflect that: cleaning, analyzing, modeling, and visualizing data. Statisticians, data scientists, and geographers all use it for the same reason. A few lines of R can do what would take dozens of clicks in a spreadsheet or a desktop GIS, and those lines can be run again tomorrow.</p>
 <p>On its own, R knows how to do arithmetic, statistics, and basic plots. What makes it useful for geography is its <strong>packages</strong> (also called libraries): bundles of code, written by other users, that add new abilities. There are thousands of them. In this course you will use <strong>sf</strong> for vector data such as points, lines, and polygons, <strong>terra</strong> for rasters, <strong>tidyverse</strong> for cleaning and reshaping data, and <strong>tmap</strong> and <strong>ggplot2</strong> for maps.</p>
-<section id="why-use-r" class="level3" data-number="1.1.1">
-<h3 data-number="1.1.1" class="anchored" data-anchor-id="why-use-r"><span class="header-section-number">1.1.1</span> Why use R?</h3>
+<section id="why-use-r" class="level3" data-number="2.1.1">
+<h3 data-number="2.1.1" class="anchored" data-anchor-id="why-use-r"><span class="header-section-number">2.1.1</span> Why use R?</h3>
 <p>R has four strengths that make it the tool for this course.</p>
 <ul>
 <li><strong>Power.</strong> R has a huge range of tools for statistics, machine learning, and spatial analysis, and new methods often appear as R packages before they appear anywhere else.</li>
@@ -2113,27 +2137,27 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <p>There are practical reasons, too. R is free and open source, so everything you learn here keeps working after you graduate, with no license fees. It is updated frequently, it is popular in both research and industry, and it is consistently ranked among the most widely used languages for statistics and data analysis. The skills transfer to jobs and to graduate research.</p>
 </section>
 </section>
-<section id="sec-what-is-rstudio" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="sec-what-is-rstudio"><span class="header-section-number">1.2</span> What is RStudio?</h2>
+<section id="sec-what-is-rstudio" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="sec-what-is-rstudio"><span class="header-section-number">2.2</span> What is RStudio?</h2>
 <p>You can type R commands into a plain window, but almost nobody works that way. <strong>RStudio</strong> is an <strong>integrated development environment (IDE)</strong> for R: one window where you write code, run it, see the results, and check your data. A good way to think about the relationship is that R is the engine and RStudio is the dashboard. R does the computing underneath; RStudio is where you work.</p>
-<p>Because RStudio drives R, you need both, and you must <strong>install R first, then RStudio</strong>. RStudio cannot run any code until R is installed. Both are free. Installation steps are in <a href="#sec-setup" class="quarto-xref"><span>Section 1.6</span></a> at the end of this chapter.</p>
-<section id="the-four-panes" class="level3" data-number="1.2.1">
-<h3 data-number="1.2.1" class="anchored" data-anchor-id="the-four-panes"><span class="header-section-number">1.2.1</span> The four panes</h3>
-<p>When you open RStudio, the window is divided into four panes (<a href="#fig-rstudio-panes" class="quarto-xref">Figure&nbsp;<span>1.1</span></a>).</p>
+<p>Because RStudio drives R, you need both, and you must <strong>install R first, then RStudio</strong>. RStudio cannot run any code until R is installed. Both are free. Installation steps are in <a href="#sec-setup" class="quarto-xref"><span>Section 2.6</span></a> at the end of this chapter.</p>
+<section id="the-four-panes" class="level3" data-number="2.2.1">
+<h3 data-number="2.2.1" class="anchored" data-anchor-id="the-four-panes"><span class="header-section-number">2.2.1</span> The four panes</h3>
+<p>When you open RStudio, the window is divided into four panes (<a href="#fig-rstudio-panes" class="quarto-xref">Figure&nbsp;<span>2.1</span></a>).</p>
 <div id="fig-rstudio-panes" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Screenshot of an empty RStudio window divided into four panes. Top left is an empty script editor labeled Untitled1. Bottom left is the Console, showing R's startup message and a prompt. Top right is the Environment pane, which says Environment is empty. Bottom right is the Files pane, listing folders in the home directory.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-rstudio-panes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="../images/rstudio-four-panes.png" class="img-fluid figure-img" alt="Screenshot of an empty RStudio window divided into four panes. Top left is an empty script editor labeled Untitled1. Bottom left is the Console, showing R's startup message and a prompt. Top right is the Environment pane, which says Environment is empty. Bottom right is the Files pane, listing folders in the home directory.">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rstudio-panes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1.1: RStudio’s default four-pane layout, just after opening. The Editor is at the top left, the Console at the bottom left, the Environment at the top right, and Files, Plots, and Help at the bottom right.
+Figure&nbsp;2.1: RStudio’s default four-pane layout, just after opening. The Editor is at the top left, the Console at the bottom left, the Environment at the top right, and Files, Plots, and Help at the bottom right.
 </figcaption>
 </figure>
 </div>
 <div id="tbl-rstudio-panes" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-rstudio-panes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;1.1: The four panes of RStudio.
+Table&nbsp;2.1: The four panes of RStudio.
 </figcaption>
 <div aria-describedby="tbl-rstudio-panes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
@@ -2175,19 +2199,19 @@ Table&nbsp;1.1: The four panes of RStudio.
 </div>
 </figure>
 </div>
-<p>The difference between the Editor and the Console is the most important one in <a href="#tbl-rstudio-panes" class="quarto-xref">Table&nbsp;<span>1.1</span></a>. The <strong>Editor</strong> is where your work is saved. Anything you type there can be kept in a file and run again. The <strong>Console</strong> is for quick tests: R runs a command the moment you press Enter, but nothing you type there is saved. A useful habit is to experiment in the Console and keep what works in the Editor.</p>
+<p>The difference between the Editor and the Console is the most important one in <a href="#tbl-rstudio-panes" class="quarto-xref">Table&nbsp;<span>2.1</span></a>. The <strong>Editor</strong> is where your work is saved. Anything you type there can be kept in a file and run again. The <strong>Console</strong> is for quick tests: R runs a command the moment you press Enter, but nothing you type there is saved. A useful habit is to experiment in the Console and keep what works in the Editor.</p>
 <p>The <strong>Environment</strong> pane lists every variable you have created, with a short description of what it holds. It is the first place to look when you are debugging: if a variable you expected is missing, or holds something unexpected, the Environment will show it. The bottom-right pane holds several tabs, including <strong>Files</strong>, <strong>Plots</strong>, <strong>Packages</strong>, and <strong>Help</strong>.</p>
 </section>
-<section id="rstudio-during-a-working-session" class="level3" data-number="1.2.2">
-<h3 data-number="1.2.2" class="anchored" data-anchor-id="rstudio-during-a-working-session"><span class="header-section-number">1.2.2</span> RStudio during a working session</h3>
-<p><a href="#fig-rstudio-session" class="quarto-xref">Figure&nbsp;<span>1.2</span></a> shows RStudio partway through an analysis, with every pane in use.</p>
+<section id="rstudio-during-a-working-session" class="level3" data-number="2.2.2">
+<h3 data-number="2.2.2" class="anchored" data-anchor-id="rstudio-during-a-working-session"><span class="header-section-number">2.2.2</span> RStudio during a working session</h3>
+<p><a href="#fig-rstudio-session" class="quarto-xref">Figure&nbsp;<span>2.2</span></a> shows RStudio partway through an analysis, with every pane in use.</p>
 <div id="fig-rstudio-session" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Screenshot of RStudio in use. The Editor shows an R script with comments and two calls to plot() for hospital locations in Michigan. The Environment lists a data set called mi.hosps with 168 observations of 21 variables, plus about a dozen other variables. The Console shows the commands that were run, including one red error message reading figure margins too large. The Plots pane shows a scatterplot of hospital locations.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-rstudio-session-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="../images/rstudio-working-session.png" class="img-fluid figure-img" alt="Screenshot of RStudio in use. The Editor shows an R script with comments and two calls to plot() for hospital locations in Michigan. The Environment lists a data set called mi.hosps with 168 observations of 21 variables, plus about a dozen other variables. The Console shows the commands that were run, including one red error message reading figure margins too large. The Plots pane shows a scatterplot of hospital locations.">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rstudio-session-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1.2: RStudio during a working session. Code in the Editor (top left) has been run, the variables it created are listed in the Environment (top right), output and an error message appear in the Console (bottom left), and the resulting scatterplot is in the Plots pane (bottom right).
+Figure&nbsp;2.2: RStudio during a working session. Code in the Editor (top left) has been run, the variables it created are listed in the Environment (top right), output and an error message appear in the Console (bottom left), and the resulting scatterplot is in the Plots pane (bottom right).
 </figcaption>
 </figure>
 </div>
@@ -2199,16 +2223,16 @@ Figure&nbsp;1.2: RStudio during a working session. Code in the Editor (top left)
 <li><strong>Read the Console.</strong> Output, warnings, and errors print here.</li>
 <li><strong>Look at the Plots pane</strong> if the line drew a graph.</li>
 </ol>
-<p>Notice the red error message in the Console of <a href="#fig-rstudio-session" class="quarto-xref">Figure&nbsp;<span>1.2</span></a>. Errors are a normal part of writing code, and they are not something to skip past. Read them. They usually say what went wrong, and often where. (This one, “figure margins too large,” just means the Plots pane was too small to draw the graph, and it went away when the pane was enlarged.)</p>
+<p>Notice the red error message in the Console of <a href="#fig-rstudio-session" class="quarto-xref">Figure&nbsp;<span>2.2</span></a>. Errors are a normal part of writing code, and they are not something to skip past. Read them. They usually say what went wrong, and often where. (This one, “figure margins too large,” just means the Plots pane was too small to draw the graph, and it went away when the pane was enlarged.)</p>
 </section>
 </section>
-<section id="sec-scripts-and-rmarkdown" class="level2" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="sec-scripts-and-rmarkdown"><span class="header-section-number">1.3</span> R scripts and R Markdown</h2>
-<p>There are two kinds of files you will write R in, and it is worth being clear about the difference (<a href="#tbl-r-vs-rmd" class="quarto-xref">Table&nbsp;<span>1.2</span></a>).</p>
+<section id="sec-scripts-and-rmarkdown" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="sec-scripts-and-rmarkdown"><span class="header-section-number">2.3</span> R scripts and R Markdown</h2>
+<p>There are two kinds of files you will write R in, and it is worth being clear about the difference (<a href="#tbl-r-vs-rmd" class="quarto-xref">Table&nbsp;<span>2.2</span></a>).</p>
 <div id="tbl-r-vs-rmd" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-r-vs-rmd-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;1.2: R scripts compared with R Markdown documents.
+Table&nbsp;2.2: R scripts compared with R Markdown documents.
 </figcaption>
 <div aria-describedby="tbl-r-vs-rmd-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
@@ -2256,9 +2280,9 @@ Table&nbsp;1.2: R scripts compared with R Markdown documents.
 </figure>
 </div>
 <p>An <strong>R script</strong> is only code. Anything in it that is not code has to be written as a comment. An <strong>R Markdown</strong> file mixes formatted text and code, so the explanation of an analysis lives right next to the analysis itself. It is easier to read and easier to share. All assignments in this course are R Markdown files, so you will write both kinds of content: prose in Markdown and code inside chunks.</p>
-<section id="what-is-r-markdown" class="level3" data-number="1.3.1">
-<h3 data-number="1.3.1" class="anchored" data-anchor-id="what-is-r-markdown"><span class="header-section-number">1.3.1</span> What is R Markdown?</h3>
-<p><strong>R Markdown</strong> is a file format for dynamic, reproducible documents. An <code>.Rmd</code> file combines text written in <strong>Markdown</strong>, a simple way of formatting plain text, with chunks of R code. When you <strong>knit</strong> the file, R runs every code chunk and places the results (numbers, tables, and plots) into a finished document, as HTML, PDF, or Word (<a href="#fig-knit" class="quarto-xref">Figure&nbsp;<span>1.3</span></a>).</p>
+<section id="what-is-r-markdown" class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1" class="anchored" data-anchor-id="what-is-r-markdown"><span class="header-section-number">2.3.1</span> What is R Markdown?</h3>
+<p><strong>R Markdown</strong> is a file format for dynamic, reproducible documents. An <code>.Rmd</code> file combines text written in <strong>Markdown</strong>, a simple way of formatting plain text, with chunks of R code. When you <strong>knit</strong> the file, R runs every code chunk and places the results (numbers, tables, and plots) into a finished document, as HTML, PDF, or Word (<a href="#fig-knit" class="quarto-xref">Figure&nbsp;<span>2.3</span></a>).</p>
 <div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div id="fig-knit" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -2273,7 +2297,7 @@ Table&nbsp;1.2: R scripts compared with R Markdown documents.
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-knit-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1.3: Knitting an R Markdown file. R runs every code chunk from top to bottom and combines your text with the code’s results in a finished report.
+Figure&nbsp;2.3: Knitting an R Markdown file. R runs every code chunk from top to bottom and combines your text with the code’s results in a finished report.
 </figcaption>
 </figure>
 </div>
@@ -2294,8 +2318,8 @@ Figure&nbsp;1.3: Knitting an R Markdown file. R runs every code chunk from top t
 </div>
 </div>
 </section>
-<section id="anatomy-of-an-r-markdown-file" class="level3" data-number="1.3.2">
-<h3 data-number="1.3.2" class="anchored" data-anchor-id="anatomy-of-an-r-markdown-file"><span class="header-section-number">1.3.2</span> Anatomy of an R Markdown file</h3>
+<section id="anatomy-of-an-r-markdown-file" class="level3" data-number="2.3.2">
+<h3 data-number="2.3.2" class="anchored" data-anchor-id="anatomy-of-an-r-markdown-file"><span class="header-section-number">2.3.2</span> Anatomy of an R Markdown file</h3>
 <p>Every R Markdown file has three kinds of content: a YAML header, Markdown text, and code chunks.</p>
 <p><strong>The YAML header</strong> sits at the very top of the file, between two lines of exactly three dashes. It holds <strong>metadata</strong>, which is data about data. Here it describes the document rather than the analysis: its title, author, date, and output format.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="pp">---</span></span>
@@ -2334,8 +2358,8 @@ Figure&nbsp;1.3: Knitting an R Markdown file. R runs every code chunk from top t
 <span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>So a century has **1,200** months.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="the-r-markdown-workflow" class="level3" data-number="1.3.3">
-<h3 data-number="1.3.3" class="anchored" data-anchor-id="the-r-markdown-workflow"><span class="header-section-number">1.3.3</span> The R Markdown workflow</h3>
+<section id="the-r-markdown-workflow" class="level3" data-number="2.3.3">
+<h3 data-number="2.3.3" class="anchored" data-anchor-id="the-r-markdown-workflow"><span class="header-section-number">2.3.3</span> The R Markdown workflow</h3>
 <p>You will follow the same four steps for every assignment.</p>
 <ol type="1">
 <li><strong>Create a file.</strong> In RStudio, choose <strong>File &gt; New File &gt; R Markdown…</strong>, give the document a title, and click OK. RStudio opens a new file that already contains a YAML header and some example content.</li>
@@ -2345,8 +2369,8 @@ Figure&nbsp;1.3: Knitting an R Markdown file. R runs every code chunk from top t
 </ol>
 <p>Knitting does something important that is easy to miss: it reruns <em>all</em> of your code, from the top, in a fresh R session that knows nothing about what you have already run. A file that knits successfully is therefore a file that anyone can reproduce from scratch. If it fails to knit, the error message names the chunk that broke.</p>
 </section>
-<section id="keep-all-course-files-in-one-folder" class="level3" data-number="1.3.4">
-<h3 data-number="1.3.4" class="anchored" data-anchor-id="keep-all-course-files-in-one-folder"><span class="header-section-number">1.3.4</span> Keep all course files in one folder</h3>
+<section id="keep-all-course-files-in-one-folder" class="level3" data-number="2.3.4">
+<h3 data-number="2.3.4" class="anchored" data-anchor-id="keep-all-course-files-in-one-folder"><span class="header-section-number">2.3.4</span> Keep all course files in one folder</h3>
 <p>Most of the errors students run into early in the semester are not really coding errors. They are file path errors: R cannot find a data file because the <code>.Rmd</code> file and the data are saved in different places. When you knit, R looks for files <strong>relative to the folder where the <code>.Rmd</code> file is saved</strong>, so a tidy folder structure prevents a whole category of “file not found” errors.</p>
 <p>Create one folder for the class, called <code>geog215</code>, and save all of your work there, with subfolders for data, labs, and notes:</p>
 <pre><code>geog215/
@@ -2357,13 +2381,13 @@ Figure&nbsp;1.3: Knitting an R Markdown file. R runs every code chunk from top t
 <p>Use short file names with no spaces, such as <code>lab01.Rmd</code>. Spaces and special characters in file names cause trouble in code, and a consistent naming pattern makes files easy to find.</p>
 </section>
 </section>
-<section id="sec-code-basics" class="level2" data-number="1.4">
-<h2 data-number="1.4" class="anchored" data-anchor-id="sec-code-basics"><span class="header-section-number">1.4</span> Code basics</h2>
-<p>The rest of this chapter introduces five ideas that appear in every R script: lines, blocks, variables, comments, and functions. A cooking analogy runs through all of them (<a href="#tbl-cooking" class="quarto-xref">Table&nbsp;<span>1.3</span></a>).</p>
+<section id="sec-code-basics" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="sec-code-basics"><span class="header-section-number">2.4</span> Code basics</h2>
+<p>The rest of this chapter introduces five ideas that appear in every R script: lines, blocks, variables, comments, and functions. A cooking analogy runs through all of them (<a href="#tbl-cooking" class="quarto-xref">Table&nbsp;<span>2.3</span></a>).</p>
 <div id="tbl-cooking" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-cooking-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;1.3: Code ideas and their cooking analogies.
+Table&nbsp;2.3: Code ideas and their cooking analogies.
 </figcaption>
 <div aria-describedby="tbl-cooking-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
@@ -2396,23 +2420,23 @@ Table&nbsp;1.3: Code ideas and their cooking analogies.
 </figure>
 </div>
 <p>The code boxes in the rest of this chapter are live. Click <strong>Run Code</strong> to run the R inside them, right here in your browser. You can also edit the code and run it again, which is the best way to learn what each piece does. The first time you run a box, R takes a few seconds to load.</p>
-<section id="a-line-of-code" class="level3" data-number="1.4.1">
-<h3 data-number="1.4.1" class="anchored" data-anchor-id="a-line-of-code"><span class="header-section-number">1.4.1</span> A line of code</h3>
+<section id="a-line-of-code" class="level3" data-number="2.4.1">
+<h3 data-number="2.4.1" class="anchored" data-anchor-id="a-line-of-code"><span class="header-section-number">2.4.1</span> A line of code</h3>
 <p>Every program starts with one line of code, and every line does something. When you run a line, R <strong>evaluates</strong> it and returns the result. Try it:</p>
 <div id="qwebr-insertion-location-1"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>R returns <code>11</code>, again with <code>[1]</code> in front to mark the first element of the result. A single line is like a single step in a recipe: “chop the onion,” or “add 5 and 6.”</p>
 <p>Sometimes a line produces no visible result. Storing a value in a variable, which you will see below, prints nothing at all. The line still did something, though. It changed what R is holding in memory.</p>
 </section>
-<section id="a-block-of-code" class="level3" data-number="1.4.2">
-<h3 data-number="1.4.2" class="anchored" data-anchor-id="a-block-of-code"><span class="header-section-number">1.4.2</span> A block of code</h3>
+<section id="a-block-of-code" class="level3" data-number="2.4.2">
+<h3 data-number="2.4.2" class="anchored" data-anchor-id="a-block-of-code"><span class="header-section-number">2.4.2</span> A block of code</h3>
 <p>A <strong>block</strong> of code is a sequence of lines that work together on one related task, the way the steps of a recipe work together to make one dish. In an R Markdown file, a block usually lives in one code chunk. Here is a block that answers a question: how many months are in a century?</p>
 <div id="qwebr-insertion-location-2"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>The block stores 12 in <code>months</code>, stores 100 in <code>years</code>, multiplies them, and prints the answer, 1200. Its first line starts with <code>#</code>, which makes it a comment, covered below.</p>
 </section>
-<section id="variables" class="level3" data-number="1.4.3">
-<h3 data-number="1.4.3" class="anchored" data-anchor-id="variables"><span class="header-section-number">1.4.3</span> Variables</h3>
+<section id="variables" class="level3" data-number="2.4.3">
+<h3 data-number="2.4.3" class="anchored" data-anchor-id="variables"><span class="header-section-number">2.4.3</span> Variables</h3>
 <p>A <strong>variable</strong> is a named piece of memory that holds data. Once a value is stored in a variable, you can reuse it by name instead of typing it again.</p>
 <p>You store a value with the <strong>assignment operator</strong>, <code>&lt;-</code>, which looks like an arrow pointing left. The value on the right is stored in the name on the left. Read it out loud as “gets”: <code>months &lt;- 12</code> is “months gets 12.” In RStudio, the shortcut Alt+- (Option+- on a Mac) types the arrow for you.</p>
 <p>Variable names are <strong>case-sensitive</strong>: <code>Months</code> and <code>months</code> are two different variables. Run this box, which asks for <code>Months</code> with a capital M:</p>
@@ -2421,15 +2445,15 @@ Table&nbsp;1.3: Code ideas and their cooking analogies.
 <p>R replies with an error, <code>object 'Months' not found</code>, because no variable has exactly that name. This is one of the most common errors you will see, and now you know how to read it. Change <code>Months</code> to <code>months</code> and run the box again.</p>
 <p>When you run code in RStudio, each new variable appears in the Environment pane. Checking that pane after you run a line is a good way to confirm that the line did what you meant.</p>
 </section>
-<section id="comments" class="level3" data-number="1.4.4">
-<h3 data-number="1.4.4" class="anchored" data-anchor-id="comments"><span class="header-section-number">1.4.4</span> Comments</h3>
+<section id="comments" class="level3" data-number="2.4.4">
+<h3 data-number="2.4.4" class="anchored" data-anchor-id="comments"><span class="header-section-number">2.4.4</span> Comments</h3>
 <p>A <strong>comment</strong> is a note for people, not for R. A comment begins with <code>#</code>, and R ignores everything after the <code>#</code> on that line. In the century example above, R skipped <code># How many months are in a century?</code>, but a reader knows straight away what the block is for.</p>
 <p>Use comments to explain <em>why</em> your code does what it does, not just <em>what</em> it does. The code itself already says that <code>months * years</code> multiplies two numbers. A good comment says why you needed that number. When you return to an assignment weeks later, comments are what let you understand your own reasoning, and in this course they are also how your instructor sees it.</p>
 </section>
-<section id="functions" class="level3" data-number="1.4.5">
-<h3 data-number="1.4.5" class="anchored" data-anchor-id="functions"><span class="header-section-number">1.4.5</span> Functions</h3>
+<section id="functions" class="level3" data-number="2.4.5">
+<h3 data-number="2.4.5" class="anchored" data-anchor-id="functions"><span class="header-section-number">2.4.5</span> Functions</h3>
 <p>A <strong>function</strong> takes inputs, does a job, and returns an output. The inputs are called <strong>arguments</strong>, and they go inside parentheses after the function’s name. If variables are the nouns of R, functions are the verbs.</p>
-<p>In the cooking analogy, a function is an appliance, such as an oven. To make a pizza, you put bread, cheese, and tomato sauce into the oven, and the oven returns a pizza (<a href="#fig-function" class="quarto-xref">Figure&nbsp;<span>1.4</span></a>).</p>
+<p>In the cooking analogy, a function is an appliance, such as an oven. To make a pizza, you put bread, cheese, and tomato sauce into the oven, and the oven returns a pizza (<a href="#fig-function" class="quarto-xref">Figure&nbsp;<span>2.4</span></a>).</p>
 <div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div id="fig-function" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -2446,7 +2470,7 @@ Table&nbsp;1.3: Code ideas and their cooking analogies.
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-function-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1.4: A function takes inputs (arguments), does a job, and returns an output. In R this would be written pizza &lt;- bake(bread, cheese, tomato_sauce).
+Figure&nbsp;2.4: A function takes inputs (arguments), does a job, and returns an output. In R this would be written pizza &lt;- bake(bread, cheese, tomato_sauce).
 </figcaption>
 </figure>
 </div>
@@ -2460,28 +2484,28 @@ Figure&nbsp;1.4: A function takes inputs (arguments), does a job, and returns an
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p><code>c()</code> is itself a function: it <strong>combines</strong> values into a <strong>vector</strong>, a sequence of values that R stores together. <code>mean()</code> and <code>max()</code> each take a vector and return one number. The last line converts the average to degrees Celsius. It <strong>nests</strong> one function inside another, so <code>mean()</code> runs first and <code>round()</code> rounds its result, and it shows a <strong>named argument</strong>, <code>digits = 1</code>, which tells <code>round()</code> how many decimal places to keep. Every function has a help page that lists its arguments; type <code>?round</code> in the Console to see one in the Help pane.</p>
 </section>
-<section id="chaining-functions-with-the-pipe" class="level3" data-number="1.4.6">
-<h3 data-number="1.4.6" class="anchored" data-anchor-id="chaining-functions-with-the-pipe"><span class="header-section-number">1.4.6</span> Chaining functions with the pipe</h3>
+<section id="chaining-functions-with-the-pipe" class="level3" data-number="2.4.6">
+<h3 data-number="2.4.6" class="anchored" data-anchor-id="chaining-functions-with-the-pipe"><span class="header-section-number">2.4.6</span> Chaining functions with the pipe</h3>
 <p>Nested functions like the last line above are read from the inside out, which gets hard to follow as they grow. The <strong>pipe</strong> operator, <code>|&gt;</code>, lets you write the same steps from left to right instead. The pipe takes the result on its left and passes it as the first argument to the function on its right:</p>
 <div id="qwebr-insertion-location-5"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>This gives the same answer as <code>round(sqrt(max(temps)), digits = 1)</code>, but reads in the order the steps happen. Read the pipe out loud as “and then”: take <code>temps</code>, <em>and then</em> find the maximum, <em>and then</em> take its square root, <em>and then</em> round it to one decimal place. You will use the pipe constantly in later chapters to string together steps that clean, analyze, and map data, and it is required in the course’s assignments.</p>
 </section>
-<section id="a-program" class="level3" data-number="1.4.7">
-<h3 data-number="1.4.7" class="anchored" data-anchor-id="a-program"><span class="header-section-number">1.4.7</span> A program</h3>
+<section id="a-program" class="level3" data-number="2.4.7">
+<h3 data-number="2.4.7" class="anchored" data-anchor-id="a-program"><span class="header-section-number">2.4.7</span> A program</h3>
 <p>A <strong>program</strong> is a set of lines and blocks of code that work together to do a task, the way several recipes combine into a full meal. Every assignment in this course is a program: an R Markdown file that loads data, analyzes it, and makes a map.</p>
 <p>R runs a program from top to bottom, so <strong>order matters</strong>. A variable must be created before it is used. When you work interactively, it is easy to run chunks out of order, or to delete a line that created a variable that is still sitting in your Environment. Everything seems to work until you knit, and then the fresh session that knitting starts in reports <code>object not found</code>. That error is doing you a favor: it means your file, as written, would not have worked for anyone else either.</p>
 </section>
 </section>
-<section id="sec-coding-hints" class="level2" data-number="1.5">
-<h2 data-number="1.5" class="anchored" data-anchor-id="sec-coding-hints"><span class="header-section-number">1.5</span> Some hints for coding</h2>
+<section id="sec-coding-hints" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="sec-coding-hints"><span class="header-section-number">2.5</span> Some hints for coding</h2>
 <p>Two habits make the biggest difference when you start writing code.</p>
 <p><strong>Think about the syntax.</strong> R is exact. Spelling, capital letters, commas, quotation marks, and brackets all have to be right, and every opening parenthesis needs a closing one. A single missing comma is enough to stop a program. When something fails, check the syntax of the line the error points to first.</p>
 <p><strong>Think about the purpose.</strong> Before you type a line, say in plain words what it should do: “store the number of years,” “find the average temperature.” If you can’t say it, you aren’t ready to write it yet. If you can, the words make a good comment.</p>
 <p>And leave lots of comments. They are notes to <strong>Future You</strong>, who will not remember, three weeks from now, why you wrote that line.</p>
 </section>
-<section id="sec-setup" class="level2" data-number="1.6">
-<h2 data-number="1.6" class="anchored" data-anchor-id="sec-setup"><span class="header-section-number">1.6</span> Setting up R and RStudio</h2>
+<section id="sec-setup" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="sec-setup"><span class="header-section-number">2.6</span> Setting up R and RStudio</h2>
 <p>Before the first lab, set up your computer:</p>
 <ol type="1">
 <li><strong>Install R</strong> from CRAN, <a href="https://cran.r-project.org" class="uri">https://cran.r-project.org</a>. Choose the download for your operating system (Windows, macOS, or Linux) and run the installer with its default settings.</li>
@@ -2490,8 +2514,8 @@ Figure&nbsp;1.4: A function takes inputs (arguments), does a job, and returns an
 <li><strong>Test everything.</strong> Open RStudio, create a new R Markdown file (<strong>File &gt; New File &gt; R Markdown…</strong>), save it in <code>geog215/labs</code>, and click <strong>Knit</strong>. If an HTML report appears, you are ready.</li>
 </ol>
 </section>
-<section id="check-your-understanding" class="level2" data-number="1.7">
-<h2 data-number="1.7" class="anchored" data-anchor-id="check-your-understanding"><span class="header-section-number">1.7</span> Check your understanding</h2>
+<section id="check-your-understanding" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="check-your-understanding"><span class="header-section-number">2.7</span> Check your understanding</h2>
 <ol type="1">
 <li><p>Which program does the actual computing when you run code: R or RStudio? <select class="webex-select"><option value="blank"></option><option value="answer">R</option><option value="">RStudio</option></select></p></li>
 <li><p>In which RStudio pane would you look to see the variables currently in memory? <select class="webex-select"><option value="blank"></option><option value="">Editor</option><option value="">Console</option><option value="answer">Environment</option><option value="">Files</option></select></p></li>
@@ -2508,8 +2532,8 @@ Show hint for question 4
 <p><code>months * years</code> is 1200. Dividing by 10 gives the answer.</p>
 </div>
 </section>
-<section id="summary" class="level2" data-number="1.8">
-<h2 data-number="1.8" class="anchored" data-anchor-id="summary"><span class="header-section-number">1.8</span> Summary</h2>
+<section id="summary" class="level2" data-number="2.8">
+<h2 data-number="2.8" class="anchored" data-anchor-id="summary"><span class="header-section-number">2.8</span> Summary</h2>
 <ul>
 <li><strong>R</strong> is the language that does the computing. <strong>RStudio</strong> is the workspace where you write and run R. <strong>R Markdown</strong> is the document format that combines your writing with your code and its results.</li>
 <li>RStudio has four panes: the <strong>Editor</strong> for writing and saving code, the <strong>Console</strong> for running commands and reading output, the <strong>Environment</strong> for the variables in memory, and <strong>Files, Plots, and Help</strong>.</li>
@@ -2519,8 +2543,8 @@ Show hint for question 4
 <li>Keep all course files in one folder, mind your syntax, and comment generously.</li>
 </ul>
 </section>
-<section id="exercises" class="level2" data-number="1.9">
-<h2 data-number="1.9" class="anchored" data-anchor-id="exercises"><span class="header-section-number">1.9</span> Exercises</h2>
+<section id="exercises" class="level2" data-number="2.9">
+<h2 data-number="2.9" class="anchored" data-anchor-id="exercises"><span class="header-section-number">2.9</span> Exercises</h2>
 <ol type="1">
 <li><p><strong>Your first R Markdown file.</strong> Create a new R Markdown file titled “Exercise 1” with your name as the author. Delete the example content below the YAML header, add a heading, and write one sentence about why you are taking this course. Knit it to HTML.</p></li>
 <li><p><strong>Arithmetic.</strong> In a code chunk, calculate how many hours are in a year, and how many seconds. Store each intermediate value (days, hours per day, and so on) in a variable with a clear name, and add a comment to each line.</p></li>
@@ -2533,8 +2557,8 @@ Show hint for question 4
 <li><p><strong>Order matters.</strong> Write a chunk that uses a variable before it is created, and knit the file. What happens? Fix the chunk so that the file knits.</p></li>
 </ol>
 </section>
-<section id="further-reading" class="level2" data-number="1.10">
-<h2 data-number="1.10" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">1.10</span> Further reading</h2>
+<section id="further-reading" class="level2" data-number="2.10">
+<h2 data-number="2.10" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">2.10</span> Further reading</h2>
 <ul>
 <li><em>R for Data Science</em> by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund is free online at <a href="https://r4ds.hadley.nz" class="uri">https://r4ds.hadley.nz</a>. Its early chapters cover the RStudio workflow, the basics of R code, and the pipe in more depth.</li>
 <li><em>R Markdown: The Definitive Guide</em> by Yihui Xie, J. J. Allaire, and Garrett Grolemund, free at <a href="https://bookdown.org/yihui/rmarkdown/" class="uri">https://bookdown.org/yihui/rmarkdown/</a>, is the full reference for R Markdown.</li>
@@ -3229,13 +3253,13 @@ window.onload = function() {
   </script>
 <nav class="page-navigation" aria-label="Page">
   <div class="nav-page nav-page-previous">
-      <a href="../index.html" class="pagination-link" aria-label="Preface">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Preface</span>
+      <a href="../chapters/intro-spatial-data-science-quiz.html" class="pagination-link" aria-label="Chapter quiz: Introduction to Spatial Data Science">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Chapter quiz: Introduction to Spatial Data Science</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../chapters/census-data-apis.html" class="pagination-link" aria-label="Census Data and APIs">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Census Data and APIs</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../chapters/r-rstudio-rmarkdown-quiz.html" class="pagination-link" aria-label="Chapter quiz: R, RStudio, and R Markdown">
+        <span class="nav-page-text">Chapter quiz: R, RStudio, and R Markdown</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
