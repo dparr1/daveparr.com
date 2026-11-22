@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>3&nbsp; Census Data and APIs – Spatial Data Science</title>
+<title>3&nbsp; Census Data and APIs – Introduction to Spatial Data Science</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -102,13 +102,15 @@ div.csl-indent {
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-4c5e755a3bfe43f3706dcc37cc2065fe.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-3a57d34c1e4cec68f093b79712132c86.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-contrib/glossary-1.0.0/glossary.js"></script>
+<link href="../site_libs/quarto-contrib/glossary-1.0.0/glossary.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
-  "location": "sidebar",
+  "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
-  "panel-placement": "start",
-  "type": "textbox",
+  "panel-placement": "end",
+  "type": "overlay",
   "limit": 50,
   "keyboard-shortcut": [
     "f",
@@ -167,82 +169,162 @@ window.Quarto = {
 <link rel="stylesheet" href="../include/webex.css">
 </head>
 
-<body class="nav-sidebar floating quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a>
+<body class="nav-sidebar floating nav-fixed quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a>
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark" aria-label="Site">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Introduction to Spatial Data Science</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="../index.html" aria-current="page"> 
+<span class="menu-text">Welcome</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../syllabus.html"> 
+<span class="menu-text">Syllabus</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../preface.html"> 
+<span class="menu-text">Textbook</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../materials.html"> 
+<span class="menu-text">Course materials</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+            <div id="quarto-search" class="" title="Search"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
   <nav class="quarto-secondary-nav" aria-label="Toolbar">
     <div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/census-data-apis.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Census Data and APIs</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../preface.html">Textbook</a></li><li class="breadcrumb-item"><a href="../chapters/census-data-apis.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Census Data and APIs</span></a></li></ol></nav>
         <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
-        <i class="bi bi-search"></i>
-      </button>
     </div>
   </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Site">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
-    <div class="sidebar-title mb-0 py-0">
-      <a href="../">Spatial Data Science</a> 
-    </div>
-      </div>
-        <div class="mt-2 flex-shrink-0 align-items-center">
-        <div class="sidebar-search">
-        <div id="quarto-search" class="" title="Search"></div>
-        </div>
-        </div>
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Section">
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
-        <li class="sidebar-item">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-1-label">Course</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Welcome</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../syllabus.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Syllabus</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../materials.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Course materials</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../about.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About the author</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-2-label">Textbook</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../preface.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Preface</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/intro-spatial-data-science.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction to Spatial Data Science</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">What is Spatial Data Science?</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/intro-spatial-data-science-quiz.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Chapter quiz: Introduction to Spatial Data Science</span></a>
+ <span class="menu-text">Chapter quiz: What is Spatial Data Science?</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/r-rstudio-rmarkdown.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">R, RStudio, and R Markdown</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/r-rstudio-rmarkdown-quiz.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Chapter quiz: R, RStudio, and R Markdown</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/census-data-apis.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Census Data and APIs</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/census-data-apis-quiz.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Chapter quiz: Census Data and APIs</span></a>
   </div>
 </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Glossary</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -299,7 +381,7 @@ window.Quarto = {
 <!-- main -->
 <main class="content" id="quarto-document-content" tabindex="-1">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../preface.html">Textbook</a></li><li class="breadcrumb-item"><a href="../chapters/census-data-apis.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Census Data and APIs</span></a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Census Data and APIs</span></h1>
 </div>
@@ -330,21 +412,21 @@ window.Quarto = {
 <div class="callout-body-container callout-body">
 <p>By the end of this chapter you should be able to:</p>
 <ol type="1">
-<li>Explain where US Census data come from, and how the decennial census differs from the American Community Survey (ACS).</li>
-<li>Describe the Census geographic hierarchy and read a GEOID.</li>
-<li>Choose an appropriate geography, survey, and variable for a research question.</li>
-<li>Explain what an API is and build a Census API request by hand.</li>
-<li>Download Census data with boundaries attached using <strong>tidycensus</strong>, and map it.</li>
-<li>Work responsibly with margins of error, percentages, and comparisons across years.</li>
+<li>Explain where US Census data come from, and how the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-decennial-census" data-term="decennial census">decennial census</span> differs from the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-american-community-survey-acs" data-term="American Community Survey (ACS)">American Community Survey</span> (ACS).</li>
+<li>Describe the Census geographic hierarchy and read a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geoid" data-term="GEOID">GEOID</span>.</li>
+<li>Choose an appropriate geography, survey, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-variable" data-term="variable">variable</span> for a research question.</li>
+<li>Explain what an <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-api" data-term="API">API</span> is and build a Census API request by hand.</li>
+<li>Download Census data with boundaries attached using <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tidycensus" data-term="tidycensus">tidycensus</span></strong>, and map it.</li>
+<li>Work responsibly with <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-margin-of-error-moe" data-term="margin of error (MOE)">margins of error</span>, percentages, and comparisons across years.</li>
 </ol>
 </div>
 </div>
-<p>Most of the spatial data science you will do about people in the United States starts with Census data. Population, income, housing, commuting, education: if a question involves who lives where, the Census Bureau has probably measured it, for small areas, across the whole country, for free.</p>
-<p>This chapter has two halves. The first covers <em>what</em> the data are: where they come from, how Census geography is organized, and which variables you will use most. The second covers <em>how</em> to get them: what an API is, how to make a request by hand, and how the <strong>tidycensus</strong> package turns that request into one line of R that returns a map-ready data frame.</p>
+<p>Most of the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-data-science" data-term="spatial data science">spatial data science</span> you will do about people in the United States starts with Census data. Population, income, housing, commuting, education: if a question involves who lives where, the Census Bureau has probably measured it, for small areas, across the whole country, for free.</p>
+<p>This chapter has two halves. The first covers <em>what</em> the data are: where they come from, how Census geography is organized, and which variables you will use most. The second covers <em>how</em> to get them: what an API is, how to make a request by hand, and how the <strong>tidycensus</strong> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-package" data-term="package">package</span> turns that request into one line of R that returns a map-ready <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-frame" data-term="data frame">data frame</span>.</p>
 <section id="sec-census-history" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="sec-census-history"><span class="header-section-number">3.1</span> A brief history of the US Census</h2>
-<p>Article I of the Constitution requires a count of the population every ten years so that seats in the House of Representatives can be apportioned among the states. The first census, in 1790, was carried out by U.S. marshals on horseback and counted 3.9 million people. The count has run every decade since.</p>
-<p>The Census Bureau has repeatedly pushed new technology into being because the job of counting a growing country kept outgrowing the old tools (<a href="#tbl-census-timeline" class="quarto-xref">Table&nbsp;<span>3.1</span></a>). Herman Hollerith’s punch-card tabulating machines, built for the 1890 census, led to the company that became IBM. A century later, the 1990 census introduced TIGER, one of the first national digital map databases. The boundary files you will download later in this chapter descend directly from it.</p>
+<p>Article I of the Constitution requires a count of the population every ten years so that seats in the House of Representatives can be <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-apportionment" data-term="apportionment">apportioned</span> among the states. The first census, in 1790, was carried out by U.S. marshals on horseback and counted 3.9 million people. The count has run every decade since.</p>
+<p>The Census Bureau has repeatedly pushed new technology into being because the job of counting a growing country kept outgrowing the old tools (<a href="#tbl-census-timeline" class="quarto-xref">Table&nbsp;<span>3.1</span></a>). Herman Hollerith’s punch-card tabulating machines, built for the 1890 census, led to the company that became IBM. A century later, the 1990 census introduced <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tiger" data-term="TIGER">TIGER</span>, one of the first national digital map databases. The boundary files you will download later in this chapter descend directly from it.</p>
 <div id="tbl-census-timeline" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-census-timeline-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -382,7 +464,7 @@ Table&nbsp;3.1: Milestones in the history of the US Census.
 </tr>
 <tr class="even">
 <td style="text-align: left;">1940</td>
-<td style="text-align: left;">Sampling begins</td>
+<td style="text-align: left;"><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-sample" data-term="sample">Sampling</span> begins</td>
 <td style="text-align: left;">Some questions go to a 5% sample of households</td>
 </tr>
 <tr class="odd">
@@ -392,13 +474,13 @@ Table&nbsp;3.1: Milestones in the history of the US Census.
 </tr>
 <tr class="even">
 <td style="text-align: left;">2005</td>
-<td style="text-align: left;">ACS launches</td>
-<td style="text-align: left;">A yearly survey replaces the decennial “long form”</td>
+<td style="text-align: left;"><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-american-community-survey-acs" data-term="American Community Survey (ACS)">ACS</span> launches</td>
+<td style="text-align: left;">A yearly survey replaces the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-decennial-census" data-term="decennial census">decennial</span> “long form”</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2020</td>
 <td style="text-align: left;">Online response</td>
-<td style="text-align: left;">First census answered online; differential privacy added</td>
+<td style="text-align: left;">First census answered online; <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-differential-privacy" data-term="differential privacy">differential privacy</span> added</td>
 </tr>
 </tbody>
 </table>
@@ -408,11 +490,11 @@ Table&nbsp;3.1: Milestones in the history of the US Census.
 <p>For our purposes the most important change is the one from 2005. Before then, detailed social and economic questions (income, education, commuting) were asked on a “long form” sent to a sample of households once a decade. Since 2005 those questions have moved to the <strong>American Community Survey</strong>, which samples households every year. That gives two distinct sources of Census data, and you will choose between them constantly:</p>
 <ul>
 <li>The <strong>decennial census</strong> is a full count of everyone, every ten years. It asks only a few questions (age, sex, race, Hispanic origin, household relationship, housing tenure), but it covers every person.</li>
-<li>The <strong>American Community Survey (ACS)</strong> is a continuous sample survey. It asks many more questions, but every number it publishes is an <em>estimate</em>, with a margin of error (<a href="#sec-moe" class="quarto-xref"><span>Section 3.7.1</span></a>).</li>
+<li>The <strong>American Community Survey (ACS)</strong> is a continuous sample survey. It asks many more questions, but every number it publishes is an <em>estimate</em>, with a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-margin-of-error-moe" data-term="margin of error (MOE)">margin of error</span> (<a href="#sec-moe" class="quarto-xref"><span>Section 3.7.1</span></a>).</li>
 </ul>
 <section id="the-moving-center-of-population" class="level3" data-number="3.1.1">
 <h3 data-number="3.1.1" class="anchored" data-anchor-id="the-moving-center-of-population"><span class="header-section-number">3.1.1</span> The moving center of population</h3>
-<p>Each census, the Bureau calculates the <strong>mean center of population</strong>: the point where a flat map of the United States would balance if every resident weighed the same. In 1790 it sat in Kent County, Maryland, on the Eastern Shore. By 2020 it had moved about 884 miles, in a straight line, to Wright County, Missouri (<a href="#fig-pop-center" class="quarto-xref">Figure&nbsp;<span>3.1</span></a>) <span class="citation" data-cites="census_centers">(<a href="#ref-census_centers" role="doc-biblioref">U.S. Census Bureau, n.d.</a>)</span>.</p>
+<p>Each census, the Bureau calculates the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-mean-center-of-population" data-term="mean center of population">mean center of population</span></strong>: the point where a flat map of the United States would balance if every resident weighed the same. In 1790 it sat in Kent County, Maryland, on the Eastern Shore. By 2020 it had moved about 884 miles, in a straight line, to Wright County, Missouri (<a href="#fig-pop-center" class="quarto-xref">Figure&nbsp;<span>3.1</span></a>) <span class="citation" data-cites="census_centers">(<a href="#ref-census_centers" role="doc-biblioref">U.S. Census Bureau, n.d.</a>)</span>.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>lower48 <span class="ot">&lt;-</span> <span class="fu">states</span>(<span class="at">cb =</span> <span class="cn">TRUE</span>, <span class="at">resolution =</span> <span class="st">"20m"</span>, <span class="at">year =</span> <span class="dv">2020</span>) <span class="sc">|&gt;</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>STUSPS <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"AK"</span>, <span class="st">"HI"</span>, <span class="st">"PR"</span>)) <span class="sc">|&gt;</span></span>
@@ -486,12 +568,12 @@ Figure&nbsp;3.1: Mean center of US population at each census, 1790–2020. Cente
 <img src="../images/census-geographic-hierarchy.png" class="img-fluid figure-img" alt="Diagram of Census geographies. A vertical spine runs from Nation through Regions, Divisions, States, Counties, Census Tracts, and Block Groups to Census Blocks. Other geographies branch off the spine, including ZIP Code Tabulation Areas, school districts, congressional districts, places, urban areas, core based statistical areas, and American Indian, Alaska Native, and Native Hawaiian areas, with thin lines showing that each is built from census blocks.">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-census-hierarchy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3.2: The standard hierarchy of Census geographic entities. The central spine, from the nation down to blocks, nests completely. The entities branching off it do not. Source: U.S. Census Bureau.
+Figure&nbsp;3.2: The standard hierarchy of Census geographic entities. The central spine, from the nation down to <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-census-block" data-term="census block">blocks</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-nesting" data-term="nesting">nests</span> completely. The entities branching off it do not. Source: U.S. Census Bureau.
 </figcaption>
 </figure>
 </div>
-<p><a href="#fig-census-hierarchy" class="quarto-xref">Figure&nbsp;<span>3.2</span></a> shows the standard hierarchy. The central spine runs from the nation to regions, divisions, states, counties, census tracts, block groups, and finally blocks. Every unit on the spine <strong>nests</strong> perfectly: each block lies inside exactly one block group, which lies inside exactly one tract, one county, and one state. That nesting is what makes the spine so useful. You can add blocks up to block groups, block groups to tracts, and so on, and never double-count anyone.</p>
-<p>The geographies that branch off the spine, such as ZIP Code Tabulation Areas, places (cities and towns), and congressional districts, are built from blocks too, but they do not nest neatly inside counties or tracts. A ZIP code can cross county lines, and a city can include parts of several tracts. When you have a choice, work on the spine.</p>
+<p><a href="#fig-census-hierarchy" class="quarto-xref">Figure&nbsp;<span>3.2</span></a> shows the standard hierarchy. The central spine runs from the nation to regions, divisions, states, counties, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-census-tract" data-term="census tract">census tracts</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-block-group" data-term="block group">block groups</span>, and finally blocks. Every unit on the spine <strong>nests</strong> perfectly: each block lies inside exactly one block group, which lies inside exactly one tract, one county, and one state. That nesting is what makes the spine so useful. You can add blocks up to block groups, block groups to tracts, and so on, and never double-count anyone.</p>
+<p>The geographies that branch off the spine, such as <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-zip-code-tabulation-area-zcta" data-term="ZIP Code Tabulation Area (ZCTA)">ZIP Code Tabulation Areas</span>, places (cities and towns), and congressional districts, are built from blocks too, but they do not nest neatly inside counties or tracts. A ZIP code can cross county lines, and a city can include parts of several tracts. When you have a choice, work on the spine.</p>
 <p>The three smallest units on the spine are the ones you will use most for local analysis. <a href="#fig-orange-geographies" class="quarto-xref">Figure&nbsp;<span>3.3</span></a> shows all three for Orange County, North Carolina.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>orange_tracts <span class="ot">&lt;-</span> <span class="fu">tracts</span>(<span class="st">"NC"</span>, <span class="st">"Orange"</span>, <span class="at">year =</span> <span class="dv">2020</span>)</span>
@@ -522,12 +604,12 @@ Figure&nbsp;3.3: Census tracts, block groups, and blocks in Orange County, North
 </div>
 </div>
 </div>
-<p><strong>Census blocks</strong> are the smallest unit. A block is often a single city block bounded by streets, but blocks are bounded by any visible feature (railroads, streams, shorelines) and in rural areas can be large. Only the decennial census is published for blocks, and in 2020 block-level data carry the most differential-privacy noise (<a href="#sec-decennial" class="quarto-xref"><span>Section 3.7.3</span></a>), so use them with care.</p>
-<p><strong>Block groups</strong> combine several blocks and usually hold 600 to 3,000 people. They are the smallest geography for which ACS 5-year estimates are published, which makes them the finest level available for most social and economic variables. That detail comes at a cost: block group estimates have large margins of error.</p>
+<p><strong>Census blocks</strong> are the smallest unit. A block is often a single city block bounded by streets, but blocks are bounded by any visible feature (railroads, streams, shorelines) and in rural areas can be large. Only the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-decennial-census" data-term="decennial census">decennial census</span> is published for blocks, and in 2020 block-level data carry the most differential-privacy noise (<a href="#sec-decennial" class="quarto-xref"><span>Section 3.7.3</span></a>), so use them with care.</p>
+<p><strong>Block groups</strong> combine several blocks and usually hold 600 to 3,000 people. They are the smallest geography for which <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-5-year-estimates" data-term="5-year estimates">ACS 5-year estimates</span> are published, which makes them the finest level available for most social and economic <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-variable" data-term="variable">variables</span>. That detail comes at a cost: block group estimates have large <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-margin-of-error-moe" data-term="margin of error (MOE)">margins of error</span>.</p>
 <p><strong>Census tracts</strong> combine block groups and typically hold 1,200 to 8,000 people, about 4,000 on average. They are drawn to be fairly similar in population and stable over time, which makes them the workhorse unit for neighborhood analysis. Their boundaries are still revised each decade, though, so comparisons across censuses take care (<a href="#sec-comparing-years" class="quarto-xref"><span>Section 3.7.4</span></a>).</p>
 <section id="fips-codes-and-geoids" class="level3" data-number="3.2.1">
 <h3 data-number="3.2.1" class="anchored" data-anchor-id="fips-codes-and-geoids"><span class="header-section-number">3.2.1</span> FIPS codes and GEOIDs</h3>
-<p>Every Census area has a unique identifier called a <strong>GEOID</strong>, built by stringing together <strong>FIPS codes</strong> (Federal Information Processing Standards codes) for each level of the hierarchy. FIPS codes are standard numeric IDs for states and counties: North Carolina is 37 and Orange County is 135.</p>
+<p>Every Census area has a unique identifier called a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geoid" data-term="GEOID">GEOID</span></strong>, built by stringing together <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-fips-code" data-term="FIPS code">FIPS codes</span></strong> (Federal Information Processing Standards codes) for each level of the hierarchy. FIPS codes are standard numeric IDs for states and counties: North Carolina is 37 and Orange County is 135.</p>
 <div id="tbl-geoid" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-geoid-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -596,7 +678,7 @@ Table&nbsp;3.2: Reading a GEOID, using a tract in Orange County, NC. The tract n
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>GEOIDs look like numbers, but treat them as text. Alabama’s state FIPS code is <code>01</code>. Read it as a number and it becomes <code>1</code>, every Alabama GEOID loses a digit, and your joins quietly fail. When you read a CSV, set the column type explicitly, for example <code>read_csv(file, col_types = cols(GEOID = col_character()))</code>.</p>
+<p>GEOIDs look like numbers, but treat them as text. Alabama’s state FIPS code is <code>01</code>. Read it as a number and it becomes <code>1</code>, every Alabama GEOID loses a digit, and your <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-join" data-term="join">joins</span> quietly fail. When you read a CSV, set the column type explicitly, for example <code>read_csv(file, col_types = cols(GEOID = col_character()))</code>.</p>
 </div>
 </div>
 <p>The GEOID is also the key you will join on. Census tables and Census boundary files both carry a <code>GEOID</code> column, so attaching data to shapes is a single <code>left_join()</code> on that field.</p>
@@ -607,7 +689,7 @@ Table&nbsp;3.2: Reading a GEOID, using a tract in Orange County, NC. The tract n
 <div id="tbl-availability" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-availability-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;3.3: Variables available in the 2020 Census redistricting (PL 94-171) and DHC products, by geographic level.
+Table&nbsp;3.3: Variables available in the 2020 Census redistricting (<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-redistricting-data-pl-94-171" data-term="redistricting data (PL 94-171)">PL 94-171</span>) and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-demographic-and-housing-characteristics-dhc" data-term="Demographic and Housing Characteristics (DHC)">DHC</span> products, by geographic level.
 </figcaption>
 <div aria-describedby="tbl-availability-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
@@ -654,7 +736,7 @@ Table&nbsp;3.3: Variables available in the 2020 Census redistricting (PL 94-171)
 <td style="text-align: left;">Block</td>
 <td style="text-align: left;">Basic population, race, voting-age, and housing counts</td>
 <td style="text-align: left;">Core counts only (P1, H1, basic tables)</td>
-<td style="text-align: left;">Most affected by differential privacy; detailed cross-tabs absent</td>
+<td style="text-align: left;">Most affected by <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-differential-privacy" data-term="differential privacy">differential privacy</span>; detailed cross-tabs absent</td>
 </tr>
 </tbody>
 </table>
@@ -664,7 +746,7 @@ Table&nbsp;3.3: Variables available in the 2020 Census redistricting (PL 94-171)
 </section>
 <section id="acs-1-year-and-5-year-estimates" class="level3" data-number="3.2.3">
 <h3 data-number="3.2.3" class="anchored" data-anchor-id="acs-1-year-and-5-year-estimates"><span class="header-section-number">3.2.3</span> ACS 1-year and 5-year estimates</h3>
-<p>The ACS publishes estimates for different periods (<a href="#tbl-acs-periods" class="quarto-xref">Table&nbsp;<span>3.4</span></a>). <strong>1-year</strong> estimates are the most current but are only published for areas of 65,000 people or more: large counties, cities, and metro areas. <strong>5-year</strong> estimates pool 60 months of responses. They are the most reliable and the only ACS product published for tracts and block groups. In tidycensus you choose between them with the <code>survey</code> argument: <code>"acs1"</code> or <code>"acs5"</code> (the default).</p>
+<p>The <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-american-community-survey-acs" data-term="American Community Survey (ACS)">ACS</span> publishes estimates for different periods (<a href="#tbl-acs-periods" class="quarto-xref">Table&nbsp;<span>3.4</span></a>). <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-1-year-estimates" data-term="1-year estimates">1-year</span></strong> estimates are the most current but are only published for areas of 65,000 people or more: large counties, cities, and metro areas. <strong>5-year</strong> estimates pool 60 months of responses. They are the most reliable and the only ACS product published for tracts and block groups. In <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tidycensus" data-term="tidycensus">tidycensus</span> you choose between them with the <code>survey</code> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-argument" data-term="argument">argument</span>: <code>"acs1"</code> or <code>"acs5"</code> (the default).</p>
 <div id="tbl-acs-periods" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-acs-periods-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -704,7 +786,7 @@ Table&nbsp;3.4: ACS period estimates. *The 3-year product was discontinued after
 <td style="text-align: left;">All areas</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Sample size</td>
+<td style="text-align: left;"><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-sample" data-term="sample">Sample</span> size</td>
 <td style="text-align: left;">Smallest</td>
 <td style="text-align: left;">Smallest</td>
 <td style="text-align: left;">Larger than 1-year</td>
@@ -741,7 +823,7 @@ Table&nbsp;3.4: ACS period estimates. *The 3-year product was discontinued after
 </section>
 <section id="sec-variables" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="sec-variables"><span class="header-section-number">3.3</span> Commonly used variables</h2>
-<p>Census variables have codes rather than names. An ACS code such as <code>B19013_001</code> has two parts: the <strong>table</strong> (<code>B19013</code>, median household income) and the <strong>line</strong> within it (<code>001</code>). Line <code>_001</code> is usually the table total. In raw API output, ACS codes end in <code>E</code> for the estimate or <code>M</code> for the margin of error (<code>B19013_001E</code>, <code>B19013_001M</code>). tidycensus adds these suffixes for you, so the tables below omit them. Decennial codes look different (<code>P1_001N</code>).</p>
+<p>Census <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-variable" data-term="variable">variables</span> have codes rather than names. An <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-american-community-survey-acs" data-term="American Community Survey (ACS)">ACS</span> code such as <code>B19013_001</code> has two parts: the <strong>table</strong> (<code>B19013</code>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-median" data-term="median">median</span> household income) and the <strong>line</strong> within it (<code>001</code>). Line <code>_001</code> is usually the table total. In raw <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-api" data-term="API">API</span> output, ACS codes end in <code>E</code> for the estimate or <code>M</code> for the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-margin-of-error-moe" data-term="margin of error (MOE)">margin of error</span> (<code>B19013_001E</code>, <code>B19013_001M</code>). <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tidycensus" data-term="tidycensus">tidycensus</span> adds these suffixes for you, so the tables below omit them. <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-decennial-census" data-term="decennial census">Decennial</span> codes look different (<code>P1_001N</code>).</p>
 <p>The tables below list the variables that come up most often in student projects. To find others, see <a href="#sec-load-variables" class="quarto-xref"><span>Section 3.6.1</span></a>.</p>
 <table class="caption-top table">
 <caption>Population and race/ethnicity variables.</caption>
@@ -763,14 +845,14 @@ Table&nbsp;3.4: ACS period estimates. *The 3-year product was discontinued after
 <tr class="odd">
 <td style="text-align: left;">Total population</td>
 <td style="text-align: left;"><code>B01003_001</code></td>
-<td style="text-align: left;">ACS 5-year</td>
-<td style="text-align: left;">Block group</td>
+<td style="text-align: left;"><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-5-year-estimates" data-term="5-year estimates">ACS 5-year</span></td>
+<td style="text-align: left;"><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-block-group" data-term="block group">Block group</span></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Total population (full count)</td>
 <td style="text-align: left;"><code>P1_001N</code></td>
 <td style="text-align: left;">2020 Census (PL)</td>
-<td style="text-align: left;">Block</td>
+<td style="text-align: left;"><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-census-block" data-term="census block">Block</span></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Race: White, Black, Asian alone</td>
@@ -844,7 +926,7 @@ Table&nbsp;3.4: ACS period estimates. *The 3-year product was discontinued after
 </table>
 <p>Table <code>B01001</code> splits the population by sex and by age group, so many common measures require adding several lines together. The population under 5, for example, is males under 5 (<code>B01001_003</code>) plus females under 5 (<code>B01001_027</code>). You will do exactly this in <a href="#sec-worked-example" class="quarto-xref"><span>Section 3.6</span></a>.</p>
 <table class="caption-top table">
-<caption>Income and poverty variables. For poverty at the block group level, sum <code>C17002_002</code> and <code>_003</code> (income under 100% of the poverty line). <code>B17001</code> and <code>B19083</code> are published for tracts and larger.</caption>
+<caption>Income and poverty variables. For poverty at the block group level, sum <code>C17002_002</code> and <code>_003</code> (income under 100% of the poverty line). <code>B17001</code> and <code>B19083</code> are published for <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-census-tract" data-term="census tract">tracts</span> and larger.</caption>
 <colgroup>
 <col style="width: 25%">
 <col style="width: 25%">
@@ -960,7 +1042,7 @@ Table&nbsp;3.4: ACS period estimates. *The 3-year product was discontinued after
 </tr>
 </tbody>
 </table>
-<p>Most of these are counts. To compare places of different sizes, divide by the right denominator, which is usually the <code>_001</code> total of the same table: bachelor’s degree holders over the population aged 25 and older (<code>B15003_001</code>), or unemployed people over the civilian labor force (<code>B23025_003</code>). <a href="#sec-percentages" class="quarto-xref"><span>Section 3.7.2</span></a> shows how to do this in one step.</p>
+<p>Most of these are counts. To compare places of different sizes, divide by the right <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-denominator" data-term="denominator">denominator</span>, which is usually the <code>_001</code> total of the same table: bachelor’s degree holders over the population aged 25 and older (<code>B15003_001</code>), or unemployed people over the civilian labor force (<code>B23025_003</code>). <a href="#sec-percentages" class="quarto-xref"><span>Section 3.7.2</span></a> shows how to do this in one step.</p>
 <div class="callout callout-style-simple callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -977,8 +1059,8 @@ Table&nbsp;3.4: ACS period estimates. *The 3-year product was discontinued after
 </section>
 <section id="sec-apis" class="level2" data-number="3.4">
 <h2 data-number="3.4" class="anchored" data-anchor-id="sec-apis"><span class="header-section-number">3.4</span> What is an API?</h2>
-<p>You could get any of the variables above by clicking through <a href="https://data.census.gov">data.census.gov</a> and downloading a CSV. For a one-off table that works. For anything you want to repeat, share, or scale up, it is far better to ask for the data from code, through an API.</p>
-<p>An <strong>API</strong> (Application Programming Interface) is a set of rules for how one program asks another for data or services. Your R script is one program; the Census Bureau’s server is the other. Your script sends a <strong>request</strong>, and the server sends back <strong>data</strong> (<a href="#fig-api" class="quarto-xref">Figure&nbsp;<span>3.4</span></a>).</p>
+<p>You could get any of the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-variable" data-term="variable">variables</span> above by clicking through <a href="https://data.census.gov">data.census.gov</a> and downloading a CSV. For a one-off table that works. For anything you want to repeat, share, or scale up, it is far better to ask for the data from code, through an <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-api" data-term="API">API</span>.</p>
+<p>An <strong>API</strong> (Application Programming Interface) is a set of rules for how one <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-program" data-term="program">program</span> asks another for data or services. Your <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-r-script" data-term="R script">R script</span> is one program; the Census Bureau’s server is the other. Your script sends a <strong>request</strong>, and the server sends back <strong>data</strong> (<a href="#fig-api" class="quarto-xref">Figure&nbsp;<span>3.4</span></a>).</p>
 <div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div id="fig-api" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -1004,20 +1086,20 @@ Figure&nbsp;3.4: An API sits between your code and someone else’s server. Your
 <p>A restaurant menu is a useful analogy. The menu lists what you can order and how to ask for it. You never see the kitchen, and you get back exactly what you ordered, as long as you ordered something on the menu.</p>
 <section id="web-apis-urls-in-json-out" class="level3" data-number="3.4.1">
 <h3 data-number="3.4.1" class="anchored" data-anchor-id="web-apis-urls-in-json-out"><span class="header-section-number">3.4.1</span> Web APIs: URLs in, JSON out</h3>
-<p>Most data APIs on the web follow a style called <strong>REST</strong>. Three ideas cover almost everything you need:</p>
+<p>Most data APIs on the web follow a style called <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-rest" data-term="REST">REST</span></strong>. Three ideas cover almost everything you need:</p>
 <ul>
-<li><strong>Every dataset or service has its own web address</strong>, called an <strong>endpoint</strong>. The 2022 ACS 5-year data live at <code>https://api.census.gov/data/2022/acs/acs5</code>.</li>
-<li><strong>Requests are ordinary HTTP requests</strong>, the same thing your browser sends when it loads a page. A <code>GET</code> request reads data; a <code>POST</code> request sends data. Data APIs mostly use <code>GET</code>.</li>
-<li><strong>Responses usually come back as JSON</strong> (JavaScript Object Notation), structured text that R can turn into lists or data frames.</li>
+<li><strong>Every dataset or service has its own web address</strong>, called an <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-endpoint" data-term="endpoint">endpoint</span></strong>. The 2022 <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-5-year-estimates" data-term="5-year estimates">ACS 5-year</span> data live at <code>https://api.census.gov/data/2022/acs/acs5</code>.</li>
+<li><strong>Requests are ordinary <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-http" data-term="HTTP">HTTP</span> requests</strong>, the same thing your browser sends when it loads a page. A <code>GET</code> request reads data; a <code>POST</code> request sends data. Data APIs mostly use <code>GET</code>.</li>
+<li><strong>Responses usually come back as <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-json" data-term="JSON">JSON</span></strong> (JavaScript Object Notation), structured text that R can turn into lists or <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-frame" data-term="data frame">data frames</span>.</li>
 </ul>
 </section>
 <section id="anatomy-of-a-request" class="level3" data-number="3.4.2">
 <h3 data-number="3.4.2" class="anchored" data-anchor-id="anatomy-of-a-request"><span class="header-section-number">3.4.2</span> Anatomy of a request</h3>
-<p>A REST request is just a URL with two parts: the endpoint, which says which service to call, and the <strong>parameters</strong>, which say what you want from it. A <code>?</code> separates the two, each parameter is written <code>name=value</code>, and an <code>&amp;</code> separates parameters.</p>
-<p>Here is a request to Esri’s geocoding service that looks up one address:</p>
+<p>A REST request is just a URL with two parts: the endpoint, which says which service to call, and the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-parameter" data-term="parameter">parameters</span></strong>, which say what you want from it. A <code>?</code> separates the two, each parameter is written <code>name=value</code>, and an <code>&amp;</code> separates parameters.</p>
+<p>Here is a request to Esri’s <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geocoding" data-term="geocoding">geocoding</span> service that looks up one address:</p>
 <pre><code>https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?singleLine=380%20new%20york%20st%20redlands%20ca&amp;f=pjson</code></pre>
 <p>Everything before the <code>?</code> is the endpoint. <code>singleLine</code> is the address to look up (<code>%20</code> is how a space is written inside a URL), and <code>f=pjson</code> asks for pretty-printed JSON. Paste that URL into a browser and you will see the JSON response.</p>
-<p>Here is a Census API request with the same structure. It asks for median household income for every county in North Carolina:</p>
+<p>Here is a Census API request with the same structure. It asks for <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-median" data-term="median">median</span> household income for every county in North Carolina:</p>
 <pre><code>https://api.census.gov/data/2022/acs/acs5?get=NAME,B19013_001E&amp;for=county:*&amp;in=state:37</code></pre>
 <p><code>get</code> lists the variables, <code>for</code> picks the geography (<code>county:*</code> means every county), and <code>in</code> limits the request to state 37, North Carolina.</p>
 </section>
@@ -1025,7 +1107,7 @@ Figure&nbsp;3.4: An API sits between your code and someone else’s server. Your
 <h3 data-number="3.4.3" class="anchored" data-anchor-id="why-use-an-api"><span class="header-section-number">3.4.3</span> Why use an API?</h3>
 <p>APIs take a little more setup than a download button. They pay that back in four ways:</p>
 <ul>
-<li><strong>Reproducible.</strong> Your script is an exact record of what you downloaded, so you, a classmate, or a reviewer can rerun it and get the same data.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-reproducibility" data-term="reproducibility">Reproducible</span>.</strong> Your script is an exact record of what you downloaded, so you, a classmate, or a reviewer can rerun it and get the same data.</li>
 <li><strong>Targeted.</strong> Parameters return only the variables and places you need.</li>
 <li><strong>Current.</strong> You pull fresh data each time you run the script, instead of keeping stale files around.</li>
 <li><strong>Scalable.</strong> One loop can request every state, or every year.</li>
@@ -1035,7 +1117,7 @@ Figure&nbsp;3.4: An API sits between your code and someone else’s server. Your
 </section>
 <section id="sec-api-in-r" class="level2" data-number="3.5">
 <h2 data-number="3.5" class="anchored" data-anchor-id="sec-api-in-r"><span class="header-section-number">3.5</span> Calling an API from R</h2>
-<p>There are two ways to call an API from R: build the request yourself, or use a package that wraps the API for you. It is worth seeing both, because a wrapper package won’t always exist.</p>
+<p>There are two ways to call an <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-api" data-term="API">API</span> from R: build the request yourself, or use a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-package" data-term="package">package</span> that wraps the API for you. It is worth seeing both, because a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-wrapper-package" data-term="wrapper package">wrapper package</span> won’t always exist.</p>
 <section id="step-0-get-and-store-a-key" class="level3" data-number="3.5.1">
 <h3 data-number="3.5.1" class="anchored" data-anchor-id="step-0-get-and-store-a-key"><span class="header-section-number">3.5.1</span> Step 0: get and store a key</h3>
 <p>The Census API asks you to identify yourself with a free key. Request one at <a href="https://api.census.gov/data/key_signup.html" class="uri">https://api.census.gov/data/key_signup.html</a>; it arrives by email within a few minutes. Then store it once:</p>
@@ -1053,7 +1135,7 @@ Figure&nbsp;3.4: An API sits between your code and someone else’s server. Your
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Never paste an API key directly into a script or Quarto document you might share or push to GitHub. Anyone who has your key can use it as you. Store it in <code>.Renviron</code>, which stays on your computer.</p>
+<p>Never paste an <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-api-key" data-term="API key">API key</span> directly into a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-r-script" data-term="R script">script</span> or <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-quarto" data-term="Quarto">Quarto</span> document you might share or push to GitHub. Anyone who has your key can use it as you. Store it in <code>.Renviron</code>, which stays on your computer.</p>
 </div>
 </div>
 </section>
@@ -1077,7 +1159,7 @@ Table&nbsp;3.5: The steps of a manual API call.
 <tr class="header">
 <th style="text-align: center;">Step</th>
 <th style="text-align: left;">Task</th>
-<th style="text-align: left;">R functions</th>
+<th style="text-align: left;">R <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-function" data-term="function">functions</span></th>
 <th style="text-align: left;">What happens</th>
 </tr>
 </thead>
@@ -1092,32 +1174,32 @@ Table&nbsp;3.5: The steps of a manual API call.
 <td style="text-align: center;">1</td>
 <td style="text-align: left;">Build the request</td>
 <td style="text-align: left;"><code>request()</code>, <code>req_url_query()</code></td>
-<td style="text-align: left;">Endpoint URL plus parameters</td>
+<td style="text-align: left;"><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-endpoint" data-term="endpoint">Endpoint</span> URL plus <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-parameter" data-term="parameter">parameters</span></td>
 </tr>
 <tr class="odd">
 <td style="text-align: center;">2</td>
 <td style="text-align: left;">Send it</td>
 <td style="text-align: left;"><code>req_perform()</code></td>
-<td style="text-align: left;">R sends an HTTP <code>GET</code> and waits for the reply</td>
+<td style="text-align: left;">R sends an <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-http" data-term="HTTP">HTTP</span> <code>GET</code> and waits for the reply</td>
 </tr>
 <tr class="even">
 <td style="text-align: center;">3</td>
 <td style="text-align: left;">Parse the response</td>
 <td style="text-align: left;"><code>resp_body_json()</code></td>
-<td style="text-align: left;">Turn JSON text into a list or matrix</td>
+<td style="text-align: left;">Turn <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-json" data-term="JSON">JSON</span> text into a list or matrix</td>
 </tr>
 <tr class="odd">
 <td style="text-align: center;">4</td>
 <td style="text-align: left;">Analyze</td>
-<td style="text-align: left;">dplyr, sf, tmap</td>
-<td style="text-align: left;">Clean, join to geometry, and map</td>
+<td style="text-align: left;"><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-dplyr" data-term="dplyr">dplyr</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-sf" data-term="sf">sf</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tmap" data-term="tmap">tmap</span></td>
+<td style="text-align: left;">Clean, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-join" data-term="join">join</span> to geometry, and map</td>
 </tr>
 </tbody>
 </table>
 </div>
 </figure>
 </div>
-<p>Here are steps 1 to 3 for the North Carolina income request, using <strong>httr2</strong>:</p>
+<p>Here are steps 1 to 3 for the North Carolina income request, using <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-httr2" data-term="httr2">httr2</span></strong>:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(httr2)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1133,7 +1215,7 @@ Table&nbsp;3.5: The steps of a manual API call.
 <span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>nc_raw <span class="ot">&lt;-</span> <span class="fu">resp_body_json</span>(resp, <span class="at">simplifyVector =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(nc_raw)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p><code>for</code> and <code>in</code> are reserved words in R, so they need backticks when used as argument names. Look at what comes back: a matrix of text, with the column names in the first row and every value, including income, stored as a string. Step 4 starts with cleaning it:</p>
+<p><code>for</code> and <code>in</code> are reserved words in R, so they need backticks when used as <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-argument" data-term="argument">argument</span> names. Look at what comes back: a matrix of text, with the column names in the first row and every value, including income, stored as a string. Step 4 starts with cleaning it:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(nc_raw) <span class="ot">&lt;-</span> nc_raw[<span class="dv">1</span>, ]</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1149,7 +1231,7 @@ Table&nbsp;3.5: The steps of a manual API call.
 </section>
 <section id="with-a-package-tidycensus" class="level3" data-number="3.5.3">
 <h3 data-number="3.5.3" class="anchored" data-anchor-id="with-a-package-tidycensus"><span class="header-section-number">3.5.3</span> With a package: tidycensus</h3>
-<p><strong>tidycensus</strong> <span class="citation" data-cites="tidycensus">(<a href="#ref-tidycensus" role="doc-biblioref">Walker and Herman, n.d.</a>)</span> does steps 1 through 3, and most of step 4, for you. This single call builds the same URL behind the scenes, sends it, and returns a tidy data frame:</p>
+<p><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tidycensus" data-term="tidycensus">tidycensus</span></strong> <span class="citation" data-cites="tidycensus">(<a href="#ref-tidycensus" role="doc-biblioref">Walker and Herman, n.d.</a>)</span> does steps 1 through 3, and most of step 4, for you. This single call builds the same URL behind the scenes, sends it, and returns a tidy <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-frame" data-term="data frame">data frame</span>:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>nc_income <span class="ot">&lt;-</span> <span class="fu">get_acs</span>(</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">geography =</span> <span class="st">"county"</span>,</span>
@@ -1160,15 +1242,15 @@ Table&nbsp;3.5: The steps of a manual API call.
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>nc_income</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>The result has one row per county with <code>GEOID</code>, <code>NAME</code>, <code>variable</code>, <code>estimate</code>, and <code>moe</code> (margin of error) columns. The rest of this chapter uses tidycensus. Similar wrapper packages exist for other services: <strong>tigris</strong> for Census boundary files and <strong>arcpullr</strong> for Esri REST services, for example. When there is no package for the API you need, the httr2 pattern above will always work.</p>
+<p>The result has one row per county with <code>GEOID</code>, <code>NAME</code>, <code>variable</code>, <code>estimate</code>, and <code>moe</code> (<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-margin-of-error-moe" data-term="margin of error (MOE)">margin of error</span>) columns. The rest of this chapter uses tidycensus. Similar wrapper packages exist for other services: <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tigris" data-term="tigris">tigris</span></strong> for Census boundary files and <strong>arcpullr</strong> for Esri <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-rest" data-term="REST">REST</span> services, for example. When there is no package for the API you need, the httr2 pattern above will always work.</p>
 </section>
 </section>
 <section id="sec-worked-example" class="level2" data-number="3.6">
 <h2 data-number="3.6" class="anchored" data-anchor-id="sec-worked-example"><span class="header-section-number">3.6</span> Worked example: mapping young children in North Carolina</h2>
-<p>This section puts the pieces together. The goal is to map the share of each North Carolina census tract’s population that is under 5 years old.</p>
+<p>This section puts the pieces together. The goal is to map the share of each North Carolina <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-census-tract" data-term="census tract">census tract</span>’s population that is under 5 years old.</p>
 <section id="sec-load-variables" class="level3" data-number="3.6.1">
 <h3 data-number="3.6.1" class="anchored" data-anchor-id="sec-load-variables"><span class="header-section-number">3.6.1</span> Find the variables</h3>
-<p><code>load_variables()</code> downloads the full list of variables for a dataset and year:</p>
+<p><code>load_variables()</code> downloads the full list of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-variable" data-term="variable">variables</span> for a dataset and year:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>vars_acs5 <span class="ot">&lt;-</span> <span class="fu">load_variables</span>(<span class="dv">2022</span>, <span class="st">"acs5"</span>, <span class="at">cache =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1176,7 +1258,7 @@ Table&nbsp;3.5: The steps of a manual API call.
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(name, <span class="st">"^B01001_"</span>)) <span class="sc">|&gt;</span></span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>The result has a <code>name</code> column (the code), a <code>label</code> describing the line, a <code>concept</code> naming the table, and the smallest <code>geography</code> it is published for. In RStudio, <code>View(vars_acs5)</code> opens it in a searchable viewer. You can also filter it in code, for example <code>filter(vars_acs5, str_detect(concept, "SEX BY AGE"))</code>. <code>cache = TRUE</code> saves the list so it loads instantly next time.</p>
+<p>The result has a <code>name</code> column (the code), a <code>label</code> describing the line, a <code>concept</code> naming the table, and the smallest <code>geography</code> it is published for. In <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-rstudio" data-term="RStudio">RStudio</span>, <code>View(vars_acs5)</code> opens it in a searchable viewer. You can also filter it in code, for example <code>filter(vars_acs5, str_detect(concept, "SEX BY AGE"))</code>. <code>cache = TRUE</code> saves the list so it loads instantly next time.</p>
 <p>Searching the labels shows that table <code>B01001</code>, <em>Sex by Age</em>, has what we need: the total (<code>_001</code>), males under 5 (<code>_003</code>), and females under 5 (<code>_027</code>).</p>
 <div class="callout callout-style-simple callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -1188,13 +1270,13 @@ Table&nbsp;3.5: The steps of a manual API call.
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Many ACS tables come in lettered versions for single race groups. <code>B01001A</code> is <em>Sex by Age (White Alone)</em> and <code>B01001B</code> is <em>Sex by Age (Black or African American Alone)</em>. Their lines have the same labels as <code>B01001</code>, so it is easy to grab the wrong one. Always check the <code>concept</code> column.</p>
+<p>Many <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-american-community-survey-acs" data-term="American Community Survey (ACS)">ACS</span> tables come in lettered versions for single race groups. <code>B01001A</code> is <em>Sex by Age (White Alone)</em> and <code>B01001B</code> is <em>Sex by Age (Black or African American Alone)</em>. Their lines have the same labels as <code>B01001</code>, so it is easy to grab the wrong one. Always check the <code>concept</code> column.</p>
 </div>
 </div>
 </section>
 <section id="download-data-with-geometry" class="level3" data-number="3.6.2">
 <h3 data-number="3.6.2" class="anchored" data-anchor-id="download-data-with-geometry"><span class="header-section-number">3.6.2</span> Download data with geometry</h3>
-<p><code>get_acs()</code> with <code>geometry = TRUE</code> downloads the tract boundaries along with the data and joins them on <code>GEOID</code>, so the result is an <code>sf</code> object, ready to map:</p>
+<p><code>get_acs()</code> with <code>geometry = TRUE</code> downloads the tract boundaries along with the data and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-join" data-term="join">joins</span> them on <code>GEOID</code>, so the result is an <code>sf</code> object, ready to map:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>nc_tracts <span class="ot">&lt;-</span> <span class="fu">get_acs</span>(</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">geography =</span> <span class="st">"tract"</span>,</span>
@@ -1209,7 +1291,7 @@ Table&nbsp;3.5: The steps of a manual API call.
 <span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>nc_tracts</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>Naming the variables (<code>total = "B01001_001"</code>) gives the output columns readable names. <code>output = "wide"</code> puts each variable in its own pair of columns: <code>totalE</code> and <code>totalM</code> for the estimate and margin of error, and so on.</p>
+<p>Naming the variables (<code>total = "B01001_001"</code>) gives the output columns readable names. <code>output = "wide"</code> puts each variable in its own pair of columns: <code>totalE</code> and <code>totalM</code> for the estimate and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-margin-of-error-moe" data-term="margin of error (MOE)">margin of error</span>, and so on.</p>
 </section>
 <section id="calculate-and-map" class="level3" data-number="3.6.3">
 <h3 data-number="3.6.3" class="anchored" data-anchor-id="calculate-and-map"><span class="header-section-number">3.6.3</span> Calculate and map</h3>
@@ -1231,7 +1313,7 @@ Table&nbsp;3.5: The steps of a manual API call.
 <span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">lwd        =</span> <span class="fl">0.2</span></span>
 <span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>A handful of tracts have no value. These are tracts where no one lives, such as national forests, military training areas, or open water, so the percentage would mean dividing by zero. Before you interpret the map, remember that each tract’s value is an estimate. Small tracts can have margins of error nearly as large as the estimate itself, so a single dark tract may reflect sampling noise as much as a real pattern.</p>
+<p>A handful of tracts have no value. These are tracts where no one lives, such as national forests, military training areas, or open water, so the percentage would mean dividing by zero. Before you interpret the map, remember that each tract’s value is an estimate. Small tracts can have margins of error nearly as large as the estimate itself, so a single dark tract may reflect <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-sample" data-term="sample">sampling</span> noise as much as a real pattern.</p>
 <div class="callout callout-style-simple callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1252,8 +1334,8 @@ Table&nbsp;3.5: The steps of a manual API call.
 <p>The worked example covers the most common case. This section covers what you need to know once you are past your first download.</p>
 <section id="sec-moe" class="level3" data-number="3.7.1">
 <h3 data-number="3.7.1" class="anchored" data-anchor-id="sec-moe"><span class="header-section-number">3.7.1</span> Margins of error</h3>
-<p>Every ACS value is an estimate from a sample, and tidycensus returns a margin of error (<code>moe</code>) alongside each <code>estimate</code>. ACS margins of error use a 90% confidence level: there is a 90% chance that the true value lies within <code>estimate ± moe</code>.</p>
-<p>The smaller the area, the smaller the sample behind it, and the larger the margin of error relative to the estimate. A useful way to judge reliability is the <strong>coefficient of variation (CV)</strong>: the standard error as a percentage of the estimate. Divide the MOE by 1.645 to get the standard error, then divide by the estimate:</p>
+<p>Every <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-american-community-survey-acs" data-term="American Community Survey (ACS)">ACS</span> value is an estimate from a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-sample" data-term="sample">sample</span>, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tidycensus" data-term="tidycensus">tidycensus</span> returns a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-margin-of-error-moe" data-term="margin of error (MOE)">margin of error</span> (<code>moe</code>) alongside each <code>estimate</code>. ACS margins of error use a 90% <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-confidence-level" data-term="confidence level">confidence level</span>: there is a 90% chance that the true value lies within <code>estimate ± moe</code>.</p>
+<p>The smaller the area, the smaller the sample behind it, and the larger the margin of error relative to the estimate. A useful way to judge reliability is the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coefficient-of-variation-cv" data-term="coefficient of variation (CV)">coefficient of variation</span> (CV)</strong>: the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-standard-error" data-term="standard error">standard error</span> as a percentage of the estimate. Divide the MOE by 1.645 to get the standard error, then divide by the estimate:</p>
 <p><span class="math display">\[
 CV = \frac{MOE / 1.645}{\text{estimate}} \times 100
 \]</span></p>
@@ -1264,12 +1346,12 @@ CV = \frac{MOE / 1.645}{\text{estimate}} \times 100
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>There is no single official cutoff, but a common rule of thumb treats estimates with a CV above about 30% as unreliable: report them with caution, or combine areas or years to get a larger sample <span class="citation" data-cites="acs_handbook2020">(<a href="#ref-acs_handbook2020" role="doc-biblioref">U.S. Census Bureau 2020</a>)</span>.</p>
-<p>When you combine estimates you must also combine their margins of error, and you can’t just add them. tidycensus provides functions for the standard formulas: <code>moe_sum()</code> for sums, <code>moe_prop()</code> for proportions, <code>moe_ratio()</code> for ratios, and <code>moe_product()</code> for products.</p>
+<p>When you combine estimates you must also combine their margins of error, and you can’t just add them. tidycensus provides <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-function" data-term="function">functions</span> for the standard formulas: <code>moe_sum()</code> for sums, <code>moe_prop()</code> for proportions, <code>moe_ratio()</code> for ratios, and <code>moe_product()</code> for products.</p>
 </section>
 <section id="sec-percentages" class="level3" data-number="3.7.2">
 <h3 data-number="3.7.2" class="anchored" data-anchor-id="sec-percentages"><span class="header-section-number">3.7.2</span> Calculating percentages</h3>
 <p>Raw counts mostly tell you where people live. A map of the number of renters looks a lot like a map of population. To compare places, convert counts to shares.</p>
-<p>The <code>summary_var</code> argument adds a second variable, usually the table total, to every row as <code>summary_est</code> and <code>summary_moe</code>. That puts the numerator and denominator side by side, so the share is a single division:</p>
+<p>The <code>summary_var</code> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-argument" data-term="argument">argument</span> adds a second <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-variable" data-term="variable">variable</span>, usually the table total, to every row as <code>summary_est</code> and <code>summary_moe</code>. That puts the numerator and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-denominator" data-term="denominator">denominator</span> side by side, so the share is a single division:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>nc_white <span class="ot">&lt;-</span> <span class="fu">get_acs</span>(</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">geography   =</span> <span class="st">"county"</span>,</span>
@@ -1288,7 +1370,7 @@ CV = \frac{MOE / 1.645}{\text{estimate}} \times 100
 </section>
 <section id="sec-decennial" class="level3" data-number="3.7.3">
 <h3 data-number="3.7.3" class="anchored" data-anchor-id="sec-decennial"><span class="header-section-number">3.7.3</span> Decennial Census data</h3>
-<p><code>get_decennial()</code> works like <code>get_acs()</code> but pulls from the full-count decennial census. Because these are counts rather than sample estimates, there is no <code>moe</code> column. For 2020, choose the summary file with <code>sumfile</code>: <code>"pl"</code> for the redistricting counts (available down to blocks) or <code>"dhc"</code> for more detailed age, sex, household, and housing tables.</p>
+<p><code>get_decennial()</code> works like <code>get_acs()</code> but pulls from the full-count <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-decennial-census" data-term="decennial census">decennial census</span>. Because these are counts rather than sample estimates, there is no <code>moe</code> column. For 2020, choose the summary file with <code>sumfile</code>: <code>"pl"</code> for the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-redistricting-data-pl-94-171" data-term="redistricting data (PL 94-171)">redistricting counts</span> (available down to <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-census-block" data-term="census block">blocks</span>) or <code>"dhc"</code> for more detailed age, sex, household, and housing tables.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>nc_pop <span class="ot">&lt;-</span> <span class="fu">get_decennial</span>(</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">geography =</span> <span class="st">"tract"</span>,</span>
@@ -1300,18 +1382,18 @@ CV = \frac{MOE / 1.645}{\text{estimate}} \times 100
 <span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>nc_pop</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>“Full count” does not mean “exact.” To protect respondents’ privacy, the 2020 census applied <strong>differential privacy</strong>: carefully calibrated statistical noise added to published tables. The noise is negligible for states and counties but can be substantial for blocks, especially for small population groups. Treat individual block counts with caution, and aggregate blocks where you can.</p>
+<p>“Full count” does not mean “exact.” To protect respondents’ privacy, the 2020 census applied <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-differential-privacy" data-term="differential privacy">differential privacy</span></strong>: carefully calibrated statistical noise added to published tables. The noise is negligible for states and counties but can be substantial for blocks, especially for small population groups. Treat individual block counts with caution, and aggregate blocks where you can.</p>
 </section>
 <section id="sec-comparing-years" class="level3" data-number="3.7.4">
 <h3 data-number="3.7.4" class="anchored" data-anchor-id="sec-comparing-years"><span class="header-section-number">3.7.4</span> Comparing across years</h3>
 <p>Change over time is one of the most interesting things to measure with Census data, and one of the easiest to get wrong. Four traps to watch for:</p>
 <ol type="1">
-<li><strong>Boundaries change.</strong> Tract and block group boundaries are redrawn every ten years. A GEOID from 2010 and the same GEOID in 2020 may not describe the same place. ACS releases from 2020 on use 2020 boundaries.</li>
-<li><strong>5-year periods overlap.</strong> The 2017–2021 and 2018–2022 estimates share four years of responses, so differences between them are muted. Compare non-overlapping periods, such as 2013–2017 and 2018–2022.</li>
-<li><strong>Dollars are nominal.</strong> Income, rent, and home values are reported in dollars of their own period. Adjust for inflation before comparing.</li>
+<li><strong>Boundaries change.</strong> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-census-tract" data-term="census tract">Tract</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-block-group" data-term="block group">block group</span> boundaries are redrawn every ten years. A <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geoid" data-term="GEOID">GEOID</span> from 2010 and the same GEOID in 2020 may not describe the same place. ACS releases from 2020 on use 2020 boundaries.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-5-year-estimates" data-term="5-year estimates">5-year</span> periods overlap.</strong> The 2017–2021 and 2018–2022 estimates share four years of responses, so differences between them are muted. Compare non-overlapping periods, such as 2013–2017 and 2018–2022.</li>
+<li><strong>Dollars are <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-nominal-dollars" data-term="nominal dollars">nominal</span>.</strong> Income, rent, and home values are reported in dollars of their own period. Adjust for inflation before comparing.</li>
 <li><strong>Codes change.</strong> Tables and lines are occasionally renumbered or redefined. Check <code>load_variables()</code> for every year you use.</li>
 </ol>
-<p><code>get_acs()</code> returns one year per call. To pull several, loop over the years with <strong>purrr</strong> and stack the results:</p>
+<p><code>get_acs()</code> returns one year per call. To pull several, loop over the years with <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-purrr" data-term="purrr">purrr</span></strong> and stack the results:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>years <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2012</span>, <span class="dv">2017</span>, <span class="dv">2022</span>)  <span class="co"># non-overlapping 5-year periods</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1360,7 +1442,7 @@ Table&nbsp;3.6: Other tidycensus functions and arguments.
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>get_pums()</code></td>
-<td style="text-align: left;">Individual and household ACS microdata</td>
+<td style="text-align: left;">Individual and household ACS <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-microdata" data-term="microdata">microdata</span></td>
 <td style="text-align: left;">Custom tabulations not in published tables</td>
 </tr>
 <tr class="odd">
@@ -1375,7 +1457,7 @@ Table&nbsp;3.6: Other tidycensus functions and arguments.
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>survey = "acs1"</code></td>
-<td style="text-align: left;">1-year ACS estimates</td>
+<td style="text-align: left;"><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-1-year-estimates" data-term="1-year estimates">1-year</span> ACS estimates</td>
 <td style="text-align: left;">Recent data for large counties and metros</td>
 </tr>
 <tr class="even">
@@ -1393,36 +1475,162 @@ Table&nbsp;3.6: Other tidycensus functions and arguments.
 <section id="summary" class="level2" data-number="3.8">
 <h2 data-number="3.8" class="anchored" data-anchor-id="summary"><span class="header-section-number">3.8</span> Summary</h2>
 <ul>
-<li>US Census data come from two main sources: the <strong>decennial census</strong>, a full count every ten years with few questions, and the <strong>American Community Survey</strong>, a continuous sample with many questions and a margin of error on every estimate.</li>
-<li>Census geography nests from the nation down to <strong>tracts</strong>, <strong>block groups</strong>, and <strong>blocks</strong>. Every area has a <strong>GEOID</strong> built from FIPS codes. Keep GEOIDs as text and join on them.</li>
-<li>Smaller areas mean more detail but fewer published tables, more privacy noise, and larger margins of error. ACS 5-year estimates are the only ACS product for tracts and block groups.</li>
-<li>An <strong>API</strong> lets your code request data from a server. A REST request is an endpoint URL plus parameters, and the response is usually JSON.</li>
-<li><strong>tidycensus</strong> wraps the Census API: <code>get_acs()</code> and <code>get_decennial()</code> return tidy data frames, and <code>geometry = TRUE</code> makes them map-ready.</li>
-<li>Convert counts to shares with <code>summary_var</code>, carry margins of error through calculations with the <code>moe_*()</code> functions, and compare across years only with non-overlapping periods, consistent boundaries, and inflation-adjusted dollars.</li>
+<li>US Census data come from two main sources: the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-decennial-census" data-term="decennial census">decennial census</span></strong>, a full count every ten years with few questions, and the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-american-community-survey-acs" data-term="American Community Survey (ACS)">American Community Survey</span></strong>, a continuous <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-sample" data-term="sample">sample</span> with many questions and a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-margin-of-error-moe" data-term="margin of error (MOE)">margin of error</span> on every estimate.</li>
+<li>Census geography <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-nesting" data-term="nesting">nests</span> from the nation down to <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-census-tract" data-term="census tract">tracts</span></strong>, <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-block-group" data-term="block group">block groups</span></strong>, and <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-census-block" data-term="census block">blocks</span></strong>. Every area has a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geoid" data-term="GEOID">GEOID</span></strong> built from <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-fips-code" data-term="FIPS code">FIPS codes</span>. Keep GEOIDs as text and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-join" data-term="join">join</span> on them.</li>
+<li>Smaller areas mean more detail but fewer published tables, more privacy noise, and larger margins of error. <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-5-year-estimates" data-term="5-year estimates">ACS 5-year estimates</span> are the only ACS product for tracts and block groups.</li>
+<li>An <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-api" data-term="API">API</span></strong> lets your code request data from a server. A <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-rest" data-term="REST">REST</span> request is an <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-endpoint" data-term="endpoint">endpoint</span> URL plus <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-parameter" data-term="parameter">parameters</span>, and the response is usually <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-json" data-term="JSON">JSON</span>.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tidycensus" data-term="tidycensus">tidycensus</span></strong> wraps the Census API: <code>get_acs()</code> and <code>get_decennial()</code> return tidy <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-frame" data-term="data frame">data frames</span>, and <code>geometry = TRUE</code> makes them map-ready.</li>
+<li>Convert counts to shares with <code>summary_var</code>, carry margins of error through calculations with the <code>moe_*()</code> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-function" data-term="function">functions</span>, and compare across years only with non-overlapping periods, consistent boundaries, and inflation-adjusted dollars.</li>
 </ul>
 </section>
 <section id="exercises" class="level2" data-number="3.9">
 <h2 data-number="3.9" class="anchored" data-anchor-id="exercises"><span class="header-section-number">3.9</span> Exercises</h2>
 <ol type="1">
-<li><strong>Reading GEOIDs.</strong> The GEOID <code>370630020271003</code> identifies a Census block. Which state, county, tract, and block group does it belong to? How many digits does each part have?</li>
-<li><strong>Choosing a source.</strong> For each question, name the survey (decennial, ACS 1-year, or ACS 5-year) and the smallest geography you could use. (a) How many housing units are in each block in Durham? (b) What was median household income in Wake County last year? (c) What share of residents in each Chapel Hill neighborhood rent their home?</li>
-<li><strong>Build a URL.</strong> Write by hand the Census API URL that requests total population (<code>B01003_001E</code>) for every county in Virginia (state FIPS <code>51</code>) from the 2022 ACS 5-year data. Paste it into a browser to check it. Then reproduce the same request with httr2.</li>
-<li><strong>Reliability.</strong> Download median household income for every block group in Orange County, NC. What share of block groups have a CV above 30%? Repeat for tracts and compare.</li>
-<li><strong>A rate map.</strong> Map the share of households with no vehicle available for tracts in your home county, or in Mecklenburg County, NC. Use <code>B25044</code> and include the margin of error of the share.</li>
-<li><strong>Change over time.</strong> Compare median gross rent (<code>B25064_001</code>) for North Carolina counties in the 2013–2017 and 2018–2022 ACS. Which counties saw the largest increase? Explain why you should adjust for inflation, and what else could make your comparison misleading.</li>
+<li><strong>Reading <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geoid" data-term="GEOID">GEOIDs</span>.</strong> The GEOID <code>370630020271003</code> identifies a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-census-block" data-term="census block">Census block</span>. Which state, county, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-census-tract" data-term="census tract">tract</span>, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-block-group" data-term="block group">block group</span> does it belong to? How many digits does each part have?</li>
+<li><strong>Choosing a source.</strong> For each question, name the survey (<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-decennial-census" data-term="decennial census">decennial</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-1-year-estimates" data-term="1-year estimates">ACS 1-year</span>, or <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-5-year-estimates" data-term="5-year estimates">ACS 5-year</span>) and the smallest geography you could use. (a) How many housing units are in each block in Durham? (b) What was <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-median" data-term="median">median</span> household income in Wake County last year? (c) What share of residents in each Chapel Hill neighborhood rent their home?</li>
+<li><strong>Build a URL.</strong> Write by hand the Census <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-api" data-term="API">API</span> URL that requests total population (<code>B01003_001E</code>) for every county in Virginia (state <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-fips-code" data-term="FIPS code">FIPS</span> <code>51</code>) from the 2022 ACS 5-year data. Paste it into a browser to check it. Then reproduce the same request with <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-httr2" data-term="httr2">httr2</span>.</li>
+<li><strong>Reliability.</strong> Download median household income for every block group in Orange County, NC. What share of block groups have a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coefficient-of-variation-cv" data-term="coefficient of variation (CV)">CV</span> above 30%? Repeat for tracts and compare.</li>
+<li><strong>A rate map.</strong> Map the share of households with no vehicle available for tracts in your home county, or in Mecklenburg County, NC. Use <code>B25044</code> and include the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-margin-of-error-moe" data-term="margin of error (MOE)">margin of error</span> of the share.</li>
+<li><strong>Change over time.</strong> Compare median gross rent (<code>B25064_001</code>) for North Carolina counties in the 2013–2017 and 2018–2022 <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-american-community-survey-acs" data-term="American Community Survey (ACS)">ACS</span>. Which counties saw the largest increase? Explain why you should adjust for inflation, and what else could make your comparison misleading.</li>
 <li><strong>Your own question.</strong> Return to the question you wrote down in <a href="#sec-variables" class="quarto-xref"><span>Section 3.3</span></a>. Download the data you need, make a map, and write one paragraph interpreting it, including what the margins of error tell you about your confidence.</li>
 </ol>
 </section>
 <section id="further-reading" class="level2" data-number="3.10">
 <h2 data-number="3.10" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">3.10</span> Further reading</h2>
 <ul>
-<li>Kyle Walker, the author of tidycensus, has written a free online book, <em>Analyzing US Census Data: Methods, Maps, and Models in R</em> <span class="citation" data-cites="walker2023">(<a href="#ref-walker2023" role="doc-biblioref">Walker 2023</a>)</span>. It covers everything in this chapter in more depth and is the best next step for any project that uses Census data.</li>
-<li>The tidycensus documentation, at <a href="https://walker-data.com/tidycensus" class="uri">https://walker-data.com/tidycensus</a>, has vignettes on spatial data, margins of error, and microdata.</li>
-<li>The Census Bureau’s ACS handbooks explain how the survey works and how to handle margins of error <span class="citation" data-cites="acs_handbook2020">(<a href="#ref-acs_handbook2020" role="doc-biblioref">U.S. Census Bureau 2020</a>)</span>.</li>
-<li>To browse tables without code, use <a href="https://data.census.gov">data.census.gov</a>, then bring the variable codes you find back to <code>load_variables()</code> and tidycensus.</li>
+<li>Kyle Walker, the author of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tidycensus" data-term="tidycensus">tidycensus</span>, has written a free online book, <em>Analyzing US Census Data: Methods, Maps, and Models in R</em> <span class="citation" data-cites="walker2023">(<a href="#ref-walker2023" role="doc-biblioref">Walker 2023</a>)</span>. It covers everything in this chapter in more depth and is the best next step for any project that uses Census data.</li>
+<li>The tidycensus documentation, at <a href="https://walker-data.com/tidycensus" class="uri">https://walker-data.com/tidycensus</a>, has vignettes on spatial data, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-margin-of-error-moe" data-term="margin of error (MOE)">margins of error</span>, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-microdata" data-term="microdata">microdata</span>.</li>
+<li>The Census Bureau’s <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-american-community-survey-acs" data-term="American Community Survey (ACS)">ACS</span> handbooks explain how the survey works and how to handle margins of error <span class="citation" data-cites="acs_handbook2020">(<a href="#ref-acs_handbook2020" role="doc-biblioref">U.S. Census Bureau 2020</a>)</span>.</li>
+<li>To browse tables without code, use <a href="https://data.census.gov">data.census.gov</a>, then bring the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-variable" data-term="variable">variable</span> codes you find back to <code>load_variables()</code> and tidycensus.</li>
 </ul>
 
 
+<div class="glossary-defs" hidden="">
+<span id="gloss-decennial-census">The full count of everyone in the US, every ten years. It asks only a
+few questions but covers every person.</span>
+<span id="gloss-american-community-survey-acs">The Census Bureau’s continuous survey of a sample of households every
+year. It asks many more questions than the decennial census, but every
+value is an estimate with a margin of error.</span>
+<span id="gloss-geoid">The unique ID of a Census area, made by stringing together the FIPS
+codes of each level, such as <code>37135</code> for Orange County, NC.
+Keep GEOIDs as text, and join tables on them.</span>
+<span id="gloss-variable">In R, a named piece of memory that holds data, such as
+<code>months &lt;- 12</code>. In a dataset, a measured characteristic,
+such as median income; each Census variable has a code.</span>
+<span id="gloss-api">Application Programming Interface: a set of rules for how one program
+asks another for data or services, such as your R script asking the
+Census Bureau’s server for a table.</span>
+<span id="gloss-tidycensus">An R package that downloads US Census data through the Census API and
+returns it as a tidy data frame, with boundaries attached if you ask.</span>
+<span id="gloss-margin-of-error-moe">How far a sample estimate might be from the true value. ACS margins of
+error use a 90% confidence level: there is a 90% chance the true value
+lies within the estimate plus or minus the MOE.</span>
+<span id="gloss-spatial-data-science">The use of data that have a location attached to answer questions about
+the world. It combines what we study (the <em>spatial</em>), how we
+handle it (<em>data</em> skills), and how we ask and answer questions
+(<em>science</em>).</span>
+<span id="gloss-package">A bundle of code, written by other users, that adds new functions to R.
+Install it once with <code>install.packages()</code>, then load it in
+each session with <code>library()</code>.</span>
+<span id="gloss-data-frame">R’s table: rows are observations and columns are variables. A tibble is
+the tidyverse’s version of a data frame.</span>
+<span id="gloss-apportionment">Dividing the seats in the House of Representatives among the states by
+population, the reason the Constitution requires a census.</span>
+<span id="gloss-tiger">The Census Bureau’s national digital map database of streets and
+boundaries, first used for the 1990 census. Census boundary files come
+from it.</span>
+<span id="gloss-sample">A subset of a population that is surveyed to estimate something about
+the whole population. Smaller samples give less certain estimates.</span>
+<span id="gloss-differential-privacy">Carefully calibrated random noise added to published 2020 census tables
+to protect respondents’ privacy. It matters most for small areas such as
+blocks.</span>
+<span id="gloss-mean-center-of-population">The point where a flat map of the country would balance if every
+resident weighed the same.</span>
+<span id="gloss-census-block">The smallest Census geography, often a single city block bounded by
+streets or other visible features. Only decennial census data are
+published for blocks.</span>
+<span id="gloss-nesting">When every smaller area lies entirely inside exactly one larger area, as
+blocks do inside block groups, tracts, and counties. Nested areas can be
+added up without double-counting anyone.</span>
+<span id="gloss-census-tract">A small area of about 1,200 to 8,000 people (4,000 on average), drawn to
+be fairly stable over time. The workhorse unit for neighborhood
+analysis.</span>
+<span id="gloss-block-group">A group of census blocks, usually holding 600 to 3,000 people. It is the
+smallest geography with ACS 5-year estimates.</span>
+<span id="gloss-zip-code-tabulation-area-zcta">The Census Bureau’s approximation of a ZIP code’s area, built from
+census blocks. ZCTAs do not nest inside counties or tracts.</span>
+<span id="gloss-5-year-estimates">ACS estimates that pool 60 months of responses. They are the most
+reliable ACS product and the only one for tracts and block groups. An
+estimate labeled 2022 describes 2018 to 2022.</span>
+<span id="gloss-fips-code">A standard numeric code for a state or county (Federal Information
+Processing Standards). North Carolina is <code>37</code>.</span>
+<span id="gloss-join">Combining two tables by matching rows on a shared key column, such as
+attaching Census data to boundaries by <code>GEOID</code> with
+<code>left_join()</code>.</span>
+<span id="gloss-redistricting-data-pl-94-171">The first 2020 census product: basic population, race, voting-age, and
+housing counts down to the block, used to redraw voting districts.</span>
+<span id="gloss-demographic-and-housing-characteristics-dhc">The 2020 census product with more detailed tables on age, sex,
+households, and housing than the redistricting data.</span>
+<span id="gloss-1-year-estimates">ACS estimates from 12 months of responses. They are the most current but
+are only published for areas of 65,000 people or more.</span>
+<span id="gloss-argument">An input to a function, written inside its parentheses.</span>
+<span id="gloss-median">The middle value when values are sorted, so half are above and half
+below. Unlike counts, medians can’t be added across areas.</span>
+<span id="gloss-denominator">The number you divide by to turn a count into a share, usually the total
+of the same table, such as total population.</span>
+<span id="gloss-program">A set of lines and blocks of code that work together to do a whole job.
+R runs a program from top to bottom, so order matters.</span>
+<span id="gloss-r-script">A plain file of R code, ending in <code>.R</code>. Anything that isn’t
+code must be written as a comment.</span>
+<span id="gloss-rest">The most common style of web API: each dataset has its own URL, you ask
+for data with ordinary web requests, and the answer usually comes back
+as JSON.</span>
+<span id="gloss-endpoint">The web address of one dataset or service in an API, such as
+<code>https://api.census.gov/data/2022/acs/acs5</code>.</span>
+<span id="gloss-http">The protocol web browsers and servers use to talk. A <code>GET</code>
+request reads data; a <code>POST</code> request sends data.</span>
+<span id="gloss-json">JavaScript Object Notation: structured text that most web APIs send
+back, which R can turn into lists or data frames.</span>
+<span id="gloss-parameter">A <code>name=value</code> setting added to an API request after the
+<code>?</code>, such as <code>for=county:*</code>, that says what you
+want.</span>
+<span id="gloss-geocoding">Turning an address or place name into coordinates that can be mapped.</span>
+<span id="gloss-reproducibility">The ability for anyone to rerun an analysis from its code and data and
+get the same result.</span>
+<span id="gloss-wrapper-package">An R package that hides the details of calling an API behind simple
+functions, such as <strong>tidycensus</strong> for the Census API.</span>
+<span id="gloss-api-key">A private code that identifies you to an API. Store it in
+<code>.Renviron</code>, never in a script you share.</span>
+<span id="gloss-quarto">The newer successor to R Markdown, from the same developers. Quarto
+files end in <code>.qmd</code>. This book is written in Quarto.</span>
+<span id="gloss-function">Code that takes inputs (arguments), does a job, and returns an output,
+such as <code>mean(temps)</code>.</span>
+<span id="gloss-dplyr">The tidyverse package for transforming data frames: filtering rows,
+choosing columns, adding new columns, joining tables, and summarizing.</span>
+<span id="gloss-sf">“Simple features”: the R package for spatial vector data. An sf object
+is a data frame with a geometry column holding each row’s point, line,
+or polygon.</span>
+<span id="gloss-tmap">An R package for making thematic maps quickly, with sensible defaults.</span>
+<span id="gloss-httr2">An R package for building, sending, and reading web (HTTP) requests,
+used to call an API by hand.</span>
+<span id="gloss-tigris">An R package that downloads Census boundary files (TIGER/Line
+shapefiles) as sf objects.</span>
+<span id="gloss-rstudio">The integrated development environment (IDE) where you write and run R.
+R does the computing; RStudio is the workspace around it.</span>
+<span id="gloss-confidence-level">How sure you can be that the true value lies within a range. The ACS
+uses a 90% confidence level for its margins of error.</span>
+<span id="gloss-coefficient-of-variation-cv">The standard error as a percentage of the estimate. A CV above about 30%
+is a common sign that an estimate is unreliable.</span>
+<span id="gloss-standard-error">A measure of how much a sample estimate would vary from sample to
+sample. For the ACS, it is the margin of error divided by 1.645.</span>
+<span id="gloss-nominal-dollars">Dollar amounts as reported in their own year, not adjusted for
+inflation. Adjust them before comparing across years.</span>
+<span id="gloss-purrr">The tidyverse package for repeating a task over many inputs, such as
+downloading data for several years.</span>
+<span id="gloss-microdata">Records for individual people or households (with identifying details
+removed), rather than totals for areas. The ACS publishes microdata as
+PUMS.</span>
+</div>
 <div id="refs" class="references csl-bib-body hanging-indent" role="list">
 <div id="ref-acs_handbook2020" class="csl-entry" role="listitem">
 U.S. Census Bureau. 2020. <em>Understanding and Using American Community Survey Data: What All Data Users Need to Know</em>. U.S. Government Publishing Office. <a href="https://www.census.gov/programs-surveys/acs/library/handbooks/general.html">https://www.census.gov/programs-surveys/acs/library/handbooks/general.html</a>.
@@ -1645,6 +1853,28 @@ window.onload = function() {
   update_total_correct();
 }
 
+</script>
+<!--
+  Highlights the right item in the top menu. Quarto's book layout marks
+  "Welcome" as active on every page, so this sets it from the page address:
+  the course pages match their own item, and every other page (chapters,
+  quizzes, glossary) is part of the Textbook.
+-->
+<script>
+(function () {
+  "use strict";
+  const COURSE_PAGES = ["index", "syllabus", "materials", "about"];
+  const file = (location.pathname.split("/").pop() || "index").replace(/\.html$/, "");
+  const inRoot = !/\/chapters\//.test(location.pathname);
+  const target = inRoot && COURSE_PAGES.includes(file) ? file : "preface";
+  document.querySelectorAll("#navbarCollapse a.nav-link").forEach((a) => {
+    const page = (a.getAttribute("href") || "").split("/").pop().replace(/\.html$/, "");
+    const on = page === target;
+    a.classList.toggle("active", on);
+    if (on) a.setAttribute("aria-current", "page");
+    else a.removeAttribute("aria-current");
+  });
+})();
 </script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
