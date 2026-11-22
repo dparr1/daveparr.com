@@ -1740,8 +1740,44 @@ globalThis.qwebrExecuteCode = async function (
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../chapters/r-basics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">R Basics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/r-basics-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: R Basics</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/indexing-vectors-data-frames.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Indexing Vectors and Data Frames</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/indexing-vectors-data-frames-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Indexing Vectors and Data Frames</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/tidyverse-filter-pipe.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Into the Tidyverse: glimpse, filter, and the Pipe</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/tidyverse-filter-pipe-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Into the Tidyverse: glimpse, filter, and the Pipe</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../chapters/census-data-apis.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Census Data and APIs</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Census Data and APIs</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -2216,7 +2252,7 @@ Table&nbsp;2.1: The four panes of RStudio.
 </figure>
 </div>
 <p>The difference between the Editor and the Console is the most important one in <a href="#tbl-rstudio-panes" class="quarto-xref">Table&nbsp;<span>2.1</span></a>. The <strong>Editor</strong> is where your work is saved. Anything you type there can be kept in a file and run again. The <strong>Console</strong> is for quick tests: R runs a command the moment you press Enter, but nothing you type there is saved. A useful habit is to experiment in the Console and keep what works in the Editor.</p>
-<p>The <strong>Environment</strong> pane lists every variable you have created, with a short description of what it holds. It is the first place to look when you are debugging: if a variable you expected is missing, or holds something unexpected, the Environment will show it. The bottom-right pane holds several tabs, including <strong>Files</strong>, <strong>Plots</strong>, <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-package" data-term="package">Packages</span></strong>, and <strong>Help</strong>.</p>
+<p>The <strong>Environment</strong> pane lists every variable you have created, with a short description of what it holds. It is the first place to look when you are <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-debugging" data-term="debugging">debugging</span>: if a variable you expected is missing, or holds something unexpected, the Environment will show it. The bottom-right pane holds several tabs, including <strong>Files</strong>, <strong>Plots</strong>, <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-package" data-term="package">Packages</span></strong>, and <strong>Help</strong>.</p>
 </section>
 <section id="rstudio-during-a-working-session" class="level3" data-number="2.2.2">
 <h3 data-number="2.2.2" class="anchored" data-anchor-id="rstudio-during-a-working-session"><span class="header-section-number">2.2.2</span> RStudio during a working session</h3>
@@ -2383,7 +2419,7 @@ Figure&nbsp;2.3: Knitting an R Markdown file. R runs every code chunk from top t
 <li><strong>Run code chunks</strong> as you go, by clicking each chunk’s green play arrow, to check that each one does what you expect.</li>
 <li><strong>Knit the document.</strong> Click <strong>Knit</strong> in the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-editor" data-term="Editor">Editor</span> toolbar. R builds an HTML report with all of your text, code, output, and plots, and opens it in a preview window.</li>
 </ol>
-<p>Knitting does something important that is easy to miss: it reruns <em>all</em> of your code, from the top, in a fresh R session that knows nothing about what you have already run. A file that knits successfully is therefore a file that anyone can reproduce from scratch. If it fails to knit, the error message names the chunk that broke.</p>
+<p>Knitting does something important that is easy to miss: it reruns <em>all</em> of your code, from the top, in a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-r-session" data-term="R session">fresh R session</span> that knows nothing about what you have already run. A file that knits successfully is therefore a file that anyone can reproduce from scratch. If it fails to knit, the error message names the chunk that broke.</p>
 </section>
 <section id="keep-all-course-files-in-one-folder" class="level3" data-number="2.3.4">
 <h3 data-number="2.3.4" class="anchored" data-anchor-id="keep-all-course-files-in-one-folder"><span class="header-section-number">2.3.4</span> Keep all course files in one folder</h3>
@@ -2498,7 +2534,7 @@ Figure&nbsp;2.4: A function takes inputs (arguments), does a job, and returns an
 <p>R comes with hundreds of real functions, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-package" data-term="package">packages</span> add thousands more. Run this box to try a few:</p>
 <div id="qwebr-insertion-location-4"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p><code>c()</code> is itself a function: it <strong>combines</strong> values into a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-vector" data-term="vector">vector</span></strong>, a sequence of values that R stores together. <code>mean()</code> and <code>max()</code> each take a vector and return one number. The last line converts the average to degrees Celsius. It <strong>nests</strong> one function inside another, so <code>mean()</code> runs first and <code>round()</code> rounds its result, and it shows a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-named-argument" data-term="named argument">named argument</span></strong>, <code>digits = 1</code>, which tells <code>round()</code> how many decimal places to keep. Every function has a help page that lists its arguments; type <code>?round</code> in the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-console" data-term="Console">Console</span> to see one in the Help pane.</p>
+<p><code>c()</code> is itself a function: it <strong>combines</strong> values into a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-vector" data-term="vector">vector</span></strong>, a sequence of values that R stores together. <code>mean()</code> and <code>max()</code> each take a vector and return one number. The last line converts the average to degrees Celsius. It <strong>nests</strong> one function inside another, so <code>mean()</code> runs first and <code>round()</code> rounds its result, and it shows a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-named-argument" data-term="named argument">named argument</span></strong>, <code>digits = 1</code>, which tells <code>round()</code> how many decimal places to keep. Every function has a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-help-page" data-term="help page">help page</span> that lists its arguments; type <code>?round</code> in the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-console" data-term="Console">Console</span> to see one in the Help pane.</p>
 </section>
 <section id="chaining-functions-with-the-pipe" class="level3" data-number="2.4.6">
 <h3 data-number="2.4.6" class="anchored" data-anchor-id="chaining-functions-with-the-pipe"><span class="header-section-number">2.4.6</span> Chaining functions with the pipe</h3>
@@ -2510,7 +2546,7 @@ Figure&nbsp;2.4: A function takes inputs (arguments), does a job, and returns an
 <section id="a-program" class="level3" data-number="2.4.7">
 <h3 data-number="2.4.7" class="anchored" data-anchor-id="a-program"><span class="header-section-number">2.4.7</span> A program</h3>
 <p>A <strong>program</strong> is a set of lines and blocks of code that work together to do a task, the way several recipes combine into a full meal. Every assignment in this course is a program: an R Markdown file that loads data, analyzes it, and makes a map.</p>
-<p>R runs a program from top to bottom, so <strong>order matters</strong>. A variable must be created before it is used. When you work interactively, it is easy to run chunks out of order, or to delete a line that created a variable that is still sitting in your Environment. Everything seems to work until you <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-knit" data-term="knit">knit</span>, and then the fresh session that knitting starts in reports <code>object not found</code>. That error is doing you a favor: it means your file, as written, would not have worked for anyone else either.</p>
+<p>R runs a program from top to bottom, so <strong>order matters</strong>. A variable must be created before it is used. When you work interactively, it is easy to run chunks out of order, or to delete a line that created a variable that is still sitting in your Environment. Everything seems to work until you <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-knit" data-term="knit">knit</span>, and then the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-r-session" data-term="R session">fresh session</span> that knitting starts in reports <code>object not found</code>. That error is doing you a favor: it means your file, as written, would not have worked for anyone else either.</p>
 </section>
 </section>
 <section id="sec-coding-hints" class="level2" data-number="2.5">
@@ -2553,7 +2589,7 @@ Show hint for question 4
 <ul>
 <li><strong>R</strong> is the language that does the computing. <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-rstudio" data-term="RStudio">RStudio</span></strong> is the workspace where you write and run R. <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-r-markdown" data-term="R Markdown">R Markdown</span></strong> is the document format that combines your writing with your code and its results.</li>
 <li>RStudio has four panes: the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-editor" data-term="Editor">Editor</span></strong> for writing and saving code, the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-console" data-term="Console">Console</span></strong> for running commands and reading output, the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-environment" data-term="Environment">Environment</span></strong> for the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-variable" data-term="variable">variables</span> in memory, and <strong>Files, Plots, and Help</strong>.</li>
-<li>An R Markdown file has a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-yaml-header" data-term="YAML header">YAML header</span></strong>, <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-markdown" data-term="Markdown">Markdown</span> text</strong>, and <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-code-chunk" data-term="code chunk">code chunks</span></strong>. <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-knit" data-term="knit">Knitting</span></strong> reruns every chunk from the top in a fresh session and builds a finished report, which is what makes the work <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-reproducibility" data-term="reproducibility">reproducible</span>.</li>
+<li>An R Markdown file has a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-yaml-header" data-term="YAML header">YAML header</span></strong>, <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-markdown" data-term="Markdown">Markdown</span> text</strong>, and <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-code-chunk" data-term="code chunk">code chunks</span></strong>. <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-knit" data-term="knit">Knitting</span></strong> reruns every chunk from the top in a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-r-session" data-term="R session">fresh session</span> and builds a finished report, which is what makes the work <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-reproducibility" data-term="reproducibility">reproducible</span>.</li>
 <li>A <strong>line</strong> of code does one thing; a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-block-of-code" data-term="block of code">block</span></strong> of lines does one task; a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-program" data-term="program">program</span></strong> combines blocks to do a whole job, and runs from top to bottom.</li>
 <li><strong>Variables</strong> store values with <code>&lt;-</code> and are <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-case-sensitive" data-term="case-sensitive">case-sensitive</span>. <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-comment" data-term="comment">Comments</span></strong> start with <code>#</code> and are notes for people. <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-function" data-term="function">Functions</span></strong> take <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-argument" data-term="argument">arguments</span> and return an output, and the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-pipe" data-term="pipe">pipe</span> <code>|&gt;</code> chains them from left to right.</li>
 <li>Keep all course files in one folder, mind your <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-syntax" data-term="syntax">syntax</span>, and comment generously.</li>
@@ -2568,7 +2604,7 @@ Show hint for question 4
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">Mean</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>))</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span> <span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
-<li><p><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-function" data-term="function">Functions</span> and help.</strong> Look up the help page for <code>seq()</code> with <code>?seq</code>. Use it to create the sequence 0, 5, 10, …, 100, and store it in a variable. Then use <code>length()</code>, <code>sum()</code>, and <code>mean()</code> on your variable.</p></li>
+<li><p><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-function" data-term="function">Functions</span> and help.</strong> Look up the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-help-page" data-term="help page">help page</span> for <code>seq()</code> with <code>?seq</code>. Use it to create the sequence 0, 5, 10, …, 100, and store it in a variable. Then use <code>length()</code>, <code>sum()</code>, and <code>mean()</code> on your variable.</p></li>
 <li><p><strong>Nesting versus piping.</strong> Rewrite <code>round(sqrt(sum(c(4, 9, 16))), 2)</code> using the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-pipe" data-term="pipe">pipe</span> <code>|&gt;</code>. Check that both versions give the same result.</p></li>
 <li><p><strong>Order matters.</strong> Write a chunk that uses a variable before it is created, and knit the file. What happens? Fix the chunk so that the file knits.</p></li>
 </ol>
@@ -2636,6 +2672,8 @@ Markdown files. Code here can be kept and run again.</span>
 warnings, and errors. Nothing typed here is saved.</span>
 <span id="gloss-environment">The RStudio pane (top right) that lists the variables and data currently
 in memory.</span>
+<span id="gloss-debugging">Finding and fixing the mistakes (bugs) in code: read the error message,
+find the line, make a guess, and test it.</span>
 <span id="gloss-code-chunk">A block of R code inside an R Markdown file, starting with
 <code>```{r}</code> and ending with three backticks.</span>
 <span id="gloss-markdown">A simple way of formatting plain text: <code>#</code> for headings,
@@ -2648,6 +2686,8 @@ dashes, that holds the document’s title, author, date, and output
 format.</span>
 <span id="gloss-metadata">Data about data: who made a dataset, when, how, and what each part
 means. In a YAML header, it describes the document.</span>
+<span id="gloss-r-session">One run of R, from start to finish. A new session starts with an empty
+Environment and no packages loaded; knitting always starts a fresh one.</span>
 <span id="gloss-file-path">The location of a file on your computer, such as
 <code>data/counties.csv</code>. When you knit, paths are read relative
 to the folder the <code>.Rmd</code> file is saved in.</span>
@@ -2662,6 +2702,9 @@ name on its left. Read <code>x &lt;- 5</code> as “x gets 5.”</span>
 such as <code>c(71, 75, 68)</code>.</span>
 <span id="gloss-named-argument">An argument given with its name, such as <code>digits = 1</code> in
 <code>round(x, digits = 1)</code>.</span>
+<span id="gloss-help-page">A function’s documentation, opened with <code>?name</code> or
+<code>help(name)</code>. Every help page has a Description, Usage,
+Arguments, and Examples.</span>
 <span id="gloss-pipe">The operator <code>|&gt;</code>, which passes the result on its left as
 the first argument of the function on its right. Read it as “and then.”</span>
 <span id="gloss-syntax">The exact rules for writing code: spelling, capitalization, commas,

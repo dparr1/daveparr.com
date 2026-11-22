@@ -171,8 +171,44 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../chapters/r-basics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">R Basics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/r-basics-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: R Basics</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/indexing-vectors-data-frames.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Indexing Vectors and Data Frames</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/indexing-vectors-data-frames-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Indexing Vectors and Data Frames</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/tidyverse-filter-pipe.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Into the Tidyverse: glimpse, filter, and the Pipe</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/tidyverse-filter-pipe-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Into the Tidyverse: glimpse, filter, and the Pipe</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../chapters/census-data-apis.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Census Data and APIs</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Census Data and APIs</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -450,7 +486,7 @@ Figure&nbsp;1.2: The spatial data science workflow. A question leads to data, da
 </section>
 <section id="sec-spatial-thinking" class="level2" data-number="1.5">
 <h2 data-number="1.5" class="anchored" data-anchor-id="sec-spatial-thinking"><span class="header-section-number">1.5</span> Spatial thinking</h2>
-<p>Much of traditional statistics, and much of data science, treats each observation as <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-independence" data-term="independence">independent</span></strong> of the others: knowing one tells you nothing about the next. For data about places, that assumption is usually wrong. <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-thinking" data-term="spatial thinking">Spatial thinking</span> means taking seriously how location connects observations. Three ideas come up again and again in this book.</p>
+<p>Much of traditional statistics, and much of data science, treats each <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-observation" data-term="observation">observation</span> as <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-independence" data-term="independence">independent</span></strong> of the others: knowing one tells you nothing about the next. For data about places, that assumption is usually wrong. <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-thinking" data-term="spatial thinking">Spatial thinking</span> means taking seriously how location connects observations. Three ideas come up again and again in this book.</p>
 <section id="spatial-autocorrelation" class="level3" data-number="1.5.1">
 <h3 data-number="1.5.1" class="anchored" data-anchor-id="spatial-autocorrelation"><span class="header-section-number">1.5.1</span> Spatial autocorrelation</h3>
 <p><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-autocorrelation" data-term="spatial autocorrelation">Spatial autocorrelation</span></strong> is the tendency for things that are close together to be more alike than things that are far apart. Neighboring homes tend to have similar values. Neighboring counties tend to have similar incomes, voting patterns, and rainfall. The geographer Waldo Tobler put it as what is now called the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-first-law-of-geography" data-term="first law of geography">first law of geography</span></strong>: “everything is related to everything else, but near things are more related than distant things” <span class="citation" data-cites="tobler1970">(<a href="#ref-tobler1970" role="doc-biblioref">Tobler 1970</a>)</span>.</p>
@@ -709,6 +745,8 @@ attaching Census data to boundaries by <code>GEOID</code> with
 <span id="gloss-coordinate-system">The rules that tie coordinates to places on the Earth, including how the
 round Earth is flattened onto a map (the projection). Layers must share
 a coordinate system before you can combine them.</span>
+<span id="gloss-observation">One thing that was measured or recorded, such as a student, a county, or
+a flight. In a data frame, each row is an observation.</span>
 <span id="gloss-independence">The assumption, built into most standard statistics, that knowing one
 observation tells you nothing about another. Data about places usually
 break it, because nearby places tend to be alike.</span>

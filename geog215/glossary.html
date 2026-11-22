@@ -146,8 +146,44 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./chapters/r-basics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">R Basics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapters/r-basics-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: R Basics</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapters/indexing-vectors-data-frames.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Indexing Vectors and Data Frames</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapters/indexing-vectors-data-frames-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Indexing Vectors and Data Frames</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapters/tidyverse-filter-pipe.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Into the Tidyverse: glimpse, filter, and the Pipe</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapters/tidyverse-filter-pipe-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Into the Tidyverse: glimpse, filter, and the Pipe</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./chapters/census-data-apis.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Census Data and APIs</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Census Data and APIs</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -247,6 +283,14 @@ A group of census blocks, usually holding 600 to 3,000 people. It is the smalles
 <dd>
 Several lines of code that work together on one task, like the steps of one recipe. In R Markdown, a block usually lives in one code chunk.
 </dd>
+<dt><span id="term-boolean">Boolean</span></dt>
+<dd>
+Another name for logical (<code>TRUE</code> or <code>FALSE</code>) values, after the mathematician George Boole.
+</dd>
+<dt><span id="term-camelcase">camelCase</span></dt>
+<dd>
+A way of naming variables that joins words and capitalizes every word after the first, as in <code>popChapelHill</code>.
+</dd>
 <dt><span id="term-case-sensitive">case-sensitive</span></dt>
 <dd>
 Treating capital and lowercase letters as different. In R, <code>Months</code> and <code>months</code> are two different names.
@@ -258,6 +302,14 @@ The smallest Census geography, often a single city block bounded by streets or o
 <dt><span id="term-census-tract">census tract</span></dt>
 <dd>
 A small area of about 1,200 to 8,000 people (4,000 on average), drawn to be fairly stable over time. The workhorse unit for neighborhood analysis.
+</dd>
+<dt><span id="term-character">character</span></dt>
+<dd>
+The data type for text, also called strings. Character values always go inside quotation marks, as in <code>"Chapel Hill"</code>.
+</dd>
+<dt><span id="term-cheatsheet">cheatsheet</span></dt>
+<dd>
+A one-page summary of a package or tool. Posit publishes them for dplyr, ggplot2, RStudio, and more.
 </dd>
 <dt><span id="term-clustering">clustering</span></dt>
 <dd>
@@ -271,9 +323,25 @@ A block of R code inside an R Markdown file, starting with <code>```{r}</code> a
 <dd>
 The standard error as a percentage of the estimate. A CV above about 30% is a common sign that an estimate is unreliable.
 </dd>
+<dt><span id="term-coercion">coercion</span></dt>
+<dd>
+R converting values from one data type to another. Mixing types in one vector coerces them all to the type that can hold everything, usually character.
+</dd>
+<dt><span id="term-colon-operator">colon operator</span></dt>
+<dd>
+<code>:</code>, which makes a sequence of whole numbers: <code>6:8</code> is <code>c(6, 7, 8)</code>.
+</dd>
 <dt><span id="term-comment">comment</span></dt>
 <dd>
 A note for people that R ignores. In R, a comment starts with <code>#</code>.
+</dd>
+<dt><span id="term-comparison-operator">comparison operator</span></dt>
+<dd>
+An operator that compares two values and returns <code>TRUE</code> or <code>FALSE</code>: <code>&gt;</code>, <code>&lt;</code>, <code>&gt;=</code>, <code>&lt;=</code>, <code>==</code> (equal to), and <code>!=</code> (not equal to).
+</dd>
+<dt><span id="term-compiler">compiler</span></dt>
+<dd>
+A program that translates a whole program into machine code before any of it runs. C and Java are compiled; R is interpreted.
 </dd>
 <dt><span id="term-confidence-level">confidence level</span></dt>
 <dd>
@@ -291,13 +359,33 @@ The rules that tie coordinates to places on the Earth, including how the round E
 <dd>
 The Comprehensive R Archive Network: the official website for downloading R and most R packages.
 </dd>
+<dt><span id="term-csv">CSV</span></dt>
+<dd>
+A plain-text table in which each line is a row and commas separate the values. Read one into R with <code>read.csv()</code> or <code>read_csv()</code>.
+</dd>
 <dt><span id="term-data-frame">data frame</span></dt>
 <dd>
 R’s table: rows are observations and columns are variables. A tibble is the tidyverse’s version of a data frame.
 </dd>
+<dt><span id="term-data-science-workflow">data science workflow</span></dt>
+<dd>
+The steps of a data analysis: import, tidy, then a loop of transform, visualize, and model, and finally communicate.
+</dd>
+<dt><span id="term-data-type">data type</span></dt>
+<dd>
+The kind of value R is storing. The four main atomic types are logical, integer, numeric, and character; <code>class()</code> tells you which you have.
+</dd>
+<dt><span id="term-debugging">debugging</span></dt>
+<dd>
+Finding and fixing the mistakes (bugs) in code: read the error message, find the line, make a guess, and test it.
+</dd>
 <dt><span id="term-decennial-census">decennial census</span></dt>
 <dd>
 The full count of everyone in the US, every ten years. It asks only a few questions but covers every person.
+</dd>
+<dt><span id="term-delimiter">delimiter</span></dt>
+<dd>
+The character that separates values in a text file of data, such as a comma in a CSV file or a tab.
 </dd>
 <dt><span id="term-demographic-and-housing-characteristics-dhc">Demographic and Housing Characteristics (DHC)</span></dt>
 <dd>
@@ -355,6 +443,14 @@ The unique ID of a Census area, made by stringing together the FIPS codes of eac
 <dd>
 The tidyverse package for making plots and maps by adding layers.
 </dd>
+<dt><span id="term-header">header</span></dt>
+<dd>
+The first line of a data file, when it holds the column names.
+</dd>
+<dt><span id="term-help-page">help page</span></dt>
+<dd>
+A function’s documentation, opened with <code>?name</code> or <code>help(name)</code>. Every help page has a Description, Usage, Arguments, and Examples.
+</dd>
 <dt><span id="term-hotspot">hotspot</span></dt>
 <dd>
 A cluster of places with unusually high values, such as a group of neighborhoods with many burglaries. Finding hotspots is a common goal of spatial analysis.
@@ -371,9 +467,21 @@ An R package for building, sending, and reading web (HTTP) requests, used to cal
 <dd>
 The assumption, built into most standard statistics, that knowing one observation tells you nothing about another. Data about places usually break it, because nearby places tend to be alike.
 </dd>
+<dt><span id="term-indexing">indexing</span></dt>
+<dd>
+Selecting part of a vector or data frame with square brackets: by position (<code>vect[3]</code>), by a condition (<code>vect[vect &gt; 10]</code>), or by name (<code>vect["Fozzie"]</code>).
+</dd>
+<dt><span id="term-integer">integer</span></dt>
+<dd>
+The data type for whole numbers. R stores a typed number as numeric unless you add an <code>L</code>, as in <code>21L</code>. Shown as <code>&lt;int&gt;</code> by <code>glimpse()</code>.
+</dd>
 <dt><span id="term-integrated-development-environment-ide">integrated development environment (IDE)</span></dt>
 <dd>
 A program that puts everything for writing code in one window: an editor, a place to run the code, and tools to inspect the results.
+</dd>
+<dt><span id="term-interpreted-language">interpreted language</span></dt>
+<dd>
+A language, like R, that runs code one line at a time: an interpreter reads each line, translates it, and runs it before moving on.
 </dd>
 <dt><span id="term-jenks-natural-breaks">Jenks natural breaks</span></dt>
 <dd>
@@ -391,6 +499,22 @@ JavaScript Object Notation: structured text that most web APIs send back, which 
 <dd>
 To build an R Markdown file into a finished document (HTML, PDF, or Word). Knitting reruns every code chunk from the top in a fresh R session.
 </dd>
+<dt><span id="term-library">library</span></dt>
+<dd>
+The folder on your computer where installed packages are stored. You install packages into a library, then load them with <code>library()</code>.
+</dd>
+<dt><span id="term-logical">logical</span></dt>
+<dd>
+The data type for <code>TRUE</code> and <code>FALSE</code> values, written in capitals with no quotation marks.
+</dd>
+<dt><span id="term-logical-operator">logical operator</span></dt>
+<dd>
+An operator that combines <code>TRUE</code> and <code>FALSE</code> values: <code>&amp;</code> (AND, both must be true), <code>|</code> (OR, either can be true), and <code>!</code> (NOT).
+</dd>
+<dt><span id="term-logical-vector">logical vector</span></dt>
+<dd>
+A vector of <code>TRUE</code> and <code>FALSE</code> values, such as the result of <code>vect &gt; 10</code>. Inside square brackets it keeps the <code>TRUE</code> positions.
+</dd>
 <dt><span id="term-margin-of-error-moe">margin of error (MOE)</span></dt>
 <dd>
 How far a sample estimate might be from the true value. ACS margins of error use a 90% confidence level: there is a 90% chance the true value lies within the estimate plus or minus the MOE.
@@ -398,6 +522,10 @@ How far a sample estimate might be from the true value. ACS margins of error use
 <dt><span id="term-markdown">Markdown</span></dt>
 <dd>
 A simple way of formatting plain text: <code>#</code> for headings, <code>*italic*</code>, <code>**bold**</code>, and <code>-</code> for list items.
+</dd>
+<dt><span id="term-masking">masking</span></dt>
+<dd>
+When two loaded packages have a function with the same name, the one loaded later hides (masks) the other. Reach the hidden one with <code>package::function()</code>.
 </dd>
 <dt><span id="term-mean-center-of-population">mean center of population</span></dt>
 <dd>
@@ -415,6 +543,10 @@ Data about data: who made a dataset, when, how, and what each part means. In a Y
 <dd>
 Records for individual people or households (with identifying details removed), rather than totals for areas. The ACS publishes microdata as PUMS.
 </dd>
+<dt><span id="term-missing-value">missing value</span></dt>
+<dd>
+A value that is unknown, written <code>NA</code> (“not available”) in R. Most calculations with <code>NA</code> give <code>NA</code>; test for it with <code>is.na()</code>.
+</dd>
 <dt><span id="term-modifiable-areal-unit-problem-maup">modifiable areal unit problem (MAUP)</span></dt>
 <dd>
 The way results can change when the same individual data are grouped into different areas, either larger or smaller ones or the same size with different boundaries.
@@ -422,6 +554,10 @@ The way results can change when the same individual data are grouped into differ
 <dt><span id="term-named-argument">named argument</span></dt>
 <dd>
 An argument given with its name, such as <code>digits = 1</code> in <code>round(x, digits = 1)</code>.
+</dd>
+<dt><span id="term-negative-index">negative index</span></dt>
+<dd>
+An index with a minus sign, such as <code>vect[-3]</code>, which drops that position and returns the rest.
 </dd>
 <dt><span id="term-nesting">nesting</span></dt>
 <dd>
@@ -434,6 +570,18 @@ Analysis of movement along a network, such as roads, to measure travel distance 
 <dt><span id="term-nominal-dollars">nominal dollars</span></dt>
 <dd>
 Dollar amounts as reported in their own year, not adjusted for inflation. Adjust them before comparing across years.
+</dd>
+<dt><span id="term-numeric">numeric</span></dt>
+<dd>
+The data type for numbers that can have a decimal part, such as 103.21. Also called <em>double</em>, and shown as <code>&lt;dbl&gt;</code> by <code>glimpse()</code>.
+</dd>
+<dt><span id="term-nycflights13">nycflights13</span></dt>
+<dd>
+An R package of data on every flight that left New York City’s three airports in 2013, including the <code>flights</code> data frame.
+</dd>
+<dt><span id="term-observation">observation</span></dt>
+<dd>
+One thing that was measured or recorded, such as a student, a county, or a flight. In a data frame, each row is an observation.
 </dd>
 <dt><span id="term-package">package</span></dt>
 <dd>
@@ -471,9 +619,17 @@ A document format (<code>.Rmd</code>) that mixes formatted text with chunks of R
 <dd>
 A plain file of R code, ending in <code>.R</code>. Anything that isn’t code must be written as a comment.
 </dd>
+<dt><span id="term-r-session">R session</span></dt>
+<dd>
+One run of R, from start to finish. A new session starts with an empty Environment and no packages loaded; knitting always starts a fresh one.
+</dd>
 <dt><span id="term-raster">raster</span></dt>
 <dd>
 Spatial data stored as a grid of cells (pixels), each holding a value, such as a satellite image or an elevation model. In R, the <strong>terra</strong> package handles rasters.
+</dd>
+<dt><span id="term-recycling">recycling</span></dt>
+<dd>
+R repeating a shorter vector until it matches the length of a longer one, so <code>vect[c(TRUE, FALSE)]</code> keeps every other element.
 </dd>
 <dt><span id="term-redistricting-data-pl-94-171">redistricting data (PL 94-171)</span></dt>
 <dd>
@@ -507,6 +663,10 @@ The level of detail at which you study something: addresses, neighborhoods, coun
 <dd>
 “Simple features”: the R package for spatial vector data. An sf object is a data frame with a geometry column holding each row’s point, line, or polygon.
 </dd>
+<dt><span id="term-snake-case">snake_case</span></dt>
+<dd>
+A way of naming variables with lowercase words joined by underscores, as in <code>pop_chapel_hill</code>. The tidyverse style guide uses it.
+</dd>
 <dt><span id="term-spatial-autocorrelation">spatial autocorrelation</span></dt>
 <dd>
 The tendency for things that are close together to be more alike than things that are far apart, such as neighboring counties having similar incomes.
@@ -535,6 +695,10 @@ The exact rules for writing code: spelling, capitalization, commas, quotation ma
 <dd>
 An R package for working with raster data.
 </dd>
+<dt><span id="term-tidy-data">tidy data</span></dt>
+<dd>
+Data arranged so that each variable is a column, each observation is a row, and each value has its own cell.
+</dd>
 <dt><span id="term-tidycensus">tidycensus</span></dt>
 <dd>
 An R package that downloads US Census data through the Census API and returns it as a tidy data frame, with boundaries attached if you ask.
@@ -555,6 +719,10 @@ An R package that downloads Census boundary files (TIGER/Line shapefiles) as sf 
 <dd>
 An R package for making thematic maps quickly, with sensible defaults.
 </dd>
+<dt><span id="term-truth-table">truth table</span></dt>
+<dd>
+A table listing the result of a logical operator for every combination of <code>TRUE</code> and <code>FALSE</code> inputs.
+</dd>
 <dt><span id="term-variable">variable</span></dt>
 <dd>
 In R, a named piece of memory that holds data, such as <code>months &lt;- 12</code>. In a dataset, a measured characteristic, such as median income; each Census variable has a code.
@@ -566,6 +734,10 @@ A sequence of values that R stores together, made with <code>c()</code>, such as
 <dt><span id="term-vector-data">vector data</span></dt>
 <dd>
 Spatial data stored as points, lines, and polygons, each with a table of attributes. In R, the <strong>sf</strong> package handles vector data.
+</dd>
+<dt><span id="term-verb">verb</span></dt>
+<dd>
+A dplyr function named for the job it does to a data frame, such as <code>filter()</code>, <code>select()</code>, <code>arrange()</code>, and <code>mutate()</code>.
 </dd>
 <dt><span id="term-wrapper-package">wrapper package</span></dt>
 <dd>
