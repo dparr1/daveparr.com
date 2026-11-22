@@ -182,8 +182,32 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./chapters/tidyverse-arrange-select-mutate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Into the Tidyverse: arrange, distinct, select, and mutate</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapters/tidyverse-arrange-select-mutate-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Into the Tidyverse: arrange, distinct, select, and mutate</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapters/tidyverse-summarize-group-by.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Into the Tidyverse: summarize, group_by, and drop_na</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapters/tidyverse-summarize-group-by-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Into the Tidyverse: summarize, group_by, and drop_na</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./chapters/census-data-apis.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Census Data and APIs</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Census Data and APIs</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -270,6 +294,10 @@ Dividing the seats in the House of Representatives among the states by populatio
 <dt><span id="term-argument">argument</span></dt>
 <dd>
 An input to a function, written inside its parentheses.
+</dd>
+<dt><span id="term-ascending-order">ascending order</span></dt>
+<dd>
+Smallest to largest for numbers, A to Z for text. <code>arrange()</code> sorts in ascending order unless you wrap the column in <code>desc()</code>.
 </dd>
 <dt><span id="term-assignment-operator">assignment operator</span></dt>
 <dd>
@@ -395,6 +423,10 @@ The 2020 census product with more detailed tables on age, sex, households, and h
 <dd>
 The number you divide by to turn a count into a share, usually the total of the same table, such as total population.
 </dd>
+<dt><span id="term-descending-order">descending order</span></dt>
+<dd>
+Largest to smallest for numbers, Z to A for text. Ask <code>arrange()</code> for it with <code>desc()</code>, as in <code>arrange(desc(dep_delay))</code>.
+</dd>
 <dt><span id="term-differential-privacy">differential privacy</span></dt>
 <dd>
 Carefully calibrated random noise added to published 2020 census tables to protect respondents’ privacy. It matters most for small areas such as blocks.
@@ -442,6 +474,10 @@ The unique ID of a Census area, made by stringing together the FIPS codes of eac
 <dt><span id="term-ggplot2">ggplot2</span></dt>
 <dd>
 The tidyverse package for making plots and maps by adding layers.
+</dd>
+<dt><span id="term-grouped-data-frame">grouped data frame</span></dt>
+<dd>
+A data frame made by <code>group_by()</code>. It looks the same, but later verbs work on each group separately until you call <code>ungroup()</code>.
 </dd>
 <dt><span id="term-header">header</span></dt>
 <dd>
@@ -527,6 +563,10 @@ A simple way of formatting plain text: <code>#</code> for headings, <code>*itali
 <dd>
 When two loaded packages have a function with the same name, the one loaded later hides (masks) the other. Reach the hidden one with <code>package::function()</code>.
 </dd>
+<dt><span id="term-mean">mean</span></dt>
+<dd>
+The average: the sum of the values divided by how many there are. A few very large or small values can pull it a long way.
+</dd>
 <dt><span id="term-mean-center-of-population">mean center of population</span></dt>
 <dd>
 The point where a flat map of the country would balance if every resident weighed the same.
@@ -583,6 +623,10 @@ An R package of data on every flight that left New York City’s three airports 
 <dd>
 One thing that was measured or recorded, such as a student, a county, or a flight. In a data frame, each row is an observation.
 </dd>
+<dt><span id="term-outlier">outlier</span></dt>
+<dd>
+A value far from all the others. It may be real or an error, so check it before you report it.
+</dd>
 <dt><span id="term-package">package</span></dt>
 <dd>
 A bundle of code, written by other users, that adds new functions to R. Install it once with <code>install.packages()</code>, then load it in each session with <code>library()</code>.
@@ -590,6 +634,10 @@ A bundle of code, written by other users, that adds new functions to R. Install 
 <dt><span id="term-parameter">parameter</span></dt>
 <dd>
 A <code>name=value</code> setting added to an API request after the <code>?</code>, such as <code>for=county:*</code>, that says what you want.
+</dd>
+<dt><span id="term-percentile">percentile</span></dt>
+<dd>
+The value below which a given share of the values fall: a quarter of values are below the 25th percentile. <code>quantile()</code> in R.
 </dd>
 <dt><span id="term-pipe">pipe</span></dt>
 <dd>
@@ -659,9 +707,17 @@ A subset of a population that is surveyed to estimate something about the whole 
 <dd>
 The level of detail at which you study something: addresses, neighborhoods, counties, or states. A pattern that is clear at one scale can vanish or reverse at another.
 </dd>
+<dt><span id="term-selection-helper">selection helper</span></dt>
+<dd>
+A function that picks columns by name inside <code>select()</code>, such as <code>starts_with()</code>, <code>ends_with()</code>, and <code>contains()</code>.
+</dd>
 <dt><span id="term-sf">sf</span></dt>
 <dd>
 “Simple features”: the R package for spatial vector data. An sf object is a data frame with a geometry column holding each row’s point, line, or polygon.
+</dd>
+<dt><span id="term-skewed">skewed</span></dt>
+<dd>
+Lopsided: most values are bunched at one end, with a long tail of unusual values at the other, which pulls the mean away from the median.
 </dd>
 <dt><span id="term-snake-case">snake_case</span></dt>
 <dd>
@@ -683,9 +739,17 @@ The idea that relationships between variables change from place to place. A link
 <dd>
 Taking seriously how location connects observations: asking whether nearby values are alike, whether a pattern depends on the size of the areas, and whether a relationship holds everywhere.
 </dd>
+<dt><span id="term-standard-deviation">standard deviation</span></dt>
+<dd>
+A measure of how spread out values are around their mean, in the same units as the values. <code>sd()</code> in R.
+</dd>
 <dt><span id="term-standard-error">standard error</span></dt>
 <dd>
 A measure of how much a sample estimate would vary from sample to sample. For the ACS, it is the margin of error divided by 1.645.
+</dd>
+<dt><span id="term-summary-statistic">summary statistic</span></dt>
+<dd>
+One number that describes many values, such as their mean, median, maximum, or count. <code>summarize()</code> calculates them.
 </dd>
 <dt><span id="term-syntax">syntax</span></dt>
 <dd>
@@ -707,6 +771,10 @@ An R package that downloads US Census data through the Census API and returns it
 <dd>
 A family of R packages (including <strong>dplyr</strong>, <strong>ggplot2</strong>, and <strong>readr</strong>) for reading, cleaning, reshaping, summarizing, and plotting data, all designed to work together.
 </dd>
+<dt><span id="term-tie">tie</span></dt>
+<dd>
+Two or more rows with the same value in the column being sorted. <code>arrange()</code> breaks ties with the next column you name.
+</dd>
 <dt><span id="term-tiger">TIGER</span></dt>
 <dd>
 The Census Bureau’s national digital map database of streets and boundaries, first used for the 1990 census. Census boundary files come from it.
@@ -723,9 +791,17 @@ An R package for making thematic maps quickly, with sensible defaults.
 <dd>
 A table listing the result of a logical operator for every combination of <code>TRUE</code> and <code>FALSE</code> inputs.
 </dd>
+<dt><span id="term-unique-value">unique value</span></dt>
+<dd>
+A value counted once, however many times it repeats. <code>distinct()</code> keeps one row for each unique value, or each unique combination of values.
+</dd>
 <dt><span id="term-variable">variable</span></dt>
 <dd>
 In R, a named piece of memory that holds data, such as <code>months &lt;- 12</code>. In a dataset, a measured characteristic, such as median income; each Census variable has a code.
+</dd>
+<dt><span id="term-variance">variance</span></dt>
+<dd>
+A measure of spread: the standard deviation squared, so its units are squared too. <code>var()</code> in R.
 </dd>
 <dt><span id="term-vector">vector</span></dt>
 <dd>
@@ -735,9 +811,17 @@ A sequence of values that R stores together, made with <code>c()</code>, such as
 <dd>
 Spatial data stored as points, lines, and polygons, each with a table of attributes. In R, the <strong>sf</strong> package handles vector data.
 </dd>
+<dt><span id="term-vectorized">vectorized</span></dt>
+<dd>
+Done to every element of a vector at once, without a loop. Arithmetic in R is vectorized, so <code>distance / air_time</code> divides row by row.
+</dd>
 <dt><span id="term-verb">verb</span></dt>
 <dd>
 A dplyr function named for the job it does to a data frame, such as <code>filter()</code>, <code>select()</code>, <code>arrange()</code>, and <code>mutate()</code>.
+</dd>
+<dt><span id="term-weighted-average">weighted average</span></dt>
+<dd>
+An average in which some values count more than others. Total distance divided by total air time weights each flight’s speed by its air time.
 </dd>
 <dt><span id="term-wrapper-package">wrapper package</span></dt>
 <dd>
