@@ -24,7 +24,7 @@
     "href": "index.html#how-this-book-is-organized",
     "title": "Introduction to Spatial Data Science",
     "section": "How this book is organized",
-    "text": "How this book is organized\nThe chapters are grouped into six units. Each unit opens with a page that summarizes its chapters, and each chapter through Chapter 22 is followed by a chapter quiz you can take as many times as you like. Units 1 to 5 end with a unit quiz that mixes questions from all of the unit’s chapter quizzes, for reviewing a whole unit at once.\nUnit 1: R and Spatial Data Science (Chapters 1–5) sets up everything else. It explains what spatial data science is and why location matters, then gets you working in R, RStudio, and R Markdown, with R’s basic building blocks: vectors, data types, and data frames. It ends with if statements, loops, and writing your own functions, so you can make decisions and repeat work in code.\nUnit 2: Into the Tidyverse (Chapters 6–9) introduces the tidyverse. Working with a year of flights from New York’s airports, you learn the dplyr verbs that filter, sort, select, change, and summarize data, chained together with the pipe, and then turn the results into graphs with ggplot2.\nUnit 3: Maps and Geographic Data (Chapters 10–14) moves from graphs to maps. You make thematic maps of the UNC campus with tmap, then step back to see how the real world becomes geographic data: the vector and raster data models, the file formats that store them, and the datums, coordinate systems, and map projections that give every feature its location. It ends by getting geographic data from the places that publish it: the US Census Bureau, through the APIs that let your code download its data directly, and the ArcGIS servers that publish many government GIS layers.\nUnit 4: Spatial Analysis (Chapters 15–17) starts to analyze spatial data. You join tables by a shared column and by location, explore variables with descriptive statistics, plots, and maps, and describe where features are with spatial statistics such as the mean center. Along the way you put your own R functions to work.\nUnit 5: Statistics and Science (Chapters 18–22) turns data into evidence. You compare groups with p-values and ANOVA, model relationships with linear regression, and put it all together in a reproducible spatial data science project. It ends by asking whether near things are more related than distant things: you measure distance, define neighbors and weight matrices, and test for clustering and hot spots with the Average Nearest Neighbor ratio, Moran’s I, and Getis-Ord Gi*.\nUnit 6: Next Steps (Chapters 23–24) looks beyond the course. You turn your maps into interactive dashboards with leaflet, flexdashboard, crosstalk, and Shiny, and then look at where spatial data science is used, the advanced topics that build on this book, such as remote sensing, space-time modeling, and GeoAI, and the UNC courses and careers that come next.",
+    "text": "How this book is organized\nThe chapters are grouped into six units. Each unit opens with a page that summarizes its chapters.\nUnit 1: R and Spatial Data Science (Chapters 1–5) sets up everything else. It explains what spatial data science is and why location matters, then gets you working in R, RStudio, and R Markdown, with R’s basic building blocks: vectors, data types, and data frames. It ends with if statements, loops, and writing your own functions, so you can make decisions and repeat work in code.\nUnit 2: Into the Tidyverse (Chapters 6–9) introduces the tidyverse. Working with a year of flights from New York’s airports, you learn the dplyr verbs that filter, sort, select, change, and summarize data, chained together with the pipe, and then turn the results into graphs with ggplot2.\nUnit 3: Maps and Geographic Data (Chapters 10–14) moves from graphs to maps. You make thematic maps of the UNC campus with tmap, then step back to see how the real world becomes geographic data: the vector and raster data models, the file formats that store them, and the datums, coordinate systems, and map projections that give every feature its location. It ends by getting geographic data from the places that publish it: the US Census Bureau, through the APIs that let your code download its data directly, and the ArcGIS servers that publish many government GIS layers.\nUnit 4: Spatial Analysis (Chapters 15–17) starts to analyze spatial data. You join tables by a shared column and by location, explore variables with descriptive statistics, plots, and maps, and describe where features are with spatial statistics such as the mean center. Along the way you put your own R functions to work.\nUnit 5: Statistics and Science (Chapters 18–22) turns data into evidence. You compare groups with p-values and ANOVA, model relationships with linear regression, and put it all together in a reproducible spatial data science project. It ends by asking whether near things are more related than distant things: you measure distance, define neighbors and weight matrices, and test for clustering and hot spots with the Average Nearest Neighbor ratio, Moran’s I, and Getis-Ord Gi*.\nUnit 6: Next Steps (Chapters 23–24) looks beyond the course. You turn your maps into interactive dashboards with leaflet, flexdashboard, crosstalk, and Shiny, and then look at where spatial data science is used, the advanced topics that build on this book, such as remote sensing, space-time modeling, and GeoAI, and the UNC courses and careers that come next.",
     "crumbs": [
       "Preface"
     ]
@@ -34,7 +34,7 @@
     "href": "units/unit-1.html",
     "title": "Unit 1: R and Spatial Data Science",
     "section": "",
-    "text": "Chapter 1: What is Spatial Data Science?\nThis unit sets up everything else in the book. It starts with what spatial data science is and why location matters. It then gets you working in R and RStudio, writing reproducible R Markdown reports, and handling R’s basic building blocks: vectors, data types, and data frames. It ends with the R tools that save you from repeating yourself: making decisions with if, repeating work with loops, and writing your own functions. By the end of the unit you can load data into R, pull out exactly the values you need, and automate the steps you would otherwise do by hand.\nSpatial data science uses data with locations to answer questions about the world. This chapter explains how data become information, walks through the steps of a data science project, from a question to communicating results, and shows why spatial data need special care: near things tend to be alike, patterns change with scale, and relationships change from place to place. It ends by introducing the tools used in this course: R, RStudio, the tidyverse, sf, and tmap.\nChapter 1 quiz",
+    "text": "Chapter 1: What is Spatial Data Science?\nThis unit sets up everything else in the book. It starts with what spatial data science is and why location matters. It then gets you working in R and RStudio, writing reproducible R Markdown reports, and handling R’s basic building blocks: vectors, data types, and data frames. It ends with the R tools that save you from repeating yourself: making decisions with if, repeating work with loops, and writing your own functions. By the end of the unit you can load data into R, pull out exactly the values you need, and automate the steps you would otherwise do by hand.\nSpatial data science uses data with locations to answer questions about the world. This chapter explains how data become information, walks through the steps of a data science project, from a question to communicating results, and shows why spatial data need special care: near things tend to be alike, patterns change with scale, and relationships change from place to place. It ends by introducing the tools used in this course: R, RStudio, the tidyverse, sf, and tmap.",
     "crumbs": [
       "Unit 1: R and Spatial Data Science"
     ]
@@ -44,7 +44,7 @@
     "href": "units/unit-1.html#chapter-2-r-rstudio-and-r-markdown",
     "title": "Unit 1: R and Spatial Data Science",
     "section": "Chapter 2: R, RStudio, and R Markdown",
-    "text": "Chapter 2: R, RStudio, and R Markdown\nR is the language that does the computing, RStudio is the workspace where you write and run it, and R Markdown is the format that combines your writing, your code, and its results in one report. This chapter tours RStudio’s four panes, explains how knitting builds a reproducible report, and introduces variables, comments, functions, and the pipe.\nChapter 2 quiz",
+    "text": "Chapter 2: R, RStudio, and R Markdown\nR is the language that does the computing, RStudio is the workspace where you write and run it, and R Markdown is the format that combines your writing, your code, and its results in one report. This chapter tours RStudio’s four panes, explains how knitting builds a reproducible report, and introduces variables, comments, functions, and the pipe.",
     "crumbs": [
       "Unit 1: R and Spatial Data Science"
     ]
@@ -54,7 +54,7 @@
     "href": "units/unit-1.html#chapter-3-r-basics",
     "title": "Unit 1: R and Spatial Data Science",
     "section": "Chapter 3: R Basics",
-    "text": "Chapter 3: R Basics\nR runs one line at a time, in the order you run it, so this chapter shows how to think sequentially and make sure a file will knit. It covers installing and loading packages, R’s four basic data types and how vectors hold them, good names for variables, and how to read error messages and find help.\nChapter 3 quiz",
+    "text": "Chapter 3: R Basics\nR runs one line at a time, in the order you run it, so this chapter shows how to think sequentially and make sure a file will knit. It covers installing and loading packages, R’s four basic data types and how vectors hold them, good names for variables, and how to read error messages and find help.",
     "crumbs": [
       "Unit 1: R and Spatial Data Science"
     ]
@@ -64,7 +64,7 @@
     "href": "units/unit-1.html#chapter-4-indexing-vectors-and-data-frames",
     "title": "Unit 1: R and Spatial Data Science",
     "section": "Chapter 4: Indexing Vectors and Data Frames",
-    "text": "Chapter 4: Indexing Vectors and Data Frames\nIndexing selects part of a vector or a table with square brackets: by position, by name, or by a condition built from comparison and logical operators. The chapter then introduces the data frame, R’s table of variables and observations, and shows how to read a CSV file into one and select its rows and columns.\nChapter 4 quiz",
+    "text": "Chapter 4: Indexing Vectors and Data Frames\nIndexing selects part of a vector or a table with square brackets: by position, by name, or by a condition built from comparison and logical operators. The chapter then introduces the data frame, R’s table of variables and observations, and shows how to read a CSV file into one and select its rows and columns.",
     "crumbs": [
       "Unit 1: R and Spatial Data Science"
     ]
@@ -74,17 +74,7 @@
     "href": "units/unit-1.html#chapter-5-blocks-loops-and-functions",
     "title": "Unit 1: R and Spatial Data Science",
     "section": "Chapter 5: Blocks, Loops, and Functions",
-    "text": "Chapter 5: Blocks, Loops, and Functions\nGood programmers are productively lazy. This chapter shows how blocks group lines of code, how if, else if, and else decide whether a block runs, and how while and for loops repeat one. It compares loops with R’s vectorized functions, such as ifelse(), then takes functions apart: arguments, defaults, return values, error checks with stop(), and variable scope.\nChapter 5 quiz",
-    "crumbs": [
-      "Unit 1: R and Spatial Data Science"
-    ]
-  },
-  {
-    "objectID": "units/unit-1.html#unit-1-quiz",
-    "href": "units/unit-1.html#unit-1-quiz",
-    "title": "Unit 1: R and Spatial Data Science",
-    "section": "Unit 1 quiz",
-    "text": "Unit 1 quiz\nWhen you have finished the unit, the Unit 1 quiz mixes questions from all 5 chapter quizzes, so you can review the whole unit at once.\n\n\n\nThe use of data that have a location attached to answer questions about\nthe world. It combines what we study (the spatial), how we\nhandle it (data skills), and how we ask and answer questions\n(science).\nThe integrated development environment (IDE) where you write and run R.\nR does the computing; RStudio is the workspace around it.\nThe ability for anyone to rerun an analysis from its code and data and\nget the same result.\nA document format (.Rmd) that mixes formatted text with\nchunks of R code. Knitting it runs the code and builds a finished\nreport.\nA sequence of values that R stores together, made with c(),\nsuch as c(71, 75, 68).\nThe kind of value R is storing. The four main atomic types are logical,\ninteger, numeric, and character; class() tells you which\nyou have.\nR’s table: rows are observations and columns are variables. A tibble is\nthe tidyverse’s version of a data frame.\nCode that takes inputs (arguments), does a job, and returns an output,\nsuch as mean(temps).\nThe level of detail at which you study something: addresses,\nneighborhoods, counties, or states. A pattern that is clear at one scale\ncan vanish or reverse at another.\nA family of R packages (including dplyr,\nggplot2, and readr) for reading,\ncleaning, reshaping, summarizing, and plotting data, all designed to\nwork together.\n“Simple features”: the R package for spatial vector data. An sf object\nis a data frame with a geometry column holding each row’s point, line,\nor polygon.\nAn R package for making thematic maps quickly, with sensible defaults.\nTo build an R Markdown file into a finished document (HTML, PDF, or\nWord). Knitting reruns every code chunk from the top in a fresh R\nsession.\nIn R, a named piece of memory that holds data, such as\nmonths &lt;- 12. In a dataset, a measured characteristic,\nsuch as median income; each Census variable has a code.\nA note for people that R ignores. In R, a comment starts with\n#.\nThe operator |&gt;, which passes the result on its left as\nthe first argument of the function on its right. Read it as “and then.”\nA bundle of code, written by other users, that adds new functions to R.\nInstall it once with install.packages(), then load it in\neach session with library().\nAn operator that combines TRUE and FALSE\nvalues: & (AND, both must be true), | (OR,\neither can be true), and ! (NOT).\nOne thing that was measured or recorded, such as a student, a county, or\na flight. In a data frame, each row is an observation.\nA plain-text table in which each line is a row and commas separate the\nvalues. Read one into R with read.csv() or\nread_csv().\nDone to every element of a vector at once, without a loop. Arithmetic in\nR is vectorized, so distance / air_time divides row by row.\nAn input to a function, written inside its parentheses.",
+    "text": "Chapter 5: Blocks, Loops, and Functions\nGood programmers are productively lazy. This chapter shows how blocks group lines of code, how if, else if, and else decide whether a block runs, and how while and for loops repeat one. It compares loops with R’s vectorized functions, such as ifelse(), then takes functions apart: arguments, defaults, return values, error checks with stop(), and variable scope.\n\n\n\nThe use of data that have a location attached to answer questions about\nthe world. It combines what we study (the spatial), how we\nhandle it (data skills), and how we ask and answer questions\n(science).\nThe integrated development environment (IDE) where you write and run R.\nR does the computing; RStudio is the workspace around it.\nThe ability for anyone to rerun an analysis from its code and data and\nget the same result.\nA document format (.Rmd) that mixes formatted text with\nchunks of R code. Knitting it runs the code and builds a finished\nreport.\nA sequence of values that R stores together, made with c(),\nsuch as c(71, 75, 68).\nThe kind of value R is storing. The four main atomic types are logical,\ninteger, numeric, and character; class() tells you which\nyou have.\nR’s table: rows are observations and columns are variables. A tibble is\nthe tidyverse’s version of a data frame.\nCode that takes inputs (arguments), does a job, and returns an output,\nsuch as mean(temps).\nThe level of detail at which you study something: addresses,\nneighborhoods, counties, or states. A pattern that is clear at one scale\ncan vanish or reverse at another.\nA family of R packages (including dplyr,\nggplot2, and readr) for reading,\ncleaning, reshaping, summarizing, and plotting data, all designed to\nwork together.\n“Simple features”: the R package for spatial vector data. An sf object\nis a data frame with a geometry column holding each row’s point, line,\nor polygon.\nAn R package for making thematic maps quickly, with sensible defaults.\nTo build an R Markdown file into a finished document (HTML, PDF, or\nWord). Knitting reruns every code chunk from the top in a fresh R\nsession.\nIn R, a named piece of memory that holds data, such as\nmonths &lt;- 12. In a dataset, a measured characteristic,\nsuch as median income; each Census variable has a code.\nA note for people that R ignores. In R, a comment starts with\n#.\nThe operator |&gt;, which passes the result on its left as\nthe first argument of the function on its right. Read it as “and then.”\nA bundle of code, written by other users, that adds new functions to R.\nInstall it once with install.packages(), then load it in\neach session with library().\nAn operator that combines TRUE and FALSE\nvalues: & (AND, both must be true), | (OR,\neither can be true), and ! (NOT).\nOne thing that was measured or recorded, such as a student, a county, or\na flight. In a data frame, each row is an observation.\nA plain-text table in which each line is a row and commas separate the\nvalues. Read one into R with read.csv() or\nread_csv().\nDone to every element of a vector at once, without a loop. Arithmetic in\nR is vectorized, so distance / air_time divides row by row.\nAn input to a function, written inside its parentheses.",
     "crumbs": [
       "Unit 1: R and Spatial Data Science"
     ]
@@ -233,17 +223,6 @@
     ]
   },
   {
-    "objectID": "chapters/intro-spatial-data-science-quiz.html",
-    "href": "chapters/intro-spatial-data-science-quiz.html",
-    "title": "Chapter quiz: What is Spatial Data Science?",
-    "section": "",
-    "text": "Practice what you learned in What is Spatial Data Science?. Questions come one at a time. Any you miss come back at the end until you’ve got them all right. Every quiz is a new random set from a bank of questions, so take it as many times as you like.\n\nLoading the quiz…",
-    "crumbs": [
-      "Unit 1: R and Spatial Data Science",
-      "Chapter quiz: What is Spatial Data Science?"
-    ]
-  },
-  {
     "objectID": "chapters/r-rstudio-rmarkdown.html",
     "href": "chapters/r-rstudio-rmarkdown.html",
     "title": "2  R, RStudio, and R Markdown",
@@ -365,17 +344,6 @@
     ]
   },
   {
-    "objectID": "chapters/r-rstudio-rmarkdown-quiz.html",
-    "href": "chapters/r-rstudio-rmarkdown-quiz.html",
-    "title": "Chapter quiz: R, RStudio, and R Markdown",
-    "section": "",
-    "text": "Practice what you learned in R, RStudio, and R Markdown. Questions come one at a time. Any you miss come back at the end until you’ve got them all right. Every quiz is a new random set from a bank of questions, so take it as many times as you like.\n\nLoading the quiz…",
-    "crumbs": [
-      "Unit 1: R and Spatial Data Science",
-      "Chapter quiz: R, RStudio, and R Markdown"
-    ]
-  },
-  {
     "objectID": "chapters/r-basics.html",
     "href": "chapters/r-basics.html",
     "title": "3  R Basics",
@@ -472,17 +440,6 @@
     "crumbs": [
       "Unit 1: R and Spatial Data Science",
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>R Basics</span>"
-    ]
-  },
-  {
-    "objectID": "chapters/r-basics-quiz.html",
-    "href": "chapters/r-basics-quiz.html",
-    "title": "Chapter quiz: R Basics",
-    "section": "",
-    "text": "Practice what you learned in R Basics. Questions come one at a time. Any you miss come back at the end until you’ve got them all right. Every quiz is a new random set from a bank of questions, so take it as many times as you like.\n\nLoading the quiz…",
-    "crumbs": [
-      "Unit 1: R and Spatial Data Science",
-      "Chapter quiz: R Basics"
     ]
   },
   {
@@ -604,17 +561,6 @@
     "crumbs": [
       "Unit 1: R and Spatial Data Science",
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Indexing Vectors and Data Frames</span>"
-    ]
-  },
-  {
-    "objectID": "chapters/indexing-vectors-data-frames-quiz.html",
-    "href": "chapters/indexing-vectors-data-frames-quiz.html",
-    "title": "Chapter quiz: Indexing Vectors and Data Frames",
-    "section": "",
-    "text": "Practice what you learned in Indexing Vectors and Data Frames. Questions come one at a time. Any you miss come back at the end until you’ve got them all right. Every quiz is a new random set from a bank of questions, so take it as many times as you like.\n\nLoading the quiz…",
-    "crumbs": [
-      "Unit 1: R and Spatial Data Science",
-      "Chapter quiz: Indexing Vectors and Data Frames"
     ]
   },
   {
@@ -750,33 +696,11 @@
     ]
   },
   {
-    "objectID": "chapters/blocks-loops-functions-quiz.html",
-    "href": "chapters/blocks-loops-functions-quiz.html",
-    "title": "Chapter quiz: Blocks, Loops, and Functions",
-    "section": "",
-    "text": "Practice what you learned in Blocks, Loops, and Functions. Questions come one at a time. Any you miss come back at the end until you’ve got them all right. Every quiz is a new random set from a bank of questions, so take it as many times as you like.\n\nLoading the quiz…",
-    "crumbs": [
-      "Unit 1: R and Spatial Data Science",
-      "Chapter quiz: Blocks, Loops, and Functions"
-    ]
-  },
-  {
-    "objectID": "units/unit-1-quiz.html",
-    "href": "units/unit-1-quiz.html",
-    "title": "Unit 1 quiz: R and Spatial Data Science",
-    "section": "",
-    "text": "Review all of Unit 1: R and Spatial Data Science at once. This quiz draws from the chapter quizzes for Chapters 1–5, so every question here is one you can also find on a chapter quiz page. Each quiz is 20 questions picked at random and spread across the chapters, and any you miss come back at the end until you’ve got them all right. Take it as many times as you like.\n\nLoading the quiz…",
-    "crumbs": [
-      "Unit 1: R and Spatial Data Science",
-      "Unit 1 quiz: R and Spatial Data Science"
-    ]
-  },
-  {
     "objectID": "units/unit-2.html",
     "href": "units/unit-2.html",
     "title": "Unit 2: Into the Tidyverse",
     "section": "",
-    "text": "Chapter 6: Into the Tidyverse: glimpse, filter, and the Pipe\nThis unit introduces the tidyverse, a family of R packages that share one way of working with data. Using a year of flights from New York’s three airports (the nycflights13 data), you learn the dplyr verbs that filter, sort, select, change, and summarize a data frame, chained together with the pipe. The unit ends by turning those tables into graphs with ggplot2.\nThis chapter introduces the tidyverse and the data science workflow it is built around. You look at a data frame with glimpse(), keep the rows you want with filter(), and chain steps together with the pipe, |&gt;. It also explains missing values (NA) and how they affect filtering.\nChapter 6 quiz",
+    "text": "Chapter 6: Into the Tidyverse: glimpse, filter, and the Pipe\nThis unit introduces the tidyverse, a family of R packages that share one way of working with data. Using a year of flights from New York’s three airports (the nycflights13 data), you learn the dplyr verbs that filter, sort, select, change, and summarize a data frame, chained together with the pipe. The unit ends by turning those tables into graphs with ggplot2.\nThis chapter introduces the tidyverse and the data science workflow it is built around. You look at a data frame with glimpse(), keep the rows you want with filter(), and chain steps together with the pipe, |&gt;. It also explains missing values (NA) and how they affect filtering.",
     "crumbs": [
       "Unit 2: Into the Tidyverse"
     ]
@@ -786,7 +710,7 @@
     "href": "units/unit-2.html#chapter-7-into-the-tidyverse-arrange-distinct-select-and-mutate",
     "title": "Unit 2: Into the Tidyverse",
     "section": "Chapter 7: Into the Tidyverse: arrange, distinct, select, and mutate",
-    "text": "Chapter 7: Into the Tidyverse: arrange, distinct, select, and mutate\ndplyr verbs work on either rows or columns. This chapter sorts rows with arrange(), finds unique values with distinct(), keeps the columns you need with select(), and calculates new columns with mutate(). Sorting a new column turns out to be a quick way to spot outliers worth checking.\nChapter 7 quiz",
+    "text": "Chapter 7: Into the Tidyverse: arrange, distinct, select, and mutate\ndplyr verbs work on either rows or columns. This chapter sorts rows with arrange(), finds unique values with distinct(), keeps the columns you need with select(), and calculates new columns with mutate(). Sorting a new column turns out to be a quick way to spot outliers worth checking.",
     "crumbs": [
       "Unit 2: Into the Tidyverse"
     ]
@@ -796,7 +720,7 @@
     "href": "units/unit-2.html#chapter-8-into-the-tidyverse-summarize-group_by-and-drop_na",
     "title": "Unit 2: Into the Tidyverse",
     "section": "Chapter 8: Into the Tidyverse: summarize, group_by, and drop_na",
-    "text": "Chapter 8: Into the Tidyverse: summarize, group_by, and drop_na\nsummarize() collapses many rows into summary statistics, and group_by() makes it give one answer for each group, such as each month or each airline. The chapter compares two ways of handling missing values, na.rm = TRUE and drop_na(), and shows why the average of averages can mislead and how a weighted average fixes it.\nChapter 8 quiz",
+    "text": "Chapter 8: Into the Tidyverse: summarize, group_by, and drop_na\nsummarize() collapses many rows into summary statistics, and group_by() makes it give one answer for each group, such as each month or each airline. The chapter compares two ways of handling missing values, na.rm = TRUE and drop_na(), and shows why the average of averages can mislead and how a weighted average fixes it.",
     "crumbs": [
       "Unit 2: Into the Tidyverse"
     ]
@@ -806,17 +730,7 @@
     "href": "units/unit-2.html#chapter-9-into-the-tidyverse-graphs-with-ggplot2",
     "title": "Unit 2: Into the Tidyverse",
     "section": "Chapter 9: Into the Tidyverse: Graphs with ggplot2",
-    "text": "Chapter 9: Into the Tidyverse: Graphs with ggplot2\nggplot2 builds graphs from the grammar of graphics: data, aesthetics that map columns to visual properties, and geoms that draw the marks, added in layers with +. This chapter makes scatterplots, bar charts, and boxplots, explains the difference between setting and mapping an aesthetic, splits plots into small multiples with facets, and finishes plots with colors, labels, themes, and ggsave().\nChapter 9 quiz",
-    "crumbs": [
-      "Unit 2: Into the Tidyverse"
-    ]
-  },
-  {
-    "objectID": "units/unit-2.html#unit-2-quiz",
-    "href": "units/unit-2.html#unit-2-quiz",
-    "title": "Unit 2: Into the Tidyverse",
-    "section": "Unit 2 quiz",
-    "text": "Unit 2 quiz\nWhen you have finished the unit, the Unit 2 quiz mixes questions from all 4 chapter quizzes, so you can review the whole unit at once.\n\n\n\nA family of R packages (including dplyr,\nggplot2, and readr) for reading,\ncleaning, reshaping, summarizing, and plotting data, all designed to\nwork together.\nA bundle of code, written by other users, that adds new functions to R.\nInstall it once with install.packages(), then load it in\neach session with library().\nAn R package of data on every flight that left New York City’s three\nairports in 2013, including the flights data frame.\nThe tidyverse package for transforming data frames: filtering rows,\nchoosing columns, adding new columns, joining tables, and summarizing.\nR’s table: rows are observations and columns are variables. A tibble is\nthe tidyverse’s version of a data frame.\nThe operator |&gt;, which passes the result on its left as\nthe first argument of the function on its right. Read it as “and then.”\nThe tidyverse package for making plots and maps by adding layers.\nThe steps of a data analysis: import, tidy, then a loop of transform,\nvisualize, and model, and finally communicate.\nA value that is unknown, written NA (“not available”) in R.\nMost calculations with NA give NA; test for it\nwith is.na().\nA value counted once, however many times it repeats.\ndistinct() keeps one row for each unique value, or each\nunique combination of values.\nA value far from all the others. It may be real or an error, so check it\nbefore you report it.\nOne number that describes many values, such as their mean, median,\nmaximum, or count. summarize() calculates them.\nAn average in which some values count more than others. Total distance\ndivided by total air time weights each flight’s speed by its air time.\nThe idea that any chart can be described with the same small set of\nparts: data, aesthetic mappings, geoms, scales, facets, and coordinates.\nggplot2 is built on it.",
+    "text": "Chapter 9: Into the Tidyverse: Graphs with ggplot2\nggplot2 builds graphs from the grammar of graphics: data, aesthetics that map columns to visual properties, and geoms that draw the marks, added in layers with +. This chapter makes scatterplots, bar charts, and boxplots, explains the difference between setting and mapping an aesthetic, splits plots into small multiples with facets, and finishes plots with colors, labels, themes, and ggsave().\n\n\n\nA family of R packages (including dplyr,\nggplot2, and readr) for reading,\ncleaning, reshaping, summarizing, and plotting data, all designed to\nwork together.\nA bundle of code, written by other users, that adds new functions to R.\nInstall it once with install.packages(), then load it in\neach session with library().\nAn R package of data on every flight that left New York City’s three\nairports in 2013, including the flights data frame.\nThe tidyverse package for transforming data frames: filtering rows,\nchoosing columns, adding new columns, joining tables, and summarizing.\nR’s table: rows are observations and columns are variables. A tibble is\nthe tidyverse’s version of a data frame.\nThe operator |&gt;, which passes the result on its left as\nthe first argument of the function on its right. Read it as “and then.”\nThe tidyverse package for making plots and maps by adding layers.\nThe steps of a data analysis: import, tidy, then a loop of transform,\nvisualize, and model, and finally communicate.\nA value that is unknown, written NA (“not available”) in R.\nMost calculations with NA give NA; test for it\nwith is.na().\nA value counted once, however many times it repeats.\ndistinct() keeps one row for each unique value, or each\nunique combination of values.\nA value far from all the others. It may be real or an error, so check it\nbefore you report it.\nOne number that describes many values, such as their mean, median,\nmaximum, or count. summarize() calculates them.\nAn average in which some values count more than others. Total distance\ndivided by total air time weights each flight’s speed by its air time.\nThe idea that any chart can be described with the same small set of\nparts: data, aesthetic mappings, geoms, scales, facets, and coordinates.\nggplot2 is built on it.",
     "crumbs": [
       "Unit 2: Into the Tidyverse"
     ]
@@ -943,17 +857,6 @@
     ]
   },
   {
-    "objectID": "chapters/tidyverse-filter-pipe-quiz.html",
-    "href": "chapters/tidyverse-filter-pipe-quiz.html",
-    "title": "Chapter quiz: Into the Tidyverse: glimpse, filter, and the Pipe",
-    "section": "",
-    "text": "Practice what you learned in Into the Tidyverse: glimpse, filter, and the Pipe. Questions come one at a time. Any you miss come back at the end until you’ve got them all right. Every quiz is a new random set from a bank of questions, so take it as many times as you like.\n\nLoading the quiz…",
-    "crumbs": [
-      "Unit 2: Into the Tidyverse",
-      "Chapter quiz: Into the Tidyverse: glimpse, filter, and the Pipe"
-    ]
-  },
-  {
     "objectID": "chapters/tidyverse-arrange-select-mutate.html",
     "href": "chapters/tidyverse-arrange-select-mutate.html",
     "title": "7  Into the Tidyverse: arrange, distinct, select, and mutate",
@@ -1072,17 +975,6 @@
     "crumbs": [
       "Unit 2: Into the Tidyverse",
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>Into the Tidyverse: arrange, distinct, select, and mutate</span>"
-    ]
-  },
-  {
-    "objectID": "chapters/tidyverse-arrange-select-mutate-quiz.html",
-    "href": "chapters/tidyverse-arrange-select-mutate-quiz.html",
-    "title": "Chapter quiz: Into the Tidyverse: arrange, distinct, select, and mutate",
-    "section": "",
-    "text": "Practice what you learned in Into the Tidyverse: arrange, distinct, select, and mutate. Questions come one at a time. Any you miss come back at the end until you’ve got them all right. Every quiz is a new random set from a bank of questions, so take it as many times as you like.\n\nLoading the quiz…",
-    "crumbs": [
-      "Unit 2: Into the Tidyverse",
-      "Chapter quiz: Into the Tidyverse: arrange, distinct, select, and mutate"
     ]
   },
   {
@@ -1207,17 +1099,6 @@
     ]
   },
   {
-    "objectID": "chapters/tidyverse-summarize-group-by-quiz.html",
-    "href": "chapters/tidyverse-summarize-group-by-quiz.html",
-    "title": "Chapter quiz: Into the Tidyverse: summarize, group_by, and drop_na",
-    "section": "",
-    "text": "Practice what you learned in Into the Tidyverse: summarize, group_by, and drop_na. Questions come one at a time. Any you miss come back at the end until you’ve got them all right. Every quiz is a new random set from a bank of questions, so take it as many times as you like.\n\nLoading the quiz…",
-    "crumbs": [
-      "Unit 2: Into the Tidyverse",
-      "Chapter quiz: Into the Tidyverse: summarize, group_by, and drop_na"
-    ]
-  },
-  {
     "objectID": "chapters/tidyverse-ggplot.html",
     "href": "chapters/tidyverse-ggplot.html",
     "title": "9  Into the Tidyverse: Graphs with ggplot2",
@@ -1339,33 +1220,11 @@
     ]
   },
   {
-    "objectID": "chapters/tidyverse-ggplot-quiz.html",
-    "href": "chapters/tidyverse-ggplot-quiz.html",
-    "title": "Chapter quiz: Into the Tidyverse: Graphs with ggplot2",
-    "section": "",
-    "text": "Practice what you learned in Into the Tidyverse: Graphs with ggplot2. Questions come one at a time. Any you miss come back at the end until you’ve got them all right. Every quiz is a new random set from a bank of questions, so take it as many times as you like.\n\nLoading the quiz…",
-    "crumbs": [
-      "Unit 2: Into the Tidyverse",
-      "Chapter quiz: Into the Tidyverse: Graphs with ggplot2"
-    ]
-  },
-  {
-    "objectID": "units/unit-2-quiz.html",
-    "href": "units/unit-2-quiz.html",
-    "title": "Unit 2 quiz: Into the Tidyverse",
-    "section": "",
-    "text": "Review all of Unit 2: Into the Tidyverse at once. This quiz draws from the chapter quizzes for Chapters 6–9, so every question here is one you can also find on a chapter quiz page. Each quiz is 20 questions picked at random and spread across the chapters, and any you miss come back at the end until you’ve got them all right. Take it as many times as you like.\n\nLoading the quiz…",
-    "crumbs": [
-      "Unit 2: Into the Tidyverse",
-      "Unit 2 quiz: Into the Tidyverse"
-    ]
-  },
-  {
     "objectID": "units/unit-3.html",
     "href": "units/unit-3.html",
     "title": "Unit 3: Maps and Geographic Data",
     "section": "",
-    "text": "Chapter 10: Thematic Maps with tmap\nThis unit moves from tables and graphs to maps. It starts by making thematic maps in R with the tmap package, using campus data on UNC’s trees, sidewalks, and buildings. It then steps back from the code to ask how the real world becomes geographic data in the first place: the vector and raster data models, and the file formats that store them. Next comes location itself: how a datum, a coordinate system, and a map projection turn places on a round Earth into coordinates on a flat map. The unit ends by getting geographic data from the places that publish it: the US Census Bureau, through the APIs that let your code download its data directly, and the ArcGIS servers that publish many government GIS layers.\nA thematic map shows how one theme varies from place to place. This chapter reads spatial data into R as sf objects, which are tidy data frames with a geometry column, and maps points, lines, and polygons with tmap’s tm_shape(), tm_dots(), tm_lines(), and tm_polygons(). It covers coloring features by an attribute, choosing classes, combining layers, adding a title, scale bar, and north arrow, and switching between static and interactive maps.\nChapter 10 quiz",
+    "text": "Chapter 10: Thematic Maps with tmap\nThis unit moves from tables and graphs to maps. It starts by making thematic maps in R with the tmap package, using campus data on UNC’s trees, sidewalks, and buildings. It then steps back from the code to ask how the real world becomes geographic data in the first place: the vector and raster data models, and the file formats that store them. Next comes location itself: how a datum, a coordinate system, and a map projection turn places on a round Earth into coordinates on a flat map. The unit ends by getting geographic data from the places that publish it: the US Census Bureau, through the APIs that let your code download its data directly, and the ArcGIS servers that publish many government GIS layers.\nA thematic map shows how one theme varies from place to place. This chapter reads spatial data into R as sf objects, which are tidy data frames with a geometry column, and maps points, lines, and polygons with tmap’s tm_shape(), tm_dots(), tm_lines(), and tm_polygons(). It covers coloring features by an attribute, choosing classes, combining layers, adding a title, scale bar, and north arrow, and switching between static and interactive maps.",
     "crumbs": [
       "Unit 3: Maps and Geographic Data"
     ]
@@ -1375,7 +1234,7 @@
     "href": "units/unit-3.html#chapter-11-what-is-geographic-data",
     "title": "Unit 3: Maps and Geographic Data",
     "section": "Chapter 11: What Is Geographic Data?",
-    "text": "Chapter 11: What Is Geographic Data?\nEvery map is a model of the world. This chapter follows data abstraction from real-world entities to features a computer can store, and compares the two main data models: vector data (points, lines, and polygons with attributes) and raster data (grids of cells). It explains map scale, cell size and resolution, and the common file formats (shapefile, GeoJSON, KML, and GeoTIFF), and why metadata matter.\nChapter 11 quiz",
+    "text": "Chapter 11: What Is Geographic Data?\nEvery map is a model of the world. This chapter follows data abstraction from real-world entities to features a computer can store, and compares the two main data models: vector data (points, lines, and polygons with attributes) and raster data (grids of cells). It explains map scale, cell size and resolution, and the common file formats (shapefile, GeoJSON, KML, and GeoTIFF), and why metadata matter.",
     "crumbs": [
       "Unit 3: Maps and Geographic Data"
     ]
@@ -1385,7 +1244,7 @@
     "href": "units/unit-3.html#chapter-12-location-and-coordinate-systems",
     "title": "Unit 3: Maps and Geographic Data",
     "section": "Chapter 12: Location and Coordinate Systems",
-    "text": "Chapter 12: Location and Coordinate Systems\nTo store a location, a computer needs a model of the Earth, a grid on it, and a way to flatten it. This chapter covers geodesy and the ellipsoid, the datums used in North America (NAD27, NAD83, and WGS84), latitude and longitude, and converting between decimal degrees and degrees, minutes, and seconds. It explains why every map projection distorts shape, area, distance, or direction, how to choose one for a task, and how to check and change a layer’s coordinate reference system in R with st_crs() and st_transform().\nChapter 12 quiz",
+    "text": "Chapter 12: Location and Coordinate Systems\nTo store a location, a computer needs a model of the Earth, a grid on it, and a way to flatten it. This chapter covers geodesy and the ellipsoid, the datums used in North America (NAD27, NAD83, and WGS84), latitude and longitude, and converting between decimal degrees and degrees, minutes, and seconds. It explains why every map projection distorts shape, area, distance, or direction, how to choose one for a task, and how to check and change a layer’s coordinate reference system in R with st_crs() and st_transform().",
     "crumbs": [
       "Unit 3: Maps and Geographic Data"
     ]
@@ -1395,7 +1254,7 @@
     "href": "units/unit-3.html#chapter-13-census-data-and-apis",
     "title": "Unit 3: Maps and Geographic Data",
     "section": "Chapter 13: Census Data and APIs",
-    "text": "Chapter 13: Census Data and APIs\nUS Census data come from the decennial census, a full count every ten years, and the American Community Survey, a continuous sample with a margin of error on every estimate. This chapter explains how Census geography nests from states down to tracts and blocks, how APIs work, and how the tidycensus package downloads tidy, map-ready Census data. It also shows how to carry margins of error through calculations and compare data across years.\nChapter 13 quiz",
+    "text": "Chapter 13: Census Data and APIs\nUS Census data come from the decennial census, a full count every ten years, and the American Community Survey, a continuous sample with a margin of error on every estimate. This chapter explains how Census geography nests from states down to tracts and blocks, how APIs work, and how the tidycensus package downloads tidy, map-ready Census data. It also shows how to carry margins of error through calculations and compare data across years.",
     "crumbs": [
       "Unit 3: Maps and Geographic Data"
     ]
@@ -1405,17 +1264,7 @@
     "href": "units/unit-3.html#chapter-14-arcgis-data-with-arcpullr",
     "title": "Unit 3: Maps and Geographic Data",
     "section": "Chapter 14: ArcGIS Data with arcpullr",
-    "text": "Chapter 14: ArcGIS Data with arcpullr\nGovernments publish many of their GIS layers on ArcGIS REST services. This chapter shows how to find a layer’s URL and read its REST page, then download it into R as an sf object with arcpullr’s get_spatial_layer(). It covers SQL where clauses that download only the features you need, the server’s record limit, and the other ways arcpullr can query a layer.\nChapter 14 quiz",
-    "crumbs": [
-      "Unit 3: Maps and Geographic Data"
-    ]
-  },
-  {
-    "objectID": "units/unit-3.html#unit-3-quiz",
-    "href": "units/unit-3.html#unit-3-quiz",
-    "title": "Unit 3: Maps and Geographic Data",
-    "section": "Unit 3 quiz",
-    "text": "Unit 3 quiz\nWhen you have finished the unit, the Unit 3 quiz mixes questions from all 5 chapter quizzes, so you can review the whole unit at once.\n\n\n\nAn R package for making thematic maps quickly, with sensible defaults.\nA bundle of code, written by other users, that adds new functions to R.\nInstall it once with install.packages(), then load it in\neach session with library().\nA sequence of values that R stores together, made with c(),\nsuch as c(71, 75, 68).\nSpatial data stored as a grid of cells (pixels), each holding a value,\nsuch as a satellite image or an elevation model. In R, the\nterra package handles rasters.\nA model that fixes an ellipsoid to the real Earth, so that a latitude\nand longitude point to one place on the ground. NAD83 and WGS84 are\ndatums.\nThe rules that tie coordinates to places on the Earth, including how the\nround Earth is flattened onto a map (the projection). Layers must share\na coordinate system before you can combine them.\nA method for flattening the curved graticule onto a flat map. Every\nprojection distorts shape, area, distance, or direction.\nApplication Programming Interface: a set of rules for how one program\nasks another for data or services, such as your R script asking the\nCensus Bureau’s server for a table.\n“Simple features”: the R package for spatial vector data. An sf object\nis a data frame with a geometry column holding each row’s point, line,\nor polygon.\nR’s table: rows are observations and columns are variables. A tibble is\nthe tidyverse’s version of a data frame.\nA closed shape that represents an area, such as a county, a lake, or a\ncensus tract.\nThe level of detail at which you study something: addresses,\nneighborhoods, counties, or states. A pattern that is clear at one scale\ncan vanish or reverse at another.\nSpatial data stored as points, lines, and polygons, each with a table of\nattributes. In R, the sf package handles vector data.\nAn open, plain-text format for vector features, written in JSON.\nCoordinates are longitude first, then latitude, in WGS84.\nKeyhole Markup Language: the XML-based format behind Google Earth. A\n.kmz file is a zipped KML file.\nThe standard file format for raster data: a TIFF image with its location\nand coordinate system stored inside the file.\nData about data: who made a dataset, when, how, and what each part\nmeans. In a YAML header, it describes the document.\nThe science of measuring the Earth’s size, shape, orientation, and\ngravity. Every coordinate rests on a geodetic model of the Earth.\nA sphere flattened at the poles: the smooth mathematical shape used to\nmodel the Earth, defined by its semi-major and semi-minor axes.\nThe North American Datum of 1927, based on the Clarke 1866 ellipsoid and\na single origin point in Kansas.\nThe North American Datum of 1983, based on the GRS80 ellipsoid and\nmaintained through a network of permanent GPS stations (CORS).\nThe World Geodetic System of 1984, the datum GPS uses. GeoJSON and KML\ngive coordinates as WGS84 longitude and latitude.\nThe angle north or south of the Equator, from 0° to 90°. Lines of equal\nlatitude are parallels.\nThe angle east or west of the Prime Meridian, from 0° to 180°. Lines of\nequal longitude are meridians.\nCoordinates written as signed decimal numbers, such as −79.05°. Negative\nmeans south latitude or west longitude.\nCoordinates written as whole degrees, minutes (1/60 of a degree), and\nseconds (1/3,600 of a degree), with a letter N, S, E, or W, such as 79°\n3′ 21″ W.\nThe full count of everyone in the US, every ten years. It asks only a\nfew questions but covers every person.\nThe Census Bureau’s continuous survey of a sample of households every\nyear. It asks many more questions than the decennial census, but every\nvalue is an estimate with a margin of error.\nA subset of a population that is surveyed to estimate something about\nthe whole population. Smaller samples give less certain estimates.\nHow far a sample estimate might be from the true value. ACS margins of\nerror use a 90% confidence level: there is a 90% chance the true value\nlies within the estimate plus or minus the MOE.\nA small area of about 1,200 to 8,000 people (4,000 on average), drawn to\nbe fairly stable over time. The workhorse unit for neighborhood\nanalysis.\nAn R package that downloads US Census data through the Census API and\nreturns it as a tidy data frame, with boundaries attached if you ask.\nThe most common style of web API: each dataset has its own URL, you ask\nfor data with ordinary web requests, and the answer usually comes back\nas JSON.\nAn R package that downloads layers from ArcGIS REST services as sf\nobjects, with get_spatial_layer().\nStructured Query Language, the language of databases. ArcGIS\nwhere clauses use it: fcounty = 'Orange'.",
+    "text": "Chapter 14: ArcGIS Data with arcpullr\nGovernments publish many of their GIS layers on ArcGIS REST services. This chapter shows how to find a layer’s URL and read its REST page, then download it into R as an sf object with arcpullr’s get_spatial_layer(). It covers SQL where clauses that download only the features you need, the server’s record limit, and the other ways arcpullr can query a layer.\n\n\n\nAn R package for making thematic maps quickly, with sensible defaults.\nA bundle of code, written by other users, that adds new functions to R.\nInstall it once with install.packages(), then load it in\neach session with library().\nA sequence of values that R stores together, made with c(),\nsuch as c(71, 75, 68).\nSpatial data stored as a grid of cells (pixels), each holding a value,\nsuch as a satellite image or an elevation model. In R, the\nterra package handles rasters.\nA model that fixes an ellipsoid to the real Earth, so that a latitude\nand longitude point to one place on the ground. NAD83 and WGS84 are\ndatums.\nThe rules that tie coordinates to places on the Earth, including how the\nround Earth is flattened onto a map (the projection). Layers must share\na coordinate system before you can combine them.\nA method for flattening the curved graticule onto a flat map. Every\nprojection distorts shape, area, distance, or direction.\nApplication Programming Interface: a set of rules for how one program\nasks another for data or services, such as your R script asking the\nCensus Bureau’s server for a table.\n“Simple features”: the R package for spatial vector data. An sf object\nis a data frame with a geometry column holding each row’s point, line,\nor polygon.\nR’s table: rows are observations and columns are variables. A tibble is\nthe tidyverse’s version of a data frame.\nA closed shape that represents an area, such as a county, a lake, or a\ncensus tract.\nThe level of detail at which you study something: addresses,\nneighborhoods, counties, or states. A pattern that is clear at one scale\ncan vanish or reverse at another.\nSpatial data stored as points, lines, and polygons, each with a table of\nattributes. In R, the sf package handles vector data.\nAn open, plain-text format for vector features, written in JSON.\nCoordinates are longitude first, then latitude, in WGS84.\nKeyhole Markup Language: the XML-based format behind Google Earth. A\n.kmz file is a zipped KML file.\nThe standard file format for raster data: a TIFF image with its location\nand coordinate system stored inside the file.\nData about data: who made a dataset, when, how, and what each part\nmeans. In a YAML header, it describes the document.\nThe science of measuring the Earth’s size, shape, orientation, and\ngravity. Every coordinate rests on a geodetic model of the Earth.\nA sphere flattened at the poles: the smooth mathematical shape used to\nmodel the Earth, defined by its semi-major and semi-minor axes.\nThe North American Datum of 1927, based on the Clarke 1866 ellipsoid and\na single origin point in Kansas.\nThe North American Datum of 1983, based on the GRS80 ellipsoid and\nmaintained through a network of permanent GPS stations (CORS).\nThe World Geodetic System of 1984, the datum GPS uses. GeoJSON and KML\ngive coordinates as WGS84 longitude and latitude.\nThe angle north or south of the Equator, from 0° to 90°. Lines of equal\nlatitude are parallels.\nThe angle east or west of the Prime Meridian, from 0° to 180°. Lines of\nequal longitude are meridians.\nCoordinates written as signed decimal numbers, such as −79.05°. Negative\nmeans south latitude or west longitude.\nCoordinates written as whole degrees, minutes (1/60 of a degree), and\nseconds (1/3,600 of a degree), with a letter N, S, E, or W, such as 79°\n3′ 21″ W.\nThe full count of everyone in the US, every ten years. It asks only a\nfew questions but covers every person.\nThe Census Bureau’s continuous survey of a sample of households every\nyear. It asks many more questions than the decennial census, but every\nvalue is an estimate with a margin of error.\nA subset of a population that is surveyed to estimate something about\nthe whole population. Smaller samples give less certain estimates.\nHow far a sample estimate might be from the true value. ACS margins of\nerror use a 90% confidence level: there is a 90% chance the true value\nlies within the estimate plus or minus the MOE.\nA small area of about 1,200 to 8,000 people (4,000 on average), drawn to\nbe fairly stable over time. The workhorse unit for neighborhood\nanalysis.\nAn R package that downloads US Census data through the Census API and\nreturns it as a tidy data frame, with boundaries attached if you ask.\nThe most common style of web API: each dataset has its own URL, you ask\nfor data with ordinary web requests, and the answer usually comes back\nas JSON.\nAn R package that downloads layers from ArcGIS REST services as sf\nobjects, with get_spatial_layer().\nStructured Query Language, the language of databases. ArcGIS\nwhere clauses use it: fcounty = 'Orange'.",
     "crumbs": [
       "Unit 3: Maps and Geographic Data"
     ]
@@ -1542,17 +1391,6 @@
     ]
   },
   {
-    "objectID": "chapters/thematic-maps-tmap-quiz.html",
-    "href": "chapters/thematic-maps-tmap-quiz.html",
-    "title": "Chapter quiz: Thematic Maps with tmap",
-    "section": "",
-    "text": "Practice what you learned in Thematic Maps with tmap. Questions come one at a time. Any you miss come back at the end until you’ve got them all right. Every quiz is a new random set from a bank of questions, so take it as many times as you like.\n\nLoading the quiz…",
-    "crumbs": [
-      "Unit 3: Maps and Geographic Data",
-      "Chapter quiz: Thematic Maps with tmap"
-    ]
-  },
-  {
     "objectID": "chapters/geographic-information.html",
     "href": "chapters/geographic-information.html",
     "title": "11  What Is Geographic Data?",
@@ -1649,17 +1487,6 @@
     "crumbs": [
       "Unit 3: Maps and Geographic Data",
       "<span class='chapter-number'>11</span>  <span class='chapter-title'>What Is Geographic Data?</span>"
-    ]
-  },
-  {
-    "objectID": "chapters/geographic-information-quiz.html",
-    "href": "chapters/geographic-information-quiz.html",
-    "title": "Chapter quiz: What Is Geographic Data?",
-    "section": "",
-    "text": "Practice what you learned in What Is Geographic Data?. Questions come one at a time. Any you miss come back at the end until you’ve got them all right. Every quiz is a new random set from a bank of questions, so take it as many times as you like.\n\nLoading the quiz…",
-    "crumbs": [
-      "Unit 3: Maps and Geographic Data",
-      "Chapter quiz: What Is Geographic Data?"
     ]
   },
   {
@@ -1795,17 +1622,6 @@
     ]
   },
   {
-    "objectID": "chapters/location-coordinate-systems-quiz.html",
-    "href": "chapters/location-coordinate-systems-quiz.html",
-    "title": "Chapter quiz: Location and Coordinate Systems",
-    "section": "",
-    "text": "Practice what you learned in Location and Coordinate Systems. Questions come one at a time. Any you miss come back at the end until you’ve got them all right. Every quiz is a new random set from a bank of questions, so take it as many times as you like.\n\nLoading the quiz…",
-    "crumbs": [
-      "Unit 3: Maps and Geographic Data",
-      "Chapter quiz: Location and Coordinate Systems"
-    ]
-  },
-  {
     "objectID": "chapters/census-data-apis.html",
     "href": "chapters/census-data-apis.html",
     "title": "13  Census Data and APIs",
@@ -1924,17 +1740,6 @@
     "crumbs": [
       "Unit 3: Maps and Geographic Data",
       "<span class='chapter-number'>13</span>  <span class='chapter-title'>Census Data and APIs</span>"
-    ]
-  },
-  {
-    "objectID": "chapters/census-data-apis-quiz.html",
-    "href": "chapters/census-data-apis-quiz.html",
-    "title": "Chapter quiz: Census Data and APIs",
-    "section": "",
-    "text": "Practice what you learned in Census Data and APIs. Questions come one at a time. Any you miss come back at the end until you’ve got them all right. Every quiz is a new random set from a bank of questions, so take it as many times as you like.\n\nLoading the quiz…",
-    "crumbs": [
-      "Unit 3: Maps and Geographic Data",
-      "Chapter quiz: Census Data and APIs"
     ]
   },
   {
@@ -2059,33 +1864,11 @@
     ]
   },
   {
-    "objectID": "chapters/arcpullr-quiz.html",
-    "href": "chapters/arcpullr-quiz.html",
-    "title": "Chapter quiz: ArcGIS Data with arcpullr",
-    "section": "",
-    "text": "Practice what you learned in ArcGIS Data with arcpullr. Questions come one at a time. Any you miss come back at the end until you’ve got them all right. Every quiz is a new random set from a bank of questions, so take it as many times as you like.\n\nLoading the quiz…",
-    "crumbs": [
-      "Unit 3: Maps and Geographic Data",
-      "Chapter quiz: ArcGIS Data with arcpullr"
-    ]
-  },
-  {
-    "objectID": "units/unit-3-quiz.html",
-    "href": "units/unit-3-quiz.html",
-    "title": "Unit 3 quiz: Maps and Geographic Data",
-    "section": "",
-    "text": "Review all of Unit 3: Maps and Geographic Data at once. This quiz draws from the chapter quizzes for Chapters 10–14, so every question here is one you can also find on a chapter quiz page. Each quiz is 20 questions picked at random and spread across the chapters, and any you miss come back at the end until you’ve got them all right. Take it as many times as you like.\n\nLoading the quiz…",
-    "crumbs": [
-      "Unit 3: Maps and Geographic Data",
-      "Unit 3 quiz: Maps and Geographic Data"
-    ]
-  },
-  {
     "objectID": "units/unit-4.html",
     "href": "units/unit-4.html",
     "title": "Unit 4: Spatial Analysis",
     "section": "",
-    "text": "Chapter 15: Joins: Attribute and Spatial\nThis unit puts data together and starts to analyze it. It joins tables by a shared column and by location, then explores data the way an analyst first meets a new dataset: describing each variable’s center and spread, plotting its distribution, and mapping it. It ends with statistics that describe where features are, and puts your own R functions to work calculating them.\nA join combines tables by matching rows. This chapter covers dplyr’s inner, left, right, and full joins, naming the key with join_by(), and chaining joins across several tables. It explains cardinality, and why you should know it before you join. It then joins by location with sf’s st_join(), compares simple and summarized, inside and distance spatial joins, and shows why distances need a projected coordinate system.\nChapter 15 quiz",
+    "text": "Chapter 15: Joins: Attribute and Spatial\nThis unit puts data together and starts to analyze it. It joins tables by a shared column and by location, then explores data the way an analyst first meets a new dataset: describing each variable’s center and spread, plotting its distribution, and mapping it. It ends with statistics that describe where features are, and puts your own R functions to work calculating them.\nA join combines tables by matching rows. This chapter covers dplyr’s inner, left, right, and full joins, naming the key with join_by(), and chaining joins across several tables. It explains cardinality, and why you should know it before you join. It then joins by location with sf’s st_join(), compares simple and summarized, inside and distance spatial joins, and shows why distances need a projected coordinate system.",
     "crumbs": [
       "Unit 4: Spatial Analysis"
     ]
@@ -2095,7 +1878,7 @@
     "href": "units/unit-4.html#chapter-16-exploratory-spatial-data-analysis",
     "title": "Unit 4: Spatial Analysis",
     "section": "Chapter 16: Exploratory Spatial Data Analysis",
-    "text": "Chapter 16: Exploratory Spatial Data Analysis\nBefore modeling data, get to know it. This chapter places exploratory data analysis in the data science workflow and adds the spatial question: how do values vary across space? It covers checking a data table, measures of central tendency (mean, median, mode) and dispersion (range, IQR, standard deviation), histograms, boxplots, and density plots, distribution shapes and outliers, and mapping rates rather than counts.\nChapter 16 quiz",
+    "text": "Chapter 16: Exploratory Spatial Data Analysis\nBefore modeling data, get to know it. This chapter places exploratory data analysis in the data science workflow and adds the spatial question: how do values vary across space? It covers checking a data table, measures of central tendency (mean, median, mode) and dispersion (range, IQR, standard deviation), histograms, boxplots, and density plots, distribution shapes and outliers, and mapping rates rather than counts.",
     "crumbs": [
       "Unit 4: Spatial Analysis"
     ]
@@ -2105,17 +1888,7 @@
     "href": "units/unit-4.html#chapter-17-spatial-descriptive-statistics",
     "title": "Unit 4: Spatial Analysis",
     "section": "Chapter 17: Spatial Descriptive Statistics",
-    "text": "Chapter 17: Spatial Descriptive Statistics\nSpatial descriptive statistics describe where features are. This chapter covers the mean center, the weighted mean center (including the U.S. center of population), the central feature, and the standard distance, each matched to the familiar statistic it extends. It then reviews writing functions in R, from a one-line addSeven() to a meanCenter() function for any layer of polygons.\nChapter 17 quiz",
-    "crumbs": [
-      "Unit 4: Spatial Analysis"
-    ]
-  },
-  {
-    "objectID": "units/unit-4.html#unit-4-quiz",
-    "href": "units/unit-4.html#unit-4-quiz",
-    "title": "Unit 4: Spatial Analysis",
-    "section": "Unit 4 quiz",
-    "text": "Unit 4 quiz\nWhen you have finished the unit, the Unit 4 quiz mixes questions from all 3 chapter quizzes, so you can review the whole unit at once.\n\n\n\nCombining two tables by matching rows on a shared key column, such as\nattaching Census data to boundaries by GEOID with\nleft_join().\nIn R, a named piece of memory that holds data, such as\nmonths &lt;- 12. In a dataset, a measured characteristic,\nsuch as median income; each Census variable has a code.\nCode that takes inputs (arguments), does a job, and returns an output,\nsuch as mean(temps).\nThe tidyverse package for transforming data frames: filtering rows,\nchoosing columns, adding new columns, joining tables, and summarizing.\nA join that keeps every row of both tables, with NA wherever there is no\nmatch. full_join() in dplyr.\nHow many rows in one table can match a row in another: one-to-one,\none-to-many, many-to-one, or many-to-many.\n“Simple features”: the R package for spatial vector data. An sf object\nis a data frame with a geometry column holding each row’s point, line,\nor polygon.\nA join that matches features by their location, such as attaching to\neach point the polygon it falls inside. st_join() in R.\nA method for flattening the curved graticule onto a flat map. Every\nprojection distorts shape, area, distance, or direction.\nThe rules that tie coordinates to places on the Earth, including how the\nround Earth is flattened onto a map (the projection). Layers must share\na coordinate system before you can combine them.\nLearning what is in a dataset, with summaries and plots, before trying\nto explain or predict anything with it.\nThe steps of a data analysis: import, tidy, then a loop of transform,\nvisualize, and model, and finally communicate.\nOne value that describes the center of a set of values: the mean,\nmedian, or mode.\nThe middle value when values are sorted, so half are above and half\nbelow. Unlike counts, medians can’t be added across areas.\nHow spread out values are around their center, measured by the range,\ninterquartile range, or standard deviation.\nQ3 minus Q1: the spread of the middle half of the data. Outliers barely\naffect it. IQR() in R.\nA measure of how spread out values are around their mean, in the same\nunits as the values. sd() in R.\nA chart that divides a variable’s range into bins and draws a bar for\nhow many values fall in each. geom_histogram() in ggplot2.\nA smoothed histogram whose total area is 1. geom_density()\nin ggplot2.\nA value far from all the others. It may be real or an error, so check it\nbefore you report it.\nStatistics that describe the center and spread of a set of locations,\nsuch as the mean center and standard distance.\nThe average x coordinate and average y coordinate of a set of features.\nLike the mean, outliers pull it.\nA mean center in which each feature counts in proportion to an\nattribute, such as population.\nThe point where a flat map of the country would balance if every\nresident weighed the same.\nThe existing feature with the smallest total distance to all the others:\nthe spatial counterpart of the median.\nThe typical distance of features from their mean center: the spatial\ncounterpart of the standard deviation, drawn as a circle.\nA closed shape that represents an area, such as a county, a lake, or a\ncensus tract.",
+    "text": "Chapter 17: Spatial Descriptive Statistics\nSpatial descriptive statistics describe where features are. This chapter covers the mean center, the weighted mean center (including the U.S. center of population), the central feature, and the standard distance, each matched to the familiar statistic it extends. It then reviews writing functions in R, from a one-line addSeven() to a meanCenter() function for any layer of polygons.\n\n\n\nCombining two tables by matching rows on a shared key column, such as\nattaching Census data to boundaries by GEOID with\nleft_join().\nIn R, a named piece of memory that holds data, such as\nmonths &lt;- 12. In a dataset, a measured characteristic,\nsuch as median income; each Census variable has a code.\nCode that takes inputs (arguments), does a job, and returns an output,\nsuch as mean(temps).\nThe tidyverse package for transforming data frames: filtering rows,\nchoosing columns, adding new columns, joining tables, and summarizing.\nA join that keeps every row of both tables, with NA wherever there is no\nmatch. full_join() in dplyr.\nHow many rows in one table can match a row in another: one-to-one,\none-to-many, many-to-one, or many-to-many.\n“Simple features”: the R package for spatial vector data. An sf object\nis a data frame with a geometry column holding each row’s point, line,\nor polygon.\nA join that matches features by their location, such as attaching to\neach point the polygon it falls inside. st_join() in R.\nA method for flattening the curved graticule onto a flat map. Every\nprojection distorts shape, area, distance, or direction.\nThe rules that tie coordinates to places on the Earth, including how the\nround Earth is flattened onto a map (the projection). Layers must share\na coordinate system before you can combine them.\nLearning what is in a dataset, with summaries and plots, before trying\nto explain or predict anything with it.\nThe steps of a data analysis: import, tidy, then a loop of transform,\nvisualize, and model, and finally communicate.\nOne value that describes the center of a set of values: the mean,\nmedian, or mode.\nThe middle value when values are sorted, so half are above and half\nbelow. Unlike counts, medians can’t be added across areas.\nHow spread out values are around their center, measured by the range,\ninterquartile range, or standard deviation.\nQ3 minus Q1: the spread of the middle half of the data. Outliers barely\naffect it. IQR() in R.\nA measure of how spread out values are around their mean, in the same\nunits as the values. sd() in R.\nA chart that divides a variable’s range into bins and draws a bar for\nhow many values fall in each. geom_histogram() in ggplot2.\nA smoothed histogram whose total area is 1. geom_density()\nin ggplot2.\nA value far from all the others. It may be real or an error, so check it\nbefore you report it.\nStatistics that describe the center and spread of a set of locations,\nsuch as the mean center and standard distance.\nThe average x coordinate and average y coordinate of a set of features.\nLike the mean, outliers pull it.\nA mean center in which each feature counts in proportion to an\nattribute, such as population.\nThe point where a flat map of the country would balance if every\nresident weighed the same.\nThe existing feature with the smallest total distance to all the others:\nthe spatial counterpart of the median.\nThe typical distance of features from their mean center: the spatial\ncounterpart of the standard deviation, drawn as a circle.\nA closed shape that represents an area, such as a county, a lake, or a\ncensus tract.",
     "crumbs": [
       "Unit 4: Spatial Analysis"
     ]
@@ -2239,17 +2012,6 @@
     "crumbs": [
       "Unit 4: Spatial Analysis",
       "<span class='chapter-number'>15</span>  <span class='chapter-title'>Joins: Attribute and Spatial</span>"
-    ]
-  },
-  {
-    "objectID": "chapters/joins-quiz.html",
-    "href": "chapters/joins-quiz.html",
-    "title": "Chapter quiz: Joins: Attribute and Spatial",
-    "section": "",
-    "text": "Practice what you learned in Joins: Attribute and Spatial. Questions come one at a time. Any you miss come back at the end until you’ve got them all right. Every quiz is a new random set from a bank of questions, so take it as many times as you like.\n\nLoading the quiz…",
-    "crumbs": [
-      "Unit 4: Spatial Analysis",
-      "Chapter quiz: Joins: Attribute and Spatial"
     ]
   },
   {
@@ -2385,17 +2147,6 @@
     ]
   },
   {
-    "objectID": "chapters/esda-quiz.html",
-    "href": "chapters/esda-quiz.html",
-    "title": "Chapter quiz: Exploratory Spatial Data Analysis",
-    "section": "",
-    "text": "Practice what you learned in Exploratory Spatial Data Analysis. Questions come one at a time. Any you miss come back at the end until you’ve got them all right. Every quiz is a new random set from a bank of questions, so take it as many times as you like.\n\nLoading the quiz…",
-    "crumbs": [
-      "Unit 4: Spatial Analysis",
-      "Chapter quiz: Exploratory Spatial Data Analysis"
-    ]
-  },
-  {
     "objectID": "chapters/spatial-statistics.html",
     "href": "chapters/spatial-statistics.html",
     "title": "17  Spatial Descriptive Statistics",
@@ -2517,33 +2268,11 @@
     ]
   },
   {
-    "objectID": "chapters/spatial-statistics-quiz.html",
-    "href": "chapters/spatial-statistics-quiz.html",
-    "title": "Chapter quiz: Spatial Descriptive Statistics",
-    "section": "",
-    "text": "Practice what you learned in Spatial Descriptive Statistics. Questions come one at a time. Any you miss come back at the end until you’ve got them all right. Every quiz is a new random set from a bank of questions, so take it as many times as you like.\n\nLoading the quiz…",
-    "crumbs": [
-      "Unit 4: Spatial Analysis",
-      "Chapter quiz: Spatial Descriptive Statistics"
-    ]
-  },
-  {
-    "objectID": "units/unit-4-quiz.html",
-    "href": "units/unit-4-quiz.html",
-    "title": "Unit 4 quiz: Spatial Analysis",
-    "section": "",
-    "text": "Review all of Unit 4: Spatial Analysis at once. This quiz draws from the chapter quizzes for Chapters 15–17, so every question here is one you can also find on a chapter quiz page. Each quiz is 15 questions picked at random and spread across the chapters, and any you miss come back at the end until you’ve got them all right. Take it as many times as you like.\n\nLoading the quiz…",
-    "crumbs": [
-      "Unit 4: Spatial Analysis",
-      "Unit 4 quiz: Spatial Analysis"
-    ]
-  },
-  {
     "objectID": "units/unit-5.html",
     "href": "units/unit-5.html",
     "title": "Unit 5: Statistics and Science",
     "section": "",
-    "text": "Chapter 18: Comparing Groups: p-values and ANOVA\nThis unit turns data into evidence. It tests whether groups of places differ, models how one variable changes with others, and puts the pieces together into a reproducible spatial data science project, from the research question to the conclusion. It ends by testing Tobler’s first law of geography, that near things are more related than distant things: first deciding what “near” means, with distances and neighbors, and then measuring whether values on a map are clustered, random, or dispersed.\nThis chapter places statistical tests in the cycle of data analysis. It explains what a p-value does and doesn’t tell you, and why the replication crisis changed how scientists report them. It then compares group means with analysis of variance, from a small worked example to median male age across North Carolina’s regions, with follow-up tests and alternatives for when ANOVA’s assumptions fail.\nChapter 18 quiz",
+    "text": "Chapter 18: Comparing Groups: p-values and ANOVA\nThis unit turns data into evidence. It tests whether groups of places differ, models how one variable changes with others, and puts the pieces together into a reproducible spatial data science project, from the research question to the conclusion. It ends by testing Tobler’s first law of geography, that near things are more related than distant things: first deciding what “near” means, with distances and neighbors, and then measuring whether values on a map are clustered, random, or dispersed.\nThis chapter places statistical tests in the cycle of data analysis. It explains what a p-value does and doesn’t tell you, and why the replication crisis changed how scientists report them. It then compares group means with analysis of variance, from a small worked example to median male age across North Carolina’s regions, with follow-up tests and alternatives for when ANOVA’s assumptions fail.",
     "crumbs": [
       "Unit 5: Statistics and Science"
     ]
@@ -2553,7 +2282,7 @@
     "href": "units/unit-5.html#chapter-19-linear-regression",
     "title": "Unit 5: Statistics and Science",
     "section": "Chapter 19: Linear Regression",
-    "text": "Chapter 19: Linear Regression\nRegression asks how one variable changes as another changes. This chapter covers correlation, fitting a line with lm(), slopes, intercepts, residuals, and predictions, and how to read R’s model summary, including R² and adjusted R². It models median house value in North Carolina’s counties, then maps the residuals to see where the model fails.\nChapter 19 quiz",
+    "text": "Chapter 19: Linear Regression\nRegression asks how one variable changes as another changes. This chapter covers correlation, fitting a line with lm(), slopes, intercepts, residuals, and predictions, and how to read R’s model summary, including R² and adjusted R². It models median house value in North Carolina’s counties, then maps the residuals to see where the model fails.",
     "crumbs": [
       "Unit 5: Statistics and Science"
     ]
@@ -2563,7 +2292,7 @@
     "href": "units/unit-5.html#chapter-20-writing-a-spatial-data-science-project",
     "title": "Unit 5: Statistics and Science",
     "section": "Chapter 20: Writing a Spatial Data Science Project",
-    "text": "Chapter 20: Writing a Spatial Data Science Project\nThis chapter steps back to ask how data become knowledge. It covers the data, information, knowledge, wisdom pyramid, big data, choosing sources, and why reproducibility and replicability matter. It then walks through the parts of a project, from the research question and background to methods, results, and conclusions, and ends with what makes a project spatial data science.\nChapter 20 quiz",
+    "text": "Chapter 20: Writing a Spatial Data Science Project\nThis chapter steps back to ask how data become knowledge. It covers the data, information, knowledge, wisdom pyramid, big data, choosing sources, and why reproducibility and replicability matter. It then walks through the parts of a project, from the research question and background to methods, results, and conclusions, and ends with what makes a project spatial data science.",
     "crumbs": [
       "Unit 5: Statistics and Science"
     ]
@@ -2573,7 +2302,7 @@
     "href": "units/unit-5.html#chapter-21-distance-and-neighborhoods",
     "title": "Unit 5: Statistics and Science",
     "section": "Chapter 21: Distance and Neighborhoods",
-    "text": "Chapter 21: Distance and Neighborhoods\nThis chapter covers what distance means and the main ways to measure it: Euclidean, great circle, Manhattan, and network distance. It then uses distance and shared borders to decide which features are neighbors, with distance bands, k nearest neighbors, and rook and queen contiguity, and stores those relationships in a neighborhood weight matrix, built in R with spdep.\nChapter 21 quiz",
+    "text": "Chapter 21: Distance and Neighborhoods\nThis chapter covers what distance means and the main ways to measure it: Euclidean, great circle, Manhattan, and network distance. It then uses distance and shared borders to decide which features are neighbors, with distance bands, k nearest neighbors, and rook and queen contiguity, and stores those relationships in a neighborhood weight matrix, built in R with spdep.",
     "crumbs": [
       "Unit 5: Statistics and Science"
     ]
@@ -2583,17 +2312,7 @@
     "href": "units/unit-5.html#chapter-22-spatial-clustering-and-spatial-autocorrelation",
     "title": "Unit 5: Statistics and Science",
     "section": "Chapter 22: Spatial Clustering and Spatial Autocorrelation",
-    "text": "Chapter 22: Spatial Clustering and Spatial Autocorrelation\nThis chapter tests objectively whether things on a map are clustered. It measures point patterns with the Average Nearest Neighbor ratio, global spatial autocorrelation with Moran’s I and a permutation test, and local hot spots and cold spots with Getis-Ord Gi*, using births in North Carolina’s counties.\nChapter 22 quiz",
-    "crumbs": [
-      "Unit 5: Statistics and Science"
-    ]
-  },
-  {
-    "objectID": "units/unit-5.html#unit-5-quiz",
-    "href": "units/unit-5.html#unit-5-quiz",
-    "title": "Unit 5: Statistics and Science",
-    "section": "Unit 5 quiz",
-    "text": "Unit 5 quiz\nWhen you have finished the unit, the Unit 5 quiz mixes questions from all 5 chapter quizzes, so you can review the whole unit at once.\n\n\n\nIn R, a named piece of memory that holds data, such as\nmonths &lt;- 12. In a dataset, a measured characteristic,\nsuch as median income; each Census variable has a code.\nThe ability for anyone to rerun an analysis from its code and data and\nget the same result.\nThe use of data that have a location attached to answer questions about\nthe world. It combines what we study (the spatial), how we\nhandle it (data skills), and how we ask and answer questions\n(science).\nThe specific, answerable question a project sets out to answer, usually\nwith a place and a time.\nWaldo Tobler’s statement that “everything is related to everything else,\nbut near things are more related than distant things.” It is the idea\nbehind spatial autocorrelation.\nThe probability of a result at least as extreme as yours if the null\nhypothesis were true. It is not the chance the null hypothesis is true.\nThe discovery, in the 2010s, that many published findings fail to hold\nup when other researchers repeat the studies.\nA measure of spread: the standard deviation squared, so its units are\nsquared too. var() in R.\nThe middle value when values are sorted, so half are above and half\nbelow. Unlike counts, medians can’t be added across areas.\nAnalysis of variance: a statistical test of whether the averages of\nthree or more groups differ, such as median age in three regions. It\ncompares variation between groups with variation within them.\nA statistical model of how one variable (such as home price) changes\nwith one or more others (such as distance to downtown).\nAn observation’s actual value minus the value a model predicts for it.\nMap them to see where a model fits poorly.\nThe share of the variation in y that a model explains, from 0\nto 1.\nR-squared lowered a little for each independent variable, so adding\nuseless variables can’t make a model look better. Use it to compare\nmodels.\nData too large, fast, or varied for ordinary tools, often described by\nthree Vs: volume, velocity, and variety.\nWhen a new study, with new data, answering the same question gets\nconsistent results.\nDistance along the lines of a network, such as streets, adding up the\nlengths of the segments on the route.\nA neighbor definition: every feature within a set threshold distance is\na neighbor. dnearneigh() in spdep.\nPolygons are neighbors if they share an edge or just a corner. On a\ngrid, each cell has eight. spdep’s default.\nAn n × n table, W, whose entry\nwij records the neighbor relationship\nbetween observations i and j.\nThe observed mean distance from each point to its nearest neighbor\ndivided by the mean expected at random. Below 1 is clustered.\nThe tendency for things that are close together to be more alike than\nthings that are far apart, such as neighboring counties having similar\nincomes.\nA global measure of spatial autocorrelation, from −1 (dispersed) through\n0 (random) to +1 (clustered), with a p-value.\nA test that shuffles values across locations many times and asks how\noften the shuffles beat the observed statistic.\nA cluster of places with unusually high values, such as a group of\nneighborhoods with many burglaries. Finding hotspots is a common goal of\nspatial analysis.\nAn area of low values surrounded by low values: a large negative Gi*\nz-score.\nA local statistic that gives each observation a z-score: large positive\nfor hot spots, large negative for cold spots.",
+    "text": "Chapter 22: Spatial Clustering and Spatial Autocorrelation\nThis chapter tests objectively whether things on a map are clustered. It measures point patterns with the Average Nearest Neighbor ratio, global spatial autocorrelation with Moran’s I and a permutation test, and local hot spots and cold spots with Getis-Ord Gi*, using births in North Carolina’s counties.\n\n\n\nIn R, a named piece of memory that holds data, such as\nmonths &lt;- 12. In a dataset, a measured characteristic,\nsuch as median income; each Census variable has a code.\nThe ability for anyone to rerun an analysis from its code and data and\nget the same result.\nThe use of data that have a location attached to answer questions about\nthe world. It combines what we study (the spatial), how we\nhandle it (data skills), and how we ask and answer questions\n(science).\nThe specific, answerable question a project sets out to answer, usually\nwith a place and a time.\nWaldo Tobler’s statement that “everything is related to everything else,\nbut near things are more related than distant things.” It is the idea\nbehind spatial autocorrelation.\nThe probability of a result at least as extreme as yours if the null\nhypothesis were true. It is not the chance the null hypothesis is true.\nThe discovery, in the 2010s, that many published findings fail to hold\nup when other researchers repeat the studies.\nA measure of spread: the standard deviation squared, so its units are\nsquared too. var() in R.\nThe middle value when values are sorted, so half are above and half\nbelow. Unlike counts, medians can’t be added across areas.\nAnalysis of variance: a statistical test of whether the averages of\nthree or more groups differ, such as median age in three regions. It\ncompares variation between groups with variation within them.\nA statistical model of how one variable (such as home price) changes\nwith one or more others (such as distance to downtown).\nAn observation’s actual value minus the value a model predicts for it.\nMap them to see where a model fits poorly.\nThe share of the variation in y that a model explains, from 0\nto 1.\nR-squared lowered a little for each independent variable, so adding\nuseless variables can’t make a model look better. Use it to compare\nmodels.\nData too large, fast, or varied for ordinary tools, often described by\nthree Vs: volume, velocity, and variety.\nWhen a new study, with new data, answering the same question gets\nconsistent results.\nDistance along the lines of a network, such as streets, adding up the\nlengths of the segments on the route.\nA neighbor definition: every feature within a set threshold distance is\na neighbor. dnearneigh() in spdep.\nPolygons are neighbors if they share an edge or just a corner. On a\ngrid, each cell has eight. spdep’s default.\nAn n × n table, W, whose entry\nwij records the neighbor relationship\nbetween observations i and j.\nThe observed mean distance from each point to its nearest neighbor\ndivided by the mean expected at random. Below 1 is clustered.\nThe tendency for things that are close together to be more alike than\nthings that are far apart, such as neighboring counties having similar\nincomes.\nA global measure of spatial autocorrelation, from −1 (dispersed) through\n0 (random) to +1 (clustered), with a p-value.\nA test that shuffles values across locations many times and asks how\noften the shuffles beat the observed statistic.\nA cluster of places with unusually high values, such as a group of\nneighborhoods with many burglaries. Finding hotspots is a common goal of\nspatial analysis.\nAn area of low values surrounded by low values: a large negative Gi*\nz-score.\nA local statistic that gives each observation a z-score: large positive\nfor hot spots, large negative for cold spots.",
     "crumbs": [
       "Unit 5: Statistics and Science"
     ]
@@ -2731,17 +2450,6 @@
     ]
   },
   {
-    "objectID": "chapters/anova-quiz.html",
-    "href": "chapters/anova-quiz.html",
-    "title": "Chapter quiz: Comparing Groups: p-values and ANOVA",
-    "section": "",
-    "text": "Practice what you learned in Comparing Groups: p-values and ANOVA. Questions come one at a time. Any you miss come back at the end until you’ve got them all right. Every quiz is a new random set from a bank of questions, so take it as many times as you like.\n\nLoading the quiz…",
-    "crumbs": [
-      "Unit 5: Statistics and Science",
-      "Chapter quiz: Comparing Groups: p-values and ANOVA"
-    ]
-  },
-  {
     "objectID": "chapters/regression.html",
     "href": "chapters/regression.html",
     "title": "19  Linear Regression",
@@ -2874,17 +2582,6 @@
     ]
   },
   {
-    "objectID": "chapters/regression-quiz.html",
-    "href": "chapters/regression-quiz.html",
-    "title": "Chapter quiz: Linear Regression",
-    "section": "",
-    "text": "Practice what you learned in Linear Regression. Questions come one at a time. Any you miss come back at the end until you’ve got them all right. Every quiz is a new random set from a bank of questions, so take it as many times as you like.\n\nLoading the quiz…",
-    "crumbs": [
-      "Unit 5: Statistics and Science",
-      "Chapter quiz: Linear Regression"
-    ]
-  },
-  {
     "objectID": "chapters/writing-spatial-data-science.html",
     "href": "chapters/writing-spatial-data-science.html",
     "title": "20  Writing a Spatial Data Science Project",
@@ -3006,17 +2703,6 @@
     ]
   },
   {
-    "objectID": "chapters/writing-spatial-data-science-quiz.html",
-    "href": "chapters/writing-spatial-data-science-quiz.html",
-    "title": "Chapter quiz: Writing a Spatial Data Science Project",
-    "section": "",
-    "text": "Practice what you learned in Writing a Spatial Data Science Project. Questions come one at a time. Any you miss come back at the end until you’ve got them all right. Every quiz is a new random set from a bank of questions, so take it as many times as you like.\n\nLoading the quiz…",
-    "crumbs": [
-      "Unit 5: Statistics and Science",
-      "Chapter quiz: Writing a Spatial Data Science Project"
-    ]
-  },
-  {
     "objectID": "chapters/distance-neighborhoods.html",
     "href": "chapters/distance-neighborhoods.html",
     "title": "21  Distance and Neighborhoods",
@@ -3124,17 +2810,6 @@
     "crumbs": [
       "Unit 5: Statistics and Science",
       "<span class='chapter-number'>21</span>  <span class='chapter-title'>Distance and Neighborhoods</span>"
-    ]
-  },
-  {
-    "objectID": "chapters/distance-neighborhoods-quiz.html",
-    "href": "chapters/distance-neighborhoods-quiz.html",
-    "title": "Chapter quiz: Distance and Neighborhoods",
-    "section": "",
-    "text": "Practice what you learned in Distance and Neighborhoods. Questions come one at a time. Any you miss come back at the end until you’ve got them all right. Every quiz is a new random set from a bank of questions, so take it as many times as you like.\n\nLoading the quiz…",
-    "crumbs": [
-      "Unit 5: Statistics and Science",
-      "Chapter quiz: Distance and Neighborhoods"
     ]
   },
   {
@@ -3292,33 +2967,11 @@
     ]
   },
   {
-    "objectID": "chapters/spatial-autocorrelation-quiz.html",
-    "href": "chapters/spatial-autocorrelation-quiz.html",
-    "title": "Chapter quiz: Spatial Clustering and Spatial Autocorrelation",
-    "section": "",
-    "text": "Practice what you learned in Spatial Clustering and Spatial Autocorrelation. Questions come one at a time. Any you miss come back at the end until you’ve got them all right. Every quiz is a new random set from a bank of questions, so take it as many times as you like.\n\nLoading the quiz…",
-    "crumbs": [
-      "Unit 5: Statistics and Science",
-      "Chapter quiz: Spatial Clustering and Spatial Autocorrelation"
-    ]
-  },
-  {
-    "objectID": "units/unit-5-quiz.html",
-    "href": "units/unit-5-quiz.html",
-    "title": "Unit 5 quiz: Statistics and Science",
-    "section": "",
-    "text": "Review all of Unit 5: Statistics and Science at once. This quiz draws from the chapter quizzes for Chapters 18–22, so every question here is one you can also find on a chapter quiz page. Each quiz is 20 questions picked at random and spread across the chapters, and any you miss come back at the end until you’ve got them all right. Take it as many times as you like.\n\nLoading the quiz…",
-    "crumbs": [
-      "Unit 5: Statistics and Science",
-      "Unit 5 quiz: Statistics and Science"
-    ]
-  },
-  {
     "objectID": "units/unit-6.html",
     "href": "units/unit-6.html",
     "title": "Unit 6: Next Steps",
     "section": "",
-    "text": "Chapter 23: Interactive Map Dashboards\nThis unit looks beyond the course. It first turns your maps and analysis into interactive dashboards that anyone can explore, then shows where the skills from this book are used, previews the advanced topics that build on them, and maps out the courses, credentials, and careers that come next. Neither chapter has a quiz.\nThis chapter builds an interactive dashboard of income and poverty by state. It makes interactive maps with leaflet (or tmap in view mode), lays out a map, value box, chart, and table with flexdashboard, links them with crosstalk in a single HTML file, and adds Shiny so the dashboard recalculates when readers make choices. It ends with how to share each kind of dashboard.",
+    "text": "Chapter 23: Interactive Map Dashboards\nThis unit looks beyond the course. It first turns your maps and analysis into interactive dashboards that anyone can explore, then shows where the skills from this book are used, previews the advanced topics that build on them, and maps out the courses, credentials, and careers that come next.\nThis chapter builds an interactive dashboard of income and poverty by state. It makes interactive maps with leaflet (or tmap in view mode), lays out a map, value box, chart, and table with flexdashboard, links them with crosstalk in a single HTML file, and adds Shiny so the dashboard recalculates when readers make choices. It ends with how to share each kind of dashboard.",
     "crumbs": [
       "Unit 6: Next Steps"
     ]
