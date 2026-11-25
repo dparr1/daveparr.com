@@ -42,6 +42,11 @@ navigation:
   - title: GIS@UNC Newsletters
     url: /newsletters/
 
+# Jekyll skips files that start with _ unless listed here. _redirects is
+# Cloudflare's redirect list (old /geog215/ links -> /intro-spatial-data-science/).
+include:
+  - _redirects
+
 exclude:
   - README.md
   - Gemfile

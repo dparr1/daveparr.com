@@ -1,0 +1,5 @@
+# Cloudflare Workers static-assets redirects (copied into _site/ by Jekyll;
+# see `include:` in _config.yml). The GEOG 215 book moved from /geog215/ to
+# /intro-spatial-data-science/ in Nov 2026; keep old links working.
+/geog215                /intro-spatial-data-science/         301
+/geog215/*              /intro-spatial-data-science/:splat   301

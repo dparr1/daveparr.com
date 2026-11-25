@@ -1,6 +1,6 @@
 # Adds the Google Tag Manager container (site.google_tag_manager in _config.yml)
 # to every built HTML page, including the GEOG 215 book pages that Quarto
-# renders and that are copied into geog215/ without Jekyll layouts.
+# renders and that are copied into intro-spatial-data-science/ without Jekyll layouts.
 # Skipped under `jekyll serve` so local previews don't send analytics.
 
 module GoogleTagManager
