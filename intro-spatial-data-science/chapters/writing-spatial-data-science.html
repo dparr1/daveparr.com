@@ -1,0 +1,1963 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>20&nbsp; Writing a Spatial Data Science Project – Introduction to Spatial Data Science</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/writing-spatial-data-science-quiz.html" rel="next">
+<link href="../chapters/regression-quiz.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ebb58cfc2c0cc903b00b246007c1be77.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-dc9f5fc0f996687a6857ae5a69d42718.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-contrib/glossary-1.0.0/glossary.js"></script>
+<link href="../site_libs/quarto-contrib/glossary-1.0.0/glossary.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<!--
+  Reading settings, part 1 of 2: applies the reader's saved font and text size
+  before the page draws, so it doesn't flash in the default font first.
+  The menu itself is in assets/reader-settings.html; styles are in
+  assets/reader-settings.css.
+-->
+<script>
+  (function () {
+    try {
+      var font = localStorage.getItem("sds-reader-font");
+      var size = localStorage.getItem("sds-reader-size");
+      if (font) document.documentElement.setAttribute("data-reader-font", font);
+      // Lexend and Cardo come from Google Fonts, loaded only for readers who pick them.
+      var webFonts = {
+        lexend: "https://fonts.googleapis.com/css2?family=Lexend:wght@300..700&display=swap",
+        cardo: "https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&display=swap"
+      };
+      if (webFonts[font]) {
+        var link = document.createElement("link");
+        link.rel = "stylesheet"; link.href = webFonts[font]; link.id = "sds-reader-webfont-" + font;
+        document.head.appendChild(link);
+      }
+      if (size) document.documentElement.setAttribute("data-reader-size", size);
+    } catch (e) { /* storage blocked: keep the defaults */ }
+  })();
+</script>
+
+
+<link rel="stylesheet" href="../include/webex.css">
+<link rel="stylesheet" href="../assets/sidebar.css">
+<link rel="stylesheet" href="../assets/grade-table.css">
+<link rel="stylesheet" href="../assets/reader-settings.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../units/unit-5.html">Unit 5: Statistics and Science</a></li><li class="breadcrumb-item"><a href="../chapters/writing-spatial-data-science.html"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Writing a Spatial Data Science Project</span></a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Site">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Introduction to Spatial Data Science</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../units/unit-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-1-label">Unit 1: R and Spatial Data Science</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section: Unit 1: R and Spatial Data Science">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/intro-spatial-data-science.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">What is Spatial Data Science?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/intro-spatial-data-science-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: What is Spatial Data Science?</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/r-rstudio-rmarkdown.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">R, RStudio, and R Markdown</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/r-rstudio-rmarkdown-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: R, RStudio, and R Markdown</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/r-basics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">R Basics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/r-basics-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: R Basics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/indexing-vectors-data-frames.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Indexing Vectors and Data Frames</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/indexing-vectors-data-frames-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Indexing Vectors and Data Frames</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/blocks-loops-functions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Blocks, Loops, and Functions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/blocks-loops-functions-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Blocks, Loops, and Functions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../units/unit-1-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Unit 1 quiz: R and Spatial Data Science</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../units/unit-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-2-label">Unit 2: Into the Tidyverse</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section: Unit 2: Into the Tidyverse">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/tidyverse-filter-pipe.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Into the Tidyverse: glimpse, filter, and the Pipe</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/tidyverse-filter-pipe-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Into the Tidyverse: glimpse, filter, and the Pipe</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/tidyverse-arrange-select-mutate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Into the Tidyverse: arrange, distinct, select, and mutate</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/tidyverse-arrange-select-mutate-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Into the Tidyverse: arrange, distinct, select, and mutate</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/tidyverse-summarize-group-by.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Into the Tidyverse: summarize, group_by, and drop_na</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/tidyverse-summarize-group-by-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Into the Tidyverse: summarize, group_by, and drop_na</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/tidyverse-ggplot.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Into the Tidyverse: Graphs with ggplot2</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/tidyverse-ggplot-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Into the Tidyverse: Graphs with ggplot2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../units/unit-2-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Unit 2 quiz: Into the Tidyverse</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../units/unit-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Unit 3: Maps and Geographic Data</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section: Unit 3: Maps and Geographic Data">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/thematic-maps-tmap.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Thematic Maps with tmap</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/thematic-maps-tmap-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Thematic Maps with tmap</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/geographic-information.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">What Is Geographic Data?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/geographic-information-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: What Is Geographic Data?</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/location-coordinate-systems.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Location and Coordinate Systems</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/location-coordinate-systems-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Location and Coordinate Systems</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/census-data-apis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Census Data and APIs</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/census-data-apis-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Census Data and APIs</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/arcpullr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">ArcGIS Data with arcpullr</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/arcpullr-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: ArcGIS Data with arcpullr</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../units/unit-3-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Unit 3 quiz: Maps and Geographic Data</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../units/unit-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-4-label">Unit 4: Spatial Analysis</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section: Unit 4: Spatial Analysis">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/joins.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Joins: Attribute and Spatial</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/joins-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Joins: Attribute and Spatial</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/esda.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Exploratory Spatial Data Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/esda-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Exploratory Spatial Data Analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/spatial-statistics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Spatial Descriptive Statistics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/spatial-statistics-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Spatial Descriptive Statistics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../units/unit-4-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Unit 4 quiz: Spatial Analysis</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../units/unit-5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-5-label">Unit 5: Statistics and Science</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-controls="quarto-sidebar-section-5" aria-expanded="true" aria-label="Toggle section: Unit 5: Statistics and Science">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-5" aria-labelledby="quarto-sidebar-section-5-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Comparing Groups: p-values and ANOVA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/anova-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Comparing Groups: p-values and ANOVA</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Linear Regression</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/regression-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Linear Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/writing-spatial-data-science.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Writing a Spatial Data Science Project</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/writing-spatial-data-science-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Writing a Spatial Data Science Project</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/distance-neighborhoods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Distance and Neighborhoods</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/distance-neighborhoods-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Distance and Neighborhoods</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/spatial-autocorrelation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Spatial Clustering and Spatial Autocorrelation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/spatial-autocorrelation-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Spatial Clustering and Spatial Autocorrelation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../units/unit-5-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Unit 5 quiz: Statistics and Science</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../units/unit-6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-6-label">Unit 6: Next Steps</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-controls="quarto-sidebar-section-6" aria-expanded="true" aria-label="Toggle section: Unit 6: Next Steps">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-6" aria-labelledby="quarto-sidebar-section-6-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/dashboards.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Interactive Map Dashboards</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/whats-next.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">What’s Next in Spatial Data Science</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-controls="quarto-sidebar-section-7" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-7-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-7" aria-labelledby="quarto-sidebar-section-7-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Glossary</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../about.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About the author</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-data-information" id="toc-sec-data-information" class="nav-link active" data-scroll-target="#sec-data-information"><span class="header-section-number">20.1</span> No information without data</a>
+  <ul class="collapse">
+  <li><a href="#the-dikw-pyramid" id="toc-the-dikw-pyramid" class="nav-link" data-scroll-target="#the-dikw-pyramid"><span class="header-section-number">20.1.1</span> The DIKW pyramid</a></li>
+  </ul></li>
+  <li><a href="#sec-ds-process" id="toc-sec-ds-process" class="nav-link" data-scroll-target="#sec-ds-process"><span class="header-section-number">20.2</span> The data science process</a>
+  <ul class="collapse">
+  <li><a href="#big-data" id="toc-big-data" class="nav-link" data-scroll-target="#big-data"><span class="header-section-number">20.2.1</span> Big data</a></li>
+  <li><a href="#where-data-come-from" id="toc-where-data-come-from" class="nav-link" data-scroll-target="#where-data-come-from"><span class="header-section-number">20.2.2</span> Where data come from</a></li>
+  </ul></li>
+  <li><a href="#sec-science" id="toc-sec-science" class="nav-link" data-scroll-target="#sec-science"><span class="header-section-number">20.3</span> Science: reproducibility and replicability</a></li>
+  <li><a href="#sec-spatial-special" id="toc-sec-spatial-special" class="nav-link" data-scroll-target="#sec-spatial-special"><span class="header-section-number">20.4</span> Why spatial data are special</a></li>
+  <li><a href="#sec-building-blocks" id="toc-sec-building-blocks" class="nav-link" data-scroll-target="#sec-building-blocks"><span class="header-section-number">20.5</span> Building blocks of a project</a>
+  <ul class="collapse">
+  <li><a href="#sec-research-question" id="toc-sec-research-question" class="nav-link" data-scroll-target="#sec-research-question"><span class="header-section-number">20.5.1</span> Introduction: the research question</a></li>
+  <li><a href="#sec-background" id="toc-sec-background" class="nav-link" data-scroll-target="#sec-background"><span class="header-section-number">20.5.2</span> Background: build on earlier research</a></li>
+  <li><a href="#sec-data-methods" id="toc-sec-data-methods" class="nav-link" data-scroll-target="#sec-data-methods"><span class="header-section-number">20.5.3</span> Data and methods: show your work</a></li>
+  <li><a href="#sec-results" id="toc-sec-results" class="nav-link" data-scroll-target="#sec-results"><span class="header-section-number">20.5.4</span> Results: model your question</a></li>
+  <li><a href="#check-the-model-map-the-residuals" id="toc-check-the-model-map-the-residuals" class="nav-link" data-scroll-target="#check-the-model-map-the-residuals"><span class="header-section-number">20.5.5</span> Check the model: map the residuals</a></li>
+  <li><a href="#a-second-method-comparing-regions-with-anova" id="toc-a-second-method-comparing-regions-with-anova" class="nav-link" data-scroll-target="#a-second-method-comparing-regions-with-anova"><span class="header-section-number">20.5.6</span> A second method: comparing regions with ANOVA</a></li>
+  <li><a href="#sec-conclusion" id="toc-sec-conclusion" class="nav-link" data-scroll-target="#sec-conclusion"><span class="header-section-number">20.5.7</span> Conclusion: answer the question</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">20.5.8</span> References</a></li>
+  </ul></li>
+  <li><a href="#sec-what-is-sds" id="toc-sec-what-is-sds" class="nav-link" data-scroll-target="#sec-what-is-sds"><span class="header-section-number">20.6</span> So, what is spatial data science?</a></li>
+  <li><a href="#check-your-understanding" id="toc-check-your-understanding" class="nav-link" data-scroll-target="#check-your-understanding"><span class="header-section-number">20.7</span> Check your understanding</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">20.8</span> Summary</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">20.9</span> Exercises</a></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">20.10</span> Further reading</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../units/unit-5.html">Unit 5: Statistics and Science</a></li><li class="breadcrumb-item"><a href="../chapters/writing-spatial-data-science.html"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Writing a Spatial Data Science Project</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Writing a Spatial Data Science Project</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Learning objectives
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>By the end of this chapter you should be able to:</p>
+<ol type="1">
+<li>Tell data from information, and place both in the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-dikw-pyramid" data-term="DIKW pyramid">DIKW pyramid</span>.</li>
+<li>Describe the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-science-workflow" data-term="data science workflow">data science workflow</span> and where data come from.</li>
+<li>Explain <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-reproducibility" data-term="reproducibility">reproducibility</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-replicability" data-term="replicability">replicability</span>, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-open-science" data-term="open science">open science</span>.</li>
+<li>Explain why spatial data need their own methods, and what to check because of it.</li>
+<li>Write each section of a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-data-science" data-term="spatial data science">spatial data science</span> project, from <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-research-question" data-term="research question">research question</span> to references.</li>
+<li>Explain what makes a project spatial data science, and not just data science with a map.</li>
+</ol>
+</div>
+</div>
+<p>You have now learned to get data, tidy it, map it, describe it, and test it. This chapter is about putting those pieces together into a project that someone else can read, trust, and rerun. We start with the ideas underneath: what data, information, and knowledge are, where data come from, and what makes an analysis science. Then we walk through a real project, on house values in North Carolina, section by section.</p>
+<section id="sec-data-information" class="level2" data-number="20.1">
+<h2 data-number="20.1" class="anchored" data-anchor-id="sec-data-information"><span class="header-section-number">20.1</span> No information without data</h2>
+<p>The writer and programmer Daniel Keys Moran put the first idea briefly: you can have data without information, but you can’t have information without data. Raw data become information only after they are processed, organized, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-interpreted-language" data-term="interpreted language">interpreted</span>.</p>
+<div id="tbl-data-information" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-data-information-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;20.1: Data and information.
+</figcaption>
+<div aria-describedby="tbl-data-information-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 27%">
+<col style="width: 59%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">Data</th>
+<th style="text-align: left;">Information</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">What it is</td>
+<td style="text-align: left;">Raw and unprocessed</td>
+<td style="text-align: left;">Processed, organized data with meaning</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">What it’s for</td>
+<td style="text-align: left;">The basis for analysis</td>
+<td style="text-align: left;">Supporting decisions and giving insight</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Value</td>
+<td style="text-align: left;">Little on its own</td>
+<td style="text-align: left;">Directly valuable and actionable</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Examples</td>
+<td style="text-align: left;">Numbers, dates, measurements, text</td>
+<td style="text-align: left;">Reports, summaries, insights, conclusions</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>A list of hourly temperatures is data. A forecast that says “bring an umbrella this afternoon” is information.</p>
+<section id="the-dikw-pyramid" class="level3" data-number="20.1.1">
+<h3 data-number="20.1.1" class="anchored" data-anchor-id="the-dikw-pyramid"><span class="header-section-number">20.1.1</span> The DIKW pyramid</h3>
+<p>The <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-dikw-pyramid" data-term="DIKW pyramid">DIKW pyramid</span></strong> takes the idea further, in four levels (<a href="#fig-dikw" class="quarto-xref">Figure&nbsp;<span>20.1</span></a>). Each builds on the one below:</p>
+<ul>
+<li><strong>Data:</strong> facts and figures.</li>
+<li><strong>Information:</strong> data organized to be useful.</li>
+<li><strong>Knowledge:</strong> information built up and tested over time and across many situations.</li>
+<li><strong>Wisdom:</strong> principles, reasoning, and knowledge applied to judge what is true and right.</li>
+</ul>
+<div id="fig-dikw" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A pyramid of four stacked layers in shades of blue. From the bottom: Data, beside the example Median house value for each NC county; Information, beside A map of which counties have the highest values; Knowledge, beside A tested model: more remote work goes with higher values; and Wisdom at the top, beside Judging what the finding means for housing policy.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dikw-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/writing/dikw-pyramid.png" class="img-fluid figure-img" alt="A pyramid of four stacked layers in shades of blue. From the bottom: Data, beside the example Median house value for each NC county; Information, beside A map of which counties have the highest values; Knowledge, beside A tested model: more remote work goes with higher values; and Wisdom at the top, beside Judging what the finding means for housing policy.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dikw-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;20.1: The DIKW pyramid, with an example of each level from this chapter’s project on North Carolina house values.
+</figcaption>
+</figure>
+</div>
+<p><strong>Data science</strong> is using data to gain information or knowledge about the world. It mostly works on the bottom levels of the pyramid, and helps people climb toward the top.</p>
+</section>
+</section>
+<section id="sec-ds-process" class="level2" data-number="20.2">
+<h2 data-number="20.2" class="anchored" data-anchor-id="sec-ds-process"><span class="header-section-number">20.2</span> The data science process</h2>
+<p>Chapter 6 introduced the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-science-workflow" data-term="data science workflow">data science workflow</span></strong> from <em>R for Data Science</em>: <strong>import</strong> the data, <strong>tidy</strong> it, then cycle through <strong>transform</strong>, <strong>visualize</strong>, and <strong>model</strong> until you <strong>understand</strong> it, and finally <strong>communicate</strong> the results. The middle loop repeats, and programming runs through every step. A project write-up is the “communicate” step, but a good one shows all the others too.</p>
+<section id="big-data" class="level3" data-number="20.2.1">
+<h3 data-number="20.2.1" class="anchored" data-anchor-id="big-data"><span class="header-section-number">20.2.1</span> Big data</h3>
+<p><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-big-data" data-term="big data">Big data</span></strong> is often described by three Vs:</p>
+<ul>
+<li><strong>Volume:</strong> the sheer amount, from terabytes of records, transactions, and files up.</li>
+<li><strong>Velocity:</strong> how fast it arrives, from batches to near-real-time feeds and live streams.</li>
+<li><strong>Variety:</strong> the mix of structured tables, semi-structured <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-json" data-term="JSON">JSON</span>, and unstructured text and images.</li>
+</ul>
+<p>Many spatial datasets, such as satellite imagery or the GPS traces from phones, score high on all three.</p>
+</section>
+<section id="where-data-come-from" class="level3" data-number="20.2.2">
+<h3 data-number="20.2.2" class="anchored" data-anchor-id="where-data-come-from"><span class="header-section-number">20.2.2</span> Where data come from</h3>
+<div id="tbl-data-sources" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-data-sources-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;20.2: Where data come from, and the formats they arrive in.
+</figcaption>
+<div aria-describedby="tbl-data-sources-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Sources</th>
+<th style="text-align: left;">Formats</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Authoritative: federal, state, county, and local government</td>
+<td style="text-align: left;">Files: <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geojson" data-term="GeoJSON">GeoJSON</span>, shapefiles, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-csv" data-term="CSV">CSV</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Web scraping: social media, live feeds, news</td>
+<td style="text-align: left;"><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-api" data-term="API">API</span> calls: data on demand (Chapters 13 and 14)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">The Internet of Things: sensors streaming readings</td>
+<td style="text-align: left;">Images, text, and 3D formats</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Real-time analytics feeds</td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Government agencies are usually the most <strong>authoritative</strong> sources. Also note whether a dataset is <strong>static</strong>, a fixed snapshot, or <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-dynamic-data" data-term="dynamic data">dynamic</span></strong>, continually updated, because a dynamic source may give different data the next time you run your code.</p>
+</section>
+</section>
+<section id="sec-science" class="level2" data-number="20.3">
+<h2 data-number="20.3" class="anchored" data-anchor-id="sec-science"><span class="header-section-number">20.3</span> Science: reproducibility and replicability</h2>
+<p><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-data-science" data-term="spatial data science">Spatial data science</span> is still science. It builds on a body of knowledge, follows the scientific method, and rests on empirical evidence. Two words describe whether others can trust and build on a result:</p>
+<ul>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-reproducibility" data-term="reproducibility">Reproducible</span>:</strong> the same data and methods give the same results. Anyone can rerun your analysis and get your numbers.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-replicability" data-term="replicability">Replicable</span>:</strong> a new study, with different data, answering the same question, gets consistent results.</li>
+</ul>
+<p><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-open-science" data-term="open science">Open science</span></strong> makes both possible: open access (papers anyone can read), open data, open methods, open-source software such as R and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-rstudio" data-term="RStudio">RStudio</span>, open peer review, and open educational resources (like this book).</p>
+<p><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-r-markdown" data-term="R Markdown">R Markdown</span>, from Chapter 2, is a reproducibility tool. It keeps data loading, code, results, and write-up in one document, so anyone with the file and the data can <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-knit" data-term="knit">knit</span> it and get the same report.</p>
+</section>
+<section id="sec-spatial-special" class="level2" data-number="20.4">
+<h2 data-number="20.4" class="anchored" data-anchor-id="sec-spatial-special"><span class="header-section-number">20.4</span> Why spatial data are special</h2>
+<p>Location links <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-observation" data-term="observation">observations</span> together, so spatial data need their own methods.</p>
+<p>What makes them special:</p>
+<ul>
+<li><strong>The <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-first-law-of-geography" data-term="first law of geography">first law of geography</span>:</strong> near things are more related than distant things.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-autocorrelation" data-term="spatial autocorrelation">Spatial autocorrelation</span>:</strong> values cluster, so observations are not <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-independence" data-term="independence">independent</span>. Neighboring counties tend to have similar house values.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-heterogeneity" data-term="spatial heterogeneity">Spatial heterogeneity</span>:</strong> relationships change from place to place. Remote work may matter more for house values near cities than in rural counties.</li>
+</ul>
+<p>What it means for your analysis:</p>
+<ul>
+<li><strong>Clustered <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-residual" data-term="residual">residuals</span> make standard tests overconfident.</strong> Map your model’s residuals and test them with <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-moran-s-i" data-term="Moran’s I">Moran’s I</span> (Chapter 22).</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-scale" data-term="scale">Scale</span> and zoning matter.</strong> County and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-census-tract" data-term="census tract">tract</span> results can differ: the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-modifiable-areal-unit-problem-maup" data-term="modifiable areal unit problem (MAUP)">modifiable areal unit problem</span></strong>.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-map-projection" data-term="map projection">Projection</span> matters.</strong> Distances and areas depend on the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">coordinate system</span> (Chapter 12).</li>
+</ul>
+</section>
+<section id="sec-building-blocks" class="level2" data-number="20.5">
+<h2 data-number="20.5" class="anchored" data-anchor-id="sec-building-blocks"><span class="header-section-number">20.5</span> Building blocks of a project</h2>
+<p>Every project has the same building blocks:</p>
+<div id="tbl-building-blocks" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-building-blocks-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;20.3: The building blocks of a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-data-science" data-term="spatial data science">spatial data science</span> project.
+</figcaption>
+<div aria-describedby="tbl-building-blocks-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 34%">
+<col style="width: 65%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Section</th>
+<th style="text-align: left;">What goes in it</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Introduction</td>
+<td style="text-align: left;">Your <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-research-question" data-term="research question">research question</span> and why it matters</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Background</td>
+<td style="text-align: left;">What earlier work found, and how it relates to your question</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Data and methods</td>
+<td style="text-align: left;">Your data, cited and described; the code that tidies them; maps and descriptive statistics</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Results</td>
+<td style="text-align: left;">Maps, graphs, and statistics that help answer the question</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Conclusion</td>
+<td style="text-align: left;">Your answer, as well as you can give it; limitations; what you’d do differently</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">References</td>
+<td style="text-align: left;">Every source you used</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>We’ll go through each one using an example project, written in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-r-markdown" data-term="R Markdown">R Markdown</span>, titled <em>What Demographic <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-variable" data-term="variable">Variables</span> May Influence <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-median" data-term="median">Median</span> House Value for North Carolina in 2020?</em> You met its models in Chapter 19.</p>
+<section id="sec-research-question" class="level3" data-number="20.5.1">
+<h3 data-number="20.5.1" class="anchored" data-anchor-id="sec-research-question"><span class="header-section-number">20.5.1</span> Introduction: the research question</h3>
+<p>The research question drives everything else. A good one is:</p>
+<ul>
+<li><strong>Specific and focused.</strong> Include the place and time where they matter.</li>
+<li><strong>Answerable,</strong> even if you end up not able to answer it fully.</li>
+<li><strong>Worth asking.</strong> Explain why it matters.</li>
+</ul>
+<p>It doesn’t have to be phrased as a question, but that often helps.</p>
+<p>The example’s introduction says that the project examines which demographic factors might relate to median home value in North Carolina’s counties in 2020: in particular, whether the percentage of people working from home is related to home value, and by how much it raises or lowers it. It names the other variables it will bring in (percent white alone, median age, and median income) and says the project will explore the data, build a model, and discuss how well the model fits, statistically and spatially, using <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-residual" data-term="residual">residuals</span>. A reader knows the place, the time, the variables, and the plan by the end of the second paragraph.</p>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Think about it
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Which is the better research question, and why? (a) “What affects house prices?” (b) “Is the share of residents who work from home related to median house value in North Carolina’s counties in 2020?” How would you make (b) more spatial?</p>
+</div>
+</div>
+</section>
+<section id="sec-background" class="level3" data-number="20.5.2">
+<h3 data-number="20.5.2" class="anchored" data-anchor-id="sec-background"><span class="header-section-number">20.5.2</span> Background: build on earlier research</h3>
+<p>The background shows you’ve read what came before. What have others found? How does it shape your question, your data, or your methods?</p>
+<p>The example’s background notes that house prices and cost of living have clear geographic patterns, but are not a common topic for geographers. It summarizes a study by Campbell and James that built a housing cost index for North Carolina’s counties, the ratio of median home value to median household income, and tested whether second homes in the mountains and at the beach push costs up. That earlier work suggests variables to include and a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-pattern" data-term="spatial pattern">spatial pattern</span> to look for.</p>
+</section>
+<section id="sec-data-methods" class="level3" data-number="20.5.3">
+<h3 data-number="20.5.3" class="anchored" data-anchor-id="sec-data-methods"><span class="header-section-number">20.5.3</span> Data and methods: show your work</h3>
+<p>In data and methods, you show your work:</p>
+<ol type="1">
+<li><strong>Cite the source</strong> of your data: which agency, which survey, which year, and how you got it.</li>
+<li><strong>Include the code</strong> that loads and tidies the data.</li>
+<li><strong>Describe the data</strong> with <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-summary-statistic" data-term="summary statistic">summary statistics</span> and maps.</li>
+</ol>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the libraries used in this research</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tmap)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the 2020 NC counties data</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>ncCounties <span class="ot">&lt;-</span> <span class="fu">read_sf</span>(<span class="st">"..."</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(ncCounties)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>glimpse()</code> shows 100 rows, one per county, and the columns. Then a summary and a map of the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-dependent-variable" data-term="dependent variable">dependent variable</span>, median home value, and a map of each <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-independent-variable" data-term="independent variable">independent variable</span> (<a href="regression.html#fig-explanatory" class="quarto-xref">Figure&nbsp;<span>19.3</span></a>). Mapping each variable before modeling it is how you notice patterns, such as higher incomes and more remote work around the Triangle and Charlotte, and problems, such as a county with a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-missing-value" data-term="missing value">missing value</span>.</p>
+</section>
+<section id="sec-results" class="level3" data-number="20.5.4">
+<h3 data-number="20.5.4" class="anchored" data-anchor-id="sec-results"><span class="header-section-number">20.5.4</span> Results: model your question</h3>
+<p>A <strong>model</strong> is a simplified representation of a real-world process. The results section fits models that test your question, and reports them with maps, graphs, and statistics.</p>
+<p>The example’s first model tests whether the share of people working from home is related to median house value. Each additional percentage point working from home goes with about $36,564 higher median house value, with an <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-adjusted-r-squared" data-term="adjusted R-squared">adjusted R²</span> of 0.74. A second model adds median income, median age, and percent white, and raises the adjusted R² to 0.86 (Chapter 19).</p>
+</section>
+<section id="check-the-model-map-the-residuals" class="level3" data-number="20.5.5">
+<h3 data-number="20.5.5" class="anchored" data-anchor-id="check-the-model-map-the-residuals"><span class="header-section-number">20.5.5</span> Check the model: map the residuals</h3>
+<p>A spatial results section doesn’t end with the model summary. Check the model by mapping its <strong>residuals</strong>, each county’s observed value minus the model’s prediction:</p>
+<ol type="1">
+<li><strong>Fit the model.</strong></li>
+<li><strong>Map the residuals.</strong> Where does the model over- or under-predict?</li>
+<li><strong>Test them with <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-moran-s-i" data-term="Moran’s I">Moran’s I</span></strong> (Chapter 22). Do the residuals cluster more than chance would produce?</li>
+<li><strong>Revise the model.</strong> If they cluster, add explanatory variables or fit a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-lag" data-term="spatial lag">spatial lag</span> or <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-error-model" data-term="spatial error model">spatial error model</span>.</li>
+</ol>
+<p>Repeat steps 2 to 4 until the residuals no longer cluster.</p>
+</section>
+<section id="a-second-method-comparing-regions-with-anova" class="level3" data-number="20.5.6">
+<h3 data-number="20.5.6" class="anchored" data-anchor-id="a-second-method-comparing-regions-with-anova"><span class="header-section-number">20.5.6</span> A second method: comparing regions with ANOVA</h3>
+<p><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-regression" data-term="regression">Regression</span> asks how one variable changes with another. <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-anova" data-term="ANOVA">ANOVA</span></strong> (Chapter 18) asks whether a variable’s mean differs across three or more groups. In a project on North Carolina, the groups can be regions, such as the mountains, the Piedmont, and the coastal plain, and the variable median male age by county. <code>aov(age ~ region)</code> tests whether the regions differ, and <code>TukeyHSD()</code> shows which ones. Because the groups are places, map them, so the reader can see the regional pattern.</p>
+</section>
+<section id="sec-conclusion" class="level3" data-number="20.5.7">
+<h3 data-number="20.5.7" class="anchored" data-anchor-id="sec-conclusion"><span class="header-section-number">20.5.7</span> Conclusion: answer the question</h3>
+<p>The conclusion should:</p>
+<ul>
+<li><strong>Answer your question,</strong> or explain honestly why you couldn’t.</li>
+<li><strong>Discuss limitations.</strong> What could make the results misleading?</li>
+<li><strong>Say what you’d do differently</strong> next time, and what future work should try.</li>
+</ul>
+<p>The example’s conclusion does all three. It answers the question: three variables (percent working from home, percent white, and median income) are related to median house value, and each extra percentage point working from home adds potentially over $20,000. It is honest about the spatial fit: the residuals vary a lot across the state, with some mountain, coastal, and rural counties not following the model, which suggests missing variables. It names limitations: medians hide the range within each county, and the direction of the relationship is unclear (does remote work raise prices, or do people who can work from home simply earn more?). And it proposes future work: smaller units such as <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-census-tract" data-term="census tract">census tracts</span>, more variables such as job type and education, and comparisons over time or with similar states.</p>
+</section>
+<section id="references" class="level3" data-number="20.5.8">
+<h3 data-number="20.5.8" class="anchored" data-anchor-id="references"><span class="header-section-number">20.5.8</span> References</h3>
+<p>List every source you used, in a consistent style, and cite them in the text. That includes data sources, such as “U.S. Census Bureau, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-american-community-survey-acs" data-term="American Community Survey (ACS)">American Community Survey</span> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-5-year-estimates" data-term="5-year estimates">5-year estimates</span>”, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-package" data-term="package">R packages</span>, which you can cite with <code>citation("tidycensus")</code>.</p>
+</section>
+</section>
+<section id="sec-what-is-sds" class="level2" data-number="20.6">
+<h2 data-number="20.6" class="anchored" data-anchor-id="sec-what-is-sds"><span class="header-section-number">20.6</span> So, what is spatial data science?</h2>
+<p><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-data-science" data-term="spatial data science">Spatial data science</span> combines three things:</p>
+<ul>
+<li><strong>spatial data,</strong></li>
+<li><strong>maps and visualizations,</strong> and</li>
+<li><strong>spatial analysis.</strong></li>
+</ul>
+<p>Done well, it is also <strong>open, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-reproducibility" data-term="reproducibility">reproducible</span>, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-replicability" data-term="replicability">replicable</span></strong>, and it is often built on <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-big-data" data-term="big data">big data</span>.</p>
+<p>One caution. Using spatial data doesn’t by itself make a project spatial data science. A <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-regression" data-term="regression">regression</span> on county data that never maps or tests its <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-residual" data-term="residual">residuals</span> is ordinary statistics that happens to use places. You also need spatial analysis: a question with spatial aspects, such as the regional <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-anova" data-term="ANOVA">ANOVA</span>, the residual map, or a test for <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-autocorrelation" data-term="spatial autocorrelation">spatial autocorrelation</span>.</p>
+</section>
+<section id="check-your-understanding" class="level2" data-number="20.7">
+<h2 data-number="20.7" class="anchored" data-anchor-id="check-your-understanding"><span class="header-section-number">20.7</span> Check your understanding</h2>
+<ol type="1">
+<li><p>A list of every county’s median house value, with no summary or map, is: <select class="webex-select"><option value="blank"></option><option value="answer">Data</option><option value="">Information</option><option value="">Knowledge</option><option value="">Wisdom</option></select></p></li>
+<li><p>Which level sits at the top of the DIKW pyramid? <input class="webex-solveme nospaces ignorecase" size="6" data-answer="[&quot;Wisdom&quot;]"></p></li>
+<li><p>Running the same code on the same data and getting the same results is called: <select class="webex-select"><option value="blank"></option><option value="answer">Reproducibility</option><option value="">Replicability</option><option value="">Velocity</option><option value="">Spatial heterogeneity</option></select></p></li>
+<li><p>The three Vs of big data are volume, velocity, and: <select class="webex-select"><option value="blank"></option><option value="answer">Variety</option><option value="">Validity</option><option value="">Value</option><option value="">Visualization</option></select></p></li>
+<li><p>Which section of a project states the research question? <select class="webex-select"><option value="blank"></option><option value="answer">Introduction</option><option value="">Background</option><option value="">Results</option><option value="">References</option></select></p></li>
+<li><p>A research question should always be phrased as a question. <select class="webex-select"><option value="blank"></option><option value="NA">TRUE</option><option value="answer">FALSE</option></select></p></li>
+<li><p>In which section do you discuss what you would do differently next time? <select class="webex-select"><option value="blank"></option><option value="">Data and methods</option><option value="">Results</option><option value="answer">Conclusion</option><option value="">Background</option></select></p></li>
+<li><p>Any project that uses spatial data is spatial data science. <select class="webex-select"><option value="blank"></option><option value="NA">TRUE</option><option value="answer">FALSE</option></select></p></li>
+</ol>
+</section>
+<section id="summary" class="level2" data-number="20.8">
+<h2 data-number="20.8" class="anchored" data-anchor-id="summary"><span class="header-section-number">20.8</span> Summary</h2>
+<ul>
+<li><strong>Data</strong> are raw values; <strong>information</strong> is data organized and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-interpreted-language" data-term="interpreted language">interpreted</span>. The <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-dikw-pyramid" data-term="DIKW pyramid">DIKW pyramid</span></strong> adds <strong>knowledge</strong> and <strong>wisdom</strong> on top.</li>
+<li>The <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-science-workflow" data-term="data science workflow">data science workflow</span></strong> is import, tidy, a loop of transform, visualize, and model, then communicate. <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-big-data" data-term="big data">Big data</span></strong> is described by volume, velocity, and variety.</li>
+<li>Data come from authoritative agencies, web scraping, sensors, and feeds, as files or through <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-api" data-term="API">APIs</span>, and can be static or <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-dynamic-data" data-term="dynamic data">dynamic</span>.</li>
+<li>Science should be <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-reproducibility" data-term="reproducibility">reproducible</span></strong> (same data and methods, same results) and <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-replicability" data-term="replicability">replicable</span></strong> (new data, consistent results). <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-open-science" data-term="open science">Open science</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-r-markdown" data-term="R Markdown">R Markdown</span> make that easier.</li>
+<li>Spatial data are special because of the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-first-law-of-geography" data-term="first law of geography">first law of geography</span>, <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-autocorrelation" data-term="spatial autocorrelation">spatial autocorrelation</span></strong>, and <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-heterogeneity" data-term="spatial heterogeneity">spatial heterogeneity</span></strong>. Map and test <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-residual" data-term="residual">residuals</span>, and watch <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-scale" data-term="scale">scale</span>, zoning, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-map-projection" data-term="map projection">projection</span>.</li>
+<li>A project has an <strong>introduction</strong> (the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-research-question" data-term="research question">research question</span>), <strong>background</strong>, <strong>data and methods</strong>, <strong>results</strong>, a <strong>conclusion</strong>, and <strong>references</strong>.</li>
+<li><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-data-science" data-term="spatial data science">Spatial data science</span> combines spatial data, maps, and spatial analysis. Spatial data alone aren’t enough.</li>
+</ul>
+</section>
+<section id="exercises" class="level2" data-number="20.9">
+<h2 data-number="20.9" class="anchored" data-anchor-id="exercises"><span class="header-section-number">20.9</span> Exercises</h2>
+<ol type="1">
+<li><strong>Climb the pyramid.</strong> Pick a dataset you’ve used this semester. Give one example of it at each level of the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-dikw-pyramid" data-term="DIKW pyramid">DIKW pyramid</span>.</li>
+<li><strong>Sharpen a question.</strong> Rewrite “Is pollution bad for health?” as a specific, answerable, spatial <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-research-question" data-term="research question">research question</span> about North Carolina. Name the place, time, units of analysis, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-variable" data-term="variable">variables</span>.</li>
+<li><strong>Find the background.</strong> Search Google Scholar for one published study related to your question from Exercise 2. Write two sentences on what it found and how it shapes your own question or methods.</li>
+<li><strong>Data and methods.</strong> For your question, list each dataset you’d need, who publishes it, whether it’s static or <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-dynamic-data" data-term="dynamic data">dynamic</span>, and how you’d get it into R.</li>
+<li><strong>Peer review.</strong> Swap project drafts with a classmate. For each building block in <a href="#tbl-building-blocks" class="quarto-xref">Table&nbsp;<span>20.3</span></a>, write one thing that works and one thing to improve. Is their project <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-data-science" data-term="spatial data science">spatial data science</span>, by the definition in this chapter?</li>
+</ol>
+</section>
+<section id="further-reading" class="level2" data-number="20.10">
+<h2 data-number="20.10" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">20.10</span> Further reading</h2>
+<ul>
+<li><em>R for Data Science</em> (2nd ed.), by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund, free at <a href="https://r4ds.hadley.nz" class="uri">https://r4ds.hadley.nz</a>. The introduction describes the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-science-workflow" data-term="data science workflow">data science workflow</span>, and the “<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-quarto" data-term="Quarto">Quarto</span>” chapters cover writing <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-reproducibility" data-term="reproducibility">reproducible</span> reports.</li>
+<li>National Academies of Sciences, Engineering, and Medicine (2019). <em>Reproducibility and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-replicability" data-term="replicability">Replicability</span> in Science</em>. National Academies Press. Free at <a href="https://doi.org/10.17226/25303" class="uri">https://doi.org/10.17226/25303</a>. The source of the definitions used in this chapter.</li>
+<li>Campbell, H. S., Jr., and James, R. D. (2021). “Place, Space, and Cost of Living in North Carolina: A Research Note.” <em>Southeastern Geographer</em> 61(1): 81–104. The study the example project builds on.</li>
+</ul>
+
+
+<div class="glossary-defs" hidden="">
+<span id="gloss-dikw-pyramid">Data, information, knowledge, wisdom: four levels, each built on the one
+below, from raw facts to judging what is true and right.</span>
+<span id="gloss-data-science-workflow">The steps of a data analysis: import, tidy, then a loop of transform,
+visualize, and model, and finally communicate.</span>
+<span id="gloss-reproducibility">The ability for anyone to rerun an analysis from its code and data and
+get the same result.</span>
+<span id="gloss-replicability">When a new study, with new data, answering the same question gets
+consistent results.</span>
+<span id="gloss-open-science">Doing research so others can check and reuse it: open access papers,
+open data, open methods, and open-source software.</span>
+<span id="gloss-spatial-data-science">The use of data that have a location attached to answer questions about
+the world. It combines what we study (the <em>spatial</em>), how we
+handle it (<em>data</em> skills), and how we ask and answer questions
+(<em>science</em>).</span>
+<span id="gloss-research-question">The specific, answerable question a project sets out to answer, usually
+with a place and a time.</span>
+<span id="gloss-interpreted-language">A language, like R, that runs code one line at a time: an interpreter
+reads each line, translates it, and runs it before moving on.</span>
+<span id="gloss-big-data">Data too large, fast, or varied for ordinary tools, often described by
+three Vs: volume, velocity, and variety.</span>
+<span id="gloss-json">JavaScript Object Notation: structured text that most web APIs send
+back, which R can turn into lists or data frames.</span>
+<span id="gloss-geojson">An open, plain-text format for vector features, written in JSON.
+Coordinates are longitude first, then latitude, in WGS84.</span>
+<span id="gloss-csv">A plain-text table in which each line is a row and commas separate the
+values. Read one into R with <code>read.csv()</code> or
+<code>read_csv()</code>.</span>
+<span id="gloss-api">Application Programming Interface: a set of rules for how one program
+asks another for data or services, such as your R script asking the
+Census Bureau’s server for a table.</span>
+<span id="gloss-dynamic-data">Data that are continually updated, so the same request may return
+different data later. Static data are a fixed snapshot.</span>
+<span id="gloss-rstudio">The integrated development environment (IDE) where you write and run R.
+R does the computing; RStudio is the workspace around it.</span>
+<span id="gloss-r-markdown">A document format (<code>.Rmd</code>) that mixes formatted text with
+chunks of R code. Knitting it runs the code and builds a finished
+report.</span>
+<span id="gloss-knit">To build an R Markdown file into a finished document (HTML, PDF, or
+Word). Knitting reruns every code chunk from the top in a fresh R
+session.</span>
+<span id="gloss-observation">One thing that was measured or recorded, such as a student, a county, or
+a flight. In a data frame, each row is an observation.</span>
+<span id="gloss-first-law-of-geography">Waldo Tobler’s statement that “everything is related to everything else,
+but near things are more related than distant things.” It is the idea
+behind spatial autocorrelation.</span>
+<span id="gloss-spatial-autocorrelation">The tendency for things that are close together to be more alike than
+things that are far apart, such as neighboring counties having similar
+incomes.</span>
+<span id="gloss-independence">The assumption, built into most standard statistics, that knowing one
+observation tells you nothing about another. Data about places usually
+break it, because nearby places tend to be alike.</span>
+<span id="gloss-spatial-heterogeneity">The idea that relationships between variables change from place to
+place. A link that is strong in one city may be weak, or reversed, in
+another.</span>
+<span id="gloss-residual">An observation’s actual value minus the value a model predicts for it.
+Map them to see where a model fits poorly.</span>
+<span id="gloss-moran-s-i">A global measure of spatial autocorrelation, from −1 (dispersed) through
+0 (random) to +1 (clustered), with a p-value.</span>
+<span id="gloss-scale">The level of detail at which you study something: addresses,
+neighborhoods, counties, or states. A pattern that is clear at one scale
+can vanish or reverse at another.</span>
+<span id="gloss-census-tract">A small area of about 1,200 to 8,000 people (4,000 on average), drawn to
+be fairly stable over time. The workhorse unit for neighborhood
+analysis.</span>
+<span id="gloss-modifiable-areal-unit-problem-maup">The way results can change when the same individual data are grouped
+into different areas, either larger or smaller ones or the same size
+with different boundaries.</span>
+<span id="gloss-map-projection">A method for flattening the curved graticule onto a flat map. Every
+projection distorts shape, area, distance, or direction.</span>
+<span id="gloss-coordinate-system">The rules that tie coordinates to places on the Earth, including how the
+round Earth is flattened onto a map (the projection). Layers must share
+a coordinate system before you can combine them.</span>
+<span id="gloss-variable">In R, a named piece of memory that holds data, such as
+<code>months &lt;- 12</code>. In a dataset, a measured characteristic,
+such as median income; each Census variable has a code.</span>
+<span id="gloss-median">The middle value when values are sorted, so half are above and half
+below. Unlike counts, medians can’t be added across areas.</span>
+<span id="gloss-spatial-pattern">The arrangement of objects in space: clustered, random, or dispersed.</span>
+<span id="gloss-summary-statistic">One number that describes many values, such as their mean, median,
+maximum, or count. <code>summarize()</code> calculates them.</span>
+<span id="gloss-dependent-variable">The outcome a model explains, <em>y</em>. It goes on the left of the
+<code>~</code> in an R formula.</span>
+<span id="gloss-independent-variable">A variable used to explain the dependent variable, <em>x</em>. It goes
+on the right of the <code>~</code>.</span>
+<span id="gloss-missing-value">A value that is unknown, written <code>NA</code> (“not available”) in R.
+Most calculations with <code>NA</code> give <code>NA</code>; test for it
+with <code>is.na()</code>.</span>
+<span id="gloss-adjusted-r-squared">R-squared lowered a little for each independent variable, so adding
+useless variables can’t make a model look better. Use it to compare
+models.</span>
+<span id="gloss-spatial-lag">The weighted average of an observation’s neighbors’ values, calculated
+with row-standardized weights. <code>lag.listw()</code> in spdep.</span>
+<span id="gloss-spatial-error-model">A spatial regression model that allows the errors of neighboring
+observations to be correlated.</span>
+<span id="gloss-regression">A statistical model of how one variable (such as home price) changes
+with one or more others (such as distance to downtown).</span>
+<span id="gloss-anova">Analysis of variance: a statistical test of whether the averages of
+three or more groups differ, such as median age in three regions. It
+compares variation between groups with variation within them.</span>
+<span id="gloss-american-community-survey-acs">The Census Bureau’s continuous survey of a sample of households every
+year. It asks many more questions than the decennial census, but every
+value is an estimate with a margin of error.</span>
+<span id="gloss-5-year-estimates">ACS estimates that pool 60 months of responses. They are the most
+reliable ACS product and the only one for tracts and block groups. An
+estimate labeled 2022 describes 2018 to 2022.</span>
+<span id="gloss-package">A bundle of code, written by other users, that adds new functions to R.
+Install it once with <code>install.packages()</code>, then load it in
+each session with <code>library()</code>.</span>
+<span id="gloss-quarto">The newer successor to R Markdown, from the same developers. Quarto
+files end in <code>.qmd</code>. This book is written in Quarto.</span>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script>
+
+/* update total correct if #webex-total_correct exists */
+update_total_correct = function() {
+  console.log("webex: update total_correct");
+
+  var t = document.getElementsByClassName("webex-total_correct");
+  for (var i = 0; i < t.length; i++) {
+    p = t[i].parentElement;
+    var correct = p.getElementsByClassName("webex-correct").length;
+    var solvemes = p.getElementsByClassName("webex-solveme").length;
+    var radiogroups = p.getElementsByClassName("webex-radiogroup").length;
+    var selects = p.getElementsByClassName("webex-select").length;
+
+    t[i].innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  }
+}
+
+/* webex-solution button toggling function */
+b_func = function() {
+  console.log("webex: toggle hide");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('open')) {
+    cl.remove("open");
+  } else {
+    cl.add("open");
+  }
+}
+
+/* check answers */
+check_func = function() {
+  console.log("webex: check answers");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('unchecked')) {
+    cl.remove("unchecked");
+    this.innerHTML = "Hide Answers";
+  } else {
+    cl.add("unchecked");
+    this.innerHTML = "Show Answers";
+  }
+}
+
+/* function for checking solveme answers */
+solveme_func = function(e) {
+  console.log("webex: check solveme");
+
+  var real_answers = JSON.parse(this.dataset.answer);
+  var my_answer = this.value;
+  var cl = this.classList;
+  if (cl.contains("ignorecase")) {
+    my_answer = my_answer.toLowerCase();
+  }
+  if (cl.contains("nospaces")) {
+    my_answer = my_answer.replace(/ /g, "")
+  }
+
+  if (my_answer == "") {
+    cl.remove("webex-correct");
+    cl.remove("webex-incorrect");
+  } else if (real_answers.includes(my_answer)) {
+    cl.add("webex-correct");
+    cl.remove("webex-incorrect");
+  } else {
+    cl.add("webex-incorrect");
+    cl.remove("webex-correct");
+  }
+
+  // match numeric answers within a specified tolerance
+  if(this.dataset.tol > 0){
+    var tol = JSON.parse(this.dataset.tol);
+    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+    if (matches.reduce((a, b) => a + b, 0) > 0) {
+      cl.add("webex-correct");
+    } else {
+      cl.remove("webex-correct");
+    }
+  }
+
+  // added regex bit
+  if (cl.contains("regex")){
+    answer_regex = RegExp(real_answers.join("|"))
+    if (answer_regex.test(my_answer)) {
+      cl.add("webex-correct");
+    }
+  }
+
+  update_total_correct();
+}
+
+/* function for checking select answers */
+select_func = function(e) {
+  console.log("webex: check select");
+
+  var cl = this.classList
+
+  /* add style */
+  cl.remove("webex-incorrect");
+  cl.remove("webex-correct");
+  if (this.value == "answer") {
+    cl.add("webex-correct");
+  } else if (this.value != "blank") {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+/* function for checking radiogroups answers */
+radiogroups_func = function(e) {
+  console.log("webex: check radiogroups");
+
+  var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
+  var cl = checked_button.parentElement.classList;
+  var labels = checked_button.parentElement.parentElement.children;
+
+  /* get rid of styles */
+  for (i = 0; i < labels.length; i++) {
+    labels[i].classList.remove("webex-incorrect");
+    labels[i].classList.remove("webex-correct");
+  }
+
+  /* add style */
+  if (checked_button.value == "answer") {
+    cl.add("webex-correct");
+  } else {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+window.onload = function() {
+  console.log("webex onload");
+  /* set up solution buttons */
+  var buttons = document.getElementsByTagName("button");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].parentElement.classList.contains('webex-solution')) {
+      buttons[i].onclick = b_func;
+    }
+  }
+
+  var check_sections = document.getElementsByClassName("webex-check");
+  console.log("check:", check_sections.length);
+  for (var i = 0; i < check_sections.length; i++) {
+    check_sections[i].classList.add("unchecked");
+
+    let btn = document.createElement("button");
+    btn.innerHTML = "Show Answers";
+    btn.classList.add("webex-check-button");
+    btn.onclick = check_func;
+    check_sections[i].appendChild(btn);
+
+    let spn = document.createElement("span");
+    spn.classList.add("webex-total_correct");
+    check_sections[i].appendChild(spn);
+  }
+
+  /* set up webex-solveme inputs */
+  var solveme = document.getElementsByClassName("webex-solveme");
+
+  for (var i = 0; i < solveme.length; i++) {
+    /* make sure input boxes don't auto-anything */
+    solveme[i].setAttribute("autocomplete","off");
+    solveme[i].setAttribute("autocorrect", "off");
+    solveme[i].setAttribute("autocapitalize", "off");
+    solveme[i].setAttribute("spellcheck", "false");
+    solveme[i].value = "";
+
+    /* adjust answer for ignorecase or nospaces */
+    var cl = solveme[i].classList;
+    var real_answer = solveme[i].dataset.answer;
+    if (cl.contains("ignorecase")) {
+      real_answer = real_answer.toLowerCase();
+    }
+    if (cl.contains("nospaces")) {
+      real_answer = real_answer.replace(/ /g, "");
+    }
+    solveme[i].dataset.answer = real_answer;
+
+    /* attach checking function */
+    solveme[i].onkeyup = solveme_func;
+    solveme[i].onchange = solveme_func;
+
+    solveme[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  /* set up radiogroups */
+  var radiogroups = document.getElementsByClassName("webex-radiogroup");
+  for (var i = 0; i < radiogroups.length; i++) {
+    radiogroups[i].onchange = radiogroups_func;
+  }
+
+  /* set up selects */
+  var selects = document.getElementsByClassName("webex-select");
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].onchange = select_func;
+    selects[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  update_total_correct();
+}
+
+</script>
+<!--
+  Highlights the right item in the top menu. Quarto's book layout marks
+  "Welcome" as active on every page, so this sets it from the page address:
+  the course pages match their own item, and every other page (chapters,
+  quizzes, glossary) is part of the Textbook. Pages with no menu item of
+  their own (the AI policy and privacy policy) highlight nothing.
+-->
+<script>
+(function () {
+  "use strict";
+  const COURSE_PAGES = ["index", "syllabus", "materials", "about"];
+  const NO_ITEM_PAGES = ["privacy", "ai-policy"];
+  const file = (location.pathname.split("/").pop() || "index").replace(/\.html$/, "");
+  const inRoot = !/\/chapters\//.test(location.pathname);
+  const target = inRoot && NO_ITEM_PAGES.includes(file) ? null
+    : inRoot && COURSE_PAGES.includes(file) ? file : "preface";
+  document.querySelectorAll("#navbarCollapse a.nav-link").forEach((a) => {
+    const page = (a.getAttribute("href") || "").split("/").pop().replace(/\.html$/, "");
+    const on = page === target;
+    a.classList.toggle("active", on);
+    if (on) a.setAttribute("aria-current", "page");
+    else a.removeAttribute("aria-current");
+  });
+})();
+</script>
+<!--
+  Reading settings, part 2 of 2: the "Aa" menu next to search, where readers
+  pick a font and text size. Choices are kept in this browser (localStorage)
+  and applied on every page by assets/reader-settings-head.html.
+-->
+<script>
+(function () {
+  var FONTS = [
+    { id: "", label: "Atkinson Hyperlegible (default)", css: '"Atkinson Hyperlegible Next", sans-serif' },
+    { id: "lexend", label: "Lexend", css: '"Lexend", sans-serif', href: "https://fonts.googleapis.com/css2?family=Lexend:wght@300..700&display=swap" },
+    { id: "cardo", label: "Cardo (serif)", css: '"Cardo", Georgia, serif', href: "https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&display=swap" },
+    { id: "sans", label: "Standard sans-serif", css: 'system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif' },
+    { id: "serif", label: "Serif", css: 'Georgia, Cambria, "Times New Roman", serif' },
+    { id: "dyslexic", label: "OpenDyslexic", css: '"OpenDyslexic", sans-serif' }
+  ];
+  var SIZES = { "-1": "Small", "0": "Default", "1": "Large", "2": "Larger", "3": "Largest" };
+  var MIN = -1, MAX = 3;
+  var root = document.documentElement;
+
+  function save(key, value) {
+    try {
+      if (value === "" || value === "0") localStorage.removeItem(key);
+      else localStorage.setItem(key, value);
+    } catch (e) { /* storage blocked: setting lasts for this page only */ }
+  }
+  function currentFont() { return root.getAttribute("data-reader-font") || ""; }
+  function currentSize() { return parseInt(root.getAttribute("data-reader-size") || "0", 10) || 0; }
+
+  // Add a Google Fonts stylesheet once (Lexend, Cardo). Fonts download only
+  // when text actually uses them.
+  function loadWebFont(f) {
+    if (!f.href || document.getElementById("sds-reader-webfont-" + f.id)) return;
+    var link = document.createElement("link");
+    link.rel = "stylesheet"; link.href = f.href; link.id = "sds-reader-webfont-" + f.id;
+    document.head.appendChild(link);
+  }
+
+  function setFont(id) {
+    FONTS.forEach(function (f) { if (f.id === id) loadWebFont(f); });
+    if (id) root.setAttribute("data-reader-font", id); else root.removeAttribute("data-reader-font");
+    save("sds-reader-font", id);
+  }
+  function setSize(n) {
+    n = Math.max(MIN, Math.min(MAX, n));
+    if (n) root.setAttribute("data-reader-size", String(n)); else root.removeAttribute("data-reader-size");
+    save("sds-reader-size", String(n));
+    refreshSize();
+  }
+
+  var wrap = document.createElement("div");
+  wrap.className = "sds-reader";
+  var fontOptions = FONTS.map(function (f) {
+    return '<label style=\'font-family:' + f.css.replace(/'/g, "&#39;") + '\'>' +
+      '<input class="form-check-input" type="radio" name="sds-reader-font" value="' + f.id + '"> ' + f.label + '</label>';
+  }).join("");
+  wrap.innerHTML =
+    '<button type="button" class="sds-reader-toggle" aria-expanded="false" aria-controls="sds-reader-panel" ' +
+      'title="Reading settings: font and text size">' +
+      '<span aria-hidden="true">Aa</span><span class="visually-hidden">Reading settings</span></button>' +
+    '<div class="sds-reader-panel" id="sds-reader-panel" role="dialog" aria-label="Reading settings" hidden>' +
+      '<h2>Reading settings</h2>' +
+      '<fieldset class="sds-reader-font"><legend>Font</legend>' + fontOptions + '</fieldset>' +
+      '<fieldset><legend>Text size</legend><div class="sds-reader-size-row">' +
+        '<button type="button" data-step="-1" aria-label="Smaller text">A&minus;</button>' +
+        '<output aria-live="polite"></output>' +
+        '<button type="button" data-step="1" aria-label="Larger text">A+</button>' +
+      '</div></fieldset>' +
+      '<button type="button" class="sds-reader-reset">Reset to defaults</button>' +
+    '</div>';
+
+  var toggle = wrap.querySelector(".sds-reader-toggle");
+  var panel = wrap.querySelector(".sds-reader-panel");
+  var output = wrap.querySelector("output");
+  var minus = wrap.querySelector('[data-step="-1"]');
+  var plus = wrap.querySelector('[data-step="1"]');
+
+  function refreshFont() {
+    var id = currentFont();
+    wrap.querySelectorAll('input[name="sds-reader-font"]').forEach(function (r) { r.checked = r.value === id; });
+  }
+  function refreshSize() {
+    var n = currentSize();
+    output.textContent = SIZES[String(n)] || "Default";
+    minus.disabled = n <= MIN;
+    plus.disabled = n >= MAX;
+  }
+  function open(show) {
+    panel.hidden = !show;
+    toggle.setAttribute("aria-expanded", show ? "true" : "false");
+    if (show) { FONTS.forEach(loadWebFont); refreshFont(); refreshSize(); var c = panel.querySelector("input:checked"); if (c) c.focus(); }
+  }
+
+  toggle.addEventListener("click", function (e) { e.stopPropagation(); open(panel.hidden); });
+  panel.addEventListener("click", function (e) { e.stopPropagation(); });
+  panel.addEventListener("change", function (e) { if (e.target.name === "sds-reader-font") setFont(e.target.value); });
+  minus.addEventListener("click", function () { setSize(currentSize() - 1); });
+  plus.addEventListener("click", function () { setSize(currentSize() + 1); });
+  wrap.querySelector(".sds-reader-reset").addEventListener("click", function () { setFont(""); setSize(0); refreshFont(); });
+  document.addEventListener("click", function () { if (!panel.hidden) open(false); });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !panel.hidden) { open(false); toggle.focus(); }
+  });
+
+  // Put the button by search: in the top menu on
+  // geog215.org, or by the sidebar search in the textbook-only build.
+  var navSearch = document.querySelector("#quarto-header #quarto-search");
+  if (navSearch) navSearch.parentNode.insertBefore(wrap, navSearch);
+  else {
+    var search = document.querySelector("#quarto-sidebar .sidebar-search, #quarto-sidebar #quarto-search, .sidebar-tools-main");
+    if (search && search.parentNode) search.parentNode.insertBefore(wrap, search.nextSibling);
+    else return;
+  }
+  refreshFont();
+  refreshSize();
+})();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/regression-quiz.html" class="pagination-link" aria-label="Chapter quiz: Linear Regression">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Chapter quiz: Linear Regression</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../chapters/writing-spatial-data-science-quiz.html" class="pagination-link" aria-label="Chapter quiz: Writing a Spatial Data Science Project">
+        <span class="nav-page-text">Chapter quiz: Writing a Spatial Data Science Project</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

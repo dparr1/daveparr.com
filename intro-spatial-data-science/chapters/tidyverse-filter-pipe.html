@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>5&nbsp; Into the Tidyverse: glimpse, filter, and the Pipe – Introduction to Spatial Data Science</title>
+<title>6&nbsp; Into the Tidyverse: glimpse, filter, and the Pipe – Introduction to Spatial Data Science</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -91,7 +91,7 @@ div.csl-indent {
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
 <link href="../chapters/tidyverse-filter-pipe-quiz.html" rel="next">
-<link href="../chapters/indexing-vectors-data-frames-quiz.html" rel="prev">
+<link href="../units/unit-2.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
@@ -102,7 +102,7 @@ div.csl-indent {
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-ebb58cfc2c0cc903b00b246007c1be77.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-b0fdf5eb805a3d80b03be31e1eaeaa99.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dc9f5fc0f996687a6857ae5a69d42718.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script src="../site_libs/quarto-contrib/glossary-1.0.0/glossary.js"></script>
 <link href="../site_libs/quarto-contrib/glossary-1.0.0/glossary.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
@@ -1731,7 +1731,7 @@ globalThis.qwebrExecuteCode = async function (
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/tidyverse-filter-pipe.html">Into the Tidyverse</a></li><li class="breadcrumb-item"><a href="../chapters/tidyverse-filter-pipe.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Into the Tidyverse: glimpse, filter, and the Pipe</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../units/unit-2.html">Unit 2: Into the Tidyverse</a></li><li class="breadcrumb-item"><a href="../chapters/tidyverse-filter-pipe.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Into the Tidyverse: glimpse, filter, and the Pipe</span></a></li></ol></nav>
         <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -1764,8 +1764,11 @@ globalThis.qwebrExecuteCode = async function (
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-1-label">R and Spatial Data Science</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+            <a href="../units/unit-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-1-label">Unit 1: R and Spatial Data Science</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section: Unit 1: R and Spatial Data Science">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
       </div>
       <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
@@ -1816,18 +1819,39 @@ globalThis.qwebrExecuteCode = async function (
  <span class="menu-text">Chapter quiz: Indexing Vectors and Data Frames</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/blocks-loops-functions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Blocks, Loops, and Functions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/blocks-loops-functions-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Blocks, Loops, and Functions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../units/unit-1-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Unit 1 quiz: R and Spatial Data Science</span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-2-label">Into the Tidyverse</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+            <a href="../units/unit-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-2-label">Unit 2: Into the Tidyverse</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section: Unit 2: Into the Tidyverse">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
       </div>
       <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/tidyverse-filter-pipe.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Into the Tidyverse: glimpse, filter, and the Pipe</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Into the Tidyverse: glimpse, filter, and the Pipe</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -1839,7 +1863,7 @@ globalThis.qwebrExecuteCode = async function (
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/tidyverse-arrange-select-mutate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Into the Tidyverse: arrange, distinct, select, and mutate</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Into the Tidyverse: arrange, distinct, select, and mutate</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -1851,7 +1875,7 @@ globalThis.qwebrExecuteCode = async function (
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/tidyverse-summarize-group-by.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Into the Tidyverse: summarize, group_by, and drop_na</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Into the Tidyverse: summarize, group_by, and drop_na</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -1860,18 +1884,75 @@ globalThis.qwebrExecuteCode = async function (
  <span class="menu-text">Chapter quiz: Into the Tidyverse: summarize, group_by, and drop_na</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/tidyverse-ggplot.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Into the Tidyverse: Graphs with ggplot2</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/tidyverse-ggplot-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Into the Tidyverse: Graphs with ggplot2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../units/unit-2-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Unit 2 quiz: Into the Tidyverse</span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-3-label">Data</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+            <a href="../units/unit-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Unit 3: Maps and Geographic Data</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section: Unit 3: Maps and Geographic Data">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
       </div>
       <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../chapters/thematic-maps-tmap.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Thematic Maps with tmap</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/thematic-maps-tmap-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Thematic Maps with tmap</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/geographic-information.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">What Is Geographic Data?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/geographic-information-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: What Is Geographic Data?</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/location-coordinate-systems.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Location and Coordinate Systems</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/location-coordinate-systems-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Location and Coordinate Systems</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../chapters/census-data-apis.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Census Data and APIs</span></span></a>
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Census Data and APIs</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -1880,14 +1961,185 @@ globalThis.qwebrExecuteCode = async function (
  <span class="menu-text">Chapter quiz: Census Data and APIs</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/arcpullr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">ArcGIS Data with arcpullr</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/arcpullr-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: ArcGIS Data with arcpullr</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../units/unit-3-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Unit 3 quiz: Maps and Geographic Data</span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-4-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+            <a href="../units/unit-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-4-label">Unit 4: Spatial Analysis</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section: Unit 4: Spatial Analysis">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
       </div>
       <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/joins.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Joins: Attribute and Spatial</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/joins-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Joins: Attribute and Spatial</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/esda.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Exploratory Spatial Data Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/esda-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Exploratory Spatial Data Analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/spatial-statistics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Spatial Descriptive Statistics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/spatial-statistics-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Spatial Descriptive Statistics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../units/unit-4-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Unit 4 quiz: Spatial Analysis</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../units/unit-5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-5-label">Unit 5: Statistics and Science</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-controls="quarto-sidebar-section-5" aria-expanded="true" aria-label="Toggle section: Unit 5: Statistics and Science">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-5" aria-labelledby="quarto-sidebar-section-5-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Comparing Groups: p-values and ANOVA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/anova-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Comparing Groups: p-values and ANOVA</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Linear Regression</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/regression-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Linear Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/writing-spatial-data-science.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Writing a Spatial Data Science Project</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/writing-spatial-data-science-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Writing a Spatial Data Science Project</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/distance-neighborhoods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Distance and Neighborhoods</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/distance-neighborhoods-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Distance and Neighborhoods</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/spatial-autocorrelation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Spatial Clustering and Spatial Autocorrelation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/spatial-autocorrelation-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Spatial Clustering and Spatial Autocorrelation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../units/unit-5-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Unit 5 quiz: Statistics and Science</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../units/unit-6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-6-label">Unit 6: Next Steps</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-controls="quarto-sidebar-section-6" aria-expanded="true" aria-label="Toggle section: Unit 6: Next Steps">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-6" aria-labelledby="quarto-sidebar-section-6-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/dashboards.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Interactive Map Dashboards</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/whats-next.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">What’s Next in Spatial Data Science</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-controls="quarto-sidebar-section-7" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-7-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-7" aria-labelledby="quarto-sidebar-section-7-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../glossary.html" class="sidebar-item-text sidebar-link">
@@ -1912,39 +2164,39 @@ globalThis.qwebrExecuteCode = async function (
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#sec-what-is-tidyverse" id="toc-sec-what-is-tidyverse" class="nav-link active" data-scroll-target="#sec-what-is-tidyverse"><span class="header-section-number">5.1</span> What is the tidyverse?</a>
+  <li><a href="#sec-what-is-tidyverse" id="toc-sec-what-is-tidyverse" class="nav-link active" data-scroll-target="#sec-what-is-tidyverse"><span class="header-section-number">6.1</span> What is the tidyverse?</a>
   <ul class="collapse">
-  <li><a href="#the-data-science-workflow" id="toc-the-data-science-workflow" class="nav-link" data-scroll-target="#the-data-science-workflow"><span class="header-section-number">5.1.1</span> The data science workflow</a></li>
-  <li><a href="#the-core-packages" id="toc-the-core-packages" class="nav-link" data-scroll-target="#the-core-packages"><span class="header-section-number">5.1.2</span> The core packages</a></li>
-  <li><a href="#loading-the-tidyverse" id="toc-loading-the-tidyverse" class="nav-link" data-scroll-target="#loading-the-tidyverse"><span class="header-section-number">5.1.3</span> Loading the tidyverse</a></li>
-  <li><a href="#tidying-data-is-a-set-of-verbs" id="toc-tidying-data-is-a-set-of-verbs" class="nav-link" data-scroll-target="#tidying-data-is-a-set-of-verbs"><span class="header-section-number">5.1.4</span> Tidying data is a set of verbs</a></li>
+  <li><a href="#the-data-science-workflow" id="toc-the-data-science-workflow" class="nav-link" data-scroll-target="#the-data-science-workflow"><span class="header-section-number">6.1.1</span> The data science workflow</a></li>
+  <li><a href="#the-core-packages" id="toc-the-core-packages" class="nav-link" data-scroll-target="#the-core-packages"><span class="header-section-number">6.1.2</span> The core packages</a></li>
+  <li><a href="#loading-the-tidyverse" id="toc-loading-the-tidyverse" class="nav-link" data-scroll-target="#loading-the-tidyverse"><span class="header-section-number">6.1.3</span> Loading the tidyverse</a></li>
+  <li><a href="#tidying-data-is-a-set-of-verbs" id="toc-tidying-data-is-a-set-of-verbs" class="nav-link" data-scroll-target="#tidying-data-is-a-set-of-verbs"><span class="header-section-number">6.1.4</span> Tidying data is a set of verbs</a></li>
   </ul></li>
-  <li><a href="#sec-glimpse" id="toc-sec-glimpse" class="nav-link" data-scroll-target="#sec-glimpse"><span class="header-section-number">5.2</span> Seeing inside a data frame with glimpse()</a>
+  <li><a href="#sec-glimpse" id="toc-sec-glimpse" class="nav-link" data-scroll-target="#sec-glimpse"><span class="header-section-number">6.2</span> Seeing inside a data frame with glimpse()</a>
   <ul class="collapse">
-  <li><a href="#the-flights-data" id="toc-the-flights-data" class="nav-link" data-scroll-target="#the-flights-data"><span class="header-section-number">5.2.1</span> The flights data</a></li>
-  <li><a href="#glimpse" id="toc-glimpse" class="nav-link" data-scroll-target="#glimpse"><span class="header-section-number">5.2.2</span> glimpse()</a></li>
+  <li><a href="#the-flights-data" id="toc-the-flights-data" class="nav-link" data-scroll-target="#the-flights-data"><span class="header-section-number">6.2.1</span> The flights data</a></li>
+  <li><a href="#glimpse" id="toc-glimpse" class="nav-link" data-scroll-target="#glimpse"><span class="header-section-number">6.2.2</span> glimpse()</a></li>
   </ul></li>
-  <li><a href="#sec-filter" id="toc-sec-filter" class="nav-link" data-scroll-target="#sec-filter"><span class="header-section-number">5.3</span> Keeping rows with filter()</a>
+  <li><a href="#sec-filter" id="toc-sec-filter" class="nav-link" data-scroll-target="#sec-filter"><span class="header-section-number">6.3</span> Keeping rows with filter()</a>
   <ul class="collapse">
-  <li><a href="#one-condition" id="toc-one-condition" class="nav-link" data-scroll-target="#one-condition"><span class="header-section-number">5.3.1</span> One condition</a></li>
-  <li><a href="#several-conditions" id="toc-several-conditions" class="nav-link" data-scroll-target="#several-conditions"><span class="header-section-number">5.3.2</span> Several conditions</a></li>
+  <li><a href="#one-condition" id="toc-one-condition" class="nav-link" data-scroll-target="#one-condition"><span class="header-section-number">6.3.1</span> One condition</a></li>
+  <li><a href="#several-conditions" id="toc-several-conditions" class="nav-link" data-scroll-target="#several-conditions"><span class="header-section-number">6.3.2</span> Several conditions</a></li>
   </ul></li>
-  <li><a href="#sec-pipe" id="toc-sec-pipe" class="nav-link" data-scroll-target="#sec-pipe"><span class="header-section-number">5.4</span> The pipe</a>
+  <li><a href="#sec-pipe" id="toc-sec-pipe" class="nav-link" data-scroll-target="#sec-pipe"><span class="header-section-number">6.4</span> The pipe</a>
   <ul class="collapse">
-  <li><a href="#chaining-steps-with" id="toc-chaining-steps-with" class="nav-link" data-scroll-target="#chaining-steps-with"><span class="header-section-number">5.4.1</span> Chaining steps with |&gt;</a></li>
-  <li><a href="#dont-repeat-the-data-frame" id="toc-dont-repeat-the-data-frame" class="nav-link" data-scroll-target="#dont-repeat-the-data-frame"><span class="header-section-number">5.4.2</span> Don’t repeat the data frame</a></li>
+  <li><a href="#chaining-steps-with" id="toc-chaining-steps-with" class="nav-link" data-scroll-target="#chaining-steps-with"><span class="header-section-number">6.4.1</span> Chaining steps with |&gt;</a></li>
+  <li><a href="#dont-repeat-the-data-frame" id="toc-dont-repeat-the-data-frame" class="nav-link" data-scroll-target="#dont-repeat-the-data-frame"><span class="header-section-number">6.4.2</span> Don’t repeat the data frame</a></li>
   </ul></li>
-  <li><a href="#sec-filter-na" id="toc-sec-filter-na" class="nav-link" data-scroll-target="#sec-filter-na"><span class="header-section-number">5.5</span> Missing values: why the counts don’t match</a>
+  <li><a href="#sec-filter-na" id="toc-sec-filter-na" class="nav-link" data-scroll-target="#sec-filter-na"><span class="header-section-number">6.5</span> Missing values: why the counts don’t match</a>
   <ul class="collapse">
-  <li><a href="#the-same-question-two-ways" id="toc-the-same-question-two-ways" class="nav-link" data-scroll-target="#the-same-question-two-ways"><span class="header-section-number">5.5.1</span> The same question, two ways</a></li>
-  <li><a href="#na-a-missing-value" id="toc-na-a-missing-value" class="nav-link" data-scroll-target="#na-a-missing-value"><span class="header-section-number">5.5.2</span> NA: a missing value</a></li>
-  <li><a href="#deciding-what-happens-to-nas" id="toc-deciding-what-happens-to-nas" class="nav-link" data-scroll-target="#deciding-what-happens-to-nas"><span class="header-section-number">5.5.3</span> Deciding what happens to NAs</a></li>
+  <li><a href="#the-same-question-two-ways" id="toc-the-same-question-two-ways" class="nav-link" data-scroll-target="#the-same-question-two-ways"><span class="header-section-number">6.5.1</span> The same question, two ways</a></li>
+  <li><a href="#na-a-missing-value" id="toc-na-a-missing-value" class="nav-link" data-scroll-target="#na-a-missing-value"><span class="header-section-number">6.5.2</span> NA: a missing value</a></li>
+  <li><a href="#deciding-what-happens-to-nas" id="toc-deciding-what-happens-to-nas" class="nav-link" data-scroll-target="#deciding-what-happens-to-nas"><span class="header-section-number">6.5.3</span> Deciding what happens to NAs</a></li>
   </ul></li>
-  <li><a href="#sec-flights-practice" id="toc-sec-flights-practice" class="nav-link" data-scroll-target="#sec-flights-practice"><span class="header-section-number">5.6</span> Practice: counting flights</a></li>
-  <li><a href="#check-your-understanding" id="toc-check-your-understanding" class="nav-link" data-scroll-target="#check-your-understanding"><span class="header-section-number">5.7</span> Check your understanding</a></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">5.8</span> Summary</a></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">5.9</span> Exercises</a></li>
-  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">5.10</span> Further reading</a></li>
+  <li><a href="#sec-flights-practice" id="toc-sec-flights-practice" class="nav-link" data-scroll-target="#sec-flights-practice"><span class="header-section-number">6.6</span> Practice: counting flights</a></li>
+  <li><a href="#check-your-understanding" id="toc-check-your-understanding" class="nav-link" data-scroll-target="#check-your-understanding"><span class="header-section-number">6.7</span> Check your understanding</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">6.8</span> Summary</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">6.9</span> Exercises</a></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">6.10</span> Further reading</a></li>
   </ul>
 </nav>
     </div>
@@ -2235,9 +2487,9 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 }
 </script>
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/tidyverse-filter-pipe.html">Into the Tidyverse</a></li><li class="breadcrumb-item"><a href="../chapters/tidyverse-filter-pipe.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Into the Tidyverse: glimpse, filter, and the Pipe</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../units/unit-2.html">Unit 2: Into the Tidyverse</a></li><li class="breadcrumb-item"><a href="../chapters/tidyverse-filter-pipe.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Into the Tidyverse: glimpse, filter, and the Pipe</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Into the Tidyverse: glimpse, filter, and the Pipe</span></h1>
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Into the Tidyverse: glimpse, filter, and the Pipe</span></h1>
 </div>
 
 
@@ -2274,13 +2526,13 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </ol>
 </div>
 </div>
-<p>In the last chapter you selected rows of a data frame with square brackets, as in <code>grades[grades$exam2 &gt; 90, ]</code>. That works, but it gets long and hard to read quickly: the data frame’s name appears again for every condition, and every step needs a new <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-variable" data-term="variable">variable</span>. This chapter introduces the <strong>tidyverse</strong>, a set of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-package" data-term="package">packages</span> designed to make that kind of work shorter and easier to read, and three tools from it that you will use in almost every assignment from here on: <code>glimpse()</code> to see what is in a data frame, <code>filter()</code> to keep the rows you need, and the pipe, <code>|&gt;</code>, to chain steps together.</p>
+<p>In Chapter 4 you selected rows of a data frame with square brackets, as in <code>grades[grades$exam2 &gt; 90, ]</code>. That works, but it gets long and hard to read quickly: the data frame’s name appears again for every condition, and every step needs a new <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-variable" data-term="variable">variable</span>. This chapter introduces the <strong>tidyverse</strong>, a set of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-package" data-term="package">packages</span> designed to make that kind of work shorter and easier to read, and three tools from it that you will use in almost every assignment from here on: <code>glimpse()</code> to see what is in a data frame, <code>filter()</code> to keep the rows you need, and the pipe, <code>|&gt;</code>, to chain steps together.</p>
 <p>The examples use real data: every flight that left New York City’s three airports in 2013, from the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-nycflights13" data-term="nycflights13">nycflights13</span></strong> package. By the end of the chapter you will be able to answer questions such as “how many flights left LaGuardia in June?” in four short lines.</p>
-<section id="sec-what-is-tidyverse" class="level2" data-number="5.1">
-<h2 data-number="5.1" class="anchored" data-anchor-id="sec-what-is-tidyverse"><span class="header-section-number">5.1</span> What is the tidyverse?</h2>
-<section id="the-data-science-workflow" class="level3" data-number="5.1.1">
-<h3 data-number="5.1.1" class="anchored" data-anchor-id="the-data-science-workflow"><span class="header-section-number">5.1.1</span> The data science workflow</h3>
-<p>The <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tidyverse" data-term="tidyverse">tidyverse</span></strong> is a family of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-package" data-term="package">R packages</span> built for data science. Its packages share a design philosophy, a grammar, and a way of storing data, so they fit together. They are organized around the workflow in <a href="#fig-ds-workflow" class="quarto-xref">Figure&nbsp;<span>5.1</span></a>, from the book <em>R for Data Science</em> <span class="citation" data-cites="wickham2023r4ds">(<a href="#ref-wickham2023r4ds" role="doc-biblioref">Wickham et al. 2023</a>)</span>:</p>
+<section id="sec-what-is-tidyverse" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="sec-what-is-tidyverse"><span class="header-section-number">6.1</span> What is the tidyverse?</h2>
+<section id="the-data-science-workflow" class="level3" data-number="6.1.1">
+<h3 data-number="6.1.1" class="anchored" data-anchor-id="the-data-science-workflow"><span class="header-section-number">6.1.1</span> The data science workflow</h3>
+<p>The <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tidyverse" data-term="tidyverse">tidyverse</span></strong> is a family of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-package" data-term="package">R packages</span> built for data science. Its packages share a design philosophy, a grammar, and a way of storing data, so they fit together. They are organized around the workflow in <a href="#fig-ds-workflow" class="quarto-xref">Figure&nbsp;<span>6.1</span></a>, from the book <em>R for Data Science</em> <span class="citation" data-cites="wickham2023r4ds">(<a href="#ref-wickham2023r4ds" role="doc-biblioref">Wickham et al. 2023</a>)</span>:</p>
 <div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div id="fig-ds-workflow" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -2302,7 +2554,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ds-workflow-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;5.1: The <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-science-workflow" data-term="data science workflow">data science workflow</span>, after Wickham, Çetinkaya-Rundel, and Grolemund (2023). Data are imported and tidied, then transformed, visualized, and modeled, often several times over, before the results are communicated. This chapter is about <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tidy-data" data-term="tidy data">tidying</span> and transforming.
+Figure&nbsp;6.1: The <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-science-workflow" data-term="data science workflow">data science workflow</span>, after Wickham, Çetinkaya-Rundel, and Grolemund (2023). Data are imported and tidied, then transformed, visualized, and modeled, often several times over, before the results are communicated. This chapter is about <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tidy-data" data-term="tidy data">tidying</span> and transforming.
 </figcaption>
 </figure>
 </div>
@@ -2310,13 +2562,13 @@ Figure&nbsp;5.1: The <span class="glossary-term" tabindex="0" role="button" aria
 </div>
 <p>First you <strong>import</strong> data into R. Then you <strong>tidy</strong> it into a consistent shape, with one <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-variable" data-term="variable">variable</span> per column and one <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-observation" data-term="observation">observation</span> per row. Then you go round a loop of <strong>transforming</strong> it (keeping the rows you need, making new columns, summarizing), <strong>visualizing</strong> it, and <strong>modeling</strong> it, until you understand it. Finally you <strong>communicate</strong> what you found, usually in an <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-r-markdown" data-term="R Markdown">R Markdown</span> report. This chapter lives in the Tidy and Transform boxes: getting data into shape and pulling out the rows you need.</p>
 </section>
-<section id="the-core-packages" class="level3" data-number="5.1.2">
-<h3 data-number="5.1.2" class="anchored" data-anchor-id="the-core-packages"><span class="header-section-number">5.1.2</span> The core packages</h3>
-<p>One command, <code>install.packages("tidyverse")</code> (or one trip to the Packages tab), installs the core tidyverse packages (<a href="#tbl-tidyverse-core" class="quarto-xref">Table&nbsp;<span>5.1</span></a>).</p>
+<section id="the-core-packages" class="level3" data-number="6.1.2">
+<h3 data-number="6.1.2" class="anchored" data-anchor-id="the-core-packages"><span class="header-section-number">6.1.2</span> The core packages</h3>
+<p>One command, <code>install.packages("tidyverse")</code> (or one trip to the Packages tab), installs the core tidyverse packages (<a href="#tbl-tidyverse-core" class="quarto-xref">Table&nbsp;<span>6.1</span></a>).</p>
 <div id="tbl-tidyverse-core" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-tidyverse-core-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;5.1: The core tidyverse packages.
+Table&nbsp;6.1: The core tidyverse packages.
 </figcaption>
 <div aria-describedby="tbl-tidyverse-core-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
@@ -2374,8 +2626,8 @@ Table&nbsp;5.1: The core tidyverse packages.
 </div>
 <p>This chapter uses <strong>dplyr</strong>, which supplies <code>glimpse()</code> and <code>filter()</code>. Posit publishes a one-page <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cheatsheet" data-term="cheatsheet">cheatsheet</span> for dplyr, <em>Data transformation with dplyr</em>, linked on the course Canvas page and at <a href="https://posit.co/resources/cheatsheets/" class="uri">https://posit.co/resources/cheatsheets/</a>. <code>filter()</code> is on the front page under <strong>Manipulate Cases</strong> (Extract Cases). It is worth keeping open while you work.</p>
 </section>
-<section id="loading-the-tidyverse" class="level3" data-number="5.1.3">
-<h3 data-number="5.1.3" class="anchored" data-anchor-id="loading-the-tidyverse"><span class="header-section-number">5.1.3</span> Loading the tidyverse</h3>
+<section id="loading-the-tidyverse" class="level3" data-number="6.1.3">
+<h3 data-number="6.1.3" class="anchored" data-anchor-id="loading-the-tidyverse"><span class="header-section-number">6.1.3</span> Loading the tidyverse</h3>
 <p>Load the tidyverse at the top of every R Markdown file, the same way as any other package:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The first time you do, R prints a block of messages like this (your version numbers may differ):</p>
@@ -2390,13 +2642,13 @@ Table&nbsp;5.1: The core tidyverse packages.
 ✖ dplyr::lag()    masks stats::lag()</code></pre>
 <p>These messages are normal. They are not errors, even though some are printed in red. The first block lists the packages that were loaded. The second, <strong>Conflicts</strong>, says that two packages contain a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-function" data-term="function">function</span> with the same name, and which one R will use. Here, dplyr’s <code>filter()</code> <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-masking" data-term="masking">masks</span></strong> the <code>filter()</code> in base R’s stats package (a function for time series). From now on, when you type <code>filter()</code>, you get dplyr’s version, which is the one you want. If you ever need the other one, you can name its package explicitly with two colons: <code>stats::filter()</code>.</p>
 </section>
-<section id="tidying-data-is-a-set-of-verbs" class="level3" data-number="5.1.4">
-<h3 data-number="5.1.4" class="anchored" data-anchor-id="tidying-data-is-a-set-of-verbs"><span class="header-section-number">5.1.4</span> Tidying data is a set of verbs</h3>
-<p>What do we actually do when we tidy data? We select, extract, arrange, sort, combine, group, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-join" data-term="join">join</span>, and summarize. dplyr gives each of these jobs its own function, named with a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-verb" data-term="verb">verb</span> (<a href="#tbl-dplyr-verbs" class="quarto-xref">Table&nbsp;<span>5.2</span></a>).</p>
+<section id="tidying-data-is-a-set-of-verbs" class="level3" data-number="6.1.4">
+<h3 data-number="6.1.4" class="anchored" data-anchor-id="tidying-data-is-a-set-of-verbs"><span class="header-section-number">6.1.4</span> Tidying data is a set of verbs</h3>
+<p>What do we actually do when we tidy data? We select, extract, arrange, sort, combine, group, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-join" data-term="join">join</span>, and summarize. dplyr gives each of these jobs its own function, named with a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-verb" data-term="verb">verb</span> (<a href="#tbl-dplyr-verbs" class="quarto-xref">Table&nbsp;<span>6.2</span></a>).</p>
 <div id="tbl-dplyr-verbs" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-dplyr-verbs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;5.2: The main dplyr verbs.
+Table&nbsp;6.2: The main dplyr verbs.
 </figcaption>
 <div aria-describedby="tbl-dplyr-verbs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
@@ -2451,25 +2703,25 @@ Table&nbsp;5.2: The main dplyr verbs.
 <p>Every dplyr verb works the same way: its first <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-argument" data-term="argument">argument</span> is a data frame, the arguments after it say what to do, and it returns a new data frame. That consistency is what makes the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-pipe" data-term="pipe">pipe</span>, later in this chapter, work so well.</p>
 </section>
 </section>
-<section id="sec-glimpse" class="level2" data-number="5.2">
-<h2 data-number="5.2" class="anchored" data-anchor-id="sec-glimpse"><span class="header-section-number">5.2</span> Seeing inside a data frame with glimpse()</h2>
-<section id="the-flights-data" class="level3" data-number="5.2.1">
-<h3 data-number="5.2.1" class="anchored" data-anchor-id="the-flights-data"><span class="header-section-number">5.2.1</span> The flights data</h3>
+<section id="sec-glimpse" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="sec-glimpse"><span class="header-section-number">6.2</span> Seeing inside a data frame with glimpse()</h2>
+<section id="the-flights-data" class="level3" data-number="6.2.1">
+<h3 data-number="6.2.1" class="anchored" data-anchor-id="the-flights-data"><span class="header-section-number">6.2.1</span> The flights data</h3>
 <p>The <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-nycflights13" data-term="nycflights13">nycflights13</span></strong> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-package" data-term="package">package</span> contains a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-frame" data-term="data frame">data frame</span> called <code>flights</code>: one row for every flight that departed from New York City’s three airports (Newark, EWR; John F. Kennedy, JFK; and LaGuardia, LGA) in 2013. You might use it to compare flights by day, by airport, or by how late they left. Install it once from the Packages tab, then load it along with the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tidyverse" data-term="tidyverse">tidyverse</span>:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nycflights13)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The live code boxes in this chapter load <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-dplyr" data-term="dplyr">dplyr</span></strong>, the part of the tidyverse this chapter uses, rather than the whole tidyverse, because it loads faster in a web browser. Everything works the same way in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-rstudio" data-term="RStudio">RStudio</span> with <code>library(tidyverse)</code>. The first time you run a box, it takes a little while to download the flights data.</p>
 </section>
-<section id="glimpse" class="level3" data-number="5.2.2">
-<h3 data-number="5.2.2" class="anchored" data-anchor-id="glimpse"><span class="header-section-number">5.2.2</span> glimpse()</h3>
+<section id="glimpse" class="level3" data-number="6.2.2">
+<h3 data-number="6.2.2" class="anchored" data-anchor-id="glimpse"><span class="header-section-number">6.2.2</span> glimpse()</h3>
 <p><code>flights</code> has more than 300,000 rows, far too many to print. Typing <code>flights</code> shows only the first few rows and as many columns as fit across the screen. <code>glimpse()</code> is the tidyverse’s way to see everything that is in a data frame at once. It turns the data on its side: each <strong>column</strong> becomes one line of output, showing the column’s name, its type, and its first few values. Run it:</p>
 <div id="qwebr-insertion-location-1"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>The first two lines give the size: 336,776 rows and 19 columns. Below them is one line per column. The type of each column is in angle brackets, abbreviated (<a href="#tbl-glimpse-types" class="quarto-xref">Table&nbsp;<span>5.3</span></a>).</p>
+<p>The first two lines give the size: 336,776 rows and 19 columns. Below them is one line per column. The type of each column is in angle brackets, abbreviated (<a href="#tbl-glimpse-types" class="quarto-xref">Table&nbsp;<span>6.3</span></a>).</p>
 <div id="tbl-glimpse-types" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-glimpse-types-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;5.3: Column types as <code>glimpse()</code> shows them.
+Table&nbsp;6.3: Column types as <code>glimpse()</code> shows them.
 </figcaption>
 <div aria-describedby="tbl-glimpse-types-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
@@ -2512,13 +2764,13 @@ Table&nbsp;5.3: Column types as <code>glimpse()</code> shows them.
 </figure>
 </div>
 <p>The columns this chapter uses are <code>month</code> and <code>day</code> (numbers, so June is <code>6</code>, not <code>"June"</code>), <code>origin</code> (the three-letter code of the airport the flight left from), and <code>dep_delay</code>, the departure delay in minutes. A negative <code>dep_delay</code> means the flight left early.</p>
-<p><code>glimpse()</code> is one of several ways to look at a data frame. <code>head(flights)</code> prints the first six rows; <code>str(flights)</code>, from the last chapter, is base R’s version of <code>glimpse()</code>; and in RStudio, <code>View(flights)</code> opens the whole table in a spreadsheet-like tab. Get in the habit of looking at every data frame before you work with it. Most surprises (a number stored as text, a column you didn’t expect, far fewer rows than you thought) show up in a glimpse.</p>
+<p><code>glimpse()</code> is one of several ways to look at a data frame. <code>head(flights)</code> prints the first six rows; <code>str(flights)</code>, from Chapter 4, is base R’s version of <code>glimpse()</code>; and in RStudio, <code>View(flights)</code> opens the whole table in a spreadsheet-like tab. Get in the habit of looking at every data frame before you work with it. Most surprises (a number stored as text, a column you didn’t expect, far fewer rows than you thought) show up in a glimpse.</p>
 </section>
 </section>
-<section id="sec-filter" class="level2" data-number="5.3">
-<h2 data-number="5.3" class="anchored" data-anchor-id="sec-filter"><span class="header-section-number">5.3</span> Keeping rows with filter()</h2>
-<section id="one-condition" class="level3" data-number="5.3.1">
-<h3 data-number="5.3.1" class="anchored" data-anchor-id="one-condition"><span class="header-section-number">5.3.1</span> One condition</h3>
+<section id="sec-filter" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="sec-filter"><span class="header-section-number">6.3</span> Keeping rows with filter()</h2>
+<section id="one-condition" class="level3" data-number="6.3.1">
+<h3 data-number="6.3.1" class="anchored" data-anchor-id="one-condition"><span class="header-section-number">6.3.1</span> One condition</h3>
 <p><code>filter()</code> keeps the rows of a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-frame" data-term="data frame">data frame</span> that meet a condition. Its first <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-argument" data-term="argument">argument</span> is the data frame, and the arguments after that are one or more logical conditions:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(data, condition)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>It returns only the rows where the condition is <code>TRUE</code>. Here are the flights that left on the first day of a month:</p>
@@ -2530,8 +2782,8 @@ Table&nbsp;5.3: Column types as <code>glimpse()</code> shows them.
 <div id="qwebr-insertion-location-3"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="several-conditions" class="level3" data-number="5.3.2">
-<h3 data-number="5.3.2" class="anchored" data-anchor-id="several-conditions"><span class="header-section-number">5.3.2</span> Several conditions</h3>
+<section id="several-conditions" class="level3" data-number="6.3.2">
+<h3 data-number="6.3.2" class="anchored" data-anchor-id="several-conditions"><span class="header-section-number">6.3.2</span> Several conditions</h3>
 <p>Give <code>filter()</code> more than one condition, separated by commas, and it keeps the rows where <strong>all</strong> of them are <code>TRUE</code>. A comma inside <code>filter()</code> means AND, exactly like <code>&amp;</code>. These two lines both find the flights on January 1:</p>
 <div id="qwebr-insertion-location-4"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
@@ -2541,18 +2793,18 @@ Table&nbsp;5.3: Column types as <code>glimpse()</code> shows them.
 <p>Conditions on text work the same way, but the text needs quotation marks, as always: <code>origin == "LGA"</code>, not <code>origin == LGA</code>. Without the quotes, R looks for a column or <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-variable" data-term="variable">variable</span> named <code>LGA</code> and doesn’t find one.</p>
 </section>
 </section>
-<section id="sec-pipe" class="level2" data-number="5.4">
-<h2 data-number="5.4" class="anchored" data-anchor-id="sec-pipe"><span class="header-section-number">5.4</span> The pipe</h2>
-<section id="chaining-steps-with" class="level3" data-number="5.4.1">
-<h3 data-number="5.4.1" class="anchored" data-anchor-id="chaining-steps-with"><span class="header-section-number">5.4.1</span> Chaining steps with |&gt;</h3>
+<section id="sec-pipe" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="sec-pipe"><span class="header-section-number">6.4</span> The pipe</h2>
+<section id="chaining-steps-with" class="level3" data-number="6.4.1">
+<h3 data-number="6.4.1" class="anchored" data-anchor-id="chaining-steps-with"><span class="header-section-number">6.4.1</span> Chaining steps with |&gt;</h3>
 <p>Most questions take several steps. Suppose you want to know how many flights left LaGuardia early, or on time, on January 1, 2013. That takes three filters and a count. You could save a new <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-frame" data-term="data frame">data frame</span> after every step, or nest the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-function" data-term="function">functions</span> inside one another, but both get hard to read.</p>
 <p>You met the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-pipe" data-term="pipe">pipe</span></strong>, <code>|&gt;</code>, in an earlier chapter. It takes the output of one function and feeds it in as the first <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-argument" data-term="argument">argument</span> of the next. Because every <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-dplyr" data-term="dplyr">dplyr</span> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-verb" data-term="verb">verb</span> takes a data frame as its first argument and returns one, verbs can be chained with pipes as long as you like:</p>
 <div id="qwebr-insertion-location-6"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>Read the pipe out loud as “<strong>and then</strong>”: take <code>flights</code>, <em>and then</em> keep January 1, <em>and then</em> keep LaGuardia, <em>and then</em> keep the flights that left on time or early (a delay of zero or less), <em>and then</em> count the rows. The answer is 172 flights. Each step narrows the rows further, and the code reads in the same order as the question.</p>
 </section>
-<section id="dont-repeat-the-data-frame" class="level3" data-number="5.4.2">
-<h3 data-number="5.4.2" class="anchored" data-anchor-id="dont-repeat-the-data-frame"><span class="header-section-number">5.4.2</span> Don’t repeat the data frame</h3>
+<section id="dont-repeat-the-data-frame" class="level3" data-number="6.4.2">
+<h3 data-number="6.4.2" class="anchored" data-anchor-id="dont-repeat-the-data-frame"><span class="header-section-number">6.4.2</span> Don’t repeat the data frame</h3>
 <p>With the pipe, the data frame goes <em>in front of</em> the pipe, not inside <code>filter()</code>. These two lines do exactly the same thing:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(flights, day <span class="sc">==</span> <span class="dv">1</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> <span class="fu">filter</span>(day <span class="sc">==</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -2573,19 +2825,19 @@ Table&nbsp;5.3: Column types as <code>glimpse()</code> shows them.
 </div>
 </section>
 </section>
-<section id="sec-filter-na" class="level2" data-number="5.5">
-<h2 data-number="5.5" class="anchored" data-anchor-id="sec-filter-na"><span class="header-section-number">5.5</span> Missing values: why the counts don’t match</h2>
-<section id="the-same-question-two-ways" class="level3" data-number="5.5.1">
-<h3 data-number="5.5.1" class="anchored" data-anchor-id="the-same-question-two-ways"><span class="header-section-number">5.5.1</span> The same question, two ways</h3>
-<p>Here is the January 1 LaGuardia question again, answered first with base R brackets, as in the last chapter, and then the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tidy-data" data-term="tidy data">tidy</span> way with <code>filter()</code> and the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-pipe" data-term="pipe">pipe</span>:</p>
+<section id="sec-filter-na" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="sec-filter-na"><span class="header-section-number">6.5</span> Missing values: why the counts don’t match</h2>
+<section id="the-same-question-two-ways" class="level3" data-number="6.5.1">
+<h3 data-number="6.5.1" class="anchored" data-anchor-id="the-same-question-two-ways"><span class="header-section-number">6.5.1</span> The same question, two ways</h3>
+<p>Here is the January 1 LaGuardia question again, answered first with base R brackets, as in Chapter 4, and then the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tidy-data" data-term="tidy data">tidy</span> way with <code>filter()</code> and the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-pipe" data-term="pipe">pipe</span>:</p>
 <div id="qwebr-insertion-location-7"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>The base R way needs more typing, and more places for a typo: <code>flights$</code> for every condition, and a new object at every step. The tidy way reads top to bottom. But look at the answers. Base R finds <strong>174</strong> flights, and <code>filter()</code> finds <strong>172</strong>. They don’t match. Why?</p>
 </section>
-<section id="na-a-missing-value" class="level3" data-number="5.5.2">
-<h3 data-number="5.5.2" class="anchored" data-anchor-id="na-a-missing-value"><span class="header-section-number">5.5.2</span> NA: a missing value</h3>
+<section id="na-a-missing-value" class="level3" data-number="6.5.2">
+<h3 data-number="6.5.2" class="anchored" data-anchor-id="na-a-missing-value"><span class="header-section-number">6.5.2</span> NA: a missing value</h3>
 <p>The answer is <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-missing-value" data-term="missing value">missing values</span></strong>. In R, a value that is unknown or missing is written <strong><code>NA</code></strong> (“not available”). Flights that were cancelled never departed, so their departure delay is unknown: <code>dep_delay</code> is <code>NA</code>. Two of the January 1 LaGuardia flights were cancelled.</p>
-<p>What is <code>NA &lt;= 0</code>? R can’t say whether an unknown number is less than zero, so the answer is itself unknown: <code>NA</code>, not <code>TRUE</code> or <code>FALSE</code>. Each approach handles that differently (<a href="#tbl-na-handling" class="quarto-xref">Table&nbsp;<span>5.4</span></a>):</p>
+<p>What is <code>NA &lt;= 0</code>? R can’t say whether an unknown number is less than zero, so the answer is itself unknown: <code>NA</code>, not <code>TRUE</code> or <code>FALSE</code>. Each approach handles that differently (<a href="#tbl-na-handling" class="quarto-xref">Table&nbsp;<span>6.4</span></a>):</p>
 <ul>
 <li><strong>Base R brackets</strong> don’t drop a row when the condition is <code>NA</code>. They return a row in which every value is <code>NA</code>, so the result has two extra rows of missing values, 174 in all.</li>
 <li><strong><code>filter()</code></strong> keeps only the rows where the condition is <code>TRUE</code>. It quietly drops rows where the condition is <code>NA</code>, so it finds 172.</li>
@@ -2593,7 +2845,7 @@ Table&nbsp;5.3: Column types as <code>glimpse()</code> shows them.
 <div id="tbl-na-handling" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-na-handling-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;5.4: How base R brackets and <code>filter()</code> treat each result of a condition.
+Table&nbsp;6.4: How base R brackets and <code>filter()</code> treat each result of a condition.
 </figcaption>
 <div aria-describedby="tbl-na-handling-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
@@ -2633,8 +2885,8 @@ Table&nbsp;5.4: How base R brackets and <code>filter()</code> treat each result 
 <div id="qwebr-insertion-location-8"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="deciding-what-happens-to-nas" class="level3" data-number="5.5.3">
-<h3 data-number="5.5.3" class="anchored" data-anchor-id="deciding-what-happens-to-nas"><span class="header-section-number">5.5.3</span> Deciding what happens to NAs</h3>
+<section id="deciding-what-happens-to-nas" class="level3" data-number="6.5.3">
+<h3 data-number="6.5.3" class="anchored" data-anchor-id="deciding-what-happens-to-nas"><span class="header-section-number">6.5.3</span> Deciding what happens to NAs</h3>
 <p>Neither approach is wrong, but they give different answers, and <em>nothing warns you</em>. That is annoying, and it is exactly the kind of quiet difference that leads to wrong results in a report. The lesson is to check the number of rows after every filter, and to decide on purpose what should happen to missing values.</p>
 <p>If you <em>do</em> want to keep the rows with a missing delay, say so in the condition, with the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-function" data-term="function">function</span> <code>is.na()</code>, which returns <code>TRUE</code> when a value is <code>NA</code>:</p>
 <div id="qwebr-insertion-location-9"></div>
@@ -2643,8 +2895,8 @@ Table&nbsp;5.4: How base R brackets and <code>filter()</code> treat each result 
 <p>Note that you can’t test for <code>NA</code> with <code>==</code>. <code>dep_delay == NA</code> is always <code>NA</code>, whatever <code>dep_delay</code> is, because R can’t tell whether something equals an unknown value. Always use <code>is.na()</code>.</p>
 </section>
 </section>
-<section id="sec-flights-practice" class="level2" data-number="5.6">
-<h2 data-number="5.6" class="anchored" data-anchor-id="sec-flights-practice"><span class="header-section-number">5.6</span> Practice: counting flights</h2>
+<section id="sec-flights-practice" class="level2" data-number="6.6">
+<h2 data-number="6.6" class="anchored" data-anchor-id="sec-flights-practice"><span class="header-section-number">6.6</span> Practice: counting flights</h2>
 <p>Put it all together. These steps follow the in-class exercise.</p>
 <p><strong>Step 1: set up.</strong> In <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-rstudio" data-term="RStudio">RStudio</span>, use the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-package" data-term="package">Packages</span> tab to install <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-nycflights13" data-term="nycflights13">nycflights13</span></strong> and <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tidyverse" data-term="tidyverse">tidyverse</span></strong>, if you haven’t yet. Start a new <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-r-markdown" data-term="R Markdown">R Markdown</span> file, and load both in the first <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-code-chunk" data-term="code chunk">chunk</span>:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
@@ -2666,7 +2918,7 @@ Show the answer to step 3
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>There were 28,243 flights in June.</p>
 </div>
-<p><strong>Step 4: June flights from LaGuardia.</strong> Now keep only the June flights that left from LaGuardia. LaGuardia’s airport code is <code>"LGA"</code>, and it is text, so it needs quotation marks. You can add a second <code>filter()</code>, or put both conditions in one, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-join" data-term="join">joined</span> with a comma or <code>&amp;</code>:</p>
+<p><strong>Step 4: June flights from LaGuardia.</strong> Now keep only the June flights that left from LaGuardia. LaGuardia’s airport code is <code>"LGA"</code>, and it is text, so it needs quotation marks. You can add a second <code>filter()</code>, or put both conditions in one, joined with a comma or <code>&amp;</code>:</p>
 <div id="qwebr-insertion-location-12"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <div class="webex-solution">
@@ -2692,8 +2944,8 @@ Show the answer to step 4
 <p>Read the first version as “take <code>flights</code>, <em>and then</em> keep June, <em>and then</em> keep LGA, <em>and then</em> count.” If you got a much bigger number, check for missing quotation marks around <code>"LGA"</code>, or a single <code>=</code> where you need <code>==</code>.</p>
 </div>
 </section>
-<section id="check-your-understanding" class="level2" data-number="5.7">
-<h2 data-number="5.7" class="anchored" data-anchor-id="check-your-understanding"><span class="header-section-number">5.7</span> Check your understanding</h2>
+<section id="check-your-understanding" class="level2" data-number="6.7">
+<h2 data-number="6.7" class="anchored" data-anchor-id="check-your-understanding"><span class="header-section-number">6.7</span> Check your understanding</h2>
 <ol type="1">
 <li><p>Which tidyverse package provides <code>filter()</code> and <code>glimpse()</code>? <select class="webex-select"><option value="blank"></option><option value="">ggplot2</option><option value="">readr</option><option value="answer">dplyr</option><option value="">tidyr</option></select></p></li>
 <li><p>When you load the tidyverse, the message <code>dplyr::filter() masks stats::filter()</code> means something has gone wrong. <select class="webex-select"><option value="blank"></option><option value="NA">TRUE</option><option value="answer">FALSE</option></select></p></li>
@@ -2711,8 +2963,8 @@ Show hint for question 7
 <p><code>filter()</code> keeps only the rows where the condition is <code>TRUE</code>. To keep the missing ones, you have to ask for them with <code>is.na()</code>.</p>
 </div>
 </section>
-<section id="summary" class="level2" data-number="5.8">
-<h2 data-number="5.8" class="anchored" data-anchor-id="summary"><span class="header-section-number">5.8</span> Summary</h2>
+<section id="summary" class="level2" data-number="6.8">
+<h2 data-number="6.8" class="anchored" data-anchor-id="summary"><span class="header-section-number">6.8</span> Summary</h2>
 <ul>
 <li>The <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tidyverse" data-term="tidyverse">tidyverse</span></strong> is a family of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-package" data-term="package">packages</span> for data science that work together, organized around the workflow import, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tidy-data" data-term="tidy data">tidy</span>, transform, visualize, model, and communicate. Load it with <code>library(tidyverse)</code>; the startup and conflict messages are normal.</li>
 <li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-dplyr" data-term="dplyr">dplyr</span></strong> gives each data-tidying job a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-verb" data-term="verb">verb</span>. Every verb takes a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-frame" data-term="data frame">data frame</span> first and returns a data frame.</li>
@@ -2722,8 +2974,8 @@ Show hint for question 7
 <li><strong><code>NA</code></strong> marks a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-missing-value" data-term="missing value">missing value</span>. Base R brackets return a row of <code>NA</code>s when a condition is <code>NA</code>; <code>filter()</code> drops it. Check row counts, and use <code>is.na()</code> when you want to keep or find missing values.</li>
 </ul>
 </section>
-<section id="exercises" class="level2" data-number="5.9">
-<h2 data-number="5.9" class="anchored" data-anchor-id="exercises"><span class="header-section-number">5.9</span> Exercises</h2>
+<section id="exercises" class="level2" data-number="6.9">
+<h2 data-number="6.9" class="anchored" data-anchor-id="exercises"><span class="header-section-number">6.9</span> Exercises</h2>
 <p>Use the <code>flights</code> data from <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-nycflights13" data-term="nycflights13">nycflights13</span> for these exercises, and answer each with a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-pipe" data-term="pipe">pipe</span> chain.</p>
 <ol type="1">
 <li><p><strong>Glimpse.</strong> Run <code>glimpse(flights)</code>. Which columns hold times? Which hold distances? What does a negative value in <code>arr_delay</code> mean?</p></li>
@@ -2733,7 +2985,7 @@ Show hint for question 7
 <li><p><strong>AND or OR?</strong> Predict which of these returns more rows, then check. Explain the difference in words.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> <span class="fu">filter</span>(month <span class="sc">==</span> <span class="dv">6</span> <span class="sc">&amp;</span> month <span class="sc">==</span> <span class="dv">7</span>) <span class="sc">|&gt;</span> <span class="fu">count</span>()</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> <span class="fu">filter</span>(month <span class="sc">==</span> <span class="dv">6</span> <span class="sc">|</span> month <span class="sc">==</span> <span class="dv">7</span>) <span class="sc">|&gt;</span> <span class="fu">count</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
-<li><p><strong>Long delays.</strong> How many flights left more than two hours late? Write the same filter in base R with square brackets, as in the last chapter. Do the two methods agree? Why or why not?</p></li>
+<li><p><strong>Long delays.</strong> How many flights left more than two hours late? Write the same filter in base R with square brackets, as in Chapter 4. Do the two methods agree? Why or why not?</p></li>
 <li><p><strong>Fix the code.</strong> Each chain below has one mistake. Find and fix it.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="at">origin =</span> <span class="st">"LGA"</span>) <span class="sc">|&gt;</span> <span class="fu">count</span>()</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> <span class="fu">filter</span>(flights, month <span class="sc">==</span> <span class="dv">6</span>) <span class="sc">|&gt;</span> <span class="fu">count</span>()</span>
@@ -2741,8 +2993,8 @@ Show hint for question 7
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> <span class="fu">filter</span>(dep_delay <span class="sc">==</span> <span class="cn">NA</span>) <span class="sc">|&gt;</span> <span class="fu">count</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 </ol>
 </section>
-<section id="further-reading" class="level2" data-number="5.10">
-<h2 data-number="5.10" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">5.10</span> Further reading</h2>
+<section id="further-reading" class="level2" data-number="6.10">
+<h2 data-number="6.10" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">6.10</span> Further reading</h2>
 <ul>
 <li><em>R for Data Science</em> (2nd ed.) <span class="citation" data-cites="wickham2023r4ds">(<a href="#ref-wickham2023r4ds" role="doc-biblioref">Wickham et al. 2023</a>)</span>, free at <a href="https://r4ds.hadley.nz" class="uri">https://r4ds.hadley.nz</a>, is the course’s main R reference. The chapters “Data transformation” and “Workflow: code style” cover <code>filter()</code>, the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-pipe" data-term="pipe">pipe</span>, and the other <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-dplyr" data-term="dplyr">dplyr</span> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-verb" data-term="verb">verbs</span>, using the same flights data.</li>
 <li>The dplyr website, <a href="https://dplyr.tidyverse.org" class="uri">https://dplyr.tidyverse.org</a>, has a reference page for every <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-function" data-term="function">function</span>, with examples.</li>
@@ -3644,8 +3896,8 @@ window.onload = function() {
   </script>
 <nav class="page-navigation" aria-label="Page">
   <div class="nav-page nav-page-previous">
-      <a href="../chapters/indexing-vectors-data-frames-quiz.html" class="pagination-link" aria-label="Chapter quiz: Indexing Vectors and Data Frames">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Chapter quiz: Indexing Vectors and Data Frames</span>
+      <a href="../units/unit-2.html" class="pagination-link" aria-label="Unit 2: Into the Tidyverse">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Unit 2: Into the Tidyverse</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

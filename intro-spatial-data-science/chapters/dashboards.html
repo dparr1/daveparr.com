@@ -1,0 +1,2406 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>23&nbsp; Interactive Map Dashboards – Introduction to Spatial Data Science</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/whats-next.html" rel="next">
+<link href="../units/unit-6.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ebb58cfc2c0cc903b00b246007c1be77.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-dc9f5fc0f996687a6857ae5a69d42718.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-contrib/glossary-1.0.0/glossary.js"></script>
+<link href="../site_libs/quarto-contrib/glossary-1.0.0/glossary.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<!--
+  Reading settings, part 1 of 2: applies the reader's saved font and text size
+  before the page draws, so it doesn't flash in the default font first.
+  The menu itself is in assets/reader-settings.html; styles are in
+  assets/reader-settings.css.
+-->
+<script>
+  (function () {
+    try {
+      var font = localStorage.getItem("sds-reader-font");
+      var size = localStorage.getItem("sds-reader-size");
+      if (font) document.documentElement.setAttribute("data-reader-font", font);
+      // Lexend and Cardo come from Google Fonts, loaded only for readers who pick them.
+      var webFonts = {
+        lexend: "https://fonts.googleapis.com/css2?family=Lexend:wght@300..700&display=swap",
+        cardo: "https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&display=swap"
+      };
+      if (webFonts[font]) {
+        var link = document.createElement("link");
+        link.rel = "stylesheet"; link.href = webFonts[font]; link.id = "sds-reader-webfont-" + font;
+        document.head.appendChild(link);
+      }
+      if (size) document.documentElement.setAttribute("data-reader-size", size);
+    } catch (e) { /* storage blocked: keep the defaults */ }
+  })();
+</script>
+
+
+<link rel="stylesheet" href="../include/webex.css">
+<link rel="stylesheet" href="../assets/sidebar.css">
+<link rel="stylesheet" href="../assets/grade-table.css">
+<link rel="stylesheet" href="../assets/reader-settings.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../units/unit-6.html">Unit 6: Next Steps</a></li><li class="breadcrumb-item"><a href="../chapters/dashboards.html"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Interactive Map Dashboards</span></a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Site">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Introduction to Spatial Data Science</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../units/unit-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-1-label">Unit 1: R and Spatial Data Science</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section: Unit 1: R and Spatial Data Science">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/intro-spatial-data-science.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">What is Spatial Data Science?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/intro-spatial-data-science-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: What is Spatial Data Science?</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/r-rstudio-rmarkdown.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">R, RStudio, and R Markdown</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/r-rstudio-rmarkdown-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: R, RStudio, and R Markdown</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/r-basics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">R Basics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/r-basics-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: R Basics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/indexing-vectors-data-frames.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Indexing Vectors and Data Frames</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/indexing-vectors-data-frames-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Indexing Vectors and Data Frames</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/blocks-loops-functions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Blocks, Loops, and Functions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/blocks-loops-functions-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Blocks, Loops, and Functions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../units/unit-1-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Unit 1 quiz: R and Spatial Data Science</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../units/unit-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-2-label">Unit 2: Into the Tidyverse</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section: Unit 2: Into the Tidyverse">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/tidyverse-filter-pipe.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Into the Tidyverse: glimpse, filter, and the Pipe</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/tidyverse-filter-pipe-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Into the Tidyverse: glimpse, filter, and the Pipe</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/tidyverse-arrange-select-mutate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Into the Tidyverse: arrange, distinct, select, and mutate</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/tidyverse-arrange-select-mutate-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Into the Tidyverse: arrange, distinct, select, and mutate</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/tidyverse-summarize-group-by.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Into the Tidyverse: summarize, group_by, and drop_na</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/tidyverse-summarize-group-by-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Into the Tidyverse: summarize, group_by, and drop_na</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/tidyverse-ggplot.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Into the Tidyverse: Graphs with ggplot2</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/tidyverse-ggplot-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Into the Tidyverse: Graphs with ggplot2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../units/unit-2-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Unit 2 quiz: Into the Tidyverse</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../units/unit-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Unit 3: Maps and Geographic Data</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section: Unit 3: Maps and Geographic Data">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/thematic-maps-tmap.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Thematic Maps with tmap</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/thematic-maps-tmap-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Thematic Maps with tmap</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/geographic-information.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">What Is Geographic Data?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/geographic-information-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: What Is Geographic Data?</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/location-coordinate-systems.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Location and Coordinate Systems</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/location-coordinate-systems-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Location and Coordinate Systems</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/census-data-apis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Census Data and APIs</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/census-data-apis-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Census Data and APIs</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/arcpullr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">ArcGIS Data with arcpullr</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/arcpullr-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: ArcGIS Data with arcpullr</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../units/unit-3-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Unit 3 quiz: Maps and Geographic Data</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../units/unit-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-4-label">Unit 4: Spatial Analysis</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section: Unit 4: Spatial Analysis">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/joins.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Joins: Attribute and Spatial</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/joins-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Joins: Attribute and Spatial</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/esda.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Exploratory Spatial Data Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/esda-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Exploratory Spatial Data Analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/spatial-statistics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Spatial Descriptive Statistics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/spatial-statistics-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Spatial Descriptive Statistics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../units/unit-4-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Unit 4 quiz: Spatial Analysis</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../units/unit-5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-5-label">Unit 5: Statistics and Science</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-controls="quarto-sidebar-section-5" aria-expanded="true" aria-label="Toggle section: Unit 5: Statistics and Science">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-5" aria-labelledby="quarto-sidebar-section-5-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Comparing Groups: p-values and ANOVA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/anova-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Comparing Groups: p-values and ANOVA</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Linear Regression</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/regression-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Linear Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/writing-spatial-data-science.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Writing a Spatial Data Science Project</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/writing-spatial-data-science-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Writing a Spatial Data Science Project</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/distance-neighborhoods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Distance and Neighborhoods</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/distance-neighborhoods-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Distance and Neighborhoods</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/spatial-autocorrelation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Spatial Clustering and Spatial Autocorrelation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/spatial-autocorrelation-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Spatial Clustering and Spatial Autocorrelation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../units/unit-5-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Unit 5 quiz: Statistics and Science</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../units/unit-6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-6-label">Unit 6: Next Steps</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-controls="quarto-sidebar-section-6" aria-expanded="true" aria-label="Toggle section: Unit 6: Next Steps">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-6" aria-labelledby="quarto-sidebar-section-6-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/dashboards.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Interactive Map Dashboards</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/whats-next.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">What’s Next in Spatial Data Science</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-controls="quarto-sidebar-section-7" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-7-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-7" aria-labelledby="quarto-sidebar-section-7-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Glossary</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../about.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About the author</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-what-is-dashboard" id="toc-sec-what-is-dashboard" class="nav-link active" data-scroll-target="#sec-what-is-dashboard"><span class="header-section-number">23.1</span> What is a dashboard?</a>
+  <ul class="collapse">
+  <li><a href="#reports-and-dashboards-do-different-jobs" id="toc-reports-and-dashboards-do-different-jobs" class="nav-link" data-scroll-target="#reports-and-dashboards-do-different-jobs"><span class="header-section-number">23.1.1</span> Reports and dashboards do different jobs</a></li>
+  <li><a href="#what-makes-a-good-dashboard" id="toc-what-makes-a-good-dashboard" class="nav-link" data-scroll-target="#what-makes-a-good-dashboard"><span class="header-section-number">23.1.2</span> What makes a good dashboard</a></li>
+  </ul></li>
+  <li><a href="#sec-toolkit" id="toc-sec-toolkit" class="nav-link" data-scroll-target="#sec-toolkit"><span class="header-section-number">23.2</span> The R dashboard toolkit</a>
+  <ul class="collapse">
+  <li><a href="#two-kinds-of-interactivity" id="toc-two-kinds-of-interactivity" class="nav-link" data-scroll-target="#two-kinds-of-interactivity"><span class="header-section-number">23.2.1</span> Two kinds of interactivity</a></li>
+  <li><a href="#our-example-income-and-poverty-by-state" id="toc-our-example-income-and-poverty-by-state" class="nav-link" data-scroll-target="#our-example-income-and-poverty-by-state"><span class="header-section-number">23.2.2</span> Our example: income and poverty by state</a></li>
+  </ul></li>
+  <li><a href="#sec-leaflet" id="toc-sec-leaflet" class="nav-link" data-scroll-target="#sec-leaflet"><span class="header-section-number">23.3</span> Interactive maps with leaflet</a>
+  <ul class="collapse">
+  <li><a href="#your-first-leaflet-map" id="toc-your-first-leaflet-map" class="nav-link" data-scroll-target="#your-first-leaflet-map"><span class="header-section-number">23.3.1</span> Your first leaflet map</a></li>
+  <li><a href="#coloring-a-choropleth" id="toc-coloring-a-choropleth" class="nav-link" data-scroll-target="#coloring-a-choropleth"><span class="header-section-number">23.3.2</span> Coloring a choropleth</a></li>
+  <li><a href="#labels-popups-and-highlighting" id="toc-labels-popups-and-highlighting" class="nav-link" data-scroll-target="#labels-popups-and-highlighting"><span class="header-section-number">23.3.3</span> Labels, popups, and highlighting</a></li>
+  <li><a href="#a-shortcut-tmap-in-view-mode" id="toc-a-shortcut-tmap-in-view-mode" class="nav-link" data-scroll-target="#a-shortcut-tmap-in-view-mode"><span class="header-section-number">23.3.4</span> A shortcut: tmap in view mode</a></li>
+  </ul></li>
+  <li><a href="#sec-flexdashboard" id="toc-sec-flexdashboard" class="nav-link" data-scroll-target="#sec-flexdashboard"><span class="header-section-number">23.4</span> Laying out a flexdashboard</a>
+  <ul class="collapse">
+  <li><a href="#a-flexdashboard-is-an-r-markdown-file" id="toc-a-flexdashboard-is-an-r-markdown-file" class="nav-link" data-scroll-target="#a-flexdashboard-is-an-r-markdown-file"><span class="header-section-number">23.4.1</span> A flexdashboard is an R Markdown file</a></li>
+  <li><a href="#columns-panels-and-a-sidebar" id="toc-columns-panels-and-a-sidebar" class="nav-link" data-scroll-target="#columns-panels-and-a-sidebar"><span class="header-section-number">23.4.2</span> Columns, panels, and a sidebar</a></li>
+  <li><a href="#value-boxes-tables-and-charts" id="toc-value-boxes-tables-and-charts" class="nav-link" data-scroll-target="#value-boxes-tables-and-charts"><span class="header-section-number">23.4.3</span> Value boxes, tables, and charts</a></li>
+  <li><a href="#linking-views-with-crosstalk" id="toc-linking-views-with-crosstalk" class="nav-link" data-scroll-target="#linking-views-with-crosstalk"><span class="header-section-number">23.4.4</span> Linking views with crosstalk</a></li>
+  <li><a href="#crosstalk-and-leaflet-points-not-polygons" id="toc-crosstalk-and-leaflet-points-not-polygons" class="nav-link" data-scroll-target="#crosstalk-and-leaflet-points-not-polygons"><span class="header-section-number">23.4.5</span> crosstalk and leaflet: points, not polygons</a></li>
+  </ul></li>
+  <li><a href="#sec-shiny" id="toc-sec-shiny" class="nav-link" data-scroll-target="#sec-shiny"><span class="header-section-number">23.5</span> Adding Shiny</a>
+  <ul class="collapse">
+  <li><a href="#when-do-you-need-shiny" id="toc-when-do-you-need-shiny" class="nav-link" data-scroll-target="#when-do-you-need-shiny"><span class="header-section-number">23.5.1</span> When do you need Shiny?</a></li>
+  <li><a href="#inputs-in-the-sidebar" id="toc-inputs-in-the-sidebar" class="nav-link" data-scroll-target="#inputs-in-the-sidebar"><span class="header-section-number">23.5.2</span> Inputs in the sidebar</a></li>
+  <li><a href="#reactive-data-and-render-functions" id="toc-reactive-data-and-render-functions" class="nav-link" data-scroll-target="#reactive-data-and-render-functions"><span class="header-section-number">23.5.3</span> Reactive data and render functions</a></li>
+  </ul></li>
+  <li><a href="#sec-sharing" id="toc-sec-sharing" class="nav-link" data-scroll-target="#sec-sharing"><span class="header-section-number">23.6</span> Sharing your dashboard</a>
+  <ul class="collapse">
+  <li><a href="#common-pitfalls-and-fixes" id="toc-common-pitfalls-and-fixes" class="nav-link" data-scroll-target="#common-pitfalls-and-fixes"><span class="header-section-number">23.6.1</span> Common pitfalls and fixes</a></li>
+  <li><a href="#looking-ahead-quarto-dashboards" id="toc-looking-ahead-quarto-dashboards" class="nav-link" data-scroll-target="#looking-ahead-quarto-dashboards"><span class="header-section-number">23.6.2</span> Looking ahead: Quarto dashboards</a></li>
+  </ul></li>
+  <li><a href="#sec-example-files" id="toc-sec-example-files" class="nav-link" data-scroll-target="#sec-example-files"><span class="header-section-number">23.7</span> The complete example files</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">23.8</span> Summary</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">23.9</span> Exercises</a></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">23.10</span> Further reading</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../units/unit-6.html">Unit 6: Next Steps</a></li><li class="breadcrumb-item"><a href="../chapters/dashboards.html"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Interactive Map Dashboards</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Interactive Map Dashboards</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Learning objectives
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>By the end of this chapter you should be able to:</p>
+<ol type="1">
+<li>Explain what a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-dashboard" data-term="dashboard">dashboard</span> is, how it differs from a report, and what makes a good one.</li>
+<li>Make an interactive choropleth map with <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-leaflet" data-term="leaflet">leaflet</span>, with a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-palette-function" data-term="palette function">palette function</span>, legend, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-label-in-leaflet" data-term="label (in leaflet)">labels</span>, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-popup" data-term="popup">popups</span>, or with <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tmap" data-term="tmap">tmap</span> in view mode.</li>
+<li>Lay out a dashboard with <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-flexdashboard" data-term="flexdashboard">flexdashboard</span>: a sidebar, columns, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-panel" data-term="panel">panels</span> holding a map, a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-value-box" data-term="value box">value box</span>, a chart, and a table.</li>
+<li>Link the views with <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-crosstalk" data-term="crosstalk">crosstalk</span>, and work around its limits on <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-polygon" data-term="polygon">polygons</span>.</li>
+<li>Add <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-shiny" data-term="Shiny">Shiny</span> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-input-in-shiny" data-term="input (in Shiny)">inputs</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-reactive-expression" data-term="reactive expression">reactive expressions</span>, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-render-function" data-term="render function">render functions</span> so a dashboard recalculates.</li>
+<li>Choose between a static and a Shiny dashboard, and share each one.</li>
+</ol>
+</div>
+</div>
+<p>All semester you have made maps and analyses and written them up as <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-r-markdown" data-term="R Markdown">R Markdown</span> reports. This chapter turns that work into an interactive <strong>dashboard</strong>: a single web page where a reader can explore a map, a chart, and a table that respond to each other. We build one example dashboard step by step, first from interactive widgets that run in any browser, and then with Shiny. Everything is still an R Markdown file, so it fits the workflow you already know.</p>
+<div class="callout callout-style-simple callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>This chapter’s code runs in RStudio, not in the book
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>leaflet, flexdashboard, crosstalk, and Shiny build web pages, so they can’t run in the live code cells of this book. The code here is shown as plain blocks, with screenshots of the results. Copy it into <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-rstudio" data-term="RStudio">RStudio</span> to try it. Install the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-package" data-term="package">packages</span> once with:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"flexdashboard"</span>, <span class="st">"leaflet"</span>, <span class="st">"DT"</span>, <span class="st">"plotly"</span>, <span class="st">"crosstalk"</span>, <span class="st">"shiny"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<section id="sec-what-is-dashboard" class="level2" data-number="23.1">
+<h2 data-number="23.1" class="anchored" data-anchor-id="sec-what-is-dashboard"><span class="header-section-number">23.1</span> What is a dashboard?</h2>
+<p>A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-dashboard" data-term="dashboard">dashboard</span></strong> shows key information on one screen so people can monitor and explore it. It usually has several <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-linked-views" data-term="linked views">linked views</span></strong>, such as a map, charts, a table, and a few headline numbers, and it is interactive: readers can zoom, hover, filter, and select. You have certainly used one. During COVID-19, case dashboards from universities and state health departments were checked daily by millions of people, and most were built around a map. Air quality, weather, and traffic dashboards, and city and state open data portals, work the same way. A map is often the anchor, because readers first ask “where?”</p>
+<section id="reports-and-dashboards-do-different-jobs" class="level3" data-number="23.1.1">
+<h3 data-number="23.1.1" class="anchored" data-anchor-id="reports-and-dashboards-do-different-jobs"><span class="header-section-number">23.1.1</span> Reports and dashboards do different jobs</h3>
+<div id="tbl-report-dashboard" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-report-dashboard-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;23.1: Reports and dashboards.
+</figcaption>
+<div aria-describedby="tbl-report-dashboard-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 9%">
+<col style="width: 57%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;"><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-r-markdown" data-term="R Markdown">R Markdown</span> report</th>
+<th style="text-align: left;">Dashboard</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Order</td>
+<td style="text-align: left;">Tells a story in a fixed order</td>
+<td style="text-align: left;">Reader explores in any order</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Maps and charts</td>
+<td style="text-align: left;">Static</td>
+<td style="text-align: left;">Interactive and linked</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Text</td>
+<td style="text-align: left;">Explains every result</td>
+<td style="text-align: left;">Short <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-label-in-leaflet" data-term="label (in leaflet)">labels</span>; the visuals carry the message</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Best for</td>
+<td style="text-align: left;">An <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-argument" data-term="argument">argument</span> or analysis write-up</td>
+<td style="text-align: left;">Monitoring and exploring data</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Your assignments have been reports: you guide the reader through an analysis step by step. A dashboard hands control to the reader. That means less text and more careful design, because the visuals have to explain themselves. A good project often has both: a report that explains the analysis (Chapter 20) and a dashboard that lets people explore the data.</p>
+</section>
+<section id="what-makes-a-good-dashboard" class="level3" data-number="23.1.2">
+<h3 data-number="23.1.2" class="anchored" data-anchor-id="what-makes-a-good-dashboard"><span class="header-section-number">23.1.2</span> What makes a good dashboard</h3>
+<ul>
+<li><strong>Answer a few clear questions,</strong> and leave out everything else. Write down two or three questions before you start, and cut anything that doesn’t help answer them.</li>
+<li><strong>Put the most important view, often the map, largest and first.</strong></li>
+<li><strong>Use the map design rules you already know</strong> (Chapter 10): sensible classification, a clear legend with units, and a data source.</li>
+<li><strong>Link the views,</strong> so a filter or selection updates them together.</li>
+<li><strong>Design for everyone.</strong> Never use color alone to carry meaning; add labels and a table. A table beside the map gives screen reader users and colorblind readers the same information. Check color contrast, and test with a keyboard and on a phone.</li>
+</ul>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Think about it
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Think of a dashboard you have used: for weather, sports, a class, or public health. What two or three questions does it answer? What would you cut, and what is missing?</p>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-toolkit" class="level2" data-number="23.2">
+<h2 data-number="23.2" class="anchored" data-anchor-id="sec-toolkit"><span class="header-section-number">23.2</span> The R dashboard toolkit</h2>
+<div id="tbl-dashboard-packages" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-dashboard-packages-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;23.2: <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-package" data-term="package">Packages</span> for <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-dashboard" data-term="dashboard">dashboards</span> in R.
+</figcaption>
+<div aria-describedby="tbl-dashboard-packages-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 39%">
+<col style="width: 60%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Package</th>
+<th style="text-align: left;">What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-flexdashboard" data-term="flexdashboard">flexdashboard</span></td>
+<td style="text-align: left;">Lays out an <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-r-markdown" data-term="R Markdown">R Markdown</span> file as a dashboard</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-leaflet" data-term="leaflet">leaflet</span></td>
+<td style="text-align: left;">Interactive web maps (<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tmap" data-term="tmap">tmap</span> makes them too, with <code>tmap_mode("view")</code>)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">DT</td>
+<td style="text-align: left;">Searchable, sortable data tables</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">plotly</td>
+<td style="text-align: left;">Interactive charts</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-crosstalk" data-term="crosstalk">crosstalk</span></td>
+<td style="text-align: left;">Links widgets, so a filter updates them all</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">shiny</td>
+<td style="text-align: left;">Runs R code in response to what the reader does</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>leaflet, DT, and plotly are all <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-htmlwidgets" data-term="htmlwidgets">htmlwidgets</span></strong>: R <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-function" data-term="function">functions</span> that produce JavaScript, which runs in the browser with no R needed.</p>
+<section id="two-kinds-of-interactivity" class="level3" data-number="23.2.1">
+<h3 data-number="23.2.1" class="anchored" data-anchor-id="two-kinds-of-interactivity"><span class="header-section-number">23.2.1</span> Two kinds of interactivity</h3>
+<p>The most important design decision is which of two kinds of dashboard to build:</p>
+<div id="tbl-two-kinds" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-two-kinds-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;23.3: Static and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-shiny" data-term="Shiny">Shiny</span> dashboards.
+</figcaption>
+<div aria-describedby="tbl-two-kinds-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 8%">
+<col style="width: 71%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">htmlwidgets + crosstalk</th>
+<th style="text-align: left;">Shiny</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">How it works</td>
+<td style="text-align: left;"><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-knit" data-term="knit">Knit</span> once to a single HTML file; interactivity runs in the browser</td>
+<td style="text-align: left;">R runs on a server while people use it</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">What readers can do</td>
+<td style="text-align: left;">Show and hide the data that was knitted in</td>
+<td style="text-align: left;">Trigger any R code: recalculate statistics, rebuild maps, query <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-api" data-term="API">APIs</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Sharing</td>
+<td style="text-align: left;">No R needed; share it like any file</td>
+<td style="text-align: left;">Needs a server</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>A static dashboard can be emailed, uploaded to Canvas, or hosted on GitHub Pages, and it works with no R installed. But it can only show and hide the data that was baked in when you knitted it. Shiny can do anything R can do in response to a click, like recalculating a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-weighted-average" data-term="weighted average">weighted average</span> or refitting a model, but it needs a running R process. Start static, and move to Shiny only when you need it.</p>
+</section>
+<section id="our-example-income-and-poverty-by-state" class="level3" data-number="23.2.2">
+<h3 data-number="23.2.2" class="anchored" data-anchor-id="our-example-income-and-poverty-by-state"><span class="header-section-number">23.2.2</span> Our example: income and poverty by state</h3>
+<p><a href="#fig-dash-static" class="quarto-xref">Figure&nbsp;<span>23.1</span></a> shows where we are headed. A sidebar holds filters. The large map shows <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-median" data-term="median">median</span> income by state. On the right are a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-value-box" data-term="value box">value box</span>, a scatter plot of poverty rate against median income, and a table.</p>
+<div id="fig-dash-static" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A dashboard titled US States: Income and Poverty, 2015. A left sidebar has Census region checkboxes and a median income slider. The center shows a choropleth map of the lower 48 states in shades of blue, with a red point on each state. On the right are a value box reading 49 States in the map, a scatter plot of poverty rate against median income, and a data table of states.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dash-static-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/dashboards/dash-static.png" class="img-fluid figure-img" alt="A dashboard titled US States: Income and Poverty, 2015. A left sidebar has Census region checkboxes and a median income slider. The center shows a choropleth map of the lower 48 states in shades of blue, with a red point on each state. On the right are a value box reading 49 States in the map, a scatter plot of poverty rate against median income, and a data table of states.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dash-static-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;23.1: The finished static dashboard. The map’s gray background is only because the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-basemap" data-term="basemap">basemap tiles</span> didn’t load when this screenshot was taken; on your computer you will see a light basemap.
+</figcaption>
+</figure>
+</div>
+<p>The data are <code>us_states</code> and <code>us_states_df</code> from the spData package, the same data you <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-join" data-term="join">joined</span> in Chapter 15, so everything loads with <code>library()</code> and nothing needs downloading. Preparing the data looks just like the joins chapter:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(spData)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>states <span class="ot">&lt;-</span> us_states <span class="sc">|&gt;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(us_states_df, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"NAME"</span> <span class="ot">=</span> <span class="st">"state"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">REGION =</span> <span class="fu">fct_recode</span>(REGION, <span class="at">Northeast =</span> <span class="st">"Norteast"</span>),  <span class="co"># fix a typo in spData</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">poverty_rate_15 =</span> poverty_level_15 <span class="sc">/</span> total_pop_15 <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="dv">4326</span>)  <span class="co"># leaflet expects WGS84 longitude and latitude</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Three details. spData spells the Northeast region “Norteast”, so <code>fct_recode()</code> from forcats fixes the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-label-in-leaflet" data-term="label (in leaflet)">label</span>. <code>poverty_level_15</code> is a count of people, so dividing by population gives a rate. And leaflet works in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-longitude" data-term="longitude">longitude</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-latitude" data-term="latitude">latitude</span> on <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-wgs84" data-term="WGS84">WGS84</span>, EPSG:4326 (Chapter 12), so we transform the data. Doing the data preparation once, at the top of the file, keeps the rest of the dashboard simple.</p>
+</section>
+</section>
+<section id="sec-leaflet" class="level2" data-number="23.3">
+<h2 data-number="23.3" class="anchored" data-anchor-id="sec-leaflet"><span class="header-section-number">23.3</span> Interactive maps with leaflet</h2>
+<p>The map is the heart of the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-dashboard" data-term="dashboard">dashboard</span>.</p>
+<section id="your-first-leaflet-map" class="level3" data-number="23.3.1">
+<h3 data-number="23.3.1" class="anchored" data-anchor-id="your-first-leaflet-map"><span class="header-section-number">23.3.1</span> Your first leaflet map</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(leaflet)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>(states) <span class="sc">|&gt;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addProviderTiles</span>(providers<span class="sc">$</span>CartoDB.Positron) <span class="sc">|&gt;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addPolygons</span>(<span class="at">color =</span> <span class="st">"white"</span>, <span class="at">weight =</span> <span class="dv">1</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">fillColor =</span> <span class="st">"steelblue"</span>, <span class="at">fillOpacity =</span> <span class="fl">0.6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>A <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-leaflet" data-term="leaflet">leaflet</span> map is built in layers, like <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tmap" data-term="tmap">tmap</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-ggplot2" data-term="ggplot2">ggplot2</span>, but the layers are joined with the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-pipe" data-term="pipe">pipe</span> instead of <code>+</code>. <code>leaflet()</code> creates an empty map from the data. <code>addProviderTiles()</code> adds <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-basemap" data-term="basemap">basemap tiles</span></strong>; CartoDB Positron is a light gray basemap that works well under choropleth colors. <code>addPolygons()</code> draws the states. Run this in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-rstudio" data-term="RStudio">RStudio</span> and the map appears in the Viewer pane, where you can already zoom and pan.</p>
+</section>
+<section id="coloring-a-choropleth" class="level3" data-number="23.3.2">
+<h3 data-number="23.3.2" class="anchored" data-anchor-id="coloring-a-choropleth"><span class="header-section-number">23.3.2</span> Coloring a choropleth</h3>
+<p>Unlike tmap, leaflet doesn’t classify data for you. First you build a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-palette-function" data-term="palette function">palette function</span></strong>: a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-function" data-term="function">function</span> that takes data values and returns colors.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>pal <span class="ot">&lt;-</span> <span class="fu">colorBin</span>(<span class="st">"Blues"</span>, <span class="at">domain =</span> states<span class="sc">$</span>median_income_15, <span class="at">bins =</span> <span class="dv">5</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>(states) <span class="sc">|&gt;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addProviderTiles</span>(providers<span class="sc">$</span>CartoDB.Positron) <span class="sc">|&gt;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addPolygons</span>(<span class="at">fillColor =</span> <span class="sc">~</span><span class="fu">pal</span>(median_income_15),</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">fillOpacity =</span> <span class="fl">0.8</span>, <span class="at">color =</span> <span class="st">"white"</span>, <span class="at">weight =</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addLegend</span>(<span class="at">pal =</span> pal, <span class="at">values =</span> <span class="sc">~</span>median_income_15,</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">title =</span> <span class="st">"Median income ($)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>colorBin()</code> takes a ColorBrewer scheme, here Blues, and the range of the data, and returns a function that turns values into colors. The tilde in <code>~pal(median_income_15)</code> tells leaflet to look up the column in the data. Use the same palette in <code>addLegend()</code> so the legend matches the map. The other palette functions are <code>colorNumeric()</code> for a continuous ramp, <code>colorQuantile()</code> for <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-percentile" data-term="percentile">quantile</span> classes, and <code>colorFactor()</code> for categories.</p>
+</section>
+<section id="labels-popups-and-highlighting" class="level3" data-number="23.3.3">
+<h3 data-number="23.3.3" class="anchored" data-anchor-id="labels-popups-and-highlighting"><span class="header-section-number">23.3.3</span> Labels, popups, and highlighting</h3>
+<p>Interactivity is what makes a web map worth the effort:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">addPolygons</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">fillColor =</span> <span class="sc">~</span><span class="fu">pal</span>(median_income_15), <span class="at">fillOpacity =</span> <span class="fl">0.8</span>,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">color =</span> <span class="st">"white"</span>, <span class="at">weight =</span> <span class="dv">1</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">label =</span> <span class="sc">~</span>NAME,                                     <span class="co"># shows on hover</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">popup =</span> <span class="sc">~</span><span class="fu">paste0</span>(<span class="st">"&lt;b&gt;"</span>, NAME, <span class="st">"&lt;/b&gt;&lt;br&gt;Poverty rate: "</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">round</span>(poverty_rate_15, <span class="dv">1</span>), <span class="st">"%"</span>),   <span class="co"># shows on click</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">highlightOptions =</span> <span class="fu">highlightOptions</span>(</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">weight =</span> <span class="dv">3</span>, <span class="at">color =</span> <span class="st">"#13294B"</span>, <span class="at">bringToFront =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-label-in-leaflet" data-term="label (in leaflet)">label</span></strong> appears when the reader hovers over a state, and a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-popup" data-term="popup">popup</span></strong> when they click. Popups accept simple HTML, so the state name can be bold, with a line break after it. <code>highlightOptions()</code> outlines the state under the mouse, so readers know exactly which <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-polygon" data-term="polygon">polygon</span> they are on. Labels also help accessibility, because readers don’t have to match a color to the legend.</p>
+</section>
+<section id="a-shortcut-tmap-in-view-mode" class="level3" data-number="23.3.4">
+<h3 data-number="23.3.4" class="anchored" data-anchor-id="a-shortcut-tmap-in-view-mode"><span class="header-section-number">23.3.4</span> A shortcut: tmap in view mode</h3>
+<p>If you prefer tmap, you don’t have to learn leaflet first. Chapter 10 showed that <code>tmap_mode("view")</code> turns tmap code into an <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-interactive-map" data-term="interactive map">interactive map</span>, and that map <em>is</em> a leaflet map:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tmap)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_mode</span>(<span class="st">"view"</span>)   <span class="co"># interactive; tmap_mode("plot") for static</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(states) <span class="sc">+</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_polygons</span>(</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"median_income_15"</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill.scale =</span> <span class="fu">tm_scale_intervals</span>(<span class="at">n =</span> <span class="dv">5</span>, <span class="at">style =</span> <span class="st">"jenks"</span>,</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">values =</span> <span class="st">"brewer.blues"</span>),</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill.legend =</span> <span class="fu">tm_legend</span>(<span class="at">title =</span> <span class="st">"Median income ($)"</span>),</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">id =</span> <span class="st">"NAME"</span>,</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">popup.vars =</span> <span class="fu">c</span>(<span class="st">"median_income_15"</span>, <span class="st">"poverty_rate_15"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>id</code> sets the hover label, and <code>popup.vars</code> chooses the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-variable" data-term="variable">variables</span> shown on click. tmap is quicker to write and classifies the data for you. leaflet gives you more control and works with <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-crosstalk" data-term="crosstalk">crosstalk</span>, which we use below. Both work in a dashboard.</p>
+</section>
+</section>
+<section id="sec-flexdashboard" class="level2" data-number="23.4">
+<h2 data-number="23.4" class="anchored" data-anchor-id="sec-flexdashboard"><span class="header-section-number">23.4</span> Laying out a flexdashboard</h2>
+<section id="a-flexdashboard-is-an-r-markdown-file" class="level3" data-number="23.4.1">
+<h3 data-number="23.4.1" class="anchored" data-anchor-id="a-flexdashboard-is-an-r-markdown-file"><span class="header-section-number">23.4.1</span> A flexdashboard is an R Markdown file</h3>
+<p>A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-flexdashboard" data-term="flexdashboard">flexdashboard</span></strong> is an <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-r-markdown" data-term="R Markdown">R Markdown</span> file with a different output format in its <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-yaml-header" data-term="YAML header">YAML header</span>. You <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-knit" data-term="knit">knit</span> it the same way you knit your assignments.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="pp">---</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"US States: Income and Poverty, 2015"</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">output</span><span class="kw">:</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="at">  flexdashboard:</span><span class="fu">:flex_dashboard</span><span class="kw">:</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">orientation</span><span class="kw">:</span><span class="at"> columns</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">vertical_layout</span><span class="kw">:</span><span class="at"> fill</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="pp">---</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>orientation: columns</code> lays out the page as side-by-side columns; <code>rows</code> is the other option. <code>vertical_layout: fill</code> stretches the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-panel" data-term="panel">panels</span> to fill the browser window; <code>scroll</code> lets the page scroll instead. In <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-rstudio" data-term="RStudio">RStudio</span>, File &gt; New File &gt; R Markdown &gt; From Template &gt; Flex <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-dashboard" data-term="dashboard">Dashboard</span> starts one for you.</p>
+</section>
+<section id="columns-panels-and-a-sidebar" class="level3" data-number="23.4.2">
+<h3 data-number="23.4.2" class="anchored" data-anchor-id="columns-panels-and-a-sidebar"><span class="header-section-number">23.4.2</span> Columns, panels, and a sidebar</h3>
+<p>The layout comes from <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-markdown" data-term="Markdown">Markdown</span> headings:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>Inputs {.sidebar}</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>--------------------------------------------</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>Column {data-width=600}</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>--------------------------------------------</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="fu">### Median income by state, 2015</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>Column {data-width=400}</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>--------------------------------------------</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="fu">### States {data-height=120}</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="fu">### Poverty rate vs. median income</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="fu">### Data table</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>A heading underlined with dashes starts a <strong>column</strong>.</li>
+<li>A <code>###</code> heading starts a <strong>panel</strong> inside that column, and its text becomes the panel’s title. Under each panel heading goes one R <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-code-chunk" data-term="code chunk">chunk</span> that draws the map, chart, or table (left out above).</li>
+<li>The attributes in curly braces set relative widths and heights. 600 and 400 mean the map column gets 60% of the space after the sidebar.</li>
+<li>The special <code>{.sidebar}</code> column holds <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-input-in-shiny" data-term="input (in Shiny)">inputs</span> and filters on the left.</li>
+</ul>
+<p><a href="#fig-layout" class="quarto-xref">Figure&nbsp;<span>23.2</span></a> shows how those headings become the page. Sketching the layout on paper before you code is a good habit.</p>
+<div id="fig-layout" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A wireframe of the dashboard. A title bar runs across the top. Below it, from left to right: a narrow Sidebar labeled Inputs {.sidebar}; a wide Map panel over an arrow labeled Column {data-width=600}; and a narrower column, labeled Column {data-width=400}, stacking a short Value box with {data-height=120}, a Scatter plot panel, and a Data table panel.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-layout-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/dashboards/flexdashboard-layout.png" class="img-fluid figure-img" alt="A wireframe of the dashboard. A title bar runs across the top. Below it, from left to right: a narrow Sidebar labeled Inputs {.sidebar}; a wide Map panel over an arrow labeled Column {data-width=600}; and a narrower column, labeled Column {data-width=400}, stacking a short Value box with {data-height=120}, a Scatter plot panel, and a Data table panel.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-layout-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;23.2: How the headings above lay out the dashboard: a sidebar, a wide map column, and a narrower column that stacks a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-value-box" data-term="value box">value box</span>, a scatter plot, and a data table.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="value-boxes-tables-and-charts" class="level3" data-number="23.4.3">
+<h3 data-number="23.4.3" class="anchored" data-anchor-id="value-boxes-tables-and-charts"><span class="header-section-number">23.4.3</span> Value boxes, tables, and charts</h3>
+<p>Each of the other panels gets one of these:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Headline number</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">valueBox</span>(<span class="fu">nrow</span>(states), <span class="at">caption =</span> <span class="st">"States in the map"</span>, <span class="at">icon =</span> <span class="st">"fa-map"</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Searchable, sortable table</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">datatable</span>(state_table, <span class="at">rownames =</span> <span class="cn">FALSE</span>, <span class="at">options =</span> <span class="fu">list</span>(<span class="at">pageLength =</span> <span class="dv">5</span>))</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Interactive scatter plot</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_ly</span>(state_table, <span class="at">x =</span> <span class="sc">~</span>median_income_15, <span class="at">y =</span> <span class="sc">~</span>poverty_rate_15,</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">text =</span> <span class="sc">~</span>NAME, <span class="at">type =</span> <span class="st">"scatter"</span>, <span class="at">mode =</span> <span class="st">"markers"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>A <strong>value box</strong> shows a single headline number with an icon from Font Awesome. <code>datatable()</code> from DT makes a table readers can search and sort, and <code>plot_ly()</code> makes a scatter plot with hover <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-label-in-leaflet" data-term="label (in leaflet)">labels</span>. The table and chart use <code>state_table</code>, a copy of the data without geometry, made with <code>st_drop_geometry()</code> and <code>select()</code>. Tables and charts don’t need <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-polygon" data-term="polygon">polygons</span>, and dropping the geometry keeps the file small.</p>
+</section>
+<section id="linking-views-with-crosstalk" class="level3" data-number="23.4.4">
+<h3 data-number="23.4.4" class="anchored" data-anchor-id="linking-views-with-crosstalk"><span class="header-section-number">23.4.4</span> Linking views with crosstalk</h3>
+<p><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-crosstalk" data-term="crosstalk">crosstalk</span></strong> makes the views talk to each other:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(crosstalk)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Same key and group = linked widgets</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>shared_table <span class="ot">&lt;-</span> SharedData<span class="sc">$</span><span class="fu">new</span>(state_table, <span class="at">key =</span> <span class="sc">~</span>NAME, <span class="at">group =</span> <span class="st">"states"</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Filters go in the sidebar</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="fu">filter_checkbox</span>(<span class="st">"region"</span>, <span class="st">"Census region"</span>, shared_table, <span class="sc">~</span>REGION)</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="fu">filter_slider</span>(<span class="st">"income"</span>, <span class="st">"Median income ($)"</span>, shared_table, <span class="sc">~</span>median_income_15)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Wrap a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-frame" data-term="data frame">data frame</span> in <code>SharedData$new()</code>, with a <strong>key</strong> that identifies each row, here the state name, and a <strong>group</strong> name. Pass <code>shared_table</code> instead of <code>state_table</code> to <code>datatable()</code> and <code>plot_ly()</code>, and every widget built from a <code>SharedData</code> object in the same group is linked: filtering one filters the others, and selecting points in the scatter plot highlights the same states in the table. <code>filter_checkbox()</code> and <code>filter_slider()</code> make filter controls that work without <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-shiny" data-term="Shiny">Shiny</span>; they go in the sidebar.</p>
+</section>
+<section id="crosstalk-and-leaflet-points-not-polygons" class="level3" data-number="23.4.5">
+<h3 data-number="23.4.5" class="anchored" data-anchor-id="crosstalk-and-leaflet-points-not-polygons"><span class="header-section-number">23.4.5</span> crosstalk and leaflet: points, not polygons</h3>
+<p>Here is a limitation you will run into: <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-leaflet" data-term="leaflet">leaflet</span> links only point layers, markers and circles, with crosstalk. A crosstalk filter won’t hide polygons, so a region filter can’t hide states on a choropleth.</p>
+<p>A simple workaround is one point per state. Draw the choropleth normally as context, then add the points as a shared layer on top:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>state_points <span class="ot">&lt;-</span> states <span class="sc">|&gt;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="dv">5070</span>) <span class="sc">|&gt;</span>        <span class="co"># find points in a projected CRS...</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_point_on_surface</span>() <span class="sc">|&gt;</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="dv">4326</span>) <span class="sc">|&gt;</span>        <span class="co"># ...then go back to longitude and latitude</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(NAME, REGION, median_income_15, poverty_rate_15)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>shared_points <span class="ot">&lt;-</span> SharedData<span class="sc">$</span><span class="fu">new</span>(state_points, <span class="at">key =</span> <span class="sc">~</span>NAME, <span class="at">group =</span> <span class="st">"states"</span>)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="co"># in the map chunk, after addPolygons():</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="fu">addCircleMarkers</span>(<span class="at">data =</span> shared_points, <span class="at">radius =</span> <span class="dv">5</span>, <span class="at">label =</span> <span class="sc">~</span>NAME)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>st_point_on_surface()</code> is better than <code>st_centroid()</code> here, because its point always falls inside the polygon. Run it on <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-map-projection" data-term="map projection">projected</span> data, such as EPSG:5070, and transform the points back to 4326 afterward.</p>
+<p><a href="#fig-dash-filter" class="quarto-xref">Figure&nbsp;<span>23.3</span></a> shows the result. The reader has checked only the South: the points on the map, the scatter plot, and the table all show only the 17 southern states. The choropleth colors and the value box didn’t change, because value boxes are fixed when you knit. That is the static dashboard’s limit. Even so, this single HTML file is already a useful, shareable product.</p>
+<div id="fig-dash-filter" class="quarto-float quarto-figure quarto-figure-center anchored" alt="The static dashboard with only South checked in the sidebar. Red points appear only on southern states, the scatter plot shows about 17 points, and the table reads Showing 1 to 5 of 17 entries, filtered from 49 total entries. All states are still colored on the map, and the value box still reads 49.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dash-filter-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/dashboards/dash-filter.png" class="img-fluid figure-img" alt="The static dashboard with only South checked in the sidebar. Red points appear only on southern states, the scatter plot shows about 17 points, and the table reads Showing 1 to 5 of 17 entries, filtered from 49 total entries. All states are still colored on the map, and the value box still reads 49.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dash-filter-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;23.3: The static dashboard filtered to the South. The red points, scatter plot, and table show 17 states; the choropleth and value box are unchanged.
+</figcaption>
+</figure>
+</div>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Think about it
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In <a href="#fig-dash-filter" class="quarto-xref">Figure&nbsp;<span>23.3</span></a>, a reader filtered to the South but the value box still says 49. Is that misleading? How could you change the dashboard’s labels so a reader isn’t confused, without switching to Shiny?</p>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-shiny" class="level2" data-number="23.5">
+<h2 data-number="23.5" class="anchored" data-anchor-id="sec-shiny"><span class="header-section-number">23.5</span> Adding Shiny</h2>
+<section id="when-do-you-need-shiny" class="level3" data-number="23.5.1">
+<h3 data-number="23.5.1" class="anchored" data-anchor-id="when-do-you-need-shiny"><span class="header-section-number">23.5.1</span> When do you need Shiny?</h3>
+<p>Use <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-shiny" data-term="Shiny">Shiny</span></strong> when a reader’s choice should trigger new R calculations, not just hide data:</p>
+<ul>
+<li>Filter the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-polygon" data-term="polygon">polygons</span> themselves on the map.</li>
+<li>Update headline numbers, such as an average for the selected states.</li>
+<li>Let readers choose which <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-variable" data-term="variable">variable</span> to map.</li>
+<li>Rerun a model or query an <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-api" data-term="API">API</span> with the reader’s choices.</li>
+</ul>
+<p>In a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-flexdashboard" data-term="flexdashboard">flexdashboard</span>, add one line, <code>runtime: shiny</code>, to the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-yaml-header" data-term="YAML header">YAML header</span>. Then you need three pieces: <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-input-in-shiny" data-term="input (in Shiny)">inputs</span></strong> that collect the reader’s choices, <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-reactive-expression" data-term="reactive expression">reactive expressions</span></strong> that recompute data, and <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-render-function" data-term="render function">render functions</span></strong> that redraw the outputs.</p>
+</section>
+<section id="inputs-in-the-sidebar" class="level3" data-number="23.5.2">
+<h3 data-number="23.5.2" class="anchored" data-anchor-id="inputs-in-the-sidebar"><span class="header-section-number">23.5.2</span> Inputs in the sidebar</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>variables <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Median income, 2015 ($)"</span> <span class="ot">=</span> <span class="st">"median_income_15"</span>,</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>               <span class="st">"Poverty rate, 2015 (%)"</span>  <span class="ot">=</span> <span class="st">"poverty_rate_15"</span>,</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>               <span class="st">"Population, 2015"</span>        <span class="ot">=</span> <span class="st">"total_pop_15"</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">selectInput</span>(<span class="st">"variable"</span>, <span class="st">"Map variable"</span>, <span class="at">choices =</span> variables)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="fu">checkboxGroupInput</span>(<span class="st">"region"</span>, <span class="st">"Census region"</span>,</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>                   <span class="at">choices  =</span> <span class="fu">levels</span>(states<span class="sc">$</span>REGION),</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>                   <span class="at">selected =</span> <span class="fu">levels</span>(states<span class="sc">$</span>REGION))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>selectInput()</code> makes a drop-down menu. The named <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-vector" data-term="vector">vector</span> shows readers friendly <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-label-in-leaflet" data-term="label (in leaflet)">labels</span> while giving your code the column names. <code>checkboxGroupInput()</code> makes the region checkboxes, all checked to start. Every input has an ID, its first <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-argument" data-term="argument">argument</span>, and anywhere else in the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-dashboard" data-term="dashboard">dashboard</span> <code>input$variable</code> or <code>input$region</code> holds the reader’s current choice.</p>
+</section>
+<section id="reactive-data-and-render-functions" class="level3" data-number="23.5.3">
+<h3 data-number="23.5.3" class="anchored" data-anchor-id="reactive-data-and-render-functions"><span class="header-section-number">23.5.3</span> Reactive data and render functions</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>selected_states <span class="ot">&lt;-</span> <span class="fu">reactive</span>({</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">req</span>(input<span class="sc">$</span>region)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  states <span class="sc">|&gt;</span> <span class="fu">filter</span>(REGION <span class="sc">%in%</span> input<span class="sc">$</span>region)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="fu">renderLeaflet</span>({</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  df  <span class="ot">&lt;-</span> <span class="fu">selected_states</span>()</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  val <span class="ot">&lt;-</span> df[[input<span class="sc">$</span>variable]]</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  pal <span class="ot">&lt;-</span> <span class="fu">colorBin</span>(<span class="st">"Blues"</span>, <span class="at">domain =</span> val, <span class="at">bins =</span> <span class="dv">5</span>)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">leaflet</span>(df) <span class="sc">|&gt;</span> <span class="fu">addPolygons</span>(<span class="at">fillColor =</span> <span class="fu">pal</span>(val))</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>A <strong>reactive expression</strong> is code that reruns automatically when the inputs it uses change. <code>selected_states</code> filters the data to the checked regions, and <code>req()</code> stops it from running if no region is checked. You call it like a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-function" data-term="function">function</span>: <code>selected_states()</code>.</p>
+<p><strong>Render functions</strong>, such as <code>renderLeaflet()</code>, <code>renderValueBox()</code>, and <code>renderDT()</code>, draw outputs. Because this <code>renderLeaflet()</code> uses both <code>selected_states()</code> and <code>input$variable</code>, Shiny redraws the map whenever either changes. You don’t write any code to watch the inputs; Shiny tracks the dependencies for you. That is the core idea of reactive programming. (The full app, at the end of the chapter, also adds <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-basemap" data-term="basemap">basemap tiles</span>, labels, and a legend.)</p>
+<p><a href="#fig-shiny" class="quarto-xref">Figure&nbsp;<span>23.4</span></a> shows the Shiny version. The reader chose poverty rate and unchecked the Northeast and West. Now the polygons themselves are filtered, the color classes are recalculated for just these states, and the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-value-box" data-term="value box">value boxes</span> show 29 states and a population-weighted poverty rate of 15.6% for them.</p>
+<div id="fig-shiny" class="quarto-float quarto-figure quarto-figure-center anchored" alt="The Shiny dashboard. The sidebar has a Map variable menu set to Poverty rate, 2015 (%), and Census region checkboxes with only Midwest and South checked. The map shows only Midwestern and Southern states, shaded by poverty rate from 8 to 22 percent, darkest in Mississippi. Value boxes read 29 States selected and 15.6% Population-weighted poverty rate, and the table lists the selected states' poverty rates.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-shiny-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/dashboards/shiny-dashboard.png" class="img-fluid figure-img" alt="The Shiny dashboard. The sidebar has a Map variable menu set to Poverty rate, 2015 (%), and Census region checkboxes with only Midwest and South checked. The map shows only Midwestern and Southern states, shaded by poverty rate from 8 to 22 percent, darkest in Mississippi. Value boxes read 29 States selected and 15.6% Population-weighted poverty rate, and the table lists the selected states' poverty rates.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-shiny-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;23.4: The Shiny dashboard mapping poverty rate for the Midwest and South. The polygons, the value boxes, and the table all recalculate.
+</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="sec-sharing" class="level2" data-number="23.6">
+<h2 data-number="23.6" class="anchored" data-anchor-id="sec-sharing"><span class="header-section-number">23.6</span> Sharing your dashboard</h2>
+<div id="tbl-sharing" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-sharing-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;23.4: How to share each kind of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-dashboard" data-term="dashboard">dashboard</span>.
+</figcaption>
+<div aria-describedby="tbl-sharing-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 74%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Static (<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-crosstalk" data-term="crosstalk">crosstalk</span>)</th>
+<th style="text-align: left;"><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-shiny" data-term="Shiny">Shiny</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-knit" data-term="knit">Knit</span> to one self-contained HTML file</td>
+<td style="text-align: left;">Needs R running on a server</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Email it or upload it to Canvas</td>
+<td style="text-align: left;">shinyapps.io or Posit Connect Cloud (free tiers)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Host it free on GitHub Pages or RPubs</td>
+<td style="text-align: left;">Or a campus or company Shiny server</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Open it in any browser</td>
+<td style="text-align: left;">Run it locally with <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-rstudio" data-term="RStudio">RStudio</span>’s Run Document button</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<section id="common-pitfalls-and-fixes" class="level3" data-number="23.6.1">
+<h3 data-number="23.6.1" class="anchored" data-anchor-id="common-pitfalls-and-fixes"><span class="header-section-number">23.6.1</span> Common pitfalls and fixes</h3>
+<ul>
+<li><strong>The map is blank or in the wrong place:</strong> transform to EPSG:4326 first.</li>
+<li><strong>The file is huge or slow:</strong> simplify the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-polygon" data-term="polygon">polygons</span> and drop columns you don’t need. Use <code>st_simplify()</code> on <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-map-projection" data-term="map projection">projected</span> data, or <code>rmapshaper::ms_simplify()</code>.</li>
+<li><strong>The legend and map disagree:</strong> use the same <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-palette-function" data-term="palette function">palette function</span> for both.</li>
+<li><strong>Missing values:</strong> set <code>na.color</code> in the palette, and say what gray means.</li>
+<li><strong>A filter doesn’t hide polygons:</strong> crosstalk only filters <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-leaflet" data-term="leaflet">leaflet</span> points.</li>
+<li><strong>The design isn’t accessible:</strong> add <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-label-in-leaflet" data-term="label (in leaflet)">labels</span> and a table; never rely on color alone.</li>
+</ul>
+</section>
+<section id="looking-ahead-quarto-dashboards" class="level3" data-number="23.6.2">
+<h3 data-number="23.6.2" class="anchored" data-anchor-id="looking-ahead-quarto-dashboards"><span class="header-section-number">23.6.2</span> Looking ahead: Quarto dashboards</h3>
+<p><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-quarto" data-term="Quarto">Quarto</span>, the successor to <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-r-markdown" data-term="R Markdown">R Markdown</span> (and what built this book), has its own dashboard format: <code>format: dashboard</code> in the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-yaml-header" data-term="YAML header">YAML header</span>. The ideas are the same: rows, columns, cards instead of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-panel" data-term="panel">panels</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-value-box" data-term="value box">value boxes</span>, and a sidebar. It works with R and Python, and with leaflet, DT, plotly, and Shiny, so everything in this chapter carries over.</p>
+</section>
+</section>
+<section id="sec-example-files" class="level2" data-number="23.7">
+<h2 data-number="23.7" class="anchored" data-anchor-id="sec-example-files"><span class="header-section-number">23.7</span> The complete example files</h2>
+<p>These are the two complete, tested <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-dashboard" data-term="dashboard">dashboards</span> from this chapter. Copy one into a new <code>.Rmd</code> file in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-rstudio" data-term="RStudio">RStudio</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-knit" data-term="knit">knit</span> it (the static version) or click Run Document (the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-shiny" data-term="Shiny">Shiny</span> version).</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>states-dashboard.Rmd: the static dashboard
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "US States: Income and Poverty, 2015"</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="an">output:</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co">  flexdashboard::flex_dashboard:</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co">    orientation: columns</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co">    vertical_layout: fill</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="in">```{r setup, include=FALSE}</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(flexdashboard)</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(spData)</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(leaflet)</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DT)</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(plotly)</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(crosstalk)</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Join state polygons to the income and poverty table, then compute rates</span></span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>states <span class="ot">&lt;-</span> us_states <span class="sc">|&gt;</span></span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(us_states_df, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"NAME"</span> <span class="ot">=</span> <span class="st">"state"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">REGION =</span> <span class="fu">fct_recode</span>(REGION, <span class="at">Northeast =</span> <span class="st">"Norteast"</span>),  <span class="co"># fix a typo in spData</span></span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">poverty_rate_15 =</span> poverty_level_15 <span class="sc">/</span> total_pop_15 <span class="sc">*</span> <span class="dv">100</span>,</span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">pop_change =</span> (total_pop_15 <span class="sc">-</span> total_pop_10) <span class="sc">/</span> total_pop_10 <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="dv">4326</span>)   <span class="co"># leaflet expects WGS84 longitude/latitude</span></span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a><span class="co"># A plain table (no geometry) for the chart and the data table</span></span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a>state_table <span class="ot">&lt;-</span> states <span class="sc">|&gt;</span></span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_drop_geometry</span>() <span class="sc">|&gt;</span></span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(NAME, REGION, median_income_15, poverty_rate_15)</span>
+<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a><span class="co"># One point per state: leaflet can filter points with crosstalk, not polygons</span></span>
+<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a><span class="co"># (find points in a projected CRS, then go back to lon/lat)</span></span>
+<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a>state_points <span class="ot">&lt;-</span> states <span class="sc">|&gt;</span></span>
+<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="dv">5070</span>) <span class="sc">|&gt;</span></span>
+<span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_point_on_surface</span>() <span class="sc">|&gt;</span></span>
+<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="dv">4326</span>) <span class="sc">|&gt;</span></span>
+<span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(NAME, REGION, median_income_15, poverty_rate_15)</span>
+<span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-42"><a href="#cb14-42" aria-hidden="true" tabindex="-1"></a><span class="co"># SharedData objects in the same group are linked</span></span>
+<span id="cb14-43"><a href="#cb14-43" aria-hidden="true" tabindex="-1"></a>shared_points <span class="ot">&lt;-</span> SharedData<span class="sc">$</span><span class="fu">new</span>(state_points, <span class="at">key =</span> <span class="sc">~</span>NAME, <span class="at">group =</span> <span class="st">"states"</span>)</span>
+<span id="cb14-44"><a href="#cb14-44" aria-hidden="true" tabindex="-1"></a>shared_table  <span class="ot">&lt;-</span> SharedData<span class="sc">$</span><span class="fu">new</span>(state_table,  <span class="at">key =</span> <span class="sc">~</span>NAME, <span class="at">group =</span> <span class="st">"states"</span>)</span>
+<span id="cb14-45"><a href="#cb14-45" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-46"><a href="#cb14-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-47"><a href="#cb14-47" aria-hidden="true" tabindex="-1"></a>Inputs {.sidebar}</span>
+<span id="cb14-48"><a href="#cb14-48" aria-hidden="true" tabindex="-1"></a>-----------------------------------------------------------------------</span>
+<span id="cb14-49"><a href="#cb14-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-50"><a href="#cb14-50" aria-hidden="true" tabindex="-1"></a>**Filter the dashboard**</span>
+<span id="cb14-51"><a href="#cb14-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-52"><a href="#cb14-52" aria-hidden="true" tabindex="-1"></a><span class="in">```{r filters}</span></span>
+<span id="cb14-53"><a href="#cb14-53" aria-hidden="true" tabindex="-1"></a><span class="fu">filter_checkbox</span>(<span class="st">"region"</span>, <span class="st">"Census region"</span>, shared_table, <span class="sc">~</span>REGION)</span>
+<span id="cb14-54"><a href="#cb14-54" aria-hidden="true" tabindex="-1"></a><span class="fu">filter_slider</span>(<span class="st">"income"</span>, <span class="st">"Median income ($)"</span>, shared_table, <span class="sc">~</span>median_income_15,</span>
+<span id="cb14-55"><a href="#cb14-55" aria-hidden="true" tabindex="-1"></a>              <span class="at">width =</span> <span class="st">"100%"</span>)</span>
+<span id="cb14-56"><a href="#cb14-56" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-57"><a href="#cb14-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-58"><a href="#cb14-58" aria-hidden="true" tabindex="-1"></a>Data: <span class="in">`us_states`</span> and <span class="in">`us_states_df`</span> from the **spData** package.</span>
+<span id="cb14-59"><a href="#cb14-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-60"><a href="#cb14-60" aria-hidden="true" tabindex="-1"></a>Column {data-width=600}</span>
+<span id="cb14-61"><a href="#cb14-61" aria-hidden="true" tabindex="-1"></a>-----------------------------------------------------------------------</span>
+<span id="cb14-62"><a href="#cb14-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-63"><a href="#cb14-63" aria-hidden="true" tabindex="-1"></a><span class="fu">### Median income by state, 2015</span></span>
+<span id="cb14-64"><a href="#cb14-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-65"><a href="#cb14-65" aria-hidden="true" tabindex="-1"></a><span class="in">```{r map}</span></span>
+<span id="cb14-66"><a href="#cb14-66" aria-hidden="true" tabindex="-1"></a>pal <span class="ot">&lt;-</span> <span class="fu">colorBin</span>(<span class="st">"Blues"</span>, <span class="at">domain =</span> states<span class="sc">$</span>median_income_15, <span class="at">bins =</span> <span class="dv">5</span>)</span>
+<span id="cb14-67"><a href="#cb14-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-68"><a href="#cb14-68" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>(<span class="at">options =</span> <span class="fu">leafletOptions</span>(<span class="at">zoomSnap =</span> <span class="fl">0.25</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb14-69"><a href="#cb14-69" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addProviderTiles</span>(providers<span class="sc">$</span>CartoDB.Positron) <span class="sc">|&gt;</span></span>
+<span id="cb14-70"><a href="#cb14-70" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addPolygons</span>(</span>
+<span id="cb14-71"><a href="#cb14-71" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> states,</span>
+<span id="cb14-72"><a href="#cb14-72" aria-hidden="true" tabindex="-1"></a>    <span class="at">fillColor =</span> <span class="sc">~</span><span class="fu">pal</span>(median_income_15),</span>
+<span id="cb14-73"><a href="#cb14-73" aria-hidden="true" tabindex="-1"></a>    <span class="at">fillOpacity =</span> <span class="fl">0.8</span>,</span>
+<span id="cb14-74"><a href="#cb14-74" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"white"</span>, <span class="at">weight =</span> <span class="dv">1</span>,</span>
+<span id="cb14-75"><a href="#cb14-75" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="sc">~</span><span class="fu">paste0</span>(NAME, <span class="st">": $"</span>, <span class="fu">format</span>(median_income_15, <span class="at">big.mark =</span> <span class="st">","</span>)),</span>
+<span id="cb14-76"><a href="#cb14-76" aria-hidden="true" tabindex="-1"></a>    <span class="at">highlightOptions =</span> <span class="fu">highlightOptions</span>(<span class="at">weight =</span> <span class="dv">3</span>, <span class="at">color =</span> <span class="st">"#13294B"</span>,</span>
+<span id="cb14-77"><a href="#cb14-77" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">bringToFront =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb14-78"><a href="#cb14-78" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb14-79"><a href="#cb14-79" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addCircleMarkers</span>(</span>
+<span id="cb14-80"><a href="#cb14-80" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> shared_points,</span>
+<span id="cb14-81"><a href="#cb14-81" aria-hidden="true" tabindex="-1"></a>    <span class="at">radius =</span> <span class="dv">5</span>, <span class="at">color =</span> <span class="st">"#13294B"</span>, <span class="at">weight =</span> <span class="dv">1</span>,</span>
+<span id="cb14-82"><a href="#cb14-82" aria-hidden="true" tabindex="-1"></a>    <span class="at">fillColor =</span> <span class="st">"#E95550"</span>, <span class="at">fillOpacity =</span> <span class="dv">1</span>,</span>
+<span id="cb14-83"><a href="#cb14-83" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="sc">~</span>NAME</span>
+<span id="cb14-84"><a href="#cb14-84" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb14-85"><a href="#cb14-85" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addLegend</span>(<span class="at">data =</span> states, <span class="at">pal =</span> pal, <span class="at">values =</span> <span class="sc">~</span>median_income_15,</span>
+<span id="cb14-86"><a href="#cb14-86" aria-hidden="true" tabindex="-1"></a>            <span class="at">title =</span> <span class="st">"Median income ($)"</span>, <span class="at">position =</span> <span class="st">"bottomright"</span>)</span>
+<span id="cb14-87"><a href="#cb14-87" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-88"><a href="#cb14-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-89"><a href="#cb14-89" aria-hidden="true" tabindex="-1"></a>Column {data-width=400}</span>
+<span id="cb14-90"><a href="#cb14-90" aria-hidden="true" tabindex="-1"></a>-----------------------------------------------------------------------</span>
+<span id="cb14-91"><a href="#cb14-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-92"><a href="#cb14-92" aria-hidden="true" tabindex="-1"></a><span class="fu">### States {data-height=120}</span></span>
+<span id="cb14-93"><a href="#cb14-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-94"><a href="#cb14-94" aria-hidden="true" tabindex="-1"></a><span class="in">```{r states-box}</span></span>
+<span id="cb14-95"><a href="#cb14-95" aria-hidden="true" tabindex="-1"></a><span class="fu">valueBox</span>(<span class="fu">nrow</span>(states), <span class="at">caption =</span> <span class="st">"States in the map (lower 48 + DC)"</span>,</span>
+<span id="cb14-96"><a href="#cb14-96" aria-hidden="true" tabindex="-1"></a>         <span class="at">icon =</span> <span class="st">"fa-map"</span>)</span>
+<span id="cb14-97"><a href="#cb14-97" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-98"><a href="#cb14-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-99"><a href="#cb14-99" aria-hidden="true" tabindex="-1"></a><span class="fu">### Poverty rate vs. median income {data-height=380}</span></span>
+<span id="cb14-100"><a href="#cb14-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-101"><a href="#cb14-101" aria-hidden="true" tabindex="-1"></a><span class="in">```{r scatter}</span></span>
+<span id="cb14-102"><a href="#cb14-102" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_ly</span>(shared_table, <span class="at">x =</span> <span class="sc">~</span>median_income_15, <span class="at">y =</span> <span class="sc">~</span>poverty_rate_15,</span>
+<span id="cb14-103"><a href="#cb14-103" aria-hidden="true" tabindex="-1"></a>        <span class="at">text =</span> <span class="sc">~</span>NAME, <span class="at">type =</span> <span class="st">"scatter"</span>, <span class="at">mode =</span> <span class="st">"markers"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb14-104"><a href="#cb14-104" aria-hidden="true" tabindex="-1"></a>  <span class="fu">layout</span>(<span class="at">xaxis =</span> <span class="fu">list</span>(<span class="at">title =</span> <span class="st">"Median income ($)"</span>),</span>
+<span id="cb14-105"><a href="#cb14-105" aria-hidden="true" tabindex="-1"></a>         <span class="at">yaxis =</span> <span class="fu">list</span>(<span class="at">title =</span> <span class="st">"Poverty rate (%)"</span>),</span>
+<span id="cb14-106"><a href="#cb14-106" aria-hidden="true" tabindex="-1"></a>         <span class="at">showlegend =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb14-107"><a href="#cb14-107" aria-hidden="true" tabindex="-1"></a>  <span class="fu">highlight</span>(<span class="at">on =</span> <span class="st">"plotly_selected"</span>, <span class="at">off =</span> <span class="st">"plotly_deselect"</span>)</span>
+<span id="cb14-108"><a href="#cb14-108" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-109"><a href="#cb14-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-110"><a href="#cb14-110" aria-hidden="true" tabindex="-1"></a><span class="fu">### Data table {data-height=500}</span></span>
+<span id="cb14-111"><a href="#cb14-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-112"><a href="#cb14-112" aria-hidden="true" tabindex="-1"></a><span class="in">```{r table}</span></span>
+<span id="cb14-113"><a href="#cb14-113" aria-hidden="true" tabindex="-1"></a><span class="fu">datatable</span>(shared_table,</span>
+<span id="cb14-114"><a href="#cb14-114" aria-hidden="true" tabindex="-1"></a>          <span class="at">rownames =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb14-115"><a href="#cb14-115" aria-hidden="true" tabindex="-1"></a>          <span class="at">colnames =</span> <span class="fu">c</span>(<span class="st">"State"</span>, <span class="st">"Region"</span>, <span class="st">"Median income ($)"</span>, <span class="st">"Poverty rate (%)"</span>),</span>
+<span id="cb14-116"><a href="#cb14-116" aria-hidden="true" tabindex="-1"></a>          <span class="at">options =</span> <span class="fu">list</span>(<span class="at">pageLength =</span> <span class="dv">5</span>, <span class="at">dom =</span> <span class="st">"tip"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb14-117"><a href="#cb14-117" aria-hidden="true" tabindex="-1"></a>  <span class="fu">formatCurrency</span>(<span class="st">"median_income_15"</span>, <span class="at">digits =</span> <span class="dv">0</span>) <span class="sc">|&gt;</span></span>
+<span id="cb14-118"><a href="#cb14-118" aria-hidden="true" tabindex="-1"></a>  <span class="fu">formatRound</span>(<span class="st">"poverty_rate_15"</span>, <span class="at">digits =</span> <span class="dv">1</span>)</span>
+<span id="cb14-119"><a href="#cb14-119" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>states-dashboard-shiny.Rmd: the Shiny dashboard
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "US States: Income and Poverty (Shiny)"</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="an">output:</span><span class="co"> flexdashboard::flex_dashboard</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="an">runtime:</span><span class="co"> shiny</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="in">```{r setup, include=FALSE}</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(flexdashboard)</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(shiny)</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(spData)</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(leaflet)</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DT)</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>states <span class="ot">&lt;-</span> us_states <span class="sc">|&gt;</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(us_states_df, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"NAME"</span> <span class="ot">=</span> <span class="st">"state"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">REGION =</span> <span class="fu">fct_recode</span>(REGION, <span class="at">Northeast =</span> <span class="st">"Norteast"</span>),</span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">poverty_rate_15 =</span> poverty_level_15 <span class="sc">/</span> total_pop_15 <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="dv">4326</span>)</span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Choices for the variable menu: label shown = column name used</span></span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>variables <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Median income, 2015 ($)"</span> <span class="ot">=</span> <span class="st">"median_income_15"</span>,</span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>               <span class="st">"Poverty rate, 2015 (%)"</span>  <span class="ot">=</span> <span class="st">"poverty_rate_15"</span>,</span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>               <span class="st">"Population, 2015"</span>        <span class="ot">=</span> <span class="st">"total_pop_15"</span>)</span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a>Inputs {.sidebar}</span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>-----------------------------------------------------------------------</span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a><span class="in">```{r inputs}</span></span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a><span class="fu">selectInput</span>(<span class="st">"variable"</span>, <span class="st">"Map variable"</span>, <span class="at">choices =</span> variables)</span>
+<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a><span class="fu">checkboxGroupInput</span>(<span class="st">"region"</span>, <span class="st">"Census region"</span>,</span>
+<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a>                   <span class="at">choices =</span> <span class="fu">levels</span>(states<span class="sc">$</span>REGION),</span>
+<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a>                   <span class="at">selected =</span> <span class="fu">levels</span>(states<span class="sc">$</span>REGION))</span>
+<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a><span class="in">```{r reactive-data}</span></span>
+<span id="cb15-42"><a href="#cb15-42" aria-hidden="true" tabindex="-1"></a><span class="co"># Re-runs only when the region checkboxes change</span></span>
+<span id="cb15-43"><a href="#cb15-43" aria-hidden="true" tabindex="-1"></a>selected_states <span class="ot">&lt;-</span> <span class="fu">reactive</span>({</span>
+<span id="cb15-44"><a href="#cb15-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">req</span>(input<span class="sc">$</span>region)</span>
+<span id="cb15-45"><a href="#cb15-45" aria-hidden="true" tabindex="-1"></a>  states <span class="sc">|&gt;</span> <span class="fu">filter</span>(REGION <span class="sc">%in%</span> input<span class="sc">$</span>region)</span>
+<span id="cb15-46"><a href="#cb15-46" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb15-47"><a href="#cb15-47" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-48"><a href="#cb15-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-49"><a href="#cb15-49" aria-hidden="true" tabindex="-1"></a>Column {data-width=650}</span>
+<span id="cb15-50"><a href="#cb15-50" aria-hidden="true" tabindex="-1"></a>-----------------------------------------------------------------------</span>
+<span id="cb15-51"><a href="#cb15-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-52"><a href="#cb15-52" aria-hidden="true" tabindex="-1"></a><span class="fu">### Map</span></span>
+<span id="cb15-53"><a href="#cb15-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-54"><a href="#cb15-54" aria-hidden="true" tabindex="-1"></a><span class="in">```{r map}</span></span>
+<span id="cb15-55"><a href="#cb15-55" aria-hidden="true" tabindex="-1"></a><span class="fu">renderLeaflet</span>({</span>
+<span id="cb15-56"><a href="#cb15-56" aria-hidden="true" tabindex="-1"></a>  df  <span class="ot">&lt;-</span> <span class="fu">selected_states</span>()</span>
+<span id="cb15-57"><a href="#cb15-57" aria-hidden="true" tabindex="-1"></a>  val <span class="ot">&lt;-</span> df[[input<span class="sc">$</span>variable]]</span>
+<span id="cb15-58"><a href="#cb15-58" aria-hidden="true" tabindex="-1"></a>  pal <span class="ot">&lt;-</span> <span class="fu">colorBin</span>(<span class="st">"Blues"</span>, <span class="at">domain =</span> val, <span class="at">bins =</span> <span class="dv">5</span>)</span>
+<span id="cb15-59"><a href="#cb15-59" aria-hidden="true" tabindex="-1"></a>  label <span class="ot">&lt;-</span> <span class="fu">names</span>(variables)[variables <span class="sc">==</span> input<span class="sc">$</span>variable]</span>
+<span id="cb15-60"><a href="#cb15-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-61"><a href="#cb15-61" aria-hidden="true" tabindex="-1"></a>  <span class="fu">leaflet</span>(df, <span class="at">options =</span> <span class="fu">leafletOptions</span>(<span class="at">zoomSnap =</span> <span class="fl">0.25</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb15-62"><a href="#cb15-62" aria-hidden="true" tabindex="-1"></a>    <span class="fu">addProviderTiles</span>(providers<span class="sc">$</span>CartoDB.Positron) <span class="sc">|&gt;</span></span>
+<span id="cb15-63"><a href="#cb15-63" aria-hidden="true" tabindex="-1"></a>    <span class="fu">addPolygons</span>(<span class="at">fillColor =</span> <span class="fu">pal</span>(val), <span class="at">fillOpacity =</span> <span class="fl">0.8</span>,</span>
+<span id="cb15-64"><a href="#cb15-64" aria-hidden="true" tabindex="-1"></a>                <span class="at">color =</span> <span class="st">"white"</span>, <span class="at">weight =</span> <span class="dv">1</span>,</span>
+<span id="cb15-65"><a href="#cb15-65" aria-hidden="true" tabindex="-1"></a>                <span class="at">label =</span> <span class="fu">paste0</span>(df<span class="sc">$</span>NAME, <span class="st">": "</span>, <span class="fu">format</span>(<span class="fu">round</span>(val, <span class="dv">1</span>), <span class="at">big.mark =</span> <span class="st">","</span>)),</span>
+<span id="cb15-66"><a href="#cb15-66" aria-hidden="true" tabindex="-1"></a>                <span class="at">highlightOptions =</span> <span class="fu">highlightOptions</span>(<span class="at">weight =</span> <span class="dv">3</span>, <span class="at">color =</span> <span class="st">"#13294B"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb15-67"><a href="#cb15-67" aria-hidden="true" tabindex="-1"></a>    <span class="fu">addLegend</span>(<span class="at">pal =</span> pal, <span class="at">values =</span> val, <span class="at">title =</span> label, <span class="at">position =</span> <span class="st">"bottomright"</span>)</span>
+<span id="cb15-68"><a href="#cb15-68" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb15-69"><a href="#cb15-69" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-70"><a href="#cb15-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-71"><a href="#cb15-71" aria-hidden="true" tabindex="-1"></a>Column {data-width=350}</span>
+<span id="cb15-72"><a href="#cb15-72" aria-hidden="true" tabindex="-1"></a>-----------------------------------------------------------------------</span>
+<span id="cb15-73"><a href="#cb15-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-74"><a href="#cb15-74" aria-hidden="true" tabindex="-1"></a><span class="fu">### States selected</span></span>
+<span id="cb15-75"><a href="#cb15-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-76"><a href="#cb15-76" aria-hidden="true" tabindex="-1"></a><span class="in">```{r n-box}</span></span>
+<span id="cb15-77"><a href="#cb15-77" aria-hidden="true" tabindex="-1"></a><span class="fu">renderValueBox</span>({</span>
+<span id="cb15-78"><a href="#cb15-78" aria-hidden="true" tabindex="-1"></a>  <span class="fu">valueBox</span>(<span class="fu">nrow</span>(<span class="fu">selected_states</span>()), <span class="at">caption =</span> <span class="st">"States selected"</span>, <span class="at">icon =</span> <span class="st">"fa-map"</span>)</span>
+<span id="cb15-79"><a href="#cb15-79" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb15-80"><a href="#cb15-80" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-81"><a href="#cb15-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-82"><a href="#cb15-82" aria-hidden="true" tabindex="-1"></a><span class="fu">### Average poverty rate</span></span>
+<span id="cb15-83"><a href="#cb15-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-84"><a href="#cb15-84" aria-hidden="true" tabindex="-1"></a><span class="in">```{r pov-box}</span></span>
+<span id="cb15-85"><a href="#cb15-85" aria-hidden="true" tabindex="-1"></a><span class="fu">renderValueBox</span>({</span>
+<span id="cb15-86"><a href="#cb15-86" aria-hidden="true" tabindex="-1"></a>  avg <span class="ot">&lt;-</span> <span class="fu">weighted.mean</span>(<span class="fu">selected_states</span>()<span class="sc">$</span>poverty_rate_15,</span>
+<span id="cb15-87"><a href="#cb15-87" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">selected_states</span>()<span class="sc">$</span>total_pop_15)</span>
+<span id="cb15-88"><a href="#cb15-88" aria-hidden="true" tabindex="-1"></a>  <span class="fu">valueBox</span>(<span class="fu">paste0</span>(<span class="fu">round</span>(avg, <span class="dv">1</span>), <span class="st">"%"</span>), <span class="at">caption =</span> <span class="st">"Population-weighted poverty rate"</span>,</span>
+<span id="cb15-89"><a href="#cb15-89" aria-hidden="true" tabindex="-1"></a>           <span class="at">icon =</span> <span class="st">"fa-percent"</span>)</span>
+<span id="cb15-90"><a href="#cb15-90" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb15-91"><a href="#cb15-91" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-92"><a href="#cb15-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-93"><a href="#cb15-93" aria-hidden="true" tabindex="-1"></a><span class="fu">### Selected states</span></span>
+<span id="cb15-94"><a href="#cb15-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-95"><a href="#cb15-95" aria-hidden="true" tabindex="-1"></a><span class="in">```{r table}</span></span>
+<span id="cb15-96"><a href="#cb15-96" aria-hidden="true" tabindex="-1"></a><span class="fu">renderDT</span>({</span>
+<span id="cb15-97"><a href="#cb15-97" aria-hidden="true" tabindex="-1"></a>  <span class="fu">selected_states</span>() <span class="sc">|&gt;</span></span>
+<span id="cb15-98"><a href="#cb15-98" aria-hidden="true" tabindex="-1"></a>    <span class="fu">st_drop_geometry</span>() <span class="sc">|&gt;</span></span>
+<span id="cb15-99"><a href="#cb15-99" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="at">State =</span> NAME, <span class="at">Region =</span> REGION, <span class="at">value =</span> <span class="fu">all_of</span>(input<span class="sc">$</span>variable)) <span class="sc">|&gt;</span></span>
+<span id="cb15-100"><a href="#cb15-100" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">value =</span> <span class="fu">round</span>(value, <span class="dv">1</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb15-101"><a href="#cb15-101" aria-hidden="true" tabindex="-1"></a>    <span class="fu">datatable</span>(<span class="at">rownames =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb15-102"><a href="#cb15-102" aria-hidden="true" tabindex="-1"></a>              <span class="at">colnames =</span> <span class="fu">c</span>(<span class="st">"State"</span>, <span class="st">"Region"</span>, <span class="fu">names</span>(variables)[variables <span class="sc">==</span> input<span class="sc">$</span>variable]),</span>
+<span id="cb15-103"><a href="#cb15-103" aria-hidden="true" tabindex="-1"></a>              <span class="at">options =</span> <span class="fu">list</span>(<span class="at">pageLength =</span> <span class="dv">5</span>, <span class="at">dom =</span> <span class="st">"tip"</span>))</span>
+<span id="cb15-104"><a href="#cb15-104" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb15-105"><a href="#cb15-105" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+</section>
+<section id="summary" class="level2" data-number="23.8">
+<h2 data-number="23.8" class="anchored" data-anchor-id="summary"><span class="header-section-number">23.8</span> Summary</h2>
+<ul>
+<li>A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-dashboard" data-term="dashboard">dashboard</span></strong> puts a map, charts, a table, and key numbers on one interactive screen, with <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-linked-views" data-term="linked views">linked views</span></strong>. A report tells a story in order; a dashboard lets the reader explore.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-leaflet" data-term="leaflet">leaflet</span></strong> builds the map, in layers joined with the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-pipe" data-term="pipe">pipe</span>: <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-basemap" data-term="basemap">basemap tiles</span></strong>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-polygon" data-term="polygon">polygons</span> colored with a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-palette-function" data-term="palette function">palette function</span></strong>, a legend, <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-label-in-leaflet" data-term="label (in leaflet)">labels</span></strong> on hover and <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-popup" data-term="popup">popups</span></strong> on click. <code>tmap_mode("view")</code> makes the same kind of map.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-flexdashboard" data-term="flexdashboard">flexdashboard</span></strong> lays out an <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-r-markdown" data-term="R Markdown">R Markdown</span> file as a dashboard: a <strong>sidebar</strong>, <strong>columns</strong>, and <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-panel" data-term="panel">panels</span></strong>, with <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-value-box" data-term="value box">value boxes</span></strong>, DT tables, and plotly charts.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-crosstalk" data-term="crosstalk">crosstalk</span></strong> links <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-htmlwidgets" data-term="htmlwidgets">htmlwidgets</span></strong> in a single HTML file that anyone can open, using <code>SharedData</code> with a key and a group. It filters only leaflet points, not polygons.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-shiny" data-term="Shiny">Shiny</span></strong> (<code>runtime: shiny</code>) reruns R code when readers make choices, with <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-input-in-shiny" data-term="input (in Shiny)">inputs</span></strong>, <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-reactive-expression" data-term="reactive expression">reactive expressions</span></strong>, and <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-render-function" data-term="render function">render functions</span></strong>, but it needs a server.</li>
+<li>Start simple and static; add Shiny only when you need it.</li>
+</ul>
+</section>
+<section id="exercises" class="level2" data-number="23.9">
+<h2 data-number="23.9" class="anchored" data-anchor-id="exercises"><span class="header-section-number">23.9</span> Exercises</h2>
+<ol type="1">
+<li><strong>Questions first.</strong> Before building anything, write the two or three questions a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-dashboard" data-term="dashboard">dashboard</span> about North Carolina’s counties should answer. Which views would answer each one?</li>
+<li><strong>Map a change.</strong> Start from <code>states-dashboard.Rmd</code>. Add a column for the change in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-median" data-term="median">median</span> income from 2010 to 2015, and map it instead of 2015 income. Which <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-palette-function" data-term="palette function">palette function</span> fits a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-variable" data-term="variable">variable</span> that can be negative?</li>
+<li><strong>Another headline.</strong> Add a second <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-value-box" data-term="value box">value box</span> that shows the highest-income state.</li>
+<li><strong>Another filter.</strong> Add a <code>filter_select()</code> to the static dashboard, or a new <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-shiny" data-term="Shiny">Shiny</span> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-input-in-shiny" data-term="input (in Shiny)">input</span> to the Shiny version.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tmap" data-term="tmap">tmap</span> instead.</strong> Replace the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-leaflet" data-term="leaflet">leaflet</span> map with <code>tmap_mode("view")</code> and the tmap code from <a href="#sec-leaflet" class="quarto-xref"><span>Section 23.3</span></a>. What did you gain, and what did you lose?</li>
+<li><strong>Usability test.</strong> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-knit" data-term="knit">Knit</span> your dashboard and give it to a classmate with your questions from Exercise 1. Can they answer them without asking you anything?</li>
+</ol>
+</section>
+<section id="further-reading" class="level2" data-number="23.10">
+<h2 data-number="23.10" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">23.10</span> Further reading</h2>
+<ul>
+<li><em><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-flexdashboard" data-term="flexdashboard">flexdashboard</span> for R</em>, the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-package" data-term="package">package</span> documentation, at <a href="https://pkgs.rstudio.com/flexdashboard" class="uri">https://pkgs.rstudio.com/flexdashboard</a>.</li>
+<li><em><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-leaflet" data-term="leaflet">Leaflet</span> for R</em>, at <a href="https://rstudio.github.io/leaflet" class="uri">https://rstudio.github.io/leaflet</a>. Covers <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-basemap" data-term="basemap">basemaps</span>, palettes, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-popup" data-term="popup">popups</span>, and more.</li>
+<li><em>Mastering <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-shiny" data-term="Shiny">Shiny</span></em>, by Hadley Wickham, free at <a href="https://mastering-shiny.org" class="uri">https://mastering-shiny.org</a>. The best introduction to <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-input-in-shiny" data-term="input (in Shiny)">inputs</span>, outputs, and reactivity.</li>
+<li><em>Interactive web-based data visualization with R, plotly, and shiny</em>, by Carson Sievert, free at <a href="https://plotly-r.com" class="uri">https://plotly-r.com</a>. Includes a chapter on linking views with <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-crosstalk" data-term="crosstalk">crosstalk</span>.</li>
+<li><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-quarto" data-term="Quarto">Quarto</span> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-dashboard" data-term="dashboard">dashboards</span>, at <a href="https://quarto.org/docs/dashboards" class="uri">https://quarto.org/docs/dashboards</a>.</li>
+</ul>
+
+
+<div class="glossary-defs" hidden="">
+<span id="gloss-dashboard">A web page that shows key information on one screen, usually as several
+linked, interactive views such as a map, charts, a table, and headline
+numbers.</span>
+<span id="gloss-leaflet">An R package (and JavaScript library) for interactive web maps, built in
+layers joined with the pipe.</span>
+<span id="gloss-palette-function">In leaflet, a function, made by <code>colorBin()</code>,
+<code>colorNumeric()</code>, <code>colorQuantile()</code>, or
+<code>colorFactor()</code>, that turns data values into colors. Use the
+same one for the map and its legend.</span>
+<span id="gloss-label-in-leaflet">Text that appears when the reader hovers over a feature on a leaflet
+map.</span>
+<span id="gloss-popup">A box of text that appears when the reader clicks a feature on an
+interactive map.</span>
+<span id="gloss-tmap">An R package for making thematic maps quickly, with sensible defaults.</span>
+<span id="gloss-flexdashboard">An R package that lays out an R Markdown file as a dashboard of columns
+or rows of panels, with an optional sidebar.</span>
+<span id="gloss-panel">One box in a flexdashboard, started by a <code>###</code> heading, that
+holds one map, chart, table, or value box.</span>
+<span id="gloss-value-box">A dashboard panel that shows one headline number, with a caption and an
+icon.</span>
+<span id="gloss-crosstalk">An R package that links htmlwidgets in one HTML file, so a filter or
+selection in one updates the others, with no Shiny.</span>
+<span id="gloss-polygon">A closed shape that represents an area, such as a county, a lake, or a
+census tract.</span>
+<span id="gloss-shiny">An R package for web apps that run R code on a server whenever the
+reader changes an input.</span>
+<span id="gloss-input-in-shiny">A control, such as a drop-down menu or checkboxes, that collects a
+reader’s choice. Its value is read as <code>input$id</code>.</span>
+<span id="gloss-reactive-expression">Shiny code, made with <code>reactive()</code>, that reruns automatically
+when the inputs it uses change. Call it like a function.</span>
+<span id="gloss-render-function">A Shiny function, such as <code>renderLeaflet()</code> or
+<code>renderDT()</code>, that draws an output and redraws it when the
+inputs or reactives it uses change.</span>
+<span id="gloss-r-markdown">A document format (<code>.Rmd</code>) that mixes formatted text with
+chunks of R code. Knitting it runs the code and builds a finished
+report.</span>
+<span id="gloss-rstudio">The integrated development environment (IDE) where you write and run R.
+R does the computing; RStudio is the workspace around it.</span>
+<span id="gloss-package">A bundle of code, written by other users, that adds new functions to R.
+Install it once with <code>install.packages()</code>, then load it in
+each session with <code>library()</code>.</span>
+<span id="gloss-linked-views">Maps, charts, and tables that respond to each other, so filtering or
+selecting in one updates the others.</span>
+<span id="gloss-argument">An input to a function, written inside its parentheses.</span>
+<span id="gloss-htmlwidgets">R functions, such as those in leaflet, DT, and plotly, that produce
+JavaScript, so their interactivity runs in the browser with no R.</span>
+<span id="gloss-function">Code that takes inputs (arguments), does a job, and returns an output,
+such as <code>mean(temps)</code>.</span>
+<span id="gloss-knit">To build an R Markdown file into a finished document (HTML, PDF, or
+Word). Knitting reruns every code chunk from the top in a fresh R
+session.</span>
+<span id="gloss-api">Application Programming Interface: a set of rules for how one program
+asks another for data or services, such as your R script asking the
+Census Bureau’s server for a table.</span>
+<span id="gloss-weighted-average">An average in which some values count more than others. Total distance
+divided by total air time weights each flight’s speed by its air time.</span>
+<span id="gloss-median">The middle value when values are sorted, so half are above and half
+below. Unlike counts, medians can’t be added across areas.</span>
+<span id="gloss-basemap">A background map of streets, places, or imagery, loaded from the web as
+tiles, that your own data are drawn on top of.</span>
+<span id="gloss-join">Combining two tables by matching rows on a shared key column, such as
+attaching Census data to boundaries by <code>GEOID</code> with
+<code>left_join()</code>.</span>
+<span id="gloss-longitude">The angle east or west of the Prime Meridian, from 0° to 180°. Lines of
+equal longitude are meridians.</span>
+<span id="gloss-latitude">The angle north or south of the Equator, from 0° to 90°. Lines of equal
+latitude are parallels.</span>
+<span id="gloss-wgs84">The World Geodetic System of 1984, the datum GPS uses. GeoJSON and KML
+give coordinates as WGS84 longitude and latitude.</span>
+<span id="gloss-ggplot2">The tidyverse package for making plots and maps by adding layers.</span>
+<span id="gloss-pipe">The operator <code>|&gt;</code>, which passes the result on its left as
+the first argument of the function on its right. Read it as “and then.”</span>
+<span id="gloss-percentile">The value below which a given share of the values fall: a quarter of
+values are below the 25th percentile. <code>quantile()</code> in R.</span>
+<span id="gloss-interactive-map">A web map you can pan, zoom, and click to see each feature’s attributes.
+tmap makes one in view mode.</span>
+<span id="gloss-variable">In R, a named piece of memory that holds data, such as
+<code>months &lt;- 12</code>. In a dataset, a measured characteristic,
+such as median income; each Census variable has a code.</span>
+<span id="gloss-yaml-header">The block at the top of an R Markdown file, between two lines of three
+dashes, that holds the document’s title, author, date, and output
+format.</span>
+<span id="gloss-markdown">A simple way of formatting plain text: <code>#</code> for headings,
+<code>*italic*</code>, <code>**bold**</code>, and <code>-</code> for
+list items.</span>
+<span id="gloss-code-chunk">A block of R code inside an R Markdown file, starting with
+<code>```{r}</code> and ending with three backticks.</span>
+<span id="gloss-data-frame">R’s table: rows are observations and columns are variables. A tibble is
+the tidyverse’s version of a data frame.</span>
+<span id="gloss-map-projection">A method for flattening the curved graticule onto a flat map. Every
+projection distorts shape, area, distance, or direction.</span>
+<span id="gloss-vector">A sequence of values that R stores together, made with <code>c()</code>,
+such as <code>c(71, 75, 68)</code>.</span>
+<span id="gloss-quarto">The newer successor to R Markdown, from the same developers. Quarto
+files end in <code>.qmd</code>. This book is written in Quarto.</span>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script>
+
+/* update total correct if #webex-total_correct exists */
+update_total_correct = function() {
+  console.log("webex: update total_correct");
+
+  var t = document.getElementsByClassName("webex-total_correct");
+  for (var i = 0; i < t.length; i++) {
+    p = t[i].parentElement;
+    var correct = p.getElementsByClassName("webex-correct").length;
+    var solvemes = p.getElementsByClassName("webex-solveme").length;
+    var radiogroups = p.getElementsByClassName("webex-radiogroup").length;
+    var selects = p.getElementsByClassName("webex-select").length;
+
+    t[i].innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  }
+}
+
+/* webex-solution button toggling function */
+b_func = function() {
+  console.log("webex: toggle hide");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('open')) {
+    cl.remove("open");
+  } else {
+    cl.add("open");
+  }
+}
+
+/* check answers */
+check_func = function() {
+  console.log("webex: check answers");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('unchecked')) {
+    cl.remove("unchecked");
+    this.innerHTML = "Hide Answers";
+  } else {
+    cl.add("unchecked");
+    this.innerHTML = "Show Answers";
+  }
+}
+
+/* function for checking solveme answers */
+solveme_func = function(e) {
+  console.log("webex: check solveme");
+
+  var real_answers = JSON.parse(this.dataset.answer);
+  var my_answer = this.value;
+  var cl = this.classList;
+  if (cl.contains("ignorecase")) {
+    my_answer = my_answer.toLowerCase();
+  }
+  if (cl.contains("nospaces")) {
+    my_answer = my_answer.replace(/ /g, "")
+  }
+
+  if (my_answer == "") {
+    cl.remove("webex-correct");
+    cl.remove("webex-incorrect");
+  } else if (real_answers.includes(my_answer)) {
+    cl.add("webex-correct");
+    cl.remove("webex-incorrect");
+  } else {
+    cl.add("webex-incorrect");
+    cl.remove("webex-correct");
+  }
+
+  // match numeric answers within a specified tolerance
+  if(this.dataset.tol > 0){
+    var tol = JSON.parse(this.dataset.tol);
+    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+    if (matches.reduce((a, b) => a + b, 0) > 0) {
+      cl.add("webex-correct");
+    } else {
+      cl.remove("webex-correct");
+    }
+  }
+
+  // added regex bit
+  if (cl.contains("regex")){
+    answer_regex = RegExp(real_answers.join("|"))
+    if (answer_regex.test(my_answer)) {
+      cl.add("webex-correct");
+    }
+  }
+
+  update_total_correct();
+}
+
+/* function for checking select answers */
+select_func = function(e) {
+  console.log("webex: check select");
+
+  var cl = this.classList
+
+  /* add style */
+  cl.remove("webex-incorrect");
+  cl.remove("webex-correct");
+  if (this.value == "answer") {
+    cl.add("webex-correct");
+  } else if (this.value != "blank") {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+/* function for checking radiogroups answers */
+radiogroups_func = function(e) {
+  console.log("webex: check radiogroups");
+
+  var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
+  var cl = checked_button.parentElement.classList;
+  var labels = checked_button.parentElement.parentElement.children;
+
+  /* get rid of styles */
+  for (i = 0; i < labels.length; i++) {
+    labels[i].classList.remove("webex-incorrect");
+    labels[i].classList.remove("webex-correct");
+  }
+
+  /* add style */
+  if (checked_button.value == "answer") {
+    cl.add("webex-correct");
+  } else {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+window.onload = function() {
+  console.log("webex onload");
+  /* set up solution buttons */
+  var buttons = document.getElementsByTagName("button");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].parentElement.classList.contains('webex-solution')) {
+      buttons[i].onclick = b_func;
+    }
+  }
+
+  var check_sections = document.getElementsByClassName("webex-check");
+  console.log("check:", check_sections.length);
+  for (var i = 0; i < check_sections.length; i++) {
+    check_sections[i].classList.add("unchecked");
+
+    let btn = document.createElement("button");
+    btn.innerHTML = "Show Answers";
+    btn.classList.add("webex-check-button");
+    btn.onclick = check_func;
+    check_sections[i].appendChild(btn);
+
+    let spn = document.createElement("span");
+    spn.classList.add("webex-total_correct");
+    check_sections[i].appendChild(spn);
+  }
+
+  /* set up webex-solveme inputs */
+  var solveme = document.getElementsByClassName("webex-solveme");
+
+  for (var i = 0; i < solveme.length; i++) {
+    /* make sure input boxes don't auto-anything */
+    solveme[i].setAttribute("autocomplete","off");
+    solveme[i].setAttribute("autocorrect", "off");
+    solveme[i].setAttribute("autocapitalize", "off");
+    solveme[i].setAttribute("spellcheck", "false");
+    solveme[i].value = "";
+
+    /* adjust answer for ignorecase or nospaces */
+    var cl = solveme[i].classList;
+    var real_answer = solveme[i].dataset.answer;
+    if (cl.contains("ignorecase")) {
+      real_answer = real_answer.toLowerCase();
+    }
+    if (cl.contains("nospaces")) {
+      real_answer = real_answer.replace(/ /g, "");
+    }
+    solveme[i].dataset.answer = real_answer;
+
+    /* attach checking function */
+    solveme[i].onkeyup = solveme_func;
+    solveme[i].onchange = solveme_func;
+
+    solveme[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  /* set up radiogroups */
+  var radiogroups = document.getElementsByClassName("webex-radiogroup");
+  for (var i = 0; i < radiogroups.length; i++) {
+    radiogroups[i].onchange = radiogroups_func;
+  }
+
+  /* set up selects */
+  var selects = document.getElementsByClassName("webex-select");
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].onchange = select_func;
+    selects[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  update_total_correct();
+}
+
+</script>
+<!--
+  Highlights the right item in the top menu. Quarto's book layout marks
+  "Welcome" as active on every page, so this sets it from the page address:
+  the course pages match their own item, and every other page (chapters,
+  quizzes, glossary) is part of the Textbook. Pages with no menu item of
+  their own (the AI policy and privacy policy) highlight nothing.
+-->
+<script>
+(function () {
+  "use strict";
+  const COURSE_PAGES = ["index", "syllabus", "materials", "about"];
+  const NO_ITEM_PAGES = ["privacy", "ai-policy"];
+  const file = (location.pathname.split("/").pop() || "index").replace(/\.html$/, "");
+  const inRoot = !/\/chapters\//.test(location.pathname);
+  const target = inRoot && NO_ITEM_PAGES.includes(file) ? null
+    : inRoot && COURSE_PAGES.includes(file) ? file : "preface";
+  document.querySelectorAll("#navbarCollapse a.nav-link").forEach((a) => {
+    const page = (a.getAttribute("href") || "").split("/").pop().replace(/\.html$/, "");
+    const on = page === target;
+    a.classList.toggle("active", on);
+    if (on) a.setAttribute("aria-current", "page");
+    else a.removeAttribute("aria-current");
+  });
+})();
+</script>
+<!--
+  Reading settings, part 2 of 2: the "Aa" menu next to search, where readers
+  pick a font and text size. Choices are kept in this browser (localStorage)
+  and applied on every page by assets/reader-settings-head.html.
+-->
+<script>
+(function () {
+  var FONTS = [
+    { id: "", label: "Atkinson Hyperlegible (default)", css: '"Atkinson Hyperlegible Next", sans-serif' },
+    { id: "lexend", label: "Lexend", css: '"Lexend", sans-serif', href: "https://fonts.googleapis.com/css2?family=Lexend:wght@300..700&display=swap" },
+    { id: "cardo", label: "Cardo (serif)", css: '"Cardo", Georgia, serif', href: "https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&display=swap" },
+    { id: "sans", label: "Standard sans-serif", css: 'system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif' },
+    { id: "serif", label: "Serif", css: 'Georgia, Cambria, "Times New Roman", serif' },
+    { id: "dyslexic", label: "OpenDyslexic", css: '"OpenDyslexic", sans-serif' }
+  ];
+  var SIZES = { "-1": "Small", "0": "Default", "1": "Large", "2": "Larger", "3": "Largest" };
+  var MIN = -1, MAX = 3;
+  var root = document.documentElement;
+
+  function save(key, value) {
+    try {
+      if (value === "" || value === "0") localStorage.removeItem(key);
+      else localStorage.setItem(key, value);
+    } catch (e) { /* storage blocked: setting lasts for this page only */ }
+  }
+  function currentFont() { return root.getAttribute("data-reader-font") || ""; }
+  function currentSize() { return parseInt(root.getAttribute("data-reader-size") || "0", 10) || 0; }
+
+  // Add a Google Fonts stylesheet once (Lexend, Cardo). Fonts download only
+  // when text actually uses them.
+  function loadWebFont(f) {
+    if (!f.href || document.getElementById("sds-reader-webfont-" + f.id)) return;
+    var link = document.createElement("link");
+    link.rel = "stylesheet"; link.href = f.href; link.id = "sds-reader-webfont-" + f.id;
+    document.head.appendChild(link);
+  }
+
+  function setFont(id) {
+    FONTS.forEach(function (f) { if (f.id === id) loadWebFont(f); });
+    if (id) root.setAttribute("data-reader-font", id); else root.removeAttribute("data-reader-font");
+    save("sds-reader-font", id);
+  }
+  function setSize(n) {
+    n = Math.max(MIN, Math.min(MAX, n));
+    if (n) root.setAttribute("data-reader-size", String(n)); else root.removeAttribute("data-reader-size");
+    save("sds-reader-size", String(n));
+    refreshSize();
+  }
+
+  var wrap = document.createElement("div");
+  wrap.className = "sds-reader";
+  var fontOptions = FONTS.map(function (f) {
+    return '<label style=\'font-family:' + f.css.replace(/'/g, "&#39;") + '\'>' +
+      '<input class="form-check-input" type="radio" name="sds-reader-font" value="' + f.id + '"> ' + f.label + '</label>';
+  }).join("");
+  wrap.innerHTML =
+    '<button type="button" class="sds-reader-toggle" aria-expanded="false" aria-controls="sds-reader-panel" ' +
+      'title="Reading settings: font and text size">' +
+      '<span aria-hidden="true">Aa</span><span class="visually-hidden">Reading settings</span></button>' +
+    '<div class="sds-reader-panel" id="sds-reader-panel" role="dialog" aria-label="Reading settings" hidden>' +
+      '<h2>Reading settings</h2>' +
+      '<fieldset class="sds-reader-font"><legend>Font</legend>' + fontOptions + '</fieldset>' +
+      '<fieldset><legend>Text size</legend><div class="sds-reader-size-row">' +
+        '<button type="button" data-step="-1" aria-label="Smaller text">A&minus;</button>' +
+        '<output aria-live="polite"></output>' +
+        '<button type="button" data-step="1" aria-label="Larger text">A+</button>' +
+      '</div></fieldset>' +
+      '<button type="button" class="sds-reader-reset">Reset to defaults</button>' +
+    '</div>';
+
+  var toggle = wrap.querySelector(".sds-reader-toggle");
+  var panel = wrap.querySelector(".sds-reader-panel");
+  var output = wrap.querySelector("output");
+  var minus = wrap.querySelector('[data-step="-1"]');
+  var plus = wrap.querySelector('[data-step="1"]');
+
+  function refreshFont() {
+    var id = currentFont();
+    wrap.querySelectorAll('input[name="sds-reader-font"]').forEach(function (r) { r.checked = r.value === id; });
+  }
+  function refreshSize() {
+    var n = currentSize();
+    output.textContent = SIZES[String(n)] || "Default";
+    minus.disabled = n <= MIN;
+    plus.disabled = n >= MAX;
+  }
+  function open(show) {
+    panel.hidden = !show;
+    toggle.setAttribute("aria-expanded", show ? "true" : "false");
+    if (show) { FONTS.forEach(loadWebFont); refreshFont(); refreshSize(); var c = panel.querySelector("input:checked"); if (c) c.focus(); }
+  }
+
+  toggle.addEventListener("click", function (e) { e.stopPropagation(); open(panel.hidden); });
+  panel.addEventListener("click", function (e) { e.stopPropagation(); });
+  panel.addEventListener("change", function (e) { if (e.target.name === "sds-reader-font") setFont(e.target.value); });
+  minus.addEventListener("click", function () { setSize(currentSize() - 1); });
+  plus.addEventListener("click", function () { setSize(currentSize() + 1); });
+  wrap.querySelector(".sds-reader-reset").addEventListener("click", function () { setFont(""); setSize(0); refreshFont(); });
+  document.addEventListener("click", function () { if (!panel.hidden) open(false); });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !panel.hidden) { open(false); toggle.focus(); }
+  });
+
+  // Put the button by search: in the top menu on
+  // geog215.org, or by the sidebar search in the textbook-only build.
+  var navSearch = document.querySelector("#quarto-header #quarto-search");
+  if (navSearch) navSearch.parentNode.insertBefore(wrap, navSearch);
+  else {
+    var search = document.querySelector("#quarto-sidebar .sidebar-search, #quarto-sidebar #quarto-search, .sidebar-tools-main");
+    if (search && search.parentNode) search.parentNode.insertBefore(wrap, search.nextSibling);
+    else return;
+  }
+  refreshFont();
+  refreshSize();
+})();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
+  <div class="nav-page nav-page-previous">
+      <a href="../units/unit-6.html" class="pagination-link" aria-label="Unit 6: Next Steps">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Unit 6: Next Steps</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../chapters/whats-next.html" class="pagination-link" aria-label="What's Next in Spatial Data Science">
+        <span class="nav-page-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">What’s Next in Spatial Data Science</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

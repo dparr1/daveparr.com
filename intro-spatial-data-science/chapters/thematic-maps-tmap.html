@@ -1,0 +1,2195 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>10&nbsp; Thematic Maps with tmap – Introduction to Spatial Data Science</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/thematic-maps-tmap-quiz.html" rel="next">
+<link href="../units/unit-3.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ebb58cfc2c0cc903b00b246007c1be77.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-dc9f5fc0f996687a6857ae5a69d42718.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-contrib/glossary-1.0.0/glossary.js"></script>
+<link href="../site_libs/quarto-contrib/glossary-1.0.0/glossary.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<!--
+  Reading settings, part 1 of 2: applies the reader's saved font and text size
+  before the page draws, so it doesn't flash in the default font first.
+  The menu itself is in assets/reader-settings.html; styles are in
+  assets/reader-settings.css.
+-->
+<script>
+  (function () {
+    try {
+      var font = localStorage.getItem("sds-reader-font");
+      var size = localStorage.getItem("sds-reader-size");
+      if (font) document.documentElement.setAttribute("data-reader-font", font);
+      // Lexend and Cardo come from Google Fonts, loaded only for readers who pick them.
+      var webFonts = {
+        lexend: "https://fonts.googleapis.com/css2?family=Lexend:wght@300..700&display=swap",
+        cardo: "https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&display=swap"
+      };
+      if (webFonts[font]) {
+        var link = document.createElement("link");
+        link.rel = "stylesheet"; link.href = webFonts[font]; link.id = "sds-reader-webfont-" + font;
+        document.head.appendChild(link);
+      }
+      if (size) document.documentElement.setAttribute("data-reader-size", size);
+    } catch (e) { /* storage blocked: keep the defaults */ }
+  })();
+</script>
+
+
+<link rel="stylesheet" href="../include/webex.css">
+<link rel="stylesheet" href="../assets/sidebar.css">
+<link rel="stylesheet" href="../assets/grade-table.css">
+<link rel="stylesheet" href="../assets/reader-settings.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../units/unit-3.html">Unit 3: Maps and Geographic Data</a></li><li class="breadcrumb-item"><a href="../chapters/thematic-maps-tmap.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Thematic Maps with tmap</span></a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Site">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Introduction to Spatial Data Science</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../units/unit-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-1-label">Unit 1: R and Spatial Data Science</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section: Unit 1: R and Spatial Data Science">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/intro-spatial-data-science.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">What is Spatial Data Science?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/intro-spatial-data-science-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: What is Spatial Data Science?</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/r-rstudio-rmarkdown.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">R, RStudio, and R Markdown</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/r-rstudio-rmarkdown-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: R, RStudio, and R Markdown</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/r-basics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">R Basics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/r-basics-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: R Basics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/indexing-vectors-data-frames.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Indexing Vectors and Data Frames</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/indexing-vectors-data-frames-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Indexing Vectors and Data Frames</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/blocks-loops-functions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Blocks, Loops, and Functions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/blocks-loops-functions-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Blocks, Loops, and Functions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../units/unit-1-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Unit 1 quiz: R and Spatial Data Science</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../units/unit-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-2-label">Unit 2: Into the Tidyverse</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section: Unit 2: Into the Tidyverse">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/tidyverse-filter-pipe.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Into the Tidyverse: glimpse, filter, and the Pipe</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/tidyverse-filter-pipe-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Into the Tidyverse: glimpse, filter, and the Pipe</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/tidyverse-arrange-select-mutate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Into the Tidyverse: arrange, distinct, select, and mutate</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/tidyverse-arrange-select-mutate-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Into the Tidyverse: arrange, distinct, select, and mutate</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/tidyverse-summarize-group-by.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Into the Tidyverse: summarize, group_by, and drop_na</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/tidyverse-summarize-group-by-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Into the Tidyverse: summarize, group_by, and drop_na</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/tidyverse-ggplot.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Into the Tidyverse: Graphs with ggplot2</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/tidyverse-ggplot-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Into the Tidyverse: Graphs with ggplot2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../units/unit-2-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Unit 2 quiz: Into the Tidyverse</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../units/unit-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Unit 3: Maps and Geographic Data</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section: Unit 3: Maps and Geographic Data">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/thematic-maps-tmap.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Thematic Maps with tmap</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/thematic-maps-tmap-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Thematic Maps with tmap</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/geographic-information.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">What Is Geographic Data?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/geographic-information-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: What Is Geographic Data?</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/location-coordinate-systems.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Location and Coordinate Systems</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/location-coordinate-systems-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Location and Coordinate Systems</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/census-data-apis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Census Data and APIs</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/census-data-apis-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Census Data and APIs</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/arcpullr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">ArcGIS Data with arcpullr</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/arcpullr-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: ArcGIS Data with arcpullr</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../units/unit-3-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Unit 3 quiz: Maps and Geographic Data</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../units/unit-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-4-label">Unit 4: Spatial Analysis</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section: Unit 4: Spatial Analysis">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/joins.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Joins: Attribute and Spatial</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/joins-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Joins: Attribute and Spatial</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/esda.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Exploratory Spatial Data Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/esda-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Exploratory Spatial Data Analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/spatial-statistics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Spatial Descriptive Statistics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/spatial-statistics-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Spatial Descriptive Statistics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../units/unit-4-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Unit 4 quiz: Spatial Analysis</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../units/unit-5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-5-label">Unit 5: Statistics and Science</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-controls="quarto-sidebar-section-5" aria-expanded="true" aria-label="Toggle section: Unit 5: Statistics and Science">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-5" aria-labelledby="quarto-sidebar-section-5-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Comparing Groups: p-values and ANOVA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/anova-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Comparing Groups: p-values and ANOVA</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Linear Regression</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/regression-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Linear Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/writing-spatial-data-science.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Writing a Spatial Data Science Project</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/writing-spatial-data-science-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Writing a Spatial Data Science Project</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/distance-neighborhoods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Distance and Neighborhoods</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/distance-neighborhoods-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Distance and Neighborhoods</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/spatial-autocorrelation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Spatial Clustering and Spatial Autocorrelation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/spatial-autocorrelation-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter quiz: Spatial Clustering and Spatial Autocorrelation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../units/unit-5-quiz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Unit 5 quiz: Statistics and Science</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../units/unit-6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-6-label">Unit 6: Next Steps</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-controls="quarto-sidebar-section-6" aria-expanded="true" aria-label="Toggle section: Unit 6: Next Steps">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-6" aria-labelledby="quarto-sidebar-section-6-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/dashboards.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Interactive Map Dashboards</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/whats-next.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">What’s Next in Spatial Data Science</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-controls="quarto-sidebar-section-7" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-7-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-7" aria-labelledby="quarto-sidebar-section-7-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Glossary</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../about.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About the author</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-spatial-tidy" id="toc-sec-spatial-tidy" class="nav-link active" data-scroll-target="#sec-spatial-tidy"><span class="header-section-number">10.1</span> Spatial data are tidy data</a>
+  <ul class="collapse">
+  <li><a href="#features-and-attributes" id="toc-features-and-attributes" class="nav-link" data-scroll-target="#features-and-attributes"><span class="header-section-number">10.1.1</span> Features and attributes</a></li>
+  <li><a href="#tmap-the-thematic-mapper" id="toc-tmap-the-thematic-mapper" class="nav-link" data-scroll-target="#tmap-the-thematic-mapper"><span class="header-section-number">10.1.2</span> tmap: the thematic mapper</a></li>
+  <li><a href="#our-data-three-campus-layers" id="toc-our-data-three-campus-layers" class="nav-link" data-scroll-target="#our-data-three-campus-layers"><span class="header-section-number">10.1.3</span> Our data: three campus layers</a></li>
+  <li><a href="#tmap-and-ggplot2-on-the-same-trees" id="toc-tmap-and-ggplot2-on-the-same-trees" class="nav-link" data-scroll-target="#tmap-and-ggplot2-on-the-same-trees"><span class="header-section-number">10.1.4</span> tmap and ggplot2 on the same trees</a></li>
+  </ul></li>
+  <li><a href="#sec-points" id="toc-sec-points" class="nav-link" data-scroll-target="#sec-points"><span class="header-section-number">10.2</span> Points: mapping trees with tm_dots()</a>
+  <ul class="collapse">
+  <li><a href="#color-trees-by-height" id="toc-color-trees-by-height" class="nav-link" data-scroll-target="#color-trees-by-height"><span class="header-section-number">10.2.1</span> Color trees by height</a></li>
+  <li><a href="#color-trees-by-species" id="toc-color-trees-by-species" class="nav-link" data-scroll-target="#color-trees-by-species"><span class="header-section-number">10.2.2</span> Color trees by species</a></li>
+  <li><a href="#fix-1-map-only-the-top-five-species" id="toc-fix-1-map-only-the-top-five-species" class="nav-link" data-scroll-target="#fix-1-map-only-the-top-five-species"><span class="header-section-number">10.2.3</span> Fix 1: map only the top five species</a></li>
+  <li><a href="#fix-2-group-rare-species-as-other" id="toc-fix-2-group-rare-species-as-other" class="nav-link" data-scroll-target="#fix-2-group-rare-species-as-other"><span class="header-section-number">10.2.4</span> Fix 2: group rare species as “other”</a></li>
+  </ul></li>
+  <li><a href="#sec-lines" id="toc-sec-lines" class="nav-link" data-scroll-target="#sec-lines"><span class="header-section-number">10.3</span> Lines: mapping sidewalks with tm_lines()</a>
+  <ul class="collapse">
+  <li><a href="#draw-the-sidewalk-network" id="toc-draw-the-sidewalk-network" class="nav-link" data-scroll-target="#draw-the-sidewalk-network"><span class="header-section-number">10.3.1</span> Draw the sidewalk network</a></li>
+  <li><a href="#color-sidewalks-by-surface" id="toc-color-sidewalks-by-surface" class="nav-link" data-scroll-target="#color-sidewalks-by-surface"><span class="header-section-number">10.3.2</span> Color sidewalks by surface</a></li>
+  </ul></li>
+  <li><a href="#sec-polygons" id="toc-sec-polygons" class="nav-link" data-scroll-target="#sec-polygons"><span class="header-section-number">10.4</span> Polygons: mapping buildings with tm_polygons()</a>
+  <ul class="collapse">
+  <li><a href="#draw-the-building-footprints" id="toc-draw-the-building-footprints" class="nav-link" data-scroll-target="#draw-the-building-footprints"><span class="header-section-number">10.4.1</span> Draw the building footprints</a></li>
+  <li><a href="#shade-buildings-by-year-built" id="toc-shade-buildings-by-year-built" class="nav-link" data-scroll-target="#shade-buildings-by-year-built"><span class="header-section-number">10.4.2</span> Shade buildings by year built</a></li>
+  <li><a href="#control-the-classes-with-n-and-style" id="toc-control-the-classes-with-n-and-style" class="nav-link" data-scroll-target="#control-the-classes-with-n-and-style"><span class="header-section-number">10.4.3</span> Control the classes with n and style</a></li>
+  </ul></li>
+  <li><a href="#sec-combine" id="toc-sec-combine" class="nav-link" data-scroll-target="#sec-combine"><span class="header-section-number">10.5</span> Putting a map together</a>
+  <ul class="collapse">
+  <li><a href="#combine-points-lines-and-polygons" id="toc-combine-points-lines-and-polygons" class="nav-link" data-scroll-target="#combine-points-lines-and-polygons"><span class="header-section-number">10.5.1</span> Combine points, lines, and polygons</a></li>
+  <li><a href="#add-a-scale-bar-and-north-arrow" id="toc-add-a-scale-bar-and-north-arrow" class="nav-link" data-scroll-target="#add-a-scale-bar-and-north-arrow"><span class="header-section-number">10.5.2</span> Add a scale bar and north arrow</a></li>
+  <li><a href="#static-or-interactive-tmap_mode" id="toc-static-or-interactive-tmap_mode" class="nav-link" data-scroll-target="#static-or-interactive-tmap_mode"><span class="header-section-number">10.5.3</span> Static or interactive: tmap_mode()</a></li>
+  </ul></li>
+  <li><a href="#sec-world-practice" id="toc-sec-world-practice" class="nav-link" data-scroll-target="#sec-world-practice"><span class="header-section-number">10.6</span> Practice: map the world</a></li>
+  <li><a href="#check-your-understanding" id="toc-check-your-understanding" class="nav-link" data-scroll-target="#check-your-understanding"><span class="header-section-number">10.7</span> Check your understanding</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">10.8</span> Summary</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">10.9</span> Exercises</a></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">10.10</span> Further reading</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../units/unit-3.html">Unit 3: Maps and Geographic Data</a></li><li class="breadcrumb-item"><a href="../chapters/thematic-maps-tmap.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Thematic Maps with tmap</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Thematic Maps with tmap</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Learning objectives
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>By the end of this chapter you should be able to:</p>
+<ol type="1">
+<li>Load point, line, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-polygon" data-term="polygon">polygon</span> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layers</span> into R with <code>read_sf()</code>, and explain what an <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-sf" data-term="sf">sf</span> object is.</li>
+<li>Build a map in layers with <code>tm_shape()</code> and <code>tm_dots()</code>, <code>tm_lines()</code>, or <code>tm_polygons()</code>.</li>
+<li>Color <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-feature" data-term="feature">features</span> by an <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-attribute" data-term="attribute">attribute</span>, and control the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-classification" data-term="classification">classes</span> with <code>n</code> and <code>style</code>.</li>
+<li>Combine several layers in one map, and add a title, a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-scale-bar" data-term="scale bar">scale bar</span>, and a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-north-arrow" data-term="north arrow">north arrow</span>.</li>
+<li>Switch between static and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-interactive-map" data-term="interactive map">interactive maps</span> with <code>tmap_mode()</code>.</li>
+</ol>
+</div>
+</div>
+<p>The last chapter turned tables into graphs with <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-ggplot2" data-term="ggplot2">ggplot2</span>. This chapter turns them into <em>maps</em>. A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-thematic-map" data-term="thematic map">thematic map</span></strong> shows how one theme, such as tree height, the age of buildings, or the population of cities, varies from place to place. It is the most common kind of map in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-data-science" data-term="spatial data science">spatial data science</span>, and in R the quickest way to make one is the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tmap" data-term="tmap">tmap</span></strong> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-package" data-term="package">package</span>.</p>
+<p>The examples use three layers of data about the UNC Chapel Hill campus: its trees, its sidewalks, and its buildings. Between them they cover the three kinds of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-vector-data" data-term="vector data">vector data</span>, <strong>points</strong>, <strong>lines</strong>, and <strong>polygons</strong>, so by the end of the chapter you will have mapped all three.</p>
+<div class="callout callout-style-simple callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Run this chapter in RStudio
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The code in this chapter needs the tmap and sf packages and data files from your computer, so it doesn’t run in the browser like the code in earlier chapters. Follow along in an <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-r-markdown" data-term="R Markdown">R Markdown</span> file in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-rstudio" data-term="RStudio">RStudio</span>. The maps you see here were made with exactly the code printed above them.</p>
+</div>
+</div>
+<section id="sec-spatial-tidy" class="level2" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="sec-spatial-tidy"><span class="header-section-number">10.1</span> Spatial data are tidy data</h2>
+<section id="features-and-attributes" class="level3" data-number="10.1.1">
+<h3 data-number="10.1.1" class="anchored" data-anchor-id="features-and-attributes"><span class="header-section-number">10.1.1</span> Features and attributes</h3>
+<p>Spatial data follow the same <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tidy-data" data-term="tidy data">tidy</span> rules as any other <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-frame" data-term="data frame">data frame</span>. In a spatial <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layer</span>, each row is one <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-feature" data-term="feature">feature</span></strong>: one tree, one stretch of sidewalk, one building. Each column is one <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-attribute" data-term="attribute">attribute</span></strong> of those features: a tree’s species or height, a building’s year built or number of floors.</p>
+<p>What makes the data spatial is one extra column. The <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-sf" data-term="sf">sf</span></strong> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-package" data-term="package">package</span> (“simple features”) stores each feature’s shape in a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geometry-column" data-term="geometry column">geometry column</span></strong>, as a point, a line, or a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-polygon" data-term="polygon">polygon</span>. Everything else about an sf object is an ordinary data frame. That means the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tidyverse" data-term="tidyverse">tidyverse</span> verbs you already know, such as <code>filter()</code>, <code>mutate()</code>, and <code>count()</code>, work on spatial data too, and they keep the geometry attached to each row.</p>
+</section>
+<section id="tmap-the-thematic-mapper" class="level3" data-number="10.1.2">
+<h3 data-number="10.1.2" class="anchored" data-anchor-id="tmap-the-thematic-mapper"><span class="header-section-number">10.1.2</span> tmap: the thematic mapper</h3>
+<p><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tmap" data-term="tmap">tmap</span></strong> was written by Martin Tennekes. Like <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-ggplot2" data-term="ggplot2">ggplot2</span>, it builds a map in layers, joined with <code>+</code>:</p>
+<ul>
+<li><code>tm_shape()</code> names the data to draw.</li>
+<li>A layer <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-function" data-term="function">function</span> draws it: <code>tm_dots()</code> for points, <code>tm_lines()</code> for lines, and <code>tm_polygons()</code> for polygons.</li>
+<li>More functions add the parts of a finished map: <code>tm_title()</code>, <code>tm_scalebar()</code>, <code>tm_compass()</code>, and <code>tm_layout()</code>.</li>
+</ul>
+<p>tmap reads sf objects directly, and the same code makes a static map for a report or an <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-interactive-map" data-term="interactive map">interactive web map</span> you can zoom into. This book uses <strong>tmap version 4</strong>, which changed many <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-argument" data-term="argument">argument</span> names. If you find older code online that uses <code>col =</code> for polygon colors or <code>tm_layout(title = ...)</code>, it was written for version 3. It will often still run, but tmap prints a message suggesting the new form.</p>
+<p>Load three packages at the top of every <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-r-script" data-term="R script">script</span>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tmap)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="our-data-three-campus-layers" class="level3" data-number="10.1.3">
+<h3 data-number="10.1.3" class="anchored" data-anchor-id="our-data-three-campus-layers"><span class="header-section-number">10.1.3</span> Our data: three campus layers</h3>
+<p>The three layers come from UNC’s open data portal, <a href="https://gisdata-uncadmin.opendata.arcgis.com" class="uri">https://gisdata-uncadmin.opendata.arcgis.com</a> (<a href="#tbl-campus-layers" class="quarto-xref">Table&nbsp;<span>10.1</span></a>). Download each one as a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geojson" data-term="GeoJSON">GeoJSON</span> file and save it in the same folder as your <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-r-markdown" data-term="R Markdown">R Markdown</span> file.</p>
+<div id="tbl-campus-layers" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-campus-layers-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;10.1: The three UNC campus layers.
+</figcaption>
+<div aria-describedby="tbl-campus-layers-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 13%">
+<col style="width: 31%">
+<col style="width: 32%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Layer</th>
+<th style="text-align: left;">Geometry</th>
+<th style="text-align: left;">One feature is</th>
+<th style="text-align: left;">Attributes used here</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Tree Inventory</td>
+<td style="text-align: left;">Points</td>
+<td style="text-align: left;">One campus tree</td>
+<td style="text-align: left;"><code>COMMONNAME</code>, <code>HEIGHT</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Sidewalks</td>
+<td style="text-align: left;">Lines</td>
+<td style="text-align: left;">One sidewalk segment</td>
+<td style="text-align: left;"><code>SURFACE_</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Building Footprints</td>
+<td style="text-align: left;">Polygons</td>
+<td style="text-align: left;">One building outline</td>
+<td style="text-align: left;"><code>YEARBUILT</code>, <code>FLOORS</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p><code>read_sf()</code> reads each file into an sf object:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>buildings <span class="ot">&lt;-</span> <span class="fu">read_sf</span>(<span class="st">"Building_Footprints.geojson"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>sidewalks <span class="ot">&lt;-</span> <span class="fu">read_sf</span>(<span class="st">"Sidewalks.geojson"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>trees <span class="ot">&lt;-</span> <span class="fu">read_sf</span>(<span class="st">"Tree_Inventory.geojson"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Run <code>glimpse(trees)</code> to see the attributes, and check that the last column is <code>geometry</code>. Run <code>st_crs(trees)</code> to see the layer’s <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">coordinate system</span></strong>. GeoJSON files always use <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-longitude" data-term="longitude">longitude</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-latitude" data-term="latitude">latitude</span>, so all three layers share a coordinate system and will line up when you draw them together.</p>
+</section>
+<section id="tmap-and-ggplot2-on-the-same-trees" class="level3" data-number="10.1.4">
+<h3 data-number="10.1.4" class="anchored" data-anchor-id="tmap-and-ggplot2-on-the-same-trees"><span class="header-section-number">10.1.4</span> tmap and ggplot2 on the same trees</h3>
+<p>ggplot2 can draw maps too, with <code>geom_sf()</code>. Here is the same tree layer drawn by each package (<a href="#fig-tmap-ggplot" class="quarto-xref">Figure&nbsp;<span>10.1</span></a>):</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>trees <span class="sc">|&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>() <span class="sc">+</span> <span class="fu">tm_dots</span>()</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>trees <span class="sc">|&gt;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_sf</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-tmap-ggplot" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-tmap-ggplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-tmap-ggplot" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-trees-tmap" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A map of campus trees drawn as small black dots inside a plain rectangular frame, with no axes.">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-trees-tmap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/tmap/trees-tmap.png" class="img-fluid figure-img" data-ref-parent="fig-tmap-ggplot" alt="A map of campus trees drawn as small black dots inside a plain rectangular frame, with no axes.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-trees-tmap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) tmap: <code>tm_shape() + tm_dots()</code>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-tmap-ggplot" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-trees-ggplot" class="quarto-float quarto-figure quarto-figure-center anchored" alt="The same campus trees drawn as black dots on a gray panel with white grid lines, and longitude and latitude labels on the axes.">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-trees-ggplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/tmap/trees-ggplot.png" class="img-fluid figure-img" data-ref-parent="fig-tmap-ggplot" alt="The same campus trees drawn as black dots on a gray panel with white grid lines, and longitude and latitude labels on the axes.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-trees-ggplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) ggplot2: <code>ggplot() + geom_sf()</code>
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-tmap-ggplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10.1: The same trees drawn by tmap and by ggplot2.
+</figcaption>
+</figure>
+</div>
+<p>Both start from the same sf object. tmap gives a clean map frame by default, and has built-in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-scale-bar" data-term="scale bar">scale bars</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-north-arrow" data-term="north arrow">north arrows</span>, and an interactive mode. ggplot2 adds axes and a gray panel, as it would for any plot. ggplot2 is the more general tool, and you can make fine maps with it, but for everyday <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-thematic-map" data-term="thematic map">thematic maps</span> tmap takes less code. The rest of this chapter uses tmap.</p>
+</section>
+</section>
+<section id="sec-points" class="level2" data-number="10.2">
+<h2 data-number="10.2" class="anchored" data-anchor-id="sec-points"><span class="header-section-number">10.2</span> Points: mapping trees with tm_dots()</h2>
+<section id="color-trees-by-height" class="level3" data-number="10.2.1">
+<h3 data-number="10.2.1" class="anchored" data-anchor-id="color-trees-by-height"><span class="header-section-number">10.2.1</span> Color trees by height</h3>
+<p>Each tree in the inventory is one point. To color the trees by height, pass the name of a column to <code>fill</code>, in quotes:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>trees <span class="sc">|&gt;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>() <span class="sc">+</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_dots</span>(<span class="at">fill =</span> <span class="st">"HEIGHT"</span>) <span class="sc">+</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(<span class="at">bg.color =</span> <span class="st">"gray"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-trees-height" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Map of campus trees on a gray background. Each dot is shaded from very pale blue for trees under 20 feet to dark blue for trees 80 to 100 feet tall. A legend headed HEIGHT lists five classes and Missing.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-trees-height-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/tmap/trees-height.png" class="img-fluid figure-img" alt="Map of campus trees on a gray background. Each dot is shaded from very pale blue for trees under 20 feet to dark blue for trees 80 to 100 feet tall. A legend headed HEIGHT lists five classes and Missing.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-trees-height-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10.2: Campus trees colored by height. <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tmap" data-term="tmap">tmap</span> breaks the heights into <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-classification" data-term="classification">classes</span> and colors them from light (short) to dark (tall).
+</figcaption>
+</figure>
+</div>
+<p>Two details matter. First, the column name goes in quotes, <code>fill = "HEIGHT"</code>. (<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-ggplot2" data-term="ggplot2">ggplot2</span>’s <code>aes()</code> takes column names without quotes, but tmap wants them as text.) Second, because <code>HEIGHT</code> is a number, tmap uses a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-sequential-palette" data-term="sequential palette">sequential palette</span></strong>, a ramp from light to dark, so that taller trees look darker. It also breaks the heights into a few <strong>classes</strong>, 0–19, 20–39 and so on, and builds the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-legend" data-term="legend">legend</span>.</p>
+<p><code>tm_layout()</code> controls the map as a whole rather than one <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layer</span>. Here <code>bg.color = "gray"</code> makes the background gray, so the palest dots still show up.</p>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Think about it
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Look at <a href="#fig-trees-height" class="quarto-xref">Figure&nbsp;<span>10.2</span></a>. Where on campus are the tallest trees? Can you think of a reason why?</p>
+</div>
+</div>
+</section>
+<section id="color-trees-by-species" class="level3" data-number="10.2.2">
+<h3 data-number="10.2.2" class="anchored" data-anchor-id="color-trees-by-species"><span class="header-section-number">10.2.2</span> Color trees by species</h3>
+<p>Now try a text column, the species name:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>trees <span class="sc">|&gt;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>() <span class="sc">+</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_dots</span>(<span class="at">fill =</span> <span class="st">"COMMONNAME"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-trees-species" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Map of campus trees with dots in many repeating colors, next to a very long legend headed COMMONNAME that lists dozens of species in small type, from amur maple to zelkova.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-trees-species-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/tmap/trees-all-species.png" class="img-fluid figure-img" alt="Map of campus trees with dots in many repeating colors, next to a very long legend headed COMMONNAME that lists dozens of species in small type, from amur maple to zelkova.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-trees-species-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10.3: Campus trees colored by species. With 158 species, colors repeat and the legend crowds the map.
+</figcaption>
+</figure>
+</div>
+<p>For a text column, tmap uses a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qualitative-palette" data-term="qualitative palette">qualitative palette</span></strong>: distinct colors with no order, one per category. That works for a handful of categories. With 158 species, the colors repeat and the legend takes up as much room as the map, so you can’t tell which tree is which (<a href="#fig-trees-species" class="quarto-xref">Figure&nbsp;<span>10.3</span></a>). There are two fixes: map only the most common species, or lump the rare ones together.</p>
+</section>
+<section id="fix-1-map-only-the-top-five-species" class="level3" data-number="10.2.3">
+<h3 data-number="10.2.3" class="anchored" data-anchor-id="fix-1-map-only-the-top-five-species"><span class="header-section-number">10.2.3</span> Fix 1: map only the top five species</h3>
+<p>First, find the most common species with <code>count()</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>trees <span class="sc">|&gt;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_drop_geometry</span>() <span class="sc">|&gt;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(COMMONNAME, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="tbl-tree-species" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-tree-species-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;10.2: The ten most common values of <code>COMMONNAME</code>.
+</figcaption>
+<div aria-describedby="tbl-tree-species-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">COMMONNAME</th>
+<th style="text-align: right;">n</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">oak</td>
+<td style="text-align: right;">778</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">holly</td>
+<td style="text-align: right;">570</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">loblolly pine</td>
+<td style="text-align: right;">513</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>NA</code></td>
+<td style="text-align: right;">498</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">maple</td>
+<td style="text-align: right;">259</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">willow oak</td>
+<td style="text-align: right;">234</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">pine</td>
+<td style="text-align: right;">229</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">crape myrtle</td>
+<td style="text-align: right;">223</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">hickory</td>
+<td style="text-align: right;">217</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">dogwood</td>
+<td style="text-align: right;">183</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p><code>st_drop_geometry()</code> turns the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-sf" data-term="sf">sf</span> object back into an ordinary <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-frame" data-term="data frame">data frame</span>. That isn’t required, but it makes counting much faster, because otherwise sf tries to merge the points of every species into one shape. Oak, holly, and loblolly pine lead, and 498 trees have no species name (<a href="#tbl-tree-species" class="quarto-xref">Table&nbsp;<span>10.2</span></a>).</p>
+<p>Then <code>filter()</code> to the top five, and map them:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>trees <span class="sc">|&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(COMMONNAME <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"oak"</span>, <span class="st">"holly"</span>, <span class="st">"loblolly pine"</span>, <span class="st">"maple"</span>, <span class="st">"willow oak"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>() <span class="sc">+</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_dots</span>(<span class="at">fill =</span> <span class="st">"COMMONNAME"</span>, <span class="at">size =</span> <span class="fl">0.05</span>) <span class="sc">+</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_title</span>(<span class="st">"UNC Trees"</span>) <span class="sc">+</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(<span class="at">bg.color =</span> <span class="st">"lightgray"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-trees-top-five" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Map titled UNC Trees with a sparse scatter of small colored dots on a light gray background, and a short legend with five species: holly, loblolly pine, maple, oak, and willow oak.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-trees-top-five-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/tmap/trees-top-five.png" class="img-fluid figure-img" alt="Map titled UNC Trees with a sparse scatter of small colored dots on a light gray background, and a short legend with five species: holly, loblolly pine, maple, oak, and willow oak.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-trees-top-five-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10.4: The five most common species. Five colors are easy to tell apart, but most of the trees have gone.
+</figcaption>
+</figure>
+</div>
+<p>Ordinary <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tidyverse" data-term="tidyverse">tidyverse</span> verbs work on sf objects and keep the geometry, so the filtered trees go straight into <code>tm_shape()</code>. <code>size = 0.05</code> sets the size of the dots, and <code>tm_title()</code> adds a title. The legend is readable now, but the map has lost more than half the trees.</p>
+</section>
+<section id="fix-2-group-rare-species-as-other" class="level3" data-number="10.2.4">
+<h3 data-number="10.2.4" class="anchored" data-anchor-id="fix-2-group-rare-species-as-other"><span class="header-section-number">10.2.4</span> Fix 2: group rare species as “other”</h3>
+<p>Instead of dropping the rare species, give them a new label. <code>mutate()</code> makes a new column, <code>name</code>, that keeps the nine most common species and calls everything else “other”:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>top_nine <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"oak"</span>, <span class="st">"willow oak"</span>, <span class="st">"pine"</span>, <span class="st">"crape myrtle"</span>, <span class="st">"hickory"</span>,</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>              <span class="st">"dogwood"</span>, <span class="st">"holly"</span>, <span class="st">"loblolly pine"</span>, <span class="st">"maple"</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>trees <span class="sc">|&gt;</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">name =</span> <span class="fu">if_else</span>(COMMONNAME <span class="sc">%in%</span> top_nine, COMMONNAME, <span class="st">"other"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>() <span class="sc">+</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_dots</span>(<span class="at">fill =</span> <span class="st">"name"</span>, <span class="at">size =</span> <span class="fl">0.05</span>) <span class="sc">+</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_title</span>(<span class="st">"UNC Trees"</span>) <span class="sc">+</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(<span class="at">bg.color =</span> <span class="st">"lightgray"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-trees-other" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Map titled UNC Trees showing all campus trees as small colored dots on a gray background. The legend, headed name, lists crape myrtle, dogwood, hickory, holly, loblolly pine, maple, oak, other, pine, and willow oak.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-trees-other-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/tmap/trees-other.png" class="img-fluid figure-img" alt="Map titled UNC Trees showing all campus trees as small colored dots on a gray background. The legend, headed name, lists crape myrtle, dogwood, hickory, holly, loblolly pine, maple, oak, other, pine, and willow oak.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-trees-other-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10.5: Nine species plus “other”. Every tree stays on the map, and the legend has ten entries.
+</figcaption>
+</figure>
+</div>
+<p><code>if_else(condition, yes, no)</code> checks each tree: if its species is in <code>top_nine</code>, it keeps the name; if not, it becomes “other”. The 498 trees with no name go to “other” too, because <code>NA %in% top_nine</code> is <code>FALSE</code>. Every tree stays on the map, and ten categories keep the legend readable (<a href="#fig-trees-other" class="quarto-xref">Figure&nbsp;<span>10.5</span></a>).</p>
+</section>
+</section>
+<section id="sec-lines" class="level2" data-number="10.3">
+<h2 data-number="10.3" class="anchored" data-anchor-id="sec-lines"><span class="header-section-number">10.3</span> Lines: mapping sidewalks with tm_lines()</h2>
+<section id="draw-the-sidewalk-network" class="level3" data-number="10.3.1">
+<h3 data-number="10.3.1" class="anchored" data-anchor-id="draw-the-sidewalk-network"><span class="header-section-number">10.3.1</span> Draw the sidewalk network</h3>
+<p>The sidewalk <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layer</span> is a network of line segments. <code>tm_lines()</code> is the line version of <code>tm_dots()</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>sidewalks <span class="sc">|&gt;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>() <span class="sc">+</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_lines</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-sidewalks" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Map of the campus sidewalk network drawn as thin black lines, dense in the north of campus and sparser to the south, with gaps between clusters of paths.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sidewalks-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/tmap/sidewalks.png" class="img-fluid figure-img" alt="Map of the campus sidewalk network drawn as thin black lines, dense in the north of campus and sparser to the south, with gaps between clusters of paths.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sidewalks-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10.6: UNC sidewalk segments, one line each, with the default style.
+</figcaption>
+</figure>
+</div>
+<p>With no <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-argument" data-term="argument">arguments</span>, every segment is the same thin black line (<a href="#fig-sidewalks" class="quarto-xref">Figure&nbsp;<span>10.6</span></a>). The gaps on the map are places with no sidewalk <em>data</em>, not places with no pavement: the layer only covers what has been surveyed.</p>
+</section>
+<section id="color-sidewalks-by-surface" class="level3" data-number="10.3.2">
+<h3 data-number="10.3.2" class="anchored" data-anchor-id="color-sidewalks-by-surface"><span class="header-section-number">10.3.2</span> Color sidewalks by surface</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>sidewalks <span class="sc">|&gt;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>() <span class="sc">+</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_lines</span>(<span class="at">col =</span> <span class="st">"SURFACE_"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-sidewalks-surface" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Map of the sidewalk network with each line colored by surface: asphalt, brick, concrete, gravel, pervious pavement, and stone. Pink brick paths dominate the north of campus and blue concrete paths the south.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sidewalks-surface-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/tmap/sidewalks-surface.png" class="img-fluid figure-img" alt="Map of the sidewalk network with each line colored by surface: asphalt, brick, concrete, gravel, pervious pavement, and stone. Pink brick paths dominate the north of campus and blue concrete paths the south.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sidewalks-surface-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10.7: UNC sidewalks colored by surface material. Brick (pink) and concrete (blue) make up most of central campus.
+</figcaption>
+</figure>
+</div>
+<p>A line has no inside to fill, so lines take <code>col =</code> rather than <code>fill =</code>. <code>SURFACE_</code> is a text column, so <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tmap" data-term="tmap">tmap</span> picks a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qualitative-palette" data-term="qualitative palette">qualitative palette</span>. (The underscore at the end of the column name comes from the source data; you must type it exactly.) Brick and concrete make up most of central campus (<a href="#fig-sidewalks-surface" class="quarto-xref">Figure&nbsp;<span>10.7</span></a>).</p>
+</section>
+</section>
+<section id="sec-polygons" class="level2" data-number="10.4">
+<h2 data-number="10.4" class="anchored" data-anchor-id="sec-polygons"><span class="header-section-number">10.4</span> Polygons: mapping buildings with tm_polygons()</h2>
+<section id="draw-the-building-footprints" class="level3" data-number="10.4.1">
+<h3 data-number="10.4.1" class="anchored" data-anchor-id="draw-the-building-footprints"><span class="header-section-number">10.4.1</span> Draw the building footprints</h3>
+<p>Building footprints are areas, so <code>tm_polygons()</code> draws each one with a fill and an outline:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>buildings <span class="sc">|&gt;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>() <span class="sc">+</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_polygons</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-buildings" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Map of campus building outlines, all filled in the same light gray with dark outlines, including the oval of Kenan Memorial Stadium near the center.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-buildings-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/tmap/buildings.png" class="img-fluid figure-img" alt="Map of campus building outlines, all filled in the same light gray with dark outlines, including the oval of Kenan Memorial Stadium near the center.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-buildings-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10.8: UNC building footprints, with the default gray fill.
+</figcaption>
+</figure>
+</div>
+<p>With no <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-argument" data-term="argument">arguments</span>, every building gets the same gray fill (<a href="#fig-buildings" class="quarto-xref">Figure&nbsp;<span>10.8</span></a>). That already shows the shape of campus, before any <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-attribute" data-term="attribute">attribute</span> is mapped.</p>
+</section>
+<section id="shade-buildings-by-year-built" class="level3" data-number="10.4.2">
+<h3 data-number="10.4.2" class="anchored" data-anchor-id="shade-buildings-by-year-built"><span class="header-section-number">10.4.2</span> Shade buildings by year built</h3>
+<p>Map <code>fill</code> to a numeric column, and you have a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-choropleth-map" data-term="choropleth map">choropleth map</span></strong>: areas shaded by a value.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>buildings <span class="sc">|&gt;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>() <span class="sc">+</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_polygons</span>(<span class="at">fill =</span> <span class="st">"YEARBUILT"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-buildings-year" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Map of campus buildings shaded from pale blue for buildings from 1750 to 1799 to dark blue for 2000 to 2050. A few buildings are gray, labeled Missing in the legend.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-buildings-year-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/tmap/buildings-year.png" class="img-fluid figure-img" alt="Map of campus buildings shaded from pale blue for buildings from 1750 to 1799 to dark blue for 2000 to 2050. A few buildings are gray, labeled Missing in the legend.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-buildings-year-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10.9: UNC buildings by year built. By default, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tmap" data-term="tmap">tmap</span> breaks the years into 50-year <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-classification" data-term="classification">classes</span>.
+</figcaption>
+</figure>
+</div>
+<p>By default, tmap chooses “pretty” breaks, round numbers, here 50-year classes from 1750 to 2050 (<a href="#fig-buildings-year" class="quarto-xref">Figure&nbsp;<span>10.9</span></a>). Buildings with no year recorded are drawn gray and labeled <em>Missing</em> in the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-legend" data-term="legend">legend</span>.</p>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Think about it
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Where are the oldest buildings on campus? The newest? What does the map suggest about how the campus grew?</p>
+</div>
+</div>
+</section>
+<section id="control-the-classes-with-n-and-style" class="level3" data-number="10.4.3">
+<h3 data-number="10.4.3" class="anchored" data-anchor-id="control-the-classes-with-n-and-style"><span class="header-section-number">10.4.3</span> Control the classes with n and style</h3>
+<p>How many classes the map uses, and where the breaks between them fall, change what the reader sees. This is called <strong>classification</strong>, and two settings control it:</p>
+<ul>
+<li><strong><code>n</code></strong> sets the number of classes.</li>
+<li><strong><code>style</code></strong> sets the method for choosing the breaks. <code>"equal"</code> makes <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-equal-intervals" data-term="equal intervals">equal intervals</span></strong>: every class covers the same range of values.</li>
+</ul>
+<p>In tmap version 4, both go in a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-scale-in-a-plot-or-map" data-term="scale (in a plot or map)">scale</span></strong> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-function" data-term="function">function</span>, <code>tm_scale_intervals()</code>, given to the <code>fill.scale</code> argument:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>buildings <span class="sc">|&gt;</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>() <span class="sc">+</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_polygons</span>(<span class="at">fill =</span> <span class="st">"YEARBUILT"</span>,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">fill.scale =</span> <span class="fu">tm_scale_intervals</span>(<span class="at">n =</span> <span class="dv">4</span>, <span class="at">style =</span> <span class="st">"equal"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-buildings-equal" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Map of campus buildings in four shades of blue, with a legend headed YEARBUILT listing 1,795 to 1,851, 1,852 to 1,908, 1,910 to 1,966, 1,967 to 2,024, and Missing.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-buildings-equal-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/tmap/buildings-year-equal4.png" class="img-fluid figure-img" alt="Map of campus buildings in four shades of blue, with a legend headed YEARBUILT listing 1,795 to 1,851, 1,852 to 1,908, 1,910 to 1,966, 1,967 to 2,024, and Missing.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-buildings-equal-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10.10: Year built in four equal-interval classes. Each class covers about 57 years, from the oldest building (1795) to the newest (2024).
+</figcaption>
+</figure>
+</div>
+<p>Equal intervals split the range from the oldest building to the newest into four equal parts (<a href="#fig-buildings-equal" class="quarto-xref">Figure&nbsp;<span>10.10</span></a>). You can also write <code>tm_polygons(fill = "YEARBUILT", n = 4, style = "equal")</code>, the shorter form from version 3. It still works, but tmap prints a message suggesting <code>fill.scale</code>. Other styles include <code>"quantile"</code> (the same number of buildings in each class) and <code>"jenks"</code> (<strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-jenks-natural-breaks" data-term="Jenks natural breaks">Jenks natural breaks</span></strong>, which puts the breaks in the biggest gaps between values). Later chapters return to classification, because the choice can change the story a map tells.</p>
+</section>
+</section>
+<section id="sec-combine" class="level2" data-number="10.5">
+<h2 data-number="10.5" class="anchored" data-anchor-id="sec-combine"><span class="header-section-number">10.5</span> Putting a map together</h2>
+<section id="combine-points-lines-and-polygons" class="level3" data-number="10.5.1">
+<h3 data-number="10.5.1" class="anchored" data-anchor-id="combine-points-lines-and-polygons"><span class="header-section-number">10.5.1</span> Combine points, lines, and polygons</h3>
+<p>To draw several <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layers</span> in one map, save each layer as its own object, then add them together with <code>+</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Define independent layers</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>map_buildings <span class="ot">&lt;-</span> buildings <span class="sc">|&gt;</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>() <span class="sc">+</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_polygons</span>(<span class="at">fill =</span> <span class="st">"FLOORS"</span>)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>map_sidewalks <span class="ot">&lt;-</span> sidewalks <span class="sc">|&gt;</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>() <span class="sc">+</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_lines</span>()</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>map_trees <span class="ot">&lt;-</span> trees <span class="sc">|&gt;</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>() <span class="sc">+</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_dots</span>(<span class="at">fill =</span> <span class="st">"HEIGHT"</span>, <span class="at">size =</span> <span class="fl">0.02</span>)</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Add them together, placing buildings first to set the map extent</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>map_buildings <span class="sc">+</span> map_sidewalks <span class="sc">+</span> map_trees <span class="sc">+</span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_title</span>(<span class="st">"UNC Chapel Hill Campus Map"</span>) <span class="sc">+</span></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(<span class="at">bg.color =</span> <span class="st">"#eeeeee"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-campus-layers" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Map titled UNC Chapel Hill Campus Map on a light gray background. Blue building footprints shaded by number of floors sit under black sidewalk lines and small dots for trees. Two legends, FLOORS and HEIGHT, are on the right.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-campus-layers-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/tmap/campus-layers.png" class="img-fluid figure-img" alt="Map titled UNC Chapel Hill Campus Map on a light gray background. Blue building footprints shaded by number of floors sit under black sidewalk lines and small dots for trees. Two legends, FLOORS and HEIGHT, are on the right.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-campus-layers-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10.11: Buildings shaded by number of floors, sidewalks, and trees colored by height, in one map.
+</figcaption>
+</figure>
+</div>
+<p>Each layer draws on top of the ones before it, so put the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-polygon" data-term="polygon">polygons</span> first, then the lines, then the points; otherwise the buildings would cover the trees. The first layer also sets the map’s <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-extent" data-term="extent">extent</span></strong>, the area the map shows. <code>tm_title()</code> and <code>tm_layout()</code> style the whole map, so they go at the end, after all the layers.</p>
+</section>
+<section id="add-a-scale-bar-and-north-arrow" class="level3" data-number="10.5.2">
+<h3 data-number="10.5.2" class="anchored" data-anchor-id="add-a-scale-bar-and-north-arrow"><span class="header-section-number">10.5.2</span> Add a scale bar and north arrow</h3>
+<p>A reader expects a finished map to have a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-scale-bar" data-term="scale bar">scale bar</span> and a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-north-arrow" data-term="north arrow">north arrow</span>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>map_buildings <span class="sc">+</span> map_sidewalks <span class="sc">+</span> map_trees <span class="sc">+</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_title</span>(<span class="st">"UNC Chapel Hill Campus Map"</span>) <span class="sc">+</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(<span class="at">bg.color =</span> <span class="st">"#eeeeee"</span>) <span class="sc">+</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_scalebar</span>(<span class="at">position =</span> <span class="fu">c</span>(<span class="st">"left"</span>, <span class="st">"bottom"</span>)) <span class="sc">+</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_compass</span>(<span class="at">type =</span> <span class="st">"8star"</span>, <span class="at">position =</span> <span class="fu">c</span>(<span class="fl">0.7</span>, <span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-campus-scalebar" class="quarto-float quarto-figure quarto-figure-center anchored" alt="The campus map from the previous figure with a scale bar reading 0 to 600 meters in the bottom left corner and a large eight-pointed compass star marked N in the top right corner.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-campus-scalebar-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/tmap/campus-scalebar.png" class="img-fluid figure-img" alt="The campus map from the previous figure with a scale bar reading 0 to 600 meters in the bottom left corner and a large eight-pointed compass star marked N in the top right corner.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-campus-scalebar-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10.12: The campus map with a scale bar at the bottom left and an eight-pointed north arrow at the top.
+</figcaption>
+</figure>
+</div>
+<p><code>tm_scalebar()</code> adds a <strong>scale bar</strong>, which shows how distances on the map relate to distances on the ground. <code>tm_compass()</code> adds a <strong>north arrow</strong>; <code>type = "8star"</code> is one of several styles. <code>position</code> places each one, either by name, such as <code>c("left", "bottom")</code>, or by numbers from 0 to 1 that give the share of the way across and up the map frame. Put them where they don’t cover any data.</p>
+</section>
+<section id="static-or-interactive-tmap_mode" class="level3" data-number="10.5.3">
+<h3 data-number="10.5.3" class="anchored" data-anchor-id="static-or-interactive-tmap_mode"><span class="header-section-number">10.5.3</span> Static or interactive: tmap_mode()</h3>
+<p><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tmap" data-term="tmap">tmap</span> has two modes, and the same code works in both:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_mode</span>(<span class="st">"view"</span>)   <span class="co"># interactive web map</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_mode</span>(<span class="st">"plot"</span>)   <span class="co"># static map (the default)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-view-mode" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Screenshot of RStudio's Viewer pane showing the campus map as an interactive web map on a light gray street basemap, with zoom buttons and a layer button at the top left and the HEIGHT and FLOORS legends on the right.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-view-mode-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/tmap/campus-view-mode.png" class="img-fluid figure-img" alt="Screenshot of RStudio's Viewer pane showing the campus map as an interactive web map on a light gray street basemap, with zoom buttons and a layer button at the top left and the HEIGHT and FLOORS legends on the right.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-view-mode-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10.13: The campus map in view mode, in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-rstudio" data-term="RStudio">RStudio</span>’s Viewer pane. You can pan, zoom, and click a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-feature" data-term="feature">feature</span> to see its <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-attribute" data-term="attribute">attributes</span>.
+</figcaption>
+</figure>
+</div>
+<p>After <code>tmap_mode("view")</code>, every map becomes an <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-interactive-map" data-term="interactive map">interactive map</span></strong> on top of a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-basemap" data-term="basemap">basemap</span></strong> of streets and place names (<a href="#fig-view-mode" class="quarto-xref">Figure&nbsp;<span>10.13</span></a>). You can pan, zoom, and click on any feature to see its attributes. It is the best way to explore your data. The basemap tiles load from the web, so view mode needs an internet connection. <code>tmap_mode("plot")</code> switches back to static maps, which are what you want for reports, slides, and anything printed.</p>
+</section>
+</section>
+<section id="sec-world-practice" class="level2" data-number="10.6">
+<h2 data-number="10.6" class="anchored" data-anchor-id="sec-world-practice"><span class="header-section-number">10.6</span> Practice: map the world</h2>
+<p>These steps follow the in-class exercise. <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tmap" data-term="tmap">tmap</span> comes with three world <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layers</span>, so you don’t need to download anything.</p>
+<p><strong>Step 1: set up.</strong> Start a new <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-r-markdown" data-term="R Markdown">R Markdown</span> file, and load the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-package" data-term="package">packages</span> and data:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tmap)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(World)</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(metro)</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(rivers)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Step 2: look at the data.</strong> Use <code>glimpse()</code> on <code>World</code>, <code>rivers</code>, and <code>metro</code>. Which is a point layer, which is a line layer, and which is a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-polygon" data-term="polygon">polygon</span> layer? Which column of <code>metro</code> holds the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-map-projection" data-term="map projection">projected</span> population in 2030?</p>
+<p><strong>Step 3: make the map.</strong> Make one tmap that shows the countries, rivers, and metro areas. As a stretch, size the metro areas by their projected 2030 population.</p>
+<div class="webex-solution">
+<button>
+Show one solution
+</button>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Create individual maps</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>map_rivers <span class="ot">&lt;-</span> rivers <span class="sc">|&gt;</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>() <span class="sc">+</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_lines</span>(<span class="at">col =</span> <span class="st">"lightblue"</span>, <span class="at">lwd =</span> <span class="fl">0.7</span>)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>map_metro <span class="ot">&lt;-</span> metro <span class="sc">|&gt;</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>() <span class="sc">+</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_bubbles</span>(<span class="at">size =</span> <span class="st">"pop2030"</span>, <span class="at">fill =</span> <span class="st">"orange"</span>)</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>map_world <span class="ot">&lt;-</span> World <span class="sc">|&gt;</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>() <span class="sc">+</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_polygons</span>(<span class="at">fill =</span> <span class="st">"name"</span>, <span class="at">fill.legend =</span> <span class="fu">tm_legend_hide</span>())</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Plot all the layers together</span></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>map_world <span class="sc">+</span> map_rivers <span class="sc">+</span> map_metro <span class="sc">+</span></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_title</span>(<span class="st">"2030 Projected Metro Population"</span>) <span class="sc">+</span></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(<span class="at">bg.color =</span> <span class="st">"lightblue"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-world-metro" class="quarto-float quarto-figure quarto-figure-center anchored" alt="World map titled 2030 Projected Metro Population on a light blue background. Countries are filled in many colors, rivers are thin light blue lines, and metro areas are orange circles sized by population, with the largest in South and East Asia. A legend headed pop2030 shows circles for 10, 20, 30, and 40 million.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-world-metro-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/tmap/world-metro-2030.png" class="img-fluid figure-img" alt="World map titled 2030 Projected Metro Population on a light blue background. Countries are filled in many colors, rivers are thin light blue lines, and metro areas are orange circles sized by population, with the largest in South and East Asia. A legend headed pop2030 shows circles for 10, 20, 30, and 40 million.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-world-metro-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10.14: Metro areas sized by projected 2030 population, over the world’s countries and rivers.
+</figcaption>
+</figure>
+</div>
+<p>The layers go in order: countries first, then rivers, then the metro bubbles on top. <code>tm_bubbles()</code> draws circles sized by a column, here <code>pop2030</code>. Notice the difference between <em><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-setting-an-aesthetic" data-term="setting an aesthetic">setting</span></em> and <em>mapping</em>, just as in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-ggplot2" data-term="ggplot2">ggplot2</span>: <code>fill = "orange"</code> is a color, so every bubble is orange, while <code>size = "pop2030"</code> is a column, so the size comes from the data. Filling the countries by <code>name</code> gives each one its own color, and <code>fill.legend = tm_legend_hide()</code> hides the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-legend" data-term="legend">legend</span>, which would otherwise list 177 countries.</p>
+</div>
+</section>
+<section id="check-your-understanding" class="level2" data-number="10.7">
+<h2 data-number="10.7" class="anchored" data-anchor-id="check-your-understanding"><span class="header-section-number">10.7</span> Check your understanding</h2>
+<ol type="1">
+<li><p>In an sf object, each row is one: <select class="webex-select"><option value="blank"></option><option value="">Attribute</option><option value="answer">Feature</option><option value="">Coordinate</option><option value="">Layer</option></select></p></li>
+<li><p>Which tmap function names the data to draw, at the start of each layer? <input class="webex-solveme nospaces" size="10" data-answer="[&quot;tm_shape&quot;,&quot;tm_shape()&quot;]"></p></li>
+<li><p>Which layer function draws polygons? <select class="webex-select"><option value="blank"></option><option value="">tm_dots()</option><option value="">tm_lines()</option><option value="answer">tm_polygons()</option><option value="">tm_shape()</option></select></p></li>
+<li><p>To color sidewalk lines by a column, you use <code>col =</code> rather than <code>fill =</code>, because a line has no inside to fill. <select class="webex-select"><option value="blank"></option><option value="answer">TRUE</option><option value="NA">FALSE</option></select></p></li>
+<li><p>For a numeric column such as <code>HEIGHT</code>, tmap’s default colors are a: <select class="webex-select"><option value="blank"></option><option value="">Qualitative palette, one color per value</option><option value="answer">Sequential palette, from light to dark</option><option value="">Single color</option><option value="">Random set of colors</option></select></p></li>
+<li><p>In <code>tm_scale_intervals(n = 4, style = "equal")</code>, what does <code>n</code> set? <select class="webex-select"><option value="blank"></option><option value="">The size of the dots</option><option value="answer">The number of classes</option><option value="">The number of layers</option><option value="">The number of the north arrow style</option></select></p></li>
+<li><p>When you add layers together, the first layer sets the extent of the map. <select class="webex-select"><option value="blank"></option><option value="answer">TRUE</option><option value="NA">FALSE</option></select></p></li>
+<li><p>Which function adds a north arrow? <select class="webex-select"><option value="blank"></option><option value="">tm_scalebar()</option><option value="answer">tm_compass()</option><option value="">tm_title()</option><option value="">tm_layout()</option></select></p></li>
+<li><p>Which mode makes an interactive map that you can pan and zoom? <select class="webex-select"><option value="blank"></option><option value="">tmap_mode(“plot”)</option><option value="answer">tmap_mode(“view”)</option><option value="">tmap_mode(“web”)</option><option value="">tmap_mode(“static”)</option></select></p></li>
+</ol>
+<div class="webex-solution">
+<button>
+Show hint for question 4
+</button>
+<p><code>fill</code> colors the inside of a dot or a polygon. A line is only an outline, so tmap colors it with <code>col</code>, the same name ggplot2 uses for the color of lines and outlines.</p>
+</div>
+</section>
+<section id="summary" class="level2" data-number="10.8">
+<h2 data-number="10.8" class="anchored" data-anchor-id="summary"><span class="header-section-number">10.8</span> Summary</h2>
+<ul>
+<li>An <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-sf" data-term="sf">sf</span></strong> object is a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tidy-data" data-term="tidy data">tidy data</span> frame of spatial <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-feature" data-term="feature">features</span></strong>, one per row, with their <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-attribute" data-term="attribute">attributes</span></strong> in the columns and their shapes in a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geometry-column" data-term="geometry column">geometry column</span></strong>. Read a file into one with <code>read_sf()</code>.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tmap" data-term="tmap">tmap</span></strong> builds a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-thematic-map" data-term="thematic map">thematic map</span></strong> in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layers</span>: <code>tm_shape()</code> names the data, and <code>tm_dots()</code>, <code>tm_lines()</code>, or <code>tm_polygons()</code> draws it. Layers are joined with <code>+</code>.</li>
+<li>Color features by an attribute with <code>fill = "column"</code> (dots and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-polygon" data-term="polygon">polygons</span>) or <code>col = "column"</code> (lines). Numbers get a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-sequential-palette" data-term="sequential palette">sequential palette</span></strong>; text gets a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qualitative-palette" data-term="qualitative palette">qualitative palette</span></strong>.</li>
+<li>Too many categories make a map unreadable: <code>filter()</code> to the most common, or lump the rest together with <code>mutate()</code> and <code>if_else()</code>.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-classification" data-term="classification">Classification</span></strong> decides how many classes a map uses and where the breaks fall: <code>fill.scale = tm_scale_intervals(n = 4, style = "equal")</code>.</li>
+<li>Combine layers with <code>+</code>, with polygons first and points last. Finish with <code>tm_title()</code>, <code>tm_scalebar()</code>, <code>tm_compass()</code>, and <code>tm_layout()</code>.</li>
+<li><code>tmap_mode("view")</code> makes interactive web maps for exploring; <code>tmap_mode("plot")</code> makes static maps for reports.</li>
+</ul>
+</section>
+<section id="exercises" class="level2" data-number="10.9">
+<h2 data-number="10.9" class="anchored" data-anchor-id="exercises"><span class="header-section-number">10.9</span> Exercises</h2>
+<p>Use the three campus <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layers</span> for exercises 1 to 4, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tmap" data-term="tmap">tmap</span>’s <code>World</code> data for 5 and 6.</p>
+<ol type="1">
+<li><strong>Floors.</strong> Make a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-choropleth-map" data-term="choropleth map">choropleth map</span> of the buildings, shaded by <code>FLOORS</code>. Then try <code>n = 3</code> and <code>n = 7</code>. Which do you find easiest to read?</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-classification" data-term="classification">Classification</span> styles.</strong> Map <code>YEARBUILT</code> with <code>style = "equal"</code>, <code>"quantile"</code>, and <code>"jenks"</code>, each with five classes. How do the breaks differ? Which map makes campus look oldest?</li>
+<li><strong>One species.</strong> Map only the willow oaks, as dots on top of the building footprints. Give the map a title, a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-scale-bar" data-term="scale bar">scale bar</span>, and a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-north-arrow" data-term="north arrow">north arrow</span>.</li>
+<li><strong>Sidewalk lengths.</strong> How many sidewalk segments are made of each surface? Use <code>st_drop_geometry()</code> and <code>count()</code>. Then try <code>st_length()</code> inside <code>mutate()</code> to find the total length of each surface. Is the answer different?</li>
+<li><strong>A world choropleth.</strong> <code>World</code> has a column called <code>life_exp</code>, life expectancy. Make a choropleth of it with five classes. Which regions stand out?</li>
+<li><strong>Explore.</strong> Switch to <code>tmap_mode("view")</code> and draw your map from exercise 5. Click on a few countries. Then switch back with <code>tmap_mode("plot")</code>.</li>
+</ol>
+</section>
+<section id="further-reading" class="level2" data-number="10.10">
+<h2 data-number="10.10" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">10.10</span> Further reading</h2>
+<ul>
+<li>The <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tmap" data-term="tmap">tmap</span> website, <a href="https://r-tmap.github.io/tmap/" class="uri">https://r-tmap.github.io/tmap/</a>, has a getting-started guide and many examples, all in version 4 <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-syntax" data-term="syntax">syntax</span>.</li>
+<li><em>Geocomputation with R</em> (2nd ed.), by Robin Lovelace, Jakub Nowosad, and Jannes Muenchow, free at <a href="https://r.geocompx.org" class="uri">https://r.geocompx.org</a>. Its “Making maps with R” chapter covers tmap in depth, including faceted and animated maps.</li>
+<li>The <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-sf" data-term="sf">sf</span> website, <a href="https://r-spatial.github.io/sf/" class="uri">https://r-spatial.github.io/sf/</a>, explains simple <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-feature" data-term="feature">features</span> and has a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cheatsheet" data-term="cheatsheet">cheatsheet</span> for its <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-function" data-term="function">functions</span>.</li>
+</ul>
+
+
+<div class="glossary-defs" hidden="">
+<span id="gloss-polygon">A closed shape that represents an area, such as a county, a lake, or a
+census tract.</span>
+<span id="gloss-layer">One piece of a plot or map, added with <code>+</code> and drawn on top
+of the layers before it. In GIS, a layer holds one theme of features,
+such as roads or soils.</span>
+<span id="gloss-sf">“Simple features”: the R package for spatial vector data. An sf object
+is a data frame with a geometry column holding each row’s point, line,
+or polygon.</span>
+<span id="gloss-feature">One spatial object in a layer of data, such as one tree, one sidewalk
+segment, or one building. In an sf object, each row is a feature.</span>
+<span id="gloss-attribute">A non-spatial fact about a spatial feature, such as a tree’s species or
+a building’s year built. Attributes are the columns of a layer’s
+attribute table.</span>
+<span id="gloss-classification">Dividing a numeric variable into a few classes for a map, by choosing
+how many classes there are and where the breaks between them fall.</span>
+<span id="gloss-scale-bar">A bar on a map that shows how distances on the map relate to distances
+on the ground.</span>
+<span id="gloss-north-arrow">A symbol on a map that shows which direction is north. In tmap,
+<code>tm_compass()</code>.</span>
+<span id="gloss-interactive-map">A web map you can pan, zoom, and click to see each feature’s attributes.
+tmap makes one in view mode.</span>
+<span id="gloss-ggplot2">The tidyverse package for making plots and maps by adding layers.</span>
+<span id="gloss-thematic-map">A map that shows how one theme, such as income, tree height, or building
+age, varies from place to place.</span>
+<span id="gloss-spatial-data-science">The use of data that have a location attached to answer questions about
+the world. It combines what we study (the <em>spatial</em>), how we
+handle it (<em>data</em> skills), and how we ask and answer questions
+(<em>science</em>).</span>
+<span id="gloss-tmap">An R package for making thematic maps quickly, with sensible defaults.</span>
+<span id="gloss-package">A bundle of code, written by other users, that adds new functions to R.
+Install it once with <code>install.packages()</code>, then load it in
+each session with <code>library()</code>.</span>
+<span id="gloss-vector-data">Spatial data stored as points, lines, and polygons, each with a table of
+attributes. In R, the <strong>sf</strong> package handles vector data.</span>
+<span id="gloss-r-markdown">A document format (<code>.Rmd</code>) that mixes formatted text with
+chunks of R code. Knitting it runs the code and builds a finished
+report.</span>
+<span id="gloss-rstudio">The integrated development environment (IDE) where you write and run R.
+R does the computing; RStudio is the workspace around it.</span>
+<span id="gloss-tidy-data">Data arranged so that each variable is a column, each observation is a
+row, and each value has its own cell.</span>
+<span id="gloss-data-frame">R’s table: rows are observations and columns are variables. A tibble is
+the tidyverse’s version of a data frame.</span>
+<span id="gloss-geometry-column">The column of an sf object that holds each feature’s shape: a point, a
+line, or a polygon.</span>
+<span id="gloss-tidyverse">A family of R packages (including <strong>dplyr</strong>,
+<strong>ggplot2</strong>, and <strong>readr</strong>) for reading,
+cleaning, reshaping, summarizing, and plotting data, all designed to
+work together.</span>
+<span id="gloss-function">Code that takes inputs (arguments), does a job, and returns an output,
+such as <code>mean(temps)</code>.</span>
+<span id="gloss-argument">An input to a function, written inside its parentheses.</span>
+<span id="gloss-r-script">A plain file of R code, ending in <code>.R</code>. Anything that isn’t
+code must be written as a comment.</span>
+<span id="gloss-geojson">An open, plain-text format for vector features, written in JSON.
+Coordinates are longitude first, then latitude, in WGS84.</span>
+<span id="gloss-coordinate-system">The rules that tie coordinates to places on the Earth, including how the
+round Earth is flattened onto a map (the projection). Layers must share
+a coordinate system before you can combine them.</span>
+<span id="gloss-longitude">The angle east or west of the Prime Meridian, from 0° to 180°. Lines of
+equal longitude are meridians.</span>
+<span id="gloss-latitude">The angle north or south of the Equator, from 0° to 90°. Lines of equal
+latitude are parallels.</span>
+<span id="gloss-sequential-palette">Colors that run from light to dark, used for numbers so that bigger
+values look darker.</span>
+<span id="gloss-legend">The key that explains what the colors, sizes, or shapes on a plot or map
+mean. ggplot2 and tmap build one for every mapped aesthetic.</span>
+<span id="gloss-qualitative-palette">Distinct colors with no order, one per category, used for text columns
+such as species names.</span>
+<span id="gloss-choropleth-map">A map that shades areas, such as counties or buildings, by the value of
+a variable.</span>
+<span id="gloss-equal-intervals">A classification method that makes every class cover the same range of
+values.</span>
+<span id="gloss-scale-in-a-plot-or-map">The rules that turn data values into visual values: which colors, which
+classes, which axis breaks. Every mapped aesthetic has one, and
+functions such as <code>scale_fill_manual()</code> or
+<code>tm_scale_intervals()</code> change it.</span>
+<span id="gloss-jenks-natural-breaks">A way of dividing values into map classes that puts the breaks where the
+gaps between values are largest, so similar values share a color.</span>
+<span id="gloss-extent">The area a map or a layer covers, from its westernmost to easternmost
+and southernmost to northernmost points.</span>
+<span id="gloss-basemap">A background map of streets, places, or imagery, loaded from the web as
+tiles, that your own data are drawn on top of.</span>
+<span id="gloss-map-projection">A method for flattening the curved graticule onto a flat map. Every
+projection distorts shape, area, distance, or direction.</span>
+<span id="gloss-setting-an-aesthetic">Giving every mark the same fixed value, outside <code>aes()</code>, as
+in <code>geom_point(color = "blue")</code>. It is a design choice, not a
+data choice.</span>
+<span id="gloss-syntax">The exact rules for writing code: spelling, capitalization, commas,
+quotation marks, and matching brackets.</span>
+<span id="gloss-cheatsheet">A one-page summary of a package or tool. Posit publishes them for dplyr,
+ggplot2, RStudio, and more.</span>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script>
+
+/* update total correct if #webex-total_correct exists */
+update_total_correct = function() {
+  console.log("webex: update total_correct");
+
+  var t = document.getElementsByClassName("webex-total_correct");
+  for (var i = 0; i < t.length; i++) {
+    p = t[i].parentElement;
+    var correct = p.getElementsByClassName("webex-correct").length;
+    var solvemes = p.getElementsByClassName("webex-solveme").length;
+    var radiogroups = p.getElementsByClassName("webex-radiogroup").length;
+    var selects = p.getElementsByClassName("webex-select").length;
+
+    t[i].innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  }
+}
+
+/* webex-solution button toggling function */
+b_func = function() {
+  console.log("webex: toggle hide");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('open')) {
+    cl.remove("open");
+  } else {
+    cl.add("open");
+  }
+}
+
+/* check answers */
+check_func = function() {
+  console.log("webex: check answers");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('unchecked')) {
+    cl.remove("unchecked");
+    this.innerHTML = "Hide Answers";
+  } else {
+    cl.add("unchecked");
+    this.innerHTML = "Show Answers";
+  }
+}
+
+/* function for checking solveme answers */
+solveme_func = function(e) {
+  console.log("webex: check solveme");
+
+  var real_answers = JSON.parse(this.dataset.answer);
+  var my_answer = this.value;
+  var cl = this.classList;
+  if (cl.contains("ignorecase")) {
+    my_answer = my_answer.toLowerCase();
+  }
+  if (cl.contains("nospaces")) {
+    my_answer = my_answer.replace(/ /g, "")
+  }
+
+  if (my_answer == "") {
+    cl.remove("webex-correct");
+    cl.remove("webex-incorrect");
+  } else if (real_answers.includes(my_answer)) {
+    cl.add("webex-correct");
+    cl.remove("webex-incorrect");
+  } else {
+    cl.add("webex-incorrect");
+    cl.remove("webex-correct");
+  }
+
+  // match numeric answers within a specified tolerance
+  if(this.dataset.tol > 0){
+    var tol = JSON.parse(this.dataset.tol);
+    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+    if (matches.reduce((a, b) => a + b, 0) > 0) {
+      cl.add("webex-correct");
+    } else {
+      cl.remove("webex-correct");
+    }
+  }
+
+  // added regex bit
+  if (cl.contains("regex")){
+    answer_regex = RegExp(real_answers.join("|"))
+    if (answer_regex.test(my_answer)) {
+      cl.add("webex-correct");
+    }
+  }
+
+  update_total_correct();
+}
+
+/* function for checking select answers */
+select_func = function(e) {
+  console.log("webex: check select");
+
+  var cl = this.classList
+
+  /* add style */
+  cl.remove("webex-incorrect");
+  cl.remove("webex-correct");
+  if (this.value == "answer") {
+    cl.add("webex-correct");
+  } else if (this.value != "blank") {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+/* function for checking radiogroups answers */
+radiogroups_func = function(e) {
+  console.log("webex: check radiogroups");
+
+  var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
+  var cl = checked_button.parentElement.classList;
+  var labels = checked_button.parentElement.parentElement.children;
+
+  /* get rid of styles */
+  for (i = 0; i < labels.length; i++) {
+    labels[i].classList.remove("webex-incorrect");
+    labels[i].classList.remove("webex-correct");
+  }
+
+  /* add style */
+  if (checked_button.value == "answer") {
+    cl.add("webex-correct");
+  } else {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+window.onload = function() {
+  console.log("webex onload");
+  /* set up solution buttons */
+  var buttons = document.getElementsByTagName("button");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].parentElement.classList.contains('webex-solution')) {
+      buttons[i].onclick = b_func;
+    }
+  }
+
+  var check_sections = document.getElementsByClassName("webex-check");
+  console.log("check:", check_sections.length);
+  for (var i = 0; i < check_sections.length; i++) {
+    check_sections[i].classList.add("unchecked");
+
+    let btn = document.createElement("button");
+    btn.innerHTML = "Show Answers";
+    btn.classList.add("webex-check-button");
+    btn.onclick = check_func;
+    check_sections[i].appendChild(btn);
+
+    let spn = document.createElement("span");
+    spn.classList.add("webex-total_correct");
+    check_sections[i].appendChild(spn);
+  }
+
+  /* set up webex-solveme inputs */
+  var solveme = document.getElementsByClassName("webex-solveme");
+
+  for (var i = 0; i < solveme.length; i++) {
+    /* make sure input boxes don't auto-anything */
+    solveme[i].setAttribute("autocomplete","off");
+    solveme[i].setAttribute("autocorrect", "off");
+    solveme[i].setAttribute("autocapitalize", "off");
+    solveme[i].setAttribute("spellcheck", "false");
+    solveme[i].value = "";
+
+    /* adjust answer for ignorecase or nospaces */
+    var cl = solveme[i].classList;
+    var real_answer = solveme[i].dataset.answer;
+    if (cl.contains("ignorecase")) {
+      real_answer = real_answer.toLowerCase();
+    }
+    if (cl.contains("nospaces")) {
+      real_answer = real_answer.replace(/ /g, "");
+    }
+    solveme[i].dataset.answer = real_answer;
+
+    /* attach checking function */
+    solveme[i].onkeyup = solveme_func;
+    solveme[i].onchange = solveme_func;
+
+    solveme[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  /* set up radiogroups */
+  var radiogroups = document.getElementsByClassName("webex-radiogroup");
+  for (var i = 0; i < radiogroups.length; i++) {
+    radiogroups[i].onchange = radiogroups_func;
+  }
+
+  /* set up selects */
+  var selects = document.getElementsByClassName("webex-select");
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].onchange = select_func;
+    selects[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  update_total_correct();
+}
+
+</script>
+<!--
+  Highlights the right item in the top menu. Quarto's book layout marks
+  "Welcome" as active on every page, so this sets it from the page address:
+  the course pages match their own item, and every other page (chapters,
+  quizzes, glossary) is part of the Textbook. Pages with no menu item of
+  their own (the AI policy and privacy policy) highlight nothing.
+-->
+<script>
+(function () {
+  "use strict";
+  const COURSE_PAGES = ["index", "syllabus", "materials", "about"];
+  const NO_ITEM_PAGES = ["privacy", "ai-policy"];
+  const file = (location.pathname.split("/").pop() || "index").replace(/\.html$/, "");
+  const inRoot = !/\/chapters\//.test(location.pathname);
+  const target = inRoot && NO_ITEM_PAGES.includes(file) ? null
+    : inRoot && COURSE_PAGES.includes(file) ? file : "preface";
+  document.querySelectorAll("#navbarCollapse a.nav-link").forEach((a) => {
+    const page = (a.getAttribute("href") || "").split("/").pop().replace(/\.html$/, "");
+    const on = page === target;
+    a.classList.toggle("active", on);
+    if (on) a.setAttribute("aria-current", "page");
+    else a.removeAttribute("aria-current");
+  });
+})();
+</script>
+<!--
+  Reading settings, part 2 of 2: the "Aa" menu next to search, where readers
+  pick a font and text size. Choices are kept in this browser (localStorage)
+  and applied on every page by assets/reader-settings-head.html.
+-->
+<script>
+(function () {
+  var FONTS = [
+    { id: "", label: "Atkinson Hyperlegible (default)", css: '"Atkinson Hyperlegible Next", sans-serif' },
+    { id: "lexend", label: "Lexend", css: '"Lexend", sans-serif', href: "https://fonts.googleapis.com/css2?family=Lexend:wght@300..700&display=swap" },
+    { id: "cardo", label: "Cardo (serif)", css: '"Cardo", Georgia, serif', href: "https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&display=swap" },
+    { id: "sans", label: "Standard sans-serif", css: 'system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif' },
+    { id: "serif", label: "Serif", css: 'Georgia, Cambria, "Times New Roman", serif' },
+    { id: "dyslexic", label: "OpenDyslexic", css: '"OpenDyslexic", sans-serif' }
+  ];
+  var SIZES = { "-1": "Small", "0": "Default", "1": "Large", "2": "Larger", "3": "Largest" };
+  var MIN = -1, MAX = 3;
+  var root = document.documentElement;
+
+  function save(key, value) {
+    try {
+      if (value === "" || value === "0") localStorage.removeItem(key);
+      else localStorage.setItem(key, value);
+    } catch (e) { /* storage blocked: setting lasts for this page only */ }
+  }
+  function currentFont() { return root.getAttribute("data-reader-font") || ""; }
+  function currentSize() { return parseInt(root.getAttribute("data-reader-size") || "0", 10) || 0; }
+
+  // Add a Google Fonts stylesheet once (Lexend, Cardo). Fonts download only
+  // when text actually uses them.
+  function loadWebFont(f) {
+    if (!f.href || document.getElementById("sds-reader-webfont-" + f.id)) return;
+    var link = document.createElement("link");
+    link.rel = "stylesheet"; link.href = f.href; link.id = "sds-reader-webfont-" + f.id;
+    document.head.appendChild(link);
+  }
+
+  function setFont(id) {
+    FONTS.forEach(function (f) { if (f.id === id) loadWebFont(f); });
+    if (id) root.setAttribute("data-reader-font", id); else root.removeAttribute("data-reader-font");
+    save("sds-reader-font", id);
+  }
+  function setSize(n) {
+    n = Math.max(MIN, Math.min(MAX, n));
+    if (n) root.setAttribute("data-reader-size", String(n)); else root.removeAttribute("data-reader-size");
+    save("sds-reader-size", String(n));
+    refreshSize();
+  }
+
+  var wrap = document.createElement("div");
+  wrap.className = "sds-reader";
+  var fontOptions = FONTS.map(function (f) {
+    return '<label style=\'font-family:' + f.css.replace(/'/g, "&#39;") + '\'>' +
+      '<input class="form-check-input" type="radio" name="sds-reader-font" value="' + f.id + '"> ' + f.label + '</label>';
+  }).join("");
+  wrap.innerHTML =
+    '<button type="button" class="sds-reader-toggle" aria-expanded="false" aria-controls="sds-reader-panel" ' +
+      'title="Reading settings: font and text size">' +
+      '<span aria-hidden="true">Aa</span><span class="visually-hidden">Reading settings</span></button>' +
+    '<div class="sds-reader-panel" id="sds-reader-panel" role="dialog" aria-label="Reading settings" hidden>' +
+      '<h2>Reading settings</h2>' +
+      '<fieldset class="sds-reader-font"><legend>Font</legend>' + fontOptions + '</fieldset>' +
+      '<fieldset><legend>Text size</legend><div class="sds-reader-size-row">' +
+        '<button type="button" data-step="-1" aria-label="Smaller text">A&minus;</button>' +
+        '<output aria-live="polite"></output>' +
+        '<button type="button" data-step="1" aria-label="Larger text">A+</button>' +
+      '</div></fieldset>' +
+      '<button type="button" class="sds-reader-reset">Reset to defaults</button>' +
+    '</div>';
+
+  var toggle = wrap.querySelector(".sds-reader-toggle");
+  var panel = wrap.querySelector(".sds-reader-panel");
+  var output = wrap.querySelector("output");
+  var minus = wrap.querySelector('[data-step="-1"]');
+  var plus = wrap.querySelector('[data-step="1"]');
+
+  function refreshFont() {
+    var id = currentFont();
+    wrap.querySelectorAll('input[name="sds-reader-font"]').forEach(function (r) { r.checked = r.value === id; });
+  }
+  function refreshSize() {
+    var n = currentSize();
+    output.textContent = SIZES[String(n)] || "Default";
+    minus.disabled = n <= MIN;
+    plus.disabled = n >= MAX;
+  }
+  function open(show) {
+    panel.hidden = !show;
+    toggle.setAttribute("aria-expanded", show ? "true" : "false");
+    if (show) { FONTS.forEach(loadWebFont); refreshFont(); refreshSize(); var c = panel.querySelector("input:checked"); if (c) c.focus(); }
+  }
+
+  toggle.addEventListener("click", function (e) { e.stopPropagation(); open(panel.hidden); });
+  panel.addEventListener("click", function (e) { e.stopPropagation(); });
+  panel.addEventListener("change", function (e) { if (e.target.name === "sds-reader-font") setFont(e.target.value); });
+  minus.addEventListener("click", function () { setSize(currentSize() - 1); });
+  plus.addEventListener("click", function () { setSize(currentSize() + 1); });
+  wrap.querySelector(".sds-reader-reset").addEventListener("click", function () { setFont(""); setSize(0); refreshFont(); });
+  document.addEventListener("click", function () { if (!panel.hidden) open(false); });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !panel.hidden) { open(false); toggle.focus(); }
+  });
+
+  // Put the button by search: in the top menu on
+  // geog215.org, or by the sidebar search in the textbook-only build.
+  var navSearch = document.querySelector("#quarto-header #quarto-search");
+  if (navSearch) navSearch.parentNode.insertBefore(wrap, navSearch);
+  else {
+    var search = document.querySelector("#quarto-sidebar .sidebar-search, #quarto-sidebar #quarto-search, .sidebar-tools-main");
+    if (search && search.parentNode) search.parentNode.insertBefore(wrap, search.nextSibling);
+    else return;
+  }
+  refreshFont();
+  refreshSize();
+})();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
+  <div class="nav-page nav-page-previous">
+      <a href="../units/unit-3.html" class="pagination-link" aria-label="Unit 3: Maps and Geographic Data">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Unit 3: Maps and Geographic Data</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../chapters/thematic-maps-tmap-quiz.html" class="pagination-link" aria-label="Chapter quiz: Thematic Maps with tmap">
+        <span class="nav-page-text">Chapter quiz: Thematic Maps with tmap</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
