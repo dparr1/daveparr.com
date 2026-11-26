@@ -5,16 +5,13 @@
   A quiz page holds  <div class="sds-quiz" data-bank="../quizzes/<chapter>.json">
   and loads this script and quiz.css. The bank (see quizzes/README.md) lists
   20-30 questions; each session asks `perSession` of them (default 10) at
-  random, with at least `minR` R questions (default 3) when the bank has them.
+  random.
   A unit quiz bank (quizzes/unit-N.json) lists chapter banks instead of
   questions and draws evenly from all of them (see getUnitBank and pickAcross).
 
   Results are saved through window.sdsProgress, which the geog370.org sign-in
   gate (assets/auth-gate.html) provides. On daveparr.com there is no gate, so
   the quiz works the same but nothing is saved.
-
-  "Write R code" questions run real R in the browser with webR, loaded only
-  when a session includes one.
 
   Scoring: each answer (re-asks included) is +100 if right and -100 if wrong,
   and a right answer adds a streak bonus of 10 for each right answer in a row
@@ -28,10 +25,6 @@
 */
 (function () {
   "use strict";
-
-  // Same webR version as the book's code cells (_extensions/coatless/webr).
-  const WEBR_URL = "https://webr.r-wasm.org/v0.6.0/webr.mjs";
-  const R_TYPES = ["fill", "order", "code"];
 
   // Points per answer (must match record_chapter_quiz_answer in supabase/setup.sql in the GEOG 215 repo).
   const QUIZ_POINTS = { right: 100, wrong: -100, streakBonus: 10 };
@@ -230,65 +223,9 @@
     } catch (_) { /* sound never breaks the quiz */ }
   }
 
-  // ---- webR (only for "code" questions) -------------------------------------
-  let webRPromise = null;
-  function getWebR() {
-    if (!webRPromise) {
-      webRPromise = import(WEBR_URL).then(async ({ WebR }) => {
-        const webR = new WebR();
-        await webR.init();
-        return webR;
-      });
-      webRPromise.catch(() => { webRPromise = null; });   // allow a retry
-    }
-    return webRPromise;
-  }
-
-  // Runs the student's code in a fresh environment and, if `check` is given,
-  // evaluates that R expression in the same environment. `.sds_code` holds the
-  // student's code as text, so a check can look at how they wrote it.
-  async function runR(code, check) {
-    const webR = await getWebR();
-    const shelter = await new webR.Shelter();
-    try {
-      const env = await new shelter.REnvironment();
-      await env.bind(".sds_code", code);
-      let output = "", error = null;
-      try {
-        const res = await shelter.captureR(code, {
-          env, withAutoprint: true, captureStreams: true,
-          captureConditions: false, captureGraphics: false,
-        });
-        const lines = [];
-        for (const o of res.output) {
-          if (o.type !== "stdout" && o.type !== "stderr") continue;
-          // webR can report an R error on stderr instead of throwing it.
-          if (o.type === "stderr" && error === null && /^Error\b/.test(o.data)) {
-            error = o.data.replace(/^Error[^:]*:\s*/, "");
-          } else {
-            lines.push(o.data);
-          }
-        }
-        output = lines.join("\n");
-      } catch (e) {
-        error = String(e && e.message || e).replace(/^Error[^:]*:\s*/, "");
-      }
-      let passed = false;
-      if (check && error === null) {
-        try {
-          passed = await webR.evalRBoolean(
-            `isTRUE(tryCatch({\n${check}\n}, error = function(e) FALSE))`, { env });
-        } catch (_) { passed = false; }
-      }
-      return { output, error, passed };
-    } finally {
-      shelter.purge();
-    }
-  }
-
   // ---- Answer checking ----------------------------------------------------------
-  // Fill-in answers: ignore spaces, and treat ' and " alike, so "c(1,2)" and
-  // "c(1, 2)" both count. Case matters (R cares) unless the question says not.
+  // Fill-in answers: ignore spaces, and treat ' and " alike. Case matters
+  // unless the question says "ignoreCase": true.
   function normalizeFill(s, q) {
     let v = String(s || "").trim().replace(/\s+/g, "").replace(/'/g, '"');
     if (q.ignoreCase) v = v.toLowerCase();
@@ -311,7 +248,6 @@
       case "truefalse": return q.answer ? "True" : "False";
       case "fill": return q.answers[0];
       case "order": return q.answer.join(" ");
-      case "code": return q.solution || "";
       default: return "";
     }
   }
@@ -322,28 +258,20 @@
       this.root = root;
       this.bank = bank;
       this.perSession = Math.min(bank.perSession || 10, bank.questions.length);
-      this.minR = bank.minR ?? 3;
       this.root.classList.add("sds-quiz-ready");
       this.showStart();
     }
 
-    // Pick the session's questions: at least minR R questions if the bank has
-    // them, the rest at random, in random order.
+    // Pick the session's questions at random, in random order.
     pick() {
-      // A question is an R question if it says so ("r": true), or if it's a
-      // fill, order or code question that doesn't say otherwise ("r": false).
-      const isR = (q) => q.r ?? R_TYPES.includes(q.type);
-      if (this.bank.groups) return this.pickAcross(isR);
-      const rQs = shuffle(this.bank.questions.filter(isR));
-      const take = rQs.slice(0, Math.min(this.minR, rQs.length, this.perSession));
-      const rest = shuffle(this.bank.questions.filter((q) => !take.includes(q)));
-      return shuffle(take.concat(rest.slice(0, this.perSession - take.length)));
+      if (this.bank.groups) return this.pickAcross();
+      return shuffle(this.bank.questions).slice(0, this.perSession);
     }
 
-    // A unit quiz: spread the session evenly over the unit's chapters. The R
-    // questions come first (minR of them, a chapter at a time), then the rest,
-    // always from the chapter with the fewest questions so far (ties at random).
-    pickAcross(isR) {
+    // A unit quiz: spread the session evenly over the unit's chapters, always
+    // taking the next question from the chapter with the fewest so far (ties
+    // at random).
+    pickAcross() {
       const pools = this.bank.groups.map((g) => shuffle(g.questions));
       const counts = pools.map(() => 0);
       const chosen = [];
@@ -356,7 +284,6 @@
           counts[i]++;
         }
       };
-      fill(isR, Math.min(this.minR, this.perSession));
       fill(() => true, this.perSession);
       return shuffle(chosen);
     }
@@ -382,7 +309,6 @@
       this.queue = this.items.slice();
       this.fixing = false;
       this.stats = { correct: 0, incorrect: 0, firstTry: 0, score: 0, streak: 0, bestStreak: 0 };
-      if (this.items.some((i) => i.q.type === "code")) getWebR().catch(() => {});   // warm up R
       this.next();
     }
 
@@ -470,7 +396,6 @@
         } catch (e) {
           result = { correct: false, note: "Couldn't check that: " + (e.message || e) };
         }
-        if (result.skip) return this.skip(item, footer);
         answer.lock();
         this.grade(item, result, footer);
       });
@@ -479,7 +404,7 @@
 
     // Each answer type returns { check(): Promise<{correct, note?}>, lock(), focus() }.
     renderAnswer(q, body, ready, submit) {
-      if (q.code && q.type !== "fill" && q.type !== "code") {
+      if (q.code && q.type !== "fill") {
         body.appendChild(el("pre", { class: "sds-q-code" }, `<code>${esc(q.code)}</code>`));
       }
       switch (q.type) {
@@ -487,7 +412,6 @@
         case "truefalse": return this.renderChoice(q, body, ready, submit, null);
         case "fill": return this.renderFill(q, body, ready, submit);
         case "order": return this.renderOrder(q, body, ready);
-        case "code": return this.renderCode(q, body, ready);
         default: throw new Error("Unknown question type: " + q.type);
       }
     }
@@ -590,79 +514,6 @@
       };
     }
 
-    renderCode(q, body, ready) {
-      const editor = el("textarea", {
-        class: "sds-q-editor", spellcheck: "false", autocapitalize: "off", autocomplete: "off",
-        "aria-label": "Your R code", rows: String(Math.max(4, (q.starter || "").split("\n").length + 2)),
-      });
-      editor.value = q.starter || "";
-      const tools = el("div", { class: "sds-q-tools" });
-      const run = el("button", { type: "button", class: "sds-q-btn sds-q-secondary" }, "▶ Run code");
-      const status = el("span", { class: "sds-q-status", role: "status" });
-      tools.append(run, status);
-      const out = el("pre", { class: "sds-q-output", hidden: "" });
-      body.append(editor, tools, out);
-
-      // Tab inserts two spaces; Ctrl/Cmd+Enter runs.
-      editor.addEventListener("keydown", (e) => {
-        if (e.key === "Tab" && !e.shiftKey) {
-          e.preventDefault();
-          editor.setRangeText("  ", editor.selectionStart, editor.selectionEnd, "end");
-        } else if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
-          e.preventDefault();
-          run.click();
-        }
-      });
-      const typed = () => editor.value.trim() !== "" && editor.value.trim() !== (q.starter || "").trim();
-      editor.addEventListener("input", () => ready(typed()));
-
-      let rFailed = false;
-      const show = (res) => {
-        const text = res.error ? (res.output ? res.output + "\n" : "") + "Error: " + res.error : res.output;
-        out.hidden = !text;
-        out.textContent = text || "";
-        out.classList.toggle("has-error", !!res.error);
-      };
-      const withR = async (fn) => {
-        status.textContent = webRPromise ? "Running…" : "Starting R (the first time takes a few seconds)…";
-        run.disabled = true;
-        try {
-          return await fn();
-        } catch (e) {
-          rFailed = true;
-          status.textContent = "";
-          out.hidden = false;
-          out.classList.add("has-error");
-          out.textContent = "R couldn't start in this browser (" + (e.message || e) + "). " +
-            "Click Check to skip this question; it won't count against you.";
-          ready(true);
-          return null;
-        } finally {
-          run.disabled = false;
-          if (!rFailed) status.textContent = "";
-        }
-      };
-      run.addEventListener("click", () => withR(async () => show(await runR(editor.value))));
-
-      return {
-        check: async () => {
-          if (rFailed) return { skip: true };
-          const res = await withR(() => runR(editor.value, q.check));
-          if (!res) return { skip: true };
-          show(res);
-          return {
-            correct: res.passed,
-            note: res.error ? "Your code stopped with an error, shown above." : null,
-          };
-        },
-        lock: () => { editor.readOnly = true; run.disabled = true; },
-        focus: () => {
-          editor.focus();
-          editor.setSelectionRange(editor.value.length, editor.value.length);
-        },
-      };
-    }
-
     // ---- After Check -------------------------------------------------------------
     grade(item, result, footer) {
       const q = item.q;
@@ -704,14 +555,12 @@
       if (result.note) html += `<p>${esc(result.note)}</p>`;
       if (!right) {
         const ans = correctAnswerText(q);
-        // Code answers (fill-ins and R tile questions) are shown as code.
-        const asCode = q.type === "fill" || (q.type === "order" && (q.r ?? true));
+        // Answers to questions about a code snippet are shown as code.
+        const asCode = !!q.code && (q.type === "fill" || q.type === "order");
         if (ans) {
-          html += q.type === "code"
-            ? `<p>One answer that works:</p><pre class="sds-q-code"><code>${esc(ans)}</code></pre>`
-            : asCode
-              ? `<p>Correct answer: <code>${esc(ans)}</code></p>`
-              : `<p>Correct answer: <strong>${md(ans)}</strong></p>`;
+          html += asCode
+            ? `<p>Correct answer: <code>${esc(ans)}</code></p>`
+            : `<p>Correct answer: <strong>${md(ans)}</strong></p>`;
         }
       }
       if (q.explain) html += `<p class="sds-q-explain">${md(q.explain)}</p>`;
@@ -723,18 +572,6 @@
       footer.replaceChildren(sheet, cont);
       footer.prepend(coach(right ? "happy" : "sad"));
       if (right && !reduceMotion()) footer.closest(".sds-q-card").classList.add("sds-q-pop");
-      cont.focus();
-    }
-
-    // R wouldn't load: drop the question from this session without counting it.
-    skip(item, footer) {
-      this.items = this.items.filter((i) => i !== item);
-      this.queue = this.queue.filter((i) => i !== item);
-      const sheet = el("div", { class: "sds-q-sheet" },
-        `<div class="sds-q-sheet-title">Skipped</div><p>This question needs R, which couldn't start here. It won't count.</p>`);
-      const cont = el("button", { type: "button", class: "sds-q-btn sds-q-primary" }, "Continue");
-      cont.addEventListener("click", () => this.next());
-      footer.replaceChildren(sheet, cont);
       cont.focus();
     }
 

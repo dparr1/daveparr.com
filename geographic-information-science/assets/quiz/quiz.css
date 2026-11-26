@@ -137,22 +137,6 @@
 .sds-q-tile:disabled { cursor: default; }
 @keyframes sds-q-tile-in { from { transform: scale(0.85); opacity: 0.4; } }
 
-/* Code */
-.sds-q-editor {
-  display: block; width: 100%; padding: 12px 14px; resize: vertical; tab-size: 2;
-  background: #1f2933; color: #f4f6f8; caret-color: #fff; border: 0; border-radius: 10px;
-  font: 0.92rem/1.5 ui-monospace, SFMono-Regular, Consolas, monospace;
-}
-.sds-q-editor:focus { outline: 3px solid #007FAE; }
-.sds-q-tools { display: flex; align-items: center; gap: 10px; margin: 10px 0; }
-.sds-q-status { color: var(--q-muted); font-size: 0.9rem; }
-.sds-q-output {
-  margin: 0 0 6px; padding: 10px 12px; max-height: 220px; overflow: auto; white-space: pre-wrap;
-  background: var(--q-surface-2); border: 1px solid var(--q-border); border-radius: 8px;
-  font: 0.88rem ui-monospace, SFMono-Regular, Consolas, monospace;
-}
-.sds-q-output.has-error { color: #b42318; border-color: #f5b5b0; background: #fff5f4; }
-
 /* Footer and the feedback sheet */
 .sds-q-footer {
   display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 12px;
