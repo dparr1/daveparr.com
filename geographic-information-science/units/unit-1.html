@@ -48,7 +48,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-ebb58cfc2c0cc903b00b246007c1be77.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-375337d58729f0b9fcae65d4b3962514.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-58aeb932f9769ef5b136914697361c15.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script src="../site_libs/quarto-contrib/glossary-1.0.0/glossary.js"></script>
 <link href="../site_libs/quarto-contrib/glossary-1.0.0/glossary.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
@@ -167,6 +167,12 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">What Is GIS?</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/what-is-geographic-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">What Is Geographic Data?</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -200,6 +206,7 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#chapter-1-what-is-gis" id="toc-chapter-1-what-is-gis" class="nav-link active" data-scroll-target="#chapter-1-what-is-gis">Chapter 1: What Is GIS?</a></li>
+  <li><a href="#chapter-2-what-is-geographic-data" id="toc-chapter-2-what-is-geographic-data" class="nav-link" data-scroll-target="#chapter-2-what-is-geographic-data">Chapter 2: What Is Geographic Data?</a></li>
   </ul>
 </nav>
     </div>
@@ -229,6 +236,10 @@ ul.task-list li input[type="checkbox"] {
 <section id="chapter-1-what-is-gis" class="level2">
 <h2 class="anchored" data-anchor-id="chapter-1-what-is-gis">Chapter 1: <a href="../chapters/what-is-gis.html">What Is GIS?</a></h2>
 <p><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> helps people decide <em>where</em>: where a fire is spreading, where rescuers should search, and how to get help there. This chapter looks at GIS in recent events, the four questions that define a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-problem" data-term="geographic problem">geographic problem</span>, and the kinds of questions a GIS can answer. It defines a geographic information system and its five components, separates GISystems from <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-science-giscience" data-term="geographic information science (GIScience)">GIScience</span>, and traces the history of GIS, who uses it, and the ethical questions it raises. It ends with the tools used in this book, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span>, and how to write a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-gis-question" data-term="GIS question">GIS question</span> of your own.</p>
+</section>
+<section id="chapter-2-what-is-geographic-data" class="level2">
+<h2 class="anchored" data-anchor-id="chapter-2-what-is-geographic-data">Chapter 2: <a href="../chapters/what-is-geographic-data.html">What Is Geographic Data?</a></h2>
+<p>How do you store a tree, a road, or a mountain in a computer? This chapter follows the steps that turn the real world into data: entities become features, and features are stored in a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-model" data-term="data model">data model</span>, a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-structure" data-term="data structure">data structure</span>, and finally machine code. It separates discrete objects from continuous data, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-data" data-term="spatial data">spatial data</span> from <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-attribute" data-term="attribute">attributes</span>, then introduces the two main data models, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-vector" data-term="vector">vector</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">raster</span>, with the vocabulary of each, from nodes and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-vertex" data-term="vertex">vertices</span> to <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cell-size" data-term="cell size">cell size</span> and resolution. It ends with how data are stored in files such as the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-shapefile" data-term="shapefile">shapefile</span>, why <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-metadata" data-term="metadata">metadata</span> matters, and how to choose between vector and raster.</p>
 
 
 <div class="glossary-defs" hidden="">
@@ -253,6 +264,27 @@ named the field in 1992.</span>
 <span id="gloss-gis-question">A question whose answer depends on location, such as where something
 clusters, how places differ, what factors explain a pattern, how a place
 has changed, or how accessible a service is.</span>
+<span id="gloss-data-model">The way a GIS represents the real world as data, for example as points,
+lines, and polygons (vector) or as a grid of cells (raster).</span>
+<span id="gloss-data-structure">How a data model is laid out in a computer’s memory or files, for
+example as lists of coordinate pairs linked by pointers.</span>
+<span id="gloss-attribute">A non-spatial fact about a feature, such as a building’s name or the
+year it was built. Attributes are stored in a table with one row per
+feature.</span>
+<span id="gloss-vector">A data model that stores the world as points, lines, and polygons, each
+defined by x, y coordinates and linked to its attributes. Best for
+discrete objects.</span>
+<span id="gloss-raster">A data model that stores the world as a regular grid of equal-sized
+cells, each holding one value. Best for continuous data and imagery.</span>
+<span id="gloss-vertex">An intermediate point where a line or polygon boundary changes
+direction.</span>
+<span id="gloss-cell-size">The real-world length of one side of a raster cell, such as 30 meters.
+Smaller cells give finer resolution and larger files.</span>
+<span id="gloss-shapefile">A common vector format from Esri that stores one layer in several files
+with the same name: .shp (geometry), .shx (index), and .dbf (attributes)
+are required, and .prj holds the coordinate system.</span>
+<span id="gloss-metadata">Data about data: who made a dataset, when, how, in what coordinate
+system, and how accurate it is.</span>
 </div>
 </section>
 

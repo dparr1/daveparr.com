@@ -37,7 +37,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./about.html" rel="next">
-<link href="./chapters/what-is-gis.html" rel="prev">
+<link href="./chapters/what-is-geographic-data.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
@@ -48,7 +48,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-ebb58cfc2c0cc903b00b246007c1be77.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-375337d58729f0b9fcae65d4b3962514.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-58aeb932f9769ef5b136914697361c15.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -165,6 +165,12 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">What Is GIS?</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapters/what-is-geographic-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">What Is Geographic Data?</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -224,6 +230,14 @@ ul.task-list li input[type="checkbox"] {
 <dd>
 How easily people can reach a place or service, often measured as distance or travel time.
 </dd>
+<dt><span id="term-annotation">annotation</span></dt>
+<dd>
+Text placed on a map, such as place names, street names, and labels.
+</dd>
+<dt><span id="term-arc">arc</span></dt>
+<dd>
+A line stored as an ordered list of coordinates. Polygons can be built from arcs that share their end points.
+</dd>
 <dt><span id="term-arcgis-online">ArcGIS Online</span></dt>
 <dd>
 Esri’s system for making and sharing maps and layers on the web.
@@ -248,6 +262,14 @@ The first large GIS, built in the 1960s under Roger Tomlinson to inventory land 
 <dd>
 The art and science of making maps.
 </dd>
+<dt><span id="term-cell">cell</span></dt>
+<dd>
+One square in a raster grid. Each cell holds one value. In an image, a cell is called a pixel (picture element).
+</dd>
+<dt><span id="term-cell-size">cell size</span></dt>
+<dd>
+The real-world length of one side of a raster cell, such as 30 meters. Smaller cells give finer resolution and larger files.
+</dd>
 <dt><span id="term-change-detection">change detection</span></dt>
 <dd>
 Comparing images or maps of the same place from different dates to find what changed.
@@ -256,13 +278,37 @@ Comparing images or maps of the same place from different dates to find what cha
 <dd>
 A group of events or features that are closer together than you would expect by chance, such as cases of a disease around one place.
 </dd>
+<dt><span id="term-continuous-data">continuous data</span></dt>
+<dd>
+A quantity that has a value at every location and changes gradually from place to place, such as elevation, temperature, or rainfall.
+</dd>
 <dt><span id="term-coordinate-system">coordinate system</span></dt>
 <dd>
 A system of numbers, such as latitude and longitude, that gives every location a unique position so layers line up with each other.
 </dd>
+<dt><span id="term-data-abstraction">data abstraction</span></dt>
+<dd>
+The chain of steps that turns the real world into something a computer can store: real world, data model, data structure, and machine code.
+</dd>
 <dt><span id="term-data-model">data model</span></dt>
 <dd>
 The way a GIS represents the real world as data, for example as points, lines, and polygons (vector) or as a grid of cells (raster).
+</dd>
+<dt><span id="term-data-structure">data structure</span></dt>
+<dd>
+How a data model is laid out in a computer’s memory or files, for example as lists of coordinate pairs linked by pointers.
+</dd>
+<dt><span id="term-discrete-object">discrete object</span></dt>
+<dd>
+Something with clear boundaries that is either present or absent at a location, such as a road, a house, or a state.
+</dd>
+<dt><span id="term-easting">easting</span></dt>
+<dd>
+A distance east from a starting line: the x coordinate in a projected coordinate system.
+</dd>
+<dt><span id="term-entity">entity</span></dt>
+<dd>
+A real-world object we want to store as data, such as a tree, a building, or a lake. On a map, an entity is shown as a feature.
 </dd>
 <dt><span id="term-epidemiology">epidemiology</span></dt>
 <dd>
@@ -272,9 +318,21 @@ The study of how diseases are distributed and spread in populations. John Snow�
 <dd>
 The company that makes ArcGIS, founded in 1969 by Jack and Laura Dangermond in Redlands, California.
 </dd>
+<dt><span id="term-extent">extent</span></dt>
+<dd>
+How far something reaches: its size, boundary, and dimensions. A layer’s extent is the rectangle that just encloses all its features.
+</dd>
+<dt><span id="term-feature">feature</span></dt>
+<dd>
+How a map or a GIS represents an entity, usually as a point, a line, or a polygon, with attributes that describe it.
+</dd>
 <dt><span id="term-geoai">GeoAI</span></dt>
 <dd>
 Artificial intelligence applied to geographic data, for example to find buildings or roads in satellite images automatically.
+</dd>
+<dt><span id="term-geocoding">geocoding</span></dt>
+<dd>
+Turning an address or place name into coordinates, so it can be put on a map.
 </dd>
 <dt><span id="term-geographic-information-science-giscience">geographic information science (GIScience)</span></dt>
 <dd>
@@ -287,6 +345,14 @@ The theory and methods behind GIS: research on analysis, data representation, vi
 <dt><span id="term-geographic-problem">geographic problem</span></dt>
 <dd>
 A problem that happens in specific places at specific times. It can be described by its scale, time, space, and purpose.
+</dd>
+<dt><span id="term-geometry">geometry</span></dt>
+<dd>
+The shape of a feature: a point, a line, or a polygon, stored as coordinates.
+</dd>
+<dt><span id="term-geopackage">GeoPackage</span></dt>
+<dd>
+An open file format (.gpkg) from the Open Geospatial Consortium that stores many vector and raster layers in a single file. It is QGIS’s default format.
 </dd>
 <dt><span id="term-geoprocessing">geoprocessing</span></dt>
 <dd>
@@ -312,9 +378,25 @@ Geographic Information Systems Professional: a certification from the GIS Certif
 <dd>
 The Global Positioning System: U.S. satellites that let a receiver, such as your phone, work out its location. GNSS is the general name for GPS and similar systems from other countries.
 </dd>
+<dt><span id="term-landsat">Landsat</span></dt>
+<dd>
+A series of U.S. Earth-observing satellites, run by NASA and the USGS, that have imaged the whole planet since 1972, mostly with 30-meter cells.
+</dd>
 <dt><span id="term-layer">layer</span></dt>
 <dd>
 A set of spatial data about one theme, such as roads, soils, or elevation. Layers for the same area stack on top of each other to make a map.
+</dd>
+<dt><span id="term-line">line</span></dt>
+<dd>
+A vector feature with length but no area, stored as an ordered list of coordinates, such as a road or a stream.
+</dd>
+<dt><span id="term-line-segment">line segment</span></dt>
+<dd>
+The straight piece of a line between two vertices or nodes.
+</dd>
+<dt><span id="term-map-algebra">map algebra</span></dt>
+<dd>
+Math on rasters, cell by cell, such as adding two grids or finding every cell where slope is under 10 percent.
 </dd>
 <dt><span id="term-map-projection">map projection</span></dt>
 <dd>
@@ -332,6 +414,18 @@ Connected lines and intersections, such as roads, rails, rivers, or pipes, with 
 <dd>
 Analysis of movement along a network, such as roads, to find routes and measure travel distance or time.
 </dd>
+<dt><span id="term-node">node</span></dt>
+<dd>
+The start or end point of a line. In a network, lines meet at nodes.
+</dd>
+<dt><span id="term-non-spatial-data">non-spatial data</span></dt>
+<dd>
+Data with no location of their own, such as a list of grades. When non-spatial data describe a spatial feature, they are its attributes.
+</dd>
+<dt><span id="term-northing">northing</span></dt>
+<dd>
+A distance north from a starting line: the y coordinate in a projected coordinate system.
+</dd>
 <dt><span id="term-open-source">open source</span></dt>
 <dd>
 Software whose source code anyone may read, change, and share, often free of charge. QGIS and GRASS GIS are open source.
@@ -343,6 +437,18 @@ A free, editable map of the world built by volunteers, founded in 2004.
 <dt><span id="term-overlay-analysis">overlay analysis</span></dt>
 <dd>
 Stacking layers of data for the same area to find places that meet several conditions at once, such as flat land near a road and outside a floodplain.
+</dd>
+<dt><span id="term-point">point</span></dt>
+<dd>
+A vector feature with a location but no length or area, stored as a single x, y coordinate pair, such as a well or a school.
+</dd>
+<dt><span id="term-pointer">pointer</span></dt>
+<dd>
+In a data structure, a stored address that tells the computer where the next piece of data, such as the next arc, is found.
+</dd>
+<dt><span id="term-polygon">polygon</span></dt>
+<dd>
+A vector feature that encloses an area: a closed line whose first and last points are the same, such as a lake, a park, or a county.
 </dd>
 <dt><span id="term-population-density">population density</span></dt>
 <dd>
@@ -356,6 +462,14 @@ A free and open-source desktop GIS that runs on Windows, Mac, and Linux.
 <dd>
 A remote sensing method in which a satellite or aircraft sends out its own microwave signal and records what bounces back. It sees through clouds and smoke, and works at night.
 </dd>
+<dt><span id="term-raster">raster</span></dt>
+<dd>
+A data model that stores the world as a regular grid of equal-sized cells, each holding one value. Best for continuous data and imagery.
+</dd>
+<dt><span id="term-rasterize">rasterize</span></dt>
+<dd>
+To convert vector data into a raster.
+</dd>
 <dt><span id="term-redlining">redlining</span></dt>
 <dd>
 Grading neighborhoods as risky for lending, as the federal Home Owners’ Loan Corporation did on maps in the 1930s, which outlined many Black and immigrant neighborhoods in red and denied them credit.
@@ -364,9 +478,17 @@ Grading neighborhoods as risky for lending, as the federal Home Owners’ Loan C
 <dd>
 Collecting information about Earth without touching it, from sensors on satellites, aircraft, or drones.
 </dd>
+<dt><span id="term-resolution">resolution</span></dt>
+<dd>
+The level of detail in data. For a raster, it is set by the cell size: the smaller the cells, the finer the resolution.
+</dd>
 <dt><span id="term-route-optimization">route optimization</span></dt>
 <dd>
 Finding the best path through a network, such as the fastest or shortest route, or a delivery route that visits many stops.
+</dd>
+<dt><span id="term-shapefile">shapefile</span></dt>
+<dd>
+A common vector format from Esri that stores one layer in several files with the same name: .shp (geometry), .shx (index), and .dbf (attributes) are required, and .prj holds the coordinate system.
 </dd>
 <dt><span id="term-site-selection">site selection</span></dt>
 <dd>
@@ -383,6 +505,30 @@ Data tied to a location on or near Earth, such as the address of a house, the ou
 <dt><span id="term-spatial-thinking">spatial thinking</span></dt>
 <dd>
 Using ideas of space, such as location, distance, pattern, and scale, to understand and solve problems.
+</dd>
+<dt><span id="term-tabular-data">tabular data</span></dt>
+<dd>
+Data stored in tables of rows and columns, such as the attributes of features.
+</dd>
+<dt><span id="term-tin">TIN</span></dt>
+<dd>
+Triangulated irregular network: a surface model that joins sampled elevation points into triangles, using more triangles where the ground is rough.
+</dd>
+<dt><span id="term-topology">topology</span></dt>
+<dd>
+The recorded connections between features, such as which polygons share an edge and which lines meet at a node. It keeps neighbors from having gaps or overlaps.
+</dd>
+<dt><span id="term-vector">vector</span></dt>
+<dd>
+A data model that stores the world as points, lines, and polygons, each defined by x, y coordinates and linked to its attributes. Best for discrete objects.
+</dd>
+<dt><span id="term-vectorize">vectorize</span></dt>
+<dd>
+To convert a raster into vector features.
+</dd>
+<dt><span id="term-vertex">vertex</span></dt>
+<dd>
+An intermediate point where a line or polygon boundary changes direction.
 </dd>
 </dl>
 </div>
@@ -1215,8 +1361,8 @@ window.onload = function() {
   </script>
 <nav class="page-navigation" aria-label="Page">
   <div class="nav-page nav-page-previous">
-      <a href="./chapters/what-is-gis.html" class="pagination-link" aria-label="What Is GIS?">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">What Is GIS?</span></span>
+      <a href="./chapters/what-is-geographic-data.html" class="pagination-link" aria-label="What Is Geographic Data?">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">What Is Geographic Data?</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

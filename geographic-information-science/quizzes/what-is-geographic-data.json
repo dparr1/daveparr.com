@@ -1,0 +1,522 @@
+{
+  "id": "what-is-geographic-data",
+  "title": "What Is Geographic Data?",
+  "perSession": 10,
+  "minR": 0,
+  "questions": [
+    {
+      "id": "entity-feature",
+      "type": "choice",
+      "prompt": "A light post on campus is drawn on a map as a small star. The light post itself is the ___, and the star is the ___.",
+      "choices": [
+        "entity; feature",
+        "feature; entity",
+        "attribute; layer",
+        "pixel; vertex"
+      ],
+      "answer": 0,
+      "explain": "Entities are real-world objects. Features are how a map represents them."
+    },
+    {
+      "id": "map-leaves-out",
+      "type": "truefalse",
+      "prompt": "A good map includes every entity in the area it covers.",
+      "answer": false,
+      "explain": "Every map is a set of choices about what to keep and what to leave out."
+    },
+    {
+      "id": "abstraction-order",
+      "type": "choice",
+      "prompt": "Which list puts the steps of data abstraction in order?",
+      "choices": [
+        "Real world, data model, data structure, machine code",
+        "Real world, data structure, data model, machine code",
+        "Data model, real world, machine code, data structure",
+        "Machine code, data structure, data model, real world"
+      ],
+      "answer": 0,
+      "explain": "Each step moves further from how people see the world and closer to how a computer stores it."
+    },
+    {
+      "id": "abstraction-structure",
+      "type": "choice",
+      "prompt": "A list of the x, y coordinate pairs around a wetland's edge is an example of a:",
+      "choices": [
+        "Data structure",
+        "Data model",
+        "Real-world entity",
+        "Map projection"
+      ],
+      "answer": 0,
+      "explain": "The data structure is how the model is laid out in the computer, such as lists of coordinates."
+    },
+    {
+      "id": "abstraction-human",
+      "type": "choice",
+      "prompt": "Which step of data abstraction do people work with in GIS software?",
+      "choices": [
+        "The data model: polygons and attribute tables",
+        "Machine code",
+        "The binary data structure",
+        "None: people only see the real world"
+      ],
+      "answer": 0,
+      "explain": "GIS software hides the data structure and machine code, so people work with the data model."
+    },
+    {
+      "id": "formal-model",
+      "type": "choice",
+      "prompt": "A data model is called \"formal\" because it:",
+      "choices": [
+        "Follows exact, mathematical rules a computer can carry out",
+        "Is written in formal English",
+        "Is approved by a government agency",
+        "Can only be used by professionals"
+      ],
+      "answer": 0,
+      "explain": "Formal here means mathematical: exact rules, with no guessing."
+    },
+    {
+      "id": "four-models",
+      "type": "choice",
+      "prompt": "Which is NOT one of the four main geographic data models?",
+      "choices": [
+        "Projection",
+        "Vector",
+        "Raster",
+        "TIN"
+      ],
+      "answer": 0,
+      "explain": "The four are vector, raster, TIN, and tabular. A projection flattens the round Earth; it is not a data model."
+    },
+    {
+      "id": "tin",
+      "type": "choice",
+      "prompt": "A TIN models a surface by:",
+      "choices": [
+        "Connecting sampled elevation points with triangles",
+        "Dividing space into equal square cells",
+        "Storing elevations in a table with no locations",
+        "Drawing contour lines only"
+      ],
+      "answer": 0,
+      "explain": "TIN stands for triangulated irregular network."
+    },
+    {
+      "id": "discrete-example",
+      "type": "choice",
+      "prompt": "Which of these is a discrete object?",
+      "choices": [
+        "A house",
+        "Air temperature",
+        "Elevation",
+        "Rainfall"
+      ],
+      "answer": 0,
+      "explain": "A house is either present or absent at a location. The others have a value everywhere."
+    },
+    {
+      "id": "continuous-example",
+      "type": "choice",
+      "prompt": "Which of these is best thought of as continuous data?",
+      "choices": [
+        "Elevation",
+        "A road",
+        "A county boundary",
+        "A fire hydrant"
+      ],
+      "answer": 0,
+      "explain": "Every point on Earth has an elevation, and its value changes gradually from place to place."
+    },
+    {
+      "id": "forest-either",
+      "type": "truefalse",
+      "prompt": "A forest can be treated as either a discrete object or continuous data, depending on the question.",
+      "answer": true,
+      "explain": "A forest boundary polygon is discrete; percent tree canopy is continuous."
+    },
+    {
+      "id": "feature-line",
+      "type": "choice",
+      "prompt": "A stream drawn on a state map is usually which kind of feature?",
+      "choices": [
+        "Line",
+        "Point",
+        "Polygon",
+        "Annotation"
+      ],
+      "answer": 0,
+      "explain": "A line has length but no area."
+    },
+    {
+      "id": "annotation",
+      "type": "choice",
+      "prompt": "Place names and street names written on a map are called:",
+      "choices": [
+        "Annotation",
+        "Attributes",
+        "Metadata",
+        "Vertices"
+      ],
+      "answer": 0,
+      "explain": "Annotation is the text placed on a map."
+    },
+    {
+      "id": "scale-city",
+      "type": "choice",
+      "prompt": "On a map of the whole United States, a city is usually a point. On a map of its county, it is usually a:",
+      "choices": [
+        "Polygon",
+        "Line",
+        "Node",
+        "Pixel"
+      ],
+      "answer": 0,
+      "explain": "The same entity can be a different feature type at a different scale."
+    },
+    {
+      "id": "entity-five",
+      "type": "choice",
+      "prompt": "Which is NOT one of the five kinds of information every entity has?",
+      "choices": [
+        "A projection",
+        "A location",
+        "An extent",
+        "A geometry"
+      ],
+      "answer": 0,
+      "explain": "Every entity has a location, an extent, non-spatial attributes, a time, and a geometry."
+    },
+    {
+      "id": "nonspatial",
+      "type": "choice",
+      "prompt": "Which of these is non-spatial data?",
+      "choices": [
+        "A list of class grades",
+        "Precipitation measured across Colorado",
+        "The U.S. highway network",
+        "Buildings on campus"
+      ],
+      "answer": 0,
+      "explain": "Grades have no location of their own."
+    },
+    {
+      "id": "address-geocode",
+      "type": "truefalse",
+      "prompt": "A student's home address becomes spatial data once it is geocoded to a location on a map.",
+      "answer": true,
+      "explain": "Geocoding turns an address into coordinates."
+    },
+    {
+      "id": "attribute-def",
+      "type": "choice",
+      "prompt": "Non-spatial facts that describe a spatial feature, such as a building's name, are called:",
+      "choices": [
+        "Attributes",
+        "Annotation",
+        "Vertices",
+        "Cells"
+      ],
+      "answer": 0,
+      "explain": "Attributes are stored in a table with one row per feature."
+    },
+    {
+      "id": "attribute-table",
+      "type": "choice",
+      "prompt": "In an attribute table, each row is usually one ___, and each column is one ___.",
+      "choices": [
+        "feature; attribute",
+        "attribute; feature",
+        "layer; map",
+        "cell; pixel"
+      ],
+      "answer": 0,
+      "explain": "One row per feature, one column per attribute."
+    },
+    {
+      "id": "same-columns",
+      "type": "truefalse",
+      "prompt": "Every feature in a layer has the same set of attributes, even if some values are blank.",
+      "answer": true,
+      "explain": "That consistency is what lets you query and symbolize a layer."
+    },
+    {
+      "id": "layer",
+      "type": "choice",
+      "prompt": "A group of similar features, such as all the roads in a county, is called a:",
+      "choices": [
+        "Layer",
+        "Cell",
+        "Node",
+        "Metadata record"
+      ],
+      "answer": 0,
+      "explain": "Layers for the same area stack to make a map."
+    },
+    {
+      "id": "delete-layer",
+      "type": "truefalse",
+      "prompt": "Removing a layer from your map in QGIS or ArcGIS Pro deletes the data file it points to.",
+      "answer": false,
+      "explain": "A layer points to data stored elsewhere. Removing the layer leaves the data untouched."
+    },
+    {
+      "id": "vector-best",
+      "type": "choice",
+      "prompt": "The vector model is best for:",
+      "choices": [
+        "Discrete objects such as roads and parcels",
+        "Continuous surfaces such as temperature",
+        "Satellite imagery",
+        "Rainfall totals"
+      ],
+      "answer": 0,
+      "explain": "Vector stores points, lines, and polygons with exact coordinates."
+    },
+    {
+      "id": "raster-best",
+      "type": "choice",
+      "prompt": "The raster model is a natural fit for:",
+      "choices": [
+        "Continuous data and imagery",
+        "Legal property boundaries",
+        "Bus stop locations",
+        "Street centerlines for routing"
+      ],
+      "answer": 0,
+      "explain": "Raster stores a value in every cell of a grid."
+    },
+    {
+      "id": "node",
+      "type": "choice",
+      "prompt": "The start or end point of a line is called a:",
+      "choices": [
+        "Node",
+        "Vertex",
+        "Line segment",
+        "Cell"
+      ],
+      "answer": 0,
+      "explain": "Nodes are where lines start, end, and meet."
+    },
+    {
+      "id": "vertex",
+      "type": "choice",
+      "prompt": "A point where a line changes direction, between its two ends, is a:",
+      "choices": [
+        "Vertex",
+        "Node",
+        "Pixel",
+        "Pointer"
+      ],
+      "answer": 0,
+      "explain": "Vertices are the intermediate points of a line or polygon."
+    },
+    {
+      "id": "line-vs-area",
+      "type": "choice",
+      "prompt": "What is the difference between a building stored as a line (outline) and as an area (polygon)?",
+      "choices": [
+        "An area encloses space, so you can measure its size and ask what is inside it",
+        "A line is more precise than an area",
+        "An area can't have attributes",
+        "There is no difference"
+      ],
+      "answer": 0,
+      "explain": "The difference is enclosure."
+    },
+    {
+      "id": "cell-size-count",
+      "type": "fill",
+      "prompt": "A raster has 50 m cells. If you change to 25 m cells over the same area, the number of cells is multiplied by ___. (Type a number.)",
+      "answers": [
+        "4",
+        "four"
+      ],
+      "explain": "Halving the cell size doubles the cells in each direction: 2 × 2 = 4 times as many.",
+      "ignoreCase": true,
+      "r": false
+    },
+    {
+      "id": "best-resolution",
+      "type": "choice",
+      "prompt": "Which cell size gives the finest resolution?",
+      "choices": [
+        "25 m",
+        "50 m",
+        "100 m",
+        "They are all the same"
+      ],
+      "answer": 0,
+      "explain": "Smaller cells mean more cells over the same area, so finer detail, and larger files."
+    },
+    {
+      "id": "cell-northing",
+      "type": "fill",
+      "prompt": "A raster's lower-left cell is at N 4,400,000 m and its cells are 25 m. Counting rows from 0, what is the northing of row 2? (Type the number without commas.)",
+      "answers": [
+        "4400050",
+        "4,400,050"
+      ],
+      "explain": "N = 4,400,000 + (2 × 25) = 4,400,050.",
+      "ignoreCase": true,
+      "r": false
+    },
+    {
+      "id": "cell-easting",
+      "type": "fill",
+      "prompt": "A raster's lower-left cell is at E 500,000 m and its cells are 25 m. Counting columns from 0, what is the easting of column 3? (Type the number without commas.)",
+      "answers": [
+        "500075",
+        "500,075"
+      ],
+      "explain": "E = 500,000 + (3 × 25) = 500,075.",
+      "ignoreCase": true,
+      "r": false
+    },
+    {
+      "id": "raster-text",
+      "type": "truefalse",
+      "prompt": "A raster cell can only hold a measured number, never a category such as a land cover class.",
+      "answer": false,
+      "explain": "Cells can hold category codes too, such as 1 = water, 2 = forest."
+    },
+    {
+      "id": "arcs-join",
+      "type": "choice",
+      "prompt": "In the arc data structure, what joins three arcs into a closed polygon?",
+      "choices": [
+        "The last point of each arc is the first point of the next",
+        "Each arc has its own attribute table",
+        "The arcs are stored in the .prj file",
+        "A raster cell between them"
+      ],
+      "answer": 0,
+      "explain": "Shared end points, linked by pointers, close the polygon."
+    },
+    {
+      "id": "shp-required",
+      "type": "choice",
+      "prompt": "Which three files must a shapefile have?",
+      "choices": [
+        ".shp, .shx, and .dbf",
+        ".shp, .prj, and .xml",
+        ".shp, .sbn, and .sbx",
+        ".gpkg, .shp, and .dbf"
+      ],
+      "answer": 0,
+      "explain": ".shp holds geometry, .shx the index, and .dbf the attributes."
+    },
+    {
+      "id": "dbf",
+      "type": "choice",
+      "prompt": "Which shapefile file holds the attribute table?",
+      "choices": [
+        ".dbf",
+        ".shp",
+        ".shx",
+        ".prj"
+      ],
+      "answer": 0,
+      "explain": "The .dbf file is a dBASE table."
+    },
+    {
+      "id": "prj",
+      "type": "choice",
+      "prompt": "Your shapefile opens, but in the wrong place on Earth. Which file is most likely missing?",
+      "choices": [
+        ".prj",
+        ".dbf",
+        ".sbn",
+        ".shp.xml"
+      ],
+      "answer": 0,
+      "explain": "The .prj file records the coordinate system."
+    },
+    {
+      "id": "email-shp",
+      "type": "truefalse",
+      "prompt": "To share a shapefile, it is enough to email the .shp file.",
+      "answer": false,
+      "explain": "Always copy, move, and rename all of a shapefile's files together, or zip the folder."
+    },
+    {
+      "id": "shp-limit",
+      "type": "choice",
+      "prompt": "A shapefile's field names can be at most how many characters long?",
+      "choices": [
+        "10",
+        "32",
+        "64",
+        "255"
+      ],
+      "answer": 0,
+      "explain": "The .dbf format limits field names to 10 characters."
+    },
+    {
+      "id": "metadata",
+      "type": "choice",
+      "prompt": "Metadata is:",
+      "choices": [
+        "Data about the data: who made it, when, how, and how accurately",
+        "The attribute table of a layer",
+        "The largest layer in a project",
+        "A kind of raster"
+      ],
+      "answer": 0,
+      "explain": "Read the metadata before you trust a dataset."
+    },
+    {
+      "id": "mnemonic",
+      "type": "choice",
+      "prompt": "\"Vector is corrector, but raster is faster\" means:",
+      "choices": [
+        "Vector keeps precise shapes, and raster makes analysis quick",
+        "Vector files are always smaller",
+        "Raster data are always wrong",
+        "Vector is newer than raster"
+      ],
+      "answer": 0,
+      "explain": "Neither is better in general: choose the model that fits the data and the question."
+    },
+    {
+      "id": "choose-parcel",
+      "type": "choice",
+      "prompt": "Which data model fits property parcel boundaries best?",
+      "choices": [
+        "Vector",
+        "Raster",
+        "TIN",
+        "None of them"
+      ],
+      "answer": 0,
+      "explain": "A parcel boundary is a precise, legal line."
+    },
+    {
+      "id": "choose-snow",
+      "type": "choice",
+      "prompt": "Which data model fits a map of snow depth best?",
+      "choices": [
+        "Raster",
+        "Vector points only",
+        "Annotation",
+        "Tabular data with no locations"
+      ],
+      "answer": 0,
+      "explain": "Snow depth is continuous: there is a value everywhere."
+    },
+    {
+      "id": "raster-disadvantage",
+      "type": "choice",
+      "prompt": "Which is a disadvantage of the raster model?",
+      "choices": [
+        "Its precision is limited by cell size",
+        "It can't store continuous data",
+        "Overlay analysis is slow",
+        "It has a complex data structure"
+      ],
+      "answer": 0,
+      "explain": "Rasters can't show detail smaller than one cell, and fine rasters make large files."
+    }
+  ]
+}

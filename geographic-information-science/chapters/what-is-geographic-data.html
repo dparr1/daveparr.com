@@ -1,0 +1,2028 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>2&nbsp; What Is Geographic Data? – Geographic Information Science</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../glossary.html" rel="next">
+<link href="../chapters/what-is-gis.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ebb58cfc2c0cc903b00b246007c1be77.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-58aeb932f9769ef5b136914697361c15.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-contrib/glossary-1.0.0/glossary.js"></script>
+<link href="../site_libs/quarto-contrib/glossary-1.0.0/glossary.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<!--
+  Reading settings, part 1 of 2: applies the reader's saved font and text size
+  before the page draws, so it doesn't flash in the default font first.
+  The menu itself is in assets/reader-settings.html; styles are in
+  assets/reader-settings.css.
+-->
+<script>
+  (function () {
+    try {
+      var font = localStorage.getItem("sds-reader-font");
+      var size = localStorage.getItem("sds-reader-size");
+      if (font) document.documentElement.setAttribute("data-reader-font", font);
+      // Lexend and Cardo come from Google Fonts, loaded only for readers who pick them.
+      var webFonts = {
+        lexend: "https://fonts.googleapis.com/css2?family=Lexend:wght@300..700&display=swap",
+        cardo: "https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&display=swap"
+      };
+      if (webFonts[font]) {
+        var link = document.createElement("link");
+        link.rel = "stylesheet"; link.href = webFonts[font]; link.id = "sds-reader-webfont-" + font;
+        document.head.appendChild(link);
+      }
+      if (size) document.documentElement.setAttribute("data-reader-size", size);
+    } catch (e) { /* storage blocked: keep the defaults */ }
+  })();
+</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../include/webex.css">
+<link rel="stylesheet" href="../assets/sidebar.css">
+<link rel="stylesheet" href="../assets/grade-table.css">
+<link rel="stylesheet" href="../assets/reader-settings.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../units/unit-1.html">Unit 1: Data Models and Projections</a></li><li class="breadcrumb-item"><a href="../chapters/what-is-geographic-data.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">What Is Geographic Data?</span></a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Site">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Geographic Information Science</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../units/unit-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-1-label">Unit 1: Data Models and Projections</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section: Unit 1: Data Models and Projections">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/what-is-gis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">What Is GIS?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/what-is-geographic-data.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">What Is Geographic Data?</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-2-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Glossary</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../about.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About the author</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-represent" id="toc-sec-represent" class="nav-link active" data-scroll-target="#sec-represent"><span class="header-section-number">2.1</span> How a map represents the world</a>
+  <ul class="collapse">
+  <li><a href="#entities-and-features" id="toc-entities-and-features" class="nav-link" data-scroll-target="#entities-and-features"><span class="header-section-number">2.1.1</span> Entities and features</a></li>
+  <li><a href="#data-abstraction" id="toc-data-abstraction" class="nav-link" data-scroll-target="#data-abstraction"><span class="header-section-number">2.1.2</span> Data abstraction</a></li>
+  <li><a href="#geographic-data-models" id="toc-geographic-data-models" class="nav-link" data-scroll-target="#geographic-data-models"><span class="header-section-number">2.1.3</span> Geographic data models</a></li>
+  </ul></li>
+  <li><a href="#sec-types" id="toc-sec-types" class="nav-link" data-scroll-target="#sec-types"><span class="header-section-number">2.2</span> What types of data do we use?</a>
+  <ul class="collapse">
+  <li><a href="#discrete-objects-and-continuous-data" id="toc-discrete-objects-and-continuous-data" class="nav-link" data-scroll-target="#discrete-objects-and-continuous-data"><span class="header-section-number">2.2.1</span> Discrete objects and continuous data</a></li>
+  <li><a href="#points-lines-polygons-and-annotation" id="toc-points-lines-polygons-and-annotation" class="nav-link" data-scroll-target="#points-lines-polygons-and-annotation"><span class="header-section-number">2.2.2</span> Points, lines, polygons, and annotation</a></li>
+  <li><a href="#what-is-an-entity" id="toc-what-is-an-entity" class="nav-link" data-scroll-target="#what-is-an-entity"><span class="header-section-number">2.2.3</span> What is an entity?</a></li>
+  <li><a href="#spatial-and-non-spatial-data" id="toc-spatial-and-non-spatial-data" class="nav-link" data-scroll-target="#spatial-and-non-spatial-data"><span class="header-section-number">2.2.4</span> Spatial and non-spatial data</a></li>
+  <li><a href="#attribute-data" id="toc-attribute-data" class="nav-link" data-scroll-target="#attribute-data"><span class="header-section-number">2.2.5</span> Attribute data</a></li>
+  <li><a href="#thematic-layers" id="toc-thematic-layers" class="nav-link" data-scroll-target="#thematic-layers"><span class="header-section-number">2.2.6</span> Thematic layers</a></li>
+  </ul></li>
+  <li><a href="#sec-models" id="toc-sec-models" class="nav-link" data-scroll-target="#sec-models"><span class="header-section-number">2.3</span> How do data models describe geography?</a>
+  <ul class="collapse">
+  <li><a href="#vector-and-raster" id="toc-vector-and-raster" class="nav-link" data-scroll-target="#vector-and-raster"><span class="header-section-number">2.3.1</span> Vector and raster</a></li>
+  <li><a href="#the-vector-model-one-entity-several-features" id="toc-the-vector-model-one-entity-several-features" class="nav-link" data-scroll-target="#the-vector-model-one-entity-several-features"><span class="header-section-number">2.3.2</span> The vector model: one entity, several features</a></li>
+  <li><a href="#vector-terms" id="toc-vector-terms" class="nav-link" data-scroll-target="#vector-terms"><span class="header-section-number">2.3.3</span> Vector terms</a></li>
+  <li><a href="#the-raster-model-a-grid-of-cells" id="toc-the-raster-model-a-grid-of-cells" class="nav-link" data-scroll-target="#the-raster-model-a-grid-of-cells"><span class="header-section-number">2.3.4</span> The raster model: a grid of cells</a></li>
+  <li><a href="#cell-size-and-cell-coordinates" id="toc-cell-size-and-cell-coordinates" class="nav-link" data-scroll-target="#cell-size-and-cell-coordinates"><span class="header-section-number">2.3.5</span> Cell size and cell coordinates</a></li>
+  </ul></li>
+  <li><a href="#sec-stored" id="toc-sec-stored" class="nav-link" data-scroll-target="#sec-stored"><span class="header-section-number">2.4</span> How is geographic data stored?</a>
+  <ul class="collapse">
+  <li><a href="#data-structures" id="toc-data-structures" class="nav-link" data-scroll-target="#data-structures"><span class="header-section-number">2.4.1</span> Data structures</a></li>
+  <li><a href="#the-esri-shapefile" id="toc-the-esri-shapefile" class="nav-link" data-scroll-target="#the-esri-shapefile"><span class="header-section-number">2.4.2</span> The Esri shapefile</a></li>
+  <li><a href="#metadata" id="toc-metadata" class="nav-link" data-scroll-target="#metadata"><span class="header-section-number">2.4.3</span> Metadata</a></li>
+  </ul></li>
+  <li><a href="#sec-advantages" id="toc-sec-advantages" class="nav-link" data-scroll-target="#sec-advantages"><span class="header-section-number">2.5</span> Vector or raster?</a></li>
+  <li><a href="#check-your-understanding" id="toc-check-your-understanding" class="nav-link" data-scroll-target="#check-your-understanding"><span class="header-section-number">2.6</span> Check your understanding</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">2.7</span> Summary</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">2.8</span> Exercises</a></li>
+  <li><a href="#further-reading-and-online-resources" id="toc-further-reading-and-online-resources" class="nav-link" data-scroll-target="#further-reading-and-online-resources"><span class="header-section-number">2.9</span> Further reading and online resources</a>
+  <ul class="collapse">
+  <li><a href="#books-and-open-textbooks" id="toc-books-and-open-textbooks" class="nav-link" data-scroll-target="#books-and-open-textbooks"><span class="header-section-number">2.9.1</span> Books and open textbooks</a></li>
+  <li><a href="#data-models-vector-raster-and-tin" id="toc-data-models-vector-raster-and-tin" class="nav-link" data-scroll-target="#data-models-vector-raster-and-tin"><span class="header-section-number">2.9.2</span> Data models: vector, raster, and TIN</a></li>
+  <li><a href="#file-formats" id="toc-file-formats" class="nav-link" data-scroll-target="#file-formats"><span class="header-section-number">2.9.3</span> File formats</a></li>
+  <li><a href="#metadata-1" id="toc-metadata-1" class="nav-link" data-scroll-target="#metadata-1"><span class="header-section-number">2.9.4</span> Metadata</a></li>
+  <li><a href="#raster-data-and-resolution" id="toc-raster-data-and-resolution" class="nav-link" data-scroll-target="#raster-data-and-resolution"><span class="header-section-number">2.9.5</span> Raster data and resolution</a></li>
+  <li><a href="#software-and-tutorials" id="toc-software-and-tutorials" class="nav-link" data-scroll-target="#software-and-tutorials"><span class="header-section-number">2.9.6</span> Software and tutorials</a></li>
+  <li><a href="#where-to-find-geographic-data" id="toc-where-to-find-geographic-data" class="nav-link" data-scroll-target="#where-to-find-geographic-data"><span class="header-section-number">2.9.7</span> Where to find geographic data</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../units/unit-1.html">Unit 1: Data Models and Projections</a></li><li class="breadcrumb-item"><a href="../chapters/what-is-geographic-data.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">What Is Geographic Data?</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">What Is Geographic Data?</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Learning objectives
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>By the end of this chapter you should be able to:</p>
+<ol type="1">
+<li>Explain how a map abstracts the real world, turning <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-entity" data-term="entity">entities</span> into <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-feature" data-term="feature">features</span>.</li>
+<li>Describe the steps of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-abstraction" data-term="data abstraction">data abstraction</span>, from the real world to a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-model" data-term="data model">data model</span>, a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-structure" data-term="data structure">data structure</span>, and machine code.</li>
+<li>Tell <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-discrete-object" data-term="discrete object">discrete objects</span> from <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-continuous-data" data-term="continuous data">continuous data</span>, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-data" data-term="spatial data">spatial data</span> from <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-attribute" data-term="attribute">attribute data</span>.</li>
+<li>Name the four main geographic data models, and describe the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-vector" data-term="vector">vector</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">raster</span> models and their terms.</li>
+<li>Work out a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cell" data-term="cell">raster cell</span>’s <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">coordinates</span> from its row, column, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cell-size" data-term="cell size">cell size</span>, and explain how cell size sets <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-resolution" data-term="resolution">resolution</span>.</li>
+<li>Explain how a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-shapefile" data-term="shapefile">shapefile</span> stores a vector <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layer</span>, and what <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-metadata" data-term="metadata">metadata</span> records.</li>
+<li>Weigh the advantages and disadvantages of the vector and raster models, and choose one for a task.</li>
+</ol>
+</div>
+</div>
+<p>Start with a scenario. Your new <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> consulting firm has been hired to make a map of campus for new students. <em>What data would you collect? How would you collect it?</em> (And what would you name your firm?) Take two minutes and make a list. You might write down buildings, sidewalks, parking lots, bus stops, and the dining halls. Keep your list: we will come back to it several times in this chapter.</p>
+<p>Whatever is on your list, you made choices. You didn’t list every tree, every bench, or every crack in the sidewalk, and you didn’t say <em>how</em> a building should be drawn. This chapter is about those choices: how we turn the messy, continuous real world into data a computer can store and analyze. It answers five questions. How does a map represent the world? What types of data do we use? How do data models describe geography? How is geographic data stored? And what are the advantages and disadvantages of each type?</p>
+<section id="sec-represent" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="sec-represent"><span class="header-section-number">2.1</span> How a map represents the world</h2>
+<section id="entities-and-features" class="level3" data-number="2.1.1">
+<h3 data-number="2.1.1" class="anchored" data-anchor-id="entities-and-features"><span class="header-section-number">2.1.1</span> Entities and features</h3>
+<p>Start with the real world. An <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-entity" data-term="entity">entity</span></strong> is a real-world object: a tree, a building, a light post, a sidewalk, a lawn. A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-feature" data-term="feature">feature</span></strong> is how a map represents an entity, usually as a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-point" data-term="point">point</span>, a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-line" data-term="line">line</span>, or a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-polygon" data-term="polygon">polygon</span> (<a href="#fig-entities-features" class="quarto-xref">Figure&nbsp;<span>2.1</span></a>).</p>
+<div id="fig-entities-features" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Two panels joined by an arrow. On the left, a simple drawing of a campus scene: a round green tree, a black light post with a yellow lamp, a brick building with nine windows, a tan sidewalk running across a green lawn, each labeled. On the right, the same scene as a map: a teal dot labeled Tree (point), a yellow star labeled Light post (point), a gray line labeled Sidewalk (line), a blue L-shaped polygon labeled Building (polygon), and a light green polygon labeled Lawn (polygon).">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-entities-features-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/what-is-geographic-data/entities-features.png" class="img-fluid figure-img" alt="Two panels joined by an arrow. On the left, a simple drawing of a campus scene: a round green tree, a black light post with a yellow lamp, a brick building with nine windows, a tan sidewalk running across a green lawn, each labeled. On the right, the same scene as a map: a teal dot labeled Tree (point), a yellow star labeled Light post (point), a gray line labeled Sidewalk (line), a blue L-shaped polygon labeled Building (polygon), and a light green polygon labeled Lawn (polygon).">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-entities-features-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.1: The same scene as entities in the real world (left) and as features on a map (right). The tree and light post become points, the sidewalk a line, and the building and lawn polygons.
+</figcaption>
+</figure>
+</div>
+<p>Notice what the map leaves out. The building’s windows, the color of its bricks, the shape of the tree’s crown, and the people walking by are all gone. Every map is a set of choices about what to keep, what to leave out, and how to draw what is kept. Look back at your campus list: which entities made it onto your map, and which did you leave off without even thinking about it?</p>
+</section>
+<section id="data-abstraction" class="level3" data-number="2.1.2">
+<h3 data-number="2.1.2" class="anchored" data-anchor-id="data-abstraction"><span class="header-section-number">2.1.2</span> Data abstraction</h3>
+<p>A computer can’t store a tree. It can only store numbers, and in the end, only ones and zeros. <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-abstraction" data-term="data abstraction">Data abstraction</span></strong> is the chain of steps that turns the real world into something a computer can store (<a href="#fig-abstraction" class="quarto-xref">Figure&nbsp;<span>2.2</span></a>):</p>
+<ol type="1">
+<li><strong>The real world</strong>: the wetland, with its water, plants, and soggy edges.</li>
+<li><strong>A <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-model" data-term="data model">data model</span></strong>: the way <em>people</em> think about it in a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span>, such as polygons for each wetland and a table that gives each one an ID, an area, and a type.</li>
+<li><strong>A <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-structure" data-term="data structure">data structure</span></strong>: the way the model is laid out in a computer, such as a list of the <em>x, y</em> coordinate pairs around each polygon’s edge.</li>
+<li><strong>Machine code</strong>: the ones and zeros the computer actually stores.</li>
+</ol>
+<div id="fig-abstraction" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Four boxes in a row, joined by arrows. Real world: a blue pond labeled a wetland, surrounded by green trees. Data model: two green polygons numbered 1 and 2 above a table with columns ID, Area (ha), and Type, with rows 1, 16.3, Marsh and 2, 7.9, Swamp. Data structure: a table of x and y coordinate pairs for polygon 1, starting and ending at 1.2, 5.2. Machine code: eight rows of binary digits. Below, the left side is labeled closer to how people see the world, and the right side closer to how computers store it.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-abstraction-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/what-is-geographic-data/data-abstraction.png" class="img-fluid figure-img" alt="Four boxes in a row, joined by arrows. Real world: a blue pond labeled a wetland, surrounded by green trees. Data model: two green polygons numbered 1 and 2 above a table with columns ID, Area (ha), and Type, with rows 1, 16.3, Marsh and 2, 7.9, Swamp. Data structure: a table of x and y coordinate pairs for polygon 1, starting and ending at 1.2, 5.2. Machine code: eight rows of binary digits. Below, the left side is labeled closer to how people see the world, and the right side closer to how computers store it.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-abstraction-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.2: Data abstraction. Each step to the right looks less like the world to a person and suits the computer better.
+</figcaption>
+</figure>
+</div>
+<p>Humans work with data models; computers store data structures and binary code. The good news is that GIS software hides the right-hand steps. When you open a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layer</span> in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span> or <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span>, you see polygons and tables, not lists of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">coordinates</span>, and certainly not ones and zeros. But knowing the steps are there helps you understand why files are organized the way they are, why some operations are slow, and why the same data can be stored in more than one way.</p>
+</section>
+<section id="geographic-data-models" class="level3" data-number="2.1.3">
+<h3 data-number="2.1.3" class="anchored" data-anchor-id="geographic-data-models"><span class="header-section-number">2.1.3</span> Geographic data models</h3>
+<p>A <strong>data model</strong> sits where human understanding and computer understanding overlap. People think about roads, rivers, and parcels; computers handle numbers and coordinates. The data model is the meeting point. Paul Bolstad, in <em>GIS Fundamentals</em>, describes a data model as the objects in a spatial database plus the relationships among them, and says its purpose is “to provide a formal means of representing and manipulating spatially-referenced information” <span class="citation" data-cites="bolstad2022">(<a href="#ref-bolstad2022" role="doc-biblioref">Bolstad 2022</a>)</span>. <em>Formal</em> here means mathematical: a data model has exact rules, so a computer can follow them without guessing.</p>
+<p>GIS uses four main data models (<a href="#fig-four-models" class="quarto-xref">Figure&nbsp;<span>2.3</span></a>):</p>
+<ul>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-vector" data-term="vector">Vector</span></strong>: points, lines, and polygons, each stored as coordinates.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">Raster</span></strong>: a grid of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cell" data-term="cell">cells</span>, each holding a value.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tin" data-term="TIN">TIN</span></strong> (triangulated irregular network): triangles that connect sampled elevation points into a surface.</li>
+<li><strong>Tabular</strong>: tables of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-attribute" data-term="attribute">attributes</span>, linked to features.</li>
+</ul>
+<div id="fig-four-models" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Four panels. Vector: four navy dots, a red zigzag line, and a green four-sided polygon on a white background. Raster: a square grid of green cells shading from pale yellow-green at the top to dark green at the bottom. TIN: a square filled with irregular triangles whose corners are navy dots, colored from blue at the edges through green and yellow to brown at a peak in the middle. Tabular: a table with columns Address, Built, and Beds, and four rows of houses such as 12 Elm St, 1968, 3.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-four-models-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/what-is-geographic-data/four-data-models.png" class="img-fluid figure-img" alt="Four panels. Vector: four navy dots, a red zigzag line, and a green four-sided polygon on a white background. Raster: a square grid of green cells shading from pale yellow-green at the top to dark green at the bottom. TIN: a square filled with irregular triangles whose corners are navy dots, colored from blue at the edges through green and yellow to brown at a peak in the middle. Tabular: a table with columns Address, Built, and Beds, and four rows of houses such as 12 Elm St, 1968, 3.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-four-models-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.3: The four main <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-data" data-term="spatial data">geographic data</span> models: vector, raster, TIN, and tabular.
+</figcaption>
+</figure>
+</div>
+<p>Most of this chapter is about vector and raster, the two models you will use most. A TIN is a special model for surfaces such as terrain: it puts more triangles where the ground is rough and fewer where it is flat, so it can be more efficient than a grid. Tables aren’t a picture of the world on their own, but they hold the attributes that make vector and raster data useful.</p>
+</section>
+</section>
+<section id="sec-types" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="sec-types"><span class="header-section-number">2.2</span> What types of data do we use?</h2>
+<section id="discrete-objects-and-continuous-data" class="level3" data-number="2.2.1">
+<h3 data-number="2.2.1" class="anchored" data-anchor-id="discrete-objects-and-continuous-data"><span class="header-section-number">2.2.1</span> Discrete objects and continuous data</h3>
+<p>There are two ways of thinking about what is on a map (<a href="#fig-discrete-continuous" class="quarto-xref">Figure&nbsp;<span>2.4</span></a>).</p>
+<p><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-discrete-object" data-term="discrete object">Discrete objects</span></strong> exist in one place and not in another. They have clear boundaries, and at any location they are either present or absent: a road is either here or it isn’t. Roads, houses, lakes, and state boundaries are discrete objects.</p>
+<p><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-continuous-data" data-term="continuous data">Continuous data</span></strong> describe a quantity that exists across the whole map. It is always present, and its value changes from place to place. Every <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-point" data-term="point">point</span> on Earth has an elevation, a temperature, and an amount of rainfall, even if the value is zero. You can’t point to where elevation “ends.”</p>
+<div id="fig-discrete-continuous" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Two panels. Left, titled Discrete objects: present or absent: a white map with small navy squares for houses in two clusters, a red road, a gray road, and a blue oval lake, each labeled. Right, titled Continuous data: a value everywhere: a shaded surface colored from blue in the lowlands through green and yellow to brown on two hilltops, with thin contour lines circling the hills and a color bar for elevation from 0 to 1,400 meters.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-discrete-continuous-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/what-is-geographic-data/discrete-continuous.png" class="img-fluid figure-img" alt="Two panels. Left, titled Discrete objects: present or absent: a white map with small navy squares for houses in two clusters, a red road, a gray road, and a blue oval lake, each labeled. Right, titled Continuous data: a value everywhere: a shaded surface colored from blue in the lowlands through green and yellow to brown on two hilltops, with thin contour lines circling the hills and a color bar for elevation from 0 to 1,400 meters.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-discrete-continuous-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.4: Discrete objects (left) are present or absent: roads, houses, and a lake. Continuous data (right) have a value everywhere: here, elevation in meters, with contour <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-line" data-term="line">lines</span>.
+</figcaption>
+</figure>
+</div>
+<p>Some things can be thought of either way, and the choice depends on your question. Is a forest discrete or continuous? A forest boundary drawn as a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-polygon" data-term="polygon">polygon</span> is discrete: you are either inside the forest or not. But the percent of tree canopy over each patch of ground is continuous, and it shades gradually from dense forest to open field. As you will see, this choice largely decides whether you use the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-vector" data-term="vector">vector</span> or the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">raster model</span>.</p>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Think about it
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sort these into discrete objects and continuous data: fire hydrants, air pollution, county boundaries, snow depth, rivers, soil moisture, noise from an airport. Which ones could be either, depending on the question?</p>
+</div>
+</div>
+</section>
+<section id="points-lines-polygons-and-annotation" class="level3" data-number="2.2.2">
+<h3 data-number="2.2.2" class="anchored" data-anchor-id="points-lines-polygons-and-annotation"><span class="header-section-number">2.2.2</span> Points, lines, polygons, and annotation</h3>
+<p>Maps portray the world with four kinds of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-feature" data-term="feature">features</span> (<a href="#fig-feature-types" class="quarto-xref">Figure&nbsp;<span>2.5</span></a>):</p>
+<ul>
+<li>A <strong>point</strong> is a location with no area, such as a school or a well.</li>
+<li>A <strong>line</strong> has length but no area, such as a road or a stream.</li>
+<li>A <strong>polygon</strong> encloses an area, such as a lake or a park.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-annotation" data-term="annotation">Annotation</span></strong> is the text placed on a map, such as place names and street names.</li>
+</ul>
+<div id="fig-feature-types" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A simple map of a small area with labeled boxes pointing to examples. Point feature points to a purple triangle labeled School. Line feature points to a red road. Polygon feature points to a light green rectangle, Mill Park. Annotation points to the text Main Street. The map also has a blue lake labeled Lake Ridge and a blue stream.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-feature-types-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/what-is-geographic-data/feature-types.png" class="img-fluid figure-img" alt="A simple map of a small area with labeled boxes pointing to examples. Point feature points to a purple triangle labeled School. Line feature points to a red road. Polygon feature points to a light green rectangle, Mill Park. Annotation points to the text Main Street. The map also has a blue lake labeled Lake Ridge and a blue stream.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-feature-types-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.5: The four kinds of map features: points, lines, polygons, and annotation.
+</figcaption>
+</figure>
+</div>
+<p>The same <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-entity" data-term="entity">entity</span> can be any of these, depending on <strong>scale</strong>. A city is a point on a map of the United States, and a polygon on a map of its county. A river is a line on a state map, and a polygon on a detailed map of its banks. You will see this idea again in the vector model, below.</p>
+</section>
+<section id="what-is-an-entity" class="level3" data-number="2.2.3">
+<h3 data-number="2.2.3" class="anchored" data-anchor-id="what-is-an-entity"><span class="header-section-number">2.2.3</span> What is an entity?</h3>
+<p>Every entity carries five kinds of information. Take a lake as an example:</p>
+<ul>
+<li><strong>A spatial location</strong>: where it is, as an address or <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">coordinates</span>. The lake’s center is at a particular latitude and longitude.</li>
+<li><strong>An <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-extent" data-term="extent">extent</span></strong>: how big it is, its size, boundary, and dimensions. The lake covers 40 hectares.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-non-spatial-data" data-term="non-spatial data">Non-spatial</span> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-attribute" data-term="attribute">attributes</span></strong>: facts that describe it without saying where it is, such as a name, a number, a quality, or a color. The lake is called Lake Ridge, and it is 12 meters deep.</li>
+<li><strong>Time</strong>: when it existed, and when the data were collected. The shoreline was mapped from aerial photos taken in 2023, and a dry summer could move it.</li>
+<li><strong>A <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geometry" data-term="geometry">geometry</span></strong>: its shape. The lake is stored as a polygon.</li>
+</ul>
+</section>
+<section id="spatial-and-non-spatial-data" class="level3" data-number="2.2.4">
+<h3 data-number="2.2.4" class="anchored" data-anchor-id="spatial-and-non-spatial-data"><span class="header-section-number">2.2.4</span> Spatial and non-spatial data</h3>
+<p><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-data" data-term="spatial data">Spatial data</span></strong> have a location that can be put on a map: the buildings on your campus, the rainfall measured across North Carolina, the U.S. highway network. <strong>Non-spatial data</strong> have no location of their own: the parts of a bicycle, a list of student ID numbers, your class grades.</p>
+<p>When non-spatial information describes a spatial entity, we call it an <strong>attribute</strong>. A building’s name and the year it was built are attributes of the building’s polygon. Quick check: is a student’s home address spatial or non-spatial? On its own it is just text, but once software matches it to a location on a map (a step called <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geocoding" data-term="geocoding">geocoding</span></strong>), it becomes spatial.</p>
+</section>
+<section id="attribute-data" class="level3" data-number="2.2.5">
+<h3 data-number="2.2.5" class="anchored" data-anchor-id="attribute-data"><span class="header-section-number">2.2.5</span> Attribute data</h3>
+<p><strong>Attribute data</strong> describe features. They have no location on their own; they borrow the location of the feature they are linked to. Attributes are usually stored in a table, with one row per feature and one column per attribute. Every feature in a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layer</span> has the same set of attributes, even if some values are blank.</p>
+<p>Take a layer of fire hydrants (<a href="#fig-attributes" class="quarto-xref">Figure&nbsp;<span>2.6</span></a>). Each dot on the map is one hydrant, and each row of the table describes one of those dots: its ID, how many flanges it has (the outlets hoses connect to), its color, and its condition rating. Select hydrant 2 on the map, and its row lights up in the table; select the row, and the hydrant lights up on the map.</p>
+<div id="fig-attributes" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Two panels joined by a curved two-headed arrow. Left, titled Spatial data: hydrant locations: a tan map of city blocks divided by white streets, with five red dots numbered 1 to 5 at street corners. Dot 2 is yellow. Right, titled Attribute data: one row per hydrant: a table with columns ID, Flanges, Color, and Rating, and five rows. Row 2, which reads 3, red, high, is highlighted in yellow.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-attributes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/what-is-geographic-data/attribute-table.png" class="img-fluid figure-img" alt="Two panels joined by a curved two-headed arrow. Left, titled Spatial data: hydrant locations: a tan map of city blocks divided by white streets, with five red dots numbered 1 to 5 at street corners. Dot 2 is yellow. Right, titled Attribute data: one row per hydrant: a table with columns ID, Flanges, Color, and Rating, and five rows. Row 2, which reads 3, red, high, is highlighted in yellow.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-attributes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.6: Fire hydrants as spatial data (left) and attribute data (right). Each row of the table describes one hydrant on the map.
+</figcaption>
+</figure>
+</div>
+<p>That consistency, the same columns for every feature, is what lets a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> <strong>query</strong> a layer (find every hydrant rated low) and <strong>symbolize</strong> it (color each hydrant by its rating).</p>
+</section>
+<section id="thematic-layers" class="level3" data-number="2.2.6">
+<h3 data-number="2.2.6" class="anchored" data-anchor-id="thematic-layers"><span class="header-section-number">2.2.6</span> Thematic layers</h3>
+<p>A <strong>layer</strong> groups similar features, such as all the roads, all the parcels, or all the hydrants. Stacking layers that cover the same area lets us compare themes and find where they meet (<a href="#fig-layers" class="quarto-xref">Figure&nbsp;<span>2.7</span></a>). This is the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-overlay-analysis" data-term="overlay analysis">overlay</span> idea from Chapter 1, put into practice.</p>
+<div id="fig-layers" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Six flat, tilted sheets stacked one above the other like transparent maps, each labeled on the right. From the bottom: Earth's surface, a gray-brown sheet with small specks; Elevation, with brown contour rings around a hill; Land cover, green with a dark green forest patch and a yellow field; Soils, divided into three brown soil areas; Roads, white with two red roads crossing; and Boundaries, white with dashed purple boundary lines.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-layers-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/what-is-geographic-data/thematic-layers.png" class="img-fluid figure-img" alt="Six flat, tilted sheets stacked one above the other like transparent maps, each labeled on the right. From the bottom: Earth's surface, a gray-brown sheet with small specks; Elevation, with brown contour rings around a hill; Land cover, green with a dark green forest patch and a yellow field; Soils, divided into three brown soil areas; Roads, white with two red roads crossing; and Boundaries, white with dashed purple boundary lines.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-layers-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.7: Thematic layers stacked over the same area, from the Earth’s surface at the bottom up through elevation, land cover, soils, and roads to political boundaries.
+</figcaption>
+</figure>
+</div>
+<p>The two programs in this book organize layers slightly differently:</p>
+<ul>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span></strong>: the layers you display together make up a <em>map</em>. A project (an <code>.aprx</code> file) can hold several maps, along with layouts and other items. (Older ArcMap called a map a <em>data frame</em>, and saved its work as a <em>map document</em>, an <code>.mxd</code> file.)</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span></strong>: layers belong to a <em>project</em> (a <code>.qgz</code> file), and are drawn in the <em>map canvas</em>. The Layers panel lists them, top to bottom, in the order they are drawn.</li>
+</ul>
+<p>In both programs, a layer <em>points to</em> data stored somewhere else, in a file or a database. It does not hold the data itself. Deleting a layer from your map does not delete the data, and moving the data can break the layer. Keep that in mind when you move a project to another computer.</p>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Think about it
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Go back to your campus map list. Name three layers you would need. For each one, would its features be points, lines, or polygons? What attributes would you give them?</p>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-models" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="sec-models"><span class="header-section-number">2.3</span> How do data models describe geography?</h2>
+<section id="vector-and-raster" class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1" class="anchored" data-anchor-id="vector-and-raster"><span class="header-section-number">2.3.1</span> Vector and raster</h3>
+<p>The two main <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-model" data-term="data model">data models</span> represent the world in very different ways (<a href="#fig-vector-raster" class="quarto-xref">Figure&nbsp;<span>2.8</span></a>; <a href="#tbl-vector-raster" class="quarto-xref">Table&nbsp;<span>2.1</span></a>).</p>
+<p>The <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-vector" data-term="vector">vector</span></strong> model stores <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geometry" data-term="geometry">geometry</span> as <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">coordinates</span>. A <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-point" data-term="point">point</span> is a single <em>x, y</em> pair; a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-line" data-term="line">line</span> is an ordered list of pairs; a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-polygon" data-term="polygon">polygon</span> is a list that closes back on itself. Vector suits <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-discrete-object" data-term="discrete object">discrete objects</span>, and each <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-feature" data-term="feature">feature</span> carries its own <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-attribute" data-term="attribute">attributes</span>.</p>
+<p>The <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">raster</span></strong> model divides space into a regular grid of <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cell" data-term="cell">cells</span></strong>, each holding one value. Raster suits <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-continuous-data" data-term="continuous data">continuous data</span>. How much detail it keeps depends on the size of the cells. (In an image, a cell is called a <strong>pixel</strong>, short for <em>picture element</em>.)</p>
+<div id="fig-vector-raster" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Two panels with x and y axes. Left, Vector: exact coordinates: three navy dots labeled points, a red line made of straight segments through five points, and a green rectangle labeled area. Right, Raster: cells in a grid: the same features drawn by filling cells of a fine gray grid. The points are three single navy cells, the line is a staircase of red cells, and the area is a block of dark green cells.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-vector-raster-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/what-is-geographic-data/vector-raster.png" class="img-fluid figure-img" alt="Two panels with x and y axes. Left, Vector: exact coordinates: three navy dots labeled points, a red line made of straight segments through five points, and a green rectangle labeled area. Right, Raster: cells in a grid: the same features drawn by filling cells of a fine gray grid. The points are three single navy cells, the line is a staircase of red cells, and the area is a block of dark green cells.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-vector-raster-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.8: The same points, line, and area stored as vector (left) and raster (right). In the raster, each feature becomes a group of cells, and the line becomes a staircase.
+</figcaption>
+</figure>
+</div>
+<div id="tbl-vector-raster" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-vector-raster-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2.1: The vector and raster data models compared.
+</figcaption>
+<div aria-describedby="tbl-vector-raster-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 42%">
+<col style="width: 42%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">Vector</th>
+<th style="text-align: left;">Raster</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Stores</td>
+<td style="text-align: left;">Points, lines, and polygons</td>
+<td style="text-align: left;">A regular grid of cells</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Best for</td>
+<td style="text-align: left;">Discrete objects</td>
+<td style="text-align: left;">Continuous data</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Location</td>
+<td style="text-align: left;"><em>x, y</em> coordinates</td>
+<td style="text-align: left;">The cell’s row and column in the grid</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Detail set by</td>
+<td style="text-align: left;">The precision of the coordinates</td>
+<td style="text-align: left;">The <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cell-size" data-term="cell size">cell size</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Attributes</td>
+<td style="text-align: left;">Each feature has its own row of attributes</td>
+<td style="text-align: left;">Each cell holds one value</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Examples</td>
+<td style="text-align: left;">Roads, parcels, wells, county boundaries</td>
+<td style="text-align: left;">Elevation, satellite imagery, land cover, temperature</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Before you read the examples in the table, try to think of your own: what would you store as vector, and what as raster?</p>
+</section>
+<section id="the-vector-model-one-entity-several-features" class="level3" data-number="2.3.2">
+<h3 data-number="2.3.2" class="anchored" data-anchor-id="the-vector-model-one-entity-several-features"><span class="header-section-number">2.3.2</span> The vector model: one entity, several features</h3>
+<p>The vector model gives you choices. The buildings in a neighborhood can be stored as points, as outlines (lines), or as filled areas (polygons) (<a href="#fig-three-ways" class="quarto-xref">Figure&nbsp;<span>2.9</span></a>).</p>
+<div id="fig-three-ways" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Three panels showing the same six buildings. Points: where each building is: six navy dots. Lines: each building's outline: six hollow outlines of rectangles and an L shape. Areas: each building's footprint: the same six shapes filled in solid navy.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-three-ways-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/what-is-geographic-data/one-entity-three-ways.png" class="img-fluid figure-img" alt="Three panels showing the same six buildings. Points: where each building is: six navy dots. Lines: each building's outline: six hollow outlines of rectangles and an L shape. Areas: each building's footprint: the same six shapes filled in solid navy.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-three-ways-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.9: The same buildings stored three ways in the vector model: as points, as outlines, and as filled areas.
+</figcaption>
+</figure>
+</div>
+<p>The right choice depends on scale and purpose. A citywide map of schools only needs points. A campus map for finding building entrances needs footprints. What is the difference between a line and an area? <em>Enclosure</em>: an area is a closed shape with an inside, so you can measure how big it is and ask whether something is in it. An outline drawn as a line has no inside, only a length.</p>
+</section>
+<section id="vector-terms" class="level3" data-number="2.3.3">
+<h3 data-number="2.3.3" class="anchored" data-anchor-id="vector-terms"><span class="header-section-number">2.3.3</span> Vector terms</h3>
+<p>A few terms describe the parts of vector features (<a href="#fig-vector-terms" class="quarto-xref">Figure&nbsp;<span>2.10</span></a>):</p>
+<ul>
+<li>A <strong>point</strong> is a standalone location.</li>
+<li>A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-node" data-term="node">node</span></strong> is the start or end point of a line.</li>
+<li>A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-vertex" data-term="vertex">vertex</span></strong> (plural <strong>vertices</strong>) is an intermediate point where a line changes direction.</li>
+<li>A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-line-segment" data-term="line segment">line segment</span></strong> is the straight piece between two vertices or nodes.</li>
+<li>A <strong>polygon</strong> is a closed line that encloses an area. Its corners are vertices.</li>
+</ul>
+<div id="fig-vector-terms" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A labeled line drawing. On the left, a green five-sided polygon with a dot at each corner; labels point to the polygon and to one corner, a vertex. In the middle, a red line that bends three times. Its two ends are navy squares labeled node, and the bends are red dots, one labeled vertex. A label points to one straight piece, a line segment. On the right, a single purple dot labeled point.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-vector-terms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/what-is-geographic-data/vector-terms.png" class="img-fluid figure-img" alt="A labeled line drawing. On the left, a green five-sided polygon with a dot at each corner; labels point to the polygon and to one corner, a vertex. In the middle, a red line that bends three times. Its two ends are navy squares labeled node, and the bends are red dots, one labeled vertex. A label points to one straight piece, a line segment. On the right, a single purple dot labeled point.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-vector-terms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.10: The parts of vector features: a polygon and its vertices, a line with a node at each end and vertices between, its line segments, and a point.
+</figcaption>
+</figure>
+</div>
+<p>Nodes matter for <strong>networks</strong>. Roads meet at nodes, so routing software, like the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-route-optimization" data-term="route optimization">route optimization</span> in Chapter 1, uses them to find paths from one road to the next.</p>
+<p>When you edit vector data in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span> or <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span>, you will move, add, and delete vertices one at a time. The more vertices a line has, the more closely it can follow a curving river, and the larger its file.</p>
+</section>
+<section id="the-raster-model-a-grid-of-cells" class="level3" data-number="2.3.4">
+<h3 data-number="2.3.4" class="anchored" data-anchor-id="the-raster-model-a-grid-of-cells"><span class="header-section-number">2.3.4</span> The raster model: a grid of cells</h3>
+<p>A <strong>raster</strong> is rows and columns of equal-sized cells, laid on an <em>x, y</em> coordinate system (<a href="#fig-raster-grid" class="quarto-xref">Figure&nbsp;<span>2.11</span></a>). Four things define it:</p>
+<ul>
+<li><strong>Each cell holds one value.</strong> Most values are numbers, such as an elevation in meters. A value can also stand for a category, such as a land cover class (1 = water, 2 = forest, 3 = farmland), usually stored as a numeric code with a table that says what each code means. The cell marked N in the figure is a reminder that a value need not be a measurement.</li>
+<li><strong>The cell size</strong> is the real-world length of one side of a cell, such as 30 meters. It sets the raster’s <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-resolution" data-term="resolution">resolution</span></strong>.</li>
+<li><strong>The coordinates of the lower-left cell</strong> anchor the grid to a place on Earth.</li>
+<li><strong>The number of rows and columns</strong> sets how far the grid extends.</li>
+</ul>
+<div id="fig-raster-grid" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A six by six grid of square cells on x and y axes. Most cells hold a number from 1 to 4, shaded from pale yellow-green for 1 to medium green for 4. One cell, second from the bottom in the left column, is yellow and holds the letter N. A red arrow beside one cell marks its height as the cell size. A red dot at the grid's lower-left corner is labeled coordinates of the lower-left cell.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-raster-grid-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/what-is-geographic-data/raster-grid.png" class="img-fluid figure-img" alt="A six by six grid of square cells on x and y axes. Most cells hold a number from 1 to 4, shaded from pale yellow-green for 1 to medium green for 4. One cell, second from the bottom in the left column, is yellow and holds the letter N. A red arrow beside one cell marks its height as the cell size. A red dot at the grid's lower-left corner is labeled coordinates of the lower-left cell.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-raster-grid-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.11: A raster grid. Each cell holds one value, and the grid is located by the coordinates of its lower-left cell.
+</figcaption>
+</figure>
+</div>
+<p>Because every cell is the same size, you don’t need to store the coordinates of each cell. You only need the coordinates of one corner and the cell size, and you can work out where every other cell is. That is a big part of why rasters are simple and fast to process.</p>
+</section>
+<section id="cell-size-and-cell-coordinates" class="level3" data-number="2.3.5">
+<h3 data-number="2.3.5" class="anchored" data-anchor-id="cell-size-and-cell-coordinates"><span class="header-section-number">2.3.5</span> Cell size and cell coordinates</h3>
+<p><strong>Cell size</strong> is the ground distance covered by one side of a cell. Smaller cells mean more cells over the same area, which means finer resolution and larger files. <a href="#fig-cell-size" class="quarto-xref">Figure&nbsp;<span>2.12</span></a> shows the same 200-meter square at three cell sizes. Halving the cell size multiplies the number of cells by four: 4, then 16, then 64.</p>
+<div id="fig-cell-size" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Three square grids side by side, each 200 meters on a side and shaded green where values are high. Grid a has 100 meter cells, so only 4 cells, two pale and two green. Grid b has 50 meter cells, 16 cells, with one dark green cell in the lower middle. Grid c has 25 meter cells, 64 cells, which show a smooth green peak in the lower middle and a smaller one at the upper left.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-cell-size-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/what-is-geographic-data/cell-size.png" class="img-fluid figure-img" alt="Three square grids side by side, each 200 meters on a side and shaded green where values are high. Grid a has 100 meter cells, so only 4 cells, two pale and two green. Grid b has 50 meter cells, 16 cells, with one dark green cell in the lower middle. Grid c has 25 meter cells, 64 cells, which show a smooth green peak in the lower middle and a smaller one at the upper left.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cell-size-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.12: The same 200 m square at three cell sizes: (a) 100 m cells, 4 cells; (b) 50 m cells, 16 cells; (c) 25 m cells, 64 cells.
+</figcaption>
+</figure>
+</div>
+<p>To find where a cell is, start from the lower-left cell and count. Number rows and columns from 0, starting at the lower-left cell. Then:</p>
+<p><span class="math display">\[N_{cell} = N_{lower\text{-}left} + (\text{row} \times \text{cell size})\]</span></p>
+<p><span class="math display">\[E_{cell} = E_{lower\text{-}left} + (\text{column} \times \text{cell size})\]</span></p>
+<p>Here <em>N</em> is the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-northing" data-term="northing">northing</span></strong>, a distance north (the <em>y</em> coordinate), and <em>E</em> is the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-easting" data-term="easting">easting</span></strong>, a distance east (the <em>x</em> coordinate). You will meet eastings and northings again when we study coordinate systems.</p>
+<p>For example, suppose the lower-left cell of a raster is at E 500,000 m, N 4,400,000 m, and the cells are 25 meters on a side. The cell in row 2, column 3 is at:</p>
+<ul>
+<li>N = 4,400,000 + (2 × 25) = <strong>4,400,050 m</strong></li>
+<li>E = 500,000 + (3 × 25) = <strong>500,075 m</strong></li>
+</ul>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Trivia time: which cell size gives the best resolution?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Look at <a href="#fig-cell-size" class="quarto-xref">Figure&nbsp;<span>2.12</span></a> again. If you were buying a new TV, which of these would give you the best picture: (a) 100 m cells, (b) 50 m cells, or (c) 25 m cells?</p>
+<details>
+<summary>
+Show the answer
+</summary>
+(c), the 25-meter cells. Smaller cells mean more cells over the same area, so finer detail. A TV works the same way: more, smaller pixels on the same size screen give a sharper picture. The cost? Grid (c) has sixteen times as many cells as grid (a), so its file is larger and slower to process.
+</details>
+</div>
+</div>
+<div class="did-you-know callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Did you know..?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Each cell in an image from the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-landsat" data-term="Landsat">Landsat</span> satellites, which have photographed Earth continuously since 1972, is 30 meters on a side. That is about the size of a baseball infield, whose bases are 90 feet (27.4 meters) apart. A single cell can’t show you a house, but a grid of them covering every place on Earth, every 16 days for over 50 years, can show you forests being cut, cities growing, and lakes drying up.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-stored" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="sec-stored"><span class="header-section-number">2.4</span> How is geographic data stored?</h2>
+<section id="data-structures" class="level3" data-number="2.4.1">
+<h3 data-number="2.4.1" class="anchored" data-anchor-id="data-structures"><span class="header-section-number">2.4.1</span> Data structures</h3>
+<p>The <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-model" data-term="data model">data model</span> is the concept; the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-structure" data-term="data structure">data structure</span></strong> is how a computer actually stores it. <a href="#fig-arcs" class="quarto-xref">Figure&nbsp;<span>2.13</span></a> shows one way a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-vector" data-term="vector">vector</span> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-polygon" data-term="polygon">polygon</span> can be stored. The polygon is built from three <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arc" data-term="arc">arcs</span></strong> (A1, A2, and A3), each a short <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-line" data-term="line">line</span>. Each arc is stored as an ordered list of coordinate pairs at particular addresses in the computer’s memory, and a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-pointer" data-term="pointer">pointer</span></strong> tells the computer which arc comes next.</p>
+<div id="fig-arcs" class="quarto-float quarto-figure quarto-figure-center anchored" alt="On the left, a light green seven-sided polygon whose edge is drawn in three colors: the bottom edge, A1, in teal; the right side, A2, in red; and the top and left sides, A3, in purple. On the right, three tables, Arc A1, Arc A2, and Arc A3, list memory addresses and coordinate pairs. Arc A1 runs from 1, 2 to 7, 2; Arc A2 from 7, 2 to 6, 8; Arc A3 from 6, 8 back to 1, 2. Curved arrows labeled pointer run from the last row of each table to the first row of the next. A note reads: The last point of each arc is the first point of the next.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-arcs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/what-is-geographic-data/arc-structure.png" class="img-fluid figure-img" alt="On the left, a light green seven-sided polygon whose edge is drawn in three colors: the bottom edge, A1, in teal; the right side, A2, in red; and the top and left sides, A3, in purple. On the right, three tables, Arc A1, Arc A2, and Arc A3, list memory addresses and coordinate pairs. Arc A1 runs from 1, 2 to 7, 2; Arc A2 from 7, 2 to 6, 8; Arc A3 from 6, 8 back to 1, 2. Curved arrows labeled pointer run from the last row of each table to the first row of the next. A note reads: The last point of each arc is the first point of the next.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-arcs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.13: A polygon stored as three arcs. Each arc is a list of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">coordinates</span> in memory, and pointers link one arc to the next.
+</figcaption>
+</figure>
+</div>
+<p>Notice that the last coordinate of each arc is the same as the first coordinate of the next. That shared <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-point" data-term="point">point</span> is what joins the arcs into a closed polygon. Storing shared edges once, and recording how they connect, is called <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-topology" data-term="topology">topology</span></strong>. It saves space, and it guarantees that two neighboring polygons, like two counties, share exactly the same border, with no gaps or overlaps between them. You will meet topology again when you edit data.</p>
+<p>You rarely need to think about data structures. But they explain things you will notice: why some file formats are larger than others, why a file can be corrupted if one part is missing, and why some tools need data in a particular format.</p>
+</section>
+<section id="the-esri-shapefile" class="level3" data-number="2.4.2">
+<h3 data-number="2.4.2" class="anchored" data-anchor-id="the-esri-shapefile"><span class="header-section-number">2.4.2</span> The Esri shapefile</h3>
+<p>The data structure you will use most often this semester is the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-shapefile" data-term="shapefile">shapefile</span></strong>, a vector format that <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-esri" data-term="Esri">Esri</span> created in the early 1990s and published as an open specification in 1998 <span class="citation" data-cites="esri1998">(<a href="#ref-esri1998" role="doc-biblioref">Environmental Systems Research Institute 1998</a>)</span>. Despite its name, a shapefile is not one file. It is a group of files that share a name and together store one vector <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layer</span> (<a href="#tbl-shapefile" class="quarto-xref">Table&nbsp;<span>2.2</span></a>).</p>
+<div id="tbl-shapefile" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-shapefile-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2.2: The files that make up a shapefile named roads.
+</figcaption>
+<div aria-describedby="tbl-shapefile-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 60%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">File</th>
+<th style="text-align: left;">What it holds</th>
+<th style="text-align: left;">Required?</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>roads.shp</code></td>
+<td style="text-align: left;">The <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-feature" data-term="feature">feature</span> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geometry" data-term="geometry">geometry</span>: the coordinates of each point, line, or polygon</td>
+<td style="text-align: left;">Yes</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>roads.shx</code></td>
+<td style="text-align: left;">A positional index that links each shape to its record</td>
+<td style="text-align: left;">Yes</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>roads.dbf</code></td>
+<td style="text-align: left;">The <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-attribute" data-term="attribute">attribute table</span>, in dBASE format</td>
+<td style="text-align: left;">Yes</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>roads.prj</code></td>
+<td style="text-align: left;">The coordinate system and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-map-projection" data-term="map projection">projection</span></td>
+<td style="text-align: left;">No, but you almost always need it</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>roads.sbn</code>, <code>roads.sbx</code></td>
+<td style="text-align: left;">A spatial index for faster searches</td>
+<td style="text-align: left;">No</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>roads.cpg</code></td>
+<td style="text-align: left;">The character set used for text in the <code>.dbf</code></td>
+<td style="text-align: left;">No</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>roads.shp.xml</code></td>
+<td style="text-align: left;"><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-metadata" data-term="metadata">Metadata</span> for the layer</td>
+<td style="text-align: left;">No</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Three files are required: <code>.shp</code>, <code>.shx</code>, and <code>.dbf</code>. Without the <code>.prj</code> file, software can’t tell where on Earth the coordinates are, so the layer may show up in the wrong place, or not at all.</p>
+<p>The most common student mistake is to email, upload, or move only the <code>.shp</code> file. The other files are left behind, and the shapefile won’t open. <strong>Always copy, move, and rename all of a shapefile’s files together</strong>, or zip the folder that holds them. Better yet, use the tools in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span> (the Browser panel) or <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span> (the Catalog pane), which treat the group of files as one layer.</p>
+<div class="did-you-know callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Did you know..?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The shapefile is over thirty years old, and it shows its age. Its attribute table is a <code>.dbf</code> file from dBASE, a database program from the early 1980s, so field names can be no more than <strong>10 characters</strong> long (<code>POPULATION_2020</code> becomes <code>POPULATION</code>), a table can have at most 255 fields, and the <code>.shp</code> and <code>.dbf</code> files can each be no larger than <strong>2 GB</strong>. Each shapefile can also hold only one kind of geometry. Some <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> users run a website, <em>Switch from Shapefile</em>, that lists these limits and urges everyone to move to newer formats. The most popular replacement is the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geopackage" data-term="GeoPackage">GeoPackage</span></strong> (<code>.gpkg</code>), an open standard from the Open Geospatial Consortium that stores many layers, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">rasters</span> as well as vectors, in a single file. It has been QGIS’s default format since 2018. Yet the shapefile is still everywhere, because nearly every GIS program ever written can read it.</p>
+</div>
+</div>
+</section>
+<section id="metadata" class="level3" data-number="2.4.3">
+<h3 data-number="2.4.3" class="anchored" data-anchor-id="metadata"><span class="header-section-number">2.4.3</span> Metadata</h3>
+<p>Before you trust a dataset, read its <strong>metadata</strong>: data about the data. Good metadata answers questions like these:</p>
+<ul>
+<li><strong>Who</strong> created the data?</li>
+<li><strong>When</strong> were they created, and for what time period?</li>
+<li><strong>How</strong> were they created, and how accurate are they?</li>
+<li><strong>What</strong> coordinate system do they use?</li>
+<li><strong>Where</strong> can the data be found, and <strong>can I use them</strong>? Are there limits on how they may be shared or used?</li>
+</ul>
+<p>Metadata is how you judge whether a dataset fits your purpose. A road layer made from 1990s paper maps may be fine for a state overview and useless for routing an ambulance. A land cover raster made with 30-meter <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cell" data-term="cell">cells</span> can’t tell you how many trees are in your yard.</p>
+<p>In the United States, many public datasets follow the metadata standard of the Federal <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-data" data-term="spatial data">Geographic Data</span> Committee (FGDC); internationally, the ISO 19115 standard is common. In QGIS you can read a layer’s metadata in its <strong>Layer Properties</strong>, and in ArcGIS Pro in the <strong>Metadata</strong> tab of the Catalog pane or a layer’s properties.</p>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Think about it
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Your consulting firm has finished its campus map. What metadata would you write, so that a student three years from now could decide whether to reuse your data?</p>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-advantages" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="sec-advantages"><span class="header-section-number">2.5</span> Vector or raster?</h2>
+<p>Neither model is better in general. Each has strengths and weaknesses (<a href="#tbl-pros-cons" class="quarto-xref">Table&nbsp;<span>2.3</span></a>), and you choose the one that fits the data and the question.</p>
+<div id="tbl-pros-cons" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-pros-cons-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2.3: Advantages and disadvantages of the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-vector" data-term="vector">vector</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">raster</span> models.
+</figcaption>
+<div aria-describedby="tbl-pros-cons-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 42%">
+<col style="width: 42%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Model</th>
+<th style="text-align: left;">Advantages</th>
+<th style="text-align: left;">Disadvantages</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Vector</strong></td>
+<td style="text-align: left;">Precise locations and boundaries</td>
+<td style="text-align: left;">A more complex <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-structure" data-term="data structure">data structure</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Compact storage for <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-discrete-object" data-term="discrete object">discrete</span> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-feature" data-term="feature">features</span></td>
+<td style="text-align: left;">Slower for <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-overlay-analysis" data-term="overlay analysis">overlay</span> and surface analysis</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Each feature carries its own <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-attribute" data-term="attribute">attributes</span></td>
+<td style="text-align: left;">A poor fit for <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-continuous-data" data-term="continuous data">continuous data</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Looks good at any zoom level</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Raster</strong></td>
+<td style="text-align: left;">A simple grid structure</td>
+<td style="text-align: left;">Precision limited by <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cell-size" data-term="cell size">cell size</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Fast overlay and <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-map-algebra" data-term="map algebra">map algebra</span></strong> (math on grids, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cell" data-term="cell">cell</span> by cell)</td>
+<td style="text-align: left;">Large files at fine <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-resolution" data-term="resolution">resolution</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">A natural fit for continuous data and imagery</td>
+<td style="text-align: left;"><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-line" data-term="line">Lines</span> and edges look blocky</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Satellite and drone imagery is already raster</td>
+<td style="text-align: left;">Each cell holds only one value</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>A memory aid that generations of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> students have used for exams:</p>
+<blockquote class="blockquote">
+<p><strong>Vector is corrector, but raster is faster.</strong></p>
+</blockquote>
+<p>Vector keeps exact <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">coordinates</span>, so shapes and boundaries are more correct. Raster’s simple grid makes overlay and analysis faster. Here are a few choices to try:</p>
+<ul>
+<li><strong>Property parcel boundaries</strong>: vector. A parcel’s boundary is a legal line, and it needs to be exact.</li>
+<li><strong>A snow-depth map</strong>: raster. Snow depth is continuous; there is a value everywhere.</li>
+<li><strong>A city’s bus routes and stops</strong>: vector. Lines and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-point" data-term="point">points</span>, with schedules and route numbers as attributes.</li>
+<li><strong>A satellite image of a wildfire</strong>: raster. Imagery is collected as a grid of pixels.</li>
+<li><strong>Land cover for a whole state</strong>: usually raster, because it covers everything, with no gaps.</li>
+</ul>
+<p>Software can convert between the two. Turning vector data into a raster is called <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-rasterize" data-term="rasterize">rasterizing</span></strong>, and turning a raster into vector features is called <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-vectorize" data-term="vectorize">vectorizing</span></strong>. Each conversion loses some information: rasterizing loses precision, and vectorizing produces blocky, staircase-shaped lines that follow the cell edges.</p>
+<div class="did-you-know callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Did you know..?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The word <em>raster</em> comes, through German, from the Latin <em>rastrum</em>, a rake. Early television and computer screens drew their pictures as a set of parallel lines swept across the screen, like the lines a rake leaves in soil, and that pattern became known as a raster scan. <em>Vector</em> comes from the Latin <em>vehere</em>, to carry: in mathematics, a vector carries a point from one place to another, which is just what the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-line-segment" data-term="line segment">line segments</span> of a vector feature do.</p>
+</div>
+</div>
+</section>
+<section id="check-your-understanding" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="check-your-understanding"><span class="header-section-number">2.6</span> Check your understanding</h2>
+<ol type="1">
+<li><p>A tree on campus is an entity. The dot that represents it on a map is a: <select class="webex-select"><option value="blank"></option><option value="">Pixel</option><option value="answer">Feature</option><option value="">Pointer</option><option value="">Attribute</option></select></p></li>
+<li><p>Which step of data abstraction is a list of <em>x, y</em> coordinate pairs? <select class="webex-select"><option value="blank"></option><option value="">Real world</option><option value="">Data model</option><option value="answer">Data structure</option><option value="">Machine code</option></select></p></li>
+<li><p>Precipitation is an example of discrete data. <select class="webex-select"><option value="blank"></option><option value="">TRUE</option><option value="answer">FALSE</option></select></p></li>
+<li><p>The start or end point of a line is called a: <select class="webex-select"><option value="blank"></option><option value="">Vertex</option><option value="answer">Node</option><option value="">Cell</option><option value="">Segment</option></select></p></li>
+<li><p>A raster’s cells are 50 m on a side. If you change to 25 m cells over the same area, how many times as many cells will it have? <input class="webex-solveme nospaces" size="3" data-answer="[&quot;4&quot;,&quot;four&quot;]"></p></li>
+<li><p>The lower-left cell of a raster is at N 4,400,000, and the cells are 25 m. Counting from row 0, what is the northing of row 2? <input class="webex-solveme nospaces" size="10" data-answer="[&quot;4400050&quot;,&quot;4,400,050&quot;]"></p></li>
+<li><p>Which shapefile file holds the attribute table? <select class="webex-select"><option value="blank"></option><option value="">.shp</option><option value="">.shx</option><option value="answer">.dbf</option><option value="">.prj</option></select></p></li>
+<li><p>“Vector is corrector, but raster is ___.” <input class="webex-solveme nospaces ignorecase" size="6" data-answer="[&quot;faster&quot;]"></p></li>
+</ol>
+<div class="webex-solution">
+<button>
+Show hint for question 6
+</button>
+<p>Start from the lower-left northing and add the row number times the cell size: 4,400,000 + (2 × 25).</p>
+</div>
+</section>
+<section id="summary" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="summary"><span class="header-section-number">2.7</span> Summary</h2>
+<ul>
+<li>A map abstracts the world. Real-world <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-entity" data-term="entity">entities</span></strong> become <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-feature" data-term="feature">features</span></strong>: <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-point" data-term="point">points</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-line" data-term="line">lines</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-polygon" data-term="polygon">polygons</span>, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-annotation" data-term="annotation">annotation</span>. Every map is a set of choices about what to keep.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-abstraction" data-term="data abstraction">Data abstraction</span></strong> runs from the real world to a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-model" data-term="data model">data model</span></strong> (how people think about the data), a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-structure" data-term="data structure">data structure</span></strong> (how a computer lays it out), and machine code.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-discrete-object" data-term="discrete object">Discrete objects</span></strong> are present or absent, with clear boundaries; <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-continuous-data" data-term="continuous data">continuous data</span></strong> have a value everywhere.</li>
+<li>Every entity has a location, an <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-extent" data-term="extent">extent</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-attribute" data-term="attribute">attributes</span>, a time, and a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geometry" data-term="geometry">geometry</span>. <strong>Attributes</strong> are <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-non-spatial-data" data-term="non-spatial data">non-spatial</span> facts that describe a spatial feature, stored in a table with one row per feature.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">Layers</span></strong> group similar features, and stacked layers make a map.</li>
+<li>The four main data models are <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-vector" data-term="vector">vector</span></strong>, <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">raster</span></strong>, <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tin" data-term="TIN">TIN</span></strong>, and <strong>tabular</strong>. Vector stores points, lines, and polygons as <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">coordinates</span>, built from <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-node" data-term="node">nodes</span></strong>, <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-vertex" data-term="vertex">vertices</span></strong>, and <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-line-segment" data-term="line segment">line segments</span></strong>. Raster stores a grid of <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cell" data-term="cell">cells</span></strong>; the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cell-size" data-term="cell size">cell size</span></strong> sets its <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-resolution" data-term="resolution">resolution</span>, and every cell’s location can be worked out from the lower-left cell.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-shapefile" data-term="shapefile">Shapefiles</span></strong> store a vector layer in several files (<code>.shp</code>, <code>.shx</code>, <code>.dbf</code>, and usually <code>.prj</code>) that must stay together. <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-metadata" data-term="metadata">Metadata</span></strong> describes who made the data, when, how, and how accurate it is.</li>
+<li><em>Vector is corrector, but raster is faster.</em> Choose the model that fits the data and the question.</li>
+</ul>
+<p>Now return to your campus map list from the start of the chapter. Which entities would you store as vector features, and which as rasters? What attributes and metadata would you record?</p>
+</section>
+<section id="exercises" class="level2" data-number="2.8">
+<h2 data-number="2.8" class="anchored" data-anchor-id="exercises"><span class="header-section-number">2.8</span> Exercises</h2>
+<ol type="1">
+<li><strong>Your campus map.</strong> For each item on the list you made at the start of the chapter, say whether you would store it as a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-point" data-term="point">point</span>, a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-line" data-term="line">line</span>, a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-polygon" data-term="polygon">polygon</span>, or a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">raster</span>, and why. List two <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-attribute" data-term="attribute">attributes</span> for each.</li>
+<li><strong>Five kinds of information.</strong> Pick an <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-entity" data-term="entity">entity</span> near you, such as your dorm, a bus stop, or a creek. Describe its location, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-extent" data-term="extent">extent</span>, attributes, time, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geometry" data-term="geometry">geometry</span>.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-discrete-object" data-term="discrete object">Discrete</span> or <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-continuous-data" data-term="continuous data">continuous</span>?</strong> Give three examples of discrete objects and three of continuous data from your own major or interests. Then find one thing that could be either, and explain when you would treat it each way.</li>
+<li><strong>Scale changes everything.</strong> Describe how a river, an airport, and a university could each be represented as a point, a line, or a polygon, depending on the scale of the map.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cell" data-term="cell">Cell</span> arithmetic.</strong> A raster’s lower-left cell is at E 650,000 m, N 3,950,000 m, and its cells are 30 m. Find the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-easting" data-term="easting">easting</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-northing" data-term="northing">northing</span> of the cell in row 4, column 7. How many cells would it take to cover a 3 km by 3 km square? How many with 10 m cells?</li>
+<li><strong>Read the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-metadata" data-term="metadata">metadata</span>.</strong> Download a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layer</span> from NC OneMap (<a href="https://www.nconemap.gov" class="uri">https://www.nconemap.gov</a>) and open its metadata. Who made it, when, and how? What <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">coordinate system</span> does it use? Would you trust it for an ambulance routing system? For a state overview map?</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-shapefile" data-term="shapefile">Shapefile</span> detective.</strong> Download a shapefile from the U.S. Census Bureau’s TIGER/Line page, unzip it, and list every file in the folder. What does each one hold? Then open the layer in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span> or <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span> and look at its attribute table. Which field names look cut short to 10 characters?</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-vector" data-term="vector">Vector</span> or raster?</strong> For each of these, choose vector or raster and explain why: hiking trails, wildfire burn severity, voting precincts, nighttime lights seen from space, the locations of cell towers, and annual rainfall.</li>
+</ol>
+</section>
+<section id="further-reading-and-online-resources" class="level2" data-number="2.9">
+<h2 data-number="2.9" class="anchored" data-anchor-id="further-reading-and-online-resources"><span class="header-section-number">2.9</span> Further reading and online resources</h2>
+<section id="books-and-open-textbooks" class="level3" data-number="2.9.1">
+<h3 data-number="2.9.1" class="anchored" data-anchor-id="books-and-open-textbooks"><span class="header-section-number">2.9.1</span> Books and open textbooks</h3>
+<ul>
+<li><em><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> Fundamentals: A First Text on Geographic Information Systems</em>, by Paul Bolstad <span class="citation" data-cites="bolstad2022">(<a href="#ref-bolstad2022" role="doc-biblioref">Bolstad 2022</a>)</span>. Chapter 2, “<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-model" data-term="data model">Data Models</span>,” covers the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-vector" data-term="vector">vector</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">raster</span>, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tin" data-term="TIN">TIN</span> models, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-topology" data-term="topology">topology</span>, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-structure" data-term="data structure">data structures</span> in depth.</li>
+<li><em>Understanding GIS through Sustainable Development Goals</em>, by Paul Holloway <span class="citation" data-cites="holloway2023">(<a href="#ref-holloway2023" role="doc-biblioref">Holloway 2023</a>)</span>. Its chapters on <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-data" data-term="spatial data">spatial data</span> introduce vector and raster data with worked examples.</li>
+<li><em>Essentials of Geographic Information Systems</em>, by Jonathan Campbell and Michael Shin. Chapter 4, “Data Models for GIS,” and Chapter 5, “Geospatial Data Management,” are free online: <a href="https://open.umn.edu/opentextbooks/textbooks/67" class="uri">https://open.umn.edu/opentextbooks/textbooks/67</a>, also on LibreTexts at <a href="https://geo.libretexts.org/Bookshelves/Geography_(Physical)/Essentials_of_Geographic_Information_Systems_(Campbell_and_Shin)" class="uri">https://geo.libretexts.org/Bookshelves/Geography_(Physical)/Essentials_of_Geographic_Information_Systems_(Campbell_and_Shin)</a>.</li>
+<li><em>Intro to GIS and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-analysis" data-term="spatial analysis">Spatial Analysis</span></em>, by Manuel Gimond. See the chapters “<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-feature" data-term="feature">Feature</span> Representation” and “GIS Data Formats”: <a href="https://mgimond.github.io/Spatial/" class="uri">https://mgimond.github.io/Spatial/</a>.</li>
+<li><em>The Nature of Geographic Information</em>, by David DiBiase and colleagues at Penn State. Chapter 1, “Data and Information,” and its sections on vector and raster representations: <a href="https://www.e-education.psu.edu/natureofgeoinfo/" class="uri">https://www.e-education.psu.edu/natureofgeoinfo/</a>.</li>
+<li><em>GIS Commons: An Introductory Textbook on Geographic Information Systems</em>, by Michael Schmandt. A free online text with a chapter on data models: <a href="https://giscommons.org" class="uri">https://giscommons.org</a>.</li>
+<li><em>Geographic Information Systems and Science</em>, by Paul Longley, Michael Goodchild, David Maguire, and David Rhind. The chapters on representing geography and on data models are classics of the field.</li>
+</ul>
+</section>
+<section id="data-models-vector-raster-and-tin" class="level3" data-number="2.9.2">
+<h3 data-number="2.9.2" class="anchored" data-anchor-id="data-models-vector-raster-and-tin"><span class="header-section-number">2.9.2</span> Data models: vector, raster, and TIN</h3>
+<ul>
+<li>The <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-gis-t-body-of-knowledge" data-term="GIS&amp;T Body of Knowledge">GIS&amp;T Body of Knowledge</span>, from UCGIS, has short articles on this chapter’s ideas. Search it for “Vector Data Models,” “Raster Data Models,” “The Triangulated Irregular Network (TIN),” “Conceptual Models of Space,” and “Topology”: <a href="https://gistbok.ucgis.org" class="uri">https://gistbok.ucgis.org</a>.</li>
+<li><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span>, <em>A Gentle Introduction to GIS</em>, the chapters “Vector Data,” “Vector <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-attribute" data-term="attribute">Attribute Data</span>,” and “Raster Data”: <a href="https://docs.qgis.org/latest/en/docs/gentle_gis_introduction/" class="uri">https://docs.qgis.org/latest/en/docs/gentle_gis_introduction/</a>.</li>
+<li><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-esri" data-term="Esri">Esri</span>, “Introduction to image and raster data,” in the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span> help: <a href="https://pro.arcgis.com/en/pro-app/latest/help/data/imagery/introduction-to-raster-data.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/help/data/imagery/introduction-to-raster-data.htm</a>.</li>
+<li>Esri, “TIN in ArcGIS Pro”: <a href="https://pro.arcgis.com/en/pro-app/latest/help/data/tin/tin-in-arcgis-pro.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/help/data/tin/tin-in-arcgis-pro.htm</a>.</li>
+<li>National Geographic Education, “Vector and raster data” and related resources on GIS: <a href="https://education.nationalgeographic.org/resource/geographic-information-system-gis/" class="uri">https://education.nationalgeographic.org/resource/geographic-information-system-gis/</a>.</li>
+<li>GIS Geography, “Vector vs Raster in GIS: What’s the Difference?”: <a href="https://gisgeography.com/spatial-data-types-vector-raster/" class="uri">https://gisgeography.com/spatial-data-types-vector-raster/</a>.</li>
+<li>Earth Lab, University of Colorado Boulder, “Introduction to spatial data: vector and raster” lessons: <a href="https://www.earthdatascience.org" class="uri">https://www.earthdatascience.org</a>.</li>
+<li>Data Carpentry, “Introduction to <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geospatial" data-term="geospatial">Geospatial</span> Concepts,” a short lesson on vector and raster data, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-metadata" data-term="metadata">metadata</span>, and file formats (no longer updated, but still useful): <a href="https://datacarpentry.github.io/organization-geospatial/" class="uri">https://datacarpentry.github.io/organization-geospatial/</a>.</li>
+</ul>
+</section>
+<section id="file-formats" class="level3" data-number="2.9.3">
+<h3 data-number="2.9.3" class="anchored" data-anchor-id="file-formats"><span class="header-section-number">2.9.3</span> File formats</h3>
+<ul>
+<li>Esri, <em>ESRI <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-shapefile" data-term="shapefile">Shapefile</span> Technical Description</em> <span class="citation" data-cites="esri1998">(<a href="#ref-esri1998" role="doc-biblioref">Environmental Systems Research Institute 1998</a>)</span>, the original specification: <a href="https://www.esri.com/content/dam/esrisites/sitecore-archive/Files/Pdfs/library/whitepapers/pdfs/shapefile.pdf" class="uri">https://www.esri.com/content/dam/esrisites/sitecore-archive/Files/Pdfs/library/whitepapers/pdfs/shapefile.pdf</a>.</li>
+<li>Esri, “Shapefiles” in the ArcGIS Pro help, including which files make up a shapefile: <a href="https://pro.arcgis.com/en/pro-app/latest/help/data/shapefiles/working-with-shapefiles-in-arcgis-pro.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/help/data/shapefiles/working-with-shapefiles-in-arcgis-pro.htm</a>, and “<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geoprocessing" data-term="geoprocessing">Geoprocessing</span> considerations for shapefile output,” on its limits: <a href="https://pro.arcgis.com/en/pro-app/latest/tool-reference/appendices/geoprocessing-considerations-for-shapefile-output.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/tool-reference/appendices/geoprocessing-considerations-for-shapefile-output.htm</a>.</li>
+<li>Switch from Shapefile, a community site that lists the shapefile’s limits and the alternatives: <a href="http://switchfromshapefile.org" class="uri">http://switchfromshapefile.org</a>.</li>
+<li><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geopackage" data-term="GeoPackage">GeoPackage</span>, the open standard from the Open Geospatial Consortium (OGC): <a href="https://www.geopackage.org" class="uri">https://www.geopackage.org</a>.</li>
+<li>GDAL, the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-open-source" data-term="open source">open-source</span> library behind most GIS software’s ability to read and write data, with a list of every vector and raster format it supports: <a href="https://gdal.org/en/stable/drivers/vector/index.html" class="uri">https://gdal.org/en/stable/drivers/vector/index.html</a> and <a href="https://gdal.org/en/stable/drivers/raster/index.html" class="uri">https://gdal.org/en/stable/drivers/raster/index.html</a>.</li>
+<li>GeoJSON, a simple text format for vector data on the web: <a href="https://geojson.org" class="uri">https://geojson.org</a>. Try drawing features and watching the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">coordinates</span> appear at <a href="https://geojson.io" class="uri">https://geojson.io</a>.</li>
+<li>Cloud Optimized GeoTIFF, a raster format built for the cloud: <a href="https://cogeo.org" class="uri">https://cogeo.org</a>.</li>
+</ul>
+</section>
+<section id="metadata-1" class="level3" data-number="2.9.4">
+<h3 data-number="2.9.4" class="anchored" data-anchor-id="metadata-1"><span class="header-section-number">2.9.4</span> Metadata</h3>
+<ul>
+<li>Federal Geographic Data Committee (FGDC), geospatial metadata standards: <a href="https://www.fgdc.gov/metadata" class="uri">https://www.fgdc.gov/metadata</a>.</li>
+<li>U.S. Geological Survey, “Metadata creation” and data management guidance: <a href="https://www.usgs.gov/data-management/metadata-creation" class="uri">https://www.usgs.gov/data-management/metadata-creation</a>.</li>
+<li>QGIS User Guide, “Metadata Properties” for a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layer</span>: <a href="https://docs.qgis.org/latest/en/docs/user_manual/working_with_vector/vector_properties.html#metadata-properties" class="uri">https://docs.qgis.org/latest/en/docs/user_manual/working_with_vector/vector_properties.html#metadata-properties</a>.</li>
+<li>ArcGIS Pro, “View metadata”: <a href="https://pro.arcgis.com/en/pro-app/latest/help/metadata/view-and-edit-metadata.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/help/metadata/view-and-edit-metadata.htm</a>.</li>
+<li>Data.gov, the U.S. government’s open data catalog, where every dataset has metadata you can read: <a href="https://data.gov" class="uri">https://data.gov</a>.</li>
+</ul>
+</section>
+<section id="raster-data-and-resolution" class="level3" data-number="2.9.5">
+<h3 data-number="2.9.5" class="anchored" data-anchor-id="raster-data-and-resolution"><span class="header-section-number">2.9.5</span> Raster data and resolution</h3>
+<ul>
+<li>USGS, “<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-landsat" data-term="Landsat">Landsat</span> Satellite Missions,” the history of every Landsat satellite and its sensors: <a href="https://www.usgs.gov/landsat-missions/landsat-satellite-missions" class="uri">https://www.usgs.gov/landsat-missions/landsat-satellite-missions</a>.</li>
+<li>NASA Earth Observatory, “How to Interpret a Satellite Image: Five Tips and Strategies”: <a href="https://science.nasa.gov/earth/earth-observatory/how-to-interpret-a-satellite-image/" class="uri">https://science.nasa.gov/earth/earth-observatory/how-to-interpret-a-satellite-image/</a>.</li>
+<li>USGS 3D Elevation Program (3DEP), elevation rasters for the whole country at several resolutions: <a href="https://www.usgs.gov/3d-elevation-program" class="uri">https://www.usgs.gov/3d-elevation-program</a>.</li>
+<li>Multi-Resolution Land Characteristics Consortium, the National Land Cover Database (NLCD), a 30-meter land cover raster of the United States: <a href="https://www.mrlc.gov" class="uri">https://www.mrlc.gov</a>.</li>
+</ul>
+</section>
+<section id="software-and-tutorials" class="level3" data-number="2.9.6">
+<h3 data-number="2.9.6" class="anchored" data-anchor-id="software-and-tutorials"><span class="header-section-number">2.9.6</span> Software and tutorials</h3>
+<ul>
+<li>QGIS Training Manual, “Create a Basic Map” and “Vector Data” modules: <a href="https://docs.qgis.org/latest/en/docs/training_manual/" class="uri">https://docs.qgis.org/latest/en/docs/training_manual/</a>.</li>
+<li>QGIS User Guide, “Working with Vector Data” and “Working with Raster Data”: <a href="https://docs.qgis.org/latest/en/docs/user_manual/" class="uri">https://docs.qgis.org/latest/en/docs/user_manual/</a>.</li>
+<li>ArcGIS Pro, “Get started with ArcGIS Pro”: <a href="https://pro.arcgis.com/en/pro-app/latest/get-started/get-started.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/get-started/get-started.htm</a>, and free lessons at Learn ArcGIS: <a href="https://learn.arcgis.com" class="uri">https://learn.arcgis.com</a>.</li>
+</ul>
+</section>
+<section id="where-to-find-geographic-data" class="level3" data-number="2.9.7">
+<h3 data-number="2.9.7" class="anchored" data-anchor-id="where-to-find-geographic-data"><span class="header-section-number">2.9.7</span> Where to find geographic data</h3>
+<ul>
+<li>NC OneMap, North Carolina’s geospatial data portal: <a href="https://www.nconemap.gov" class="uri">https://www.nconemap.gov</a>.</li>
+<li>U.S. Census Bureau, TIGER/Line shapefiles: <a href="https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html" class="uri">https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html</a>.</li>
+<li>USGS EarthExplorer, for Landsat imagery and elevation rasters: <a href="https://earthexplorer.usgs.gov" class="uri">https://earthexplorer.usgs.gov</a>.</li>
+<li>USGS National Map Downloader, for elevation, hydrography, and other national layers: <a href="https://apps.nationalmap.gov/downloader/" class="uri">https://apps.nationalmap.gov/downloader/</a>.</li>
+<li>Natural Earth, free vector and raster world data: <a href="https://www.naturalearthdata.com" class="uri">https://www.naturalearthdata.com</a>.</li>
+<li><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-openstreetmap" data-term="OpenStreetMap">OpenStreetMap</span>, the free, editable vector map of the world: <a href="https://www.openstreetmap.org" class="uri">https://www.openstreetmap.org</a>.</li>
+</ul>
+
+
+<div class="glossary-defs" hidden="">
+<span id="gloss-entity">A real-world object we want to store as data, such as a tree, a
+building, or a lake. On a map, an entity is shown as a feature.</span>
+<span id="gloss-feature">How a map or a GIS represents an entity, usually as a point, a line, or
+a polygon, with attributes that describe it.</span>
+<span id="gloss-data-abstraction">The chain of steps that turns the real world into something a computer
+can store: real world, data model, data structure, and machine code.</span>
+<span id="gloss-data-model">The way a GIS represents the real world as data, for example as points,
+lines, and polygons (vector) or as a grid of cells (raster).</span>
+<span id="gloss-data-structure">How a data model is laid out in a computer’s memory or files, for
+example as lists of coordinate pairs linked by pointers.</span>
+<span id="gloss-discrete-object">Something with clear boundaries that is either present or absent at a
+location, such as a road, a house, or a state.</span>
+<span id="gloss-continuous-data">A quantity that has a value at every location and changes gradually from
+place to place, such as elevation, temperature, or rainfall.</span>
+<span id="gloss-spatial-data">Data tied to a location on or near Earth, such as the address of a
+house, the outline of a county, or the elevation at a point.</span>
+<span id="gloss-attribute">A non-spatial fact about a feature, such as a building’s name or the
+year it was built. Attributes are stored in a table with one row per
+feature.</span>
+<span id="gloss-vector">A data model that stores the world as points, lines, and polygons, each
+defined by x, y coordinates and linked to its attributes. Best for
+discrete objects.</span>
+<span id="gloss-raster">A data model that stores the world as a regular grid of equal-sized
+cells, each holding one value. Best for continuous data and imagery.</span>
+<span id="gloss-cell">One square in a raster grid. Each cell holds one value. In an image, a
+cell is called a pixel (picture element).</span>
+<span id="gloss-coordinate-system">A system of numbers, such as latitude and longitude, that gives every
+location a unique position so layers line up with each other.</span>
+<span id="gloss-cell-size">The real-world length of one side of a raster cell, such as 30 meters.
+Smaller cells give finer resolution and larger files.</span>
+<span id="gloss-resolution">The level of detail in data. For a raster, it is set by the cell size:
+the smaller the cells, the finer the resolution.</span>
+<span id="gloss-shapefile">A common vector format from Esri that stores one layer in several files
+with the same name: .shp (geometry), .shx (index), and .dbf (attributes)
+are required, and .prj holds the coordinate system.</span>
+<span id="gloss-layer">A set of spatial data about one theme, such as roads, soils, or
+elevation. Layers for the same area stack on top of each other to make a
+map.</span>
+<span id="gloss-metadata">Data about data: who made a dataset, when, how, in what coordinate
+system, and how accurate it is.</span>
+<span id="gloss-geographic-information-system-gis">“A computer-based system to aid in the collection, maintenance, storage,
+analysis, output, and distribution of spatial data and information”
+(Bolstad). Its five components are data, hardware, software, people, and
+procedures.</span>
+<span id="gloss-point">A vector feature with a location but no length or area, stored as a
+single x, y coordinate pair, such as a well or a school.</span>
+<span id="gloss-line">A vector feature with length but no area, stored as an ordered list of
+coordinates, such as a road or a stream.</span>
+<span id="gloss-polygon">A vector feature that encloses an area: a closed line whose first and
+last points are the same, such as a lake, a park, or a county.</span>
+<span id="gloss-qgis">A free and open-source desktop GIS that runs on Windows, Mac, and Linux.</span>
+<span id="gloss-arcgis-pro">Esri’s commercial desktop GIS, for Windows.</span>
+<span id="gloss-tin">Triangulated irregular network: a surface model that joins sampled
+elevation points into triangles, using more triangles where the ground
+is rough.</span>
+<span id="gloss-annotation">Text placed on a map, such as place names, street names, and labels.</span>
+<span id="gloss-extent">How far something reaches: its size, boundary, and dimensions. A layer’s
+extent is the rectangle that just encloses all its features.</span>
+<span id="gloss-non-spatial-data">Data with no location of their own, such as a list of grades. When
+non-spatial data describe a spatial feature, they are its attributes.</span>
+<span id="gloss-geometry">The shape of a feature: a point, a line, or a polygon, stored as
+coordinates.</span>
+<span id="gloss-geocoding">Turning an address or place name into coordinates, so it can be put on a
+map.</span>
+<span id="gloss-overlay-analysis">Stacking layers of data for the same area to find places that meet
+several conditions at once, such as flat land near a road and outside a
+floodplain.</span>
+<span id="gloss-node">The start or end point of a line. In a network, lines meet at nodes.</span>
+<span id="gloss-vertex">An intermediate point where a line or polygon boundary changes
+direction.</span>
+<span id="gloss-line-segment">The straight piece of a line between two vertices or nodes.</span>
+<span id="gloss-route-optimization">Finding the best path through a network, such as the fastest or shortest
+route, or a delivery route that visits many stops.</span>
+<span id="gloss-northing">A distance north from a starting line: the y coordinate in a projected
+coordinate system.</span>
+<span id="gloss-easting">A distance east from a starting line: the x coordinate in a projected
+coordinate system.</span>
+<span id="gloss-landsat">A series of U.S. Earth-observing satellites, run by NASA and the USGS,
+that have imaged the whole planet since 1972, mostly with 30-meter
+cells.</span>
+<span id="gloss-arc">A line stored as an ordered list of coordinates. Polygons can be built
+from arcs that share their end points.</span>
+<span id="gloss-pointer">In a data structure, a stored address that tells the computer where the
+next piece of data, such as the next arc, is found.</span>
+<span id="gloss-topology">The recorded connections between features, such as which polygons share
+an edge and which lines meet at a node. It keeps neighbors from having
+gaps or overlaps.</span>
+<span id="gloss-esri">The company that makes ArcGIS, founded in 1969 by Jack and Laura
+Dangermond in Redlands, California.</span>
+<span id="gloss-map-projection">A mathematical method for flattening the round Earth onto a flat map.
+Every projection distorts area, shape, distance, or direction in some
+way.</span>
+<span id="gloss-geopackage">An open file format (.gpkg) from the Open Geospatial Consortium that
+stores many vector and raster layers in a single file. It is QGIS’s
+default format.</span>
+<span id="gloss-map-algebra">Math on rasters, cell by cell, such as adding two grids or finding every
+cell where slope is under 10 percent.</span>
+<span id="gloss-rasterize">To convert vector data into a raster.</span>
+<span id="gloss-vectorize">To convert a raster into vector features.</span>
+<span id="gloss-spatial-analysis">Methods that use the locations of things, and the relationships among
+them, to find patterns, explain them, or make predictions.</span>
+<span id="gloss-gis-t-body-of-knowledge">A free collection of short, peer-reviewed articles on geographic
+information science and technology topics, from the University
+Consortium for Geographic Information Science (UCGIS).</span>
+<span id="gloss-geospatial">A common synonym for <em>geographic</em>, used especially in industry,
+the military, and government.</span>
+<span id="gloss-geoprocessing">Running a GIS tool on spatial data to make new data, such as buffering,
+clipping, or overlaying layers.</span>
+<span id="gloss-open-source">Software whose source code anyone may read, change, and share, often
+free of charge. QGIS and GRASS GIS are open source.</span>
+<span id="gloss-openstreetmap">A free, editable map of the world built by volunteers, founded in 2004.</span>
+</div>
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-bolstad2022" class="csl-entry" role="listitem">
+Bolstad, Paul. 2022. <em><span>GIS</span> Fundamentals: A First Text on Geographic Information Systems</em>. 7th ed. XanEdu.
+</div>
+<div id="ref-esri1998" class="csl-entry" role="listitem">
+Environmental Systems Research Institute. 1998. <em><span>ESRI</span> Shapefile Technical Description</em>. An {ESRI} White Paper. Environmental Systems Research Institute.
+</div>
+<div id="ref-holloway2023" class="csl-entry" role="listitem">
+Holloway, Paul. 2023. <em>Understanding <span>GIS</span> Through Sustainable Development Goals: Case Studies with <span>ArcGIS</span> Pro and <span>QGIS</span></em>. Routledge.
+</div>
+</div>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script>
+
+/* update total correct if #webex-total_correct exists */
+update_total_correct = function() {
+  console.log("webex: update total_correct");
+
+  var t = document.getElementsByClassName("webex-total_correct");
+  for (var i = 0; i < t.length; i++) {
+    p = t[i].parentElement;
+    var correct = p.getElementsByClassName("webex-correct").length;
+    var solvemes = p.getElementsByClassName("webex-solveme").length;
+    var radiogroups = p.getElementsByClassName("webex-radiogroup").length;
+    var selects = p.getElementsByClassName("webex-select").length;
+
+    t[i].innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  }
+}
+
+/* webex-solution button toggling function */
+b_func = function() {
+  console.log("webex: toggle hide");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('open')) {
+    cl.remove("open");
+  } else {
+    cl.add("open");
+  }
+}
+
+/* check answers */
+check_func = function() {
+  console.log("webex: check answers");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('unchecked')) {
+    cl.remove("unchecked");
+    this.innerHTML = "Hide Answers";
+  } else {
+    cl.add("unchecked");
+    this.innerHTML = "Show Answers";
+  }
+}
+
+/* function for checking solveme answers */
+solveme_func = function(e) {
+  console.log("webex: check solveme");
+
+  var real_answers = JSON.parse(this.dataset.answer);
+  var my_answer = this.value;
+  var cl = this.classList;
+  if (cl.contains("ignorecase")) {
+    my_answer = my_answer.toLowerCase();
+  }
+  if (cl.contains("nospaces")) {
+    my_answer = my_answer.replace(/ /g, "")
+  }
+
+  if (my_answer == "") {
+    cl.remove("webex-correct");
+    cl.remove("webex-incorrect");
+  } else if (real_answers.includes(my_answer)) {
+    cl.add("webex-correct");
+    cl.remove("webex-incorrect");
+  } else {
+    cl.add("webex-incorrect");
+    cl.remove("webex-correct");
+  }
+
+  // match numeric answers within a specified tolerance
+  if(this.dataset.tol > 0){
+    var tol = JSON.parse(this.dataset.tol);
+    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+    if (matches.reduce((a, b) => a + b, 0) > 0) {
+      cl.add("webex-correct");
+    } else {
+      cl.remove("webex-correct");
+    }
+  }
+
+  // added regex bit
+  if (cl.contains("regex")){
+    answer_regex = RegExp(real_answers.join("|"))
+    if (answer_regex.test(my_answer)) {
+      cl.add("webex-correct");
+    }
+  }
+
+  update_total_correct();
+}
+
+/* function for checking select answers */
+select_func = function(e) {
+  console.log("webex: check select");
+
+  var cl = this.classList
+
+  /* add style */
+  cl.remove("webex-incorrect");
+  cl.remove("webex-correct");
+  if (this.value == "answer") {
+    cl.add("webex-correct");
+  } else if (this.value != "blank") {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+/* function for checking radiogroups answers */
+radiogroups_func = function(e) {
+  console.log("webex: check radiogroups");
+
+  var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
+  var cl = checked_button.parentElement.classList;
+  var labels = checked_button.parentElement.parentElement.children;
+
+  /* get rid of styles */
+  for (i = 0; i < labels.length; i++) {
+    labels[i].classList.remove("webex-incorrect");
+    labels[i].classList.remove("webex-correct");
+  }
+
+  /* add style */
+  if (checked_button.value == "answer") {
+    cl.add("webex-correct");
+  } else {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+window.onload = function() {
+  console.log("webex onload");
+  /* set up solution buttons */
+  var buttons = document.getElementsByTagName("button");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].parentElement.classList.contains('webex-solution')) {
+      buttons[i].onclick = b_func;
+    }
+  }
+
+  var check_sections = document.getElementsByClassName("webex-check");
+  console.log("check:", check_sections.length);
+  for (var i = 0; i < check_sections.length; i++) {
+    check_sections[i].classList.add("unchecked");
+
+    let btn = document.createElement("button");
+    btn.innerHTML = "Show Answers";
+    btn.classList.add("webex-check-button");
+    btn.onclick = check_func;
+    check_sections[i].appendChild(btn);
+
+    let spn = document.createElement("span");
+    spn.classList.add("webex-total_correct");
+    check_sections[i].appendChild(spn);
+  }
+
+  /* set up webex-solveme inputs */
+  var solveme = document.getElementsByClassName("webex-solveme");
+
+  for (var i = 0; i < solveme.length; i++) {
+    /* make sure input boxes don't auto-anything */
+    solveme[i].setAttribute("autocomplete","off");
+    solveme[i].setAttribute("autocorrect", "off");
+    solveme[i].setAttribute("autocapitalize", "off");
+    solveme[i].setAttribute("spellcheck", "false");
+    solveme[i].value = "";
+
+    /* adjust answer for ignorecase or nospaces */
+    var cl = solveme[i].classList;
+    var real_answer = solveme[i].dataset.answer;
+    if (cl.contains("ignorecase")) {
+      real_answer = real_answer.toLowerCase();
+    }
+    if (cl.contains("nospaces")) {
+      real_answer = real_answer.replace(/ /g, "");
+    }
+    solveme[i].dataset.answer = real_answer;
+
+    /* attach checking function */
+    solveme[i].onkeyup = solveme_func;
+    solveme[i].onchange = solveme_func;
+
+    solveme[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  /* set up radiogroups */
+  var radiogroups = document.getElementsByClassName("webex-radiogroup");
+  for (var i = 0; i < radiogroups.length; i++) {
+    radiogroups[i].onchange = radiogroups_func;
+  }
+
+  /* set up selects */
+  var selects = document.getElementsByClassName("webex-select");
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].onchange = select_func;
+    selects[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  update_total_correct();
+}
+
+</script>
+<!--
+  Highlights the right item in the top menu. Quarto's book layout marks
+  "Welcome" as active on every page, so this sets it from the page address:
+  the course pages match their own item, and every other page (chapters,
+  quizzes, glossary) is part of the Textbook. Pages with no menu item of
+  their own (the AI policy and privacy policy) highlight nothing.
+-->
+<script>
+(function () {
+  "use strict";
+  const COURSE_PAGES = ["index", "syllabus", "materials", "about"];
+  const NO_ITEM_PAGES = ["privacy", "ai-policy"];
+  const file = (location.pathname.split("/").pop() || "index").replace(/\.html$/, "");
+  const inRoot = !/\/chapters\//.test(location.pathname);
+  const target = inRoot && NO_ITEM_PAGES.includes(file) ? null
+    : inRoot && COURSE_PAGES.includes(file) ? file : "preface";
+  document.querySelectorAll("#navbarCollapse a.nav-link").forEach((a) => {
+    const page = (a.getAttribute("href") || "").split("/").pop().replace(/\.html$/, "");
+    const on = page === target;
+    a.classList.toggle("active", on);
+    if (on) a.setAttribute("aria-current", "page");
+    else a.removeAttribute("aria-current");
+  });
+})();
+</script>
+<!--
+  Reading settings, part 2 of 2: the "Aa" menu next to search, where readers
+  pick a font and text size. Choices are kept in this browser (localStorage)
+  and applied on every page by assets/reader-settings-head.html.
+-->
+<script>
+(function () {
+  var FONTS = [
+    { id: "", label: "Atkinson Hyperlegible (default)", css: '"Atkinson Hyperlegible Next", sans-serif' },
+    { id: "lexend", label: "Lexend", css: '"Lexend", sans-serif', href: "https://fonts.googleapis.com/css2?family=Lexend:wght@300..700&display=swap" },
+    { id: "cardo", label: "Cardo (serif)", css: '"Cardo", Georgia, serif', href: "https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&display=swap" },
+    { id: "sans", label: "Standard sans-serif", css: 'system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif' },
+    { id: "serif", label: "Serif", css: 'Georgia, Cambria, "Times New Roman", serif' },
+    { id: "dyslexic", label: "OpenDyslexic", css: '"OpenDyslexic", sans-serif' }
+  ];
+  var SIZES = { "-1": "Small", "0": "Default", "1": "Large", "2": "Larger", "3": "Largest" };
+  var MIN = -1, MAX = 3;
+  var root = document.documentElement;
+
+  function save(key, value) {
+    try {
+      if (value === "" || value === "0") localStorage.removeItem(key);
+      else localStorage.setItem(key, value);
+    } catch (e) { /* storage blocked: setting lasts for this page only */ }
+  }
+  function currentFont() { return root.getAttribute("data-reader-font") || ""; }
+  function currentSize() { return parseInt(root.getAttribute("data-reader-size") || "0", 10) || 0; }
+
+  // Add a Google Fonts stylesheet once (Lexend, Cardo). Fonts download only
+  // when text actually uses them.
+  function loadWebFont(f) {
+    if (!f.href || document.getElementById("sds-reader-webfont-" + f.id)) return;
+    var link = document.createElement("link");
+    link.rel = "stylesheet"; link.href = f.href; link.id = "sds-reader-webfont-" + f.id;
+    document.head.appendChild(link);
+  }
+
+  function setFont(id) {
+    FONTS.forEach(function (f) { if (f.id === id) loadWebFont(f); });
+    if (id) root.setAttribute("data-reader-font", id); else root.removeAttribute("data-reader-font");
+    save("sds-reader-font", id);
+  }
+  function setSize(n) {
+    n = Math.max(MIN, Math.min(MAX, n));
+    if (n) root.setAttribute("data-reader-size", String(n)); else root.removeAttribute("data-reader-size");
+    save("sds-reader-size", String(n));
+    refreshSize();
+  }
+
+  var wrap = document.createElement("div");
+  wrap.className = "sds-reader";
+  var fontOptions = FONTS.map(function (f) {
+    return '<label style=\'font-family:' + f.css.replace(/'/g, "&#39;") + '\'>' +
+      '<input class="form-check-input" type="radio" name="sds-reader-font" value="' + f.id + '"> ' + f.label + '</label>';
+  }).join("");
+  wrap.innerHTML =
+    '<button type="button" class="sds-reader-toggle" aria-expanded="false" aria-controls="sds-reader-panel" ' +
+      'title="Reading settings: font and text size">' +
+      '<span aria-hidden="true">Aa</span><span class="visually-hidden">Reading settings</span></button>' +
+    '<div class="sds-reader-panel" id="sds-reader-panel" role="dialog" aria-label="Reading settings" hidden>' +
+      '<h2>Reading settings</h2>' +
+      '<fieldset class="sds-reader-font"><legend>Font</legend>' + fontOptions + '</fieldset>' +
+      '<fieldset><legend>Text size</legend><div class="sds-reader-size-row">' +
+        '<button type="button" data-step="-1" aria-label="Smaller text">A&minus;</button>' +
+        '<output aria-live="polite"></output>' +
+        '<button type="button" data-step="1" aria-label="Larger text">A+</button>' +
+      '</div></fieldset>' +
+      '<button type="button" class="sds-reader-reset">Reset to defaults</button>' +
+    '</div>';
+
+  var toggle = wrap.querySelector(".sds-reader-toggle");
+  var panel = wrap.querySelector(".sds-reader-panel");
+  var output = wrap.querySelector("output");
+  var minus = wrap.querySelector('[data-step="-1"]');
+  var plus = wrap.querySelector('[data-step="1"]');
+
+  function refreshFont() {
+    var id = currentFont();
+    wrap.querySelectorAll('input[name="sds-reader-font"]').forEach(function (r) { r.checked = r.value === id; });
+  }
+  function refreshSize() {
+    var n = currentSize();
+    output.textContent = SIZES[String(n)] || "Default";
+    minus.disabled = n <= MIN;
+    plus.disabled = n >= MAX;
+  }
+  function open(show) {
+    panel.hidden = !show;
+    toggle.setAttribute("aria-expanded", show ? "true" : "false");
+    if (show) { FONTS.forEach(loadWebFont); refreshFont(); refreshSize(); var c = panel.querySelector("input:checked"); if (c) c.focus(); }
+  }
+
+  toggle.addEventListener("click", function (e) { e.stopPropagation(); open(panel.hidden); });
+  panel.addEventListener("click", function (e) { e.stopPropagation(); });
+  panel.addEventListener("change", function (e) { if (e.target.name === "sds-reader-font") setFont(e.target.value); });
+  minus.addEventListener("click", function () { setSize(currentSize() - 1); });
+  plus.addEventListener("click", function () { setSize(currentSize() + 1); });
+  wrap.querySelector(".sds-reader-reset").addEventListener("click", function () { setFont(""); setSize(0); refreshFont(); });
+  document.addEventListener("click", function () { if (!panel.hidden) open(false); });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !panel.hidden) { open(false); toggle.focus(); }
+  });
+
+  // Put the button by search: in the top menu on
+  // geog370.org, or by the sidebar search in the textbook-only build.
+  var navSearch = document.querySelector("#quarto-header #quarto-search");
+  if (navSearch) navSearch.parentNode.insertBefore(wrap, navSearch);
+  else {
+    var search = document.querySelector("#quarto-sidebar .sidebar-search, #quarto-sidebar #quarto-search, .sidebar-tools-main");
+    if (search && search.parentNode) search.parentNode.insertBefore(wrap, search.nextSibling);
+    else return;
+  }
+  refreshFont();
+  refreshSize();
+})();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/what-is-gis.html" class="pagination-link" aria-label="What Is GIS?">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">What Is GIS?</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../glossary.html" class="pagination-link" aria-label="Glossary">
+        <span class="nav-page-text">Glossary</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
