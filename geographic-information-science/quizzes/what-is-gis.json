@@ -1,0 +1,451 @@
+{
+  "id": "what-is-gis",
+  "title": "What Is GIS?",
+  "perSession": 10,
+  "minR": 0,
+  "questions": [
+    {
+      "id": "radar-smoke",
+      "type": "choice",
+      "prompt": "Why could analysts map building damage from the Eaton Fire with Sentinel-1 before crews could safely enter the area?",
+      "choices": [
+        "Radar satellites send their own signal, which passes through smoke and cloud",
+        "Radar satellites take color photos with very high resolution",
+        "Residents uploaded photos of their homes to the satellite",
+        "Radar measures air temperature, which shows where buildings burned"
+      ],
+      "answer": 0,
+      "explain": "Radar is an active sensor: it sends out microwaves and records what bounces back, so smoke and cloud don't block it."
+    },
+    {
+      "id": "earthquake-layers",
+      "type": "choice",
+      "prompt": "After an earthquake in remote mountains, rescuers ask where to search first. What does a GIS do to help?",
+      "choices": [
+        "Combines layers such as shaking intensity, buildings, population, and open roads",
+        "Shows a single photo of the epicenter",
+        "Predicts the exact time of the next earthquake",
+        "Lists the names of the people who live nearby"
+      ],
+      "answer": 0,
+      "explain": "No single map answers the question. Overlaying several layers finds the places that meet several conditions at once."
+    },
+    {
+      "id": "four-q-scale",
+      "type": "choice",
+      "prompt": "\"One flooded home, one county, the whole Gulf Coast\" describes which of the four questions about a geographic problem?",
+      "choices": [
+        "Scale",
+        "Time",
+        "Space",
+        "Purpose"
+      ],
+      "answer": 0,
+      "explain": "Scale asks whether the problem looks different at different levels of geographic detail."
+    },
+    {
+      "id": "four-q-time",
+      "type": "choice",
+      "prompt": "\"Hours of storm surge, years of rebuilding\" describes which of the four questions about a geographic problem?",
+      "choices": [
+        "Time",
+        "Scale",
+        "Space",
+        "Purpose"
+      ],
+      "answer": 0,
+      "explain": "Time asks whether the consequences are short-term, long-term, or both."
+    },
+    {
+      "id": "four-q-purpose",
+      "type": "choice",
+      "prompt": "\"Are we advancing scientific knowledge or solving a practical problem?\" is the question of:",
+      "choices": [
+        "Purpose",
+        "Scale",
+        "Space",
+        "Time"
+      ],
+      "answer": 0,
+      "explain": "Purpose separates research (better surge models) from practice (faster evacuations)."
+    },
+    {
+      "id": "four-questions",
+      "type": "order",
+      "r": false,
+      "prompt": "Put the four questions that define a geographic problem in the order the chapter gives them.",
+      "answer": [
+        "Scale",
+        "Time",
+        "Space",
+        "Purpose"
+      ],
+      "explain": "Scale, time, space, and purpose. Together they describe the where, when, how big, and why of a problem.",
+      "extra": [
+        "Projection"
+      ]
+    },
+    {
+      "id": "where-question",
+      "type": "choice",
+      "prompt": "Mapping the extent of the Deepwater Horizon oil spill each day mainly answered which kind of question?",
+      "choices": [
+        "Where things are",
+        "How to get there",
+        "How things have changed over a century",
+        "What would happen if a bridge closed"
+      ],
+      "answer": 0,
+      "explain": "The simplest GIS question is where is it? Daily maps of the oil drove fishing closures and cleanup."
+    },
+    {
+      "id": "change-detection",
+      "type": "fill",
+      "prompt": "Comparing satellite images of the same coast before and after the 2004 tsunami is called change ___.",
+      "answers": [
+        "detection"
+      ],
+      "explain": "Change detection compares images or maps of one place at two times.",
+      "ignoreCase": true,
+      "r": false
+    },
+    {
+      "id": "routing-network",
+      "type": "choice",
+      "prompt": "How does routing software find the fastest route?",
+      "choices": [
+        "It treats roads as a network of segments with travel times and searches for the lowest-cost path",
+        "It draws a straight line between the two places",
+        "It picks the route with the fewest turns",
+        "It asks other drivers which way they went"
+      ],
+      "answer": 0,
+      "explain": "Route optimization is network analysis: each segment has a cost, and the software finds the path with the lowest total."
+    },
+    {
+      "id": "site-selection",
+      "type": "choice",
+      "prompt": "Choosing the best place for a new fire station is an example of:",
+      "choices": [
+        "Site selection",
+        "Change detection",
+        "Remote sensing",
+        "Computer-aided design"
+      ],
+      "answer": 0,
+      "explain": "Site selection uses GIS to find the best location for a facility."
+    },
+    {
+      "id": "five-kinds-condition",
+      "type": "choice",
+      "prompt": "\"Where is there flat, forested land within 1 km of a road and outside the floodplain?\" is which kind of GIS question?",
+      "choices": [
+        "Condition",
+        "Location",
+        "Trends",
+        "Modeling"
+      ],
+      "answer": 0,
+      "explain": "A condition question asks where the places are that meet a set of conditions."
+    },
+    {
+      "id": "five-kinds-modeling",
+      "type": "choice",
+      "prompt": "\"What happens to traffic if this bridge closes?\" is which kind of GIS question?",
+      "choices": [
+        "Modeling (what if?)",
+        "Location (what is at?)",
+        "Trends (what has changed?)",
+        "Patterns"
+      ],
+      "answer": 0,
+      "explain": "Modeling questions ask what would happen under a scenario."
+    },
+    {
+      "id": "venn",
+      "type": "choice",
+      "prompt": "GIS sits at the overlap of which two fields?",
+      "choices": [
+        "Geography and computer science",
+        "Geology and statistics",
+        "Cartography and art",
+        "Engineering and law"
+      ],
+      "answer": 0,
+      "explain": "Geography asks where things are and why; computer science provides data, algorithms, and software."
+    },
+    {
+      "id": "bolstad-verbs",
+      "type": "fill",
+      "prompt": "Bolstad defines a GIS as a ___-based system to aid in the collection, maintenance, storage, analysis, output, and distribution of spatial data and information.",
+      "answers": [
+        "computer"
+      ],
+      "explain": "The definition says computer-based, which is why John Snow's paper map is debatable as a GIS.",
+      "ignoreCase": true,
+      "r": false
+    },
+    {
+      "id": "spatial-data",
+      "type": "choice",
+      "prompt": "Which of these is spatial data?",
+      "choices": [
+        "The outline of Orange County",
+        "A list of student ID numbers",
+        "The parts of a bicycle",
+        "Class grades"
+      ],
+      "answer": 0,
+      "explain": "Spatial data are tied to a location on Earth."
+    },
+    {
+      "id": "snow-what",
+      "type": "choice",
+      "prompt": "What did John Snow's 1854 map show?",
+      "choices": [
+        "Cholera deaths clustered around the Broad Street water pump",
+        "That cholera spread through bad air",
+        "Smoke from London's factories",
+        "Where the city's sewers drained into the river"
+      ],
+      "answer": 0,
+      "explain": "Snow mapped deaths and pumps. The deaths clustered around the Broad Street pump, and its handle was removed."
+    },
+    {
+      "id": "snow-computer",
+      "type": "truefalse",
+      "prompt": "By Bolstad's definition, John Snow's hand-drawn map is a GIS, because it has spatial data and analysis.",
+      "answer": false,
+      "explain": "Bolstad's definition says computer-based, and Snow had no computer. It does everything else a GIS does, which is why it is a good one to argue about."
+    },
+    {
+      "id": "five-components-center",
+      "type": "choice",
+      "prompt": "Which component sits at the center of the five components of a GIS?",
+      "choices": [
+        "Data",
+        "Software",
+        "Hardware",
+        "People"
+      ],
+      "answer": 0,
+      "explain": "Data are the center; hardware, software, people, and procedures surround them."
+    },
+    {
+      "id": "not-component",
+      "type": "choice",
+      "prompt": "Which is NOT one of the five components of a GIS?",
+      "choices": [
+        "Projections",
+        "People",
+        "Procedures",
+        "Hardware"
+      ],
+      "answer": 0,
+      "explain": "The five are data, hardware, software, people, and procedures."
+    },
+    {
+      "id": "procedures",
+      "type": "choice",
+      "prompt": "Agreed methods and workflows that make results reliable and repeatable are the GIS component called:",
+      "choices": [
+        "Procedures",
+        "Software",
+        "Metadata",
+        "Hardware"
+      ],
+      "answer": 0,
+      "explain": "Procedures make sure two analysts with the same data and question get the same answer."
+    },
+    {
+      "id": "pen-paper",
+      "type": "truefalse",
+      "prompt": "Pen and paper can count as GIS hardware.",
+      "answer": true,
+      "explain": "Hardware can be as simple as pen and paper or as complex as GPS units, drones, and servers."
+    },
+    {
+      "id": "systems-vs-science",
+      "type": "choice",
+      "prompt": "Building a better model of where wildfires will spread is an example of:",
+      "choices": [
+        "GIScience",
+        "A GISystem",
+        "CAD",
+        "Site selection"
+      ],
+      "answer": 0,
+      "explain": "GIScience is the research behind the tools. Mapping today's perimeter would be a GISystem task."
+    },
+    {
+      "id": "systems-perimeter",
+      "type": "truefalse",
+      "prompt": "Mapping today's fire perimeter is a GIScience research question.",
+      "answer": false,
+      "explain": "It is a practical task done with a GISystem."
+    },
+    {
+      "id": "goodchild",
+      "type": "fill",
+      "prompt": "The geographer Michael ___ coined the term geographic information science in 1992.",
+      "answers": [
+        "Goodchild"
+      ],
+      "explain": "Goodchild argued that the hard problems of GIS are scientific questions in their own right.",
+      "ignoreCase": true,
+      "r": false
+    },
+    {
+      "id": "cad",
+      "type": "choice",
+      "prompt": "Why is CAD software spatial but not geographic?",
+      "choices": [
+        "Its drawings aren't tied to places on Earth",
+        "It can't measure distances",
+        "It only works in 3D",
+        "It doesn't store shapes"
+      ],
+      "answer": 0,
+      "explain": "Geographic means locations on or near Earth's surface, with coordinates and projections."
+    },
+    {
+      "id": "geospatial",
+      "type": "choice",
+      "prompt": "Which word is often used as a synonym for geographic, especially in industry and government?",
+      "choices": [
+        "Geospatial",
+        "Geometric",
+        "Topographic",
+        "Cartesian"
+      ],
+      "answer": 0,
+      "explain": "For example, the National Geospatial-Intelligence Agency."
+    },
+    {
+      "id": "cgis",
+      "type": "choice",
+      "prompt": "Roger Tomlinson, often called the father of GIS, led which early system?",
+      "choices": [
+        "The Canada Geographic Information System",
+        "Google Earth",
+        "OpenStreetMap",
+        "ArcGIS Pro"
+      ],
+      "answer": 0,
+      "explain": "CGIS was built in the 1960s to inventory land across Canada."
+    },
+    {
+      "id": "mcharg",
+      "type": "choice",
+      "prompt": "Ian McHarg's 1969 book *Design with Nature* popularized which technique?",
+      "choices": [
+        "Overlay analysis",
+        "Route optimization",
+        "Radar imaging",
+        "GPS surveying"
+      ],
+      "answer": 0,
+      "explain": "McHarg stacked transparent maps of soils, slope, water, and land use to find suitable places to build."
+    },
+    {
+      "id": "history-order",
+      "type": "order",
+      "r": false,
+      "prompt": "Put these events in the history of GIS in order, earliest first.",
+      "answer": [
+        "John Snow's cholera map",
+        "The Canada Geographic Information System",
+        "Goodchild names GIScience",
+        "Google Earth launches"
+      ],
+      "explain": "1854, the 1960s, 1992, and 2005."
+    },
+    {
+      "id": "gis-process",
+      "type": "order",
+      "r": false,
+      "prompt": "Put the steps of the GIS process in order, starting from the physical world.",
+      "answer": [
+        "Define protocols",
+        "Collect and edit spatial data",
+        "Analyze",
+        "Report results",
+        "Decide and act"
+      ],
+      "explain": "Data come in from the world, and decisions go back out to it, starting the cycle again."
+    },
+    {
+      "id": "process-links",
+      "type": "choice",
+      "prompt": "In the GIS process cycle, where does GIS connect to the physical world?",
+      "choices": [
+        "Where data come in and where decisions go back out",
+        "Only in the analysis step",
+        "Only when reporting results",
+        "It never does"
+      ],
+      "answer": 0,
+      "explain": "The two links to the real world are data collection (in) and decisions and action (out)."
+    },
+    {
+      "id": "qgis-platforms",
+      "type": "truefalse",
+      "prompt": "QGIS is free, open source, and runs on Windows, Mac, and Linux.",
+      "answer": true,
+      "explain": "ArcGIS Pro, by contrast, is commercial and runs on Windows only."
+    },
+    {
+      "id": "arcgis-mac",
+      "type": "truefalse",
+      "prompt": "ArcGIS Pro runs on Windows, Mac, and Linux.",
+      "answer": false,
+      "explain": "ArcGIS Pro runs only on Windows. QGIS runs on all three."
+    },
+    {
+      "id": "gis-question-access",
+      "type": "choice",
+      "prompt": "\"Which neighborhoods have less access to hospitals?\" is which kind of GIS question?",
+      "choices": [
+        "Accessibility",
+        "Change",
+        "Difference",
+        "Factors"
+      ],
+      "answer": 0,
+      "explain": "Accessibility questions measure distance or travel time to a service."
+    },
+    {
+      "id": "gis-question-change",
+      "type": "choice",
+      "prompt": "\"How has forest cover changed in the Blue Ridge Mountains after Hurricane Helene?\" needs:",
+      "choices": [
+        "Data from more than one time",
+        "Only a map of today's forests",
+        "A list of tree species",
+        "A road network"
+      ],
+      "answer": 0,
+      "explain": "A change question compares the same place at two or more times."
+    },
+    {
+      "id": "redlining",
+      "type": "choice",
+      "prompt": "What was redlining?",
+      "choices": [
+        "Grading neighborhoods as risky for lending on maps, which denied credit to many Black and immigrant neighborhoods",
+        "Drawing evacuation routes in red",
+        "Marking fire perimeters on a map",
+        "A method for correcting map projections"
+      ],
+      "answer": 0,
+      "explain": "The 1930s Home Owners' Loan Corporation maps shaped lending for decades, and their effects are still visible."
+    },
+    {
+      "id": "privacy",
+      "type": "truefalse",
+      "prompt": "Removing names from phone location data is always enough to keep people anonymous.",
+      "answer": false,
+      "explain": "A few location points are often enough to find where someone lives and works, and so who they are."
+    }
+  ]
+}

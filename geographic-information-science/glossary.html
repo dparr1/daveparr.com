@@ -37,7 +37,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./about.html" rel="next">
-<link href="./index.html" rel="prev">
+<link href="./chapters/what-is-gis.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
@@ -48,7 +48,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-ebb58cfc2c0cc903b00b246007c1be77.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-eb5f01c61c04fd366b316cbd1e580551.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-375337d58729f0b9fcae65d4b3962514.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -152,10 +152,27 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-1-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+            <a href="./units/unit-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-1-label">Unit 1: Data Models and Projections</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section: Unit 1: Data Models and Projections">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
       </div>
       <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapters/what-is-gis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">What Is GIS?</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-2-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./glossary.html" class="sidebar-item-text sidebar-link active">
@@ -203,6 +220,170 @@ ul.task-list li input[type="checkbox"] {
 <p>Key terms used in this book. In the chapters, a term with a dotted underline shows its definition when you hover over it, tap it, or reach it with the Tab key.</p>
 <div id="glossary">
 <dl>
+<dt><span id="term-accessibility">accessibility</span></dt>
+<dd>
+How easily people can reach a place or service, often measured as distance or travel time.
+</dd>
+<dt><span id="term-arcgis-online">ArcGIS Online</span></dt>
+<dd>
+Esri’s system for making and sharing maps and layers on the web.
+</dd>
+<dt><span id="term-arcgis-pro">ArcGIS Pro</span></dt>
+<dd>
+Esri’s commercial desktop GIS, for Windows.
+</dd>
+<dt><span id="term-attribute">attribute</span></dt>
+<dd>
+A non-spatial fact about a feature, such as a building’s name or the year it was built. Attributes are stored in a table with one row per feature.
+</dd>
+<dt><span id="term-cad">CAD</span></dt>
+<dd>
+Computer-aided design: software for drawing buildings, parts, and other objects. It is spatial but not geographic, because its drawings aren’t tied to places on Earth.
+</dd>
+<dt><span id="term-canada-geographic-information-system-cgis">Canada Geographic Information System (CGIS)</span></dt>
+<dd>
+The first large GIS, built in the 1960s under Roger Tomlinson to inventory land across Canada.
+</dd>
+<dt><span id="term-cartography">cartography</span></dt>
+<dd>
+The art and science of making maps.
+</dd>
+<dt><span id="term-change-detection">change detection</span></dt>
+<dd>
+Comparing images or maps of the same place from different dates to find what changed.
+</dd>
+<dt><span id="term-cluster">cluster</span></dt>
+<dd>
+A group of events or features that are closer together than you would expect by chance, such as cases of a disease around one place.
+</dd>
+<dt><span id="term-coordinate-system">coordinate system</span></dt>
+<dd>
+A system of numbers, such as latitude and longitude, that gives every location a unique position so layers line up with each other.
+</dd>
+<dt><span id="term-data-model">data model</span></dt>
+<dd>
+The way a GIS represents the real world as data, for example as points, lines, and polygons (vector) or as a grid of cells (raster).
+</dd>
+<dt><span id="term-epidemiology">epidemiology</span></dt>
+<dd>
+The study of how diseases are distributed and spread in populations. John Snow’s 1854 cholera map is a founding example.
+</dd>
+<dt><span id="term-esri">Esri</span></dt>
+<dd>
+The company that makes ArcGIS, founded in 1969 by Jack and Laura Dangermond in Redlands, California.
+</dd>
+<dt><span id="term-geoai">GeoAI</span></dt>
+<dd>
+Artificial intelligence applied to geographic data, for example to find buildings or roads in satellite images automatically.
+</dd>
+<dt><span id="term-geographic-information-science-giscience">geographic information science (GIScience)</span></dt>
+<dd>
+The theory and methods behind GIS: research on analysis, data representation, visualization, and GIS and society. Michael Goodchild named the field in 1992.
+</dd>
+<dt><span id="term-geographic-information-system-gis">geographic information system (GIS)</span></dt>
+<dd>
+“A computer-based system to aid in the collection, maintenance, storage, analysis, output, and distribution of spatial data and information” (Bolstad). Its five components are data, hardware, software, people, and procedures.
+</dd>
+<dt><span id="term-geographic-problem">geographic problem</span></dt>
+<dd>
+A problem that happens in specific places at specific times. It can be described by its scale, time, space, and purpose.
+</dd>
+<dt><span id="term-geoprocessing">geoprocessing</span></dt>
+<dd>
+Running a GIS tool on spatial data to make new data, such as buffering, clipping, or overlaying layers.
+</dd>
+<dt><span id="term-geospatial">geospatial</span></dt>
+<dd>
+A common synonym for <em>geographic</em>, used especially in industry, the military, and government.
+</dd>
+<dt><span id="term-gis-question">GIS question</span></dt>
+<dd>
+A question whose answer depends on location, such as where something clusters, how places differ, what factors explain a pattern, how a place has changed, or how accessible a service is.
+</dd>
+<dt><span id="term-gis-t-body-of-knowledge">GIS&amp;T Body of Knowledge</span></dt>
+<dd>
+A free collection of short, peer-reviewed articles on geographic information science and technology topics, from the University Consortium for Geographic Information Science (UCGIS).
+</dd>
+<dt><span id="term-gisp">GISP</span></dt>
+<dd>
+Geographic Information Systems Professional: a certification from the GIS Certification Institute for experienced GIS practitioners.
+</dd>
+<dt><span id="term-gps">GPS</span></dt>
+<dd>
+The Global Positioning System: U.S. satellites that let a receiver, such as your phone, work out its location. GNSS is the general name for GPS and similar systems from other countries.
+</dd>
+<dt><span id="term-layer">layer</span></dt>
+<dd>
+A set of spatial data about one theme, such as roads, soils, or elevation. Layers for the same area stack on top of each other to make a map.
+</dd>
+<dt><span id="term-map-projection">map projection</span></dt>
+<dd>
+A mathematical method for flattening the round Earth onto a flat map. Every projection distorts area, shape, distance, or direction in some way.
+</dd>
+<dt><span id="term-metadata">metadata</span></dt>
+<dd>
+Data about data: who made a dataset, when, how, in what coordinate system, and how accurate it is.
+</dd>
+<dt><span id="term-network">network</span></dt>
+<dd>
+Connected lines and intersections, such as roads, rails, rivers, or pipes, with a cost such as length or travel time on each segment.
+</dd>
+<dt><span id="term-network-analysis">network analysis</span></dt>
+<dd>
+Analysis of movement along a network, such as roads, to find routes and measure travel distance or time.
+</dd>
+<dt><span id="term-open-source">open source</span></dt>
+<dd>
+Software whose source code anyone may read, change, and share, often free of charge. QGIS and GRASS GIS are open source.
+</dd>
+<dt><span id="term-openstreetmap">OpenStreetMap</span></dt>
+<dd>
+A free, editable map of the world built by volunteers, founded in 2004.
+</dd>
+<dt><span id="term-overlay-analysis">overlay analysis</span></dt>
+<dd>
+Stacking layers of data for the same area to find places that meet several conditions at once, such as flat land near a road and outside a floodplain.
+</dd>
+<dt><span id="term-population-density">population density</span></dt>
+<dd>
+The number of people per unit of area, such as people per square mile.
+</dd>
+<dt><span id="term-qgis">QGIS</span></dt>
+<dd>
+A free and open-source desktop GIS that runs on Windows, Mac, and Linux.
+</dd>
+<dt><span id="term-radar">radar</span></dt>
+<dd>
+A remote sensing method in which a satellite or aircraft sends out its own microwave signal and records what bounces back. It sees through clouds and smoke, and works at night.
+</dd>
+<dt><span id="term-redlining">redlining</span></dt>
+<dd>
+Grading neighborhoods as risky for lending, as the federal Home Owners’ Loan Corporation did on maps in the 1930s, which outlined many Black and immigrant neighborhoods in red and denied them credit.
+</dd>
+<dt><span id="term-remote-sensing">remote sensing</span></dt>
+<dd>
+Collecting information about Earth without touching it, from sensors on satellites, aircraft, or drones.
+</dd>
+<dt><span id="term-route-optimization">route optimization</span></dt>
+<dd>
+Finding the best path through a network, such as the fastest or shortest route, or a delivery route that visits many stops.
+</dd>
+<dt><span id="term-site-selection">site selection</span></dt>
+<dd>
+Using GIS to choose the best location for something, such as a new store, clinic, or fire station.
+</dd>
+<dt><span id="term-spatial-analysis">spatial analysis</span></dt>
+<dd>
+Methods that use the locations of things, and the relationships among them, to find patterns, explain them, or make predictions.
+</dd>
+<dt><span id="term-spatial-data">spatial data</span></dt>
+<dd>
+Data tied to a location on or near Earth, such as the address of a house, the outline of a county, or the elevation at a point.
+</dd>
+<dt><span id="term-spatial-thinking">spatial thinking</span></dt>
+<dd>
+Using ideas of space, such as location, distance, pattern, and scale, to understand and solve problems.
+</dd>
 </dl>
 </div>
 
@@ -1034,8 +1215,8 @@ window.onload = function() {
   </script>
 <nav class="page-navigation" aria-label="Page">
   <div class="nav-page nav-page-previous">
-      <a href="./index.html" class="pagination-link" aria-label="Preface">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Preface</span>
+      <a href="./chapters/what-is-gis.html" class="pagination-link" aria-label="What Is GIS?">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">What Is GIS?</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
