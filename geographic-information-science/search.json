@@ -1,0 +1,64 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Geographic Information Science",
+    "section": "",
+    "text": "Preface\nThis book is an open educational resource textbook designed for my course, GEOG 370, Geographic Information Science, built from the course lectures.",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "index.html#about-this-book",
+    "href": "index.html#about-this-book",
+    "title": "Geographic Information Science",
+    "section": "About this book",
+    "text": "About this book\nThis is an interactive textbook written for GEOG 370. It’s designed for students who are new to GIS and to spatial data. Chapters explain the concepts behind geographic information and show how to put them into practice in QGIS and ArcGIS Pro.",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "index.html#how-this-book-is-organized",
+    "href": "index.html#how-this-book-is-organized",
+    "title": "Geographic Information Science",
+    "section": "How this book is organized",
+    "text": "How this book is organized\n\nThe chapters are grouped into units. Each unit opens with a page that summarizes its chapters.\nThe chapters are being written now and will appear here as they are added.",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "index.html#acknowledgments",
+    "href": "index.html#acknowledgments",
+    "title": "Geographic Information Science",
+    "section": "Acknowledgments",
+    "text": "Acknowledgments\n\nI’d like to acknowledge the hard work of my students, without whom this would not be possible.",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "glossary.html",
+    "href": "glossary.html",
+    "title": "Glossary",
+    "section": "",
+    "text": "Key terms used in this book. In the chapters, a term with a dotted underline shows its definition when you hover over it, tap it, or reach it with the Tab key.",
+    "crumbs": [
+      "Appendices",
+      "Glossary"
+    ]
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About the author",
+    "section": "",
+    "text": "About this book\nI’m Dr. David Parr, a Teaching Assistant Professor in the Department of Geography and the Environment at the University of North Carolina at Chapel Hill. I teach classes in spatial data science, GIS, programming, web mapping, spatial databases, cartography, spatial modeling and analysis, and data acquisition and integration.\nI see my disciplines, Geographic Information Science (GIS) and spatial data science, as the intersections of Geography and Computer Science, the fields in which I have earned my degrees. I want students to be able to think geographically: to critically consider the dynamic spatial and temporal issues of a problem, and to consider how scale and distance affect our human and physical environments. I also want them to think computationally: to break problems into smaller components in a logical sequence, and to consider how a representation in a computer is related to the object in the real world. These skills, understanding spatial relations and logical problem solving, are critical in our discipline and in the wider world.\nMy teaching and research interests include volunteered geographic information, space-time spatial analysis and modeling, GIS and geography education, and GIS and society, including digital places and web GIS.\nThis book was developed and written from several years of lectures for GEOG 370, Geographic Information Science. It is a Quarto book.",
+    "crumbs": [
+      "Appendices",
+      "About the author"
+    ]
+  }
+]
