@@ -25,3 +25,13 @@ The course moves through six units:
 The course has its own free, interactive textbook, written from the lectures. Every chapter is a runnable Quarto document, so the tables and maps come from the R code printed beside them, and many code boxes can be edited and run right in your browser.
 
 [Read *Introduction to Spatial Data Science*]({{ '/intro-spatial-data-science/' | relative_url }})
+
+## GEOG 370: Geographic Information Science
+
+GEOG 370 is an introduction to geographic information systems (GIS) for students who are new to GIS and to spatial data. It covers the concepts behind geographic information and shows how to put them into practice in QGIS and ArcGIS Pro.
+
+### Textbook
+
+The course has its own free, interactive open textbook, written from the lectures. New chapters are being added as they are written.
+
+[Read *Geographic Information Science*]({{ '/geographic-information-science/' | relative_url }})
