@@ -20,11 +20,31 @@
     ]
   },
   {
+    "objectID": "index.html#sec-how-to-use",
+    "href": "index.html#sec-how-to-use",
+    "title": "Introduction to Spatial Data Science",
+    "section": "How to use this book",
+    "text": "How to use this book\nRead the book in order if you can. Each chapter builds on the ones before it, and the R code in later chapters assumes you have met the functions and ideas introduced earlier. Each unit opens with a short page that says what its chapters cover, so you can see where you are going before you start.\n\nWhat’s in each chapter\nMost chapters follow the same pattern, so you know where to look:\n\nLearning objectives at the top list what you should be able to do by the end of the chapter. They are a good checklist when you review for an exam.\nNumbered sections teach the material, with tables, figures, and R code. Cross-references such as “Section 3.2” or “Figure 5.1” are links you can follow.\nThink about it boxes pose a question to stop and consider before reading on. There is no grade attached: they are there to help the idea stick.\nCheck your understanding questions near the end let you test yourself. You can answer them as many times as you like, and they are not graded.\nA Summary recaps the chapter’s main points, Exercises give you practice to do in RStudio, and Further reading points you to sources that go deeper.\n\n\n\nRunning the code\nMany code boxes in this book are live: they run real R in your web browser, with nothing to install. Press Run Code to run one, or edit the code first and run your own version. Breaking the code on purpose and reading the error message is a good way to learn. The first live box on a page can take a few seconds to start, because your browser has to load R.\nEvery code box has a copy button in its top-right corner. Use it to paste code into RStudio, where you will do the course assignments.\nIn the code, code and the names of functions such as filter() are printed in a monospaced font. Lines beginning with # are comments that explain the code; R skips them.\n\n\nKey terms and the glossary\nImportant terms are printed in bold where they are first explained.\nIn the chapters, a key term has a dotted underline the first time it appears in a section. Hover over it, tap it, or reach it with the Tab key to see a short definition. All of the terms and their definitions are collected in the Glossary at the end of the book.\nThe sources the chapters cite are listed together on the References page at the end of the book.\n\n\nFinding your way around\nThe sidebar on the left lists every unit and chapter, and the outline on the right lists the sections of the page you are reading. Use the search box at the top to find any word or function in the book. The Aa button beside the search box changes the font and text size (see Fonts and reading settings).",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
     "objectID": "index.html#how-this-book-is-organized",
     "href": "index.html#how-this-book-is-organized",
     "title": "Introduction to Spatial Data Science",
     "section": "How this book is organized",
     "text": "How this book is organized\nThe chapters are grouped into six units. Each unit opens with a page that summarizes its chapters.\nUnit 1: R and Spatial Data Science (Chapters 1–5) sets up everything else. It explains what spatial data science is and why location matters, then gets you working in R, RStudio, and R Markdown, with R’s basic building blocks: vectors, data types, and data frames. It ends with if statements, loops, and writing your own functions, so you can make decisions and repeat work in code.\nUnit 2: Into the Tidyverse (Chapters 6–9) introduces the tidyverse. Working with a year of flights from New York’s airports, you learn the dplyr verbs that filter, sort, select, change, and summarize data, chained together with the pipe, and then turn the results into graphs with ggplot2.\nUnit 3: Maps and Geographic Data (Chapters 10–14) moves from graphs to maps. You make thematic maps of the UNC campus with tmap, then step back to see how the real world becomes geographic data: the vector and raster data models, the file formats that store them, and the datums, coordinate systems, and map projections that give every feature its location. It ends by getting geographic data from the places that publish it: the US Census Bureau, through the APIs that let your code download its data directly, and the ArcGIS servers that publish many government GIS layers.\nUnit 4: Spatial Analysis (Chapters 15–17) starts to analyze spatial data. You join tables by a shared column and by location, explore variables with descriptive statistics, plots, and maps, and describe where features are with spatial statistics such as the mean center. Along the way you put your own R functions to work.\nUnit 5: Statistics and Science (Chapters 18–22) turns data into evidence. You compare groups with p-values and ANOVA, model relationships with linear regression, and put it all together in a reproducible spatial data science project. It ends by asking whether near things are more related than distant things: you measure distance, define neighbors and weight matrices, and test for clustering and hot spots with the Average Nearest Neighbor ratio, Moran’s I, and Getis-Ord Gi*.\nUnit 6: Next Steps (Chapters 23–24) looks beyond the course. You turn your maps into interactive dashboards with leaflet, flexdashboard, crosstalk, and Shiny, and then look at where spatial data science is used, the advanced topics that build on this book, such as remote sensing, space-time modeling, and GeoAI, and the UNC courses and careers that come next.",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "index.html#sec-fonts",
+    "href": "index.html#sec-fonts",
+    "title": "Introduction to Spatial Data Science",
+    "section": "Fonts and reading settings",
+    "text": "Fonts and reading settings\nThe text of this book is set in Atkinson Hyperlegible Next, and the code is set in Atkinson Hyperlegible Mono. Both were designed by the Braille Institute of America for readers with low vision, and both are free to use. Many common letters and numbers look alike in ordinary fonts: a capital I, a lowercase l, and the number 1, or a capital O and a zero. Atkinson Hyperlegible gives each of these characters its own distinct shape, so they are hard to mistake for one another. That matters in a book about code, where l1 and I1 are different names and a single wrong character breaks a line of R. The zero in the code font has a slash through it, so you can always tell 0 from O.\nA font that is easy for one reader can be hard for another, so you can change it. Press the Aa button beside the search box at the top of any page to choose a font and a text size. The fonts are:\n\nAtkinson Hyperlegible (the default), described above.\nLexend, a font designed to reduce visual stress and make reading easier and faster.\nCardo, a traditional book serif.\nStandard sans-serif and Serif, which use the fonts already on your device.\nOpenDyslexic, which gives each letter a heavier bottom so letters are harder to flip or rotate. Some readers with dyslexia find it easier to read.\n\nText size goes from one step smaller than normal to three steps larger. Your choices are saved in your web browser, so the book keeps your settings from page to page and the next time you visit. Code boxes keep Atkinson Hyperlegible Mono whichever font you choose for the text, so code always lines up.",
     "crumbs": [
       "Preface"
     ]
@@ -3247,6 +3267,17 @@
     "crumbs": [
       "Appendices",
       "About the author"
+    ]
+  },
+  {
+    "objectID": "references.html",
+    "href": "references.html",
+    "title": "References",
+    "section": "",
+    "text": "The books, articles, and documentation cited in this book.\n\n\nOpenshaw, Stan. 1984. The Modifiable Areal Unit Problem.\nConcepts and Techniques in Modern Geography 38. Geo Books.\n\n\nTobler, Waldo R. 1970. “A Computer Movie Simulating Urban Growth\nin the Detroit Region.” Economic Geography\n46: 234–40. https://doi.org/10.2307/143141.\n\n\nU.S. Census Bureau. 2020. Understanding and Using American Community\nSurvey Data: What All Data Users Need to Know. U.S. Government\nPublishing Office. https://www.census.gov/programs-surveys/acs/library/handbooks/general.html.\n\n\nU.S. Census Bureau. n.d. Centers of Population, 1790–2020. https://www.census.gov/geographies/reference-files/time-series/geo/centers-population.html.\n\n\nWalker, Kyle. 2023. Analyzing US Census Data: Methods,\nMaps, and Models in R. CRC Press. https://walker-data.com/census-r.\n\n\nWalker, Kyle, and Matt Herman. n.d. Tidycensus: Load US\nCensus Boundary and Attribute Data as ’Tidyverse’ and ’Sf’-Ready Data\nFrames. https://walker-data.com/tidycensus.\n\n\nWickham, Hadley, Mine Çetinkaya-Rundel, and Garrett Grolemund. 2023.\nR for Data Science: Import, Tidy, Transform, Visualize, and Model\nData. 2nd ed. O’Reilly Media. https://r4ds.hadley.nz.",
+    "crumbs": [
+      "Appendices",
+      "References"
     ]
   }
 ]

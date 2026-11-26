@@ -380,6 +380,12 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">About the author</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -395,7 +401,15 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#preface" id="toc-preface" class="nav-link active" data-scroll-target="#preface">Preface</a>
   <ul class="collapse">
   <li><a href="#about-this-book" id="toc-about-this-book" class="nav-link" data-scroll-target="#about-this-book">About this book</a></li>
+  <li><a href="#sec-how-to-use" id="toc-sec-how-to-use" class="nav-link" data-scroll-target="#sec-how-to-use">How to use this book</a>
+  <ul class="collapse">
+  <li><a href="#whats-in-each-chapter" id="toc-whats-in-each-chapter" class="nav-link" data-scroll-target="#whats-in-each-chapter">What’s in each chapter</a></li>
+  <li><a href="#running-the-code" id="toc-running-the-code" class="nav-link" data-scroll-target="#running-the-code">Running the code</a></li>
+  <li><a href="#key-terms-and-the-glossary" id="toc-key-terms-and-the-glossary" class="nav-link" data-scroll-target="#key-terms-and-the-glossary">Key terms and the glossary</a></li>
+  <li><a href="#finding-your-way-around" id="toc-finding-your-way-around" class="nav-link" data-scroll-target="#finding-your-way-around">Finding your way around</a></li>
+  </ul></li>
   <li><a href="#how-this-book-is-organized" id="toc-how-this-book-is-organized" class="nav-link" data-scroll-target="#how-this-book-is-organized">How this book is organized</a></li>
+  <li><a href="#sec-fonts" id="toc-sec-fonts" class="nav-link" data-scroll-target="#sec-fonts">Fonts and reading settings</a></li>
   <li><a href="#acknowledgments" id="toc-acknowledgments" class="nav-link" data-scroll-target="#acknowledgments">Acknowledgments</a></li>
   </ul></li>
   </ul>
@@ -444,6 +458,37 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="about-this-book">About this book</h2>
 <p>This is an interactive textbook specifically designed and written for GEOG 215. It’s designed for students new to R and new to spatial data. Students are expected to have some experience with math and/or statistics.</p>
 </section>
+<section id="sec-how-to-use" class="level2">
+<h2 class="anchored" data-anchor-id="sec-how-to-use">How to use this book</h2>
+<p>Read the book in order if you can. Each chapter builds on the ones before it, and the R code in later chapters assumes you have met the functions and ideas introduced earlier. Each unit opens with a short page that says what its chapters cover, so you can see where you are going before you start.</p>
+<section id="whats-in-each-chapter" class="level3">
+<h3 class="anchored" data-anchor-id="whats-in-each-chapter">What’s in each chapter</h3>
+<p>Most chapters follow the same pattern, so you know where to look:</p>
+<ul>
+<li><strong>Learning objectives</strong> at the top list what you should be able to do by the end of the chapter. They are a good checklist when you review for an exam.</li>
+<li><strong>Numbered sections</strong> teach the material, with tables, figures, and R code. Cross-references such as “Section 3.2” or “Figure 5.1” are links you can follow.</li>
+<li><strong>Think about it</strong> boxes pose a question to stop and consider before reading on. There is no grade attached: they are there to help the idea stick.</li>
+<li><strong>Check your understanding</strong> questions near the end let you test yourself. You can answer them as many times as you like, and they are not graded.</li>
+<li>A <strong>Summary</strong> recaps the chapter’s main points, <strong>Exercises</strong> give you practice to do in RStudio, and <strong>Further reading</strong> points you to sources that go deeper.</li>
+</ul>
+</section>
+<section id="running-the-code" class="level3">
+<h3 class="anchored" data-anchor-id="running-the-code">Running the code</h3>
+<p>Many code boxes in this book are live: they run real R in your web browser, with nothing to install. Press <strong>Run Code</strong> to run one, or edit the code first and run your own version. Breaking the code on purpose and reading the error message is a good way to learn. The first live box on a page can take a few seconds to start, because your browser has to load R.</p>
+<p>Every code box has a copy button in its top-right corner. Use it to paste code into RStudio, where you will do the course assignments.</p>
+<p>In the code, <code>code</code> and the names of functions such as <code>filter()</code> are printed in a monospaced font. Lines beginning with <code>#</code> are comments that explain the code; R skips them.</p>
+</section>
+<section id="key-terms-and-the-glossary" class="level3">
+<h3 class="anchored" data-anchor-id="key-terms-and-the-glossary">Key terms and the glossary</h3>
+<p>Important terms are printed in <strong>bold</strong> where they are first explained.</p>
+<p>In the chapters, a key term has a dotted underline the first time it appears in a section. Hover over it, tap it, or reach it with the Tab key to see a short definition. All of the terms and their definitions are collected in the <a href="./glossary.html">Glossary</a> at the end of the book.</p>
+<p>The sources the chapters cite are listed together on the <a href="./references.html">References</a> page at the end of the book.</p>
+</section>
+<section id="finding-your-way-around" class="level3">
+<h3 class="anchored" data-anchor-id="finding-your-way-around">Finding your way around</h3>
+<p>The sidebar on the left lists every unit and chapter, and the outline on the right lists the sections of the page you are reading. Use the search box at the top to find any word or function in the book. The <strong>Aa</strong> button beside the search box changes the font and text size (see <a href="#sec-fonts">Fonts and reading settings</a>).</p>
+</section>
+</section>
 <section id="how-this-book-is-organized" class="level2">
 <h2 class="anchored" data-anchor-id="how-this-book-is-organized">How this book is organized</h2>
 <p>The chapters are grouped into six units. Each unit opens with a page that summarizes its chapters.</p>
@@ -453,6 +498,19 @@ ul.task-list li input[type="checkbox"] {
 <p><strong><a href="./units/unit-4.html">Unit 4: Spatial Analysis</a></strong> (Chapters 15–17) starts to analyze spatial data. You join tables by a shared column and by location, explore variables with descriptive statistics, plots, and maps, and describe where features are with spatial statistics such as the mean center. Along the way you put your own R functions to work.</p>
 <p><strong><a href="./units/unit-5.html">Unit 5: Statistics and Science</a></strong> (Chapters 18–22) turns data into evidence. You compare groups with p-values and ANOVA, model relationships with linear regression, and put it all together in a reproducible spatial data science project. It ends by asking whether near things are more related than distant things: you measure distance, define neighbors and weight matrices, and test for clustering and hot spots with the Average Nearest Neighbor ratio, Moran’s I, and Getis-Ord Gi*.</p>
 <p><strong><a href="./units/unit-6.html">Unit 6: Next Steps</a></strong> (Chapters 23–24) looks beyond the course. You turn your maps into interactive dashboards with leaflet, flexdashboard, crosstalk, and Shiny, and then look at where spatial data science is used, the advanced topics that build on this book, such as remote sensing, space-time modeling, and GeoAI, and the UNC courses and careers that come next.</p>
+</section>
+<section id="sec-fonts" class="level2">
+<h2 class="anchored" data-anchor-id="sec-fonts">Fonts and reading settings</h2>
+<p>The text of this book is set in <strong>Atkinson Hyperlegible Next</strong>, and the code is set in <strong>Atkinson Hyperlegible Mono</strong>. Both were designed by the <a href="https://www.brailleinstitute.org/freefont/">Braille Institute of America</a> for readers with low vision, and both are free to use. Many common letters and numbers look alike in ordinary fonts: a capital I, a lowercase l, and the number 1, or a capital O and a zero. Atkinson Hyperlegible gives each of these characters its own distinct shape, so they are hard to mistake for one another. That matters in a book about code, where <code>l1</code> and <code>I1</code> are different names and a single wrong character breaks a line of R. The zero in the code font has a slash through it, so you can always tell <code>0</code> from <code>O</code>.</p>
+<p>A font that is easy for one reader can be hard for another, so you can change it. Press the <strong>Aa</strong> button beside the search box at the top of any page to choose a font and a text size. The fonts are:</p>
+<ul>
+<li><strong>Atkinson Hyperlegible</strong> (the default), described above.</li>
+<li><strong>Lexend</strong>, a font designed to reduce visual stress and make reading easier and faster.</li>
+<li><strong>Cardo</strong>, a traditional book serif.</li>
+<li><strong>Standard sans-serif</strong> and <strong>Serif</strong>, which use the fonts already on your device.</li>
+<li><strong>OpenDyslexic</strong>, which gives each letter a heavier bottom so letters are harder to flip or rotate. Some readers with dyslexia find it easier to read.</li>
+</ul>
+<p>Text size goes from one step smaller than normal to three steps larger. Your choices are saved in your web browser, so the book keeps your settings from page to page and the next time you visit. Code boxes keep Atkinson Hyperlegible Mono whichever font you choose for the text, so code always lines up.</p>
 </section>
 <section id="acknowledgments" class="level2">
 <h2 class="anchored" data-anchor-id="acknowledgments">Acknowledgments</h2>

@@ -467,6 +467,12 @@ window.Quarto = {
  <span class="menu-text">About the author</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -638,7 +644,7 @@ Table&nbsp;13.1: Milestones in the history of the US Census.
 </ul>
 <section id="the-moving-center-of-population" class="level3" data-number="13.1.1">
 <h3 data-number="13.1.1" class="anchored" data-anchor-id="the-moving-center-of-population"><span class="header-section-number">13.1.1</span> The moving center of population</h3>
-<p>Each census, the Bureau calculates the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-mean-center-of-population" data-term="mean center of population">mean center of population</span></strong>: the point where a flat map of the United States would balance if every resident weighed the same. In 1790 it sat in Kent County, Maryland, on the Eastern Shore. By 2020 it had moved about 884 miles, in a straight line, to Wright County, Missouri (<a href="#fig-pop-center" class="quarto-xref">Figure&nbsp;<span>13.1</span></a>) <span class="citation" data-cites="census_centers">(<a href="#ref-census_centers" role="doc-biblioref">U.S. Census Bureau, n.d.</a>)</span>.</p>
+<p>Each census, the Bureau calculates the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-mean-center-of-population" data-term="mean center of population">mean center of population</span></strong>: the point where a flat map of the United States would balance if every resident weighed the same. In 1790 it sat in Kent County, Maryland, on the Eastern Shore. By 2020 it had moved about 884 miles, in a straight line, to Wright County, Missouri (<a href="#fig-pop-center" class="quarto-xref">Figure&nbsp;<span>13.1</span></a>) <span class="citation" data-cites="census_centers">(<a href="../references.html#ref-census_centers" role="doc-biblioref">U.S. Census Bureau, n.d.</a>)</span>.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>lower48 <span class="ot">&lt;-</span> <span class="fu">states</span>(<span class="at">cb =</span> <span class="cn">TRUE</span>, <span class="at">resolution =</span> <span class="st">"20m"</span>, <span class="at">year =</span> <span class="dv">2020</span>) <span class="sc">|&gt;</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>STUSPS <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"AK"</span>, <span class="st">"HI"</span>, <span class="st">"PR"</span>)) <span class="sc">|&gt;</span></span>
@@ -1375,7 +1381,7 @@ Table&nbsp;13.5: The steps of a manual API call.
 </section>
 <section id="with-a-package-tidycensus" class="level3" data-number="13.5.3">
 <h3 data-number="13.5.3" class="anchored" data-anchor-id="with-a-package-tidycensus"><span class="header-section-number">13.5.3</span> With a package: tidycensus</h3>
-<p><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tidycensus" data-term="tidycensus">tidycensus</span></strong> <span class="citation" data-cites="tidycensus">(<a href="#ref-tidycensus" role="doc-biblioref">Walker and Herman, n.d.</a>)</span> does steps 1 through 3, and most of step 4, for you. This single call builds the same URL behind the scenes, sends it, and returns a tidy <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-frame" data-term="data frame">data frame</span>:</p>
+<p><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tidycensus" data-term="tidycensus">tidycensus</span></strong> <span class="citation" data-cites="tidycensus">(<a href="../references.html#ref-tidycensus" role="doc-biblioref">Walker and Herman, n.d.</a>)</span> does steps 1 through 3, and most of step 4, for you. This single call builds the same URL behind the scenes, sends it, and returns a tidy <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-frame" data-term="data frame">data frame</span>:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>nc_income <span class="ot">&lt;-</span> <span class="fu">get_acs</span>(</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">geography =</span> <span class="st">"county"</span>,</span>
@@ -1489,7 +1495,7 @@ CV = \frac{MOE / 1.645}{\text{estimate}} \times 100
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(cv)) <span class="sc">|&gt;</span></span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>There is no single official cutoff, but a common rule of thumb treats estimates with a CV above about 30% as unreliable: report them with caution, or combine areas or years to get a larger sample <span class="citation" data-cites="acs_handbook2020">(<a href="#ref-acs_handbook2020" role="doc-biblioref">U.S. Census Bureau 2020</a>)</span>.</p>
+<p>There is no single official cutoff, but a common rule of thumb treats estimates with a CV above about 30% as unreliable: report them with caution, or combine areas or years to get a larger sample <span class="citation" data-cites="acs_handbook2020">(<a href="../references.html#ref-acs_handbook2020" role="doc-biblioref">U.S. Census Bureau 2020</a>)</span>.</p>
 <p>When you combine estimates you must also combine their margins of error, and you can’t just add them. tidycensus provides <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-function" data-term="function">functions</span> for the standard formulas: <code>moe_sum()</code> for sums, <code>moe_prop()</code> for proportions, <code>moe_ratio()</code> for ratios, and <code>moe_product()</code> for products.</p>
 </section>
 <section id="sec-percentages" class="level3" data-number="13.7.2">
@@ -1642,9 +1648,9 @@ Table&nbsp;13.6: Other tidycensus functions and arguments.
 <section id="further-reading" class="level2" data-number="13.10">
 <h2 data-number="13.10" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">13.10</span> Further reading</h2>
 <ul>
-<li>Kyle Walker, the author of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tidycensus" data-term="tidycensus">tidycensus</span>, has written a free online book, <em>Analyzing US Census Data: Methods, Maps, and Models in R</em> <span class="citation" data-cites="walker2023">(<a href="#ref-walker2023" role="doc-biblioref">Walker 2023</a>)</span>. It covers everything in this chapter in more depth and is the best next step for any project that uses Census data.</li>
+<li>Kyle Walker, the author of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tidycensus" data-term="tidycensus">tidycensus</span>, has written a free online book, <em>Analyzing US Census Data: Methods, Maps, and Models in R</em> <span class="citation" data-cites="walker2023">(<a href="../references.html#ref-walker2023" role="doc-biblioref">Walker 2023</a>)</span>. It covers everything in this chapter in more depth and is the best next step for any project that uses Census data.</li>
 <li>The tidycensus documentation, at <a href="https://walker-data.com/tidycensus" class="uri">https://walker-data.com/tidycensus</a>, has vignettes on spatial data, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-margin-of-error-moe" data-term="margin of error (MOE)">margins of error</span>, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-microdata" data-term="microdata">microdata</span>.</li>
-<li>The Census Bureau’s <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-american-community-survey-acs" data-term="American Community Survey (ACS)">ACS</span> handbooks explain how the survey works and how to handle margins of error <span class="citation" data-cites="acs_handbook2020">(<a href="#ref-acs_handbook2020" role="doc-biblioref">U.S. Census Bureau 2020</a>)</span>.</li>
+<li>The Census Bureau’s <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-american-community-survey-acs" data-term="American Community Survey (ACS)">ACS</span> handbooks explain how the survey works and how to handle margins of error <span class="citation" data-cites="acs_handbook2020">(<a href="../references.html#ref-acs_handbook2020" role="doc-biblioref">U.S. Census Bureau 2020</a>)</span>.</li>
 <li>To browse tables without code, use <a href="https://data.census.gov">data.census.gov</a>, then bring the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-variable" data-term="variable">variable</span> codes you find back to <code>load_variables()</code> and tidycensus.</li>
 </ul>
 
@@ -1784,7 +1790,7 @@ downloading data for several years.</span>
 removed), rather than totals for areas. The ACS publishes microdata as
 PUMS.</span>
 </div>
-<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
 <div id="ref-acs_handbook2020" class="csl-entry" role="listitem">
 U.S. Census Bureau. 2020. <em>Understanding and Using American Community Survey Data: What All Data Users Need to Know</em>. U.S. Government Publishing Office. <a href="https://www.census.gov/programs-surveys/acs/library/handbooks/general.html">https://www.census.gov/programs-surveys/acs/library/handbooks/general.html</a>.
 </div>

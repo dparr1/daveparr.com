@@ -403,6 +403,12 @@ div.csl-indent {
  <span class="menu-text">About the author</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -663,13 +669,13 @@ Figure&nbsp;1.2: The spatial data science workflow. A question leads to data, da
 <p>Much of traditional statistics, and much of data science, treats each <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-observation" data-term="observation">observation</span> as <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-independence" data-term="independence">independent</span></strong> of the others: knowing one tells you nothing about the next. For data about places, that assumption is usually wrong. <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-thinking" data-term="spatial thinking">Spatial thinking</span> means taking seriously how location connects observations. Three ideas come up again and again in this book.</p>
 <section id="spatial-autocorrelation" class="level3" data-number="1.5.1">
 <h3 data-number="1.5.1" class="anchored" data-anchor-id="spatial-autocorrelation"><span class="header-section-number">1.5.1</span> Spatial autocorrelation</h3>
-<p><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-autocorrelation" data-term="spatial autocorrelation">Spatial autocorrelation</span></strong> is the tendency for things that are close together to be more alike than things that are far apart. Neighboring homes tend to have similar values. Neighboring counties tend to have similar incomes, voting patterns, and rainfall. The geographer Waldo Tobler put it as what is now called the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-first-law-of-geography" data-term="first law of geography">first law of geography</span></strong>: “everything is related to everything else, but near things are more related than distant things” <span class="citation" data-cites="tobler1970">(<a href="#ref-tobler1970" role="doc-biblioref">Tobler 1970</a>)</span>.</p>
+<p><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-autocorrelation" data-term="spatial autocorrelation">Spatial autocorrelation</span></strong> is the tendency for things that are close together to be more alike than things that are far apart. Neighboring homes tend to have similar values. Neighboring counties tend to have similar incomes, voting patterns, and rainfall. The geographer Waldo Tobler put it as what is now called the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-first-law-of-geography" data-term="first law of geography">first law of geography</span></strong>: “everything is related to everything else, but near things are more related than distant things” <span class="citation" data-cites="tobler1970">(<a href="../references.html#ref-tobler1970" role="doc-biblioref">Tobler 1970</a>)</span>.</p>
 <p>Spatial autocorrelation is both a problem and an opportunity. It is a problem because standard statistical tests assume independence, and they can be badly overconfident when observations are really echoes of their neighbors. It is an opportunity because it is often exactly what we want to find: a cluster of high values is a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-hotspot" data-term="hotspot">hotspot</span>, and hotspots are where to look first. Later chapters show how to measure it.</p>
 </section>
 <section id="scale" class="level3" data-number="1.5.2">
 <h3 data-number="1.5.2" class="anchored" data-anchor-id="scale"><span class="header-section-number">1.5.2</span> Scale</h3>
 <p><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-scale" data-term="scale">Scale</span></strong> is the level of detail you work at: individual addresses, neighborhoods, counties, states. A pattern that is clear at one scale can vanish, or even reverse, at another. A county can have a high average income while containing neighborhoods with very low incomes, and a trend across a whole city might not exist within any single neighborhood.</p>
-<p>The way areas are drawn matters as well as their size. Grouping the same individual data into different sets of boundaries, such as different districts of the same size, can change the results of an analysis. This is known as the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-modifiable-areal-unit-problem-maup" data-term="modifiable areal unit problem (MAUP)">modifiable areal unit problem</span></strong> <span class="citation" data-cites="openshaw1984">(<a href="#ref-openshaw1984" role="doc-biblioref">Openshaw 1984</a>)</span>. The practical lesson is to choose your scale deliberately, to match the question, and to be careful about drawing conclusions at one scale from data collected at another.</p>
+<p>The way areas are drawn matters as well as their size. Grouping the same individual data into different sets of boundaries, such as different districts of the same size, can change the results of an analysis. This is known as the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-modifiable-areal-unit-problem-maup" data-term="modifiable areal unit problem (MAUP)">modifiable areal unit problem</span></strong> <span class="citation" data-cites="openshaw1984">(<a href="../references.html#ref-openshaw1984" role="doc-biblioref">Openshaw 1984</a>)</span>. The practical lesson is to choose your scale deliberately, to match the question, and to be careful about drawing conclusions at one scale from data collected at another.</p>
 </section>
 <section id="spatial-heterogeneity" class="level3" data-number="1.5.3">
 <h3 data-number="1.5.3" class="anchored" data-anchor-id="spatial-heterogeneity"><span class="header-section-number">1.5.3</span> Spatial heterogeneity</h3>
@@ -892,7 +898,7 @@ Show hint for question 4
 <ul>
 <li><em>Geocomputation with R</em> by Robin Lovelace, Jakub Nowosad, and Jannes Muenchow, free at <a href="https://r.geocompx.org" class="uri">https://r.geocompx.org</a>, is an excellent companion to this book for working with spatial data in R.</li>
 <li><em><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-data-science" data-term="spatial data science">Spatial Data Science</span>: With Applications in R</em> by Edzer Pebesma and Roger Bivand, free at <a href="https://r-spatial.org/book/" class="uri">https://r-spatial.org/book/</a>, is a deeper treatment by the authors of the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-sf" data-term="sf">sf</span></strong> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-package" data-term="package">package</span>.</li>
-<li>Waldo Tobler’s short paper that introduced the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-first-law-of-geography" data-term="first law of geography">first law of geography</span> <span class="citation" data-cites="tobler1970">(<a href="#ref-tobler1970" role="doc-biblioref">Tobler 1970</a>)</span> is still worth reading for its clear statement of why location matters.</li>
+<li>Waldo Tobler’s short paper that introduced the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-first-law-of-geography" data-term="first law of geography">first law of geography</span> <span class="citation" data-cites="tobler1970">(<a href="../references.html#ref-tobler1970" role="doc-biblioref">Tobler 1970</a>)</span> is still worth reading for its clear statement of why location matters.</li>
 </ul>
 
 
@@ -967,7 +973,7 @@ with similar values that sit close together.</span>
 <span id="gloss-network-analysis">Analysis of movement along a network, such as roads, to measure travel
 distance or time, or how easily people can reach a place.</span>
 </div>
-<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
 <div id="ref-openshaw1984" class="csl-entry" role="listitem">
 Openshaw, Stan. 1984. <em>The Modifiable Areal Unit Problem</em>. Concepts and Techniques in Modern Geography 38. Geo Books.
 </div>
