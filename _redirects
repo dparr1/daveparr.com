@@ -3,3 +3,6 @@
 # /intro-spatial-data-science/ in Nov 2026; keep old links working.
 /geog215                /intro-spatial-data-science/         301
 /geog215/*              /intro-spatial-data-science/:splat   301
+# The GEOG 370 PDF textbook is too big for Cloudflare (25 MiB per-file limit),
+# so it is hosted on GitHub as a release asset; send the old URL there.
+/geographic-information-science/Geographic-Information-Science.pdf  https://github.com/dparr1/geog-370-geographic-information-science/releases/download/textbook-pdf/Geographic-Information-Science.pdf  302

@@ -17,4 +17,4 @@ The course moves through three units, and each one ends with a project built on 
 
 The course has its own free, interactive open textbook, written from the lectures. Chapters explain the concepts behind geographic information and show how to put them into practice in QGIS and ArcGIS Pro. New chapters are being added as they are written.
 
-[Read *Geographic Information Science*]({{ '/geographic-information-science/' | relative_url }})
+[Read *Geographic Information Science*]({{ '/geographic-information-science/' | relative_url }}) · [Download the PDF](https://github.com/dparr1/geog-370-geographic-information-science/releases/download/textbook-pdf/Geographic-Information-Science.pdf)

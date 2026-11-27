@@ -57,3 +57,6 @@ exclude:
   - .ruby-version
   - vendor/
   - wrangler.jsonc
+  # The GEOG 370 PDF textbook is over Cloudflare's 25 MiB per-file limit, so
+  # it is hosted as a GitHub release asset instead (see _redirects).
+  - geographic-information-science/Geographic-Information-Science.pdf
