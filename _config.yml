@@ -41,6 +41,7 @@ navigation:
     url: /research/
   - title: Courses
     url: /courses/
+    dropdown: courses   # submenu items come from _data/courses.yml
   - title: GIS@UNC Newsletters
     url: /newsletters/
 

@@ -7,7 +7,19 @@
     </div>
     <nav class="site-nav" aria-label="Main">
       {% for item in site.navigation %}
-        <a href="{{ item.url | relative_url }}"{% if page.url == item.url %} aria-current="page"{% endif %}>{{ item.title }}</a>
+        {% if item.dropdown %}
+          {% assign sub = site.data[item.dropdown] %}
+          <div class="nav-dropdown">
+            <a href="{{ item.url | relative_url }}" aria-haspopup="true"{% if page.url == item.url %} aria-current="page"{% elsif page.url contains item.url %} class="is-section"{% endif %}>{{ item.title }}<span class="nav-caret" aria-hidden="true"></span></a>
+            <ul class="nav-submenu">
+              {% for s in sub %}
+                <li><a href="{{ s.url | relative_url }}"{% if page.url == s.url %} aria-current="page"{% endif %}>{{ s.short }}</a></li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% else %}
+          <a href="{{ item.url | relative_url }}"{% if page.url == item.url %} aria-current="page"{% endif %}>{{ item.title }}</a>
+        {% endif %}
       {% endfor %}
     </nav>
   </div>

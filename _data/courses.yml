@@ -1,0 +1,26 @@
+# Course pages, in order. Used by the Courses dropdown in the header and the
+# list on /courses/. Each page lives in courses/<slug>.md.
+- title: "GEOG 115: Geospatial Technologies, Maps, and Society"
+  short: GEOG 115
+  url: /courses/geog-115/
+  summary: An introduction to maps and geospatial technologies, and the part maps play in how we understand the world.
+- title: "GEOG 215: Introduction to Spatial Data Science"
+  short: GEOG 215
+  url: /courses/geog-215/
+  summary: Collecting, analyzing, and mapping data about places with code, in R and RStudio. It has its own free, interactive textbook.
+- title: "GEOG 370: Geographic Information Science"
+  short: GEOG 370
+  url: /courses/geog-370/
+  summary: How geographic data is built, managed, and represented, with hands-on work in QGIS and ArcGIS Pro. It has its own free, interactive textbook.
+- title: "GEOG 455: Cartography and Geovisualization"
+  short: GEOG 455
+  url: /courses/geog-455/
+  summary: Designing static and interactive maps that communicate spatial information clearly.
+- title: "GEOG 491: Principles of Geographic Information Systems"
+  short: GEOG 491
+  url: /courses/geog-491/
+  summary: Designing, running, and evaluating advanced spatial analyses in desktop GIS.
+- title: "GEOG 567: Geospatial Data Analysis with Google Earth Engine"
+  short: GEOG 567
+  url: /courses/geog-567/
+  summary: Cloud-based analysis of satellite imagery and other geospatial data with Google Earth Engine.

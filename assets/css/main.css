@@ -47,6 +47,15 @@ img { height: auto; }
 .site-nav { display: flex; flex-wrap: wrap; gap: 0.25rem 1.5rem; }
 .site-nav a { text-decoration: none; font-weight: 500; }
 .site-nav a:hover, .site-nav a[aria-current="page"] { text-decoration: underline; }
+.site-nav a.is-section { text-decoration: underline; }
+
+/* Courses dropdown: opens on hover or keyboard focus. The parent link still
+   goes to /courses/, which lists every course, so touch screens work too. */
+.nav-dropdown { position: relative; }
+.nav-caret { display: inline-block; margin-left: 0.3em; border: 0.28em solid transparent; border-top-color: currentColor; border-bottom: 0; vertical-align: 0.15em; }
+.nav-submenu { display: none; position: absolute; top: 100%; left: -0.75rem; z-index: 20; min-width: 9rem; margin: 0; padding: 0.4rem 0; list-style: none; background: var(--base); border: 1px solid var(--rule); box-shadow: 0 6px 18px rgba(41, 40, 31, 0.12); }
+.nav-submenu a { display: block; padding: 0.3rem 0.75rem; white-space: nowrap; }
+.nav-dropdown:hover .nav-submenu, .nav-dropdown:focus-within .nav-submenu { display: block; }
 
 .site-footer { border-top: 1px solid var(--rule); margin-top: clamp(3rem, 8vw, 6rem); font-size: 0.9rem; color: var(--muted); }
 .footer-inner { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem 1.5rem; padding-top: 1.5rem; padding-bottom: 2rem; }
