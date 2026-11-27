@@ -26,26 +26,7 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for citations */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-}
-.hanging-indent div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}</style>
+</style>
 
 
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -213,6 +194,12 @@ div.csl-indent {
   <div class="sidebar-item-container"> 
   <a href="../about.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">About the author</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
   </div>
 </li>
       </ul>
@@ -583,7 +570,7 @@ Figure&nbsp;1.7: GIS is where geography and computer science overlap.
 </section>
 <section id="what-is-a-gisystem" class="level3" data-number="1.4.3">
 <h3 data-number="1.4.3" class="anchored" data-anchor-id="what-is-a-gisystem"><span class="header-section-number">1.4.3</span> What is a GISystem?</h3>
-<p>There are many definitions of a geographic information system. One of the clearest comes from Paul Bolstad’s textbook, <em>GIS Fundamentals</em> <span class="citation" data-cites="bolstad2022">(<a href="#ref-bolstad2022" role="doc-biblioref">Bolstad 2022</a>)</span>:</p>
+<p>There are many definitions of a geographic information system. One of the clearest comes from Paul Bolstad’s textbook, <em>GIS Fundamentals</em> <span class="citation" data-cites="bolstad2022">(Bolstad 2022)</span>:</p>
 <blockquote class="blockquote">
 <p>“A GIS is a computer-based system to aid in the collection, maintenance, storage, analysis, output, and distribution of spatial data and information.”</p>
 </blockquote>
@@ -593,7 +580,7 @@ Figure&nbsp;1.7: GIS is where geography and computer science overlap.
 <section id="is-a-map-a-gis-john-snow-and-cholera-1854" class="level3" data-number="1.4.4">
 <h3 data-number="1.4.4" class="anchored" data-anchor-id="is-a-map-a-gis-john-snow-and-cholera-1854"><span class="header-section-number">1.4.4</span> Is a map a GIS? John Snow and cholera, 1854</h3>
 <p>In late August and September 1854, cholera killed more than 500 people within a few blocks of Broad Street, in the Soho district of London. Most doctors at the time believed that cholera spread through bad air, a “miasma”. The physician John Snow suspected contaminated water instead.</p>
-<p>Snow marked each death at its home address on a street map, along with the locations of the public water pumps where people got their drinking water (<a href="#fig-snow" class="quarto-xref">Figure&nbsp;<span>1.8</span></a>). The deaths clustered around the pump on Broad Street. Snow persuaded local officials to remove the pump’s handle on September 8, and the outbreak, already waning, ended. His map, published in 1855 <span class="citation" data-cites="snow1855">(<a href="#ref-snow1855" role="doc-biblioref">Snow 1855</a>)</span>, became a classic example of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-analysis" data-term="spatial analysis">spatial analysis</span>, and Snow is remembered as one of the founders of <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-epidemiology" data-term="epidemiology">epidemiology</span></strong>, the study of how diseases spread through populations.</p>
+<p>Snow marked each death at its home address on a street map, along with the locations of the public water pumps where people got their drinking water (<a href="#fig-snow" class="quarto-xref">Figure&nbsp;<span>1.8</span></a>). The deaths clustered around the pump on Broad Street. Snow persuaded local officials to remove the pump’s handle on September 8, and the outbreak, already waning, ended. His map, published in 1855 <span class="citation" data-cites="snow1855">(Snow 1855)</span>, became a classic example of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-analysis" data-term="spatial analysis">spatial analysis</span>, and Snow is remembered as one of the founders of <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-epidemiology" data-term="epidemiology">epidemiology</span></strong>, the study of how diseases spread through populations.</p>
 <div id="fig-snow" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A black and white street map of a few blocks of central London, with street names such as Oxford Street, Regent Street, and Broad Street. Small black dots, each a death from cholera, are drawn in stacks along the streets, densest around the middle of Broad Street. Crosses mark the water pumps. A scale bar in yards is at the top.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-snow-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -629,7 +616,7 @@ Figure&nbsp;1.9: The five components of a GIS, with data at the center.
 </section>
 <section id="geographic-information-science-giscience" class="level3" data-number="1.4.6">
 <h3 data-number="1.4.6" class="anchored" data-anchor-id="geographic-information-science-giscience"><span class="header-section-number">1.4.6</span> Geographic Information Science (GIScience)</h3>
-<p><strong>Geographic information science</strong>, or <strong>GIScience</strong>, is the theory of GIS: the research behind the tools. The geographer Michael Goodchild coined the term in 1992, arguing that the hard problems of GIS were scientific questions in their own right, not just questions of software <span class="citation" data-cites="goodchild1992">(<a href="#ref-goodchild1992" role="doc-biblioref">Goodchild 1992</a>)</span>. GIScience covers:</p>
+<p><strong>Geographic information science</strong>, or <strong>GIScience</strong>, is the theory of GIS: the research behind the tools. The geographer Michael Goodchild coined the term in 1992, arguing that the hard problems of GIS were scientific questions in their own right, not just questions of software <span class="citation" data-cites="goodchild1992">(Goodchild 1992)</span>. GIScience covers:</p>
 <ul>
 <li><strong>Analysis techniques</strong>: how to measure distance, find <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cluster" data-term="cluster">clusters</span>, model surfaces, and predict change.</li>
 <li><strong>Data management, storage, and entry</strong>: how to represent the real world in a computer, and how to keep data accurate.</li>
@@ -733,7 +720,7 @@ Table&nbsp;1.4: Some milestones in the history of GIS.
 </tr>
 <tr class="even">
 <td style="text-align: left;">1969</td>
-<td style="text-align: left;">Jack and Laura Dangermond found <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-esri" data-term="Esri">Esri</span> in Redlands, California. Landscape architect Ian McHarg’s book <em>Design with Nature</em> <span class="citation" data-cites="mcharg1969">(<a href="#ref-mcharg1969" role="doc-biblioref">McHarg 1969</a>)</span> popularizes <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-overlay-analysis" data-term="overlay analysis">overlay analysis</span></strong>: stacking transparent maps of soils, slope, water, and land use to find the best places to build.</td>
+<td style="text-align: left;">Jack and Laura Dangermond found <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-esri" data-term="Esri">Esri</span> in Redlands, California. Landscape architect Ian McHarg’s book <em>Design with Nature</em> <span class="citation" data-cites="mcharg1969">(McHarg 1969)</span> popularizes <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-overlay-analysis" data-term="overlay analysis">overlay analysis</span></strong>: stacking transparent maps of soils, slope, water, and land use to find the best places to build.</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">1972</td>
@@ -1114,13 +1101,13 @@ Show hint for question 4
 <section id="books-and-open-textbooks" class="level3" data-number="1.15.1">
 <h3 data-number="1.15.1" class="anchored" data-anchor-id="books-and-open-textbooks"><span class="header-section-number">1.15.1</span> Books and open textbooks</h3>
 <ul>
-<li><em><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> Fundamentals: A First Text on Geographic Information Systems</em>, by Paul Bolstad <span class="citation" data-cites="bolstad2022">(<a href="#ref-bolstad2022" role="doc-biblioref">Bolstad 2022</a>)</span>. A thorough introduction to the whole field, and the source of this chapter’s definition of a GIS.</li>
-<li><em>Understanding GIS through Sustainable Development Goals</em>, by Paul Holloway <span class="citation" data-cites="holloway2023">(<a href="#ref-holloway2023" role="doc-biblioref">Holloway 2023</a>)</span>. Chapter 1, “Introduction and Context,” introduces GIS through the United Nations’ Sustainable Development Goals.</li>
+<li><em><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> Fundamentals: A First Text on Geographic Information Systems</em>, by Paul Bolstad <span class="citation" data-cites="bolstad2022">(Bolstad 2022)</span>. A thorough introduction to the whole field, and the source of this chapter’s definition of a GIS.</li>
+<li><em>Understanding GIS through Sustainable Development Goals</em>, by Paul Holloway <span class="citation" data-cites="holloway2023">(Holloway 2023)</span>. Chapter 1, “Introduction and Context,” introduces GIS through the United Nations’ Sustainable Development Goals.</li>
 <li><em>Essentials of Geographic Information Systems</em>, by Jonathan Campbell and Michael Shin. A free, open textbook: <a href="https://open.umn.edu/opentextbooks/textbooks/67" class="uri">https://open.umn.edu/opentextbooks/textbooks/67</a>, also on LibreTexts at <a href="https://geo.libretexts.org/Bookshelves/Geography_(Physical)/Essentials_of_Geographic_Information_Systems_(Campbell_and_Shin)" class="uri">https://geo.libretexts.org/Bookshelves/Geography_(Physical)/Essentials_of_Geographic_Information_Systems_(Campbell_and_Shin)</a>.</li>
 <li><em>Intro to GIS and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-analysis" data-term="spatial analysis">Spatial Analysis</span></em>, by Manuel Gimond. Free online notes that explain GIS concepts clearly: <a href="https://mgimond.github.io/Spatial/" class="uri">https://mgimond.github.io/Spatial/</a>.</li>
 <li><em>The Nature of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-data" data-term="spatial data">Geographic Information</span></em>, by David DiBiase and colleagues at Penn State. A free online text on how geographic data are made and used: <a href="https://www.e-education.psu.edu/natureofgeoinfo/" class="uri">https://www.e-education.psu.edu/natureofgeoinfo/</a>.</li>
-<li><em>Learning to Think Spatially</em>, by the National Research Council <span class="citation" data-cites="nrc2006">(<a href="#ref-nrc2006" role="doc-biblioref">National Research Council 2006</a>)</span>. Why <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-thinking" data-term="spatial thinking">spatial thinking</span> matters, and how GIS supports it. Free to read at <a href="https://nap.nationalacademies.org/catalog/11019" class="uri">https://nap.nationalacademies.org/catalog/11019</a>.</li>
-<li><em>Design with Nature</em>, by Ian McHarg <span class="citation" data-cites="mcharg1969">(<a href="#ref-mcharg1969" role="doc-biblioref">McHarg 1969</a>)</span>. The classic book on <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-overlay-analysis" data-term="overlay analysis">overlay analysis</span> for planning.</li>
+<li><em>Learning to Think Spatially</em>, by the National Research Council <span class="citation" data-cites="nrc2006">(National Research Council 2006)</span>. Why <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-thinking" data-term="spatial thinking">spatial thinking</span> matters, and how GIS supports it. Free to read at <a href="https://nap.nationalacademies.org/catalog/11019" class="uri">https://nap.nationalacademies.org/catalog/11019</a>.</li>
+<li><em>Design with Nature</em>, by Ian McHarg <span class="citation" data-cites="mcharg1969">(McHarg 1969)</span>. The classic book on <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-overlay-analysis" data-term="overlay analysis">overlay analysis</span> for planning.</li>
 <li><em>The Ghost Map</em>, by Steven Johnson (2006). A readable history of John Snow and the 1854 Broad Street cholera outbreak.</li>
 </ul>
 </section>
@@ -1132,7 +1119,7 @@ Show hint for question 4
 <li>U.S. Geological Survey, “What is a geographic information system (GIS)?”: <a href="https://www.usgs.gov/faqs/what-geographic-information-system-gis" class="uri">https://www.usgs.gov/faqs/what-geographic-information-system-gis</a>.</li>
 <li><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span>, <em>A Gentle Introduction to GIS</em>: <a href="https://docs.qgis.org/latest/en/docs/gentle_gis_introduction/" class="uri">https://docs.qgis.org/latest/en/docs/gentle_gis_introduction/</a>.</li>
 <li>The <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-gis-t-body-of-knowledge" data-term="GIS&amp;T Body of Knowledge">GIS&amp;T Body of Knowledge</span></strong>, from the University Consortium for <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-science-giscience" data-term="geographic information science (GIScience)">Geographic Information Science</span> (UCGIS): short, peer-reviewed articles on hundreds of GIS topics, written for students. <a href="https://gistbok.ucgis.org" class="uri">https://gistbok.ucgis.org</a>.</li>
-<li>Michael Goodchild’s paper that named the field, “Geographical information science” <span class="citation" data-cites="goodchild1992">(<a href="#ref-goodchild1992" role="doc-biblioref">Goodchild 1992</a>)</span>.</li>
+<li>Michael Goodchild’s paper that named the field, “Geographical information science” <span class="citation" data-cites="goodchild1992">(Goodchild 1992)</span>.</li>
 </ul>
 </section>
 <section id="videos" class="level3" data-number="1.15.3">
@@ -1290,26 +1277,6 @@ Consortium for Geographic Information Science (UCGIS).</span>
 <span id="gloss-shapefile">A common vector format from Esri that stores one layer in several files
 with the same name: .shp (geometry), .shx (index), and .dbf (attributes)
 are required, and .prj holds the coordinate system.</span>
-</div>
-<div id="refs" class="references csl-bib-body hanging-indent" role="list">
-<div id="ref-bolstad2022" class="csl-entry" role="listitem">
-Bolstad, Paul. 2022. <em><span>GIS</span> Fundamentals: A First Text on Geographic Information Systems</em>. 7th ed. XanEdu.
-</div>
-<div id="ref-goodchild1992" class="csl-entry" role="listitem">
-Goodchild, Michael F. 1992. <span>“Geographical Information Science.”</span> <em>International Journal of Geographical Information Systems</em> 6 (1): 31–45. <a href="https://doi.org/10.1080/02693799208901893">https://doi.org/10.1080/02693799208901893</a>.
-</div>
-<div id="ref-holloway2023" class="csl-entry" role="listitem">
-Holloway, Paul. 2023. <em>Understanding <span>GIS</span> Through Sustainable Development Goals: Case Studies with <span>ArcGIS</span> Pro and <span>QGIS</span></em>. Routledge.
-</div>
-<div id="ref-mcharg1969" class="csl-entry" role="listitem">
-McHarg, Ian L. 1969. <em>Design with Nature</em>. Natural History Press.
-</div>
-<div id="ref-nrc2006" class="csl-entry" role="listitem">
-National Research Council. 2006. <em>Learning to Think Spatially: <span>GIS</span> as a Support System in the <span>K</span>–12 Curriculum</em>. The National Academies Press. <a href="https://doi.org/10.17226/11019">https://doi.org/10.17226/11019</a>.
-</div>
-<div id="ref-snow1855" class="csl-entry" role="listitem">
-Snow, John. 1855. <em>On the Mode of Communication of Cholera</em>. 2nd ed. John Churchill.
-</div>
 </div>
 </section>
 </section>

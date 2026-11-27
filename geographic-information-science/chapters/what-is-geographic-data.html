@@ -26,26 +26,7 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for citations */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-}
-.hanging-indent div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}</style>
+</style>
 
 
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -241,6 +222,12 @@ window.Quarto = {
  <span class="menu-text">About the author</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -385,7 +372,7 @@ Figure&nbsp;2.2: Data abstraction. Each step to the right looks less like the wo
 </section>
 <section id="geographic-data-models" class="level3" data-number="2.1.3">
 <h3 data-number="2.1.3" class="anchored" data-anchor-id="geographic-data-models"><span class="header-section-number">2.1.3</span> Geographic data models</h3>
-<p>A <strong>data model</strong> sits where human understanding and computer understanding overlap. People think about roads, rivers, and parcels; computers handle numbers and coordinates. The data model is the meeting point. Paul Bolstad, in <em>GIS Fundamentals</em>, describes a data model as the objects in a spatial database plus the relationships among them, and says its purpose is “to provide a formal means of representing and manipulating spatially-referenced information” <span class="citation" data-cites="bolstad2022">(<a href="#ref-bolstad2022" role="doc-biblioref">Bolstad 2022</a>)</span>. <em>Formal</em> here means mathematical: a data model has exact rules, so a computer can follow them without guessing.</p>
+<p>A <strong>data model</strong> sits where human understanding and computer understanding overlap. People think about roads, rivers, and parcels; computers handle numbers and coordinates. The data model is the meeting point. Paul Bolstad, in <em>GIS Fundamentals</em>, describes a data model as the objects in a spatial database plus the relationships among them, and says its purpose is “to provide a formal means of representing and manipulating spatially-referenced information” <span class="citation" data-cites="bolstad2022">(Bolstad 2022)</span>. <em>Formal</em> here means mathematical: a data model has exact rules, so a computer can follow them without guessing.</p>
 <p>GIS uses four main data models (<a href="#fig-four-models" class="quarto-xref">Figure&nbsp;<span>2.3</span></a>):</p>
 <ul>
 <li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-vector" data-term="vector">Vector</span></strong>: points, lines, and polygons, each stored as coordinates.</li>
@@ -734,7 +721,7 @@ Figure&nbsp;2.13: A polygon stored as three arcs. Each arc is a list of <span cl
 </section>
 <section id="the-esri-shapefile" class="level3" data-number="2.4.2">
 <h3 data-number="2.4.2" class="anchored" data-anchor-id="the-esri-shapefile"><span class="header-section-number">2.4.2</span> The Esri shapefile</h3>
-<p>The data structure you will use most often this semester is the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-shapefile" data-term="shapefile">shapefile</span></strong>, a vector format that <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-esri" data-term="Esri">Esri</span> created in the early 1990s and published as an open specification in 1998 <span class="citation" data-cites="esri1998">(<a href="#ref-esri1998" role="doc-biblioref">Environmental Systems Research Institute 1998</a>)</span>. Despite its name, a shapefile is not one file. It is a group of files that share a name and together store one vector <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layer</span> (<a href="#tbl-shapefile" class="quarto-xref">Table&nbsp;<span>2.2</span></a>).</p>
+<p>The data structure you will use most often this semester is the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-shapefile" data-term="shapefile">shapefile</span></strong>, a vector format that <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-esri" data-term="Esri">Esri</span> created in the early 1990s and published as an open specification in 1998 <span class="citation" data-cites="esri1998">(Environmental Systems Research Institute 1998)</span>. Despite its name, a shapefile is not one file. It is a group of files that share a name and together store one vector <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layer</span> (<a href="#tbl-shapefile" class="quarto-xref">Table&nbsp;<span>2.2</span></a>).</p>
 <div id="tbl-shapefile" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-shapefile-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -984,8 +971,8 @@ Show hint for question 6
 <section id="books-and-open-textbooks" class="level3" data-number="2.9.1">
 <h3 data-number="2.9.1" class="anchored" data-anchor-id="books-and-open-textbooks"><span class="header-section-number">2.9.1</span> Books and open textbooks</h3>
 <ul>
-<li><em><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> Fundamentals: A First Text on Geographic Information Systems</em>, by Paul Bolstad <span class="citation" data-cites="bolstad2022">(<a href="#ref-bolstad2022" role="doc-biblioref">Bolstad 2022</a>)</span>. Chapter 2, “<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-model" data-term="data model">Data Models</span>,” covers the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-vector" data-term="vector">vector</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">raster</span>, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tin" data-term="TIN">TIN</span> models, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-topology" data-term="topology">topology</span>, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-structure" data-term="data structure">data structures</span> in depth.</li>
-<li><em>Understanding GIS through Sustainable Development Goals</em>, by Paul Holloway <span class="citation" data-cites="holloway2023">(<a href="#ref-holloway2023" role="doc-biblioref">Holloway 2023</a>)</span>. Its chapters on <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-data" data-term="spatial data">spatial data</span> introduce vector and raster data with worked examples.</li>
+<li><em><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> Fundamentals: A First Text on Geographic Information Systems</em>, by Paul Bolstad <span class="citation" data-cites="bolstad2022">(Bolstad 2022)</span>. Chapter 2, “<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-model" data-term="data model">Data Models</span>,” covers the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-vector" data-term="vector">vector</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">raster</span>, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tin" data-term="TIN">TIN</span> models, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-topology" data-term="topology">topology</span>, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-structure" data-term="data structure">data structures</span> in depth.</li>
+<li><em>Understanding GIS through Sustainable Development Goals</em>, by Paul Holloway <span class="citation" data-cites="holloway2023">(Holloway 2023)</span>. Its chapters on <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-data" data-term="spatial data">spatial data</span> introduce vector and raster data with worked examples.</li>
 <li><em>Essentials of Geographic Information Systems</em>, by Jonathan Campbell and Michael Shin. Chapter 4, “Data Models for GIS,” and Chapter 5, “Geospatial Data Management,” are free online: <a href="https://open.umn.edu/opentextbooks/textbooks/67" class="uri">https://open.umn.edu/opentextbooks/textbooks/67</a>, also on LibreTexts at <a href="https://geo.libretexts.org/Bookshelves/Geography_(Physical)/Essentials_of_Geographic_Information_Systems_(Campbell_and_Shin)" class="uri">https://geo.libretexts.org/Bookshelves/Geography_(Physical)/Essentials_of_Geographic_Information_Systems_(Campbell_and_Shin)</a>.</li>
 <li><em>Intro to GIS and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-analysis" data-term="spatial analysis">Spatial Analysis</span></em>, by Manuel Gimond. See the chapters “<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-feature" data-term="feature">Feature</span> Representation” and “GIS Data Formats”: <a href="https://mgimond.github.io/Spatial/" class="uri">https://mgimond.github.io/Spatial/</a>.</li>
 <li><em>The Nature of Geographic Information</em>, by David DiBiase and colleagues at Penn State. Chapter 1, “Data and Information,” and its sections on vector and raster representations: <a href="https://www.e-education.psu.edu/natureofgeoinfo/" class="uri">https://www.e-education.psu.edu/natureofgeoinfo/</a>.</li>
@@ -1009,7 +996,7 @@ Show hint for question 6
 <section id="file-formats" class="level3" data-number="2.9.3">
 <h3 data-number="2.9.3" class="anchored" data-anchor-id="file-formats"><span class="header-section-number">2.9.3</span> File formats</h3>
 <ul>
-<li>Esri, <em>ESRI <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-shapefile" data-term="shapefile">Shapefile</span> Technical Description</em> <span class="citation" data-cites="esri1998">(<a href="#ref-esri1998" role="doc-biblioref">Environmental Systems Research Institute 1998</a>)</span>, the original specification: <a href="https://www.esri.com/content/dam/esrisites/sitecore-archive/Files/Pdfs/library/whitepapers/pdfs/shapefile.pdf" class="uri">https://www.esri.com/content/dam/esrisites/sitecore-archive/Files/Pdfs/library/whitepapers/pdfs/shapefile.pdf</a>.</li>
+<li>Esri, <em>ESRI <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-shapefile" data-term="shapefile">Shapefile</span> Technical Description</em> <span class="citation" data-cites="esri1998">(Environmental Systems Research Institute 1998)</span>, the original specification: <a href="https://www.esri.com/content/dam/esrisites/sitecore-archive/Files/Pdfs/library/whitepapers/pdfs/shapefile.pdf" class="uri">https://www.esri.com/content/dam/esrisites/sitecore-archive/Files/Pdfs/library/whitepapers/pdfs/shapefile.pdf</a>.</li>
 <li>Esri, “Shapefiles” in the ArcGIS Pro help, including which files make up a shapefile: <a href="https://pro.arcgis.com/en/pro-app/latest/help/data/shapefiles/working-with-shapefiles-in-arcgis-pro.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/help/data/shapefiles/working-with-shapefiles-in-arcgis-pro.htm</a>, and “<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geoprocessing" data-term="geoprocessing">Geoprocessing</span> considerations for shapefile output,” on its limits: <a href="https://pro.arcgis.com/en/pro-app/latest/tool-reference/appendices/geoprocessing-considerations-for-shapefile-output.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/tool-reference/appendices/geoprocessing-considerations-for-shapefile-output.htm</a>.</li>
 <li>Switch from Shapefile, a community site that lists the shapefile’s limits and the alternatives: <a href="http://switchfromshapefile.org" class="uri">http://switchfromshapefile.org</a>.</li>
 <li><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geopackage" data-term="GeoPackage">GeoPackage</span>, the open standard from the Open Geospatial Consortium (OGC): <a href="https://www.geopackage.org" class="uri">https://www.geopackage.org</a>.</li>
@@ -1169,17 +1156,6 @@ clipping, or overlaying layers.</span>
 <span id="gloss-open-source">Software whose source code anyone may read, change, and share, often
 free of charge. QGIS and GRASS GIS are open source.</span>
 <span id="gloss-openstreetmap">A free, editable map of the world built by volunteers, founded in 2004.</span>
-</div>
-<div id="refs" class="references csl-bib-body hanging-indent" role="list">
-<div id="ref-bolstad2022" class="csl-entry" role="listitem">
-Bolstad, Paul. 2022. <em><span>GIS</span> Fundamentals: A First Text on Geographic Information Systems</em>. 7th ed. XanEdu.
-</div>
-<div id="ref-esri1998" class="csl-entry" role="listitem">
-Environmental Systems Research Institute. 1998. <em><span>ESRI</span> Shapefile Technical Description</em>. An {ESRI} White Paper. Environmental Systems Research Institute.
-</div>
-<div id="ref-holloway2023" class="csl-entry" role="listitem">
-Holloway, Paul. 2023. <em>Understanding <span>GIS</span> Through Sustainable Development Goals: Case Studies with <span>ArcGIS</span> Pro and <span>QGIS</span></em>. Routledge.
-</div>
 </div>
 </section>
 </section>
