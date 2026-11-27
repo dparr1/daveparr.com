@@ -270,32 +270,38 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./chapters/digital-elevation-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Digital Elevation Models</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./chapters/interpolation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Spatial Interpolation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Spatial Interpolation</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapters/kriging.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Kriging</span></span></a>
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Kriging</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapters/suitability-modeling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Suitability Modeling</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Suitability Modeling</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapters/risk-analysis.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Risk Analysis</span></span></a>
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Risk Analysis</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapters/uncertainty.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Uncertainty in Geospatial Data</span></span></a>
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Uncertainty in Geospatial Data</span></span></a>
   </div>
 </li>
       </ul>
@@ -309,13 +315,13 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapters/qgis.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Getting to Know QGIS</span></span></a>
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Getting to Know QGIS</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapters/arcgis-pro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Getting to Know ArcGIS Pro</span></span></a>
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Getting to Know ArcGIS Pro</span></span></a>
   </div>
 </li>
       </ul>
@@ -329,7 +335,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapters/whats-next.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">What’s Next in GIS</span></span></a>
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">What’s Next in GIS</span></span></a>
   </div>
 </li>
       </ul>
@@ -401,6 +407,10 @@ A missing value: nothing was recorded. NULL fails every comparison, so test for 
 <dd>
 A one-line file next to a CSV that sets the data type of each column for QGIS and GDAL, such as “String”,“Integer”.
 </dd>
+<dt><span id="term-3d-elevation-program-3dep">3D Elevation Program (3DEP)</span></dt>
+<dd>
+The USGS program that collects lidar and publishes free elevation data and DEMs for the whole United States.
+</dd>
 <dt><span id="term-absolute-location">absolute location</span></dt>
 <dd>
 A location given in a coordinate system that means the same thing to everyone, such as 38° 53′ 52″ N, 77° 02′ 11″ W.
@@ -449,6 +459,10 @@ Rescaling a raster to coarser cells by combining blocks of cells into one, using
 <dd>
 An equal-area conic projection, the standard for measuring areas across the contiguous United States (EPSG:5070).
 </dd>
+<dt><span id="term-altitude">altitude</span></dt>
+<dd>
+For a hillshade, the sun’s angle above the horizon; the default is 45°.
+</dd>
 <dt><span id="term-american-community-survey-acs">American Community Survey (ACS)</span></dt>
 <dd>
 The Census Bureau’s yearly sample survey of about 3.5 million addresses, the main source of social, economic, and housing data.
@@ -472,6 +486,10 @@ Dividing the 435 seats in the U.S. House of Representatives among the states, by
 <dt><span id="term-arc">arc</span></dt>
 <dd>
 A line stored as an ordered list of coordinates. Polygons can be built from arcs that share their end points.
+</dd>
+<dt><span id="term-arc-second">arc-second</span></dt>
+<dd>
+1/3,600 of a degree. As a DEM cell size, 1 arc-second is about 30 m on the ground.
 </dd>
 <dt><span id="term-arc-info">ARC/INFO</span></dt>
 <dd>
@@ -525,6 +543,10 @@ Data from official agencies, collected under documented standards and published 
 <dd>
 An interpolation method that estimates each location as the mean of the observations within a search radius.
 </dd>
+<dt><span id="term-azimuth">azimuth</span></dt>
+<dd>
+A compass direction, in degrees clockwise from north. For a hillshade, the direction the sunlight comes from; the default is 315°.
+</dd>
 <dt><span id="term-azimuthal">azimuthal</span></dt>
 <dd>
 A projection onto a plane that keeps true directions from its center point.
@@ -564,6 +586,10 @@ A binary digit, 0 or 1. With <em>n</em> bits you can write 2ⁿ different values
 <dt><span id="term-block-group">block group</span></dt>
 <dd>
 A cluster of census blocks within a tract, usually with 600 to 3,000 people. The smallest area with ACS estimates.
+</dd>
+<dt><span id="term-breakline">breakline</span></dt>
+<dd>
+A line along a ridge, stream, or road edge where the slope changes sharply, used to keep those features crisp in a terrain model.
 </dd>
 <dt><span id="term-browser-panel">Browser panel</span></dt>
 <dd>
@@ -757,6 +783,14 @@ A ranking in which values are scaled smoothly from worst to best, so a near miss
 <dd>
 A network of permanent GPS receivers, run by the National Geodetic Survey and its partners, that keeps NAD83 up to date.
 </dd>
+<dt><span id="term-contour-interval">contour interval</span></dt>
+<dd>
+The difference in elevation between neighboring contour lines on a map, such as 20 feet.
+</dd>
+<dt><span id="term-contour-line">contour line</span></dt>
+<dd>
+A line on a map joining points of equal elevation. Lines close together mean a steep slope.
+</dd>
 <dt><span id="term-control-point">control point</span></dt>
 <dd>
 A point on the ground, often marked with a bronze disk, whose coordinates have been measured precisely. Control points tie a datum to the Earth.
@@ -768,6 +802,10 @@ The full description of how coordinates relate to the Earth: a datum, plus a pro
 <dt><span id="term-coordinate-system">coordinate system</span></dt>
 <dd>
 A system of numbers, such as latitude and longitude, that gives every location a unique position so layers line up with each other.
+</dd>
+<dt><span id="term-copernicus-glo-30">Copernicus GLO-30</span></dt>
+<dd>
+A free global elevation model with 30 m cells, made from the TanDEM-X radar mission. It is a surface model, including trees and buildings.
 </dd>
 <dt><span id="term-coping-capacity">coping capacity</span></dt>
 <dd>
@@ -913,6 +951,14 @@ A method that adds calibrated statistical noise to published tables, so that ind
 <dd>
 A raster whose cell values are elevations of the ground surface.
 </dd>
+<dt><span id="term-digital-surface-model">digital surface model</span></dt>
+<dd>
+An elevation model of the first surface a sensor hits, including tree canopies, roofs, and power lines.
+</dd>
+<dt><span id="term-digital-terrain-model">digital terrain model</span></dt>
+<dd>
+A bare-earth elevation model with breaklines added along ridges, streams, and other features.
+</dd>
 <dt><span id="term-digital-twin">digital twin</span></dt>
 <dd>
 A detailed, regularly updated digital model of a real city, building, or system, often 3D and linked to live sensor data.
@@ -960,6 +1006,10 @@ The Census Bureau’s survey of businesses, taken every five years in years endi
 <dt><span id="term-edge-effect">edge effect</span></dt>
 <dd>
 Locations near the boundary of a study area find fewer neighbors than they should, because their neighbors outside it were not observed.
+</dd>
+<dt><span id="term-elevation-angle">elevation angle</span></dt>
+<dd>
+The angle up (positive) or down (negative) from an observer to a point, arctan of the change in elevation over the horizontal distance.
 </dd>
 <dt><span id="term-ellipsoid">ellipsoid</span></dt>
 <dd>
@@ -1069,6 +1119,10 @@ Positions in a raster given as pixel columns and rows.
 <dd>
 A numeric code the U.S. government assigns to each state, county, and other area, such as 37 for North Carolina and 37135 for Orange County.
 </dd>
+<dt><span id="term-first-return">first return</span></dt>
+<dd>
+The first echo of a lidar pulse, from the first thing it hits, such as a treetop or a roof. First returns build a DSM.
+</dd>
 <dt><span id="term-first-order-neighbor">first-order neighbor</span></dt>
 <dd>
 A polygon that touches the polygon in question directly. Its own neighbors are second-order neighbors.
@@ -1080,6 +1134,10 @@ Whether a dataset or map is good enough for a particular purpose, which depends 
 <dt><span id="term-flattening">flattening</span></dt>
 <dd>
 How squashed an ellipsoid is: <em>f</em> = (<em>a</em> − <em>b</em>) / <em>a</em>. For the Earth, about 1/298.
+</dd>
+<dt><span id="term-fleming-and-hoffer-s-method">Fleming and Hoffer’s method</span></dt>
+<dd>
+A way of estimating slope from only the four direct neighbors of a cell.
 </dd>
 <dt><span id="term-flowchart">flowchart</span></dt>
 <dd>
@@ -1245,9 +1303,17 @@ The area a hazard can reach, such as a floodplain or wildfire perimeter, often m
 <dd>
 A map of a density surface, usually from kernel density estimation.
 </dd>
+<dt><span id="term-hillshade">hillshade</span></dt>
+<dd>
+A raster that shows terrain as if lit by the sun from a chosen azimuth and altitude, from 0 (shadow) to 255 (full sun).
+</dd>
 <dt><span id="term-histogram">histogram</span></dt>
 <dd>
 A bar chart of how many values fall in each range, used to see the shape of a distribution.
+</dd>
+<dt><span id="term-horn-s-method">Horn’s method</span></dt>
+<dd>
+A way of estimating slope and aspect from all eight neighbors of a cell, counting the direct neighbors twice. ArcGIS Pro and QGIS use it.
 </dd>
 <dt><span id="term-humanitarian-openstreetmap-team">Humanitarian OpenStreetMap Team</span></dt>
 <dd>
@@ -1260,6 +1326,10 @@ OpenStreetMap’s web-based editor, which runs in a browser with no installation
 <dt><span id="term-image-rectification">image rectification</span></dt>
 <dd>
 Correcting an image’s geometry so that it fits a map coordinate system.
+</dd>
+<dt><span id="term-index-contour">index contour</span></dt>
+<dd>
+Every fourth or fifth contour line, drawn thicker and labeled with its elevation.
 </dd>
 <dt><span id="term-inexact-interpolator">inexact interpolator</span></dt>
 <dd>
@@ -1345,6 +1415,10 @@ A conformal conic projection with two standard parallels. It suits mid-latitude 
 <dd>
 A series of U.S. Earth-observing satellites, run by NASA and the USGS, that have imaged the whole planet since 1972, mostly with 30-meter cells.
 </dd>
+<dt><span id="term-last-return">last return</span></dt>
+<dd>
+The last echo of a lidar pulse, which often comes from the ground under trees. Ground returns build a bare-earth DEM.
+</dd>
 <dt><span id="term-latitude">latitude</span></dt>
 <dd>
 The angle north or south of the equator, from 0° at the equator to 90° at the poles.
@@ -1384,6 +1458,10 @@ A remote sensing method that times laser pulses to measure distance, used to map
 <dt><span id="term-line">line</span></dt>
 <dd>
 A vector feature with length but no area, stored as an ordered list of coordinates, such as a road or a stream.
+</dd>
+<dt><span id="term-line-of-sight">line of sight</span></dt>
+<dd>
+A test of whether a target is visible from an observer, by comparing elevation angles along the line between them.
 </dd>
 <dt><span id="term-line-segment">line segment</span></dt>
 <dd>
@@ -1689,9 +1767,17 @@ The sill minus the nugget: the part of the variation that is spatially autocorre
 <dd>
 A sensor that records energy it does not send out itself, such as reflected sunlight or emitted heat. Most satellite cameras are passive.
 </dd>
+<dt><span id="term-photogrammetry">photogrammetry</span></dt>
+<dd>
+Measuring positions and heights from overlapping (stereo) photographs, the way two eyes judge depth.
+</dd>
 <dt><span id="term-physical-vulnerability">physical vulnerability</span></dt>
 <dd>
 Vulnerability that comes from the land and buildings, such as low elevation, weak construction, or closeness to a river.
+</dd>
+<dt><span id="term-pictorial-relief">pictorial relief</span></dt>
+<dd>
+Showing hills and mountains on a map as small drawings, which tell where the high ground is but not how high it is.
 </dd>
 <dt><span id="term-plate-carr-e">Plate Carrée</span></dt>
 <dd>
@@ -1704,6 +1790,10 @@ An add-on that extends QGIS with new tools, installed from inside QGIS with Plug
 <dt><span id="term-point">point</span></dt>
 <dd>
 A vector feature with a location but no length or area, stored as a single x, y coordinate pair, such as a well or a school.
+</dd>
+<dt><span id="term-point-cloud">point cloud</span></dt>
+<dd>
+The millions of x, y, z points recorded by a lidar scanner, before they are turned into a raster.
 </dd>
 <dt><span id="term-pointer">pointer</span></dt>
 <dd>
@@ -1861,9 +1951,17 @@ A database that stores data in tables and links them through key fields that hol
 <dd>
 A description of where something is in relation to a landmark, such as “ten paces north of the oak.” It only works if you know the landmark.
 </dd>
+<dt><span id="term-relative-radiance">relative radiance</span></dt>
+<dd>
+How bright a cell would look in sunlight, calculated from the sun’s azimuth and altitude and the cell’s slope and aspect.
+</dd>
 <dt><span id="term-reliability-diagram">reliability diagram</span></dt>
 <dd>
 A small diagram in the margin of an older topographic map showing how and when each part of the sheet was mapped.
+</dd>
+<dt><span id="term-relief-inversion">relief inversion</span></dt>
+<dd>
+An illusion in which valleys look like ridges, and ridges like valleys, usually when a hillshade is lit from the south.
 </dd>
 <dt><span id="term-remote-sensing">remote sensing</span></dt>
 <dd>
@@ -1900,6 +1998,10 @@ The band of tabs and grouped commands across the top of the ArcGIS Pro window.
 <dt><span id="term-right-join">right join</span></dt>
 <dd>
 A join that keeps every record of the right (source) table.
+</dd>
+<dt><span id="term-rise-over-run">rise over run</span></dt>
+<dd>
+Slope as the change in elevation (rise) divided by the horizontal distance (run).
 </dd>
 <dt><span id="term-risk">risk</span></dt>
 <dd>
@@ -1977,6 +2079,10 @@ Light-to-dark steps of one or a few related hues, for data that run from low to 
 <dd>
 A common vector format from Esri that stores one layer in several files with the same name: .shp (geometry), .shx (index), and .dbf (attributes) are required, and .prj holds the coordinate system.
 </dd>
+<dt><span id="term-shuttle-radar-topography-mission-srtm">Shuttle Radar Topography Mission (SRTM)</span></dt>
+<dd>
+A Space Shuttle mission in February 2000 that mapped the elevation of most of Earth’s land with radar, at 30 m and 90 m.
+</dd>
 <dt><span id="term-sill">sill</span></dt>
 <dd>
 The semivariance at which a semivariogram levels off.
@@ -1988,6 +2094,10 @@ A join that copies the attributes of one source feature to each destination feat
 <dt><span id="term-simple-kriging">simple kriging</span></dt>
 <dd>
 Kriging that assumes a known, constant mean.
+</dd>
+<dt><span id="term-sink">sink</span></dt>
+<dd>
+A DEM cell lower than all its neighbors. Most are errors, and they trap water in flow models, so they are removed with the Fill tool.
 </dd>
 <dt><span id="term-site-selection">site selection</span></dt>
 <dd>
@@ -2201,6 +2311,10 @@ Identical small circles drawn on the globe and then projected. Their size and sh
 <dd>
 “Everything is related to everything else, but near things are more related than distant things” (Tobler 1970).
 </dd>
+<dt><span id="term-topographic-map">topographic map</span></dt>
+<dd>
+A map that shows the shape of the land with contour lines, along with streams, roads, and place names, such as a USGS 1:24,000 quadrangle.
+</dd>
 <dt><span id="term-topology">topology</span></dt>
 <dd>
 The recorded connections between features, such as which polygons share an edge and which lines meet at a node. It keeps neighbors from having gaps or overlaps.
@@ -2293,9 +2407,21 @@ Whether data can be trusted; sometimes called the fourth V of Big Data.
 <dd>
 An intermediate point where a line or polygon boundary changes direction.
 </dd>
+<dt><span id="term-vertical-datum">vertical datum</span></dt>
+<dd>
+The reference surface that elevations are measured from, such as the North American Vertical Datum of 1988 (NAVD 88).
+</dd>
+<dt><span id="term-viewshed">viewshed</span></dt>
+<dd>
+The area visible from one or more observer points, found by running a line-of-sight test to every cell of a DEM.
+</dd>
 <dt><span id="term-visual-variable">visual variable</span></dt>
 <dd>
 A property of a map symbol that can change to show data, such as size, shape, hue, value, crispness, transparency, or saturation.
+</dd>
+<dt><span id="term-void">void</span></dt>
+<dd>
+A hole of NoData cells in a DEM, common in radar DEMs over steep mountains and water.
 </dd>
 <dt><span id="term-volunteered-geographic-information">volunteered geographic information</span></dt>
 <dd>
@@ -2332,6 +2458,10 @@ The World Geodetic System of 1984, the global, earth-centered datum used by GPS.
 <dt><span id="term-where-clause">WHERE clause</span></dt>
 <dd>
 The condition part of an SQL query, such as <code>"Area" &gt; 20</code>. It is the part you write in Select by Expression or Select By Attributes.
+</dd>
+<dt><span id="term-z-factor">z-factor</span></dt>
+<dd>
+A multiplier that converts a surface’s z units to the units of x and y, such as when elevations are in meters but coordinates are in degrees.
 </dd>
 <dt><span id="term-zip-code-tabulation-area-zcta">ZIP Code Tabulation Area (ZCTA)</span></dt>
 <dd>
@@ -3181,7 +3311,7 @@ window.onload = function() {
 <nav class="page-navigation" aria-label="Page">
   <div class="nav-page nav-page-previous">
       <a href="./chapters/whats-next.html" class="pagination-link" aria-label="What's Next in GIS">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">What’s Next in GIS</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">What’s Next in GIS</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

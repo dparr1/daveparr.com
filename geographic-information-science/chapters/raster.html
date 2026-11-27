@@ -36,7 +36,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../chapters/interpolation.html" rel="next">
+<link href="../chapters/digital-elevation-models.html" rel="next">
 <link href="../chapters/spatial-analysis.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -272,32 +272,38 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../chapters/digital-elevation-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Digital Elevation Models</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../chapters/interpolation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Spatial Interpolation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Spatial Interpolation</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/kriging.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Kriging</span></span></a>
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Kriging</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/suitability-modeling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Suitability Modeling</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Suitability Modeling</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/risk-analysis.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Risk Analysis</span></span></a>
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Risk Analysis</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/uncertainty.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Uncertainty in Geospatial Data</span></span></a>
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Uncertainty in Geospatial Data</span></span></a>
   </div>
 </li>
       </ul>
@@ -311,13 +317,13 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/qgis.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Getting to Know QGIS</span></span></a>
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Getting to Know QGIS</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/arcgis-pro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Getting to Know ArcGIS Pro</span></span></a>
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Getting to Know ArcGIS Pro</span></span></a>
   </div>
 </li>
       </ul>
@@ -331,7 +337,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/whats-next.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">What’s Next in GIS</span></span></a>
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">What’s Next in GIS</span></span></a>
   </div>
 </li>
       </ul>
@@ -605,7 +611,7 @@ Figure&nbsp;14.4: Resampling a 4 × 4 land-cover raster to a 3 × 3 grid. Neares
 <li><strong>Extent.</strong> <em>Intersection</em> keeps only the area where every input has data; <em>union</em> keeps everything, with NoData in the gaps. Intersection is the safer default.</li>
 <li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-snap-raster" data-term="snap raster">Snap raster</span>.</strong> Even with the same cell size, two grids can be offset by part of a cell. <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-snapping" data-term="snapping">Snapping</span> aligns the output’s cell edges to one input’s grid.</li>
 </ol>
-<p>The output can only be as detailed as its coarsest input (<a href="#fig-cell-size" class="quarto-xref">Figure&nbsp;<span>14.5</span></a>). If you add a 30 m land-use raster to a 1 km elevation raster, the result is a blocky 1 km grid, and choosing 30 m output cells would only copy each 1 km value into a thousand smaller cells. If you need 30 m results, find a better elevation source, such as a 10 m or 30 m <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-digital-elevation-model" data-term="digital elevation model">digital elevation model</span> from USGS 3DEP.</p>
+<p>The output can only be as detailed as its coarsest input (<a href="#fig-cell-size" class="quarto-xref">Figure&nbsp;<span>14.5</span></a>). If you add a 30 m land-use raster to a 1 km elevation raster, the result is a blocky 1 km grid, and choosing 30 m output cells would only copy each 1 km value into a thousand smaller cells. If you need 30 m results, find a better elevation source, such as a 10 m or 30 m <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-digital-elevation-model" data-term="digital elevation model">digital elevation model</span> from USGS <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-3d-elevation-program-3dep" data-term="3D Elevation Program (3DEP)">3DEP</span>.</p>
 <div id="fig-cell-size" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Three shaded terrain maps of the same area. Left: 240 by 240 cells, smooth. Middle: 30 by 30 cells, visibly blocky. Right: 6 by 6 cells, only large colored squares, with almost no recognizable terrain.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-cell-size-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -741,7 +747,7 @@ Figure&nbsp;14.11: Statistics of one 3 × 3 window. Each result is written to th
 </figcaption>
 </figure>
 </div>
-<p>Choose the statistic to fit the data. Mean and median smooth continuous surfaces; maximum and minimum find peaks and pits; <strong>majority</strong> suits categories, since a mean of land-cover codes is meaningless. Slope and aspect are neighborhood functions too: they fit a surface through the window and report how steep it is and which way it faces.</p>
+<p>Choose the statistic to fit the data. Mean and median smooth continuous surfaces; maximum and minimum find peaks and pits; <strong>majority</strong> suits categories, since a mean of land-cover codes is meaningless. Slope and aspect are neighborhood functions too: they fit a surface through the window and report how steep it is and which way it faces (Chapter 15).</p>
 </section>
 <section id="the-moving-window" class="level3" data-number="14.5.2">
 <h3 data-number="14.5.2" class="anchored" data-anchor-id="the-moving-window"><span class="header-section-number">14.5.2</span> The moving window</h3>
@@ -787,7 +793,7 @@ Figure&nbsp;14.13: Aggregating a 9 × 9 raster to 3 × 3 with the mean of each 3
 <img src="../images/raster/distance.png" class="img-fluid figure-img" alt="Left: a winding blue river on a blank background. Right: the same river over a distance surface, dark red near the river and fading to pale yellow far away, with contour lines every 100 meters parallel to the river.">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-distance-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;14.14: Euclidean distance from a made-up river, with contours every 100 m.
+Figure&nbsp;14.14: Euclidean distance from a made-up river, with <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-contour-line" data-term="contour line">contours</span> every 100 m.
 </figcaption>
 </figure>
 </div>
@@ -825,7 +831,7 @@ Figure&nbsp;14.14: Euclidean distance from a made-up river, with contours every 
 <li><strong>Extent.</strong> A <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-digital-elevation-model" data-term="digital elevation model">DEM</span> has 3,601 columns and 3,601 rows of 1-arc-second cells. About how far across is it in degrees? At the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-equator" data-term="equator">equator</span>, about how many kilometers?</li>
 <li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-map-algebra" data-term="map algebra">Map algebra</span> by hand.</strong> For A and B in <a href="#fig-map-algebra-add" class="quarto-xref">Figure&nbsp;<span>14.2</span></a>, compute A − B and A × B. Where does <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-nodata" data-term="NoData">NoData</span> appear?</li>
 <li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-resampling" data-term="resampling">Resampling</span>.</strong> In <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span> or <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span>, download an NLCD land-cover <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">raster</span> for your county from the MRLC viewer, and resample it to 300 m twice, once with <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-nearest-neighbor" data-term="nearest neighbor">nearest neighbor</span> and once with <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-bilinear-interpolation" data-term="bilinear interpolation">bilinear</span>. Open the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-attribute" data-term="attribute">attribute tables</span> or <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-histogram" data-term="histogram">histograms</span>. What happened to the classes?</li>
-<li><strong>Suitability.</strong> Using a DEM for Orange County, NC, from USGS 3DEP or NC OneMap, compute slope, then find the cells with a slope under 10 degrees and an elevation above 150 m. Write the expression you used.</li>
+<li><strong>Suitability.</strong> Using a DEM for Orange County, NC, from USGS <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-3d-elevation-program-3dep" data-term="3D Elevation Program (3DEP)">3DEP</span> or NC OneMap, compute slope, then find the cells with a slope under 10 degrees and an elevation above 150 m. Write the expression you used.</li>
 <li><strong>Fill the gaps.</strong> Write a CON expression that replaces NoData in a rainfall raster with the raster’s global mean, and leaves every other value unchanged.</li>
 <li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-zonal-statistics" data-term="zonal statistics">Zonal statistics</span>.</strong> Compute the mean elevation of each county in North Carolina with Zonal Statistics as Table. Which county is highest, and which is lowest?</li>
 </ol>
@@ -864,7 +870,7 @@ Figure&nbsp;14.14: Euclidean distance from a made-up river, with contours every 
 <h3 data-number="14.9.4" class="anchored" data-anchor-id="data-and-other-resources"><span class="header-section-number">14.9.4</span> Data and other resources</h3>
 <ul>
 <li>Multi-Resolution Land Characteristics Consortium (NLCD): <a href="https://www.mrlc.gov" class="uri">https://www.mrlc.gov</a>.</li>
-<li>USGS 3D Elevation Program (3DEP): <a href="https://www.usgs.gov/3d-elevation-program" class="uri">https://www.usgs.gov/3d-elevation-program</a>.</li>
+<li>USGS <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-3d-elevation-program-3dep" data-term="3D Elevation Program (3DEP)">3D Elevation Program</span> (3DEP): <a href="https://www.usgs.gov/3d-elevation-program" class="uri">https://www.usgs.gov/3d-elevation-program</a>.</li>
 <li>USGS EarthExplorer, for <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-landsat" data-term="Landsat">Landsat</span> and elevation data: <a href="https://earthexplorer.usgs.gov" class="uri">https://earthexplorer.usgs.gov</a>.</li>
 <li>The <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-gis-t-body-of-knowledge" data-term="GIS&amp;T Body of Knowledge">GIS&amp;T Body of Knowledge</span>, “Map Algebra” and “Raster Data Models”: <a href="https://www.ucgis.org/site/gis-t-body-of-knowledge" class="uri">https://www.ucgis.org/site/gis-t-body-of-knowledge</a>.</li>
 </ul>
@@ -916,6 +922,8 @@ distance.</span>
 <span id="gloss-snapping">An editing setting that makes a new vertex jump to a nearby vertex or
 edge, so that shared boundaries line up exactly.</span>
 <span id="gloss-digital-elevation-model">A raster whose cell values are elevations of the ground surface.</span>
+<span id="gloss-3d-elevation-program-3dep">The USGS program that collects lidar and publishes free elevation data
+and DEMs for the whole United States.</span>
 <span id="gloss-focal-function">A map algebra function that computes each cell’s output from a moving
 window of nearby cells, such as a 3×3 mean.</span>
 <span id="gloss-isnull">A raster function that outputs 1 where a cell is NoData and 0 elsewhere.
@@ -930,6 +938,8 @@ last points are the same, such as a lake, a park, or a county.</span>
 the nearest source cell.</span>
 <span id="gloss-cost-distance">Distance measured as an accumulated cost, such as travel time or effort,
 across a cost raster, rather than in meters.</span>
+<span id="gloss-contour-line">A line on a map joining points of equal elevation. Lines close together
+mean a steep slope.</span>
 <span id="gloss-suitability-modeling">Ranking every location in a study area by how well it meets a set of
 criteria, such as choosing sites for a house, a school, or a wind farm.</span>
 <span id="gloss-buffer">The region within a specified distance of a point, line, or polygon.</span>
@@ -1794,8 +1804,8 @@ window.onload = function() {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../chapters/interpolation.html" class="pagination-link" aria-label="Spatial Interpolation">
-        <span class="nav-page-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Spatial Interpolation</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../chapters/digital-elevation-models.html" class="pagination-link" aria-label="Digital Elevation Models">
+        <span class="nav-page-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Digital Elevation Models</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

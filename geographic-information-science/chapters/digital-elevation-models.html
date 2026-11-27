@@ -1,0 +1,2286 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>15&nbsp; Digital Elevation Models – Geographic Information Science</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/interpolation.html" rel="next">
+<link href="../chapters/raster.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ebb58cfc2c0cc903b00b246007c1be77.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-58aeb932f9769ef5b136914697361c15.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-contrib/glossary-1.0.0/glossary.js"></script>
+<link href="../site_libs/quarto-contrib/glossary-1.0.0/glossary.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<!--
+  Reading settings, part 1 of 2: applies the reader's saved font and text size
+  before the page draws, so it doesn't flash in the default font first.
+  The menu itself is in assets/reader-settings.html; styles are in
+  assets/reader-settings.css.
+-->
+<script>
+  (function () {
+    try {
+      var font = localStorage.getItem("sds-reader-font");
+      var size = localStorage.getItem("sds-reader-size");
+      if (font) document.documentElement.setAttribute("data-reader-font", font);
+      // Lexend and Cardo come from Google Fonts, loaded only for readers who pick them.
+      var webFonts = {
+        lexend: "https://fonts.googleapis.com/css2?family=Lexend:wght@300..700&display=swap",
+        cardo: "https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&display=swap"
+      };
+      if (webFonts[font]) {
+        var link = document.createElement("link");
+        link.rel = "stylesheet"; link.href = webFonts[font]; link.id = "sds-reader-webfont-" + font;
+        document.head.appendChild(link);
+      }
+      if (size) document.documentElement.setAttribute("data-reader-size", size);
+    } catch (e) { /* storage blocked: keep the defaults */ }
+  })();
+</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../include/webex.css">
+<link rel="stylesheet" href="../assets/sidebar.css">
+<link rel="stylesheet" href="../assets/grade-table.css">
+<link rel="stylesheet" href="../assets/reader-settings.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../units/unit-3.html">Unit 3: Spatial Analysis</a></li><li class="breadcrumb-item"><a href="../chapters/digital-elevation-models.html"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Digital Elevation Models</span></a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Site">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Geographic Information Science</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/dparr1/geog-370-geographic-information-science/releases/download/textbook-pdf/Geographic-Information-Science.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../units/unit-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-1-label">Unit 1: Data Models and Projections</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section: Unit 1: Data Models and Projections">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/what-is-gis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">What Is GIS?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/what-is-geographic-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">What Is Geographic Data?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/location-and-coordinates.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Location and Coordinate Systems</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/map-projections.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Map Projections</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/attribute-queries.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Attribute Data and Queries</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/database-joins.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Databases and Table Joins</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/spatial-joins.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Spatial Joins</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../units/unit-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-2-label">Unit 2: Spatial Data Quality</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section: Unit 2: Spatial Data Quality">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/census-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Census Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/geocoding-georeferencing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Geocoding and Georeferencing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/osm-data-quality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">OpenStreetMap and Data Quality</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../units/unit-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Unit 3: Spatial Analysis</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section: Unit 3: Spatial Analysis">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/data-classing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Data Classing and Choropleth Maps</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/density.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Density and Neighborhoods</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/spatial-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Spatial Analysis: Selection, Buffers, and Overlay</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/raster.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Raster Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/digital-elevation-models.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Digital Elevation Models</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/interpolation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Spatial Interpolation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/kriging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Kriging</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/suitability-modeling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Suitability Modeling</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/risk-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Risk Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/uncertainty.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Uncertainty in Geospatial Data</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-4-label">GIS Software</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/qgis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Getting to Know QGIS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/arcgis-pro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Getting to Know ArcGIS Pro</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-controls="quarto-sidebar-section-5" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-5-label">Looking Ahead</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-5" aria-labelledby="quarto-sidebar-section-5-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/whats-next.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">What’s Next in GIS</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-controls="quarto-sidebar-section-6" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-6-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-6" aria-labelledby="quarto-sidebar-section-6-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Glossary</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../about.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About the author</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-dem-history" id="toc-sec-dem-history" class="nav-link active" data-scroll-target="#sec-dem-history"><span class="header-section-number">15.1</span> From hill drawings to numbers</a>
+  <ul class="collapse">
+  <li><a href="#pictures-of-hills" id="toc-pictures-of-hills" class="nav-link" data-scroll-target="#pictures-of-hills"><span class="header-section-number">15.1.1</span> Pictures of hills</a></li>
+  <li><a href="#contour-lines" id="toc-contour-lines" class="nav-link" data-scroll-target="#contour-lines"><span class="header-section-number">15.1.2</span> Contour lines</a></li>
+  <li><a href="#topographic-maps" id="toc-topographic-maps" class="nav-link" data-scroll-target="#topographic-maps"><span class="header-section-number">15.1.3</span> Topographic maps</a></li>
+  </ul></li>
+  <li><a href="#sec-dem-what" id="toc-sec-dem-what" class="nav-link" data-scroll-target="#sec-dem-what"><span class="header-section-number">15.2</span> What a DEM is</a>
+  <ul class="collapse">
+  <li><a href="#a-grid-of-elevations" id="toc-a-grid-of-elevations" class="nav-link" data-scroll-target="#a-grid-of-elevations"><span class="header-section-number">15.2.1</span> A grid of elevations</a></li>
+  <li><a href="#a-short-history-of-dems" id="toc-a-short-history-of-dems" class="nav-link" data-scroll-target="#a-short-history-of-dems"><span class="header-section-number">15.2.2</span> A short history of DEMs</a></li>
+  </ul></li>
+  <li><a href="#sec-dem-sources" id="toc-sec-dem-sources" class="nav-link" data-scroll-target="#sec-dem-sources"><span class="header-section-number">15.3</span> Where elevation data come from</a>
+  <ul class="collapse">
+  <li><a href="#lidar" id="toc-lidar" class="nav-link" data-scroll-target="#lidar"><span class="header-section-number">15.3.1</span> Lidar</a></li>
+  <li><a href="#dem-dtm-and-dsm" id="toc-dem-dtm-and-dsm" class="nav-link" data-scroll-target="#dem-dtm-and-dsm"><span class="header-section-number">15.3.2</span> DEM, DTM, and DSM</a></li>
+  <li><a href="#why-elevation-matters" id="toc-why-elevation-matters" class="nav-link" data-scroll-target="#why-elevation-matters"><span class="header-section-number">15.3.3</span> Why elevation matters</a></li>
+  </ul></li>
+  <li><a href="#sec-dem-getting" id="toc-sec-dem-getting" class="nav-link" data-scroll-target="#sec-dem-getting"><span class="header-section-number">15.4</span> Getting a DEM</a>
+  <ul class="collapse">
+  <li><a href="#the-national-map" id="toc-the-national-map" class="nav-link" data-scroll-target="#the-national-map"><span class="header-section-number">15.4.1</span> The National Map</a></li>
+  <li><a href="#resolution" id="toc-resolution" class="nav-link" data-scroll-target="#resolution"><span class="header-section-number">15.4.2</span> Resolution</a></li>
+  <li><a href="#global-dems" id="toc-global-dems" class="nav-link" data-scroll-target="#global-dems"><span class="header-section-number">15.4.3</span> Global DEMs</a></li>
+  <li><a href="#check-a-dem-before-you-use-it" id="toc-check-a-dem-before-you-use-it" class="nav-link" data-scroll-target="#check-a-dem-before-you-use-it"><span class="header-section-number">15.4.4</span> Check a DEM before you use it</a></li>
+  </ul></li>
+  <li><a href="#sec-slope" id="toc-sec-slope" class="nav-link" data-scroll-target="#sec-slope"><span class="header-section-number">15.5</span> Slope</a>
+  <ul class="collapse">
+  <li><a href="#rise-over-run" id="toc-rise-over-run" class="nav-link" data-scroll-target="#rise-over-run"><span class="header-section-number">15.5.1</span> Rise over run</a></li>
+  <li><a href="#slope-from-a-grid" id="toc-slope-from-a-grid" class="nav-link" data-scroll-target="#slope-from-a-grid"><span class="header-section-number">15.5.2</span> Slope from a grid</a></li>
+  <li><a href="#slope-in-arcgis-pro-and-qgis" id="toc-slope-in-arcgis-pro-and-qgis" class="nav-link" data-scroll-target="#slope-in-arcgis-pro-and-qgis"><span class="header-section-number">15.5.3</span> Slope in ArcGIS Pro and QGIS</a></li>
+  </ul></li>
+  <li><a href="#sec-hillshade" id="toc-sec-hillshade" class="nav-link" data-scroll-target="#sec-hillshade"><span class="header-section-number">15.6</span> Hillshade</a>
+  <ul class="collapse">
+  <li><a href="#sunlight-on-terrain" id="toc-sunlight-on-terrain" class="nav-link" data-scroll-target="#sunlight-on-terrain"><span class="header-section-number">15.6.1</span> Sunlight on terrain</a></li>
+  <li><a href="#the-relative-radiance-equation" id="toc-the-relative-radiance-equation" class="nav-link" data-scroll-target="#the-relative-radiance-equation"><span class="header-section-number">15.6.2</span> The relative radiance equation</a></li>
+  <li><a href="#which-way-should-the-light-come-from" id="toc-which-way-should-the-light-come-from" class="nav-link" data-scroll-target="#which-way-should-the-light-come-from"><span class="header-section-number">15.6.3</span> Which way should the light come from?</a></li>
+  </ul></li>
+  <li><a href="#sec-aspect" id="toc-sec-aspect" class="nav-link" data-scroll-target="#sec-aspect"><span class="header-section-number">15.7</span> Aspect</a>
+  <ul class="collapse">
+  <li><a href="#the-direction-a-slope-faces" id="toc-the-direction-a-slope-faces" class="nav-link" data-scroll-target="#the-direction-a-slope-faces"><span class="header-section-number">15.7.1</span> The direction a slope faces</a></li>
+  <li><a href="#aspect-from-a-grid" id="toc-aspect-from-a-grid" class="nav-link" data-scroll-target="#aspect-from-a-grid"><span class="header-section-number">15.7.2</span> Aspect from a grid</a></li>
+  <li><a href="#mapping-aspect" id="toc-mapping-aspect" class="nav-link" data-scroll-target="#mapping-aspect"><span class="header-section-number">15.7.3</span> Mapping aspect</a></li>
+  </ul></li>
+  <li><a href="#sec-viewshed" id="toc-sec-viewshed" class="nav-link" data-scroll-target="#sec-viewshed"><span class="header-section-number">15.8</span> Line of sight and viewshed</a>
+  <ul class="collapse">
+  <li><a href="#line-of-sight" id="toc-line-of-sight" class="nav-link" data-scroll-target="#line-of-sight"><span class="header-section-number">15.8.1</span> Line of sight</a></li>
+  <li><a href="#viewshed" id="toc-viewshed" class="nav-link" data-scroll-target="#viewshed"><span class="header-section-number">15.8.2</span> Viewshed</a></li>
+  <li><a href="#line-of-sight-and-viewshed-in-practice" id="toc-line-of-sight-and-viewshed-in-practice" class="nav-link" data-scroll-target="#line-of-sight-and-viewshed-in-practice"><span class="header-section-number">15.8.3</span> Line of sight and viewshed in practice</a></li>
+  </ul></li>
+  <li><a href="#sec-surface-tools" id="toc-sec-surface-tools" class="nav-link" data-scroll-target="#sec-surface-tools"><span class="header-section-number">15.9</span> Surface tools in ArcGIS Pro and QGIS</a></li>
+  <li><a href="#check-your-understanding" id="toc-check-your-understanding" class="nav-link" data-scroll-target="#check-your-understanding"><span class="header-section-number">15.10</span> Check your understanding</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">15.11</span> Summary</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">15.12</span> Exercises</a></li>
+  <li><a href="#further-reading-and-online-resources" id="toc-further-reading-and-online-resources" class="nav-link" data-scroll-target="#further-reading-and-online-resources"><span class="header-section-number">15.13</span> Further reading and online resources</a>
+  <ul class="collapse">
+  <li><a href="#books-and-papers" id="toc-books-and-papers" class="nav-link" data-scroll-target="#books-and-papers"><span class="header-section-number">15.13.1</span> Books and papers</a></li>
+  <li><a href="#arcgis-pro" id="toc-arcgis-pro" class="nav-link" data-scroll-target="#arcgis-pro"><span class="header-section-number">15.13.2</span> ArcGIS Pro</a></li>
+  <li><a href="#qgis-and-gdal" id="toc-qgis-and-gdal" class="nav-link" data-scroll-target="#qgis-and-gdal"><span class="header-section-number">15.13.3</span> QGIS and GDAL</a></li>
+  <li><a href="#elevation-data" id="toc-elevation-data" class="nav-link" data-scroll-target="#elevation-data"><span class="header-section-number">15.13.4</span> Elevation data</a></li>
+  <li><a href="#topographic-maps-1" id="toc-topographic-maps-1" class="nav-link" data-scroll-target="#topographic-maps-1"><span class="header-section-number">15.13.5</span> Topographic maps</a></li>
+  <li><a href="#lidar-and-shaded-relief" id="toc-lidar-and-shaded-relief" class="nav-link" data-scroll-target="#lidar-and-shaded-relief"><span class="header-section-number">15.13.6</span> Lidar and shaded relief</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../units/unit-3.html">Unit 3: Spatial Analysis</a></li><li class="breadcrumb-item"><a href="../chapters/digital-elevation-models.html"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Digital Elevation Models</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Digital Elevation Models</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Learning objectives
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>By the end of this chapter you should be able to:</p>
+<ol type="1">
+<li>Explain how elevation mapping evolved from hill drawings to <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-contour-line" data-term="contour line">contour lines</span> to <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-digital-elevation-model" data-term="digital elevation model">digital elevation models</span>.</li>
+<li>Tell a DEM, a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-digital-terrain-model" data-term="digital terrain model">DTM</span>, and a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-digital-surface-model" data-term="digital surface model">DSM</span> apart, and describe how <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-lidar" data-term="lidar">lidar</span> and radar collect elevation.</li>
+<li>Download a DEM at a suitable resolution from The National Map, and check it for problems before analysis.</li>
+<li>Calculate <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-slope" data-term="slope">slope</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-aspect" data-term="aspect">aspect</span> from a 3 × 3 window of elevations, and explain why the method changes the answer.</li>
+<li>Explain how a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-hillshade" data-term="hillshade">hillshade</span> is calculated from the sun’s position and the terrain, and use one under a color DEM.</li>
+<li>Work through a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-line-of-sight" data-term="line of sight">line-of-sight</span> test by hand, and explain how a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-viewshed" data-term="viewshed">viewshed</span> repeats it for every cell.</li>
+</ol>
+</div>
+</div>
+<p>Chapter 14 treated <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">rasters</span> in general: grids of cells, each with a value. The most widely used raster of all holds elevation. Engineers use it to route roads and pipelines, hydrologists to predict where floodwater will go, ecologists to explain why a cove forest grows on one side of a ridge and not the other, and phone companies to decide where a tower will be seen. This chapter covers where elevation data come from, how to get them, and four tools that turn elevation into answers: slope, hillshade, aspect, and viewshed. The maps use a real elevation model of Linville Gorge, in the Blue Ridge Mountains of North Carolina.</p>
+<section id="sec-dem-history" class="level2" data-number="15.1">
+<h2 data-number="15.1" class="anchored" data-anchor-id="sec-dem-history"><span class="header-section-number">15.1</span> From hill drawings to numbers</h2>
+<section id="pictures-of-hills" class="level3" data-number="15.1.1">
+<h3 data-number="15.1.1" class="anchored" data-anchor-id="pictures-of-hills"><span class="header-section-number">15.1.1</span> Pictures of hills</h3>
+<p>Early maps showed mountains as pictures. In 1770, John Collet’s <em>A Compleat Map of North-Carolina from an Actual Survey</em>, engraved by I. Bayly and published in London by S. Hooper, drew the western mountains as rows of little hills (<a href="#fig-collet" class="quarto-xref">Figure&nbsp;<span>15.1</span></a>). This style is <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-pictorial-relief" data-term="pictorial relief">pictorial relief</span></strong>. It tells you where the hills are, but not how high or how steep they are.</p>
+<div id="fig-collet" class="quarto-float quarto-figure quarto-figure-center anchored" alt="An old hand-colored map of North Carolina on cream paper, with a decorative cartouche in the lower right. Rivers are drawn in fine detail across the whole state. The western part is covered in rows of small sketched hills, and the coast has the Outer Banks and sounds. The border with South Carolina runs along the bottom.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-collet-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/dem/collet-1770.jpg" class="img-fluid figure-img" style="width:90.0%" alt="An old hand-colored map of North Carolina on cream paper, with a decorative cartouche in the lower right. Rivers are drawn in fine detail across the whole state. The western part is covered in rows of small sketched hills, and the coast has the Outer Banks and sounds. The border with South Carolina runs along the bottom.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-collet-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;15.1: John Collet, <em>A Compleat Map of North-Carolina from an Actual Survey</em> (London, 1770). Mountains are drawn as pictures, not measured. Map: public domain.
+</figcaption>
+</figure>
+</div>
+<p>Zoom in on the Piedmont near Hillsborough (<a href="#fig-collet-detail" class="quarto-xref">Figure&nbsp;<span>15.2</span></a>). The rivers, mills, and roads are carefully placed, because they were what settlers needed. Cane Creek Mountain is a cluster of short radiating strokes, and its size hints at how prominent it is, but no height was measured. Nobody could plan a road grade from this map.</p>
+<div id="fig-collet-detail" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A close-up of the old map. Thin wavy lines for rivers and creeks run across cream paper, with hand-lettered names including Haw River, Eno River, Hillsborough, and Cane Creek Mountain. A small group of short hatched strokes marks Cane Creek Mountain. There are no numbers for height anywhere.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-collet-detail-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/dem/collet-hillsborough.jpg" class="img-fluid figure-img" style="width:90.0%" alt="A close-up of the old map. Thin wavy lines for rivers and creeks run across cream paper, with hand-lettered names including Haw River, Eno River, Hillsborough, and Cane Creek Mountain. A small group of short hatched strokes marks Cane Creek Mountain. There are no numbers for height anywhere.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-collet-detail-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;15.2: Detail of the Collet map near Hillsborough, with the Haw and Eno rivers. Cane Creek Mountain, left of center, is drawn with radiating strokes. Map: public domain.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="contour-lines" class="level3" data-number="15.1.2">
+<h3 data-number="15.1.2" class="anchored" data-anchor-id="contour-lines"><span class="header-section-number">15.1.2</span> Contour lines</h3>
+<p>The breakthrough came from a physics experiment. In 1774, the Astronomer Royal, Nevil Maskelyne, set out to weigh the Earth by measuring how much the mass of Schiehallion, a symmetrical mountain in Scotland, pulled a plumb line sideways. To work out the mountain’s volume, his team surveyed thousands of heights around it. The mathematician Charles Hutton, who had to make sense of all those numbers, joined the points of equal height with lines <span class="citation" data-cites="hutton1778">(Hutton 1778)</span>. The result was the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-contour-line" data-term="contour line">contour line</span></strong>, still the basis of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-topographic-map" data-term="topographic map">topographic maps</span> (<a href="#fig-schiehallion" class="quarto-xref">Figure&nbsp;<span>15.3</span></a>).</p>
+<div id="fig-schiehallion" class="quarto-float quarto-figure quarto-figure-center anchored" alt="An old engraved map in a black frame, titled A Sketch of Schehallien with part of the hills and other places adjacent. A river and a loch run along the top. Hills are drawn with fine shading strokes, and Schiehallion is a long ridge in the middle, with roads and a few houses around it.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-schiehallion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/dem/schiehallion-1778.jpg" class="img-fluid figure-img" style="width:80.0%" alt="An old engraved map in a black frame, titled A Sketch of Schehallien with part of the hills and other places adjacent. A river and a loch run along the top. Hills are drawn with fine shading strokes, and Schiehallion is a long ridge in the middle, with roads and a few houses around it.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-schiehallion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;15.3: A Sketch of Schehallien, from Hutton’s 1778 report in the <em>Philosophical Transactions</em> of the Royal Society. Map: public domain.
+</figcaption>
+</figure>
+</div>
+<div class="did-you-know callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Did you know..?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The Schiehallion experiment worked. From the plumb line’s tiny deflection, Hutton estimated that the Earth is about 4.5 times as dense as water. The modern value is 5.5, so the estimate was within about 20 percent, and it was the first good evidence that the Earth’s core is much denser than the rocks at its surface.</p>
+</div>
+</div>
+</section>
+<section id="topographic-maps" class="level3" data-number="15.1.3">
+<h3 data-number="15.1.3" class="anchored" data-anchor-id="topographic-maps"><span class="header-section-number">15.1.3</span> Topographic maps</h3>
+<p>National surveys made contours standard. The U.S. Coast Survey, founded in 1807, mapped the shoreline on detailed topographic sheets. The U.S. Geological Survey (USGS), founded in 1879, began mapping the whole country, and its 1:24,000 quadrangles, with contours every 10 or 20 feet, became the standard U.S. topographic map. A <strong>topographic map</strong> shows the shape of the land with contours, along with streams, roads, and place names (<a href="#fig-marcy" class="quarto-xref">Figure&nbsp;<span>15.4</span></a>).</p>
+<div id="fig-marcy" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A section of a green and brown topographic map. Brown contour lines wind across green forest. They crowd tightly around peaks labeled Mt Marcy, Little Haystack, Mt Haystack, and Mt Skylight, and spread out in the lower areas. Heavier contours have elevation labels, and blue lines show streams and a small lake.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-marcy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/dem/marcy-topo.jpg" class="img-fluid figure-img" style="width:80.0%" alt="A section of a green and brown topographic map. Brown contour lines wind across green forest. They crowd tightly around peaks labeled Mt Marcy, Little Haystack, Mt Haystack, and Mt Skylight, and spread out in the lower areas. Heavier contours have elevation labels, and blue lines show streams and a small lake.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-marcy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;15.4: A USGS topographic map of the Mount Marcy area in the Adirondack Mountains, New York. Map: U.S. Geological Survey, public domain.
+</figcaption>
+</figure>
+</div>
+<p>To read contours:</p>
+<ul>
+<li>Every point on a contour line has the same elevation. The <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-contour-interval" data-term="contour interval">contour interval</span></strong> is the change in elevation from one line to the next.</li>
+<li>Lines close together mean a steep <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-slope" data-term="slope">slope</span>; lines far apart mean a gentle one.</li>
+<li>Every fourth or fifth line is a thicker <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-index-contour" data-term="index contour">index contour</span></strong>, labeled with its elevation.</li>
+<li>Contours bend upstream where they cross a valley, making a V that points uphill.</li>
+</ul>
+<p>Contours are a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-vector" data-term="vector">vector</span> way to show a surface. A <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-digital-elevation-model" data-term="digital elevation model">digital elevation model</span> is the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">raster</span> way.</p>
+</section>
+</section>
+<section id="sec-dem-what" class="level2" data-number="15.2">
+<h2 data-number="15.2" class="anchored" data-anchor-id="sec-dem-what"><span class="header-section-number">15.2</span> What a DEM is</h2>
+<section id="a-grid-of-elevations" class="level3" data-number="15.2.1">
+<h3 data-number="15.2.1" class="anchored" data-anchor-id="a-grid-of-elevations"><span class="header-section-number">15.2.1</span> A grid of elevations</h3>
+<p>A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-digital-elevation-model" data-term="digital elevation model">digital elevation model</span></strong> (DEM) is a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">raster</span> in which every cell holds one elevation (<a href="#fig-contours-vs-grid" class="quarto-xref">Figure&nbsp;<span>15.5</span></a>). The values are usually meters above a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-vertical-datum" data-term="vertical datum">vertical datum</span></strong>, such as the North American Vertical Datum of 1988 (NAVD 88) in the United States, which is close to <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-mean-sea-level" data-term="mean sea level">mean sea level</span>. As with any raster (Chapter 14), the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cell-size" data-term="cell size">cell size</span></strong>, or resolution, is a DEM’s most important property: a cell shows one height, so nothing smaller than a cell can appear.</p>
+<div id="fig-contours-vs-grid" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Three panels. Left: brown contour lines every 20 meters on a cream background, with labels every 100 meters from 600 to 1000. Middle: a 16 by 16 grid of colored squares, brown and white where high on the left, green where low on the right, with a 4 by 4 block outlined in red. Right: that block enlarged, with an elevation in meters in each cell: 923, 888, 822, 767 across the top row, down to 866, 806, 763, 725 across the bottom.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-contours-vs-grid-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/dem/contours-vs-grid.png" class="img-fluid figure-img" alt="Three panels. Left: brown contour lines every 20 meters on a cream background, with labels every 100 meters from 600 to 1000. Middle: a 16 by 16 grid of colored squares, brown and white where high on the left, green where low on the right, with a 4 by 4 block outlined in red. Right: that block enlarged, with an elevation in meters in each cell: 923, 888, 822, 767 across the top row, down to 866, 806, 763, 725 across the bottom.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-contours-vs-grid-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;15.5: The same 1.6 km square of Linville Gorge as <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-contour-line" data-term="contour line">contours</span> (left), as a DEM with 100 m cells (middle), and as the numbers in four of those cells (right). Data: USGS <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-3d-elevation-program-3dep" data-term="3D Elevation Program (3DEP)">3DEP</span>.
+</figcaption>
+</figure>
+</div>
+<p>Software can display those numbers many ways: as gray shades, as a color ramp from green to brown to white, or draped in 3D (<a href="#fig-dem-3d" class="quarto-xref">Figure&nbsp;<span>15.6</span></a>). The colors and the 3D view are display choices. The data underneath are just numbers.</p>
+<div id="fig-dem-3d" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A 3D view of rugged mountains. A deep, winding gorge runs from the bottom of the image toward the top, with steep brown ridges and white summits on both sides. The land to the right is lower, green, and covered in small ridges and valleys.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dem-3d-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/dem/dem-3d.png" class="img-fluid figure-img" style="width:85.0%" alt="A 3D view of rugged mountains. A deep, winding gorge runs from the bottom of the image toward the top, with steep brown ridges and white summits on both sides. The land to the right is lower, green, and covered in small ridges and valleys.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dem-3d-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;15.6: The Linville Gorge DEM in 3D, looking north, with heights exaggerated 2 times. Green is low and brown and white are high. Data: USGS 3DEP.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="a-short-history-of-dems" class="level3" data-number="15.2.2">
+<h3 data-number="15.2.2" class="anchored" data-anchor-id="a-short-history-of-dems"><span class="header-section-number">15.2.2</span> A short history of DEMs</h3>
+<p>DEMs began in the late 1950s, when engineers at MIT proposed storing terrain as a grid of numbers for highway design, and called it a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-digital-terrain-model" data-term="digital terrain model">digital terrain model</span> <span class="citation" data-cites="miller1958">(Miller and Laflamme 1958)</span>. Early grids came from field surveys, from measuring stereo pairs of air photos (<strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-photogrammetry" data-term="photogrammetry">photogrammetry</span></strong>), or from tracing the contours on paper maps.</p>
+<ul>
+<li><strong>1986:</strong> The French SPOT 1 satellite provided stereo images that made DEMs from space practical.</li>
+<li><strong>1996:</strong> GTOPO30 from the USGS, the first global DEM, with cells about 1 km across.</li>
+<li><strong>2000:</strong> The <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-shuttle-radar-topography-mission-srtm" data-term="Shuttle Radar Topography Mission (SRTM)">Shuttle Radar Topography Mission</span> (SRTM) mapped most of Earth’s land, between 60° N and 56° S, with radar <span class="citation" data-cites="farr2007">(Farr et al. 2007)</span>.</li>
+<li><strong>Today:</strong> The USGS <strong>3D Elevation Program</strong> (3DEP) keeps U.S. elevation data current, mostly with <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-lidar" data-term="lidar">lidar</span>.</li>
+</ul>
+<div class="did-you-know callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Did you know..?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>SRTM mapped about 80 percent of Earth’s land in just 11 days in February 2000. The Space Shuttle <em>Endeavour</em> carried one radar antenna in its cargo bay and a second at the end of a 60 m mast, the longest rigid structure ever flown in space. With two antennas a known distance apart, the radar measured heights the way your two eyes judge depth <span class="citation" data-cites="farr2007">(Farr et al. 2007)</span>.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-dem-sources" class="level2" data-number="15.3">
+<h2 data-number="15.3" class="anchored" data-anchor-id="sec-dem-sources"><span class="header-section-number">15.3</span> Where elevation data come from</h2>
+<section id="lidar" class="level3" data-number="15.3.1">
+<h3 data-number="15.3.1" class="anchored" data-anchor-id="lidar"><span class="header-section-number">15.3.1</span> Lidar</h3>
+<p><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-lidar" data-term="lidar">Lidar</span></strong> (light detection and ranging) is now the main source of new elevation data in the United States. A scanner on an aircraft or drone fires hundreds of thousands of laser pulses a second, and times how long each takes to bounce back. Combined with the aircraft’s exact position from <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-gps" data-term="GPS">GPS</span>, each return becomes a point with x, y, and z <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">coordinates</span>. Millions of them make a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-point-cloud" data-term="point cloud">point cloud</span></strong>.</p>
+<p>One pulse can come back several times (<a href="#fig-dem-dsm" class="quarto-xref">Figure&nbsp;<span>15.7</span></a>). The <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-first-return" data-term="first return">first return</span></strong> comes from the first thing the pulse hits: a treetop, a roof, or a power line. Some of the light passes through gaps in the canopy and reaches the ground, and that <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-last-return" data-term="last return">last return</span></strong> comes from the bare earth. That is why lidar can map the ground under a forest, which air photos can’t. Lidar for <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-3d-elevation-program-3dep" data-term="3D Elevation Program (3DEP)">3DEP</span> must have a vertical accuracy of 10 cm or better (as a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-root-mean-square-error-rmse" data-term="root mean square error (RMSE)">root mean square error</span>), and newer collections are better still.</p>
+<div class="did-you-know callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Did you know..?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Lidar has found lost cities. In 2016, a lidar survey of about 2,100 km² of jungle in northern Guatemala revealed more than 60,000 Maya structures hidden under the trees, including houses, causeways, farm terraces, and defensive walls. Archaeologists had walked the area for a century without seeing most of them <span class="citation" data-cites="canuto2018">(Canuto et al. 2018)</span>.</p>
+</div>
+</div>
+</section>
+<section id="dem-dtm-and-dsm" class="level3" data-number="15.3.2">
+<h3 data-number="15.3.2" class="anchored" data-anchor-id="dem-dtm-and-dsm"><span class="header-section-number">15.3.2</span> DEM, DTM, and DSM</h3>
+<p>The three terms are often used loosely, so it helps to define them carefully (<a href="#tbl-dem-dsm" class="quarto-xref">Table&nbsp;<span>15.1</span></a>).</p>
+<div id="tbl-dem-dsm" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-dem-dsm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;15.1: Three kinds of elevation model.
+</figcaption>
+<div aria-describedby="tbl-dem-dsm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Term</th>
+<th>Full name</th>
+<th>What it includes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-digital-elevation-model" data-term="digital elevation model">DEM</span></td>
+<td>Digital elevation model</td>
+<td>The general term; in U.S. practice, usually the bare-earth surface</td>
+</tr>
+<tr class="even">
+<td><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-digital-terrain-model" data-term="digital terrain model">DTM</span></td>
+<td>Digital terrain model</td>
+<td>Bare earth, plus terrain features such as ridge lines and stream lines</td>
+</tr>
+<tr class="odd">
+<td><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-digital-surface-model" data-term="digital surface model">DSM</span></td>
+<td>Digital surface model</td>
+<td>The first surface a sensor hits: roofs, tree canopies, and power lines</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>A <strong>digital terrain model</strong> (DTM) adds <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-breakline" data-term="breakline">breaklines</span></strong>, lines along ridges, streams, and road edges where the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-slope" data-term="slope">slope</span> changes sharply, so that the surface keeps those features crisp. A <strong>digital surface model</strong> (DSM) is made from first returns (<a href="#fig-dem-dsm" class="quarto-xref">Figure&nbsp;<span>15.7</span></a>).</p>
+<div id="fig-dem-dsm" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A side view of rolling ground with two groups of trees and a gray building. Vertical purple lines are lidar pulses. Red dots mark where each pulse first hits a treetop, the roof, or bare ground, and brown dots mark where pulses through the trees reach the ground. A dashed red line, the DSM, runs over the tree crowns and the roof. A solid brown line, the DEM, follows the ground under everything.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dem-dsm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/dem/dem-dsm.png" class="img-fluid figure-img" alt="A side view of rolling ground with two groups of trees and a gray building. Vertical purple lines are lidar pulses. Red dots mark where each pulse first hits a treetop, the roof, or bare ground, and brown dots mark where pulses through the trees reach the ground. A dashed red line, the DSM, runs over the tree crowns and the roof. A solid brown line, the DEM, follows the ground under everything.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dem-dsm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;15.7: Lidar pulses hit trees and roofs first (first returns, red dots), and some reach the ground (brown dots). A DSM follows the first surface; a DEM follows the bare earth.
+</figcaption>
+</figure>
+</div>
+<p>Choose the surface to match the question:</p>
+<ul>
+<li>Use a <strong>DEM or DTM</strong> for water: flow, flooding, and watersheds. Water runs over the ground, not over the treetops.</li>
+<li>Use a <strong>DSM</strong> for anything that light or radio waves travel through: <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-line-of-sight" data-term="line of sight">line of sight</span>, solar exposure, and 3D city models.</li>
+</ul>
+</section>
+<section id="why-elevation-matters" class="level3" data-number="15.3.3">
+<h3 data-number="15.3.3" class="anchored" data-anchor-id="why-elevation-matters"><span class="header-section-number">15.3.3</span> Why elevation matters</h3>
+<p>Governments spend billions of dollars mapping height because terrain controls so much:</p>
+<ul>
+<li><strong>Hydrology.</strong> Floodplain maps, watersheds, and where water will flow all come from DEMs.</li>
+<li><strong>Infrastructure.</strong> Highway engineers use DEMs to balance “cut and fill,” the earth removed from hills and used to fill hollows.</li>
+<li><strong>Hazards.</strong> Landslides start on steep slopes, and lava and debris flows follow valleys.</li>
+<li><strong>Telecommunications.</strong> Cell towers and radio links need a clear line of sight.</li>
+<li><strong>Ecology and agriculture.</strong> Slope and the direction a slope faces control sunlight, soil moisture, and what grows where.</li>
+<li><strong>Archaeology.</strong> Lidar DEMs reveal earthworks hidden under forests.</li>
+</ul>
+<div class="did-you-know callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Did you know..?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>North Carolina was the first state to map all of its land with lidar. After Hurricane Floyd flooded eastern North Carolina in 1999, the state and FEMA launched the North Carolina Floodplain Mapping Program, which flew lidar over all 100 counties between 2001 and 2005 to redraw the state’s flood maps. The state has since flown it again, and the data are free on NC OneMap.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-dem-getting" class="level2" data-number="15.4">
+<h2 data-number="15.4" class="anchored" data-anchor-id="sec-dem-getting"><span class="header-section-number">15.4</span> Getting a DEM</h2>
+<section id="the-national-map" class="level3" data-number="15.4.1">
+<h3 data-number="15.4.1" class="anchored" data-anchor-id="the-national-map"><span class="header-section-number">15.4.1</span> The National Map</h3>
+<p>In the United States, the place to start is <strong>The National Map Downloader</strong> from the USGS (<a href="https://apps.nationalmap.gov/downloader/" class="uri">https://apps.nationalmap.gov/downloader/</a>). Its elevation data come from <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-3d-elevation-program-3dep" data-term="3D Elevation Program (3DEP)">3DEP</span>, cover the whole country, and are free and in the public domain.</p>
+<ol type="1">
+<li>Zoom to your study area, and draw a box around it (or use the current map extent).</li>
+<li>Under <strong>Data</strong>, check <strong>Elevation Products (3DEP)</strong>, then the resolution you need.</li>
+<li>Click <strong>Search Products</strong>. The results list GeoTIFF tiles, which you can download one at a time or as a batch.</li>
+<li>If your area spans several tiles, combine them with Mosaic to New <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">Raster</span> (<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span>) or Merge (<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span>).</li>
+</ol>
+</section>
+<section id="resolution" class="level3" data-number="15.4.2">
+<h3 data-number="15.4.2" class="anchored" data-anchor-id="resolution"><span class="header-section-number">15.4.2</span> Resolution</h3>
+<p>3DEP offers several standard resolutions (<a href="#tbl-3dep" class="quarto-xref">Table&nbsp;<span>15.2</span></a>). Resolutions in <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arc-second" data-term="arc-second">arc-seconds</span></strong> are <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cell-size" data-term="cell size">cell sizes</span> measured in degrees of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-latitude" data-term="latitude">latitude</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-longitude" data-term="longitude">longitude</span>: an arc-second is 1/3,600 of a degree, about 30 m on the ground.</p>
+<div id="tbl-3dep" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-3dep-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;15.2: USGS 3DEP elevation products.
+</figcaption>
+<div aria-describedby="tbl-3dep-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Product</th>
+<th>Cell size</th>
+<th>Coverage</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1 arc-second</td>
+<td>About 30 m</td>
+<td>The whole United States</td>
+</tr>
+<tr class="even">
+<td>1/3 arc-second</td>
+<td>About 10 m</td>
+<td>The lower 48 states, Hawaii, and parts of Alaska</td>
+</tr>
+<tr class="odd">
+<td>1/9 arc-second</td>
+<td>About 3 m</td>
+<td>Limited areas</td>
+</tr>
+<tr class="even">
+<td>1 meter</td>
+<td>1 m</td>
+<td>Areas with <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-lidar" data-term="lidar">lidar</span>, a growing share of the country</td>
+</tr>
+<tr class="odd">
+<td>5 meter</td>
+<td>5 m</td>
+<td>Alaska only</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Smaller cells show more detail, but the files grow fast. Cutting the cell size to a third, from 30 m to 10 m, makes 3 × 3 = 9 times as many cells (<a href="#fig-resolution" class="quarto-xref">Figure&nbsp;<span>15.8</span></a>). The 1/3 arc-second <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-digital-elevation-model" data-term="digital elevation model">DEM</span> is the usual choice for county-scale work; the 1 m DEM is best for a site, a neighborhood, or a stream reach.</p>
+<div id="fig-resolution" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Three gray shaded-relief maps of the same rugged area. At 10 meters, 396,900 cells, small gullies and ridges are crisp. At 30 meters, 44,100 cells, the main ridges and the gorge are clear but small details are soft. At 90 meters, 4,900 cells, the land is blocky and blurred, and only the largest ridges can be made out.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-resolution-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/dem/resolution.png" class="img-fluid figure-img" alt="Three gray shaded-relief maps of the same rugged area. At 10 meters, 396,900 cells, small gullies and ridges are crisp. At 30 meters, 44,100 cells, the main ridges and the gorge are clear but small details are soft. At 90 meters, 4,900 cells, the land is blocky and blurred, and only the largest ridges can be made out.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-resolution-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;15.8: The same 6.3 km square of Linville Gorge as <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-hillshade" data-term="hillshade">hillshades</span> at three cell sizes. Data: USGS 3DEP, aggregated from 10 m.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="global-dems" class="level3" data-number="15.4.3">
+<h3 data-number="15.4.3" class="anchored" data-anchor-id="global-dems"><span class="header-section-number">15.4.3</span> Global DEMs</h3>
+<p>Outside the United States, start with a global DEM (<a href="#tbl-global-dems" class="quarto-xref">Table&nbsp;<span>15.3</span></a>). All three common free ones have cells of about 30 m. Inside the United States, 3DEP is better than any of them.</p>
+<div id="tbl-global-dems" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-global-dems-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;15.3: Free DEMs for areas outside the United States.
+</figcaption>
+<div aria-describedby="tbl-global-dems-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Dataset</th>
+<th>Cell size</th>
+<th>Coverage</th>
+<th>Made by</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-shuttle-radar-topography-mission-srtm" data-term="Shuttle Radar Topography Mission (SRTM)">SRTM</span> (2000)</td>
+<td>30 m</td>
+<td>60° N to 56° S</td>
+<td>NASA and NGA</td>
+</tr>
+<tr class="even">
+<td>ASTER GDEM v3 (2019)</td>
+<td>30 m</td>
+<td>83° N to 83° S</td>
+<td>NASA and Japan’s METI</td>
+</tr>
+<tr class="odd">
+<td><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-copernicus-glo-30" data-term="Copernicus GLO-30">Copernicus GLO-30</span></td>
+<td>30 m</td>
+<td>All land</td>
+<td>European Space Agency and Airbus</td>
+</tr>
+<tr class="even">
+<td>USGS 3DEP</td>
+<td>1–30 m</td>
+<td>United States</td>
+<td>USGS</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>SRTM has gaps in steep mountains, where the radar couldn’t see the far side of ridges. ASTER GDEM, built from stereo satellite images, reaches farther north and south but has more artifacts, especially under clouds. <strong>Copernicus GLO-30</strong>, made from the TanDEM-X radar mission, is generally the most accurate of the three and has the fewest gaps. It is a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-digital-surface-model" data-term="digital surface model">DSM</span>, though: in forests and cities, it shows the tops of trees and buildings.</p>
+</section>
+<section id="check-a-dem-before-you-use-it" class="level3" data-number="15.4.4">
+<h3 data-number="15.4.4" class="anchored" data-anchor-id="check-a-dem-before-you-use-it"><span class="header-section-number">15.4.4</span> Check a DEM before you use it</h3>
+<p>A DEM can have problems, and every tool you run on it inherits them. A quick hillshade (<a href="#sec-hillshade" class="quarto-xref"><span>Section 15.6</span></a>) is the fastest way to spot them.</p>
+<ul>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-void" data-term="void">Voids</span></strong> are <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-nodata" data-term="NoData">NoData</span> holes, common in radar DEMs over steep mountains and water. Fill them from another source or by <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-interpolation" data-term="spatial interpolation">interpolation</span> before analysis.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-sink" data-term="sink">Sinks</span></strong> are cells lower than all their neighbors. Most are errors, and they trap modeled water, which breaks flow direction and watershed tools. Hydrologists remove them with the <strong>Fill</strong> tool first <span class="citation" data-cites="jenson1988">(Jenson and Domingue 1988)</span>.</li>
+<li><strong>Artifacts</strong> such as stripes, seams between tiles, and patterns from interpolation show up clearly in hillshades.</li>
+<li><strong>Units.</strong> If x and y are in degrees but z is in meters, every <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-slope" data-term="slope">slope</span> comes out nearly vertical (<a href="#fig-units-mistake" class="quarto-xref">Figure&nbsp;<span>15.9</span></a>). Project the DEM to a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">coordinate system</span> in meters, such as <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-universal-transverse-mercator-utm" data-term="Universal Transverse Mercator (UTM)">UTM</span> or <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-state-plane-coordinate-system-spcs" data-term="State Plane Coordinate System (SPCS)">NC State Plane</span>, or set a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-z-factor" data-term="z-factor">z-factor</span></strong>, a multiplier that converts z into the units of x and y.</li>
+</ul>
+<div id="fig-units-mistake" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Two slope maps of the same area with one color bar from 0 to 90 degrees. Left: solid black, labeled x and y in degrees, z in meters, no z-factor, mean slope 90 degrees. Right: a detailed map in pale yellow, orange, and purple, labeled projected to UTM, mean slope 16 degrees, with the steepest slopes in purple along the gorge.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-units-mistake-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/dem/units-mistake.png" class="img-fluid figure-img" alt="Two slope maps of the same area with one color bar from 0 to 90 degrees. Left: solid black, labeled x and y in degrees, z in meters, no z-factor, mean slope 90 degrees. Right: a detailed map in pale yellow, orange, and purple, labeled projected to UTM, mean slope 16 degrees, with the steepest slopes in purple along the gorge.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-units-mistake-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;15.9: Slope from the same DEM before (left) and after (right) projecting it. Left, x and y are in degrees, so each cell seems only 0.0003 units wide while rising tens of meters, and nearly every slope is about 90°. Data: USGS 3DEP.
+</figcaption>
+</figure>
+</div>
+<p>The units mistake is the most common one students make. If your slope map is almost one color, check the coordinate system first.</p>
+</section>
+</section>
+<section id="sec-slope" class="level2" data-number="15.5">
+<h2 data-number="15.5" class="anchored" data-anchor-id="sec-slope"><span class="header-section-number">15.5</span> Slope</h2>
+<section id="rise-over-run" class="level3" data-number="15.5.1">
+<h3 data-number="15.5.1" class="anchored" data-anchor-id="rise-over-run"><span class="header-section-number">15.5.1</span> Rise over run</h3>
+<p><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-slope" data-term="slope">Slope</span></strong> is how steep the ground is: how much the elevation changes over a horizontal distance, or <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-rise-over-run" data-term="rise over run">rise over run</span></strong>. It can be written two ways (<a href="#fig-rise-run" class="quarto-xref">Figure&nbsp;<span>15.10</span></a>):</p>
+<ul>
+<li><strong>Degrees</strong> use the angle, where tan(angle) = rise ÷ run. Slope in degrees runs from 0 (flat) to 90 (vertical).</li>
+<li><strong>Percent</strong> is rise ÷ run × 100. A 45° slope is 100 percent, because the rise equals the run. Percent slope has no upper limit.</li>
+</ul>
+<div id="fig-rise-run" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Three right triangles labeled rise and run. A shallow one is labeled 10 degrees equals 18 percent. A middle one with equal sides is labeled 45 degrees equals 100 percent. A steep one is labeled 60 degrees equals 173 percent.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-rise-run-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/dem/rise-run.png" class="img-fluid figure-img" alt="Three right triangles labeled rise and run. A shallow one is labeled 10 degrees equals 18 percent. A middle one with equal sides is labeled 45 degrees equals 100 percent. A steep one is labeled 60 degrees equals 173 percent.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rise-run-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;15.10: Three slopes in degrees and percent. A 45° slope is 100%, and steeper slopes are more than 100%.
+</figcaption>
+</figure>
+</div>
+<p>Road signs, building codes, and hiking guides usually give percent; most scientific work uses degrees. Always check which unit a slope <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layer</span> is in.</p>
+</section>
+<section id="slope-from-a-grid" class="level3" data-number="15.5.2">
+<h3 data-number="15.5.2" class="anchored" data-anchor-id="slope-from-a-grid"><span class="header-section-number">15.5.2</span> Slope from a grid</h3>
+<p>On a real hillside, the ground can slope in both the east–west direction and the north–south direction, and the two combine into the overall slope:</p>
+<p><span class="math display">\[
+\text{slope} = \arctan \sqrt{\left(\frac{dz}{dx}\right)^2 + \left(\frac{dz}{dy}\right)^2}
+\]</span></p>
+<p>where <em>dz/dx</em> is the rate of change in elevation from west to east, and <em>dz/dy</em> from south to north. A <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-digital-elevation-model" data-term="digital elevation model">DEM</span> has no smooth surface, only a grid of numbers, so the slope tool estimates <em>dz/dx</em> and <em>dz/dy</em> for each cell from a 3 × 3 window around it. Slope is a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-neighborhood-function" data-term="neighborhood function">neighborhood function</span> (Chapter 14): it moves the window across the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">raster</span> and writes one value for every cell. <a href="#fig-slope-window" class="quarto-xref">Figure&nbsp;<span>15.11</span></a> works one window two ways, with 50 m cells.</p>
+<div id="fig-slope-window" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A 3 by 3 grid of elevations with letters a to i: top row 70, 65, 50; middle row 95, 80, 50; bottom row 85, 90, 80, with the center 80 outlined and north at the top. The cell distance D is 50 meters. To the right, the Fleming and Hoffer method uses four neighbors: east-west is 50 minus 95 over 100, or negative 0.45; north-south is 65 minus 90 over 100, or negative 0.25; slope is 27.2 degrees. Horn's method uses eight neighbors: east-west is 230 minus 345 over 400, or negative 0.2875; north-south is 250 minus 345 over 400, or negative 0.2375; slope is 20.5 degrees.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-slope-window-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/dem/slope-window.png" class="img-fluid figure-img" alt="A 3 by 3 grid of elevations with letters a to i: top row 70, 65, 50; middle row 95, 80, 50; bottom row 85, 90, 80, with the center 80 outlined and north at the top. The cell distance D is 50 meters. To the right, the Fleming and Hoffer method uses four neighbors: east-west is 50 minus 95 over 100, or negative 0.45; north-south is 65 minus 90 over 100, or negative 0.25; slope is 27.2 degrees. Horn's method uses eight neighbors: east-west is 230 minus 345 over 400, or negative 0.2875; north-south is 250 minus 345 over 400, or negative 0.2375; slope is 20.5 degrees.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-slope-window-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;15.11: One 3 × 3 window of elevations (m), and its slope by two methods. The center cell is outlined.
+</figcaption>
+</figure>
+</div>
+<p><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-fleming-and-hoffer-s-method" data-term="Fleming and Hoffer’s method">Fleming and Hoffer’s method</span></strong> uses only the four direct neighbors <span class="citation" data-cites="fleming1979">(Fleming and Hoffer 1979)</span>. The east–west change is the right neighbor minus the left, over twice the cell distance: (50 − 95) ÷ 100 = −0.45. The north–south change is (65 − 90) ÷ 100 = −0.25. The slope is arctan √(0.45² + 0.25²) = arctan 0.515 = <strong>27.2°</strong>.</p>
+<p><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-horn-s-method" data-term="Horn’s method">Horn’s method</span></strong> uses all eight neighbors, and counts the direct neighbors twice <span class="citation" data-cites="horn1981">(Horn 1981)</span>. Each side of the window becomes a weighted sum: the east column is 50 + 2 × 50 + 80 = 230, and the west column is 70 + 2 × 95 + 85 = 345, so <em>dz/dx</em> = (230 − 345) ÷ (8 × 50) = −0.2875. The north row is 70 + 2 × 65 + 50 = 250, and the south row is 85 + 2 × 90 + 80 = 345, so <em>dz/dy</em> = (250 − 345) ÷ 400 = −0.2375. The slope is arctan √(0.2875² + 0.2375²) = <strong>20.5°</strong>.</p>
+<p>The two answers differ by almost 7°. Horn’s method averages over more cells, so it is less sensitive to noise in any one cell, and it is the method <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span>’s Slope tool and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span>’s Slope tool use. The lesson is broader: the method is part of the result.</p>
+</section>
+<section id="slope-in-arcgis-pro-and-qgis" class="level3" data-number="15.5.3">
+<h3 data-number="15.5.3" class="anchored" data-anchor-id="slope-in-arcgis-pro-and-qgis"><span class="header-section-number">15.5.3</span> Slope in ArcGIS Pro and QGIS</h3>
+<p>In ArcGIS Pro, the <strong>Slope</strong> tool (Spatial Analyst) outputs degrees or percent rise. In QGIS, use <strong>Raster Terrain Analysis ▸ Slope</strong> or the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-gdal" data-term="GDAL">GDAL</span> <strong>Slope</strong> tool. The output has the same <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cell-size" data-term="cell size">cell size</span> as the DEM. In <a href="#fig-linville-slope" class="quarto-xref">Figure&nbsp;<span>15.12</span></a>, the steepest cells line Linville Gorge and the smaller valleys, while ridge tops and valley floors are flat.</p>
+<div id="fig-linville-slope" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Two maps of the same area. Left: elevation in gray, from about 330 meters in black to 1,300 meters in white, with a deep dark gorge running north to south down the middle and bright ridges on either side. Right: slope from 0 degrees in pale yellow to 60 degrees or more in black. The steepest slopes, in purple and black, follow the walls of the gorge and the sides of every valley, while ridge tops and the floors of valleys are pale.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-linville-slope-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/dem/linville-slope.png" class="img-fluid figure-img" alt="Two maps of the same area. Left: elevation in gray, from about 330 meters in black to 1,300 meters in white, with a deep dark gorge running north to south down the middle and bright ridges on either side. Right: slope from 0 degrees in pale yellow to 60 degrees or more in black. The steepest slopes, in purple and black, follow the walls of the gorge and the sides of every valley, while ridge tops and the floors of valleys are pale.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-linville-slope-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;15.12: Elevation (left) and slope by Horn’s method (right) for Linville Gorge, NC. Data: USGS <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-3d-elevation-program-3dep" data-term="3D Elevation Program (3DEP)">3DEP</span>, 10 m cells.
+</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="sec-hillshade" class="level2" data-number="15.6">
+<h2 data-number="15.6" class="anchored" data-anchor-id="sec-hillshade"><span class="header-section-number">15.6</span> Hillshade</h2>
+<section id="sunlight-on-terrain" class="level3" data-number="15.6.1">
+<h3 data-number="15.6.1" class="anchored" data-anchor-id="sunlight-on-terrain"><span class="header-section-number">15.6.1</span> Sunlight on terrain</h3>
+<p>A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-hillshade" data-term="hillshade">hillshade</span></strong>, or <strong>shaded relief</strong>, shows how the terrain would look lit by the sun from a chosen direction and height. Slopes that face the sun are bright; slopes that face away are dark. Two properties of the sun matter (<a href="#fig-sun-geometry" class="quarto-xref">Figure&nbsp;<span>15.13</span></a>):</p>
+<ul>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-azimuth" data-term="azimuth">Azimuth</span></strong> is the compass direction the light comes from, in degrees clockwise from north.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-altitude" data-term="altitude">Altitude</span></strong> is the sun’s angle above the horizon.</li>
+</ul>
+<p>Two properties of each cell matter too: its <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-slope" data-term="slope">slope</span>, and its <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-aspect" data-term="aspect">aspect</span></strong>, the compass direction it faces (<a href="#sec-aspect" class="quarto-xref"><span>Section 15.7</span></a>).</p>
+<div id="fig-sun-geometry" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Left: a compass circle seen from above, with N, E, S, and W. A sun in the upper left shines toward the center, and a red arc runs clockwise from north all the way around to the sun, labeled azimuth 315 degrees, clockwise from north. Right: a side view. A sun in the upper left sends a ray down to the ground at 45 degrees, labeled sun altitude 45 degrees. Parallel rays hit a wedge of ground that tilts up toward the right, with its angle labeled facet slope.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sun-geometry-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/dem/sun-geometry.png" class="img-fluid figure-img" alt="Left: a compass circle seen from above, with N, E, S, and W. A sun in the upper left shines toward the center, and a red arc runs clockwise from north all the way around to the sun, labeled azimuth 315 degrees, clockwise from north. Right: a side view. A sun in the upper left sends a ray down to the ground at 45 degrees, labeled sun altitude 45 degrees. Parallel rays hit a wedge of ground that tilts up toward the right, with its angle labeled facet slope.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sun-geometry-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;15.13: The sun’s azimuth (left) and altitude (right). A facet tilted toward the sun is brighter than flat ground.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="the-relative-radiance-equation" class="level3" data-number="15.6.2">
+<h3 data-number="15.6.2" class="anchored" data-anchor-id="the-relative-radiance-equation"><span class="header-section-number">15.6.2</span> The relative radiance equation</h3>
+<p>The brightness of each cell, its <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-relative-radiance" data-term="relative radiance">relative radiance</span></strong> <em>R</em>, comes from those four angles:</p>
+<p><span class="math display">\[
+R = \cos(A_s - A_f)\,\sin(S_f)\,\cos(S_s) + \cos(S_f)\,\sin(S_s)
+\]</span></p>
+<p>where <em>A<sub>s</sub></em> is the sun’s azimuth, <em>A<sub>f</sub></em> is the cell’s aspect, <em>S<sub>s</sub></em> is the sun’s altitude, and <em>S<sub>f</sub></em> is the cell’s slope. When a cell faces the sun, cos(<em>A<sub>s</sub></em> − <em>A<sub>f</sub></em>) is 1 and the cell is bright. When it faces directly away, that term is −1, and the cell is dark, or in shadow if <em>R</em> drops below 0.</p>
+<p><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span>’s <strong>Hillshade</strong> tool scales <em>R</em> to the range of an 8-bit image, from 0 (full shadow) to 255 (full sunlight). Take the center cell of <a href="#fig-slope-window" class="quarto-xref">Figure&nbsp;<span>15.11</span></a>, which has a slope of 20.5° and faces 50° (northeast; see <a href="#sec-aspect" class="quarto-xref"><span>Section 15.7</span></a>), lit from 315° at 45°. Then <em>R</em> = cos(265°) × sin(20.5°) × cos(45°) + cos(20.5°) × sin(45°) = −0.023 + 0.663 = 0.639, and 0.639 × 255 = <strong>163</strong>, a medium-light gray. The cell faces almost at right angles to the sun, so most of its brightness comes from the sun being high.</p>
+</section>
+<section id="which-way-should-the-light-come-from" class="level3" data-number="15.6.3">
+<h3 data-number="15.6.3" class="anchored" data-anchor-id="which-way-should-the-light-come-from"><span class="header-section-number">15.6.3</span> Which way should the light come from?</h3>
+<p>The default sun in ArcGIS Pro and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span> is at azimuth 315° (the northwest) and altitude 45°. Real sunlight in North Carolina never comes from the northwest, but cartographers light maps from the upper left because that is how most people expect shadows to fall <span class="citation" data-cites="imhof1982">(Imhof 1982)</span>. Light a map from the south or southeast, and many readers see the terrain upside down: valleys look like ridges, and ridges like valleys (<a href="#fig-linville-hillshade" class="quarto-xref">Figure&nbsp;<span>15.14</span></a>). This illusion is called <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-relief-inversion" data-term="relief inversion">relief inversion</span></strong>.</p>
+<div id="fig-linville-hillshade" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Two gray shaded-relief maps of the same rugged area, each with a small yellow sun. Left: the sun is in the upper left corner, and the deep gorge down the middle reads clearly as a valley. Right: the sun is in the lower right corner, and the same gorge and valleys look raised, like ridges.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-linville-hillshade-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/dem/linville-hillshade.png" class="img-fluid figure-img" alt="Two gray shaded-relief maps of the same rugged area, each with a small yellow sun. Left: the sun is in the upper left corner, and the deep gorge down the middle reads clearly as a valley. Right: the sun is in the lower right corner, and the same gorge and valleys look raised, like ridges.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-linville-hillshade-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;15.14: Hillshades of Linville Gorge lit from the northwest (left) and the southeast (right). Many readers see the gorge on the right as a raised ridge. Data: USGS <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-3d-elevation-program-3dep" data-term="3D Elevation Program (3DEP)">3DEP</span>.
+</figcaption>
+</figure>
+</div>
+<p>A hillshade is mostly for seeing terrain, not measuring it. Its most common use is under a semi-transparent color <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-digital-elevation-model" data-term="digital elevation model">DEM</span>, so that the color shows the height and the shading shows the shape of the land (<a href="#fig-shaded-relief" class="quarto-xref">Figure&nbsp;<span>15.15</span></a>). Almost every topographic <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-basemap" data-term="basemap">basemap</span> is made this way. ArcGIS Pro’s Hillshade tool also has a <strong>Model shadows</strong> option that casts shadows from neighboring terrain, which is useful for solar analysis.</p>
+<div id="fig-shaded-relief" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Two maps of the same area with the same colors, green for low ground, tan and brown for higher ground, and white for the highest peaks. Left: the color DEM alone looks flat and smooth. Right: the same colors over a hillshade show every ridge, valley, and gully in three dimensions.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-shaded-relief-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/dem/shaded-relief.png" class="img-fluid figure-img" alt="Two maps of the same area with the same colors, green for low ground, tan and brown for higher ground, and white for the highest peaks. Left: the color DEM alone looks flat and smooth. Right: the same colors over a hillshade show every ridge, valley, and gully in three dimensions.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-shaded-relief-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;15.15: A color DEM alone (left) and over a hillshade (right). Data: USGS 3DEP.
+</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="sec-aspect" class="level2" data-number="15.7">
+<h2 data-number="15.7" class="anchored" data-anchor-id="sec-aspect"><span class="header-section-number">15.7</span> Aspect</h2>
+<section id="the-direction-a-slope-faces" class="level3" data-number="15.7.1">
+<h3 data-number="15.7.1" class="anchored" data-anchor-id="the-direction-a-slope-faces"><span class="header-section-number">15.7.1</span> The direction a slope faces</h3>
+<p><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-aspect" data-term="aspect">Aspect</span></strong> is the compass direction a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-slope" data-term="slope">slope</span> faces: the direction water would run straight downhill. It is measured in degrees clockwise from north, so 0° (or 360°) is north, 90° is east, 180° is south, and 270° is west. It is often grouped into eight compass directions, N, NE, E, SE, S, SW, W, and NW, each 45° wide. Flat cells have no aspect, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span> gives them −1.</p>
+<p>Aspect matters wherever the sun does. In the Northern Hemisphere, south-facing slopes get the most sun: they are warmer and drier, lose snow first, and are best for solar panels and vineyards. North-facing slopes are cooler and moister. In the North Carolina mountains, they hold the rich cove forests and northern hardwoods.</p>
+</section>
+<section id="aspect-from-a-grid" class="level3" data-number="15.7.2">
+<h3 data-number="15.7.2" class="anchored" data-anchor-id="aspect-from-a-grid"><span class="header-section-number">15.7.2</span> Aspect from a grid</h3>
+<p>Aspect uses the same two numbers as slope, <em>dz/dx</em> and <em>dz/dy</em>. Slope combines their sizes; aspect uses their direction. ArcGIS Pro computes an angle from them,</p>
+<p><span class="math display">\[
+\theta = \operatorname{atan2}\left(\frac{dz}{dy_{\text{S}}},\ -\frac{dz}{dx}\right)
+\]</span></p>
+<p>where <em>dz/dy<sub>S</sub></em> is the change from north to south (the south row minus the north row), then converts θ, which is measured counterclockwise from east, into a compass bearing clockwise from north. For the window in <a href="#fig-slope-window" class="quarto-xref">Figure&nbsp;<span>15.11</span></a>, <em>dz/dx</em> = −0.2875 and <em>dz/dy<sub>S</sub></em> = +0.2375, so θ = atan2(0.2375, 0.2875) = 39.6°, and the compass aspect is 90° − 39.6° = <strong>50.4°</strong>, northeast. That makes sense: the high cells are on the west and south sides of the window, so the ground falls toward the northeast.</p>
+</section>
+<section id="mapping-aspect" class="level3" data-number="15.7.3">
+<h3 data-number="15.7.3" class="anchored" data-anchor-id="mapping-aspect"><span class="header-section-number">15.7.3</span> Mapping aspect</h3>
+<p>ArcGIS Pro’s <strong>Aspect</strong> tool and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span>’s <strong>Aspect</strong> tool output degrees. The standard <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-symbology" data-term="symbology">symbology</span> gives each of the eight directions its own color and flat cells gray (<a href="#fig-linville-aspect" class="quarto-xref">Figure&nbsp;<span>15.16</span></a>). Because the meaning is carried only by color, always include a legend that names each direction, such as a compass rose, so that the map works for readers with color vision deficiency.</p>
+<div id="fig-linville-aspect" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A map in bright colors, with a compass-rose legend to its right. The legend has eight wedges: N red at 0 degrees, NE orange at 45, E yellow at 90, SE green at 135, S cyan at 180, SW light blue at 225, W dark blue at 270, NW magenta at 315, and gray for flat in the center. On the map, long bands of blue and purple run along one side of each valley and bands of yellow and green along the other, so the opposite walls of the gorge are in contrasting colors.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-linville-aspect-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/dem/linville-aspect.png" class="img-fluid figure-img" alt="A map in bright colors, with a compass-rose legend to its right. The legend has eight wedges: N red at 0 degrees, NE orange at 45, E yellow at 90, SE green at 135, S cyan at 180, SW light blue at 225, W dark blue at 270, NW magenta at 315, and gray for flat in the center. On the map, long bands of blue and purple run along one side of each valley and bands of yellow and green along the other, so the opposite walls of the gorge are in contrasting colors.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-linville-aspect-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;15.16: Aspect of Linville Gorge in eight directions, with a compass-rose legend. The two walls of the gorge face opposite ways. Data: USGS <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-3d-elevation-program-3dep" data-term="3D Elevation Program (3DEP)">3DEP</span>.
+</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="sec-viewshed" class="level2" data-number="15.8">
+<h2 data-number="15.8" class="anchored" data-anchor-id="sec-viewshed"><span class="header-section-number">15.8</span> Line of sight and viewshed</h2>
+<section id="line-of-sight" class="level3" data-number="15.8.1">
+<h3 data-number="15.8.1" class="anchored" data-anchor-id="line-of-sight"><span class="header-section-number">15.8.1</span> Line of sight</h3>
+<p>A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-line-of-sight" data-term="line of sight">line of sight</span></strong> test asks whether one target is visible from one observer. The method:</p>
+<ol type="1">
+<li>Find the direction (<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-azimuth" data-term="azimuth">azimuth</span>) from the observer to the target.</li>
+<li>Compute the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-elevation-angle" data-term="elevation angle">elevation angle</span></strong> from the observer to the target, φ<sub>t</sub> = arctan(Δz ÷ Δd), where Δz is the target’s elevation minus the observer’s, and Δd is the horizontal distance between them.</li>
+<li>For every cell along the line between them, compute its elevation angle, φ<sub>a</sub>, the same way.</li>
+<li>If the target’s angle is greater than every φ<sub>a</sub>, the target is visible. If any cell in between has a greater angle, it blocks the view.</li>
+</ol>
+<p>In <a href="#fig-line-of-sight" class="quarto-xref">Figure&nbsp;<span>15.17</span></a>, the observer stands at 50 m, and the target is 100 m away at 20 m. Its angle is arctan(−30 ÷ 100) = −16.7°. Point P1, 60 m away at 28 m, has an angle of arctan(−22 ÷ 60) = −20.1°, lower than the target’s, so it doesn’t block. Point P2, 30 m away at 43 m, has an angle of arctan(−7 ÷ 30) = −13.1°. That is <em>higher</em> than the target’s −16.7°, so P2 blocks the view, and the target is not visible.</p>
+<div id="fig-line-of-sight" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A side view of ground sloping down from left to right, with elevation in meters from 0 to 70 and distance from the observer from 0 to 100 meters. The observer is at 0 meters distance and 50 meters elevation. P2 is at 30 meters, elevation 43, angle negative 13.1 degrees. P1 is at 60 meters, elevation 28, angle negative 20.1 degrees. The target is at 100 meters, elevation 20, angle negative 16.7 degrees. A dashed red line from the observer to the target passes just under the ground at P2. Text reads: P2's angle, negative 13.1 degrees, is higher than the target's, negative 16.7 degrees, so P2 blocks the view.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-line-of-sight-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/dem/line-of-sight.png" class="img-fluid figure-img" alt="A side view of ground sloping down from left to right, with elevation in meters from 0 to 70 and distance from the observer from 0 to 100 meters. The observer is at 0 meters distance and 50 meters elevation. P2 is at 30 meters, elevation 43, angle negative 13.1 degrees. P1 is at 60 meters, elevation 28, angle negative 20.1 degrees. The target is at 100 meters, elevation 20, angle negative 16.7 degrees. A dashed red line from the observer to the target passes just under the ground at P2. Text reads: P2's angle, negative 13.1 degrees, is higher than the target's, negative 16.7 degrees, so P2 blocks the view.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-line-of-sight-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;15.17: A worked line-of-sight test. The sight line to the target (dashed red) passes below P2, so P2 blocks the view.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="viewshed" class="level3" data-number="15.8.2">
+<h3 data-number="15.8.2" class="anchored" data-anchor-id="viewshed"><span class="header-section-number">15.8.2</span> Viewshed</h3>
+<p>A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-viewshed" data-term="viewshed">viewshed</span></strong> is the whole area visible from one or more observer points: the line-of-sight test run from the observer to every cell in the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-digital-elevation-model" data-term="digital elevation model">DEM</span>. Each cell is marked visible or not visible. With several observers, the output can count how many observers see each cell.</p>
+<p>The tools take a DEM and the observer points, plus options such as:</p>
+<ul>
+<li><strong>Observer height</strong> above the ground: 1.7 m for a person’s eyes, or 30 m for a tower. In <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span>, it is the OFFSETA field of the observer points.</li>
+<li><strong>Target height</strong>, for asking whether something tall, such as a wind turbine, can be seen.</li>
+<li><strong>Earth’s curvature and refraction.</strong> Over long distances, the Earth curves away by about 7 m at 10 km, and the atmosphere bends light back a little. ArcGIS Pro’s Viewshed tool can correct for both, and the Geodesic Viewshed tool does so by default.</li>
+</ul>
+<p><a href="#fig-linville-viewshed" class="quarto-xref">Figure&nbsp;<span>15.18</span></a> shows what a hiker standing on Table Rock, a peak on the east rim of Linville Gorge, could see.</p>
+<div id="fig-linville-viewshed" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A gray shaded-relief map of Linville Gorge with orange patches marking the visible areas and a red triangle for Table Rock, on the east side of the gorge. Much of the land to the east and southeast is visible, along with the far wall of the gorge and scattered slopes to the west and north, while the bottom of the gorge and the valleys behind nearby ridges are not visible. A legend reads visible, 22 percent of the area, and not visible.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-linville-viewshed-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/dem/linville-viewshed.png" class="img-fluid figure-img" alt="A gray shaded-relief map of Linville Gorge with orange patches marking the visible areas and a red triangle for Table Rock, on the east side of the gorge. Much of the land to the east and southeast is visible, along with the far wall of the gorge and scattered slopes to the west and north, while the bottom of the gorge and the valleys behind nearby ridges are not visible. A legend reads visible, 22 percent of the area, and not visible.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-linville-viewshed-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;15.18: The viewshed from Table Rock (red triangle), for an observer 1.7 m tall, corrected for Earth’s curvature and refraction. Orange cells are visible. Data: USGS <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-3d-elevation-program-3dep" data-term="3D Elevation Program (3DEP)">3DEP</span>, aggregated to 30 m.
+</figcaption>
+</figure>
+</div>
+<p>Two things to keep in mind. First, a bare-earth DEM ignores trees and buildings, so a viewshed on a DEM shows what you could see in winter with no leaves, or after clear-cutting. When obstructions matter, use a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-digital-surface-model" data-term="digital surface model">DSM</span>. Second, the result is only as good as the DEM: an error of a few meters on a ridge can hide or reveal a whole valley.</p>
+<div class="did-you-know callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Did you know..?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Viewsheds were siting fire lookouts long before <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span>. The U.S. Forest Service built thousands of lookout towers in the early 1900s, choosing peaks whose views overlapped so that every part of a forest could be seen from at least one tower. Rangers drew the “seen areas” by hand, from <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-contour-line" data-term="contour line">contour</span> maps and field checks. Today, the same question, which few sites see the most land, is answered with multiple-observer viewsheds.</p>
+</div>
+</div>
+</section>
+<section id="line-of-sight-and-viewshed-in-practice" class="level3" data-number="15.8.3">
+<h3 data-number="15.8.3" class="anchored" data-anchor-id="line-of-sight-and-viewshed-in-practice"><span class="header-section-number">15.8.3</span> Line of sight and viewshed in practice</h3>
+<p>The two tools answer different questions:</p>
+<ul>
+<li><strong>Line of sight</strong> answers a yes-or-no question between two points. Can a radar station see an aircraft? Will a microwave link between two towers be blocked? Is a proposed building visible from a historic site?</li>
+<li><strong>Viewshed</strong> answers a <em>where</em> question. Which areas can a cell tower, a fire lookout, or a wind farm be seen from? Which candidate tower site covers the most area? For siting problems, analysts run viewsheds from several candidate locations and compare how much area each one covers, often as a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layer</span> in a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-suitability-modeling" data-term="suitability modeling">suitability model</span> (Chapter 18).</li>
+</ul>
+</section>
+</section>
+<section id="sec-surface-tools" class="level2" data-number="15.9">
+<h2 data-number="15.9" class="anchored" data-anchor-id="sec-surface-tools"><span class="header-section-number">15.9</span> Surface tools in ArcGIS Pro and QGIS</h2>
+<div id="tbl-surface-tools" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-surface-tools-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;15.4: Surface tools in the two programs.
+</figcaption>
+<div aria-describedby="tbl-surface-tools-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Task</th>
+<th><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span></th>
+<th><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Download a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-digital-elevation-model" data-term="digital elevation model">DEM</span></td>
+<td>The National Map Downloader (web)</td>
+<td>The National Map Downloader (web)</td>
+</tr>
+<tr class="even">
+<td>Combine tiles</td>
+<td>Mosaic to New <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">Raster</span></td>
+<td>Merge (<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-gdal" data-term="GDAL">GDAL</span>) or Build Virtual Raster</td>
+</tr>
+<tr class="odd">
+<td>Project the DEM</td>
+<td>Project Raster</td>
+<td>Warp (<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-reproject" data-term="reproject">Reproject</span>) (GDAL)</td>
+</tr>
+<tr class="even">
+<td>Fill <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-sink" data-term="sink">sinks</span></td>
+<td>Fill (Spatial Analyst)</td>
+<td>Fill Sinks (Wang &amp; Liu) (SAGA), or r.fill.dir (GRASS)</td>
+</tr>
+<tr class="odd">
+<td><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-slope" data-term="slope">Slope</span></td>
+<td>Slope (Spatial Analyst)</td>
+<td>Slope (Raster Terrain Analysis or GDAL)</td>
+</tr>
+<tr class="even">
+<td><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-aspect" data-term="aspect">Aspect</span></td>
+<td>Aspect (Spatial Analyst)</td>
+<td>Aspect (Raster Terrain Analysis or GDAL)</td>
+</tr>
+<tr class="odd">
+<td><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-hillshade" data-term="hillshade">Hillshade</span></td>
+<td>Hillshade (Spatial Analyst)</td>
+<td>Hillshade (Raster Terrain Analysis or GDAL)</td>
+</tr>
+<tr class="even">
+<td><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-viewshed" data-term="viewshed">Viewshed</span></td>
+<td>Viewshed or Geodesic Viewshed (Spatial Analyst)</td>
+<td>Viewshed (GDAL), or the Visibility Analysis plugin</td>
+</tr>
+<tr class="odd">
+<td><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-line-of-sight" data-term="line of sight">Line of sight</span></td>
+<td>Line Of Sight (3D Analyst)</td>
+<td>The Visibility Analysis plugin</td>
+</tr>
+<tr class="even">
+<td><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-contour-line" data-term="contour line">Contours</span></td>
+<td>Contour (Spatial Analyst)</td>
+<td>Contour (GDAL)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>ArcGIS Pro’s surface tools need the Spatial Analyst or 3D Analyst extension. Its <strong>Surface Parameters</strong> tool can also calculate slope and aspect by fitting a smooth surface to a larger window than 3 × 3, which helps with noisy, high-resolution <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-lidar" data-term="lidar">lidar</span> DEMs. In QGIS, all the tools above are free; the GDAL versions also run from the command line with <code>gdaldem</code> and <code>gdal_viewshed</code>.</p>
+</section>
+<section id="check-your-understanding" class="level2" data-number="15.10">
+<h2 data-number="15.10" class="anchored" data-anchor-id="check-your-understanding"><span class="header-section-number">15.10</span> Check your understanding</h2>
+<ol type="1">
+<li><p>Who first joined points of equal height with contour lines, to summarize the Schiehallion survey? <select class="webex-select"><option value="blank"></option><option value="">John Collet</option><option value="answer">Charles Hutton</option><option value="">Nevil Maskelyne</option><option value="">Berthold Horn</option></select></p></li>
+<li><p>On a topographic map, contour lines that are very close together mean: <select class="webex-select"><option value="blank"></option><option value="">Flat ground</option><option value="answer">A steep slope</option><option value="">A river</option><option value="">An index contour</option></select></p></li>
+<li><p>Which surface would you use to check whether a building blocks a cell tower’s signal? <select class="webex-select"><option value="blank"></option><option value="">A bare-earth DEM</option><option value="">A DTM</option><option value="answer">A DSM</option><option value="">A contour map</option></select></p></li>
+<li><p>You switch from a 30 m DEM to a 10 m DEM of the same area. About how many times as many cells does it have? <input class="webex-solveme nospaces" size="3" data-answer="[&quot;9&quot;]"></p></li>
+<li><p>A slope of 45° is how many percent? <input class="webex-solveme nospaces" size="4" data-answer="[&quot;100&quot;]"></p></li>
+<li><p>Your slope map from a DEM in latitude and longitude shows almost every cell near 90°. What is the most likely problem? <select class="webex-select"><option value="blank"></option><option value="">The DEM has sinks</option><option value="answer">x and y are in degrees but z is in meters</option><option value="">The cell size is too small</option><option value="">Horn’s method was used</option></select></p></li>
+<li><p>What is the default sun azimuth for a hillshade in ArcGIS Pro, in degrees? <input class="webex-solveme nospaces" size="4" data-answer="[&quot;315&quot;]"></p></li>
+<li><p>A cell has an aspect of 180°. Which way does it face? <select class="webex-select"><option value="blank"></option><option value="">North</option><option value="">East</option><option value="answer">South</option><option value="">West</option></select></p></li>
+<li><p>In a line-of-sight test, a point between the observer and the target has an elevation angle of −10°, and the target’s angle is −15°. The target is: <select class="webex-select"><option value="blank"></option><option value="">Visible</option><option value="answer">Not visible</option></select></p></li>
+</ol>
+</section>
+<section id="summary" class="level2" data-number="15.11">
+<h2 data-number="15.11" class="anchored" data-anchor-id="summary"><span class="header-section-number">15.11</span> Summary</h2>
+<ul>
+<li>Elevation mapping moved from <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-pictorial-relief" data-term="pictorial relief">pictorial relief</span></strong>, to <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-contour-line" data-term="contour line">contour lines</span></strong> (Hutton, 1774), to national <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-topographic-map" data-term="topographic map">topographic maps</span></strong>, to <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-digital-elevation-model" data-term="digital elevation model">digital elevation models</span></strong>.</li>
+<li>A <strong>DEM</strong> is a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">raster</span> of elevations. <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cell-size" data-term="cell size">Cell size</span></strong> sets what it can show; cutting the cell size to a third makes nine times as many cells.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-lidar" data-term="lidar">Lidar</span></strong> times laser pulses: <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-first-return" data-term="first return">first returns</span></strong> build a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-digital-surface-model" data-term="digital surface model">DSM</span></strong> of treetops and roofs, and ground returns build a bare-earth <strong>DEM</strong>. A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-digital-terrain-model" data-term="digital terrain model">DTM</span></strong> adds <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-breakline" data-term="breakline">breaklines</span>. Use bare earth for water, and a DSM for sight lines.</li>
+<li>U.S. DEMs come from <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-3d-elevation-program-3dep" data-term="3D Elevation Program (3DEP)">3DEP</span></strong> through <strong>The National Map Downloader</strong>. Elsewhere, start with <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-copernicus-glo-30" data-term="Copernicus GLO-30">Copernicus GLO-30</span></strong>. Check every DEM for <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-void" data-term="void">voids</span></strong>, <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-sink" data-term="sink">sinks</span></strong>, artifacts, and mismatched <strong>units</strong> before analysis.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-slope" data-term="slope">Slope</span></strong> is <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-rise-over-run" data-term="rise over run">rise over run</span>, in degrees or percent, estimated from a 3 × 3 window. <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-horn-s-method" data-term="Horn’s method">Horn’s method</span></strong> (eight neighbors) is used by <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span>; <strong>Fleming and Hoffer’s</strong> (four neighbors) gives a different answer.</li>
+<li>A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-hillshade" data-term="hillshade">hillshade</span></strong> computes brightness from the sun’s <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-azimuth" data-term="azimuth">azimuth</span></strong> and <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-altitude" data-term="altitude">altitude</span></strong> and each cell’s slope and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-aspect" data-term="aspect">aspect</span>. Light from the northwest (315°) avoids <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-relief-inversion" data-term="relief inversion">relief inversion</span></strong>. A color DEM over a hillshade is <strong>shaded relief</strong>.</li>
+<li><strong>Aspect</strong> is the direction a slope faces, 0–360° clockwise from north, from the same two partial slopes. Label every direction in the legend.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-line-of-sight" data-term="line of sight">Line of sight</span></strong> compares <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-elevation-angle" data-term="elevation angle">elevation angles</span> along a line; a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-viewshed" data-term="viewshed">viewshed</span></strong> repeats it for every cell, from one or more observers.</li>
+</ul>
+</section>
+<section id="exercises" class="level2" data-number="15.12">
+<h2 data-number="15.12" class="anchored" data-anchor-id="exercises"><span class="header-section-number">15.12</span> Exercises</h2>
+<ol type="1">
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-contour-line" data-term="contour line">Contours</span> by hand.</strong> Print a USGS <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-topographic-map" data-term="topographic map">topographic map</span> of the area around your hometown from topoView. Find the steepest and the flattest places on it, and explain how you could tell from the contours alone.</li>
+<li><strong>Download a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-digital-elevation-model" data-term="digital elevation model">DEM</span>.</strong> Download the 1/3 <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arc-second" data-term="arc-second">arc-second</span> DEM for Orange County, NC, from The National Map Downloader. What is its <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">coordinate system</span>? Project it to <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-state-plane-coordinate-system-spcs" data-term="State Plane Coordinate System (SPCS)">NC State Plane</span> (meters) before going on.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-slope" data-term="slope">Slope</span> by hand.</strong> For the window 100, 110, 120 / 100, 105, 115 / 95, 100, 110, with 10 m cells, compute the slope by <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-fleming-and-hoffer-s-method" data-term="Fleming and Hoffer’s method">Fleming and Hoffer’s method</span> and by <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-horn-s-method" data-term="Horn’s method">Horn’s method</span>. Which is steeper?</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-aspect" data-term="aspect">Aspect</span> by hand.</strong> For the same window, which way does the center cell face? Explain your answer from the numbers before you calculate it.</li>
+<li><strong>Surface tools.</strong> With your Orange County DEM, run Slope, Aspect, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-hillshade" data-term="hillshade">Hillshade</span>. Then make a shaded-relief map: put the DEM over the hillshade with a color ramp and 50 percent transparency. Where are the steepest slopes, and why there?</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-relief-inversion" data-term="relief inversion">Relief inversion</span>.</strong> Make two hillshades of the same area, one lit from 315° and one from 135°. Show them to a friend without saying which is which. Which one looks right to them?</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-viewshed" data-term="viewshed">Viewshed</span>.</strong> Put an observer on the top of a hill or building on or near campus, with a height of 1.7 m, and run a viewshed. Then run it again with the observer 30 m higher, as if on a tower. How much more area is visible?</li>
+<li><strong>Global DEMs.</strong> For a mountain range outside the United States, download <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-shuttle-radar-topography-mission-srtm" data-term="Shuttle Radar Topography Mission (SRTM)">SRTM</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-copernicus-glo-30" data-term="Copernicus GLO-30">Copernicus GLO-30</span> from OpenTopography, and subtract one from the other with <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-map-algebra" data-term="map algebra">map algebra</span> (Chapter 14). Where do they differ most, and why?</li>
+</ol>
+</section>
+<section id="further-reading-and-online-resources" class="level2" data-number="15.13">
+<h2 data-number="15.13" class="anchored" data-anchor-id="further-reading-and-online-resources"><span class="header-section-number">15.13</span> Further reading and online resources</h2>
+<section id="books-and-papers" class="level3" data-number="15.13.1">
+<h3 data-number="15.13.1" class="anchored" data-anchor-id="books-and-papers"><span class="header-section-number">15.13.1</span> Books and papers</h3>
+<ul>
+<li><em><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> Fundamentals</em>, by Paul Bolstad <span class="citation" data-cites="bolstad2022">(Bolstad 2022)</span>. The chapters on <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">raster</span> analyses and terrain analysis cover <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-digital-elevation-model" data-term="digital elevation model">DEMs</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-slope" data-term="slope">slope</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-aspect" data-term="aspect">aspect</span>, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-viewshed" data-term="viewshed">viewsheds</span>.</li>
+<li><em>Principles of Geographical Information Systems</em>, by Peter Burrough, Rachael McDonnell, and Christopher Lloyd <span class="citation" data-cites="burrough2015">(Burrough et al. 2015)</span>, has a full chapter on digital elevation models and surface derivatives.</li>
+<li><em>Terrain Analysis: Principles and Applications</em>, edited by John Wilson and John Gallant <span class="citation" data-cites="wilson2000">(Wilson and Gallant 2000)</span>.</li>
+<li><em>Cartographic Relief Presentation</em>, by Eduard Imhof <span class="citation" data-cites="imhof1982">(Imhof 1982)</span>, the classic book on showing terrain on maps, including <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-hillshade" data-term="hillshade">hillshading</span> and the northwest light.</li>
+<li>Berthold Horn, “Hill shading and the reflectance map” <span class="citation" data-cites="horn1981">(Horn 1981)</span>, the source of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-horn-s-method" data-term="Horn’s method">Horn’s method</span>.</li>
+<li>Charles Miller and Robert Laflamme, “The <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-digital-terrain-model" data-term="digital terrain model">digital terrain model</span>: Theory and application” <span class="citation" data-cites="miller1958">(Miller and Laflamme 1958)</span>, the first description of a DEM.</li>
+<li>Tom Farr and colleagues, “The <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-shuttle-radar-topography-mission-srtm" data-term="Shuttle Radar Topography Mission (SRTM)">Shuttle Radar Topography Mission</span>” <span class="citation" data-cites="farr2007">(Farr et al. 2007)</span>.</li>
+<li>Marcello Canuto and colleagues, “Ancient lowland Maya complexity as revealed by airborne laser scanning of northern Guatemala” <span class="citation" data-cites="canuto2018">(Canuto et al. 2018)</span>.</li>
+<li>Susan Jenson and Julia Domingue, “Extracting topographic structure from digital elevation data for geographic information system analysis” <span class="citation" data-cites="jenson1988">(Jenson and Domingue 1988)</span>, the method behind filling <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-sink" data-term="sink">sinks</span>.</li>
+</ul>
+</section>
+<section id="arcgis-pro" class="level3" data-number="15.13.2">
+<h3 data-number="15.13.2" class="anchored" data-anchor-id="arcgis-pro"><span class="header-section-number">15.13.2</span> ArcGIS Pro</h3>
+<ul>
+<li><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-esri" data-term="Esri">Esri</span>, “An overview of the Surface toolset”: <a href="https://pro.arcgis.com/en/pro-app/latest/tool-reference/spatial-analyst/an-overview-of-the-surface-tools.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/tool-reference/spatial-analyst/an-overview-of-the-surface-tools.htm</a>.</li>
+<li>Esri, “Slope” tool reference: <a href="https://pro.arcgis.com/en/pro-app/latest/tool-reference/spatial-analyst/slope.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/tool-reference/spatial-analyst/slope.htm</a>.</li>
+<li>Esri, “How Slope works”: <a href="https://pro.arcgis.com/en/pro-app/latest/tool-reference/spatial-analyst/how-slope-works.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/tool-reference/spatial-analyst/how-slope-works.htm</a>.</li>
+<li>Esri, “How Aspect works”: <a href="https://pro.arcgis.com/en/pro-app/latest/tool-reference/spatial-analyst/how-aspect-works.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/tool-reference/spatial-analyst/how-aspect-works.htm</a>.</li>
+<li>Esri, “How Hillshade works”: <a href="https://pro.arcgis.com/en/pro-app/latest/tool-reference/spatial-analyst/how-hillshade-works.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/tool-reference/spatial-analyst/how-hillshade-works.htm</a>.</li>
+<li>Esri, “Viewshed” tool reference: <a href="https://pro.arcgis.com/en/pro-app/latest/tool-reference/spatial-analyst/viewshed.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/tool-reference/spatial-analyst/viewshed.htm</a>.</li>
+<li>Esri, “<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-line-of-sight" data-term="line of sight">Line Of Sight</span>” (3D Analyst): <a href="https://pro.arcgis.com/en/pro-app/latest/tool-reference/3d-analyst/line-of-sight.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/tool-reference/3d-analyst/line-of-sight.htm</a>.</li>
+<li>Esri, “Fill” tool reference: <a href="https://pro.arcgis.com/en/pro-app/latest/tool-reference/spatial-analyst/fill.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/tool-reference/spatial-analyst/fill.htm</a>.</li>
+<li>Esri, “Surface Parameters” tool reference: <a href="https://pro.arcgis.com/en/pro-app/latest/tool-reference/spatial-analyst/surface-parameters.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/tool-reference/spatial-analyst/surface-parameters.htm</a>.</li>
+</ul>
+</section>
+<section id="qgis-and-gdal" class="level3" data-number="15.13.3">
+<h3 data-number="15.13.3" class="anchored" data-anchor-id="qgis-and-gdal"><span class="header-section-number">15.13.3</span> QGIS and GDAL</h3>
+<ul>
+<li><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span> User Guide, “Raster terrain analysis” (Slope, Aspect, Hillshade, Ruggedness): <a href="https://docs.qgis.org/latest/en/docs/user_manual/processing_algs/qgis/rasterterrainanalysis.html" class="uri">https://docs.qgis.org/latest/en/docs/user_manual/processing_algs/qgis/rasterterrainanalysis.html</a>.</li>
+<li>QGIS User Guide, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-gdal" data-term="GDAL">GDAL</span> “Raster analysis” (Slope, Aspect, Hillshade, Viewshed, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-contour-line" data-term="contour line">Contour</span>): <a href="https://docs.qgis.org/latest/en/docs/user_manual/processing_algs/gdal/rasteranalysis.html" class="uri">https://docs.qgis.org/latest/en/docs/user_manual/processing_algs/gdal/rasteranalysis.html</a>.</li>
+<li>QGIS Training Manual, “Terrain Analysis”: <a href="https://docs.qgis.org/latest/en/docs/training_manual/rasters/terrain_analysis.html" class="uri">https://docs.qgis.org/latest/en/docs/training_manual/rasters/terrain_analysis.html</a>.</li>
+<li>GDAL, <code>gdaldem</code> (slope, aspect, hillshade, and color relief): <a href="https://gdal.org/en/stable/programs/gdaldem.html" class="uri">https://gdal.org/en/stable/programs/gdaldem.html</a>.</li>
+<li>GDAL, <code>gdal_viewshed</code>: <a href="https://gdal.org/en/stable/programs/gdal_viewshed.html" class="uri">https://gdal.org/en/stable/programs/gdal_viewshed.html</a>.</li>
+</ul>
+</section>
+<section id="elevation-data" class="level3" data-number="15.13.4">
+<h3 data-number="15.13.4" class="anchored" data-anchor-id="elevation-data"><span class="header-section-number">15.13.4</span> Elevation data</h3>
+<ul>
+<li>USGS, The National Map Downloader: <a href="https://apps.nationalmap.gov/downloader/" class="uri">https://apps.nationalmap.gov/downloader/</a>.</li>
+<li>USGS, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-3d-elevation-program-3dep" data-term="3D Elevation Program (3DEP)">3D Elevation Program</span> (3DEP): <a href="https://www.usgs.gov/3d-elevation-program" class="uri">https://www.usgs.gov/3d-elevation-program</a>.</li>
+<li>USGS, “About 3DEP Products &amp; Services”: <a href="https://www.usgs.gov/3d-elevation-program/about-3dep-products-services" class="uri">https://www.usgs.gov/3d-elevation-program/about-3dep-products-services</a>.</li>
+<li>USGS EarthExplorer, for SRTM, ASTER GDEM, and GTOPO30: <a href="https://earthexplorer.usgs.gov" class="uri">https://earthexplorer.usgs.gov</a>.</li>
+<li>USGS EROS, “Global 30 <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arc-second" data-term="arc-second">Arc-Second</span> Elevation (GTOPO30)”: <a href="https://www.usgs.gov/centers/eros/science/usgs-eros-archive-digital-elevation-global-30-arc-second-elevation-gtopo30" class="uri">https://www.usgs.gov/centers/eros/science/usgs-eros-archive-digital-elevation-global-30-arc-second-elevation-gtopo30</a>.</li>
+<li>USGS EROS, “Shuttle Radar Topography Mission (SRTM) 1 Arc-Second Global”: <a href="https://www.usgs.gov/centers/eros/science/usgs-eros-archive-digital-elevation-shuttle-radar-topography-mission-srtm-1" class="uri">https://www.usgs.gov/centers/eros/science/usgs-eros-archive-digital-elevation-shuttle-radar-topography-mission-srtm-1</a>.</li>
+<li>NASA JPL, “Shuttle Radar Topography Mission”: <a href="https://www2.jpl.nasa.gov/srtm/" class="uri">https://www2.jpl.nasa.gov/srtm/</a>.</li>
+<li>NASA JPL, ASTER Global Digital Elevation Model: <a href="https://asterweb.jpl.nasa.gov/gdem.asp" class="uri">https://asterweb.jpl.nasa.gov/gdem.asp</a>.</li>
+<li>Copernicus Data Space Ecosystem, “Copernicus DEM”: <a href="https://dataspace.copernicus.eu/explore-data/data-collections/copernicus-contributing-missions/collections-description/COP-DEM" class="uri">https://dataspace.copernicus.eu/explore-data/data-collections/copernicus-contributing-missions/collections-description/COP-DEM</a>.</li>
+<li>OpenTopography, for global DEMs and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-lidar" data-term="lidar">lidar</span> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-point-cloud" data-term="point cloud">point clouds</span>: <a href="https://opentopography.org" class="uri">https://opentopography.org</a>.</li>
+<li>NOAA Digital Coast, for coastal lidar and elevation: <a href="https://coast.noaa.gov/digitalcoast/" class="uri">https://coast.noaa.gov/digitalcoast/</a>.</li>
+<li>NC OneMap, North Carolina’s <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-data" data-term="spatial data">geospatial data</span> portal: <a href="https://www.nconemap.gov" class="uri">https://www.nconemap.gov</a>.</li>
+<li>North Carolina Spatial Data Download, for the state’s lidar and DEMs: <a href="https://sdd.nc.gov" class="uri">https://sdd.nc.gov</a>.</li>
+<li>North Carolina Floodplain Mapping Program: <a href="https://flood.nc.gov/ncflood/" class="uri">https://flood.nc.gov/ncflood/</a>.</li>
+</ul>
+</section>
+<section id="topographic-maps-1" class="level3" data-number="15.13.5">
+<h3 data-number="15.13.5" class="anchored" data-anchor-id="topographic-maps-1"><span class="header-section-number">15.13.5</span> Topographic maps</h3>
+<ul>
+<li>USGS topoView, for current and historical <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-topographic-map" data-term="topographic map">topographic maps</span>: <a href="https://ngmdb.usgs.gov/topoview/" class="uri">https://ngmdb.usgs.gov/topoview/</a>.</li>
+<li>USGS, “Historical Topographic Maps: Preserving the Past”: <a href="https://www.usgs.gov/programs/national-geospatial-program/historical-topographic-maps-preserving-past" class="uri">https://www.usgs.gov/programs/national-geospatial-program/historical-topographic-maps-preserving-past</a>.</li>
+<li>Wikipedia, “Schiehallion experiment”: <a href="https://en.wikipedia.org/wiki/Schiehallion_experiment" class="uri">https://en.wikipedia.org/wiki/Schiehallion_experiment</a>.</li>
+</ul>
+</section>
+<section id="lidar-and-shaded-relief" class="level3" data-number="15.13.6">
+<h3 data-number="15.13.6" class="anchored" data-anchor-id="lidar-and-shaded-relief"><span class="header-section-number">15.13.6</span> Lidar and shaded relief</h3>
+<ul>
+<li>Tom Patterson, Shaded Relief, on making terrain maps: <a href="https://shadedrelief.com" class="uri">https://shadedrelief.com</a>.</li>
+<li>The <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-gis-t-body-of-knowledge" data-term="GIS&amp;T Body of Knowledge">GIS&amp;T Body of Knowledge</span>, including entries on DEMs and terrain analysis: <a href="https://www.ucgis.org/site/gis-t-body-of-knowledge" class="uri">https://www.ucgis.org/site/gis-t-body-of-knowledge</a>.</li>
+</ul>
+
+
+<div class="glossary-defs" hidden="">
+<span id="gloss-contour-line">A line on a map joining points of equal elevation. Lines close together
+mean a steep slope.</span>
+<span id="gloss-digital-elevation-model">A raster whose cell values are elevations of the ground surface.</span>
+<span id="gloss-digital-terrain-model">A bare-earth elevation model with breaklines added along ridges,
+streams, and other features.</span>
+<span id="gloss-digital-surface-model">An elevation model of the first surface a sensor hits, including tree
+canopies, roofs, and power lines.</span>
+<span id="gloss-lidar">A remote sensing method that times laser pulses to measure distance,
+used to map elevation, buildings, and tree height in fine detail.</span>
+<span id="gloss-slope">The steepness of the ground, in degrees or percent, calculated from an
+elevation raster.</span>
+<span id="gloss-aspect">The compass direction a slope faces, in degrees clockwise from north (0°
+north, 90° east, 180° south, 270° west).</span>
+<span id="gloss-hillshade">A raster that shows terrain as if lit by the sun from a chosen azimuth
+and altitude, from 0 (shadow) to 255 (full sun).</span>
+<span id="gloss-line-of-sight">A test of whether a target is visible from an observer, by comparing
+elevation angles along the line between them.</span>
+<span id="gloss-viewshed">The area visible from one or more observer points, found by running a
+line-of-sight test to every cell of a DEM.</span>
+<span id="gloss-raster">A data model that stores the world as a regular grid of equal-sized
+cells, each holding one value. Best for continuous data and imagery.</span>
+<span id="gloss-pictorial-relief">Showing hills and mountains on a map as small drawings, which tell where
+the high ground is but not how high it is.</span>
+<span id="gloss-topographic-map">A map that shows the shape of the land with contour lines, along with
+streams, roads, and place names, such as a USGS 1:24,000 quadrangle.</span>
+<span id="gloss-contour-interval">The difference in elevation between neighboring contour lines on a map,
+such as 20 feet.</span>
+<span id="gloss-index-contour">Every fourth or fifth contour line, drawn thicker and labeled with its
+elevation.</span>
+<span id="gloss-vector">A data model that stores the world as points, lines, and polygons, each
+defined by x, y coordinates and linked to its attributes. Best for
+discrete objects.</span>
+<span id="gloss-vertical-datum">The reference surface that elevations are measured from, such as the
+North American Vertical Datum of 1988 (NAVD 88).</span>
+<span id="gloss-mean-sea-level">The average height of the sea surface over many years, which the geoid
+approximates.</span>
+<span id="gloss-cell-size">The real-world length of one side of a raster cell, such as 30 meters.
+Smaller cells give finer resolution and larger files.</span>
+<span id="gloss-3d-elevation-program-3dep">The USGS program that collects lidar and publishes free elevation data
+and DEMs for the whole United States.</span>
+<span id="gloss-photogrammetry">Measuring positions and heights from overlapping (stereo) photographs,
+the way two eyes judge depth.</span>
+<span id="gloss-shuttle-radar-topography-mission-srtm">A Space Shuttle mission in February 2000 that mapped the elevation of
+most of Earth’s land with radar, at 30 m and 90 m.</span>
+<span id="gloss-gps">The Global Positioning System: U.S. satellites that let a receiver, such
+as your phone, work out its location. GNSS is the general name for GPS
+and similar systems from other countries.</span>
+<span id="gloss-coordinate-system">A system of numbers, such as latitude and longitude, that gives every
+location a unique position so layers line up with each other.</span>
+<span id="gloss-point-cloud">The millions of x, y, z points recorded by a lidar scanner, before they
+are turned into a raster.</span>
+<span id="gloss-first-return">The first echo of a lidar pulse, from the first thing it hits, such as a
+treetop or a roof. First returns build a DSM.</span>
+<span id="gloss-last-return">The last echo of a lidar pulse, which often comes from the ground under
+trees. Ground returns build a bare-earth DEM.</span>
+<span id="gloss-root-mean-square-error-rmse">The square root of the average squared residual: one number that sums up
+how well a model fits.</span>
+<span id="gloss-breakline">A line along a ridge, stream, or road edge where the slope changes
+sharply, used to keep those features crisp in a terrain model.</span>
+<span id="gloss-arcgis-pro">Esri’s commercial desktop GIS, for Windows.</span>
+<span id="gloss-qgis">A free and open-source desktop GIS that runs on Windows, Mac, and Linux.</span>
+<span id="gloss-arc-second">1/3,600 of a degree. As a DEM cell size, 1 arc-second is about 30 m on
+the ground.</span>
+<span id="gloss-latitude">The angle north or south of the equator, from 0° at the equator to 90°
+at the poles.</span>
+<span id="gloss-longitude">The angle east or west of the prime meridian, from 0° at Greenwich to
+180° east or west.</span>
+<span id="gloss-copernicus-glo-30">A free global elevation model with 30 m cells, made from the TanDEM-X
+radar mission. It is a surface model, including trees and buildings.</span>
+<span id="gloss-void">A hole of NoData cells in a DEM, common in radar DEMs over steep
+mountains and water.</span>
+<span id="gloss-nodata">A code meaning a raster cell has no value. Any map algebra operation
+that touches NoData outputs NoData, and statistics skip it.</span>
+<span id="gloss-spatial-interpolation">Estimating the value of an attribute at unsampled locations from
+observations at sampled ones.</span>
+<span id="gloss-sink">A DEM cell lower than all its neighbors. Most are errors, and they trap
+water in flow models, so they are removed with the Fill tool.</span>
+<span id="gloss-universal-transverse-mercator-utm">A system of 60 zones, each 6° of longitude wide, each a secant
+Transverse Mercator projection in meters. North Carolina spans zones 17N
+and 18N.</span>
+<span id="gloss-state-plane-coordinate-system-spcs">A U.S. system of about 120 zones following state and county lines, built
+for surveyors, with error held to 1 part in 10,000. North Carolina has
+one zone (EPSG:32119 in meters, 2264 in feet).</span>
+<span id="gloss-z-factor">A multiplier that converts a surface’s z units to the units of x and y,
+such as when elevations are in meters but coordinates are in degrees.</span>
+<span id="gloss-rise-over-run">Slope as the change in elevation (rise) divided by the horizontal
+distance (run).</span>
+<span id="gloss-layer">A set of spatial data about one theme, such as roads, soils, or
+elevation. Layers for the same area stack on top of each other to make a
+map.</span>
+<span id="gloss-neighborhood-function">A raster function that computes a statistic from a window of cells
+around each cell and writes it to the center cell.</span>
+<span id="gloss-fleming-and-hoffer-s-method">A way of estimating slope from only the four direct neighbors of a cell.</span>
+<span id="gloss-horn-s-method">A way of estimating slope and aspect from all eight neighbors of a cell,
+counting the direct neighbors twice. ArcGIS Pro and QGIS use it.</span>
+<span id="gloss-gdal">The Geospatial Data Abstraction Library, open-source software that reads
+and writes hundreds of raster and vector formats. QGIS, ArcGIS Pro, and
+many other programs use it.</span>
+<span id="gloss-azimuth">A compass direction, in degrees clockwise from north. For a hillshade,
+the direction the sunlight comes from; the default is 315°.</span>
+<span id="gloss-altitude">For a hillshade, the sun’s angle above the horizon; the default is 45°.</span>
+<span id="gloss-relative-radiance">How bright a cell would look in sunlight, calculated from the sun’s
+azimuth and altitude and the cell’s slope and aspect.</span>
+<span id="gloss-relief-inversion">An illusion in which valleys look like ridges, and ridges like valleys,
+usually when a hillshade is lit from the south.</span>
+<span id="gloss-basemap">A background map, such as streets, topography, or aerial imagery, that
+gives context to the layers drawn on top of it.</span>
+<span id="gloss-symbology">The rules that control how a layer is drawn: its symbols, colors, sizes,
+and classes.</span>
+<span id="gloss-elevation-angle">The angle up (positive) or down (negative) from an observer to a point,
+arctan of the change in elevation over the horizontal distance.</span>
+<span id="gloss-geographic-information-system-gis">“A computer-based system to aid in the collection, maintenance, storage,
+analysis, output, and distribution of spatial data and information”
+(Bolstad). Its five components are data, hardware, software, people, and
+procedures.</span>
+<span id="gloss-suitability-modeling">Ranking every location in a study area by how well it meets a set of
+criteria, such as choosing sites for a house, a school, or a wind farm.</span>
+<span id="gloss-reproject">To convert a layer’s coordinates from one CRS to another and save the
+result. Defining a projection, by contrast, only labels what the
+coordinates already are.</span>
+<span id="gloss-map-algebra">Math on rasters, cell by cell, such as adding two grids or finding every
+cell where slope is under 10 percent.</span>
+<span id="gloss-esri">The company that makes ArcGIS, founded in 1969 by Jack and Laura
+Dangermond in Redlands, California.</span>
+<span id="gloss-spatial-data">Data tied to a location on or near Earth, such as the address of a
+house, the outline of a county, or the elevation at a point.</span>
+<span id="gloss-gis-t-body-of-knowledge">A free collection of short, peer-reviewed articles on geographic
+information science and technology topics, from the University
+Consortium for Geographic Information Science (UCGIS).</span>
+</div>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script>
+
+/* update total correct if #webex-total_correct exists */
+update_total_correct = function() {
+  console.log("webex: update total_correct");
+
+  var t = document.getElementsByClassName("webex-total_correct");
+  for (var i = 0; i < t.length; i++) {
+    p = t[i].parentElement;
+    var correct = p.getElementsByClassName("webex-correct").length;
+    var solvemes = p.getElementsByClassName("webex-solveme").length;
+    var radiogroups = p.getElementsByClassName("webex-radiogroup").length;
+    var selects = p.getElementsByClassName("webex-select").length;
+
+    t[i].innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  }
+}
+
+/* webex-solution button toggling function */
+b_func = function() {
+  console.log("webex: toggle hide");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('open')) {
+    cl.remove("open");
+  } else {
+    cl.add("open");
+  }
+}
+
+/* check answers */
+check_func = function() {
+  console.log("webex: check answers");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('unchecked')) {
+    cl.remove("unchecked");
+    this.innerHTML = "Hide Answers";
+  } else {
+    cl.add("unchecked");
+    this.innerHTML = "Show Answers";
+  }
+}
+
+/* function for checking solveme answers */
+solveme_func = function(e) {
+  console.log("webex: check solveme");
+
+  var real_answers = JSON.parse(this.dataset.answer);
+  var my_answer = this.value;
+  var cl = this.classList;
+  if (cl.contains("ignorecase")) {
+    my_answer = my_answer.toLowerCase();
+  }
+  if (cl.contains("nospaces")) {
+    my_answer = my_answer.replace(/ /g, "")
+  }
+
+  if (my_answer == "") {
+    cl.remove("webex-correct");
+    cl.remove("webex-incorrect");
+  } else if (real_answers.includes(my_answer)) {
+    cl.add("webex-correct");
+    cl.remove("webex-incorrect");
+  } else {
+    cl.add("webex-incorrect");
+    cl.remove("webex-correct");
+  }
+
+  // match numeric answers within a specified tolerance
+  if(this.dataset.tol > 0){
+    var tol = JSON.parse(this.dataset.tol);
+    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+    if (matches.reduce((a, b) => a + b, 0) > 0) {
+      cl.add("webex-correct");
+    } else {
+      cl.remove("webex-correct");
+    }
+  }
+
+  // added regex bit
+  if (cl.contains("regex")){
+    answer_regex = RegExp(real_answers.join("|"))
+    if (answer_regex.test(my_answer)) {
+      cl.add("webex-correct");
+    }
+  }
+
+  update_total_correct();
+}
+
+/* function for checking select answers */
+select_func = function(e) {
+  console.log("webex: check select");
+
+  var cl = this.classList
+
+  /* add style */
+  cl.remove("webex-incorrect");
+  cl.remove("webex-correct");
+  if (this.value == "answer") {
+    cl.add("webex-correct");
+  } else if (this.value != "blank") {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+/* function for checking radiogroups answers */
+radiogroups_func = function(e) {
+  console.log("webex: check radiogroups");
+
+  var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
+  var cl = checked_button.parentElement.classList;
+  var labels = checked_button.parentElement.parentElement.children;
+
+  /* get rid of styles */
+  for (i = 0; i < labels.length; i++) {
+    labels[i].classList.remove("webex-incorrect");
+    labels[i].classList.remove("webex-correct");
+  }
+
+  /* add style */
+  if (checked_button.value == "answer") {
+    cl.add("webex-correct");
+  } else {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+window.onload = function() {
+  console.log("webex onload");
+  /* set up solution buttons */
+  var buttons = document.getElementsByTagName("button");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].parentElement.classList.contains('webex-solution')) {
+      buttons[i].onclick = b_func;
+    }
+  }
+
+  var check_sections = document.getElementsByClassName("webex-check");
+  console.log("check:", check_sections.length);
+  for (var i = 0; i < check_sections.length; i++) {
+    check_sections[i].classList.add("unchecked");
+
+    let btn = document.createElement("button");
+    btn.innerHTML = "Show Answers";
+    btn.classList.add("webex-check-button");
+    btn.onclick = check_func;
+    check_sections[i].appendChild(btn);
+
+    let spn = document.createElement("span");
+    spn.classList.add("webex-total_correct");
+    check_sections[i].appendChild(spn);
+  }
+
+  /* set up webex-solveme inputs */
+  var solveme = document.getElementsByClassName("webex-solveme");
+
+  for (var i = 0; i < solveme.length; i++) {
+    /* make sure input boxes don't auto-anything */
+    solveme[i].setAttribute("autocomplete","off");
+    solveme[i].setAttribute("autocorrect", "off");
+    solveme[i].setAttribute("autocapitalize", "off");
+    solveme[i].setAttribute("spellcheck", "false");
+    solveme[i].value = "";
+
+    /* adjust answer for ignorecase or nospaces */
+    var cl = solveme[i].classList;
+    var real_answer = solveme[i].dataset.answer;
+    if (cl.contains("ignorecase")) {
+      real_answer = real_answer.toLowerCase();
+    }
+    if (cl.contains("nospaces")) {
+      real_answer = real_answer.replace(/ /g, "");
+    }
+    solveme[i].dataset.answer = real_answer;
+
+    /* attach checking function */
+    solveme[i].onkeyup = solveme_func;
+    solveme[i].onchange = solveme_func;
+
+    solveme[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  /* set up radiogroups */
+  var radiogroups = document.getElementsByClassName("webex-radiogroup");
+  for (var i = 0; i < radiogroups.length; i++) {
+    radiogroups[i].onchange = radiogroups_func;
+  }
+
+  /* set up selects */
+  var selects = document.getElementsByClassName("webex-select");
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].onchange = select_func;
+    selects[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  update_total_correct();
+}
+
+</script>
+<!--
+  Highlights the right item in the top menu. Quarto's book layout marks
+  "Welcome" as active on every page, so this sets it from the page address:
+  the course pages match their own item, and every other page (chapters,
+  quizzes, glossary) is part of the Textbook. Pages with no menu item of
+  their own (the AI policy and privacy policy) highlight nothing.
+-->
+<script>
+(function () {
+  "use strict";
+  const COURSE_PAGES = ["index", "syllabus", "materials", "about"];
+  const NO_ITEM_PAGES = ["privacy", "ai-policy"];
+  const file = (location.pathname.split("/").pop() || "index").replace(/\.html$/, "");
+  const inRoot = !/\/chapters\//.test(location.pathname);
+  const target = inRoot && NO_ITEM_PAGES.includes(file) ? null
+    : inRoot && COURSE_PAGES.includes(file) ? file : "preface";
+  document.querySelectorAll("#navbarCollapse a.nav-link").forEach((a) => {
+    const page = (a.getAttribute("href") || "").split("/").pop().replace(/\.html$/, "");
+    const on = page === target;
+    a.classList.toggle("active", on);
+    if (on) a.setAttribute("aria-current", "page");
+    else a.removeAttribute("aria-current");
+  });
+})();
+</script>
+<!--
+  Reading settings, part 2 of 2: the "Aa" menu next to search, where readers
+  pick a font and text size. Choices are kept in this browser (localStorage)
+  and applied on every page by assets/reader-settings-head.html.
+-->
+<script>
+(function () {
+  var FONTS = [
+    { id: "", label: "Atkinson Hyperlegible (default)", css: '"Atkinson Hyperlegible Next", sans-serif' },
+    { id: "lexend", label: "Lexend", css: '"Lexend", sans-serif', href: "https://fonts.googleapis.com/css2?family=Lexend:wght@300..700&display=swap" },
+    { id: "cardo", label: "Cardo (serif)", css: '"Cardo", Georgia, serif', href: "https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&display=swap" },
+    { id: "sans", label: "Standard sans-serif", css: 'system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif' },
+    { id: "serif", label: "Serif", css: 'Georgia, Cambria, "Times New Roman", serif' },
+    { id: "dyslexic", label: "OpenDyslexic", css: '"OpenDyslexic", sans-serif' }
+  ];
+  var SIZES = { "-1": "Small", "0": "Default", "1": "Large", "2": "Larger", "3": "Largest" };
+  var MIN = -1, MAX = 3;
+  var root = document.documentElement;
+
+  function save(key, value) {
+    try {
+      if (value === "" || value === "0") localStorage.removeItem(key);
+      else localStorage.setItem(key, value);
+    } catch (e) { /* storage blocked: setting lasts for this page only */ }
+  }
+  function currentFont() { return root.getAttribute("data-reader-font") || ""; }
+  function currentSize() { return parseInt(root.getAttribute("data-reader-size") || "0", 10) || 0; }
+
+  // Add a Google Fonts stylesheet once (Lexend, Cardo). Fonts download only
+  // when text actually uses them.
+  function loadWebFont(f) {
+    if (!f.href || document.getElementById("sds-reader-webfont-" + f.id)) return;
+    var link = document.createElement("link");
+    link.rel = "stylesheet"; link.href = f.href; link.id = "sds-reader-webfont-" + f.id;
+    document.head.appendChild(link);
+  }
+
+  function setFont(id) {
+    FONTS.forEach(function (f) { if (f.id === id) loadWebFont(f); });
+    if (id) root.setAttribute("data-reader-font", id); else root.removeAttribute("data-reader-font");
+    save("sds-reader-font", id);
+  }
+  function setSize(n) {
+    n = Math.max(MIN, Math.min(MAX, n));
+    if (n) root.setAttribute("data-reader-size", String(n)); else root.removeAttribute("data-reader-size");
+    save("sds-reader-size", String(n));
+    refreshSize();
+  }
+
+  var wrap = document.createElement("div");
+  wrap.className = "sds-reader";
+  var fontOptions = FONTS.map(function (f) {
+    return '<label style=\'font-family:' + f.css.replace(/'/g, "&#39;") + '\'>' +
+      '<input class="form-check-input" type="radio" name="sds-reader-font" value="' + f.id + '"> ' + f.label + '</label>';
+  }).join("");
+  wrap.innerHTML =
+    '<button type="button" class="sds-reader-toggle" aria-expanded="false" aria-controls="sds-reader-panel" ' +
+      'title="Reading settings: font and text size">' +
+      '<span aria-hidden="true">Aa</span><span class="visually-hidden">Reading settings</span></button>' +
+    '<div class="sds-reader-panel" id="sds-reader-panel" role="dialog" aria-label="Reading settings" hidden>' +
+      '<h2>Reading settings</h2>' +
+      '<fieldset class="sds-reader-font"><legend>Font</legend>' + fontOptions + '</fieldset>' +
+      '<fieldset><legend>Text size</legend><div class="sds-reader-size-row">' +
+        '<button type="button" data-step="-1" aria-label="Smaller text">A&minus;</button>' +
+        '<output aria-live="polite"></output>' +
+        '<button type="button" data-step="1" aria-label="Larger text">A+</button>' +
+      '</div></fieldset>' +
+      '<button type="button" class="sds-reader-reset">Reset to defaults</button>' +
+    '</div>';
+
+  var toggle = wrap.querySelector(".sds-reader-toggle");
+  var panel = wrap.querySelector(".sds-reader-panel");
+  var output = wrap.querySelector("output");
+  var minus = wrap.querySelector('[data-step="-1"]');
+  var plus = wrap.querySelector('[data-step="1"]');
+
+  function refreshFont() {
+    var id = currentFont();
+    wrap.querySelectorAll('input[name="sds-reader-font"]').forEach(function (r) { r.checked = r.value === id; });
+  }
+  function refreshSize() {
+    var n = currentSize();
+    output.textContent = SIZES[String(n)] || "Default";
+    minus.disabled = n <= MIN;
+    plus.disabled = n >= MAX;
+  }
+  function open(show) {
+    panel.hidden = !show;
+    toggle.setAttribute("aria-expanded", show ? "true" : "false");
+    if (show) { FONTS.forEach(loadWebFont); refreshFont(); refreshSize(); var c = panel.querySelector("input:checked"); if (c) c.focus(); }
+  }
+
+  toggle.addEventListener("click", function (e) { e.stopPropagation(); open(panel.hidden); });
+  panel.addEventListener("click", function (e) { e.stopPropagation(); });
+  panel.addEventListener("change", function (e) { if (e.target.name === "sds-reader-font") setFont(e.target.value); });
+  minus.addEventListener("click", function () { setSize(currentSize() - 1); });
+  plus.addEventListener("click", function () { setSize(currentSize() + 1); });
+  wrap.querySelector(".sds-reader-reset").addEventListener("click", function () { setFont(""); setSize(0); refreshFont(); });
+  document.addEventListener("click", function () { if (!panel.hidden) open(false); });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !panel.hidden) { open(false); toggle.focus(); }
+  });
+
+  // Put the button by search: in the top menu on
+  // geog370.org, or by the sidebar search in the textbook-only build.
+  var navSearch = document.querySelector("#quarto-header #quarto-search");
+  if (navSearch) navSearch.parentNode.insertBefore(wrap, navSearch);
+  else {
+    var search = document.querySelector("#quarto-sidebar .sidebar-search, #quarto-sidebar #quarto-search, .sidebar-tools-main");
+    if (search && search.parentNode) search.parentNode.insertBefore(wrap, search.nextSibling);
+    else return;
+  }
+  refreshFont();
+  refreshSize();
+})();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/raster.html" class="pagination-link" aria-label="Raster Analysis">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Raster Analysis</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../chapters/interpolation.html" class="pagination-link" aria-label="Spatial Interpolation">
+        <span class="nav-page-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Spatial Interpolation</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

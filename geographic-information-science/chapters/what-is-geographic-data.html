@@ -301,32 +301,38 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../chapters/digital-elevation-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Digital Elevation Models</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../chapters/interpolation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Spatial Interpolation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Spatial Interpolation</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/kriging.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Kriging</span></span></a>
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Kriging</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/suitability-modeling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Suitability Modeling</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Suitability Modeling</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/risk-analysis.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Risk Analysis</span></span></a>
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Risk Analysis</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/uncertainty.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Uncertainty in Geospatial Data</span></span></a>
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Uncertainty in Geospatial Data</span></span></a>
   </div>
 </li>
       </ul>
@@ -340,13 +346,13 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/qgis.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Getting to Know QGIS</span></span></a>
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Getting to Know QGIS</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/arcgis-pro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Getting to Know ArcGIS Pro</span></span></a>
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Getting to Know ArcGIS Pro</span></span></a>
   </div>
 </li>
       </ul>
@@ -360,7 +366,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/whats-next.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">What’s Next in GIS</span></span></a>
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">What’s Next in GIS</span></span></a>
   </div>
 </li>
       </ul>
@@ -512,7 +518,7 @@ Figure&nbsp;2.1: The same scene as entities in the real world (left) and as feat
 </section>
 <section id="data-abstraction" class="level3" data-number="2.1.2">
 <h3 data-number="2.1.2" class="anchored" data-anchor-id="data-abstraction"><span class="header-section-number">2.1.2</span> Data abstraction</h3>
-<p>A computer can’t store a tree. It can only store numbers, and in the end, only ones and zeros. <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-abstraction" data-term="data abstraction">Data abstraction</span></strong> is the chain of steps that turns the real world into something a computer can store (<a href="uncertainty.html#fig-abstraction" class="quarto-xref">Figure&nbsp;<span>19.6</span></a>):</p>
+<p>A computer can’t store a tree. It can only store numbers, and in the end, only ones and zeros. <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-abstraction" data-term="data abstraction">Data abstraction</span></strong> is the chain of steps that turns the real world into something a computer can store (<a href="uncertainty.html#fig-abstraction" class="quarto-xref">Figure&nbsp;<span>20.6</span></a>):</p>
 <ol type="1">
 <li><strong>The real world</strong>: the wetland, with its water, plants, and soggy edges.</li>
 <li><strong>A <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-model" data-term="data model">data model</span></strong>: the way <em>people</em> think about it in a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span>, such as polygons for each wetland and a table that gives each one an ID, an area, and a type.</li>
@@ -567,7 +573,7 @@ Figure&nbsp;2.3: The four main <span class="glossary-term" tabindex="0" role="bu
 <img src="../images/what-is-geographic-data/discrete-continuous.png" class="img-fluid figure-img" alt="Two panels. Left, titled Discrete objects: present or absent: a white map with small navy squares for houses in two clusters, a red road, a gray road, and a blue oval lake, each labeled. Right, titled Continuous data: a value everywhere: a shaded surface colored from blue in the lowlands through green and yellow to brown on two hilltops, with thin contour lines circling the hills and a color bar for elevation from 0 to 1,400 meters.">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-discrete-continuous-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2.4: Discrete objects (left) are present or absent: roads, houses, and a lake. Continuous data (right) have a value everywhere: here, elevation in meters, with contour <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-line" data-term="line">lines</span>.
+Figure&nbsp;2.4: Discrete objects (left) are present or absent: roads, houses, and a lake. Continuous data (right) have a value everywhere: here, elevation in meters, with <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-contour-line" data-term="contour line">contour lines</span>.
 </figcaption>
 </figure>
 </div>
@@ -591,7 +597,7 @@ Figure&nbsp;2.4: Discrete objects (left) are present or absent: roads, houses, a
 <p>Maps portray the world with four kinds of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-feature" data-term="feature">features</span> (<a href="#fig-feature-types" class="quarto-xref">Figure&nbsp;<span>2.5</span></a>):</p>
 <ul>
 <li>A <strong>point</strong> is a location with no area, such as a school or a well.</li>
-<li>A <strong>line</strong> has length but no area, such as a road or a stream.</li>
+<li>A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-line" data-term="line">line</span></strong> has length but no area, such as a road or a stream.</li>
 <li>A <strong>polygon</strong> encloses an area, such as a lake or a park.</li>
 <li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-annotation" data-term="annotation">Annotation</span></strong> is the text placed on a map, such as place names and street names.</li>
 </ul>
@@ -1181,7 +1187,7 @@ Show hint for question 6
 <ul>
 <li>USGS, “<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-landsat" data-term="Landsat">Landsat</span> Satellite Missions,” the history of every Landsat satellite and its sensors: <a href="https://www.usgs.gov/landsat-missions/landsat-satellite-missions" class="uri">https://www.usgs.gov/landsat-missions/landsat-satellite-missions</a>.</li>
 <li>NASA Earth Observatory, “How to Interpret a Satellite Image: Five Tips and Strategies”: <a href="https://science.nasa.gov/earth/earth-observatory/how-to-interpret-a-satellite-image/" class="uri">https://science.nasa.gov/earth/earth-observatory/how-to-interpret-a-satellite-image/</a>.</li>
-<li>USGS 3D Elevation Program (3DEP), elevation rasters for the whole country at several resolutions: <a href="https://www.usgs.gov/3d-elevation-program" class="uri">https://www.usgs.gov/3d-elevation-program</a>.</li>
+<li>USGS <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-3d-elevation-program-3dep" data-term="3D Elevation Program (3DEP)">3D Elevation Program</span> (3DEP), elevation rasters for the whole country at several resolutions: <a href="https://www.usgs.gov/3d-elevation-program" class="uri">https://www.usgs.gov/3d-elevation-program</a>.</li>
 <li>Multi-Resolution Land Characteristics Consortium, the National Land Cover <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-database" data-term="database">Database</span> (NLCD), a 30-meter land cover raster of the United States: <a href="https://www.mrlc.gov" class="uri">https://www.mrlc.gov</a>.</li>
 </ul>
 </section>
@@ -1264,6 +1270,8 @@ database management system.</span>
 <span id="gloss-tin">Triangulated irregular network: a surface model that joins sampled
 elevation points into triangles, using more triangles where the ground
 is rough.</span>
+<span id="gloss-contour-line">A line on a map joining points of equal elevation. Lines close together
+mean a steep slope.</span>
 <span id="gloss-annotation">Text placed on a map, such as place names, street names, and labels.</span>
 <span id="gloss-latitude">The angle north or south of the equator, from 0° at the equator to 90°
 at the poles.</span>
@@ -1332,6 +1340,8 @@ and writes hundreds of raster and vector formats. QGIS, ArcGIS Pro, and
 many other programs use it.</span>
 <span id="gloss-open-source">Software whose source code anyone may read, change, and share, often
 free of charge. QGIS and GRASS GIS are open source.</span>
+<span id="gloss-3d-elevation-program-3dep">The USGS program that collects lidar and publishes free elevation data
+and DEMs for the whole United States.</span>
 <span id="gloss-openstreetmap">A free, editable map of the world built by volunteers, founded in 2004.</span>
 </div>
 </section>

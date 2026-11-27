@@ -1,0 +1,689 @@
+{
+  "id": "digital-elevation-models",
+  "title": "Digital Elevation Models",
+  "perSession": 10,
+  "minR": 0,
+  "questions": [
+    {
+      "id": "pictorial-relief",
+      "type": "choice",
+      "prompt": "Collet's 1770 map of North Carolina shows mountains as:",
+      "choices": [
+        "Pictures of hills, with no heights",
+        "Contour lines",
+        "Shaded relief",
+        "A grid of elevations"
+      ],
+      "answer": 0,
+      "explain": "Pictorial relief shows where hills are, but not how high."
+    },
+    {
+      "id": "hutton",
+      "type": "choice",
+      "prompt": "Who joined points of equal height with lines to summarize the Schiehallion survey?",
+      "choices": [
+        "Charles Hutton",
+        "John Collet",
+        "Nevil Maskelyne",
+        "Berthold Horn"
+      ],
+      "answer": 0,
+      "explain": "Hutton's lines, published in 1778, became contour lines."
+    },
+    {
+      "id": "schiehallion-why",
+      "type": "choice",
+      "prompt": "The 1774 Schiehallion survey was made to:",
+      "choices": [
+        "Estimate the density of the Earth",
+        "Plan a road",
+        "Map the Scottish coast",
+        "Test lidar"
+      ],
+      "answer": 0,
+      "explain": "Maskelyne measured how the mountain's mass pulled a plumb line sideways."
+    },
+    {
+      "id": "contour-close",
+      "type": "choice",
+      "prompt": "On a topographic map, contour lines very close together mean:",
+      "choices": [
+        "A steep slope",
+        "Flat ground",
+        "A river",
+        "An index contour"
+      ],
+      "answer": 0,
+      "explain": "Elevation changes quickly over a short distance."
+    },
+    {
+      "id": "index-contour",
+      "type": "choice",
+      "prompt": "A thicker, labeled contour line every fourth or fifth line is:",
+      "choices": [
+        "An index contour",
+        "A breakline",
+        "A contour interval",
+        "A vertical datum"
+      ],
+      "answer": 0,
+      "explain": "Index contours carry the elevation labels."
+    },
+    {
+      "id": "contour-v",
+      "type": "choice",
+      "prompt": "Where a contour line crosses a stream valley, it bends into a V that points:",
+      "choices": [
+        "Uphill",
+        "Downhill",
+        "North",
+        "Toward the index contour"
+      ],
+      "answer": 0,
+      "explain": "Contours bend upstream."
+    },
+    {
+      "id": "dem-def",
+      "type": "choice",
+      "prompt": "A digital elevation model is:",
+      "choices": [
+        "A raster in which each cell holds one elevation",
+        "A set of contour lines",
+        "A point cloud",
+        "A topographic map scan"
+      ],
+      "answer": 0,
+      "explain": "A grid of elevations, usually in meters above a vertical datum."
+    },
+    {
+      "id": "vertical-datum",
+      "type": "choice",
+      "prompt": "U.S. DEMs usually give elevations relative to:",
+      "choices": [
+        "NAVD 88, a vertical datum",
+        "WGS84 latitude",
+        "The cell size",
+        "The highest point in the DEM"
+      ],
+      "answer": 0,
+      "explain": "NAVD 88 is close to mean sea level."
+    },
+    {
+      "id": "first-global",
+      "type": "choice",
+      "prompt": "The first global DEM, released by the USGS in 1996 with cells about 1 km across, was:",
+      "choices": [
+        "GTOPO30",
+        "SRTM",
+        "Copernicus GLO-30",
+        "3DEP"
+      ],
+      "answer": 0,
+      "explain": "GTOPO30: 30 arc-seconds, about 1 km."
+    },
+    {
+      "id": "srtm",
+      "type": "choice",
+      "prompt": "The Shuttle Radar Topography Mission (2000) mapped elevation with:",
+      "choices": [
+        "Radar",
+        "Lidar",
+        "Stereo air photos",
+        "Field surveys"
+      ],
+      "answer": 0,
+      "explain": "Two radar antennas, one on a 60 m mast."
+    },
+    {
+      "id": "lidar-def",
+      "type": "choice",
+      "prompt": "Lidar measures distance by:",
+      "choices": [
+        "Timing laser pulses",
+        "Measuring radar wavelengths",
+        "Comparing stereo photos",
+        "Weighing plumb lines"
+      ],
+      "answer": 0,
+      "explain": "Light detection and ranging."
+    },
+    {
+      "id": "first-return",
+      "type": "choice",
+      "prompt": "A lidar first return over a forest usually comes from:",
+      "choices": [
+        "The tops of the trees",
+        "The bare ground",
+        "The water table",
+        "The aircraft"
+      ],
+      "answer": 0,
+      "explain": "First returns build a DSM."
+    },
+    {
+      "id": "forest-ground",
+      "type": "choice",
+      "prompt": "Why can lidar map the ground under a forest when air photos can't?",
+      "choices": [
+        "Some pulses pass through gaps in the canopy to the ground",
+        "Lasers pass through leaves",
+        "Lidar flies below the trees",
+        "Radar sees through trees"
+      ],
+      "answer": 0,
+      "explain": "Those ground returns build the bare-earth DEM."
+    },
+    {
+      "id": "dsm",
+      "type": "choice",
+      "prompt": "A surface that includes roofs, tree canopies, and power lines is a:",
+      "choices": [
+        "DSM",
+        "DTM",
+        "Bare-earth DEM",
+        "Contour map"
+      ],
+      "answer": 0,
+      "explain": "Digital surface model: the first surface hit."
+    },
+    {
+      "id": "dtm",
+      "type": "choice",
+      "prompt": "A bare-earth model with ridge lines and stream lines added as breaklines is a:",
+      "choices": [
+        "DTM",
+        "DSM",
+        "Point cloud",
+        "Hillshade"
+      ],
+      "answer": 0,
+      "explain": "Digital terrain model."
+    },
+    {
+      "id": "flood-surface",
+      "type": "choice",
+      "prompt": "To model where floodwater will flow, use:",
+      "choices": [
+        "A bare-earth DEM or DTM",
+        "A DSM",
+        "A hillshade",
+        "An aspect map"
+      ],
+      "answer": 0,
+      "explain": "Water runs over the ground, not the treetops."
+    },
+    {
+      "id": "cell-tower-surface",
+      "type": "choice",
+      "prompt": "To check whether buildings block a cell tower's signal, use:",
+      "choices": [
+        "A DSM",
+        "A bare-earth DEM",
+        "A DTM",
+        "A slope map"
+      ],
+      "answer": 0,
+      "explain": "Signals are blocked by whatever is on the surface."
+    },
+    {
+      "id": "tnm",
+      "type": "choice",
+      "prompt": "Free DEMs for the whole United States are downloaded from:",
+      "choices": [
+        "The National Map Downloader (USGS 3DEP)",
+        "Google Maps",
+        "OpenStreetMap",
+        "The Census Bureau"
+      ],
+      "answer": 0,
+      "explain": "apps.nationalmap.gov/downloader."
+    },
+    {
+      "id": "arcsec",
+      "type": "choice",
+      "prompt": "The 1/3 arc-second DEM has cells about how wide?",
+      "choices": [
+        "10 m",
+        "30 m",
+        "3 m",
+        "1 km"
+      ],
+      "answer": 0,
+      "explain": "1 arc-second ≈ 30 m, so 1/3 ≈ 10 m."
+    },
+    {
+      "id": "cells-30-10",
+      "type": "fill",
+      "prompt": "You switch from a 30 m DEM to a 10 m DEM of the same area. About how many times as many cells does it have?",
+      "answers": [
+        "9"
+      ],
+      "explain": "3 × 3 = 9.",
+      "numeric": true,
+      "tolerance": 0
+    },
+    {
+      "id": "global-dem",
+      "type": "choice",
+      "prompt": "For a project in Peru, which free DEM is generally the best place to start?",
+      "choices": [
+        "Copernicus GLO-30",
+        "USGS 3DEP 1 m",
+        "GTOPO30",
+        "NLCD"
+      ],
+      "answer": 0,
+      "explain": "It has fewer voids than SRTM or ASTER GDEM. Note that it is a DSM."
+    },
+    {
+      "id": "sink",
+      "type": "choice",
+      "prompt": "A cell lower than all its neighbors, which traps modeled water, is a:",
+      "choices": [
+        "Sink",
+        "Void",
+        "Breakline",
+        "Peak"
+      ],
+      "answer": 0,
+      "explain": "Remove sinks with the Fill tool before hydrology."
+    },
+    {
+      "id": "void",
+      "type": "choice",
+      "prompt": "NoData holes in a radar DEM over steep mountains are:",
+      "choices": [
+        "Voids",
+        "Sinks",
+        "Index contours",
+        "Breaklines"
+      ],
+      "answer": 0,
+      "explain": "Fill them from another source before analysis."
+    },
+    {
+      "id": "units",
+      "type": "choice",
+      "prompt": "A slope map from a DEM in latitude and longitude shows almost every cell near 90°. The most likely cause is:",
+      "choices": [
+        "x and y are in degrees but z is in meters",
+        "The DEM has sinks",
+        "Horn's method was used",
+        "The sun azimuth is wrong"
+      ],
+      "answer": 0,
+      "explain": "Project the DEM to meters, or set a z-factor."
+    },
+    {
+      "id": "z-factor",
+      "type": "choice",
+      "prompt": "A z-factor:",
+      "choices": [
+        "Converts z values to the units of x and y",
+        "Sets the vertical exaggeration of a map",
+        "Counts the cells in a DEM",
+        "Fills sinks"
+      ],
+      "answer": 0,
+      "explain": "Or project the DEM first."
+    },
+    {
+      "id": "pct-45",
+      "type": "fill",
+      "prompt": "A slope of 45° is how many percent?",
+      "answers": [
+        "100"
+      ],
+      "explain": "Rise equals run, so 1 × 100.",
+      "numeric": true,
+      "tolerance": 0
+    },
+    {
+      "id": "percent-def",
+      "type": "choice",
+      "prompt": "Percent slope is:",
+      "choices": [
+        "Rise ÷ run × 100",
+        "The angle in degrees",
+        "Rise × run",
+        "Run ÷ rise × 100"
+      ],
+      "answer": 0,
+      "explain": "It can be more than 100."
+    },
+    {
+      "id": "deg-max",
+      "type": "truefalse",
+      "prompt": "Slope in degrees can be more than 90.",
+      "answer": false,
+      "explain": "Degrees run from 0 to 90; percent has no upper limit."
+    },
+    {
+      "id": "horn",
+      "type": "choice",
+      "prompt": "The method ArcGIS Pro's Slope tool uses, with all eight neighbors and double weight on the direct neighbors, is:",
+      "choices": [
+        "Horn's method",
+        "Fleming and Hoffer's method",
+        "Kriging",
+        "Inverse distance weighting"
+      ],
+      "answer": 0,
+      "explain": "Horn (1981)."
+    },
+    {
+      "id": "fh",
+      "type": "choice",
+      "prompt": "Fleming and Hoffer's method estimates slope from:",
+      "choices": [
+        "The four direct neighbors",
+        "All eight neighbors",
+        "The whole DEM",
+        "Contour lines"
+      ],
+      "answer": 0,
+      "explain": "Left and right, up and down."
+    },
+    {
+      "id": "fh-ew",
+      "type": "fill",
+      "prompt": "With 50 m cells, the left neighbor is 95 and the right neighbor is 50. What is (right − left) ÷ 2D?",
+      "answers": [
+        "-0.45"
+      ],
+      "explain": "(50 − 95) ÷ 100 = −0.45.",
+      "numeric": true,
+      "tolerance": 0.001
+    },
+    {
+      "id": "method-matters",
+      "type": "choice",
+      "prompt": "The same 3 × 3 window gives 27.2° by Fleming and Hoffer and 20.5° by Horn. What does this show?",
+      "choices": [
+        "The method is part of the result",
+        "One of them is wrong",
+        "The DEM has an error",
+        "Slope can't be measured"
+      ],
+      "answer": 0,
+      "explain": "Horn averages more cells and is less sensitive to noise."
+    },
+    {
+      "id": "neighborhood",
+      "type": "choice",
+      "prompt": "Slope, aspect, and hillshade are which kind of raster function?",
+      "choices": [
+        "Neighborhood",
+        "Local",
+        "Zonal",
+        "Global"
+      ],
+      "answer": 0,
+      "explain": "Each uses a 3 × 3 window."
+    },
+    {
+      "id": "hs-range",
+      "type": "choice",
+      "prompt": "ArcGIS Pro's Hillshade tool outputs values from:",
+      "choices": [
+        "0 (shadow) to 255 (full sun)",
+        "0 to 90 degrees",
+        "0 to 360 degrees",
+        "−1 to 1"
+      ],
+      "answer": 0,
+      "explain": "An 8-bit range."
+    },
+    {
+      "id": "hs-az",
+      "type": "fill",
+      "prompt": "What is the default sun azimuth for a hillshade, in degrees?",
+      "answers": [
+        "315"
+      ],
+      "explain": "The northwest.",
+      "numeric": true,
+      "tolerance": 0
+    },
+    {
+      "id": "hs-alt",
+      "type": "choice",
+      "prompt": "The sun's altitude is:",
+      "choices": [
+        "Its angle above the horizon",
+        "Its compass direction",
+        "The elevation of the DEM",
+        "Its distance from Earth"
+      ],
+      "answer": 0,
+      "explain": "The default is 45°."
+    },
+    {
+      "id": "relief-inversion",
+      "type": "choice",
+      "prompt": "A hillshade lit from the southeast makes many readers see valleys as ridges. This is:",
+      "choices": [
+        "Relief inversion",
+        "A sink",
+        "A void",
+        "Vertical exaggeration"
+      ],
+      "answer": 0,
+      "explain": "Cartographers light from the upper left to avoid it."
+    },
+    {
+      "id": "hs-inputs",
+      "type": "choice",
+      "prompt": "Which four angles determine a cell's brightness in a hillshade?",
+      "choices": [
+        "Sun azimuth, sun altitude, cell slope, and cell aspect",
+        "Latitude, longitude, elevation, and time",
+        "Cell size, extent, slope, and NoData",
+        "Red, green, blue, and near-infrared"
+      ],
+      "answer": 0,
+      "explain": "The relative radiance equation."
+    },
+    {
+      "id": "shaded-relief",
+      "type": "choice",
+      "prompt": "Putting a semi-transparent color DEM over a hillshade:",
+      "choices": [
+        "Shows both height (color) and shape (shading)",
+        "Measures slope",
+        "Fills sinks",
+        "Removes trees"
+      ],
+      "answer": 0,
+      "explain": "This is shaded relief, used on most basemaps."
+    },
+    {
+      "id": "aspect-def",
+      "type": "choice",
+      "prompt": "Aspect is:",
+      "choices": [
+        "The compass direction a slope faces",
+        "How steep a slope is",
+        "The sun's direction",
+        "The height of a cell"
+      ],
+      "answer": 0,
+      "explain": "Measured clockwise from north."
+    },
+    {
+      "id": "aspect-180",
+      "type": "choice",
+      "prompt": "A cell with an aspect of 180° faces:",
+      "choices": [
+        "South",
+        "North",
+        "East",
+        "West"
+      ],
+      "answer": 0,
+      "explain": "0 north, 90 east, 180 south, 270 west."
+    },
+    {
+      "id": "aspect-90",
+      "type": "choice",
+      "prompt": "A cell with an aspect of 90° faces:",
+      "choices": [
+        "East",
+        "North",
+        "South",
+        "West"
+      ],
+      "answer": 0,
+      "explain": "Measured clockwise from north."
+    },
+    {
+      "id": "aspect-flat",
+      "type": "choice",
+      "prompt": "In ArcGIS Pro, flat cells get an aspect of:",
+      "choices": [
+        "−1",
+        "0",
+        "360",
+        "NoData"
+      ],
+      "answer": 0,
+      "explain": "Flat cells have no downslope direction."
+    },
+    {
+      "id": "aspect-sunny",
+      "type": "choice",
+      "prompt": "In North Carolina, which slopes get the most sun?",
+      "choices": [
+        "South-facing",
+        "North-facing",
+        "East-facing",
+        "Flat"
+      ],
+      "answer": 0,
+      "explain": "In the Northern Hemisphere the sun is to the south."
+    },
+    {
+      "id": "aspect-legend",
+      "type": "choice",
+      "prompt": "Why should an aspect map label each direction in its legend?",
+      "choices": [
+        "The meaning is carried only by color, which not every reader can tell apart",
+        "Labels make the map load faster",
+        "ArcGIS Pro requires it",
+        "It changes the analysis"
+      ],
+      "answer": 0,
+      "explain": "So the map works for readers with color vision deficiency."
+    },
+    {
+      "id": "los-def",
+      "type": "choice",
+      "prompt": "A line-of-sight test asks:",
+      "choices": [
+        "Whether one target is visible from one observer",
+        "Which areas a tower can see",
+        "How steep a slope is",
+        "Which way a slope faces"
+      ],
+      "answer": 0,
+      "explain": "Viewshed repeats it for every cell."
+    },
+    {
+      "id": "los-block",
+      "type": "truefalse",
+      "prompt": "In a line-of-sight test, if a point between the observer and the target has a higher elevation angle than the target, the target is not visible.",
+      "answer": true,
+      "explain": "That point blocks the view."
+    },
+    {
+      "id": "los-angle",
+      "type": "fill",
+      "prompt": "An observer at 50 m looks at a target 100 m away at 20 m. What is the target's elevation angle, in degrees, to one decimal?",
+      "answers": [
+        "-16.7"
+      ],
+      "explain": "arctan(−30 ÷ 100) = −16.7°.",
+      "numeric": true,
+      "tolerance": 0.05
+    },
+    {
+      "id": "viewshed-def",
+      "type": "choice",
+      "prompt": "A viewshed is:",
+      "choices": [
+        "The area visible from one or more observer points",
+        "A line between two points",
+        "The steepest cells",
+        "A watershed boundary"
+      ],
+      "answer": 0,
+      "explain": "Line of sight to every cell."
+    },
+    {
+      "id": "observer-height",
+      "type": "choice",
+      "prompt": "In ArcGIS Pro, an observer's height above the ground for a viewshed is set in the field:",
+      "choices": [
+        "OFFSETA",
+        "AZIMUTH1",
+        "Z_FACTOR",
+        "SLOPE"
+      ],
+      "answer": 0,
+      "explain": "For example 1.7 m for a person, or 30 m for a tower."
+    },
+    {
+      "id": "viewshed-dem",
+      "type": "choice",
+      "prompt": "A viewshed run on a bare-earth DEM shows what you could see:",
+      "choices": [
+        "With no trees or buildings in the way",
+        "Through walls",
+        "At night",
+        "Only to the north"
+      ],
+      "answer": 0,
+      "explain": "Use a DSM when obstructions matter."
+    },
+    {
+      "id": "curvature",
+      "type": "choice",
+      "prompt": "Over long distances, viewshed tools can correct for:",
+      "choices": [
+        "Earth's curvature and atmospheric refraction",
+        "Map projection",
+        "Sinks",
+        "Cell size"
+      ],
+      "answer": 0,
+      "explain": "The Earth curves away by about 7 m at 10 km."
+    },
+    {
+      "id": "order-history",
+      "type": "order",
+      "prompt": "Put these ways of showing elevation in the order they appeared.",
+      "answer": [
+        "Pictorial hill symbols",
+        "Contour lines",
+        "USGS topographic maps",
+        "Digital elevation models"
+      ],
+      "extra": [
+        "Hillshaded basemaps on phones"
+      ],
+      "explain": "1770 Collet, 1774 Hutton, USGS from 1879, DEMs from the late 1950s."
+    },
+    {
+      "id": "order-workflow",
+      "type": "order",
+      "prompt": "Put the steps of preparing a DEM for slope analysis in order.",
+      "answer": [
+        "Download tiles from The National Map",
+        "Mosaic the tiles",
+        "Project the DEM to meters",
+        "Run Slope"
+      ],
+      "explain": "Project before Slope so x, y, and z share units."
+    }
+  ]
+}

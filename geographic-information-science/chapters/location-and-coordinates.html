@@ -301,32 +301,38 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../chapters/digital-elevation-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Digital Elevation Models</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../chapters/interpolation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Spatial Interpolation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Spatial Interpolation</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/kriging.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Kriging</span></span></a>
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Kriging</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/suitability-modeling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Suitability Modeling</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Suitability Modeling</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/risk-analysis.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Risk Analysis</span></span></a>
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Risk Analysis</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/uncertainty.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Uncertainty in Geospatial Data</span></span></a>
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Uncertainty in Geospatial Data</span></span></a>
   </div>
 </li>
       </ul>
@@ -340,13 +346,13 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/qgis.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Getting to Know QGIS</span></span></a>
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Getting to Know QGIS</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/arcgis-pro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Getting to Know ArcGIS Pro</span></span></a>
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Getting to Know ArcGIS Pro</span></span></a>
   </div>
 </li>
       </ul>
@@ -360,7 +366,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/whats-next.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">What’s Next in GIS</span></span></a>
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">What’s Next in GIS</span></span></a>
   </div>
 </li>
       </ul>
@@ -616,7 +622,7 @@ Table&nbsp;3.1: Three common ellipsoids. GRS 80 and <span class="glossary-term" 
 <h3 data-number="3.2.3" class="anchored" data-anchor-id="the-geoid"><span class="header-section-number">3.2.3</span> The geoid</h3>
 <p>An ellipsoid is smooth and mathematical. The real Earth isn’t. Mountains, ocean trenches, and dense rock deep inside the planet make gravity a little stronger in some places and weaker in others, and water flows “downhill” toward the stronger pull.</p>
 <p>Imagine the oceans perfectly still, with no tides, winds, or currents, and extended in canals under the continents. Their surface would settle along a surface of equal gravity. That surface is the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geoid" data-term="geoid">geoid</span></strong>, and it is the best match to global <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-mean-sea-level" data-term="mean sea level">mean sea level</span></strong>. Because mass inside the Earth is unevenly spread, the geoid is lumpy: relative to the WGS 84 ellipsoid, it sits as much as about 106 m below, in the Indian Ocean south of India, and about 85 m above, near New Guinea.</p>
-<p>The geoid matters because it is what <em>elevation</em> is measured from. When a topographic map says a summit is 2,037 m above sea level, that height is measured from the geoid. Geodesists publish geoid models that give the geoid’s height everywhere: <strong>EGM2008</strong> for the whole world, and <strong>GEOID18</strong> for the United States.</p>
+<p>The geoid matters because it is what <em>elevation</em> is measured from. When a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-topographic-map" data-term="topographic map">topographic map</span> says a summit is 2,037 m above sea level, that height is measured from the geoid. Geodesists publish geoid models that give the geoid’s height everywhere: <strong>EGM2008</strong> for the whole world, and <strong>GEOID18</strong> for the United States.</p>
 </section>
 <section id="three-heights" class="level3" data-number="3.2.4">
 <h3 data-number="3.2.4" class="anchored" data-anchor-id="three-heights"><span class="header-section-number">3.2.4</span> Three heights</h3>
@@ -1210,6 +1216,8 @@ about 6,357 km.</span>
 <em>a</em>. For the Earth, about 1/298.</span>
 <span id="gloss-mean-sea-level">The average height of the sea surface over many years, which the geoid
 approximates.</span>
+<span id="gloss-topographic-map">A map that shows the shape of the land with contour lines, along with
+streams, roads, and place names, such as a USGS 1:24,000 quadrangle.</span>
 <span id="gloss-control-point">A point on the ground, often marked with a bronze disk, whose
 coordinates have been measured precisely. Control points tie a datum to
 the Earth.</span>
