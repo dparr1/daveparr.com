@@ -1,0 +1,1939 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>19&nbsp; What’s Next in GIS – Geographic Information Science</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../glossary.html" rel="next">
+<link href="../chapters/arcgis-pro.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ebb58cfc2c0cc903b00b246007c1be77.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-58aeb932f9769ef5b136914697361c15.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-contrib/glossary-1.0.0/glossary.js"></script>
+<link href="../site_libs/quarto-contrib/glossary-1.0.0/glossary.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<!--
+  Reading settings, part 1 of 2: applies the reader's saved font and text size
+  before the page draws, so it doesn't flash in the default font first.
+  The menu itself is in assets/reader-settings.html; styles are in
+  assets/reader-settings.css.
+-->
+<script>
+  (function () {
+    try {
+      var font = localStorage.getItem("sds-reader-font");
+      var size = localStorage.getItem("sds-reader-size");
+      if (font) document.documentElement.setAttribute("data-reader-font", font);
+      // Lexend and Cardo come from Google Fonts, loaded only for readers who pick them.
+      var webFonts = {
+        lexend: "https://fonts.googleapis.com/css2?family=Lexend:wght@300..700&display=swap",
+        cardo: "https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&display=swap"
+      };
+      if (webFonts[font]) {
+        var link = document.createElement("link");
+        link.rel = "stylesheet"; link.href = webFonts[font]; link.id = "sds-reader-webfont-" + font;
+        document.head.appendChild(link);
+      }
+      if (size) document.documentElement.setAttribute("data-reader-size", size);
+    } catch (e) { /* storage blocked: keep the defaults */ }
+  })();
+</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../include/webex.css">
+<link rel="stylesheet" href="../assets/sidebar.css">
+<link rel="stylesheet" href="../assets/grade-table.css">
+<link rel="stylesheet" href="../assets/reader-settings.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/whats-next.html">Looking Ahead</a></li><li class="breadcrumb-item"><a href="../chapters/whats-next.html"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">What’s Next in GIS</span></a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Site">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Geographic Information Science</a> 
+        <div class="sidebar-tools-main">
+    <a href="../Geographic-Information-Science.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../units/unit-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-1-label">Unit 1: Data Models and Projections</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section: Unit 1: Data Models and Projections">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/what-is-gis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">What Is GIS?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/what-is-geographic-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">What Is Geographic Data?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/location-and-coordinates.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Location and Coordinate Systems</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/map-projections.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Map Projections</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/attribute-queries.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Attribute Data and Queries</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/database-joins.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Databases and Table Joins</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/spatial-joins.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Spatial Joins</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../units/unit-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-2-label">Unit 2: Spatial Data Quality</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section: Unit 2: Spatial Data Quality">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/census-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Census Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/geocoding-georeferencing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Geocoding and Georeferencing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/osm-data-quality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">OpenStreetMap and Data Quality</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../units/unit-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Unit 3: Spatial Analysis</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section: Unit 3: Spatial Analysis">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/data-classing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Data Classing and Choropleth Maps</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/density.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Density and Neighborhoods</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/spatial-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Spatial Analysis: Selection, Buffers, and Overlay</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/raster.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Raster Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/interpolation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Spatial Interpolation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/kriging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Kriging</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-4-label">GIS Software</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/qgis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Getting to Know QGIS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/arcgis-pro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Getting to Know ArcGIS Pro</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-controls="quarto-sidebar-section-5" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-5-label">Looking Ahead</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-5" aria-labelledby="quarto-sidebar-section-5-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/whats-next.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">What’s Next in GIS</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-controls="quarto-sidebar-section-6" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-6-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-6" aria-labelledby="quarto-sidebar-section-6-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Glossary</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../about.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About the author</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-gis-in-action" id="toc-sec-gis-in-action" class="nav-link active" data-scroll-target="#sec-gis-in-action"><span class="header-section-number">19.1</span> GIS in action</a>
+  <ul class="collapse">
+  <li><a href="#public-health" id="toc-public-health" class="nav-link" data-scroll-target="#public-health"><span class="header-section-number">19.1.1</span> Public health</a></li>
+  <li><a href="#environment-and-hazards" id="toc-environment-and-hazards" class="nav-link" data-scroll-target="#environment-and-hazards"><span class="header-section-number">19.1.2</span> Environment and hazards</a></li>
+  <li><a href="#sec-local-government" id="toc-sec-local-government" class="nav-link" data-scroll-target="#sec-local-government"><span class="header-section-number">19.1.3</span> Local government</a></li>
+  <li><a href="#humanitarian-and-social-justice-work" id="toc-humanitarian-and-social-justice-work" class="nav-link" data-scroll-target="#humanitarian-and-social-justice-work"><span class="header-section-number">19.1.4</span> Humanitarian and social justice work</a></li>
+  </ul></li>
+  <li><a href="#sec-advanced" id="toc-sec-advanced" class="nav-link" data-scroll-target="#sec-advanced"><span class="header-section-number">19.2</span> Advanced topics in GIS</a>
+  <ul class="collapse">
+  <li><a href="#remote-sensing-and-earth-observation" id="toc-remote-sensing-and-earth-observation" class="nav-link" data-scroll-target="#remote-sensing-and-earth-observation"><span class="header-section-number">19.2.1</span> Remote sensing and Earth observation</a></li>
+  <li><a href="#spatial-statistics-beyond-the-basics" id="toc-spatial-statistics-beyond-the-basics" class="nav-link" data-scroll-target="#spatial-statistics-beyond-the-basics"><span class="header-section-number">19.2.2</span> Spatial statistics beyond the basics</a></li>
+  <li><a href="#big-data-the-cloud-and-cybergis" id="toc-big-data-the-cloud-and-cybergis" class="nav-link" data-scroll-target="#big-data-the-cloud-and-cybergis"><span class="header-section-number">19.2.3</span> Big data, the cloud, and CyberGIS</a></li>
+  <li><a href="#geoai" id="toc-geoai" class="nav-link" data-scroll-target="#geoai"><span class="header-section-number">19.2.4</span> GeoAI</a></li>
+  <li><a href="#web-gis-interactive-maps-and-3d" id="toc-web-gis-interactive-maps-and-3d" class="nav-link" data-scroll-target="#web-gis-interactive-maps-and-3d"><span class="header-section-number">19.2.5</span> Web GIS, interactive maps, and 3D</a></li>
+  <li><a href="#gis-programming-and-automation" id="toc-gis-programming-and-automation" class="nav-link" data-scroll-target="#gis-programming-and-automation"><span class="header-section-number">19.2.6</span> GIS programming and automation</a></li>
+  <li><a href="#critical-gis-and-ethics" id="toc-critical-gis-and-ethics" class="nav-link" data-scroll-target="#critical-gis-and-ethics"><span class="header-section-number">19.2.7</span> Critical GIS and ethics</a></li>
+  </ul></li>
+  <li><a href="#sec-research" id="toc-sec-research" class="nav-link" data-scroll-target="#sec-research"><span class="header-section-number">19.3</span> Reading and doing GIS research</a>
+  <ul class="collapse">
+  <li><a href="#where-to-find-gis-research" id="toc-where-to-find-gis-research" class="nav-link" data-scroll-target="#where-to-find-gis-research"><span class="header-section-number">19.3.1</span> Where to find GIS research</a></li>
+  <li><a href="#research-at-unc" id="toc-research-at-unc" class="nav-link" data-scroll-target="#research-at-unc"><span class="header-section-number">19.3.2</span> Research at UNC</a></li>
+  </ul></li>
+  <li><a href="#sec-unc" id="toc-sec-unc" class="nav-link" data-scroll-target="#sec-unc"><span class="header-section-number">19.4</span> Keep learning at UNC</a>
+  <ul class="collapse">
+  <li><a href="#a-path-through-unc-gis-courses" id="toc-a-path-through-unc-gis-courses" class="nav-link" data-scroll-target="#a-path-through-unc-gis-courses"><span class="header-section-number">19.4.1</span> A path through UNC GIS courses</a></li>
+  <li><a href="#geography-courses-by-interest" id="toc-geography-courses-by-interest" class="nav-link" data-scroll-target="#geography-courses-by-interest"><span class="header-section-number">19.4.2</span> Geography courses by interest</a></li>
+  <li><a href="#gis-courses-beyond-geography" id="toc-gis-courses-beyond-geography" class="nav-link" data-scroll-target="#gis-courses-beyond-geography"><span class="header-section-number">19.4.3</span> GIS courses beyond Geography</a></li>
+  <li><a href="#turn-your-interest-into-a-credential" id="toc-turn-your-interest-into-a-credential" class="nav-link" data-scroll-target="#turn-your-interest-into-a-credential"><span class="header-section-number">19.4.4</span> Turn your interest into a credential</a></li>
+  </ul></li>
+  <li><a href="#sec-get-involved" id="toc-sec-get-involved" class="nav-link" data-scroll-target="#sec-get-involved"><span class="header-section-number">19.5</span> Get involved at UNC</a>
+  <ul class="collapse">
+  <li><a href="#gis-conferences-in-north-carolina" id="toc-gis-conferences-in-north-carolina" class="nav-link" data-scroll-target="#gis-conferences-in-north-carolina"><span class="header-section-number">19.5.1</span> GIS conferences in North Carolina</a></li>
+  </ul></li>
+  <li><a href="#sec-careers" id="toc-sec-careers" class="nav-link" data-scroll-target="#sec-careers"><span class="header-section-number">19.6</span> Careers and your portfolio</a>
+  <ul class="collapse">
+  <li><a href="#skills-employers-look-for" id="toc-skills-employers-look-for" class="nav-link" data-scroll-target="#skills-employers-look-for"><span class="header-section-number">19.6.1</span> Skills employers look for</a></li>
+  <li><a href="#start-building-your-portfolio-now" id="toc-start-building-your-portfolio-now" class="nav-link" data-scroll-target="#start-building-your-portfolio-now"><span class="header-section-number">19.6.2</span> Start building your portfolio now</a></li>
+  </ul></li>
+  <li><a href="#check-your-understanding" id="toc-check-your-understanding" class="nav-link" data-scroll-target="#check-your-understanding"><span class="header-section-number">19.7</span> Check your understanding</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">19.8</span> Summary</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">19.9</span> Exercises</a></li>
+  <li><a href="#further-reading-and-online-resources" id="toc-further-reading-and-online-resources" class="nav-link" data-scroll-target="#further-reading-and-online-resources"><span class="header-section-number">19.10</span> Further reading and online resources</a>
+  <ul class="collapse">
+  <li><a href="#papers-and-books" id="toc-papers-and-books" class="nav-link" data-scroll-target="#papers-and-books"><span class="header-section-number">19.10.1</span> Papers and books</a></li>
+  <li><a href="#online-resources" id="toc-online-resources" class="nav-link" data-scroll-target="#online-resources"><span class="header-section-number">19.10.2</span> Online resources</a></li>
+  <li><a href="#at-unc" id="toc-at-unc" class="nav-link" data-scroll-target="#at-unc"><span class="header-section-number">19.10.3</span> At UNC</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/whats-next.html">Looking Ahead</a></li><li class="breadcrumb-item"><a href="../chapters/whats-next.html"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">What’s Next in GIS</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">What’s Next in GIS</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Learning objectives
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>By the end of this chapter you should be able to:</p>
+<ol type="1">
+<li>Name applications of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> in public health, the environment, local government, and humanitarian work, and the methods from this book that each one uses.</li>
+<li>Describe advanced GIS topics: <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-remote-sensing" data-term="remote sensing">remote sensing</span>, spatial statistics, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-big-data" data-term="Big Data">big data</span> and the cloud, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geoai" data-term="GeoAI">GeoAI</span>, web and 3D GIS, programming, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-critical-gis" data-term="critical GIS">critical GIS</span>.</li>
+<li>Find and read GIS research, and name ways to get involved in research at UNC.</li>
+<li>Plan your next GIS courses at UNC, and the GIS minor or the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-data" data-term="spatial data">Geospatial Data</span> Science major.</li>
+<li>Name UNC clubs, events, and campus resources for GIS, North Carolina GIS conferences such as the NC GIS Conference and NCAUG, and ways to start building a portfolio.</li>
+</ol>
+</div>
+</div>
+<p>This chapter looks forward instead of teaching a new method. Look at what you can already do:</p>
+<ul>
+<li><strong>Model the world as data:</strong> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-vector" data-term="vector">vector</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">raster</span> models, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">coordinate systems</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geodetic-datum" data-term="geodetic datum">datums</span>, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-map-projection" data-term="map projection">map projections</span> (Chapters 1–4).</li>
+<li><strong>Query and combine it:</strong> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-attribute" data-term="attribute">attribute</span> queries, table joins, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-join" data-term="spatial join">spatial joins</span> (Chapters 5–7).</li>
+<li><strong>Judge its quality:</strong> census data and its <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-margin-of-error-moe" data-term="margin of error (MOE)">margins of error</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geocoding" data-term="geocoding">geocoding</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-georeferencing" data-term="georeferencing">georeferencing</span>, and volunteered data from <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-openstreetmap" data-term="OpenStreetMap">OpenStreetMap</span> (Chapters 8–10).</li>
+<li><strong>Analyze and map it:</strong> data classing, density, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-buffer" data-term="buffer">buffers</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-overlay-analysis" data-term="overlay analysis">overlay</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-map-algebra" data-term="map algebra">map algebra</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-interpolation" data-term="spatial interpolation">interpolation</span>, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-kriging" data-term="kriging">kriging</span> (Chapters 11–16).</li>
+<li><strong>Do all of it in real software:</strong> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span> (Chapters 17 and 18).</li>
+</ul>
+<p>That is the core of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-science-giscience" data-term="geographic information science (GIScience)">geographic information science</span>. This chapter shows where it is used, previews advanced topics that build on it, points you to the research behind them, and maps out what to take and join next at UNC. As you read, notice which topic excites you most. That is a good clue to which course to take next.</p>
+<section id="sec-gis-in-action" class="level2" data-number="19.1">
+<h2 data-number="19.1" class="anchored" data-anchor-id="sec-gis-in-action"><span class="header-section-number">19.1</span> GIS in action</h2>
+<p>Almost any question that involves “where” is a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-gis-question" data-term="GIS question">GIS question</span>. The questions change by field, but the methods are shared. For each example below, notice which methods from this book show up.</p>
+<section id="public-health" class="level3" data-number="19.1.1">
+<h3 data-number="19.1.1" class="anchored" data-anchor-id="public-health"><span class="header-section-number">19.1.1</span> Public health</h3>
+<p><strong>Spatial <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-epidemiology" data-term="epidemiology">epidemiology</span></strong> studies how health varies across places. Its origin story is John Snow’s 1854 map of cholera deaths in London <span class="citation" data-cites="snow1855">(Snow 1855)</span>, which you met in Chapter 1. Today analysts geocode cases (Chapter 9), join them to <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-census-tract" data-term="census tract">census tracts</span> (Chapters 7 and 8), and map rates with careful classing (Chapter 11) and density surfaces (Chapter 12). <strong>Accessibility</strong> studies <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-buffer" data-term="buffer">buffer</span> clinics and pharmacies, or measure travel time along road networks, to find who lives too far from care.</p>
+</section>
+<section id="environment-and-hazards" class="level3" data-number="19.1.2">
+<h3 data-number="19.1.2" class="anchored" data-anchor-id="environment-and-hazards"><span class="header-section-number">19.1.2</span> Environment and hazards</h3>
+<p><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> is central to every stage of a disaster: flood maps, evacuation routes, and shelter locations before a storm, and damage mapping from aerial and satellite imagery after it. When Hurricane Helene flooded western North Carolina in 2024, imagery and GIS were used to map flooding, landslides, and closed roads. The key question, <em>who is exposed?</em>, is an <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-overlay-analysis" data-term="overlay analysis">overlay</span> of hazard zones with census data (Chapters 7, 8, and 13). Elevation <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">rasters</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-map-algebra" data-term="map algebra">map algebra</span> (Chapter 14) model where water flows, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-interpolation" data-term="spatial interpolation">interpolation</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-kriging" data-term="kriging">kriging</span> (Chapters 15 and 16) turn rain gauges and air quality monitors into continuous surfaces.</p>
+</section>
+<section id="sec-local-government" class="level3" data-number="19.1.3">
+<h3 data-number="19.1.3" class="anchored" data-anchor-id="sec-local-government"><span class="header-section-number">19.1.3</span> Local government</h3>
+<p>Cities and counties are among the biggest users of GIS, and nearly every county in North Carolina has GIS staff. Local governments keep the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-authoritative-data" data-term="authoritative data">authoritative data</span> that the rest of us rely on, and use it every day to run services:</p>
+<ul>
+<li><strong>Land records and property tax.</strong> The county GIS or land records office maintains the official <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-parcel" data-term="parcel">parcel</span> map. In Orange County, for example, every parcel has a Property Identification Number (PIN) that links it to its deed, survey plats, and tax record, and anyone can search parcels on the county’s public web map. Tax assessors use those parcels, with <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-attribute" data-term="attribute">attribute</span> joins (Chapter 6), to value property.</li>
+<li><strong>Addressing and 911.</strong> When someone calls 911, the call is routed and the caller located using address and street data kept in GIS. Orange County keeps a single GIS <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-database" data-term="database">database</span> of more than 85,000 addresses and 4,600 streets, coordinated with Chapel Hill, Carrboro, Hillsborough, Mebane, and Durham, and, where the county is the addressing authority, assigns a new address when a building permit is requested. These data are kept up to the standard for <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-next-generation-911" data-term="Next Generation 911">Next Generation 911</span> and shared with the state’s AddressNC program and NC OneMap. This is the reference data behind the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geocoding" data-term="geocoding">geocoding</span> in Chapter 9.</li>
+<li><strong>Planning, zoning, and permits.</strong> Planners map zoning districts, review development proposals against them, and track building permits by parcel. Choosing where to put a new school, park, or fire station is a classic <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-site-selection" data-term="site selection">site selection</span></strong> problem: <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-reclassification" data-term="reclassification">reclassify</span> and weight several <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layers</span>, then overlay them to find the best places (Chapters 13 and 14).</li>
+<li><strong>Public works and utilities.</strong> Water and sewer lines, stormwater pipes, streetlights, and signs are mapped as features with attributes such as size, material, and install date, so crews can find them, plan repairs, and track work orders.</li>
+<li><strong>Emergency management and public health.</strong> Counties map shelters, evacuation zones, and flood risk. During Hurricane Helene, damaged 911 centers in western North Carolina had their calls rerouted to working centers elsewhere. Health departments map cases and services; Forsyth County, for example, has mapped overdoses to target its response.</li>
+<li><strong>Open data and public apps.</strong> Many cities and counties publish their layers on open data portals and in web apps, such as maps of trash pickup days, polling places, road closures, and park amenities. Look up the GIS page of your home county or city to see what it shares.</li>
+</ul>
+<p>Local government GIS work is a common first job for GIS graduates, and a good place for internships. Many local governments also celebrate GIS Day each November; the City of Raleigh, for example, holds a free GIS Day event to show residents how state and local governments use GIS.</p>
+</section>
+<section id="humanitarian-and-social-justice-work" class="level3" data-number="19.1.4">
+<h3 data-number="19.1.4" class="anchored" data-anchor-id="humanitarian-and-social-justice-work"><span class="header-section-number">19.1.4</span> Humanitarian and social justice work</h3>
+<p>After the 2010 Haiti earthquake and the 2015 Nepal earthquake, volunteers around the world traced roads and buildings in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-openstreetmap" data-term="OpenStreetMap">OpenStreetMap</span> from satellite imagery, and responders used those maps on the ground <span class="citation" data-cites="zook2010 parr2015">(Zook et al. 2010; Parr 2015)</span>. Chapter 10 showed how to judge the quality of those data.</p>
+<p>Historians and social scientists also use GIS to study inequality. The Mapping Inequality project <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-digitize" data-term="digitize">digitized</span> the 1930s <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-redlining" data-term="redlining">redlining</span></strong> maps of American cities, including Durham, Greensboro, and other North Carolina cities. Researchers <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-georeferencing" data-term="georeferencing">georeference</span> those maps (Chapter 9) and overlay them with today’s data on health, heat, and wealth.</p>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Think about it
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Pick the example in this section that interests you most. Which chapters of this book would you need for a first project on it? What data would you need, and who publishes them?</p>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-advanced" class="level2" data-number="19.2">
+<h2 data-number="19.2" class="anchored" data-anchor-id="sec-advanced"><span class="header-section-number">19.2</span> Advanced topics in GIS</h2>
+<p>The rest of this section previews areas that build directly on this book. Each one is a full course or career on its own, so the goal is vocabulary and a sense of what is possible, not mastery.</p>
+<section id="remote-sensing-and-earth-observation" class="level3" data-number="19.2.1">
+<h3 data-number="19.2.1" class="anchored" data-anchor-id="remote-sensing-and-earth-observation"><span class="header-section-number">19.2.1</span> Remote sensing and Earth observation</h3>
+<p><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-remote-sensing" data-term="remote sensing">Remote sensing</span></strong> collects information about Earth from a distance, and it produces most of the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">raster data</span> in the world. Sensors come in two kinds:</p>
+<ul>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-passive-sensor" data-term="passive sensor">Passive sensors</span></strong> record reflected sunlight or emitted heat, like a camera.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-active-sensor" data-term="active sensor">Active sensors</span></strong> send their own signal and measure what comes back. <strong>Radar</strong> sees through clouds and at night, and <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-lidar" data-term="lidar">lidar</span></strong> times laser pulses to measure elevation and tree height, often to within centimeters.</li>
+</ul>
+<p>Different surfaces reflect different wavelengths of light, so each has a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spectral-signature" data-term="spectral signature">spectral signature</span></strong>. Healthy plants absorb red light, because chlorophyll uses it, and strongly reflect near-infrared (NIR) light. The <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-normalized-difference-vegetation-index-ndvi" data-term="normalized difference vegetation index (NDVI)">normalized difference vegetation index</span></strong> (<strong>NDVI</strong>) turns that contrast into one number for each cell:</p>
+<p><span class="math display">\[
+\text{NDVI} = \frac{\text{NIR} - \text{Red}}{\text{NIR} + \text{Red}}
+\]</span></p>
+<p>NDVI ranges from −1 to 1, and dense green vegetation is high (<a href="#fig-ndvi" class="quarto-xref">Figure&nbsp;<span>19.1</span></a>). It is <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-map-algebra" data-term="map algebra">map algebra</span>, from Chapter 14, applied to two bands of an image.</p>
+<div id="fig-ndvi" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A bar chart with a red bar and a near-infrared bar for each of four surfaces. Healthy vegetation reflects 0.05 red and 0.50 near-infrared, giving NDVI 0.82. Stressed vegetation reflects 0.10 and 0.30, NDVI 0.50. Bare soil reflects 0.25 and 0.30, NDVI 0.09. Water reflects 0.05 and 0.02, NDVI -0.43.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ndvi-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/whats-next/ndvi-reflectance.png" class="img-fluid figure-img" alt="A bar chart with a red bar and a near-infrared bar for each of four surfaces. Healthy vegetation reflects 0.05 red and 0.50 near-infrared, giving NDVI 0.82. Stressed vegetation reflects 0.10 and 0.30, NDVI 0.50. Bare soil reflects 0.25 and 0.30, NDVI 0.09. Water reflects 0.05 and 0.02, NDVI -0.43.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ndvi-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;19.1: Typical shares of red and near-infrared light reflected by four surfaces, and the NDVI each gives. Values are illustrative.
+</figcaption>
+</figure>
+</div>
+<p>Classification then assigns each cell a land cover class, and <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-change-detection" data-term="change detection">change detection</span></strong> compares images of the same place from different dates. Hansen and colleagues used more than 650,000 <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-landsat" data-term="Landsat">Landsat</span> scenes to map forest loss across the whole planet at 30-meter resolution <span class="citation" data-cites="hansen2013">(Hansen et al. 2013)</span>, work that ran on Google Earth Engine, a cloud platform for analyzing petabytes of imagery without downloading it <span class="citation" data-cites="gorelick2017">(Gorelick et al. 2017)</span>.</p>
+<div class="did-you-know callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Did you know..?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>North Carolina was one of the first states to map its entire land area with lidar, after Hurricane Floyd’s floods in 1999 showed how out of date its floodplain maps were. Statewide lidar now underlies the state’s flood maps, and you can download it free from NC OneMap.</p>
+</div>
+</div>
+</section>
+<section id="spatial-statistics-beyond-the-basics" class="level3" data-number="19.2.2">
+<h3 data-number="19.2.2" class="anchored" data-anchor-id="spatial-statistics-beyond-the-basics"><span class="header-section-number">19.2.2</span> Spatial statistics beyond the basics</h3>
+<p>Chapters 12 and 16 introduced <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-autocorrelation" data-term="spatial autocorrelation">spatial autocorrelation</span> and the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-semivariogram" data-term="semivariogram">semivariogram</span>. Spatial statistics goes much further:</p>
+<ul>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographically-weighted-regression-gwr" data-term="geographically weighted regression (GWR)">Geographically weighted regression</span></strong> (<strong>GWR</strong>) fits a separate regression at each location, weighting nearby observations more, so you can map how a relationship changes across space <span class="citation" data-cites="brunsdon1996">(Brunsdon et al. 1996)</span>. For example, the link between income and asthma might be strong in one county and weak in the next.</li>
+<li><strong>Hot spot analysis</strong> (Getis-Ord Gi*) and local Moran’s I test whether a cluster of high or low values is bigger than chance would produce.</li>
+<li><strong>Space-time analysis</strong> extends <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tobler-s-first-law-of-geography" data-term="Tobler’s first law of geography">Tobler’s first law</span> to time: nearby moments are related, just as nearby places are. A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-space-time-cube" data-term="space-time cube">space-time cube</span></strong> stacks a map for every time step, and methods such as emerging hot spot analysis find places where clusters are new, growing, or fading.</li>
+</ul>
+<p>Advanced work also takes the choice of units seriously. Chapter 11 showed how the class breaks you choose change a map; the zones you aggregate data into change the results of an analysis too. Mei-Po Kwan’s <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-uncertain-geographic-context-problem" data-term="uncertain geographic context problem">uncertain geographic context problem</span></strong> goes further: the neighborhood that actually affects a person depends on where they spend their day, not only where they live, so a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-census-tract" data-term="census tract">census tract</span> may be the wrong unit <span class="citation" data-cites="kwan2012">(Kwan 2012)</span>.</p>
+</section>
+<section id="big-data-the-cloud-and-cybergis" class="level3" data-number="19.2.3">
+<h3 data-number="19.2.3" class="anchored" data-anchor-id="big-data-the-cloud-and-cybergis"><span class="header-section-number">19.2.3</span> Big data, the cloud, and CyberGIS</h3>
+<p>Datasets are growing faster than laptops. Planet-wide imagery, billions of phone locations, and streams of sensor readings don’t fit on one computer, so analysis is moving to the cloud, where the data sit next to the computing. Miller and Goodchild call this shift <strong>data-driven geography</strong> <span class="citation" data-cites="miller2015">(Miller and Goodchild 2015)</span>. Useful terms:</p>
+<ul>
+<li><strong>Cloud platforms:</strong> Google Earth Engine, Microsoft Planetary Computer, and Amazon’s open data registry.</li>
+<li><strong>Spatial <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-database" data-term="database">databases</span>:</strong> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-postgis" data-term="PostGIS">PostGIS</span>, from Chapter 6, adds spatial queries to <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-sql" data-term="SQL">SQL</span>, so a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-join" data-term="spatial join">spatial join</span> can run on millions of rows on a server.</li>
+<li><strong>Cloud-ready formats:</strong> Cloud Optimized GeoTIFF and GeoParquet let a program read only the piece of a file it needs.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cybergis" data-term="CyberGIS">CyberGIS</span>:</strong> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> built on high-performance and cloud computing, so an analysis can be split across many processors <span class="citation" data-cites="wang2010">(Wang 2010)</span>.</li>
+</ul>
+</section>
+<section id="geoai" class="level3" data-number="19.2.4">
+<h3 data-number="19.2.4" class="anchored" data-anchor-id="geoai"><span class="header-section-number">19.2.4</span> GeoAI</h3>
+<p><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geoai" data-term="GeoAI">GeoAI</span></strong> is artificial intelligence applied to <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-data" data-term="spatial data">spatial data</span>, and it is one of the fastest-growing parts of the field <span class="citation" data-cites="janowicz2020">(Janowicz et al. 2020)</span>.</p>
+<ul>
+<li><strong>Deep learning reads imagery at scale.</strong> Models trained to recognize objects have extracted building footprints for whole countries, and now map roads, solar panels, crops, and flood extent automatically. Microsoft’s global building footprints were made this way, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-openstreetmap" data-term="OpenStreetMap">OpenStreetMap</span> mappers can add them with the Rapid editor.</li>
+<li><strong>Machine learning predicts.</strong> Methods such as random forests estimate air quality, poverty, or crop yield in places with no measurements, a cousin of the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-interpolation" data-term="spatial interpolation">interpolation</span> in Chapter 15.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-foundation-model" data-term="foundation model">Foundation models</span></strong> are large models pretrained on huge image archives that can be adapted to new tasks with little labeled data. NASA and IBM’s open Prithvi model, trained on Landsat and Sentinel-2 imagery, is an example.</li>
+</ul>
+<p><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-thinking" data-term="spatial thinking">Spatial thinking</span> keeps AI honest. Most machine learning assumes observations are independent, and spatial data are not. If you test a model on points chosen at random, its test points sit right next to its training points, and it looks far more accurate than it is. <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-cross-validation" data-term="spatial cross-validation">Spatial cross-validation</span></strong> holds out whole regions instead, like the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cross-validation" data-term="cross validation">cross-validation</span> in Chapters 15 and 16 but with blocks of space. Ploton and colleagues found that large forest-mapping models that looked accurate under random testing had little predictive power when tested this way <span class="citation" data-cites="ploton2020">(Ploton et al. 2020)</span>.</p>
+</section>
+<section id="web-gis-interactive-maps-and-3d" class="level3" data-number="19.2.5">
+<h3 data-number="19.2.5" class="anchored" data-anchor-id="web-gis-interactive-maps-and-3d"><span class="header-section-number">19.2.5</span> Web GIS, interactive maps, and 3D</h3>
+<p>More and more maps are made to be used, not just looked at. <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-web-gis" data-term="web GIS">Web GIS</span></strong> puts maps, data, and analysis in a browser: <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-online" data-term="ArcGIS Online">ArcGIS Online</span> dashboards and StoryMaps, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span> Cloud, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-open-source" data-term="open source">open-source</span> libraries such as Leaflet and MapLibre. Designing an interactive map well is its own research field <span class="citation" data-cites="roth2013">(Roth 2013)</span>, and GEOG 455 covers it.</p>
+<p>GIS is also going 3D. Lidar point clouds, 3D building models, and scene <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layers</span> in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span> let you measure building heights, shade, and views. A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-digital-twin" data-term="digital twin">digital twin</span></strong> is a detailed, constantly updated 3D model of a city or facility, linked to live sensor data, so planners can test a change before they make it <span class="citation" data-cites="batty2018">(Batty 2018)</span>.</p>
+</section>
+<section id="gis-programming-and-automation" class="level3" data-number="19.2.6">
+<h3 data-number="19.2.6" class="anchored" data-anchor-id="gis-programming-and-automation"><span class="header-section-number">19.2.6</span> GIS programming and automation</h3>
+<p>Every tool you ran by clicking in Chapters 17 and 18 can also be run from code. Automating a workflow makes it faster, repeatable, and shareable:</p>
+<ul>
+<li><strong>Python</strong> is the main scripting language of desktop GIS: <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcpy" data-term="ArcPy">ArcPy</span> in ArcGIS Pro, PyQGIS in QGIS, and the open-source GeoPandas, Rasterio, and Shapely libraries.</li>
+<li><strong>R</strong>, with the sf and terra packages, is popular for spatial statistics and is taught in GEOG 215 and GEOG 515.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-modelbuilder" data-term="ModelBuilder">ModelBuilder</span></strong> and the QGIS Model Designer chain tools into a diagram without writing code, a good first step toward automation.</li>
+</ul>
+<p>Employers increasingly ask for GIS skills <em>and</em> some programming, so a course such as GEOG 592 GIS Programming pays off.</p>
+</section>
+<section id="critical-gis-and-ethics" class="level3" data-number="19.2.7">
+<h3 data-number="19.2.7" class="anchored" data-anchor-id="critical-gis-and-ethics"><span class="header-section-number">19.2.7</span> Critical GIS and ethics</h3>
+<p>GIS is powerful, so it raises hard questions. In the 1990s, geographers debated whether GIS favored governments and corporations over communities, and who gets represented on a map at all. That debate grew into <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-critical-gis" data-term="critical GIS">critical GIS</span></strong>, which studies the social effects of mapping technology and how to use it more fairly <span class="citation" data-cites="schuurman2000">(Schuurman 2000)</span>. Some questions it asks:</p>
+<ul>
+<li><strong>Privacy.</strong> A few location points can be enough to identify a person, which is why the Census Bureau uses <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-differential-privacy" data-term="differential privacy">differential privacy</span> (Chapter 8) and why Chapter 9 warned against posting geocoded health records as points.</li>
+<li><strong>Representation.</strong> Who maps OpenStreetMap, and which places are left blank (Chapter 10)?</li>
+<li><strong>Bias.</strong> Training data for AI often come from wealthy, well-mapped places, so models do worst where better data are needed most.</li>
+<li><strong>Participation.</strong> Participatory GIS puts mapping tools in the hands of communities, so they can map their own knowledge and concerns.</li>
+</ul>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Think about it
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A model predicts poverty from satellite images of North Carolina’s census tracts. It is trained on a random 80% of tracts and scores 95% accuracy on the other 20%. Why might it do much worse in South Carolina? How would you test it more honestly?</p>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-research" class="level2" data-number="19.3">
+<h2 data-number="19.3" class="anchored" data-anchor-id="sec-research"><span class="header-section-number">19.3</span> Reading and doing GIS research</h2>
+<p>Every method in this book started as research, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-science-giscience" data-term="geographic information science (GIScience)">GIScience</span> is still an active research field. Michael Goodchild named it in 1992, arguing that <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> raises scientific questions of its own, about how to represent, analyze, and communicate <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-data" data-term="spatial data">geographic information</span> <span class="citation" data-cites="goodchild1992">(Goodchild 1992)</span>.</p>
+<section id="where-to-find-gis-research" class="level3" data-number="19.3.1">
+<h3 data-number="19.3.1" class="anchored" data-anchor-id="where-to-find-gis-research"><span class="header-section-number">19.3.1</span> Where to find GIS research</h3>
+<p>Research papers can be hard reading at first, but the abstract, introduction, and figures usually tell you most of what you need. Good places to start:</p>
+<ul>
+<li><strong>Journals.</strong> The <em>International Journal of Geographical Information Science</em>, <em>Transactions in GIS</em>, <em><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cartography" data-term="cartography">Cartography</span> and Geographic Information Science</em>, <em>Computers, Environment and Urban Systems</em>, <em>Annals of the American Association of Geographers</em>, and <em><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-remote-sensing" data-term="remote sensing">Remote Sensing</span> of Environment</em>. Every paper cited in this chapter came from journals like these.</li>
+<li><strong>The <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-gis-t-body-of-knowledge" data-term="GIS&amp;T Body of Knowledge">GIS&amp;T Body of Knowledge</span></strong>, from UCGIS, has short, peer-reviewed entries on hundreds of GIS topics, written for students.</li>
+<li><strong>Google Scholar and UNC Libraries.</strong> Search Google Scholar, and use the UNC Libraries website or connect Google Scholar to UNC’s subscriptions, so you can read paywalled papers for free as a UNC student.</li>
+</ul>
+<p>When you find a useful paper, look at what it cites and who has cited it since. That trail leads to the rest of the research on a topic.</p>
+</section>
+<section id="research-at-unc" class="level3" data-number="19.3.2">
+<h3 data-number="19.3.2" class="anchored" data-anchor-id="research-at-unc"><span class="header-section-number">19.3.2</span> Research at UNC</h3>
+<p>Undergraduates can do real research at UNC:</p>
+<ul>
+<li><strong>Work with faculty.</strong> Many Geography and Environment faculty use GIS and remote sensing in their research. Read their profiles on the department website, and email one whose work interests you to ask about research opportunities.</li>
+<li><strong>The Office for Undergraduate Research</strong> (OUR) funds Summer Undergraduate Research Fellowships (<strong>SURF</strong>) for students to do a summer research project with a faculty mentor.</li>
+<li><strong>The Celebration of Undergraduate Research</strong>, run by OUR at the end of every spring semester, is a poster session where hundreds of undergraduates present their research. Geography students regularly present GIS projects there.</li>
+<li><strong>A senior honors thesis</strong> in Geography (GEOG 691H and 692H) is a two-semester research project, and many use GIS.</li>
+<li><strong>Research centers.</strong> The Carolina Population Center’s <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-analysis" data-term="spatial analysis">Spatial Analysis</span> Services supports research in spatial analysis, remote sensing, cartography, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-gps" data-term="GPS">GPS</span> data collection, and web mapping, and many UNC research projects on health and population use GIS.</li>
+</ul>
+</section>
+</section>
+<section id="sec-unc" class="level2" data-number="19.4">
+<h2 data-number="19.4" class="anchored" data-anchor-id="sec-unc"><span class="header-section-number">19.4</span> Keep learning at UNC</h2>
+<p>Course titles and requirements in this section come from the 2026–27 UNC catalog. Always check the catalog and ConnectCarolina for when each course is offered, and meet with a Geography advisor before you plan.</p>
+<section id="a-path-through-unc-gis-courses" class="level3" data-number="19.4.1">
+<h3 data-number="19.4.1" class="anchored" data-anchor-id="a-path-through-unc-gis-courses"><span class="header-section-number">19.4.1</span> A path through UNC GIS courses</h3>
+<p>GEOG 370, this course, is the gateway to most upper-level <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> courses at UNC (<a href="#fig-course-path" class="quarto-xref">Figure&nbsp;<span>19.2</span></a>). It is one of the two core courses of the GIS minor, with GEOG 215 Introduction to <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-data" data-term="spatial data">Spatial Data</span> Science, which teaches <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-analysis" data-term="spatial analysis">spatial analysis</span> in R. GEOG 515 Applied Spatial Data Science needs both.</p>
+<div id="fig-course-path" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A flow diagram. GEOG 370, this course, has arrows to GEOG 455 Cartography and Geovisualization, GEOG 477 Intro to Remote Sensing, GEOG 491 Principles of GIS, GEOG 567 Google Earth Engine, GEOG 592 GIS Programming, GEOG 594 GPS and Applications, and GEOG 515 Applied Spatial Data Science. GEOG 215 also has an arrow to GEOG 515. GEOG 477 leads to GEOG 577 Advanced Remote Sensing, which can also follow GEOG 370 directly. GEOG 491 leads to GEOG 570 Geographic Information Analysis, which also needs GEOG 391; GEOG 586 Scaling Up Geospatial Analysis; and GEOG 591 Applied Issues in GIS, which can also follow GEOG 370 directly.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-course-path-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/whats-next/unc-course-path.png" class="img-fluid figure-img" alt="A flow diagram. GEOG 370, this course, has arrows to GEOG 455 Cartography and Geovisualization, GEOG 477 Intro to Remote Sensing, GEOG 491 Principles of GIS, GEOG 567 Google Earth Engine, GEOG 592 GIS Programming, GEOG 594 GPS and Applications, and GEOG 515 Applied Spatial Data Science. GEOG 215 also has an arrow to GEOG 515. GEOG 477 leads to GEOG 577 Advanced Remote Sensing, which can also follow GEOG 370 directly. GEOG 491 leads to GEOG 570 Geographic Information Analysis, which also needs GEOG 391; GEOG 586 Scaling Up Geospatial Analysis; and GEOG 591 Applied Issues in GIS, which can also follow GEOG 370 directly.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-course-path-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;19.2: How UNC’s GIS courses connect. Filled boxes are the GIS minor’s two core courses; arrows are prerequisites in the UNC catalog.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="geography-courses-by-interest" class="level3" data-number="19.4.2">
+<h3 data-number="19.4.2" class="anchored" data-anchor-id="geography-courses-by-interest"><span class="header-section-number">19.4.2</span> Geography courses by interest</h3>
+<div id="tbl-geog-courses" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-geog-courses-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;19.1: Geography Department GIS courses by interest.
+</figcaption>
+<div aria-describedby="tbl-geog-courses-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 71%">
+<col style="width: 28%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">If you liked…</th>
+<th style="text-align: left;">Take</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Analysis in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span> (Chapters 13–18)</td>
+<td style="text-align: left;">GEOG 491 Principles of Geographic Information Systems; GEOG 591 Applied Issues in GIS</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Map design and data classing (Chapter 11)</td>
+<td style="text-align: left;">GEOG 455 <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cartography" data-term="cartography">Cartography</span> and Geovisualization; GEOG 456 Geovisualizing Change; GEOG 555 Cartography of the Global South</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">Rasters</span> and imagery (Chapters 2 and 14)</td>
+<td style="text-align: left;">GEOG 477 Introduction to <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-remote-sensing" data-term="remote sensing">Remote Sensing</span> of the Environment; GEOG 577 Advanced Remote Sensing; GEOG 567 Geospatial Data Analysis with Google Earth Engine</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-interpolation" data-term="spatial interpolation">Interpolation</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-kriging" data-term="kriging">kriging</span>, and statistics (Chapters 15–16)</td>
+<td style="text-align: left;">GEOG 391 Quantitative Methods in Geography; GEOG 570 Geographic Information Analysis; GEOG 515 Applied Spatial Data Science</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">Coordinates</span> and data collection (Chapters 3 and 9)</td>
+<td style="text-align: left;">GEOG 594 Global Positioning Systems and Applications</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Automating your work</td>
+<td style="text-align: left;">GEOG 592 <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-science-giscience" data-term="geographic information science (GIScience)">Geographic Information Science</span> Programming; GEOG 586 Scaling Up <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geospatial" data-term="geospatial">Geospatial</span> Analysis</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Health and census data (Chapter 8)</td>
+<td style="text-align: left;">GEOG 541 GIS in Public Health; GEOG 544 GIS for Impact Evaluation and Health Studies</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+<section id="gis-courses-beyond-geography" class="level3" data-number="19.4.3">
+<h3 data-number="19.4.3" class="anchored" data-anchor-id="gis-courses-beyond-geography"><span class="header-section-number">19.4.3</span> GIS courses beyond Geography</h3>
+<p>GIS is taught across campus. Some of these count toward the GIS minor; check its list in the catalog.</p>
+<ul>
+<li><strong>Anthropology:</strong> ANTH 419 Anthropological Application of GIS.</li>
+<li><strong>Environment, Ecology, and Energy:</strong> ENEC 468 Temporal GIS and Space/Time <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geostatistics" data-term="geostatistics">Geostatistics</span> for the Environment and Public Health; ENEC 479 Landscape Analysis.</li>
+<li><strong>Earth, Marine, and Environmental Sciences:</strong> EMES 483 GIS and Remote Sensing for Earth and Ocean Sciences.</li>
+<li><strong>City and Regional Planning:</strong> GEOG/PLAN 491 is cross-listed, and graduate planning courses use GIS heavily.</li>
+</ul>
+</section>
+<section id="turn-your-interest-into-a-credential" class="level3" data-number="19.4.4">
+<h3 data-number="19.4.4" class="anchored" data-anchor-id="turn-your-interest-into-a-credential"><span class="header-section-number">19.4.4</span> Turn your interest into a credential</h3>
+<ul>
+<li><strong>Geographic Information Sciences minor (15 credit hours).</strong> The core is GEOG 215 and GEOG 370, plus three GIS electives such as GEOG 477, 491, 541, 577, 591, 592, or 594. It is open to all undergraduates and pairs well with any major. With GEOG 370 done, you are already partway there.</li>
+<li><strong>Geospatial Data Science B.S.</strong> A full major. Its core includes GEOG 215, 370, 391, 392, 455, 477, 491, and 515, plus math and data science courses, applied GIS electives, and a capstone seminar or honors thesis.</li>
+<li><strong>Graduate Certificate in Geographic Information Science,</strong> for graduate students.</li>
+</ul>
+</section>
+</section>
+<section id="sec-get-involved" class="level2" data-number="19.5">
+<h2 data-number="19.5" class="anchored" data-anchor-id="sec-get-involved"><span class="header-section-number">19.5</span> Get involved at UNC</h2>
+<p>Some of the best <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> learning happens outside class.</p>
+<ul>
+<li><strong>Carolina Geography and Environment Club.</strong> The Department of Geography and Environment’s student club, open to anyone interested in geography. Ask the department or your instructor how to find the next meeting.</li>
+<li><strong>UNC GIS Day.</strong> GIS Day is celebrated around the world each November, and UNC’s celebration, organized by the Department of Geography and Environment with UNC Libraries, has included a campus-wide <strong>map competition</strong> with prizes for students from any department, and humanitarian <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-mapathon" data-term="mapathon">mapathons</span></strong>. Entering a map you made in this course is a great first portfolio piece.</li>
+<li><strong>Mapathons.</strong> At a mapathon, volunteers trace buildings and roads in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-openstreetmap" data-term="OpenStreetMap">OpenStreetMap</span> for a humanitarian project, using the editing skills from Chapters 10 and 17. You can also join a project on your own any time through the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-humanitarian-openstreetmap-team" data-term="Humanitarian OpenStreetMap Team">Humanitarian OpenStreetMap Team</span>’s <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tasking-manager" data-term="Tasking Manager">Tasking Manager</span>.</li>
+<li><strong>UNC Libraries.</strong> The GIS librarian and Digital Research Services in Davis Library help with finding data, choosing software, and project questions, and you can book a consultation. UNC Libraries also offers free workshops, such as “Working with <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-data" data-term="spatial data">Spatial Data</span> in R,” and has course guides for GIS classes.</li>
+<li><strong>Odum Institute.</strong> The Odum Institute for Research in Social Science offers short courses on research methods, including GIS workshops.</li>
+<li><strong>Office for Undergraduate Research.</strong> See <a href="#sec-research" class="quarto-xref"><span>Section 19.3</span></a> for SURF and the Celebration of Undergraduate Research.</li>
+</ul>
+<section id="gis-conferences-in-north-carolina" class="level3" data-number="19.5.1">
+<h3 data-number="19.5.1" class="anchored" data-anchor-id="gis-conferences-in-north-carolina"><span class="header-section-number">19.5.1</span> GIS conferences in North Carolina</h3>
+<p>Conferences are where GIS professionals share their work, learn new tools, and hire. Students are welcome, and going to one is a great way to see what GIS jobs look like and to meet people who do them.</p>
+<ul>
+<li><strong>The North Carolina GIS Conference</strong> has been held every two years since 1987, most recently in March 2025 in Winston-Salem, with about 600 attendees and more than 120 sessions. It calls itself the largest state GIS conference in the nation. It is organized by the NC Center for Geographic Information and Analysis with state and local government GIS professionals, and co-sponsored by Carolina URISA. Students can enter papers for the G. Herbert Stout student awards; local government GIS projects compete for the Stout awards too, and Chapel Hill was a 2025 winner. The next conference is in 2027.</li>
+<li><strong>NCAUG, the North Carolina ArcGIS Users Group,</strong> is a statewide community of people who use <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-esri" data-term="Esri">Esri</span> software, many of them in local government. It holds an annual conference each fall, with talks, hands-on pre-conference workshops (at reduced student rates), vendors, and networking; it has met in Wilmington, with Esri’s founder, Jack Dangermond, as keynote speaker. Workshop proceeds support NCAUG’s scholarship fund for GIS students.</li>
+<li><strong>Carolina URISA,</strong> the regional chapter of the Urban and Regional Information Systems Association, focuses on GIS in government and holds meetings and workshops for GIS professionals in the Carolinas.</li>
+<li><strong>National conferences</strong> include the Esri User Conference in San Diego each July, the American Association of Geographers annual meeting, and the NACIS conference for cartographers, which offers student travel grants. Most have reduced student rates.</li>
+</ul>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Think about it
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Which of these could you do this semester? Choose one, find its next date, and put it on your calendar.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-careers" class="level2" data-number="19.6">
+<h2 data-number="19.6" class="anchored" data-anchor-id="sec-careers"><span class="header-section-number">19.6</span> Careers and your portfolio</h2>
+<p>Spatial skills make you more employable in many fields. Job titles vary, so search broadly: <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> analyst or technician</strong> is the most common entry point, and others include <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-remote-sensing" data-term="remote sensing">remote sensing</span> analyst, cartographer, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geospatial" data-term="geospatial">geospatial</span> developer, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-data" data-term="spatial data">geospatial data</span> scientist. Many of you will use GIS as a core skill in another job: planner, epidemiologist, environmental consultant, or emergency manager.</p>
+<p>In North Carolina, GIS professionals work for nearly every city and county, state agencies such as NCDOT and the NC Center for Geographic Information and Analysis (which runs NC OneMap), federal agencies such as the EPA in Research Triangle Park, research organizations, engineering and environmental consulting firms, and software companies.</p>
+<section id="skills-employers-look-for" class="level3" data-number="19.6.1">
+<h3 data-number="19.6.1" class="anchored" data-anchor-id="skills-employers-look-for"><span class="header-section-number">19.6.1</span> Skills employers look for</h3>
+<div id="tbl-skills" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-skills-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;19.2: Skills that GIS job postings commonly ask for.
+</figcaption>
+<div aria-describedby="tbl-skills-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Technical skills</th>
+<th style="text-align: left;">Professional skills</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span></td>
+<td style="text-align: left;">Clear maps and visual communication</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-data-quality" data-term="spatial data quality">Data quality</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-metadata" data-term="metadata">metadata</span></td>
+<td style="text-align: left;">Writing for non-technical audiences</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-sql" data-term="SQL">SQL</span> and spatial <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-database" data-term="database">databases</span></td>
+<td style="text-align: left;">Asking good spatial questions</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Python or R</td>
+<td style="text-align: left;">Data ethics and privacy</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Remote sensing and cloud tools</td>
+<td style="text-align: left;">Teamwork and project management</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>You already have the first two rows of the technical column from this course. Don’t underestimate the second column: employers consistently say they need people who can make a clear map, explain it to a non-specialist, and think carefully about ethics.</p>
+</section>
+<section id="start-building-your-portfolio-now" class="level3" data-number="19.6.2">
+<h3 data-number="19.6.2" class="anchored" data-anchor-id="start-building-your-portfolio-now"><span class="header-section-number">19.6.2</span> Start building your portfolio now</h3>
+<p>Two or three polished projects matter more than a list of courses.</p>
+<ul>
+<li>Put your best maps on a personal website or in an online portfolio, each with a short description of the question, data, and methods. Your course projects, cleaned up, are a strong start.</li>
+<li>Enter the UNC GIS Day map competition, and present at the Celebration of Undergraduate Research.</li>
+<li>Contribute to <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-openstreetmap" data-term="OpenStreetMap">OpenStreetMap</span> or a humanitarian mapping project.</li>
+<li>Look for internships with city, county, and state GIS offices, research centers, and consulting firms.</li>
+<li>Go to a conference, such as the NC GIS Conference or NCAUG’s fall conference, and join a professional community, such as Carolina URISA, NACIS for cartographers, or the American Association of Geographers. Most have student rates, and many offer student awards, scholarships, or travel grants.</li>
+<li>Later in your career, consider the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-gisp" data-term="GISP">GISP</span></strong> certification and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-esri" data-term="Esri">Esri</span>’s technical certifications.</li>
+</ul>
+</section>
+</section>
+<section id="check-your-understanding" class="level2" data-number="19.7">
+<h2 data-number="19.7" class="anchored" data-anchor-id="check-your-understanding"><span class="header-section-number">19.7</span> Check your understanding</h2>
+<ol type="1">
+<li><p>NDVI is high for healthy vegetation because plants: <select class="webex-select"><option value="blank"></option><option value="">Reflect red light strongly and absorb near-infrared light</option><option value="answer">Absorb red light and reflect near-infrared light strongly</option><option value="">Absorb all visible light</option><option value="">Emit their own infrared light</option></select></p></li>
+<li><p>Which kind of sensor measures elevation and tree height with laser pulses? <select class="webex-select"><option value="blank"></option><option value="">A multispectral camera</option><option value="">A thermal sensor</option><option value="answer">Lidar</option><option value="">A GPS receiver</option></select></p></li>
+<li><p>Geographically weighted regression lets the relationship between variables change from place to place. <select class="webex-select"><option value="blank"></option><option value="answer">TRUE</option><option value="">FALSE</option></select></p></li>
+<li><p>Why does testing a machine learning model on randomly chosen spatial points usually overstate its accuracy? <select class="webex-select"><option value="blank"></option><option value="">Random points are always in the wrong projection</option><option value="answer">Test points sit next to similar training points, because of spatial autocorrelation</option><option value="">Random samples are too small</option><option value="">Machine learning cannot use coordinates</option></select></p></li>
+<li><p>A detailed 3D model of a city, linked to live sensor data, is called a: <select class="webex-select"><option value="blank"></option><option value="">Space-time cube</option><option value="">Semivariogram</option><option value="answer">Digital twin</option><option value="">Story map</option></select></p></li>
+<li><p>Which two courses make up the core of UNC’s GIS minor? <select class="webex-select"><option value="blank"></option><option value="">GEOG 370 and GEOG 491</option><option value="answer">GEOG 215 and GEOG 370</option><option value="">GEOG 455 and GEOG 477</option><option value="">GEOG 370 and GEOG 515</option></select></p></li>
+<li><p>In North Carolina, who usually maintains the official parcel map and the address points used for 911? <select class="webex-select"><option value="blank"></option><option value="">The U.S. Census Bureau</option><option value="answer">The county or city GIS office</option><option value="">OpenStreetMap volunteers</option><option value="">Esri</option></select></p></li>
+<li><p>Which course needs both GEOG 215 and GEOG 370? <select class="webex-select"><option value="blank"></option><option value="">GEOG 477 Introduction to Remote Sensing</option><option value="">GEOG 455 Cartography and Geovisualization</option><option value="answer">GEOG 515 Applied Spatial Data Science</option><option value="">GEOG 594 GPS and Applications</option></select></p></li>
+</ol>
+</section>
+<section id="summary" class="level2" data-number="19.8">
+<h2 data-number="19.8" class="anchored" data-anchor-id="summary"><span class="header-section-number">19.8</span> Summary</h2>
+<ul>
+<li><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> answers “where” questions in nearly every field: <strong>spatial <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-epidemiology" data-term="epidemiology">epidemiology</span></strong> and <strong>accessibility</strong> in public health, hazards and the environment, humanitarian and social justice work, and local government, where cities and counties use GIS for <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-parcel" data-term="parcel">parcels</span> and property tax, addressing and 911, planning and <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-site-selection" data-term="site selection">site selection</span></strong>, utilities, and emergency management. The methods are the ones in this book.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-remote-sensing" data-term="remote sensing">Remote sensing</span></strong> collects data from a distance with <strong>passive</strong> or <strong>active</strong> sensors such as <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-lidar" data-term="lidar">lidar</span></strong>. <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-normalized-difference-vegetation-index-ndvi" data-term="normalized difference vegetation index (NDVI)">NDVI</span></strong> uses the contrast between red and near-infrared light to measure vegetation, and <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-change-detection" data-term="change detection">change detection</span></strong> compares images over time.</li>
+<li>Advanced spatial statistics includes <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographically-weighted-regression-gwr" data-term="geographically weighted regression (GWR)">geographically weighted regression</span></strong>, hot spot analysis, and space-time analysis, and takes the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-uncertain-geographic-context-problem" data-term="uncertain geographic context problem">uncertain geographic context problem</span></strong> seriously.</li>
+<li><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-big-data" data-term="Big Data">Big data</span> is moving GIS to the cloud and to <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cybergis" data-term="CyberGIS">CyberGIS</span></strong>. <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geoai" data-term="GeoAI">GeoAI</span></strong> reads imagery and makes predictions at scale, and honest testing needs <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-cross-validation" data-term="spatial cross-validation">spatial cross-validation</span></strong>.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-web-gis" data-term="web GIS">Web GIS</span></strong>, 3D GIS, and <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-digital-twin" data-term="digital twin">digital twins</span></strong> change how maps are used, and programming in Python or R automates GIS work. <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-critical-gis" data-term="critical GIS">Critical GIS</span></strong> asks who benefits from maps and who is left out.</li>
+<li>Find GIS research in journals, the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-gis-t-body-of-knowledge" data-term="GIS&amp;T Body of Knowledge">GIS&amp;T Body of Knowledge</span>, and Google Scholar through UNC Libraries. At UNC, try SURF, the Celebration of Undergraduate Research, or an honors thesis.</li>
+<li>GEOG 370 opens most upper-level GIS courses. Consider the GIS minor or the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-data" data-term="spatial data">Geospatial Data</span> Science B.S., join the Carolina Geography and Environment Club, enter the GIS Day map competition, go to the NC GIS Conference or NCAUG’s fall conference, and start a portfolio now.</li>
+</ul>
+</section>
+<section id="exercises" class="level2" data-number="19.9">
+<h2 data-number="19.9" class="anchored" data-anchor-id="exercises"><span class="header-section-number">19.9</span> Exercises</h2>
+<ol type="1">
+<li><strong>Spot the methods.</strong> Choose one example from <a href="#sec-gis-in-action" class="quarto-xref"><span>Section 19.1</span></a>. List every method from this book it uses, with the chapter where you learned it.</li>
+<li><strong>Compute <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-normalized-difference-vegetation-index-ndvi" data-term="normalized difference vegetation index (NDVI)">NDVI</span>.</strong> A cell reflects 0.08 of red light and 0.40 of near-infrared light. Compute its NDVI. Is it more likely forest, bare soil, or water? Then compute NDVI for a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-landsat" data-term="Landsat">Landsat</span> or Sentinel-2 image of Chapel Hill with the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">Raster</span> Calculator in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span> or <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span>.</li>
+<li><strong>Read a paper.</strong> Choose one paper cited in <a href="#sec-advanced" class="quarto-xref"><span>Section 19.2</span></a>. Read its abstract, introduction, and figures. In one paragraph, say what question it asked, what data and methods it used, and what it found.</li>
+<li><strong>Find a researcher.</strong> On the UNC Department of Geography and Environment website, find a faculty member whose research uses <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> or <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-remote-sensing" data-term="remote sensing">remote sensing</span>. Summarize one of their recent projects in three sentences.</li>
+<li><strong>Plan your path.</strong> Using <a href="#fig-course-path" class="quarto-xref">Figure&nbsp;<span>19.2</span></a> and <a href="#tbl-geog-courses" class="quarto-xref">Table&nbsp;<span>19.1</span></a>, write a four-semester plan of GIS courses that fits your interests, and check each course’s prerequisites in the UNC catalog.</li>
+<li><strong>Your local government.</strong> Find the GIS web map or open data portal of your home county or city. List five <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layers</span> it publishes, and say which department probably maintains each one and what it uses it for.</li>
+<li><strong>Portfolio piece.</strong> Choose your best map from this course. Write a one-paragraph description of it for a non-technical reader, as you would on a personal website or a GIS Day map competition entry.</li>
+</ol>
+</section>
+<section id="further-reading-and-online-resources" class="level2" data-number="19.10">
+<h2 data-number="19.10" class="anchored" data-anchor-id="further-reading-and-online-resources"><span class="header-section-number">19.10</span> Further reading and online resources</h2>
+<section id="papers-and-books" class="level3" data-number="19.10.1">
+<h3 data-number="19.10.1" class="anchored" data-anchor-id="papers-and-books"><span class="header-section-number">19.10.1</span> Papers and books</h3>
+<ul>
+<li>Goodchild, “<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-science-giscience" data-term="geographic information science (GIScience)">Geographical Information Science</span>” <span class="citation" data-cites="goodchild1992">(Goodchild 1992)</span>, the paper that named the field.</li>
+<li>Janowicz and colleagues, “<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geoai" data-term="GeoAI">GeoAI</span>” <span class="citation" data-cites="janowicz2020">(Janowicz et al. 2020)</span>, a short introduction to AI that takes space seriously.</li>
+<li>Kwan, “The <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-uncertain-geographic-context-problem" data-term="uncertain geographic context problem">Uncertain Geographic Context Problem</span>” <span class="citation" data-cites="kwan2012">(Kwan 2012)</span>.</li>
+<li>Hansen and colleagues, “High-Resolution Global Maps of 21st-Century Forest Cover Change” <span class="citation" data-cites="hansen2013">(Hansen et al. 2013)</span>, and Gorelick and colleagues, “Google Earth Engine” <span class="citation" data-cites="gorelick2017">(Gorelick et al. 2017)</span>.</li>
+<li>Ploton and colleagues, “Spatial Validation Reveals Poor Predictive Performance of Large-Scale Ecological Mapping Models” <span class="citation" data-cites="ploton2020">(Ploton et al. 2020)</span>.</li>
+<li><em><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-data" data-term="spatial data">Geographic Information</span> Analysis</em>, by David O’Sullivan and David Unwin <span class="citation" data-cites="osullivan2010">(O’Sullivan and Unwin 2010)</span>, the next step in spatial statistics.</li>
+<li><em>Geocomputation with R</em>, by Robin Lovelace, Jakub Nowosad, and Jannes Muenchow, free online: <a href="https://r.geocompx.org" class="uri">https://r.geocompx.org</a>.</li>
+</ul>
+</section>
+<section id="online-resources" class="level3" data-number="19.10.2">
+<h3 data-number="19.10.2" class="anchored" data-anchor-id="online-resources"><span class="header-section-number">19.10.2</span> Online resources</h3>
+<ul>
+<li>The <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-gis-t-body-of-knowledge" data-term="GIS&amp;T Body of Knowledge">GIS&amp;T Body of Knowledge</span>: <a href="https://www.ucgis.org/site/gis-t-body-of-knowledge" class="uri">https://www.ucgis.org/site/gis-t-body-of-knowledge</a>.</li>
+<li>Mapping Inequality: <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-redlining" data-term="redlining">Redlining</span> in New Deal America: <a href="https://dsl.richmond.edu/panorama/redlining" class="uri">https://dsl.richmond.edu/panorama/redlining</a>.</li>
+<li><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-humanitarian-openstreetmap-team" data-term="Humanitarian OpenStreetMap Team">Humanitarian OpenStreetMap Team</span> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tasking-manager" data-term="Tasking Manager">Tasking Manager</span>: <a href="https://tasks.hotosm.org" class="uri">https://tasks.hotosm.org</a>.</li>
+<li>Google Earth Engine: <a href="https://earthengine.google.com" class="uri">https://earthengine.google.com</a>.</li>
+<li>North Carolina <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> Conference: <a href="https://it.nc.gov/about/boards-commissions/gicc/cgia/north-carolina-gis-conference" class="uri">https://it.nc.gov/about/boards-commissions/gicc/cgia/north-carolina-gis-conference</a>.</li>
+<li>NC OneMap, North Carolina’s portal for state and local GIS data: <a href="https://www.nconemap.gov" class="uri">https://www.nconemap.gov</a>.</li>
+<li>Orange County GIS, Addressing, and Land Records: <a href="https://orangecountync.gov/845/Land-Records-GIS" class="uri">https://orangecountync.gov/845/Land-Records-GIS</a>.</li>
+</ul>
+</section>
+<section id="at-unc" class="level3" data-number="19.10.3">
+<h3 data-number="19.10.3" class="anchored" data-anchor-id="at-unc"><span class="header-section-number">19.10.3</span> At UNC</h3>
+<ul>
+<li>GIS minor: <a href="https://catalog.unc.edu/undergraduate/programs-study/gis-minor/" class="uri">https://catalog.unc.edu/undergraduate/programs-study/gis-minor/</a>.</li>
+<li>Geospatial Data Science B.S.: <a href="https://catalog.unc.edu/undergraduate/programs-study/geospatial-data-science-major-bs/" class="uri">https://catalog.unc.edu/undergraduate/programs-study/geospatial-data-science-major-bs/</a>.</li>
+<li>Department of Geography and Environment, undergraduate program: <a href="https://geography.unc.edu/undergraduates" class="uri">https://geography.unc.edu/undergraduates</a>.</li>
+<li>UNC Libraries course guide for GIS classes: <a href="https://guides.lib.unc.edu/gis" class="uri">https://guides.lib.unc.edu/gis</a>.</li>
+<li>Office for Undergraduate Research, Celebration of Undergraduate Research: <a href="https://our.unc.edu/share/celebration" class="uri">https://our.unc.edu/share/celebration</a>.</li>
+<li>Carolina Population Center research services, including <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-analysis" data-term="spatial analysis">Spatial Analysis</span> Services: <a href="https://www.cpc.unc.edu/about/services-to-cpc/research-services/" class="uri">https://www.cpc.unc.edu/about/services-to-cpc/research-services/</a>.</li>
+</ul>
+
+
+<div class="glossary-defs" hidden="">
+<span id="gloss-geographic-information-system-gis">“A computer-based system to aid in the collection, maintenance, storage,
+analysis, output, and distribution of spatial data and information”
+(Bolstad). Its five components are data, hardware, software, people, and
+procedures.</span>
+<span id="gloss-remote-sensing">Collecting information about Earth without touching it, from sensors on
+satellites, aircraft, or drones.</span>
+<span id="gloss-big-data">Datasets too large, too fast, or too varied for traditional tools, often
+described by three Vs: volume, velocity, and variety.</span>
+<span id="gloss-geoai">Artificial intelligence applied to geographic data, for example to find
+buildings or roads in satellite images automatically.</span>
+<span id="gloss-critical-gis">The study of the social effects of GIS and mapping, including who
+benefits, who is represented, and how to use GIS more fairly.</span>
+<span id="gloss-spatial-data">Data tied to a location on or near Earth, such as the address of a
+house, the outline of a county, or the elevation at a point.</span>
+<span id="gloss-vector">A data model that stores the world as points, lines, and polygons, each
+defined by x, y coordinates and linked to its attributes. Best for
+discrete objects.</span>
+<span id="gloss-raster">A data model that stores the world as a regular grid of equal-sized
+cells, each holding one value. Best for continuous data and imagery.</span>
+<span id="gloss-coordinate-system">A system of numbers, such as latitude and longitude, that gives every
+location a unique position so layers line up with each other.</span>
+<span id="gloss-geodetic-datum">A model that fixes an ellipsoid’s size, shape, and position relative to
+the Earth, realized by a network of control points, so latitude and
+longitude point to real places. Examples are NAD27, NAD83, and WGS84.</span>
+<span id="gloss-map-projection">A mathematical method for flattening the round Earth onto a flat map.
+Every projection distorts area, shape, distance, or direction in some
+way.</span>
+<span id="gloss-attribute">A non-spatial fact about a feature, such as a building’s name or the
+year it was built. Attributes are stored in a table with one row per
+feature.</span>
+<span id="gloss-spatial-join">A join that matches the features of two layers by location instead of by
+a shared key, then appends attributes from one to the other.</span>
+<span id="gloss-margin-of-error-moe">The likely range of sampling error around an estimate. Census Bureau
+margins of error use a 90 percent confidence level.</span>
+<span id="gloss-geocoding">Turning an address or place name into coordinates, so it can be put on a
+map.</span>
+<span id="gloss-georeferencing">Transforming a raster, such as a scanned map or image, from file
+coordinates to map coordinates.</span>
+<span id="gloss-openstreetmap">A free, editable map of the world built by volunteers, founded in 2004.</span>
+<span id="gloss-buffer">The region within a specified distance of a point, line, or polygon.</span>
+<span id="gloss-overlay-analysis">Stacking layers of data for the same area to find places that meet
+several conditions at once, such as flat land near a road and outside a
+floodplain.</span>
+<span id="gloss-map-algebra">Math on rasters, cell by cell, such as adding two grids or finding every
+cell where slope is under 10 percent.</span>
+<span id="gloss-spatial-interpolation">Estimating the value of an attribute at unsampled locations from
+observations at sampled ones.</span>
+<span id="gloss-kriging">A geostatistical interpolation method that weights observations using a
+model of spatial autocorrelation (the semivariogram), and estimates the
+uncertainty of each prediction.</span>
+<span id="gloss-qgis">A free and open-source desktop GIS that runs on Windows, Mac, and Linux.</span>
+<span id="gloss-arcgis-pro">Esri’s commercial desktop GIS, for Windows.</span>
+<span id="gloss-geographic-information-science-giscience">The theory and methods behind GIS: research on analysis, data
+representation, visualization, and GIS and society. Michael Goodchild
+named the field in 1992.</span>
+<span id="gloss-gis-question">A question whose answer depends on location, such as where something
+clusters, how places differ, what factors explain a pattern, how a place
+has changed, or how accessible a service is.</span>
+<span id="gloss-epidemiology">The study of how diseases are distributed and spread in populations.
+John Snow’s 1854 cholera map is a founding example.</span>
+<span id="gloss-census-tract">A relatively permanent subdivision of a county with 1,200 to 8,000
+people, about 4,000 on average.</span>
+<span id="gloss-authoritative-data">Data from official agencies, collected under documented standards and
+published with metadata.</span>
+<span id="gloss-parcel">A polygon for one piece of property, usually with its owner and address.</span>
+<span id="gloss-database">An organized collection of tables, usually stored and managed by a
+database management system.</span>
+<span id="gloss-next-generation-911">The digital, GIS-based 911 system that uses address points, street
+centerlines, and boundaries to route emergency calls and locate callers.</span>
+<span id="gloss-site-selection">Using GIS to choose the best location for something, such as a new
+store, clinic, or fire station.</span>
+<span id="gloss-reclassification">Grouping the values of a layer into fewer, more meaningful classes, such
+as elevations into low, medium, and high.</span>
+<span id="gloss-layer">A set of spatial data about one theme, such as roads, soils, or
+elevation. Layers for the same area stack on top of each other to make a
+map.</span>
+<span id="gloss-digitize">To create vector features by drawing them, clicking each point or vertex
+on a map or image.</span>
+<span id="gloss-redlining">Grading neighborhoods as risky for lending, as the federal Home Owners’
+Loan Corporation did on maps in the 1930s, which outlined many Black and
+immigrant neighborhoods in red and denied them credit.</span>
+<span id="gloss-passive-sensor">A sensor that records energy it does not send out itself, such as
+reflected sunlight or emitted heat. Most satellite cameras are passive.</span>
+<span id="gloss-active-sensor">A sensor that sends out its own signal and measures what comes back, as
+radar and lidar do.</span>
+<span id="gloss-lidar">A remote sensing method that times laser pulses to measure distance,
+used to map elevation, buildings, and tree height in fine detail.</span>
+<span id="gloss-spectral-signature">The pattern of how much light a surface reflects at each wavelength,
+which lets remote sensing tell surfaces such as vegetation, soil, and
+water apart.</span>
+<span id="gloss-normalized-difference-vegetation-index-ndvi">A measure of green vegetation from remote sensing, computed as (NIR −
+Red) / (NIR + Red). It ranges from −1 to 1, and dense healthy vegetation
+is high.</span>
+<span id="gloss-change-detection">Comparing images or maps of the same place from different dates to find
+what changed.</span>
+<span id="gloss-landsat">A series of U.S. Earth-observing satellites, run by NASA and the USGS,
+that have imaged the whole planet since 1972, mostly with 30-meter
+cells.</span>
+<span id="gloss-spatial-autocorrelation">The degree to which values at nearby locations are more alike (positive)
+or more different (negative) than chance would predict.</span>
+<span id="gloss-semivariogram">A plot of semivariance against the distance between pairs of
+observations, described by its nugget, sill, and range.</span>
+<span id="gloss-geographically-weighted-regression-gwr">A regression that is fit separately at each location, weighting nearby
+observations more, so that relationships between variables can change
+across space.</span>
+<span id="gloss-tobler-s-first-law-of-geography">“Everything is related to everything else, but near things are more
+related than distant things” (Tobler 1970).</span>
+<span id="gloss-space-time-cube">A way to organize data that change over time: a map for each time step,
+stacked so that x, y, and time are the three axes.</span>
+<span id="gloss-uncertain-geographic-context-problem">The problem that the area that actually affects a person, such as where
+they spend their day, may not match the unit used to study them, such as
+their home census tract.</span>
+<span id="gloss-postgis">A free extension that adds geometry types and spatial functions to the
+PostgreSQL database.</span>
+<span id="gloss-sql">Structured Query Language, the standard language for asking databases
+questions. In a GIS you usually write only its WHERE clause.</span>
+<span id="gloss-cybergis">GIS built on high-performance and cloud computing, so large analyses can
+be split across many processors.</span>
+<span id="gloss-foundation-model">A large AI model pretrained on a huge dataset, such as an archive of
+satellite images, that can be adapted to many tasks with little new
+labeled data.</span>
+<span id="gloss-spatial-thinking">Using ideas of space, such as location, distance, pattern, and scale, to
+understand and solve problems.</span>
+<span id="gloss-spatial-cross-validation">Testing a model on whole regions held out from training, rather than on
+random points, so that spatial autocorrelation doesn’t make the model
+look more accurate than it is.</span>
+<span id="gloss-cross-validation">Testing an interpolation by removing each observation in turn,
+estimating it from the rest, and recording the error.</span>
+<span id="gloss-web-gis">GIS delivered through a web browser: interactive maps, dashboards, and
+analysis that run online rather than in desktop software.</span>
+<span id="gloss-arcgis-online">Esri’s system for making and sharing maps and layers on the web.</span>
+<span id="gloss-open-source">Software whose source code anyone may read, change, and share, often
+free of charge. QGIS and GRASS GIS are open source.</span>
+<span id="gloss-digital-twin">A detailed, regularly updated digital model of a real city, building, or
+system, often 3D and linked to live sensor data.</span>
+<span id="gloss-arcpy">Esri’s Python library for running ArcGIS tools and automating work in
+ArcGIS Pro.</span>
+<span id="gloss-modelbuilder">ArcGIS Pro’s visual tool for drawing and running a cartographic model as
+a flowchart. QGIS’s equivalent is the Model Designer.</span>
+<span id="gloss-differential-privacy">A method that adds calibrated statistical noise to published tables, so
+that individuals cannot be identified.</span>
+<span id="gloss-cartography">The art and science of making maps.</span>
+<span id="gloss-gis-t-body-of-knowledge">A free collection of short, peer-reviewed articles on geographic
+information science and technology topics, from the University
+Consortium for Geographic Information Science (UCGIS).</span>
+<span id="gloss-spatial-analysis">Methods that use the locations of things, and the relationships among
+them, to find patterns, explain them, or make predictions.</span>
+<span id="gloss-gps">The Global Positioning System: U.S. satellites that let a receiver, such
+as your phone, work out its location. GNSS is the general name for GPS
+and similar systems from other countries.</span>
+<span id="gloss-geospatial">A common synonym for <em>geographic</em>, used especially in industry,
+the military, and government.</span>
+<span id="gloss-geostatistics">Statistics for spatially continuous data, which model spatial
+autocorrelation to predict values and their uncertainty. Kriging is its
+best-known method.</span>
+<span id="gloss-mapathon">An event where volunteers map together for a few hours, often for a
+humanitarian project.</span>
+<span id="gloss-humanitarian-openstreetmap-team">An organization that coordinates volunteer OpenStreetMap mapping for
+disaster response and development.</span>
+<span id="gloss-tasking-manager">HOT’s tool that divides a mapping project into small squares, so that
+volunteers don’t overlap and each square can be validated.</span>
+<span id="gloss-esri">The company that makes ArcGIS, founded in 1969 by Jack and Laura
+Dangermond in Redlands, California.</span>
+<span id="gloss-spatial-data-quality">How well a geographic dataset fits its intended use, described by
+elements such as lineage, accuracy, consistency, and completeness.</span>
+<span id="gloss-metadata">Data about data: who made a dataset, when, how, in what coordinate
+system, and how accurate it is.</span>
+<span id="gloss-gisp">Geographic Information Systems Professional: a certification from the
+GIS Certification Institute for experienced GIS practitioners.</span>
+</div>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script>
+
+/* update total correct if #webex-total_correct exists */
+update_total_correct = function() {
+  console.log("webex: update total_correct");
+
+  var t = document.getElementsByClassName("webex-total_correct");
+  for (var i = 0; i < t.length; i++) {
+    p = t[i].parentElement;
+    var correct = p.getElementsByClassName("webex-correct").length;
+    var solvemes = p.getElementsByClassName("webex-solveme").length;
+    var radiogroups = p.getElementsByClassName("webex-radiogroup").length;
+    var selects = p.getElementsByClassName("webex-select").length;
+
+    t[i].innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  }
+}
+
+/* webex-solution button toggling function */
+b_func = function() {
+  console.log("webex: toggle hide");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('open')) {
+    cl.remove("open");
+  } else {
+    cl.add("open");
+  }
+}
+
+/* check answers */
+check_func = function() {
+  console.log("webex: check answers");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('unchecked')) {
+    cl.remove("unchecked");
+    this.innerHTML = "Hide Answers";
+  } else {
+    cl.add("unchecked");
+    this.innerHTML = "Show Answers";
+  }
+}
+
+/* function for checking solveme answers */
+solveme_func = function(e) {
+  console.log("webex: check solveme");
+
+  var real_answers = JSON.parse(this.dataset.answer);
+  var my_answer = this.value;
+  var cl = this.classList;
+  if (cl.contains("ignorecase")) {
+    my_answer = my_answer.toLowerCase();
+  }
+  if (cl.contains("nospaces")) {
+    my_answer = my_answer.replace(/ /g, "")
+  }
+
+  if (my_answer == "") {
+    cl.remove("webex-correct");
+    cl.remove("webex-incorrect");
+  } else if (real_answers.includes(my_answer)) {
+    cl.add("webex-correct");
+    cl.remove("webex-incorrect");
+  } else {
+    cl.add("webex-incorrect");
+    cl.remove("webex-correct");
+  }
+
+  // match numeric answers within a specified tolerance
+  if(this.dataset.tol > 0){
+    var tol = JSON.parse(this.dataset.tol);
+    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+    if (matches.reduce((a, b) => a + b, 0) > 0) {
+      cl.add("webex-correct");
+    } else {
+      cl.remove("webex-correct");
+    }
+  }
+
+  // added regex bit
+  if (cl.contains("regex")){
+    answer_regex = RegExp(real_answers.join("|"))
+    if (answer_regex.test(my_answer)) {
+      cl.add("webex-correct");
+    }
+  }
+
+  update_total_correct();
+}
+
+/* function for checking select answers */
+select_func = function(e) {
+  console.log("webex: check select");
+
+  var cl = this.classList
+
+  /* add style */
+  cl.remove("webex-incorrect");
+  cl.remove("webex-correct");
+  if (this.value == "answer") {
+    cl.add("webex-correct");
+  } else if (this.value != "blank") {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+/* function for checking radiogroups answers */
+radiogroups_func = function(e) {
+  console.log("webex: check radiogroups");
+
+  var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
+  var cl = checked_button.parentElement.classList;
+  var labels = checked_button.parentElement.parentElement.children;
+
+  /* get rid of styles */
+  for (i = 0; i < labels.length; i++) {
+    labels[i].classList.remove("webex-incorrect");
+    labels[i].classList.remove("webex-correct");
+  }
+
+  /* add style */
+  if (checked_button.value == "answer") {
+    cl.add("webex-correct");
+  } else {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+window.onload = function() {
+  console.log("webex onload");
+  /* set up solution buttons */
+  var buttons = document.getElementsByTagName("button");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].parentElement.classList.contains('webex-solution')) {
+      buttons[i].onclick = b_func;
+    }
+  }
+
+  var check_sections = document.getElementsByClassName("webex-check");
+  console.log("check:", check_sections.length);
+  for (var i = 0; i < check_sections.length; i++) {
+    check_sections[i].classList.add("unchecked");
+
+    let btn = document.createElement("button");
+    btn.innerHTML = "Show Answers";
+    btn.classList.add("webex-check-button");
+    btn.onclick = check_func;
+    check_sections[i].appendChild(btn);
+
+    let spn = document.createElement("span");
+    spn.classList.add("webex-total_correct");
+    check_sections[i].appendChild(spn);
+  }
+
+  /* set up webex-solveme inputs */
+  var solveme = document.getElementsByClassName("webex-solveme");
+
+  for (var i = 0; i < solveme.length; i++) {
+    /* make sure input boxes don't auto-anything */
+    solveme[i].setAttribute("autocomplete","off");
+    solveme[i].setAttribute("autocorrect", "off");
+    solveme[i].setAttribute("autocapitalize", "off");
+    solveme[i].setAttribute("spellcheck", "false");
+    solveme[i].value = "";
+
+    /* adjust answer for ignorecase or nospaces */
+    var cl = solveme[i].classList;
+    var real_answer = solveme[i].dataset.answer;
+    if (cl.contains("ignorecase")) {
+      real_answer = real_answer.toLowerCase();
+    }
+    if (cl.contains("nospaces")) {
+      real_answer = real_answer.replace(/ /g, "");
+    }
+    solveme[i].dataset.answer = real_answer;
+
+    /* attach checking function */
+    solveme[i].onkeyup = solveme_func;
+    solveme[i].onchange = solveme_func;
+
+    solveme[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  /* set up radiogroups */
+  var radiogroups = document.getElementsByClassName("webex-radiogroup");
+  for (var i = 0; i < radiogroups.length; i++) {
+    radiogroups[i].onchange = radiogroups_func;
+  }
+
+  /* set up selects */
+  var selects = document.getElementsByClassName("webex-select");
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].onchange = select_func;
+    selects[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  update_total_correct();
+}
+
+</script>
+<!--
+  Highlights the right item in the top menu. Quarto's book layout marks
+  "Welcome" as active on every page, so this sets it from the page address:
+  the course pages match their own item, and every other page (chapters,
+  quizzes, glossary) is part of the Textbook. Pages with no menu item of
+  their own (the AI policy and privacy policy) highlight nothing.
+-->
+<script>
+(function () {
+  "use strict";
+  const COURSE_PAGES = ["index", "syllabus", "materials", "about"];
+  const NO_ITEM_PAGES = ["privacy", "ai-policy"];
+  const file = (location.pathname.split("/").pop() || "index").replace(/\.html$/, "");
+  const inRoot = !/\/chapters\//.test(location.pathname);
+  const target = inRoot && NO_ITEM_PAGES.includes(file) ? null
+    : inRoot && COURSE_PAGES.includes(file) ? file : "preface";
+  document.querySelectorAll("#navbarCollapse a.nav-link").forEach((a) => {
+    const page = (a.getAttribute("href") || "").split("/").pop().replace(/\.html$/, "");
+    const on = page === target;
+    a.classList.toggle("active", on);
+    if (on) a.setAttribute("aria-current", "page");
+    else a.removeAttribute("aria-current");
+  });
+})();
+</script>
+<!--
+  Reading settings, part 2 of 2: the "Aa" menu next to search, where readers
+  pick a font and text size. Choices are kept in this browser (localStorage)
+  and applied on every page by assets/reader-settings-head.html.
+-->
+<script>
+(function () {
+  var FONTS = [
+    { id: "", label: "Atkinson Hyperlegible (default)", css: '"Atkinson Hyperlegible Next", sans-serif' },
+    { id: "lexend", label: "Lexend", css: '"Lexend", sans-serif', href: "https://fonts.googleapis.com/css2?family=Lexend:wght@300..700&display=swap" },
+    { id: "cardo", label: "Cardo (serif)", css: '"Cardo", Georgia, serif', href: "https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&display=swap" },
+    { id: "sans", label: "Standard sans-serif", css: 'system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif' },
+    { id: "serif", label: "Serif", css: 'Georgia, Cambria, "Times New Roman", serif' },
+    { id: "dyslexic", label: "OpenDyslexic", css: '"OpenDyslexic", sans-serif' }
+  ];
+  var SIZES = { "-1": "Small", "0": "Default", "1": "Large", "2": "Larger", "3": "Largest" };
+  var MIN = -1, MAX = 3;
+  var root = document.documentElement;
+
+  function save(key, value) {
+    try {
+      if (value === "" || value === "0") localStorage.removeItem(key);
+      else localStorage.setItem(key, value);
+    } catch (e) { /* storage blocked: setting lasts for this page only */ }
+  }
+  function currentFont() { return root.getAttribute("data-reader-font") || ""; }
+  function currentSize() { return parseInt(root.getAttribute("data-reader-size") || "0", 10) || 0; }
+
+  // Add a Google Fonts stylesheet once (Lexend, Cardo). Fonts download only
+  // when text actually uses them.
+  function loadWebFont(f) {
+    if (!f.href || document.getElementById("sds-reader-webfont-" + f.id)) return;
+    var link = document.createElement("link");
+    link.rel = "stylesheet"; link.href = f.href; link.id = "sds-reader-webfont-" + f.id;
+    document.head.appendChild(link);
+  }
+
+  function setFont(id) {
+    FONTS.forEach(function (f) { if (f.id === id) loadWebFont(f); });
+    if (id) root.setAttribute("data-reader-font", id); else root.removeAttribute("data-reader-font");
+    save("sds-reader-font", id);
+  }
+  function setSize(n) {
+    n = Math.max(MIN, Math.min(MAX, n));
+    if (n) root.setAttribute("data-reader-size", String(n)); else root.removeAttribute("data-reader-size");
+    save("sds-reader-size", String(n));
+    refreshSize();
+  }
+
+  var wrap = document.createElement("div");
+  wrap.className = "sds-reader";
+  var fontOptions = FONTS.map(function (f) {
+    return '<label style=\'font-family:' + f.css.replace(/'/g, "&#39;") + '\'>' +
+      '<input class="form-check-input" type="radio" name="sds-reader-font" value="' + f.id + '"> ' + f.label + '</label>';
+  }).join("");
+  wrap.innerHTML =
+    '<button type="button" class="sds-reader-toggle" aria-expanded="false" aria-controls="sds-reader-panel" ' +
+      'title="Reading settings: font and text size">' +
+      '<span aria-hidden="true">Aa</span><span class="visually-hidden">Reading settings</span></button>' +
+    '<div class="sds-reader-panel" id="sds-reader-panel" role="dialog" aria-label="Reading settings" hidden>' +
+      '<h2>Reading settings</h2>' +
+      '<fieldset class="sds-reader-font"><legend>Font</legend>' + fontOptions + '</fieldset>' +
+      '<fieldset><legend>Text size</legend><div class="sds-reader-size-row">' +
+        '<button type="button" data-step="-1" aria-label="Smaller text">A&minus;</button>' +
+        '<output aria-live="polite"></output>' +
+        '<button type="button" data-step="1" aria-label="Larger text">A+</button>' +
+      '</div></fieldset>' +
+      '<button type="button" class="sds-reader-reset">Reset to defaults</button>' +
+    '</div>';
+
+  var toggle = wrap.querySelector(".sds-reader-toggle");
+  var panel = wrap.querySelector(".sds-reader-panel");
+  var output = wrap.querySelector("output");
+  var minus = wrap.querySelector('[data-step="-1"]');
+  var plus = wrap.querySelector('[data-step="1"]');
+
+  function refreshFont() {
+    var id = currentFont();
+    wrap.querySelectorAll('input[name="sds-reader-font"]').forEach(function (r) { r.checked = r.value === id; });
+  }
+  function refreshSize() {
+    var n = currentSize();
+    output.textContent = SIZES[String(n)] || "Default";
+    minus.disabled = n <= MIN;
+    plus.disabled = n >= MAX;
+  }
+  function open(show) {
+    panel.hidden = !show;
+    toggle.setAttribute("aria-expanded", show ? "true" : "false");
+    if (show) { FONTS.forEach(loadWebFont); refreshFont(); refreshSize(); var c = panel.querySelector("input:checked"); if (c) c.focus(); }
+  }
+
+  toggle.addEventListener("click", function (e) { e.stopPropagation(); open(panel.hidden); });
+  panel.addEventListener("click", function (e) { e.stopPropagation(); });
+  panel.addEventListener("change", function (e) { if (e.target.name === "sds-reader-font") setFont(e.target.value); });
+  minus.addEventListener("click", function () { setSize(currentSize() - 1); });
+  plus.addEventListener("click", function () { setSize(currentSize() + 1); });
+  wrap.querySelector(".sds-reader-reset").addEventListener("click", function () { setFont(""); setSize(0); refreshFont(); });
+  document.addEventListener("click", function () { if (!panel.hidden) open(false); });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !panel.hidden) { open(false); toggle.focus(); }
+  });
+
+  // Put the button by search: in the top menu on
+  // geog370.org, or by the sidebar search in the textbook-only build.
+  var navSearch = document.querySelector("#quarto-header #quarto-search");
+  if (navSearch) navSearch.parentNode.insertBefore(wrap, navSearch);
+  else {
+    var search = document.querySelector("#quarto-sidebar .sidebar-search, #quarto-sidebar #quarto-search, .sidebar-tools-main");
+    if (search && search.parentNode) search.parentNode.insertBefore(wrap, search.nextSibling);
+    else return;
+  }
+  refreshFont();
+  refreshSize();
+})();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/arcgis-pro.html" class="pagination-link" aria-label="Getting to Know ArcGIS Pro">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Getting to Know ArcGIS Pro</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../glossary.html" class="pagination-link" aria-label="Glossary">
+        <span class="nav-page-text">Glossary</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
