@@ -1,0 +1,491 @@
+{
+  "id": "attribute-queries",
+  "title": "Attribute Data and Queries",
+  "perSession": 10,
+  "minR": 0,
+  "questions": [
+    {
+      "id": "record-def",
+      "type": "choice",
+      "prompt": "In an attribute table, a record is:",
+      "choices": [
+        "A row: everything known about one feature",
+        "A column: one variable for every feature",
+        "The whole table",
+        "A data type"
+      ],
+      "answer": 0,
+      "explain": "A record is a row. A column is an attribute, or field."
+    },
+    {
+      "id": "attribute-def",
+      "type": "choice",
+      "prompt": "In an attribute table, an attribute (field) is:",
+      "choices": [
+        "A column: one variable for every feature",
+        "A row: everything about one feature",
+        "A selected feature",
+        "A layer"
+      ],
+      "answer": 0,
+      "explain": "Each column holds one kind of measurement for every feature."
+    },
+    {
+      "id": "one-row-per-feature",
+      "type": "truefalse",
+      "prompt": "An attribute table has one row per feature.",
+      "answer": true,
+      "explain": "Every feature has exactly one record, and every record has a feature."
+    },
+    {
+      "id": "zip-type",
+      "type": "choice",
+      "prompt": "Which data type should store ZIP codes like 02201?",
+      "choices": [
+        "Text",
+        "Short Integer",
+        "Double",
+        "Float"
+      ],
+      "answer": 0,
+      "explain": "As a number, 02201 would lose its leading zero. Identifiers never used in arithmetic belong in text."
+    },
+    {
+      "id": "fips-type",
+      "type": "choice",
+      "prompt": "A county FIPS code, such as 37135, should be stored as:",
+      "choices": [
+        "Text",
+        "Double",
+        "Date",
+        "Boolean"
+      ],
+      "answer": 0,
+      "explain": "It is an identifier, not a quantity, and text keeps leading zeros and matches other tables."
+    },
+    {
+      "id": "short-max",
+      "type": "choice",
+      "prompt": "What is the largest value a 16-bit short integer can hold?",
+      "choices": [
+        "32,767",
+        "65,536",
+        "2,147,483,647",
+        "255"
+      ],
+      "answer": 0,
+      "explain": "16 bits give 65,536 values, half of them negative: −32,768 to 32,767."
+    },
+    {
+      "id": "long-max",
+      "type": "choice",
+      "prompt": "What is the largest value a 32-bit integer can hold?",
+      "choices": [
+        "2,147,483,647",
+        "32,767",
+        "4,294,967,296",
+        "9,223,372,036,854,775,807"
+      ],
+      "answer": 0,
+      "explain": "About 2.1 billion. It is why YouTube's view counter had to change for Gangnam Style."
+    },
+    {
+      "id": "binary-1101",
+      "type": "fill",
+      "prompt": "What decimal number is the binary number 1101?",
+      "answers": [
+        "13"
+      ],
+      "explain": "8 + 4 + 0 + 1 = 13.",
+      "numeric": true
+    },
+    {
+      "id": "binary-1000",
+      "type": "fill",
+      "prompt": "What decimal number is the binary number 1000?",
+      "answers": [
+        "8"
+      ],
+      "explain": "The fourth column from the right is the eights column.",
+      "numeric": true
+    },
+    {
+      "id": "precision-def",
+      "type": "truefalse",
+      "prompt": "In a numeric field, scale is the number of digits after the decimal point.",
+      "answer": true,
+      "explain": "Precision is the total number of digits; scale is how many come after the decimal point."
+    },
+    {
+      "id": "nominal",
+      "type": "choice",
+      "prompt": "Land use (Urban, Suburban, Farm) is measured at which level?",
+      "choices": [
+        "Nominal",
+        "Ordinal",
+        "Interval",
+        "Ratio"
+      ],
+      "answer": 0,
+      "explain": "Categories with no order."
+    },
+    {
+      "id": "ordinal",
+      "type": "choice",
+      "prompt": "A mill rate class from A to D is measured at which level?",
+      "choices": [
+        "Ordinal",
+        "Nominal",
+        "Interval",
+        "Ratio"
+      ],
+      "answer": 0,
+      "explain": "The classes are ranked, but the steps between them are of unknown size."
+    },
+    {
+      "id": "interval",
+      "type": "choice",
+      "prompt": "Temperature in degrees Celsius is measured at which level?",
+      "choices": [
+        "Interval",
+        "Ratio",
+        "Ordinal",
+        "Nominal"
+      ],
+      "answer": 0,
+      "explain": "Equal steps, but 0 °C doesn't mean no temperature, so ratios mislead."
+    },
+    {
+      "id": "ratio",
+      "type": "choice",
+      "prompt": "Population is measured at which level?",
+      "choices": [
+        "Ratio",
+        "Interval",
+        "Ordinal",
+        "Nominal"
+      ],
+      "answer": 0,
+      "explain": "It has a true zero, so ratios like twice as many make sense."
+    },
+    {
+      "id": "average-nominal",
+      "type": "truefalse",
+      "prompt": "It makes sense to average land cover codes.",
+      "answer": false,
+      "explain": "Land cover codes are nominal. You can count them, but not average them."
+    },
+    {
+      "id": "where-clause",
+      "type": "choice",
+      "prompt": "In a GIS, which part of an SQL query do you usually write yourself?",
+      "choices": [
+        "The WHERE clause",
+        "The SELECT clause",
+        "The FROM clause",
+        "The whole statement"
+      ],
+      "answer": 0,
+      "explain": "The layer supplies FROM, and the selection tool supplies SELECT."
+    },
+    {
+      "id": "quotes",
+      "type": "choice",
+      "prompt": "In a QGIS expression, how should a text value be quoted?",
+      "choices": [
+        "Single quotes: 'Urban'",
+        "Double quotes: \"Urban\"",
+        "No quotes: Urban",
+        "Brackets: [Urban]"
+      ],
+      "answer": 0,
+      "explain": "Field names take double quotes, text values single quotes, and numbers none."
+    },
+    {
+      "id": "simple-query",
+      "type": "choice",
+      "prompt": "Using the seven parcels, which records does \"Area\" > 20 select?",
+      "choices": [
+        "2, 4, 5, 6",
+        "1, 5",
+        "1, 2, 4, 5, 6",
+        "3, 7"
+      ],
+      "answer": 0,
+      "explain": "Parcels 2 (330.3), 4 (96.0), 5 (22.1), and 6 (30.2)."
+    },
+    {
+      "id": "and-query",
+      "type": "choice",
+      "prompt": "Using the seven parcels, which records does \"Landuse\" = 'Urban' AND \"Municip\" = 'City' select?",
+      "choices": [
+        "1, 5",
+        "1, 5, 7",
+        "1, 2, 4, 5, 6",
+        "5"
+      ],
+      "answer": 0,
+      "explain": "Only parcels 1 and 5 are both urban and in a city."
+    },
+    {
+      "id": "or-query",
+      "type": "choice",
+      "prompt": "Using the seven parcels, which records does \"Area\" > 20 OR \"Municip\" = 'City' select?",
+      "choices": [
+        "1, 2, 4, 5, 6",
+        "1, 5",
+        "2, 4, 5, 6",
+        "All seven"
+      ],
+      "answer": 0,
+      "explain": "Parcels 3 and 7 fail both tests."
+    },
+    {
+      "id": "not-query-count",
+      "type": "fill",
+      "prompt": "Using the seven parcels, how many records does NOT (\"Landuse\" = 'Urban') select?",
+      "answers": [
+        "4",
+        "four"
+      ],
+      "explain": "Parcels 2, 3, 4, and 6.",
+      "ignoreCase": true
+    },
+    {
+      "id": "and-narrows",
+      "type": "truefalse",
+      "prompt": "Adding a condition with AND can never make a selection larger.",
+      "answer": true,
+      "explain": "AND narrows; OR widens."
+    },
+    {
+      "id": "and-intersection",
+      "type": "choice",
+      "prompt": "In set terms, AND selects the:",
+      "choices": [
+        "Intersection",
+        "Union",
+        "Complement",
+        "Empty set"
+      ],
+      "answer": 0,
+      "explain": "Records in both sets."
+    },
+    {
+      "id": "or-union",
+      "type": "choice",
+      "prompt": "In set terms, OR selects the:",
+      "choices": [
+        "Union",
+        "Intersection",
+        "Complement",
+        "Empty set"
+      ],
+      "answer": 0,
+      "explain": "Records in either set."
+    },
+    {
+      "id": "same-field-and",
+      "type": "choice",
+      "prompt": "\"Landuse\" = 'Urban' AND \"Landuse\" = 'Farm' selects:",
+      "choices": [
+        "Nothing",
+        "Every urban and farm parcel",
+        "Everything",
+        "Only NULL records"
+      ],
+      "answer": 0,
+      "explain": "Each record has one land use, so no record is both."
+    },
+    {
+      "id": "range-or",
+      "type": "choice",
+      "prompt": "\"Pop2020\" >= 5000 OR \"Pop2020\" < 9000 selects:",
+      "choices": [
+        "Every record with a population value",
+        "Only populations between 5,000 and 9,000",
+        "Nothing",
+        "Only populations over 9,000"
+      ],
+      "answer": 0,
+      "explain": "Every number is either at least 5,000 or below 9,000. A range needs AND."
+    },
+    {
+      "id": "rule-of-thumb",
+      "type": "choice",
+      "prompt": "Two values of one attribute take ___; two bounds on one attribute take ___.",
+      "choices": [
+        "OR; AND",
+        "AND; OR",
+        "AND; AND",
+        "OR; OR"
+      ],
+      "answer": 0,
+      "explain": "Urban OR Farm; at least 5,000 AND below 9,000."
+    },
+    {
+      "id": "demorgan",
+      "type": "choice",
+      "prompt": "NOT (A AND B) is the same as:",
+      "choices": [
+        "(NOT A) OR (NOT B)",
+        "(NOT A) AND (NOT B)",
+        "A OR B",
+        "NOT A AND B"
+      ],
+      "answer": 0,
+      "explain": "De Morgan's law: when you move NOT inside, flip AND to OR."
+    },
+    {
+      "id": "not-placement",
+      "type": "fill",
+      "prompt": "Using the seven parcels, how many records does NOT (\"Landuse\" = 'Urban' AND \"Municip\" = 'County') select?",
+      "answers": [
+        "6",
+        "six"
+      ],
+      "explain": "Only parcel 7 is both urban and in a county, so everything else is selected.",
+      "ignoreCase": true
+    },
+    {
+      "id": "complex",
+      "type": "choice",
+      "prompt": "Using the seven parcels, which records does (\"Landuse\" = 'Urban' AND \"MillRate\" = 'B') OR (NOT \"Municip\" = 'City' AND \"Density\" > 200) select?",
+      "choices": [
+        "3, 5",
+        "5",
+        "1, 3, 5",
+        "3, 5, 7"
+      ],
+      "answer": 0,
+      "explain": "Parcel 5 passes the first group; parcel 3 (township, 237.5) the second."
+    },
+    {
+      "id": "precedence",
+      "type": "choice",
+      "prompt": "Without brackets, SQL evaluates logical operators in which order?",
+      "choices": [
+        "NOT, then AND, then OR",
+        "OR, then AND, then NOT",
+        "Left to right",
+        "AND, then OR, then NOT"
+      ],
+      "answer": 0,
+      "explain": "But always write the brackets anyway."
+    },
+    {
+      "id": "like",
+      "type": "choice",
+      "prompt": "Which query finds every name that starts with North?",
+      "choices": [
+        "\"NAME\" LIKE 'North%'",
+        "\"NAME\" = 'North'",
+        "\"NAME\" LIKE '%North'",
+        "\"NAME\" IN ('North')"
+      ],
+      "answer": 0,
+      "explain": "% stands for any number of characters after North."
+    },
+    {
+      "id": "between-inclusive",
+      "type": "truefalse",
+      "prompt": "\"Pop\" BETWEEN 5000 AND 9000 selects records whose population is exactly 5,000.",
+      "answer": true,
+      "explain": "BETWEEN includes both endpoints."
+    },
+    {
+      "id": "in-op",
+      "type": "choice",
+      "prompt": "\"Landuse\" IN ('Urban', 'Suburban') is the same as:",
+      "choices": [
+        "\"Landuse\" = 'Urban' OR \"Landuse\" = 'Suburban'",
+        "\"Landuse\" = 'Urban' AND \"Landuse\" = 'Suburban'",
+        "NOT \"Landuse\" = 'Farm'",
+        "\"Landuse\" LIKE 'Urban%'"
+      ],
+      "answer": 0,
+      "explain": "IN is a tidy way to write a chain of ORs on one field."
+    },
+    {
+      "id": "is-null",
+      "type": "choice",
+      "prompt": "Which query finds records with no recorded income?",
+      "choices": [
+        "\"Income\" IS NULL",
+        "\"Income\" = NULL",
+        "\"Income\" = 0",
+        "\"Income\" = ''"
+      ],
+      "answer": 0,
+      "explain": "NULL equals nothing, not even NULL. Use IS NULL."
+    },
+    {
+      "id": "null-zero",
+      "type": "truefalse",
+      "prompt": "A NULL population means the same thing as a population of 0.",
+      "answer": false,
+      "explain": "Zero is a measurement; NULL means nothing was recorded."
+    },
+    {
+      "id": "null-count",
+      "type": "fill",
+      "prompt": "A table has 100 records; 10 have a NULL Pop. \"Pop\" > 5000 selects 30. How many does \"Pop\" <= 5000 select?",
+      "answers": [
+        "60"
+      ],
+      "explain": "100 − 10 NULL − 30 = 60. NULL fails both comparisons.",
+      "numeric": true
+    },
+    {
+      "id": "selection-temp",
+      "type": "choice",
+      "prompt": "Which result survives closing the project?",
+      "choices": [
+        "A layer exported from the selection",
+        "The selection itself",
+        "The highlighted rows",
+        "The count in the title bar"
+      ],
+      "answer": 0,
+      "explain": "A selection is temporary. Export it, or calculate it into a field."
+    },
+    {
+      "id": "selection-steps",
+      "type": "order",
+      "prompt": "Put the steps for using a selection in order.",
+      "answer": [
+        "Zoom to the selection",
+        "Read the count and statistics",
+        "Calculate a field for the selection",
+        "Export the selection"
+      ],
+      "explain": "Look first, check the count, then make the result permanent."
+    },
+    {
+      "id": "field-calc",
+      "type": "choice",
+      "prompt": "Which tool writes a value, such as Flag = 1, into a field for the selected records?",
+      "choices": [
+        "Field calculator (Calculate Field)",
+        "Select by Expression",
+        "Zoom to Selection",
+        "Definition query"
+      ],
+      "answer": 0,
+      "explain": "With 'only update selected features,' it changes only the selection."
+    },
+    {
+      "id": "definition-query",
+      "type": "choice",
+      "prompt": "In ArcGIS Pro, a WHERE clause that hides failing features until you remove it is a:",
+      "choices": [
+        "Definition query",
+        "Selection",
+        "Join",
+        "Datum"
+      ],
+      "answer": 0,
+      "explain": "QGIS calls this a filter."
+    }
+  ]
+}

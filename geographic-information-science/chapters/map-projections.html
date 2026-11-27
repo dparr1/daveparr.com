@@ -1,0 +1,1851 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>4&nbsp; Map Projections – Geographic Information Science</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/attribute-queries.html" rel="next">
+<link href="../chapters/location-and-coordinates.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ebb58cfc2c0cc903b00b246007c1be77.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-58aeb932f9769ef5b136914697361c15.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-contrib/glossary-1.0.0/glossary.js"></script>
+<link href="../site_libs/quarto-contrib/glossary-1.0.0/glossary.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<!--
+  Reading settings, part 1 of 2: applies the reader's saved font and text size
+  before the page draws, so it doesn't flash in the default font first.
+  The menu itself is in assets/reader-settings.html; styles are in
+  assets/reader-settings.css.
+-->
+<script>
+  (function () {
+    try {
+      var font = localStorage.getItem("sds-reader-font");
+      var size = localStorage.getItem("sds-reader-size");
+      if (font) document.documentElement.setAttribute("data-reader-font", font);
+      // Lexend and Cardo come from Google Fonts, loaded only for readers who pick them.
+      var webFonts = {
+        lexend: "https://fonts.googleapis.com/css2?family=Lexend:wght@300..700&display=swap",
+        cardo: "https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&display=swap"
+      };
+      if (webFonts[font]) {
+        var link = document.createElement("link");
+        link.rel = "stylesheet"; link.href = webFonts[font]; link.id = "sds-reader-webfont-" + font;
+        document.head.appendChild(link);
+      }
+      if (size) document.documentElement.setAttribute("data-reader-size", size);
+    } catch (e) { /* storage blocked: keep the defaults */ }
+  })();
+</script>
+
+
+<link rel="stylesheet" href="../include/webex.css">
+<link rel="stylesheet" href="../assets/sidebar.css">
+<link rel="stylesheet" href="../assets/grade-table.css">
+<link rel="stylesheet" href="../assets/reader-settings.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../units/unit-1.html">Unit 1: Data Models and Projections</a></li><li class="breadcrumb-item"><a href="../chapters/map-projections.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Map Projections</span></a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Site">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Geographic Information Science</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../units/unit-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-1-label">Unit 1: Data Models and Projections</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section: Unit 1: Data Models and Projections">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/what-is-gis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">What Is GIS?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/what-is-geographic-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">What Is Geographic Data?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/location-and-coordinates.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Location and Coordinate Systems</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/map-projections.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Map Projections</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/attribute-queries.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Attribute Data and Queries</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-2-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Glossary</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../about.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About the author</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-what" id="toc-sec-what" class="nav-link active" data-scroll-target="#sec-what"><span class="header-section-number">4.1</span> What is a map projection?</a></li>
+  <li><a href="#sec-distortion" id="toc-sec-distortion" class="nav-link" data-scroll-target="#sec-distortion"><span class="header-section-number">4.2</span> Every projection distorts something</a>
+  <ul class="collapse">
+  <li><a href="#four-properties" id="toc-four-properties" class="nav-link" data-scroll-target="#four-properties"><span class="header-section-number">4.2.1</span> Four properties</a></li>
+  <li><a href="#seeing-distortion-tissots-indicatrix" id="toc-seeing-distortion-tissots-indicatrix" class="nav-link" data-scroll-target="#seeing-distortion-tissots-indicatrix"><span class="header-section-number">4.2.2</span> Seeing distortion: Tissot’s indicatrix</a></li>
+  <li><a href="#mercator-and-reality" id="toc-mercator-and-reality" class="nav-link" data-scroll-target="#mercator-and-reality"><span class="header-section-number">4.2.3</span> Mercator and reality</a></li>
+  <li><a href="#web-mercator-for-display-not-measurement" id="toc-web-mercator-for-display-not-measurement" class="nav-link" data-scroll-target="#web-mercator-for-display-not-measurement"><span class="header-section-number">4.2.4</span> Web Mercator: for display, not measurement</a></li>
+  </ul></li>
+  <li><a href="#sec-made" id="toc-sec-made" class="nav-link" data-scroll-target="#sec-made"><span class="header-section-number">4.3</span> How projections are made</a>
+  <ul class="collapse">
+  <li><a href="#three-developable-surfaces" id="toc-three-developable-surfaces" class="nav-link" data-scroll-target="#three-developable-surfaces"><span class="header-section-number">4.3.1</span> Three developable surfaces</a></li>
+  <li><a href="#tangent-and-secant" id="toc-tangent-and-secant" class="nav-link" data-scroll-target="#tangent-and-secant"><span class="header-section-number">4.3.2</span> Tangent and secant</a></li>
+  <li><a href="#projections-are-named-for-what-they-preserve" id="toc-projections-are-named-for-what-they-preserve" class="nav-link" data-scroll-target="#projections-are-named-for-what-they-preserve"><span class="header-section-number">4.3.3</span> Projections are named for what they preserve</a></li>
+  </ul></li>
+  <li><a href="#sec-us" id="toc-sec-us" class="nav-link" data-scroll-target="#sec-us"><span class="header-section-number">4.4</span> Projections for the United States</a>
+  <ul class="collapse">
+  <li><a href="#lambert-conformal-conic" id="toc-lambert-conformal-conic" class="nav-link" data-scroll-target="#lambert-conformal-conic"><span class="header-section-number">4.4.1</span> Lambert Conformal Conic</a></li>
+  <li><a href="#transverse-mercator" id="toc-transverse-mercator" class="nav-link" data-scroll-target="#transverse-mercator"><span class="header-section-number">4.4.2</span> Transverse Mercator</a></li>
+  <li><a href="#universal-transverse-mercator-utm" id="toc-universal-transverse-mercator-utm" class="nav-link" data-scroll-target="#universal-transverse-mercator-utm"><span class="header-section-number">4.4.3</span> Universal Transverse Mercator (UTM)</a></li>
+  <li><a href="#the-state-plane-coordinate-system" id="toc-the-state-plane-coordinate-system" class="nav-link" data-scroll-target="#the-state-plane-coordinate-system"><span class="header-section-number">4.4.4</span> The State Plane Coordinate System</a></li>
+  </ul></li>
+  <li><a href="#sec-crs" id="toc-sec-crs" class="nav-link" data-scroll-target="#sec-crs"><span class="header-section-number">4.5</span> Coordinate reference systems and EPSG codes</a></li>
+  <li><a href="#sec-choosing" id="toc-sec-choosing" class="nav-link" data-scroll-target="#sec-choosing"><span class="header-section-number">4.6</span> Choosing a projection</a></li>
+  <li><a href="#sec-software" id="toc-sec-software" class="nav-link" data-scroll-target="#sec-software"><span class="header-section-number">4.7</span> Projections in QGIS and ArcGIS Pro</a></li>
+  <li><a href="#check-your-understanding" id="toc-check-your-understanding" class="nav-link" data-scroll-target="#check-your-understanding"><span class="header-section-number">4.8</span> Check your understanding</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">4.9</span> Summary</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">4.10</span> Exercises</a></li>
+  <li><a href="#further-reading-and-online-resources" id="toc-further-reading-and-online-resources" class="nav-link" data-scroll-target="#further-reading-and-online-resources"><span class="header-section-number">4.11</span> Further reading and online resources</a>
+  <ul class="collapse">
+  <li><a href="#books-and-open-textbooks" id="toc-books-and-open-textbooks" class="nav-link" data-scroll-target="#books-and-open-textbooks"><span class="header-section-number">4.11.1</span> Books and open textbooks</a></li>
+  <li><a href="#understanding-map-projections" id="toc-understanding-map-projections" class="nav-link" data-scroll-target="#understanding-map-projections"><span class="header-section-number">4.11.2</span> Understanding map projections</a></li>
+  <li><a href="#mercator-web-mercator-and-the-true-size-of-countries" id="toc-mercator-web-mercator-and-the-true-size-of-countries" class="nav-link" data-scroll-target="#mercator-web-mercator-and-the-true-size-of-countries"><span class="header-section-number">4.11.3</span> Mercator, Web Mercator, and the true size of countries</a></li>
+  <li><a href="#utm-state-plane-and-coordinate-reference-systems" id="toc-utm-state-plane-and-coordinate-reference-systems" class="nav-link" data-scroll-target="#utm-state-plane-and-coordinate-reference-systems"><span class="header-section-number">4.11.4</span> UTM, State Plane, and coordinate reference systems</a></li>
+  <li><a href="#software-and-tutorials" id="toc-software-and-tutorials" class="nav-link" data-scroll-target="#software-and-tutorials"><span class="header-section-number">4.11.5</span> Software and tutorials</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../units/unit-1.html">Unit 1: Data Models and Projections</a></li><li class="breadcrumb-item"><a href="../chapters/map-projections.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Map Projections</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Map Projections</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Learning objectives
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>By the end of this chapter you should be able to:</p>
+<ol type="1">
+<li>Explain what a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-map-projection" data-term="map projection">map projection</span> is, and where it sits on top of an <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-ellipsoid" data-term="ellipsoid">ellipsoid</span> and a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geodetic-datum" data-term="geodetic datum">datum</span>.</li>
+<li>Name the four properties a projection can preserve (shape, area, distance, and direction) and explain why no flat map preserves them all.</li>
+<li>Describe the three <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-developable-surface" data-term="developable surface">developable surfaces</span> (the plane, the cylinder, and the cone) and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tangent" data-term="tangent">tangent</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-secant" data-term="secant">secant</span> projections, and explain how scale error grows away from <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-standard-line" data-term="standard line">standard lines</span>.</li>
+<li>Explain why the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-mercator" data-term="Mercator">Mercator</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-web-mercator" data-term="Web Mercator">Web Mercator</span> projections should not be used to compare or measure areas.</li>
+<li>Describe the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-lambert-conformal-conic" data-term="Lambert Conformal Conic">Lambert Conformal Conic</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-transverse-mercator" data-term="Transverse Mercator">Transverse Mercator</span> projections, the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-universal-transverse-mercator-utm" data-term="Universal Transverse Mercator (UTM)">UTM</span> system, and the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-state-plane-coordinate-system-spcs" data-term="State Plane Coordinate System (SPCS)">State Plane Coordinate System</span>, and name the zones that cover North Carolina.</li>
+<li>Read an <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-epsg-code" data-term="EPSG code">EPSG code</span> and tell a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-coordinate-system-gcs" data-term="geographic coordinate system (GCS)">geographic coordinate system</span> from a projected one.</li>
+<li>Choose a projection for a study area and a measurement, and tell defining a projection from projecting data.</li>
+</ol>
+</div>
+</div>
+<p>Chapter 3 built the bottom three <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layers</span> of location in a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span>: the real Earth, an ellipsoid that models it, and a datum that pins the ellipsoid to the ground and gives us <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-latitude" data-term="latitude">latitude</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-longitude" data-term="longitude">longitude</span>. This chapter adds the top layer (<a href="#fig-stack" class="quarto-xref">Figure&nbsp;<span>4.1</span></a>). A <strong>map projection</strong> converts latitude and longitude, angles on a curved surface, into flat <em>x, y</em> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">coordinates</span> on a screen or a sheet of paper.</p>
+<div id="fig-stack" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Four stacked boxes, widest at the bottom, with an arrow pointing up beside them labeled each layer is built on the one below. From the bottom: Earth, the real, irregular surface, the geoid approximates mean sea level; Ellipsoid, a smooth mathematical shape that fits the Earth, such as GRS 80; Datum, pins the ellipsoid to the Earth and defines latitude and longitude, such as NAD83; Map projection, turns latitude and longitude into flat x, y coordinates, such as UTM.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-stack-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/map-projections/building-a-projection.png" class="img-fluid figure-img" alt="Four stacked boxes, widest at the bottom, with an arrow pointing up beside them labeled each layer is built on the one below. From the bottom: Earth, the real, irregular surface, the geoid approximates mean sea level; Ellipsoid, a smooth mathematical shape that fits the Earth, such as GRS 80; Datum, pins the ellipsoid to the Earth and defines latitude and longitude, such as NAD83; Map projection, turns latitude and longitude into flat x, y coordinates, such as UTM.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-stack-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.1: From the Earth to a map. Each layer is built on the one below. A map projection, the top layer, flattens the result.
+</figcaption>
+</figure>
+</div>
+<p>There is a catch, and it is the main idea of this chapter: <strong>every flat map distorts the Earth</strong>. You cannot flatten an orange peel without stretching or tearing it, and you cannot flatten the Earth without distorting shape, area, distance, or direction. Choosing a projection means choosing which errors you can live with. By the end of this chapter you will know how to make that choice for your own GIS work.</p>
+<section id="sec-what" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="sec-what"><span class="header-section-number">4.1</span> What is a map projection?</h2>
+<p>A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-map-projection" data-term="map projection">map projection</span></strong> is a set of equations that converts <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-latitude" data-term="latitude">latitude</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-longitude" data-term="longitude">longitude</span> on the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-ellipsoid" data-term="ellipsoid">ellipsoid</span> into <em>x, y</em> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">coordinates</span> on a flat plane. Every projected map, every web map, and every measurement of distance or area in a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> depends on one.</p>
+<p>The classic way to picture a projection is with light. Put a light bulb inside a transparent globe, hold a screen against it, and the light casts the coastlines and the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-graticule" data-term="graticule">graticule</span> onto the screen (<a href="#fig-light" class="quarto-xref">Figure&nbsp;<span>4.2</span></a>). Where the screen touches the globe, the image is exact. Farther away, the shadows stretch, and evenly spaced points on the globe spread farther and farther apart on the screen.</p>
+<div id="fig-light" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A cross-section of a globe as a pale blue circle, with a yellow light source at its center. A thick navy line, the map plane, touches the top of the circle. Orange rays run from the light through evenly spaced green dots on the upper half of the circle to red dots on the map plane. Near the top, where the plane touches the globe, labeled point of tangency, no distortion, the red dots are close to the green ones. Toward the edges the red dots spread farther and farther apart, labeled spread farther apart on the map.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-light-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/map-projections/light-source.png" class="img-fluid figure-img" alt="A cross-section of a globe as a pale blue circle, with a yellow light source at its center. A thick navy line, the map plane, touches the top of the circle. Orange rays run from the light through evenly spaced green dots on the upper half of the circle to red dots on the map plane. Near the top, where the plane touches the globe, labeled point of tangency, no distortion, the red dots are close to the green ones. Toward the edges the red dots spread farther and farther apart, labeled spread farther apart on the map.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-light-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.2: The light-bulb picture of a projection. A light at the globe’s center casts points onto a flat map plane. Near the point where the plane touches the globe there is no distortion; farther away, points that are evenly spaced on the globe spread apart on the map.
+</figcaption>
+</figure>
+</div>
+<p>The light bulb is an analogy. Most modern projections are defined by equations, not by real shadows, but the analogy explains why distortion grows with distance from the place where the map surface touches the Earth.</p>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Think about it
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Peel a clementine or an orange in as few pieces as you can, and try to press the peel flat on a table. Where does it tear? Where does it stretch? Every map projection makes the same kinds of compromises, just with mathematics instead of fingers.</p>
+</div>
+</div>
+</section>
+<section id="sec-distortion" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="sec-distortion"><span class="header-section-number">4.2</span> Every projection distorts something</h2>
+<section id="four-properties" class="level3" data-number="4.2.1">
+<h3 data-number="4.2.1" class="anchored" data-anchor-id="four-properties"><span class="header-section-number">4.2.1</span> Four properties</h3>
+<p>A map can preserve four properties of the globe, each one named for the kind of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-map-projection" data-term="map projection">projection</span> that keeps it:</p>
+<ul>
+<li><strong>Shape.</strong> A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-conformal" data-term="conformal">conformal</span></strong> projection keeps local angles true, so small shapes look right. A tiny circle on the globe is still a circle on the map, though it may be larger or smaller.</li>
+<li><strong>Area.</strong> An <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-equal-area" data-term="equal-area">equal-area</span></strong> (or <em>equivalent</em>) projection keeps relative size true. A county twice as large as another on the ground is twice as large on the map.</li>
+<li><strong>Distance.</strong> An <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-equidistant" data-term="equidistant">equidistant</span></strong> projection keeps true scale along certain lines, usually from one or two points. No projection keeps true distance between <em>every</em> pair of places.</li>
+<li><strong>Direction.</strong> An <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-azimuthal" data-term="azimuthal">azimuthal</span></strong> projection keeps true directions, or bearings, from a center point.</li>
+</ul>
+<p>No flat map keeps all four. In particular, <strong>no projection can be both conformal and equal-area</strong>. Some projections preserve none of the four exactly, but keep every error moderate: these are <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-compromise-projection" data-term="compromise projection">compromise</span></strong> projections.</p>
+</section>
+<section id="seeing-distortion-tissots-indicatrix" class="level3" data-number="4.2.2">
+<h3 data-number="4.2.2" class="anchored" data-anchor-id="seeing-distortion-tissots-indicatrix"><span class="header-section-number">4.2.2</span> Seeing distortion: Tissot’s indicatrix</h3>
+<p>How can you <em>see</em> what a projection does? In 1859, the French mathematician Nicolas Auguste Tissot came up with an elegant tool, now called <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tissot-s-indicatrix" data-term="Tissot’s indicatrix">Tissot’s indicatrix</span></strong>: draw identical small circles all over the globe, then project them. On the map, each circle becomes an ellipse whose size and shape show the distortion at that spot. If the circles stay round, shapes are preserved there; if they all cover the same area, area is preserved.</p>
+<p><a href="#fig-four-projections" class="quarto-xref">Figure&nbsp;<span>4.3</span></a> shows Tissot’s circles, each 500 km across on the ground, on four world maps.</p>
+<div id="fig-four-projections" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Four world maps with red circles or ellipses spaced every 30 degrees. Mercator, conformal: a rectangular map where the circles stay round but grow much larger toward the top and bottom; caption, circles stay round, but grow toward the poles. Mollweide, equal-area: an oval map where every shape covers the same area, but those near the edges are squashed into thin tilted ellipses; caption, every circle covers the same area, but they stretch. Azimuthal equidistant: a round map centered on a yellow star at Chapel Hill, where the shapes near the center are round and those near the edge of the circle are stretched into long crescents; caption, distances from Chapel Hill, at the center, are true. Robinson, compromise: an oval-ish map with flat top and bottom, where the shapes grow and flatten moderately toward the poles; caption, nothing exact, every error is kept moderate.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-four-projections-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/map-projections/four-projections.png" class="img-fluid figure-img" alt="Four world maps with red circles or ellipses spaced every 30 degrees. Mercator, conformal: a rectangular map where the circles stay round but grow much larger toward the top and bottom; caption, circles stay round, but grow toward the poles. Mollweide, equal-area: an oval map where every shape covers the same area, but those near the edges are squashed into thin tilted ellipses; caption, every circle covers the same area, but they stretch. Azimuthal equidistant: a round map centered on a yellow star at Chapel Hill, where the shapes near the center are round and those near the edge of the circle are stretched into long crescents; caption, distances from Chapel Hill, at the center, are true. Robinson, compromise: an oval-ish map with flat top and bottom, where the shapes grow and flatten moderately toward the poles; caption, nothing exact, every error is kept moderate.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-four-projections-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.3: Four projections of the same world, with identical circles (each 500 km across on the ground) drawn every 30°. On the conformal <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-mercator" data-term="Mercator">Mercator</span> they stay round but grow toward the poles. On the equal-area Mollweide they keep their area but stretch. On an azimuthal equidistant map centered on Chapel Hill, distances from the center are true. On the Robinson compromise, no property is exact.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="mercator-and-reality" class="level3" data-number="4.2.3">
+<h3 data-number="4.2.3" class="anchored" data-anchor-id="mercator-and-reality"><span class="header-section-number">4.2.3</span> Mercator and reality</h3>
+<p>The most famous map projection is the one Gerardus Mercator, a Flemish mapmaker, published in 1569 for sailors. On a <strong>Mercator</strong> map, a line of constant compass bearing, called a <em><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-rhumb-line" data-term="rhumb line">rhumb line</span></em>, is a straight line. A navigator could draw a straight line from port to port, read its angle, and steer that compass course the whole way. The Mercator is conformal, so small shapes and angles are right, which is what made it so useful at sea.</p>
+<p>The price is area. To keep shapes right while the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-meridian" data-term="meridian">meridians</span> stay <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-parallel" data-term="parallel">parallel</span>, Mercator stretches the map north and south as much as it stretches east and west, and that stretch grows with <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-latitude" data-term="latitude">latitude</span>. On a Mercator map, the scale at any latitude is the <em><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-secant" data-term="secant">secant</span></em> of the latitude (1 ÷ cos), and areas are enlarged by the square of that. At 60° north or south, a place looks <strong>four times</strong> larger than it is. Near the poles, the enlargement goes to infinity, which is why Mercator maps are always cut off before the poles.</p>
+<p>The classic example is Greenland and Africa (<a href="#fig-greenland" class="quarto-xref">Figure&nbsp;<span>4.4</span></a>). On a Mercator map they look about the same size. In fact, Africa, about 30 million km², is roughly <strong>14 times</strong> larger than Greenland, about 2.2 million km². Countries near the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-equator" data-term="equator">equator</span>, like Brazil, Indonesia, and the Democratic Republic of the Congo, barely change size; countries far from it, like Canada, Russia, and Greenland, swell.</p>
+<div id="fig-greenland" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Two maps of the Atlantic side of the world, from Greenland to southern Africa. Left, On a Mercator map: blue Greenland at the top is huge, nearly as tall as Africa below it, which is green. A small dashed red outline of Greenland at its true size sits inside central Africa, covering only a narrow strip. Right, At true size, equal-area: Greenland at the top is a small blue shape, and green Africa is very large. The same dashed red outline of Greenland sits in the middle of Africa, small compared with the continent.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-greenland-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/map-projections/greenland-africa.png" class="img-fluid figure-img" alt="Two maps of the Atlantic side of the world, from Greenland to southern Africa. Left, On a Mercator map: blue Greenland at the top is huge, nearly as tall as Africa below it, which is green. A small dashed red outline of Greenland at its true size sits inside central Africa, covering only a narrow strip. Right, At true size, equal-area: Greenland at the top is a small blue shape, and green Africa is very large. The same dashed red outline of Greenland sits in the middle of Africa, small compared with the continent.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-greenland-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.4: Greenland (blue) and Africa (green) on a Mercator map (left) and an equal-area map (right). The dashed red outline is Greenland at its true size, moved to the equator over Africa.
+</figcaption>
+</figure>
+</div>
+<p><strong>Use Mercator for navigation, not for comparing areas.</strong></p>
+<div class="did-you-know callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Did you know..?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In 2017, the Boston Public Schools began replacing Mercator wall maps in their classrooms with the equal-area <strong>Gall-Peters</strong> projection. Teachers said the Mercator had shrunk Africa and South America in students’ minds for generations. The Gall-Peters itself is controversial: when the historian Arno Peters promoted it in the 1970s as a fairer map, cartographers pointed out that a Scottish clergyman, James Gall, had published the same projection in 1855, and that it badly stretches shapes near the equator. Many cartographers would rather see a good compromise projection on the wall. Either way, the choice of a map projection turns out to be a choice about how people picture the world.</p>
+</div>
+</div>
+</section>
+<section id="web-mercator-for-display-not-measurement" class="level3" data-number="4.2.4">
+<h3 data-number="4.2.4" class="anchored" data-anchor-id="web-mercator-for-display-not-measurement"><span class="header-section-number">4.2.4</span> Web Mercator: for display, not measurement</h3>
+<p>Look at almost any web map, such as Google Maps, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-openstreetmap" data-term="OpenStreetMap">OpenStreetMap</span>, Bing Maps, or an <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-esri" data-term="Esri">Esri</span> basemap, and you are looking at <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-web-mercator" data-term="Web Mercator">Web Mercator</span></strong>, code <strong>EPSG:3857</strong>. It treats the Earth as a sphere while using <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-wgs84" data-term="WGS84">WGS84</span> latitude and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-longitude" data-term="longitude">longitude</span>, which makes the math fast. Its great strength is that the whole world fits in a square, which can be cut into square <strong>tiles</strong> at every zoom level: one tile at zoom 0, four at zoom 1, sixteen at zoom 2, and so on (<a href="#fig-tiles" class="quarto-xref">Figure&nbsp;<span>4.5</span></a>). Your browser only downloads the tiles you are looking at, which is why web maps scroll and zoom so smoothly.</p>
+<div id="fig-tiles" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Three square world maps on the Mercator projection, side by side. Zoom 0, 1 tile: one square. Zoom 1, 4 tiles: the same map divided into a 2 by 2 grid. Zoom 2, 16 tiles: a 4 by 4 grid.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-tiles-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/map-projections/web-mercator-tiles.png" class="img-fluid figure-img" alt="Three square world maps on the Mercator projection, side by side. Zoom 0, 1 tile: one square. Zoom 1, 4 tiles: the same map divided into a 2 by 2 grid. Zoom 2, 16 tiles: a 4 by 4 grid.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-tiles-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.5: Web Mercator divides the world into square tiles. Each zoom level splits every tile into four.
+</figcaption>
+</figure>
+</div>
+<p>To make the world square, Web Mercator cuts the map off at about 85.05° north and south, so the North and South Poles are not on the map at all. And it inherits all of Mercator’s area enlargement. Use it for:</p>
+<ul>
+<li>web basemaps, and</li>
+<li>smooth zooming and panning.</li>
+</ul>
+<p>Avoid it for:</p>
+<ul>
+<li>measuring area or distance,</li>
+<li>comparing regions at different latitudes, and</li>
+<li>anything near the poles.</li>
+</ul>
+<p>If you collect data from a web map, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-reproject" data-term="reproject">reproject</span> it to an equal-area or a local projection, such as <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-universal-transverse-mercator-utm" data-term="Universal Transverse Mercator (UTM)">UTM</span> or <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-state-plane-coordinate-system-spcs" data-term="State Plane Coordinate System (SPCS)">State Plane</span>, before you calculate areas or distances.</p>
+</section>
+</section>
+<section id="sec-made" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="sec-made"><span class="header-section-number">4.3</span> How projections are made</h2>
+<section id="three-developable-surfaces" class="level3" data-number="4.3.1">
+<h3 data-number="4.3.1" class="anchored" data-anchor-id="three-developable-surfaces"><span class="header-section-number">4.3.1</span> Three developable surfaces</h3>
+<p>A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-developable-surface" data-term="developable surface">developable surface</span></strong> is a shape that can be unrolled flat without stretching or tearing. Three are used for <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-map-projection" data-term="map projection">map projections</span>: the plane, the cylinder, and the cone (<a href="#fig-surfaces" class="quarto-xref">Figure&nbsp;<span>4.6</span></a>).</p>
+<ul>
+<li><strong>Planar</strong> (or <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-azimuthal" data-term="azimuthal">azimuthal</span></strong>): a flat plane touches the globe at one point. Distortion grows in rings around that point, so planar projections suit the polar regions, or maps centered on one place.</li>
+<li><strong>Cylindrical</strong>: a cylinder wraps the globe. In its normal position it touches the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-equator" data-term="equator">equator</span>, which suits the tropics, or a world map. Turned on its side, as in the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-transverse-mercator" data-term="Transverse Mercator">Transverse Mercator</span> below, it suits regions that run north to south.</li>
+<li><strong>Conic</strong>: a cone sits over one hemisphere like a hat and touches it along a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-parallel" data-term="parallel">parallel</span>. Conic projections suit mid-latitude regions that run east to west, such as the contiguous United States.</li>
+</ul>
+<div id="fig-surfaces" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Top row, three sketches. Planar, azimuthal: a flat sheet touching the top of a globe at one red point, labeled touches at one point. Cylindrical: a cylinder wrapped around a globe, touching it along a red line at the equator, labeled touches along the equator. Conic: a cone sitting on top of a globe like a hat, touching it along a red circle, labeled touches along a parallel. Below, labeled unrolled flat, each surface becomes a map: a round map of the Northern Hemisphere centered on the North Pole; a rectangular world map with a square grid; and a fan-shaped world map with curved parallels and meridians that meet at a point at the top.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-surfaces-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/map-projections/developable-surfaces.png" class="img-fluid figure-img" alt="Top row, three sketches. Planar, azimuthal: a flat sheet touching the top of a globe at one red point, labeled touches at one point. Cylindrical: a cylinder wrapped around a globe, touching it along a red line at the equator, labeled touches along the equator. Conic: a cone sitting on top of a globe like a hat, touching it along a red circle, labeled touches along a parallel. Below, labeled unrolled flat, each surface becomes a map: a round map of the Northern Hemisphere centered on the North Pole; a rectangular world map with a square grid; and a fan-shaped world map with curved parallels and meridians that meet at a point at the top.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-surfaces-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.6: The three developable surfaces (top) and the maps they make when unrolled flat (bottom): a polar azimuthal map, a cylindrical (<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-mercator" data-term="Mercator">Mercator</span>) map, and a conic (<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-lambert-conformal-conic" data-term="Lambert Conformal Conic">Lambert Conformal Conic</span>) map.
+</figcaption>
+</figure>
+</div>
+<p>The line where a surface is sliced so it can be unrolled becomes the outer edge of the map.</p>
+</section>
+<section id="tangent-and-secant" class="level3" data-number="4.3.2">
+<h3 data-number="4.3.2" class="anchored" data-anchor-id="tangent-and-secant"><span class="header-section-number">4.3.2</span> Tangent and secant</h3>
+<p>A projection surface can touch the globe in one place or cut through it (<a href="#fig-secant" class="quarto-xref">Figure&nbsp;<span>4.7</span></a>).</p>
+<ul>
+<li>A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tangent" data-term="tangent">tangent</span></strong> surface touches the Earth along one line, or at one point for a planar projection.</li>
+<li>A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-secant" data-term="secant">secant</span></strong> surface cuts through the Earth along two lines, or along a circle for a planar projection.</li>
+</ul>
+<p>Where the surface meets the Earth, scale is exact. These are the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-standard-line" data-term="standard line">standard lines</span></strong> (or a standard point). When standard lines follow parallels of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-latitude" data-term="latitude">latitude</span>, as on a conic projection, they are called <strong>standard parallels</strong>. The ratio of distance on the map to distance on the ground, compared with the map’s stated scale, is the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-scale-factor" data-term="scale factor">scale factor</span></strong>: exactly 1 on a standard line, less than 1 where the map shrinks the Earth, and more than 1 where it stretches it.</p>
+<div id="fig-secant" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Two cross-sections. Left, Tangent, touches at one place: an arc of the Earth's surface with an orange line, the map surface, touching it at one red point at the top, labeled standard point or line, scale is exact. Right, Secant, cuts through in two places: the orange map surface line cuts through the arc at two red points, labeled standard lines, scale is exact. Between them, two green points A and B on the arc are projected down to green squares a and b on the line, which are closer together. Outside the right standard line, two purple points D and E on the arc project out to purple squares d and e on the line, which are farther apart. Text reads: between the standard lines, ab is shorter than AB; outside them, de is longer than DE.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-secant-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/map-projections/tangent-secant.png" class="img-fluid figure-img" alt="Two cross-sections. Left, Tangent, touches at one place: an arc of the Earth's surface with an orange line, the map surface, touching it at one red point at the top, labeled standard point or line, scale is exact. Right, Secant, cuts through in two places: the orange map surface line cuts through the arc at two red points, labeled standard lines, scale is exact. Between them, two green points A and B on the arc are projected down to green squares a and b on the line, which are closer together. Outside the right standard line, two purple points D and E on the arc project out to purple squares d and e on the line, which are farther apart. Text reads: between the standard lines, ab is shorter than AB; outside them, de is longer than DE.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-secant-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.7: Tangent (left) and secant (right) projection surfaces in cross-section. Scale is exact where the surface meets the Earth. Between a secant surface’s standard lines, map distances are a little too short (ab is shorter than AB); outside them, a little too long (de is longer than DE).
+</figcaption>
+</figure>
+</div>
+<p>Why cut through the Earth on purpose? A secant surface spreads the error across a wider area. A tangent surface is perfect on one line and gets steadily worse everywhere else. A secant surface is slightly too small between its standard lines and slightly too large outside them, which keeps the largest error over the whole map much smaller. Good projection design puts the standard lines so that the area you care about stays close to zero error.</p>
+</section>
+<section id="projections-are-named-for-what-they-preserve" class="level3" data-number="4.3.3">
+<h3 data-number="4.3.3" class="anchored" data-anchor-id="projections-are-named-for-what-they-preserve"><span class="header-section-number">4.3.3</span> Projections are named for what they preserve</h3>
+<p>Putting it together, projections are grouped by the property they keep (<a href="#tbl-properties" class="quarto-xref">Table&nbsp;<span>4.1</span></a>).</p>
+<div id="tbl-properties" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-properties-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;4.1: Projections are named for the property they preserve. No projection can be both <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-conformal" data-term="conformal">conformal</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-equal-area" data-term="equal-area">equal-area</span>.
+</figcaption>
+<div aria-describedby="tbl-properties-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Property preserved</th>
+<th style="text-align: left;">Class</th>
+<th style="text-align: left;">Examples</th>
+<th style="text-align: left;">Typical use</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Shape (local angles)</td>
+<td style="text-align: left;">Conformal</td>
+<td style="text-align: left;">Mercator, Lambert Conformal Conic, Transverse Mercator</td>
+<td style="text-align: left;">Navigation, topographic and engineering maps</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Area</td>
+<td style="text-align: left;">Equal-area</td>
+<td style="text-align: left;"><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-albers-equal-area-conic" data-term="Albers Equal-Area Conic">Albers Equal-Area Conic</span>, Mollweide</td>
+<td style="text-align: left;">Thematic maps of density or land cover</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Distance from one or two points</td>
+<td style="text-align: left;"><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-equidistant" data-term="equidistant">Equidistant</span></td>
+<td style="text-align: left;">Azimuthal Equidistant, Equidistant Conic</td>
+<td style="text-align: left;">Distances from a city or an airport</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Direction from a center point</td>
+<td style="text-align: left;">Azimuthal</td>
+<td style="text-align: left;"><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-gnomonic-projection" data-term="gnomonic projection">Gnomonic</span>, Azimuthal Equidistant</td>
+<td style="text-align: left;">Polar maps, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-great-circle" data-term="great circle">great-circle</span> routes</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">None exactly; all errors moderate</td>
+<td style="text-align: left;"><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-compromise-projection" data-term="compromise projection">Compromise</span></td>
+<td style="text-align: left;">Robinson, Winkel Tripel</td>
+<td style="text-align: left;">World maps for general reference</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>On a <strong>gnomonic</strong> projection, every great circle (Chapter 3) is a straight line. Navigators once used gnomonic charts to plot the shortest route between two ports, then copied it onto a Mercator chart as a series of short <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-rhumb-line" data-term="rhumb line">rhumb lines</span> they could actually steer.</p>
+<div class="did-you-know callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Did you know..?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For most of the twentieth century, the National Geographic Society, whose wall maps hung in classrooms across the country, used the Van der Grinten projection, which enlarges the polar regions almost as much as Mercator. In 1988 it switched to the Robinson projection, which Arthur Robinson had designed in 1963 by eye, adjusting the shape until the world simply <em>looked</em> right, rather than starting from an equation. Ten years later, in 1998, National Geographic switched again, to the <strong>Winkel Tripel</strong>, which has even less overall distortion and is still its standard world map.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-us" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="sec-us"><span class="header-section-number">4.4</span> Projections for the United States</h2>
+<section id="lambert-conformal-conic" class="level3" data-number="4.4.1">
+<h3 data-number="4.4.1" class="anchored" data-anchor-id="lambert-conformal-conic"><span class="header-section-number">4.4.1</span> Lambert Conformal Conic</h3>
+<p>The <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-lambert-conformal-conic" data-term="Lambert Conformal Conic">Lambert Conformal Conic</span></strong> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-map-projection" data-term="map projection">projection</span>, published by Johann Heinrich Lambert in 1772, uses a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-secant" data-term="secant">secant</span> cone that cuts the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-ellipsoid" data-term="ellipsoid">ellipsoid</span> along two <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-standard-line" data-term="standard line">standard parallels</span>. Scale is exact on both, slightly too small between them, and too large outside them. For the contiguous United States, standard parallels at 33° N and 45° N keep the scale error within about 1 percent across most of the country (<a href="#fig-scale-error" class="quarto-xref">Figure&nbsp;<span>4.8</span></a>, left).</p>
+<p>On the map, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-meridian" data-term="meridian">meridians</span> are straight lines that converge toward a point beyond the pole, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-parallel" data-term="parallel">parallels</span> are arcs of circles centered on that point, which gives the map its fan shape. Because it is <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-conformal" data-term="conformal">conformal</span>, Lambert Conformal Conic keeps local angles and shapes. That is why it is used for U.S. aeronautical charts, where pilots need true angles, and for the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-state-plane-coordinate-system-spcs" data-term="State Plane Coordinate System (SPCS)">State Plane</span> zones of states that are wider east to west than north to south, like North Carolina and Tennessee.</p>
+</section>
+<section id="transverse-mercator" class="level3" data-number="4.4.2">
+<h3 data-number="4.4.2" class="anchored" data-anchor-id="transverse-mercator"><span class="header-section-number">4.4.2</span> Transverse Mercator</h3>
+<p>The <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-transverse-mercator" data-term="Transverse Mercator">Transverse Mercator</span></strong> is the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-mercator" data-term="Mercator">Mercator</span> turned 90°. Instead of touching the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-equator" data-term="equator">equator</span>, the cylinder touches the Earth along a chosen <em><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-central-meridian" data-term="central meridian">central meridian</span></em>. Scale is true along that meridian, or along two lines parallel to it in the secant version, and error grows east and west of it (<a href="#fig-scale-error" class="quarto-xref">Figure&nbsp;<span>4.8</span></a>, right). Like the Mercator, it is conformal.</p>
+<div id="fig-scale-error" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Two maps of the contiguous United States shaded by scale error. Left, Lambert Conformal Conic, standard parallels at 33 and 45 degrees north: curved contour lines run east to west across the country. A blue band through the middle, from Kansas to Virginia, is about minus 0.5 percent. Lines marked 0 percent run across the northern and southern parts of the country. Beyond them the shading turns red, reaching plus 1 percent along the Canadian border and plus 3 percent at the southern tip of Texas and Florida. Right, Transverse Mercator, central meridian 96 degrees west, two lines of true scale: straight contour lines run north to south. A blue band through the Great Plains is about minus 0.5 to minus 1 percent, between two lines marked 0 percent. The error grows to plus 1 percent and then plus 3 percent and more toward both coasts, which are shaded deep red.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-scale-error-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/map-projections/scale-error.png" class="img-fluid figure-img" alt="Two maps of the contiguous United States shaded by scale error. Left, Lambert Conformal Conic, standard parallels at 33 and 45 degrees north: curved contour lines run east to west across the country. A blue band through the middle, from Kansas to Virginia, is about minus 0.5 percent. Lines marked 0 percent run across the northern and southern parts of the country. Beyond them the shading turns red, reaching plus 1 percent along the Canadian border and plus 3 percent at the southern tip of Texas and Florida. Right, Transverse Mercator, central meridian 96 degrees west, two lines of true scale: straight contour lines run north to south. A blue band through the Great Plains is about minus 0.5 to minus 1 percent, between two lines marked 0 percent. The error grows to plus 1 percent and then plus 3 percent and more toward both coasts, which are shaded deep red.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-scale-error-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.8: Scale error across the contiguous United States on a Lambert Conformal Conic projection with standard parallels at 33° N and 45° N (left), and a secant Transverse Mercator with a central meridian at 96° W (right). Contours show the error in percent: 0% is a line of true scale, blue areas are shrunk, and red areas are stretched.
+</figcaption>
+</figure>
+</div>
+<p>A single Transverse Mercator for the whole country would be too distorted at the coasts. But in a narrow strip along its central meridian it is very accurate. So it is used in narrow zones: the State Plane zones of north–south states such as Illinois and Vermont, and the sixty zones of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-universal-transverse-mercator-utm" data-term="Universal Transverse Mercator (UTM)">UTM</span>.</p>
+</section>
+<section id="universal-transverse-mercator-utm" class="level3" data-number="4.4.3">
+<h3 data-number="4.4.3" class="anchored" data-anchor-id="universal-transverse-mercator-utm"><span class="header-section-number">4.4.3</span> Universal Transverse Mercator (UTM)</h3>
+<p>The <strong>Universal Transverse Mercator (UTM)</strong> system divides the world, from 80° S to 84° N, into <strong>60 zones</strong>, each <strong>6° of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-longitude" data-term="longitude">longitude</span></strong> wide. The zones are numbered eastward from 180° longitude, so zone 1 runs from 180° W to 174° W. The contiguous United States falls in zones 10 to 19 (<a href="#fig-utm" class="quarto-xref">Figure&nbsp;<span>4.9</span></a>). Each zone has a north and a south half, such as 17N and 17S, on either side of the equator.</p>
+<div id="fig-utm" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A map of the contiguous United States on an equal-area projection, with ten slanted navy lines running north to south dividing it into zones numbered 10 to 19 from west to east. A dashed red line runs down the middle of each zone. North Carolina is shaded green and straddles the line between zones 17 and 18.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-utm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/map-projections/utm-zones.png" class="img-fluid figure-img" alt="A map of the contiguous United States on an equal-area projection, with ten slanted navy lines running north to south dividing it into zones numbered 10 to 19 from west to east. A dashed red line runs down the middle of each zone. North Carolina is shaded green and straddles the line between zones 17 and 18.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-utm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.9: UTM zones 10 to 19 across the contiguous United States. Each zone is 6° of longitude wide (solid lines), with its central meridian (dashed red) down the middle. North Carolina (green) straddles zones 17 and 18.
+</figcaption>
+</figure>
+</div>
+<p>Each zone is its own secant Transverse Mercator projection:</p>
+<ul>
+<li>The <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-scale-factor" data-term="scale factor">scale factor</span> on the central meridian is 0.9996</strong>, so the two lines of true scale sit about 180 km on either side of it, and the error stays below about 1 part in 1,000 across the zone.</li>
+<li><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">Coordinates</span> are in <strong>meters</strong>: an <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-easting" data-term="easting">easting</span> and a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-northing" data-term="northing">northing</span>.</li>
+<li>The central meridian is given a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-false-easting" data-term="false easting">false easting</span> of 500,000 m</strong>, so every easting in the zone is positive. In the Northern Hemisphere, northings are measured from the equator; in the Southern Hemisphere, the equator is given a false northing of 10,000,000 m, so southern northings stay positive too.</li>
+</ul>
+<p>A UTM coordinate needs its zone to make sense. Chapel Hill is at about 676,000 m E, 3,976,000 m N in zone 17N. The same numbers in zone 18N would land about 540 km farther east, in the Atlantic Ocean, because each zone measures its eastings from its own central meridian.</p>
+<p><strong>North Carolina spans two zones</strong>, split at 78° W: zone <strong>17N</strong> to the west, including Asheville, Charlotte, Chapel Hill, and Raleigh, and zone <strong>18N</strong> to the east, including Greenville, Wilmington, and the Outer Banks (<a href="#fig-nc-zones" class="quarto-xref">Figure&nbsp;<span>4.10</span></a>). Data that crosses a zone boundary is a common source of error. For a project that spans both zones, pick one zone for the whole study area, or use State Plane instead.</p>
+<div id="fig-nc-zones" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A map of North Carolina shaded green, with neighboring states in outline. A dashed vertical line at 78 degrees west runs through the eastern part of the state, just west of Wilmington; to its left is labeled UTM zone 17N and to its right UTM zone 18N. Asheville, Charlotte, Chapel Hill, and Raleigh are west of the line; Greenville and Wilmington are east of it. Two orange lines run across the state from west to east, labeled State Plane standard parallel 36 degrees 10 minutes north, near the northern border, and 34 degrees 20 minutes north, near the southern border.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-nc-zones-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/map-projections/nc-zones.png" class="img-fluid figure-img" alt="A map of North Carolina shaded green, with neighboring states in outline. A dashed vertical line at 78 degrees west runs through the eastern part of the state, just west of Wilmington; to its left is labeled UTM zone 17N and to its right UTM zone 18N. Asheville, Charlotte, Chapel Hill, and Raleigh are west of the line; Greenville and Wilmington are east of it. Two orange lines run across the state from west to east, labeled State Plane standard parallel 36 degrees 10 minutes north, near the northern border, and 34 degrees 20 minutes north, near the southern border.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-nc-zones-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.10: North Carolina’s coordinate system zones. The dashed line at 78° W splits UTM zones 17N and 18N. The orange lines are the two standard parallels of the state’s single State Plane zone, at 34° 20′ N and 36° 10′ N.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="the-state-plane-coordinate-system" class="level3" data-number="4.4.4">
+<h3 data-number="4.4.4" class="anchored" data-anchor-id="the-state-plane-coordinate-system"><span class="header-section-number">4.4.4</span> The State Plane Coordinate System</h3>
+<p>The <strong>State Plane Coordinate System (SPCS)</strong> was designed in the 1930s by the U.S. Coast and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geodesy" data-term="geodesy">Geodetic</span> Survey, now the National Geodetic Survey, so that surveyors and engineers could work with flat <em>x, y</em> coordinates with very little distortion. It exists in two main versions, based on <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-nad27" data-term="NAD27">NAD27</span> and on <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-nad83" data-term="NAD83">NAD83</span>.</p>
+<ul>
+<li>Each state is covered by one or more zones, about 120 in all, whose boundaries follow state and county lines.</li>
+<li>States that are wide east to west, like Tennessee, use Lambert Conformal Conic; states that are long north to south, like Illinois, use Transverse Mercator. The Alaska panhandle uses an oblique Mercator.</li>
+<li>Zones are kept small enough that scale error stays at <strong>1 part in 10,000 or better</strong>: no more than 1 meter in 10 kilometers.</li>
+</ul>
+<p><strong>North Carolina has a single State Plane zone</strong>, a Lambert Conformal Conic with standard parallels at 34° 20′ N and 36° 10′ N (<a href="#fig-nc-zones" class="quarto-xref">Figure&nbsp;<span>4.10</span></a>). In a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> you will usually meet it as <strong>EPSG:32119</strong>, NAD83 / North Carolina in meters, or <strong>EPSG:2264</strong>, the same projection in U.S. survey feet. They are the same projection with different units, so always check which units a dataset uses. Most North Carolina state and county data, including NC OneMap’s, is in State Plane feet.</p>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Think about it
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Your project maps every stream in Dare County, on the Outer Banks. Which would you choose: UTM zone 17N, UTM zone 18N, or NC State Plane? What if your project covered the whole state?</p>
+<details>
+<summary>
+Show the answer
+</summary>
+For Dare County alone, UTM zone 18N or NC State Plane both work well; zone 17N would put the county outside its own zone. For the whole state, choose NC State Plane, which was designed to cover North Carolina in one zone.
+</details>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-crs" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="sec-crs"><span class="header-section-number">4.5</span> Coordinate reference systems and EPSG codes</h2>
+<p>In software, a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-map-projection" data-term="map projection">projection</span> never travels alone. A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-reference-system-crs" data-term="coordinate reference system (CRS)">coordinate reference system</span> (CRS)</strong> bundles a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geodetic-datum" data-term="geodetic datum">datum</span>, a projection with its parameters (the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-standard-line" data-term="standard line">standard parallels</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-central-meridian" data-term="central meridian">central meridian</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-scale-factor" data-term="scale factor">scale factor</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-false-easting" data-term="false easting">false easting</span>, and so on), and the units.</p>
+<p>There are two kinds of CRS:</p>
+<ul>
+<li>A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-coordinate-system-gcs" data-term="geographic coordinate system (GCS)">geographic coordinate system</span></strong> gives positions in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-latitude" data-term="latitude">latitude</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-longitude" data-term="longitude">longitude</span>, in <strong>degrees</strong>, on a datum (Chapter 3).</li>
+<li>A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-projected-coordinate-system" data-term="projected coordinate system">projected coordinate system</span></strong> gives positions in <em>x</em> and <em>y</em>, in <strong>linear units</strong> such as meters or feet, on a projection built on a datum.</li>
+</ul>
+<p>Since there are thousands of coordinate reference systems, each is given a short numeric code. The <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-epsg-code" data-term="EPSG code">EPSG</span></strong> registry, started by the European Petroleum Survey Group and now maintained by the International Association of Oil and Gas Producers (IOGP), lists them all, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span>, PostGIS, and most web tools use its codes (<a href="#tbl-epsg" class="quarto-xref">Table&nbsp;<span>4.2</span></a>).</p>
+<div id="tbl-epsg" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-epsg-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;4.2: EPSG codes you will meet most often in North Carolina.
+</figcaption>
+<div aria-describedby="tbl-epsg-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">EPSG code</th>
+<th style="text-align: left;">Name</th>
+<th style="text-align: left;">Type and use</th>
+<th style="text-align: left;">Units</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">4326</td>
+<td style="text-align: left;"><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-wgs84" data-term="WGS84">WGS 84</span></td>
+<td style="text-align: left;">Geographic: <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-gps" data-term="GPS">GPS</span> and web data</td>
+<td style="text-align: left;">Degrees</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">4269</td>
+<td style="text-align: left;"><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-nad83" data-term="NAD83">NAD83</span></td>
+<td style="text-align: left;">Geographic: U.S. federal data</td>
+<td style="text-align: left;">Degrees</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3857</td>
+<td style="text-align: left;">WGS 84 / <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-web-mercator" data-term="Web Mercator">Pseudo-Mercator</span></td>
+<td style="text-align: left;">Projected: web maps</td>
+<td style="text-align: left;">Meters</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">26917</td>
+<td style="text-align: left;">NAD83 / <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-universal-transverse-mercator-utm" data-term="Universal Transverse Mercator (UTM)">UTM</span> zone 17N</td>
+<td style="text-align: left;">Projected: NC west of 78° W</td>
+<td style="text-align: left;">Meters</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">26918</td>
+<td style="text-align: left;">NAD83 / UTM zone 18N</td>
+<td style="text-align: left;">Projected: NC east of 78° W</td>
+<td style="text-align: left;">Meters</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">32119</td>
+<td style="text-align: left;">NAD83 / North Carolina</td>
+<td style="text-align: left;">Projected: <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-state-plane-coordinate-system-spcs" data-term="State Plane Coordinate System (SPCS)">NC State Plane</span></td>
+<td style="text-align: left;">Meters</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2264</td>
+<td style="text-align: left;">NAD83 / North Carolina (ftUS)</td>
+<td style="text-align: left;">Projected: NC State Plane</td>
+<td style="text-align: left;">U.S. survey feet</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">5070</td>
+<td style="text-align: left;">NAD83 / <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-albers-equal-area-conic" data-term="Albers Equal-Area Conic">Conus Albers</span></td>
+<td style="text-align: left;">Projected: <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-equal-area" data-term="equal-area">equal-area</span>, contiguous U.S.</td>
+<td style="text-align: left;">Meters</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Two rules follow from this table:</p>
+<ol type="1">
+<li><strong>Never measure distance or area in a geographic CRS.</strong> A degree of longitude is 111 km at the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-equator" data-term="equator">equator</span> and 90 km in Chapel Hill (Chapter 3), so “square degrees” mean nothing on the ground. Measure in a projected CRS in meters or feet.</li>
+<li><strong>Never measure in Web Mercator (3857).</strong> It uses meters, but its meters are stretched, by about 24 percent in each direction at Chapel Hill’s latitude and more farther north.</li>
+</ol>
+<p>When <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layers</span> won’t line up, the first thing to check is whether each one has the correct CRS defined.</p>
+</section>
+<section id="sec-choosing" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="sec-choosing"><span class="header-section-number">4.6</span> Choosing a projection</h2>
+<p>So what is the best <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-map-projection" data-term="map projection">projection</span>? There is no single answer. The best projection depends on two questions: <strong>where is your study area</strong>, and <strong>what will you measure?</strong></p>
+<p><strong>1. Pick a projection designed for your area.</strong> A local system keeps distortion smallest.</p>
+<ul>
+<li>Working in eastern North Carolina, east of 78° W? <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-universal-transverse-mercator-utm" data-term="Universal Transverse Mercator (UTM)">UTM</span> zone 18N.</li>
+<li>Working in Chapel Hill, or across North Carolina? <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-state-plane-coordinate-system-spcs" data-term="State Plane Coordinate System (SPCS)">North Carolina State Plane</span>.</li>
+<li>Working across North America or the contiguous United States? A North American <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-lambert-conformal-conic" data-term="Lambert Conformal Conic">Lambert Conformal Conic</span>, or an <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-albers-equal-area-conic" data-term="Albers Equal-Area Conic">Albers Equal-Area Conic</span> if you are comparing areas.</li>
+</ul>
+<p><strong>2. Pick a projection that preserves the properties you need, where you need them.</strong></p>
+<ul>
+<li>Measuring area, or mapping density? Choose <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-equal-area" data-term="equal-area">equal-area</span></strong>.</li>
+<li>Measuring distance from a point? Choose <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-equidistant" data-term="equidistant">equidistant</span></strong>, such as an <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-azimuthal" data-term="azimuthal">azimuthal</span> equidistant centered on that point.</li>
+<li>Measuring direction from a starting point? Choose <strong>azimuthal</strong>, centered on that point.</li>
+<li>Need shapes and angles to look right? Choose <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-conformal" data-term="conformal">conformal</span></strong>. A conformal projection does not preserve area, so it is not a substitute for equal-area when you measure area.</li>
+</ul>
+<p><strong>3. Using elevation data? Pick a projection whose horizontal units match your elevation units.</strong> Slope and hillshade calculations divide a change in height by a distance across the ground. A digital elevation model with heights in feet on a projection in meters produces slopes that are off by a factor of about 3.3, the number of feet in a meter.</p>
+<p>For a small study area, such as a county or a city, any good local projection works, and the differences among them are smaller than the errors in most data. The bigger your study area, the more the choice matters.</p>
+</section>
+<section id="sec-software" class="level2" data-number="4.7">
+<h2 data-number="4.7" class="anchored" data-anchor-id="sec-software"><span class="header-section-number">4.7</span> Projections in QGIS and ArcGIS Pro</h2>
+<p>Both programs <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-reproject" data-term="reproject">reproject</span> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layers</span> <strong>on the fly</strong>: each layer keeps its own <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-reference-system-crs" data-term="coordinate reference system (CRS)">CRS</span>, and the software converts it to the map’s CRS as it draws. In <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span>, the project’s CRS is shown in the lower-right corner of the window; click it to change it. In <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span>, the map’s CRS is set in the map’s Properties, on the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">Coordinate Systems</span> tab. By default, both programs take the CRS of the first layer you add.</p>
+<p><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-on-the-fly-reprojection" data-term="on-the-fly reprojection">On-the-fly reprojection</span> is convenient, but it can hide problems. Two tasks are easy to confuse:</p>
+<ul>
+<li><strong>Defining</strong> a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-map-projection" data-term="map projection">projection</span> tells the software what CRS a layer is <em>already</em> in, when that information is missing or wrong, for example when a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-shapefile" data-term="shapefile">shapefile</span> has lost its <code>.prj</code> file (Chapter 2). The coordinates don’t change. In QGIS this is <strong>Assign Projection</strong> (or setting the CRS in Layer Properties); in ArcGIS Pro it is the <strong>Define Projection</strong> tool.</li>
+<li><strong>Projecting</strong> (or reprojecting) a layer converts its coordinates into a new CRS and saves a new layer. In QGIS this is <strong>Reproject Layer</strong>; in ArcGIS Pro it is the <strong>Project</strong> tool, or <strong>Project <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">Raster</span></strong> for rasters.</li>
+</ul>
+<p>Defining the wrong CRS is a classic mistake. A layer in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-latitude" data-term="latitude">latitude</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-longitude" data-term="longitude">longitude</span> that is wrongly defined as <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-state-plane-coordinate-system-spcs" data-term="State Plane Coordinate System (SPCS)">State Plane</span> feet is read as a few feet from the projection’s origin, so it shows up as a tiny speck far from where it belongs; in a world map, one wrongly defined in meters appears near 0° latitude and 0° longitude, in the ocean off West Africa. A layer in State Plane feet wrongly defined as degrees may not appear at all, because its numbers, in the millions, are far outside the range of latitude and longitude. If a layer shows up in the wrong place, check its defined CRS first. Project a layer, rather than relying on on-the-fly reprojection, before you measure lengths or areas, run <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-overlay-analysis" data-term="overlay analysis">overlay</span> tools, or share the data.</p>
+</section>
+<section id="check-your-understanding" class="level2" data-number="4.8">
+<h2 data-number="4.8" class="anchored" data-anchor-id="check-your-understanding"><span class="header-section-number">4.8</span> Check your understanding</h2>
+<ol type="1">
+<li><p>A map projection converts latitude and longitude into: <select class="webex-select"><option value="blank"></option><option value="">A datum</option><option value="">An ellipsoid</option><option value="answer">Flat x, y coordinates</option><option value="">Elevations</option></select></p></li>
+<li><p>A projection that keeps local angles and small shapes true is called: <select class="webex-select"><option value="blank"></option><option value="answer">Conformal</option><option value="">Equal-area</option><option value="">Equidistant</option><option value="">Compromise</option></select></p></li>
+<li><p>A projection can be both conformal and equal-area. <select class="webex-select"><option value="blank"></option><option value="">TRUE</option><option value="answer">FALSE</option></select></p></li>
+<li><p>On a Mercator map, how many times too large does a country at 60° N appear? <input class="webex-solveme nospaces" size="3" data-answer="[&quot;4&quot;,&quot;four&quot;]"></p></li>
+<li><p>Which developable surface best suits a mid-latitude region that runs east to west? <select class="webex-select"><option value="blank"></option><option value="">Plane</option><option value="">Cylinder</option><option value="answer">Cone</option></select></p></li>
+<li><p>Each UTM zone is how many degrees of longitude wide? <input class="webex-solveme nospaces" size="3" data-answer="[&quot;6&quot;]"></p></li>
+<li><p>Chapel Hill is in which UTM zone? <select class="webex-select"><option value="blank"></option><option value="">16N</option><option value="answer">17N</option><option value="">18N</option><option value="">19N</option></select></p></li>
+<li><p>You need to calculate the area of every county in the contiguous United States. Which CRS should you use? <select class="webex-select"><option value="blank"></option><option value="">EPSG:4326, WGS 84</option><option value="">EPSG:3857, Web Mercator</option><option value="answer">EPSG:5070, Conus Albers</option><option value="">EPSG:26917, UTM zone 17N</option></select></p></li>
+</ol>
+<div class="webex-solution">
+<button>
+Show hint for question 4
+</button>
+<p>On a Mercator map, areas are enlarged by the square of the secant of the latitude. The secant of 60° is 1 ÷ cos 60° = 1 ÷ 0.5 = 2.</p>
+</div>
+</section>
+<section id="summary" class="level2" data-number="4.9">
+<h2 data-number="4.9" class="anchored" data-anchor-id="summary"><span class="header-section-number">4.9</span> Summary</h2>
+<ul>
+<li>A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-map-projection" data-term="map projection">map projection</span></strong> is a set of equations that converts <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-latitude" data-term="latitude">latitude</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-longitude" data-term="longitude">longitude</span> into flat <em>x, y</em> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">coordinates</span>. It sits on top of an <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-ellipsoid" data-term="ellipsoid">ellipsoid</span> and a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geodetic-datum" data-term="geodetic datum">datum</span>.</li>
+<li><strong>Every flat map distorts</strong> shape, area, distance, or direction. <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-conformal" data-term="conformal">Conformal</span></strong> projections keep local shapes, <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-equal-area" data-term="equal-area">equal-area</span></strong> projections keep area, <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-equidistant" data-term="equidistant">equidistant</span></strong> projections keep distance from one or two points, and <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-azimuthal" data-term="azimuthal">azimuthal</span></strong> projections keep direction from a center. No projection is both conformal and equal-area. <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tissot-s-indicatrix" data-term="Tissot’s indicatrix">Tissot’s indicatrix</span></strong> shows the distortion.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-mercator" data-term="Mercator">Mercator</span></strong> is conformal and great for navigation, but it enlarges areas toward the poles: four times at 60°. <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-web-mercator" data-term="Web Mercator">Web Mercator</span></strong> (EPSG:3857), the projection of web maps, is for display, not measurement.</li>
+<li>Projections are built on three <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-developable-surface" data-term="developable surface">developable surfaces</span></strong>: the plane, the cylinder, and the cone. A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tangent" data-term="tangent">tangent</span></strong> surface touches the Earth; a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-secant" data-term="secant">secant</span></strong> surface cuts it, spreading the error. Scale is exact on <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-standard-line" data-term="standard line">standard lines</span></strong>, and error grows away from them.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-lambert-conformal-conic" data-term="Lambert Conformal Conic">Lambert Conformal Conic</span></strong> suits mid-latitude regions that run east to west; <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-transverse-mercator" data-term="Transverse Mercator">Transverse Mercator</span></strong> suits regions that run north to south.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-universal-transverse-mercator-utm" data-term="Universal Transverse Mercator (UTM)">UTM</span></strong> divides the world into 60 zones, 6° wide, each a secant Transverse Mercator in meters. North Carolina spans zones 17N and 18N, split at 78° W.</li>
+<li>The <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-state-plane-coordinate-system-spcs" data-term="State Plane Coordinate System (SPCS)">State Plane Coordinate System</span></strong> has about 120 zones, with error held to 1 part in 10,000. North Carolina’s single zone is a Lambert Conformal Conic, EPSG:32119 in meters or 2264 in feet.</li>
+<li>A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-reference-system-crs" data-term="coordinate reference system (CRS)">coordinate reference system</span></strong> bundles a datum, a projection, and units, and is identified by an <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-epsg-code" data-term="EPSG code">EPSG code</span></strong>. <strong>Geographic</strong> systems are in degrees; <strong>projected</strong> systems are in meters or feet. Never measure in degrees or in Web Mercator.</li>
+<li>Choose a projection designed for your area and one that preserves what you will measure. <strong>Define</strong> a projection to fix missing CRS information; <strong>project</strong> a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layer</span> to convert its coordinates.</li>
+</ul>
+</section>
+<section id="exercises" class="level2" data-number="4.10">
+<h2 data-number="4.10" class="anchored" data-anchor-id="exercises"><span class="header-section-number">4.10</span> Exercises</h2>
+<ol type="1">
+<li><strong>Tissot at home.</strong> Open <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span>, add a world countries <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layer</span> (Natural Earth works well), and change the project <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-reference-system-crs" data-term="coordinate reference system (CRS)">CRS</span> to <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-mercator" data-term="Mercator">Mercator</span>, Mollweide, Robinson, and an <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-azimuthal" data-term="azimuthal">azimuthal</span> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-equidistant" data-term="equidistant">equidistant</span> centered on Chapel Hill. Describe how Greenland, Antarctica, and Africa change on each.</li>
+<li><strong>True size.</strong> Use The True Size Of… (<a href="https://www.thetruesize.com" class="uri">https://www.thetruesize.com</a>) to drag North Carolina, Texas, and Greenland to the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-equator" data-term="equator">equator</span> and to the Arctic. Describe what happens and explain why, using the word <em><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-conformal" data-term="conformal">conformal</span></em>.</li>
+<li><strong>Measure an area three ways.</strong> In QGIS or <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span>, calculate the area of North Carolina’s counties in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-web-mercator" data-term="Web Mercator">EPSG:3857</span>, EPSG:32119, and EPSG:5070. Which answers agree? Which is far off, and by about how much? Why?</li>
+<li><strong>Find the zone.</strong> Which <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-universal-transverse-mercator-utm" data-term="Universal Transverse Mercator (UTM)">UTM</span> zone are each of these in: Asheville, Wilmington, Denver, Seattle, and your hometown? (Zone number = the whole number part of (<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-longitude" data-term="longitude">longitude</span> + 180) ÷ 6, plus 1.)</li>
+<li><strong>Read a CRS.</strong> Look up EPSG:32119 at <a href="https://epsg.io/32119" class="uri">https://epsg.io/32119</a>. Find its <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geodetic-datum" data-term="geodetic datum">datum</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-map-projection" data-term="map projection">projection</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-standard-line" data-term="standard line">standard parallels</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-latitude" data-term="latitude">latitude</span> of origin, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-central-meridian" data-term="central meridian">central meridian</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-false-easting" data-term="false easting">false easting</span>, and units.</li>
+<li><strong>Choose a projection.</strong> For each project, choose a projection or CRS and explain why: (a) the area of every wetland in Orange County, NC; (b) a map of flight distances from RDU airport; (c) a world map of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-population-density" data-term="population density">population density</span>; (d) a map of the Arctic Ocean’s sea ice; (e) a statewide map of North Carolina for a highway department.</li>
+<li><strong>Wrong CRS.</strong> A classmate’s layer of North Carolina schools shows up as a tiny cluster in the ocean off West Africa, near 0° latitude and 0° longitude. What has gone wrong, and how would you fix it?</li>
+<li><strong>Units and slope.</strong> You have a digital elevation model with elevations in feet, in a projection in meters. What will happen to a slope calculation? How would you fix it?</li>
+</ol>
+</section>
+<section id="further-reading-and-online-resources" class="level2" data-number="4.11">
+<h2 data-number="4.11" class="anchored" data-anchor-id="further-reading-and-online-resources"><span class="header-section-number">4.11</span> Further reading and online resources</h2>
+<section id="books-and-open-textbooks" class="level3" data-number="4.11.1">
+<h3 data-number="4.11.1" class="anchored" data-anchor-id="books-and-open-textbooks"><span class="header-section-number">4.11.1</span> Books and open textbooks</h3>
+<ul>
+<li><em><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> Fundamentals: A First Text on Geographic Information Systems</em>, by Paul Bolstad <span class="citation" data-cites="bolstad2022">(Bolstad 2022)</span>. Chapter 3, “<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geodesy" data-term="geodesy">Geodesy</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-map-projection" data-term="map projection">Projections</span>, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">Coordinate Systems</span>,” covers <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-developable-surface" data-term="developable surface">developable surfaces</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-universal-transverse-mercator-utm" data-term="Universal Transverse Mercator (UTM)">UTM</span>, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-state-plane-coordinate-system-spcs" data-term="State Plane Coordinate System (SPCS)">State Plane</span> in depth.</li>
+<li><em>Understanding GIS through Sustainable Development Goals</em>, by Paul Holloway <span class="citation" data-cites="holloway2023">(Holloway 2023)</span>. Its chapter on coordinate systems and projections includes worked examples in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span>.</li>
+<li><em>Map Projections: A Working Manual</em>, by John P. Snyder <span class="citation" data-cites="snyder1987">(Snyder 1987)</span>, USGS Professional Paper 1395. The standard reference for the mathematics and use of dozens of projections: <a href="https://pubs.usgs.gov/publication/pp1395" class="uri">https://pubs.usgs.gov/publication/pp1395</a>.</li>
+<li><em>Flattening the Earth: Two Thousand Years of Map Projections</em>, by John P. Snyder (University of Chicago Press, 1993), the history of map projections.</li>
+<li><em>How to Lie with Maps</em>, by Mark Monmonier (3rd ed., University of Chicago Press, 2018). Its chapter on projections shows how a projection can shape a message.</li>
+<li><em><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-rhumb-line" data-term="rhumb line">Rhumb Lines</span> and Map Wars: A Social History of the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-mercator" data-term="Mercator">Mercator Projection</span></em>, by Mark Monmonier (University of Chicago Press, 2004), on the Mercator and the Peters debate.</li>
+<li><em>The Nature of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-data" data-term="spatial data">Geographic Information</span></em>, by David DiBiase and colleagues at Penn State. Chapter 2 covers plane coordinate systems, UTM, and State Plane: <a href="https://www.e-education.psu.edu/natureofgeoinfo/c2.html" class="uri">https://www.e-education.psu.edu/natureofgeoinfo/c2.html</a>.</li>
+<li><em>Intro to GIS and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-analysis" data-term="spatial analysis">Spatial Analysis</span></em>, by Manuel Gimond. The chapter “Coordinate Systems” includes a gallery of projections: <a href="https://mgimond.github.io/Spatial/chp09_0.html" class="uri">https://mgimond.github.io/Spatial/chp09_0.html</a>.</li>
+<li><em>Essentials of Geographic Information Systems</em>, by Jonathan Campbell and Michael Shin. Chapter 2 covers map projections: <a href="https://open.umn.edu/opentextbooks/textbooks/67" class="uri">https://open.umn.edu/opentextbooks/textbooks/67</a>.</li>
+</ul>
+</section>
+<section id="understanding-map-projections" class="level3" data-number="4.11.2">
+<h3 data-number="4.11.2" class="anchored" data-anchor-id="understanding-map-projections"><span class="header-section-number">4.11.2</span> Understanding map projections</h3>
+<ul>
+<li>USGS, <em>Map Projections</em>, a poster comparing the properties and uses of common projections: <a href="https://pubs.usgs.gov/publication/70047422" class="uri">https://pubs.usgs.gov/publication/70047422</a>.</li>
+<li>The <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-gis-t-body-of-knowledge" data-term="GIS&amp;T Body of Knowledge">GIS&amp;T Body of Knowledge</span>, “Map Projections,” “Map Projection Properties,” “Map Projection Classes,” and “Plane Coordinate Systems”: <a href="https://gistbok.ucgis.org" class="uri">https://gistbok.ucgis.org</a>.</li>
+<li>Axis Maps, “<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cartography" data-term="cartography">Cartography</span> Guide: Map Projections”: <a href="https://www.axismaps.com/guide/map-projections" class="uri">https://www.axismaps.com/guide/map-projections</a>.</li>
+<li>PROJ, the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-open-source" data-term="open source">open-source</span> library behind QGIS’s projections, with an illustrated list of every projection it supports: <a href="https://proj.org/en/stable/operations/projections/index.html" class="uri">https://proj.org/en/stable/operations/projections/index.html</a>.</li>
+<li>Wolfram MathWorld, “Map Projection,” with the equations for common projections: <a href="https://mathworld.wolfram.com/MapProjection.html" class="uri">https://mathworld.wolfram.com/MapProjection.html</a>.</li>
+<li>Jason Davies, interactive map projection transitions and demos: <a href="https://www.jasondavies.com/maps/" class="uri">https://www.jasondavies.com/maps/</a>.</li>
+<li>Projection Wizard, a tool that recommends a projection for your area and purpose: <a href="https://projectionwizard.org" class="uri">https://projectionwizard.org</a>.</li>
+<li>Map Projection Transitions, an animated tour of projections: <a href="https://www.jasondavies.com/maps/transition/" class="uri">https://www.jasondavies.com/maps/transition/</a>.</li>
+<li>xkcd, “What your favorite map projection says about you”: <a href="https://xkcd.com/977/" class="uri">https://xkcd.com/977/</a>.</li>
+</ul>
+</section>
+<section id="mercator-web-mercator-and-the-true-size-of-countries" class="level3" data-number="4.11.3">
+<h3 data-number="4.11.3" class="anchored" data-anchor-id="mercator-web-mercator-and-the-true-size-of-countries"><span class="header-section-number">4.11.3</span> Mercator, Web Mercator, and the true size of countries</h3>
+<ul>
+<li>The True Size Of…, drag countries around a Mercator map to see their real size: <a href="https://www.thetruesize.com" class="uri">https://www.thetruesize.com</a>.</li>
+<li>Neil Kaye’s animated “Mercator projection vs.&nbsp;the true size of each country,” widely shared since 2019. Search for “Neil Kaye true size Mercator.”</li>
+<li>Engaging Data, “Mercator Puzzle Redux,” a game of placing countries at their true size: <a href="https://engaging-data.com/country-sizes-mercator/" class="uri">https://engaging-data.com/country-sizes-mercator/</a>.</li>
+<li><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-openstreetmap" data-term="OpenStreetMap">OpenStreetMap</span> Wiki, “<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-web-mercator" data-term="Web Mercator">Web Mercator</span>” and “Slippy map tilenames,” on how web map tiles work: <a href="https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames" class="uri">https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames</a>.</li>
+<li><em>The Guardian</em>, “Boston public schools map switch aims to amend 500 years of distortion” (March 2017), on the switch to Gall-Peters.</li>
+<li><em>The West Wing</em>, season 2, “Somebody’s Going to Emergency, Somebody’s Going to Jail” (2001), the famous scene in which cartographers argue for the Gall-Peters projection.</li>
+</ul>
+</section>
+<section id="utm-state-plane-and-coordinate-reference-systems" class="level3" data-number="4.11.4">
+<h3 data-number="4.11.4" class="anchored" data-anchor-id="utm-state-plane-and-coordinate-reference-systems"><span class="header-section-number">4.11.4</span> UTM, State Plane, and coordinate reference systems</h3>
+<ul>
+<li>NGS, State Plane Coordinate System of 2022 (SPCS2022) and the State Plane zones of 1983: <a href="https://geodesy.noaa.gov/SPCS/" class="uri">https://geodesy.noaa.gov/SPCS/</a>.</li>
+<li>NGS, <em>State Plane Coordinate System of 1983</em>, NOAA Manual NOS NGS 5, by James Stem: <a href="https://geodesy.noaa.gov/library/pdfs/NOAA_Manual_NOS_NGS_0005.pdf" class="uri">https://geodesy.noaa.gov/library/pdfs/NOAA_Manual_NOS_NGS_0005.pdf</a>.</li>
+<li>epsg.io, a searchable list of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-reference-system-crs" data-term="coordinate reference system (CRS)">coordinate reference systems</span>; for example, North Carolina State Plane in meters: <a href="https://epsg.io/32119" class="uri">https://epsg.io/32119</a>.</li>
+<li>The <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-epsg-code" data-term="EPSG code">EPSG</span> Geodetic Parameter Dataset, the official registry: <a href="https://epsg.org" class="uri">https://epsg.org</a>.</li>
+<li>Spatial Reference, another searchable list of coordinate systems with their definitions in many formats: <a href="https://spatialreference.org" class="uri">https://spatialreference.org</a>.</li>
+</ul>
+</section>
+<section id="software-and-tutorials" class="level3" data-number="4.11.5">
+<h3 data-number="4.11.5" class="anchored" data-anchor-id="software-and-tutorials"><span class="header-section-number">4.11.5</span> Software and tutorials</h3>
+<ul>
+<li>QGIS User Guide, “Working with Projections”: <a href="https://docs.qgis.org/latest/en/docs/user_manual/working_with_projections/working_with_projections.html" class="uri">https://docs.qgis.org/latest/en/docs/user_manual/working_with_projections/working_with_projections.html</a>.</li>
+<li>QGIS, <em>A Gentle Introduction to GIS</em>, “Coordinate Reference Systems”: <a href="https://docs.qgis.org/latest/en/docs/gentle_gis_introduction/coordinate_reference_systems.html" class="uri">https://docs.qgis.org/latest/en/docs/gentle_gis_introduction/coordinate_reference_systems.html</a>.</li>
+<li>QGIS Training Manual, “<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-reproject" data-term="reproject">Reprojecting</span> and Transforming Data”: <a href="https://docs.qgis.org/latest/en/docs/training_manual/vector_analysis/reproject_transform.html" class="uri">https://docs.qgis.org/latest/en/docs/training_manual/vector_analysis/reproject_transform.html</a>.</li>
+<li>ArcGIS Pro, “Define Projection” and “Project” tools: <a href="https://pro.arcgis.com/en/pro-app/latest/tool-reference/data-management/define-projection.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/tool-reference/data-management/define-projection.htm</a> and <a href="https://pro.arcgis.com/en/pro-app/latest/tool-reference/data-management/project.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/tool-reference/data-management/project.htm</a>.</li>
+<li>ArcGIS Pro, “Specify a coordinate system for a map”: <a href="https://pro.arcgis.com/en/pro-app/latest/help/mapping/properties/specify-a-coordinate-system.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/help/mapping/properties/specify-a-coordinate-system.htm</a>.</li>
+<li>Learn ArcGIS, “Choose the right projection”: <a href="https://learn.arcgis.com/en/projects/choose-the-right-projection/" class="uri">https://learn.arcgis.com/en/projects/choose-the-right-projection/</a>.</li>
+<li>Natural Earth, free world data for trying out projections: <a href="https://www.naturalearthdata.com" class="uri">https://www.naturalearthdata.com</a>.</li>
+</ul>
+
+
+<div class="glossary-defs" hidden="">
+<span id="gloss-map-projection">A mathematical method for flattening the round Earth onto a flat map.
+Every projection distorts area, shape, distance, or direction in some
+way.</span>
+<span id="gloss-ellipsoid">A smooth mathematical model of the Earth’s shape: an ellipse rotated
+about its polar axis, wider at the equator than from pole to pole.
+Examples are Clarke 1866, GRS 80, and WGS 84.</span>
+<span id="gloss-geodetic-datum">A model that fixes an ellipsoid’s size, shape, and position relative to
+the Earth, realized by a network of control points, so latitude and
+longitude point to real places. Examples are NAD27, NAD83, and WGS84.</span>
+<span id="gloss-developable-surface">A shape that can be unrolled flat without stretching: a plane, a
+cylinder, or a cone.</span>
+<span id="gloss-tangent">A projection surface that touches the Earth along one line or at one
+point.</span>
+<span id="gloss-secant">A projection surface that cuts through the Earth along two lines (or a
+circle), spreading the error more evenly.</span>
+<span id="gloss-standard-line">A line where the projection surface meets the Earth, so the scale is
+exact. Standard lines that follow latitude are standard parallels.</span>
+<span id="gloss-mercator">A conformal cylindrical projection from 1569, made for navigation: lines
+of constant compass bearing are straight. It greatly enlarges areas
+toward the poles.</span>
+<span id="gloss-web-mercator">The Mercator variant used by nearly every web map (EPSG:3857). Good for
+display, never for measuring distance or area.</span>
+<span id="gloss-lambert-conformal-conic">A conformal conic projection with two standard parallels. It suits
+mid-latitude regions that run east to west, and is used for North
+Carolina State Plane.</span>
+<span id="gloss-transverse-mercator">A Mercator projection turned on its side, so the cylinder touches the
+Earth along a central meridian. It suits regions that run north to
+south.</span>
+<span id="gloss-universal-transverse-mercator-utm">A system of 60 zones, each 6° of longitude wide, each a secant
+Transverse Mercator projection in meters. North Carolina spans zones 17N
+and 18N.</span>
+<span id="gloss-state-plane-coordinate-system-spcs">A U.S. system of about 120 zones following state and county lines, built
+for surveyors, with error held to 1 part in 10,000. North Carolina has
+one zone (EPSG:32119 in meters, 2264 in feet).</span>
+<span id="gloss-epsg-code">A number that identifies a coordinate reference system in the EPSG
+registry, such as 4326 for WGS84 or 32119 for North Carolina State
+Plane.</span>
+<span id="gloss-geographic-coordinate-system-gcs">A coordinate system that gives positions as latitude and longitude, in
+degrees, on a datum. EPSG:4326 (WGS84) and 4269 (NAD83) are examples.</span>
+<span id="gloss-layer">A set of spatial data about one theme, such as roads, soils, or
+elevation. Layers for the same area stack on top of each other to make a
+map.</span>
+<span id="gloss-geographic-information-system-gis">“A computer-based system to aid in the collection, maintenance, storage,
+analysis, output, and distribution of spatial data and information”
+(Bolstad). Its five components are data, hardware, software, people, and
+procedures.</span>
+<span id="gloss-latitude">The angle north or south of the equator, from 0° at the equator to 90°
+at the poles.</span>
+<span id="gloss-longitude">The angle east or west of the prime meridian, from 0° at Greenwich to
+180° east or west.</span>
+<span id="gloss-coordinate-system">A system of numbers, such as latitude and longitude, that gives every
+location a unique position so layers line up with each other.</span>
+<span id="gloss-graticule">The network of parallels and meridians drawn on a map.</span>
+<span id="gloss-conformal">A projection that keeps local angles true, so small shapes look right.
+Mercator and Lambert Conformal Conic are conformal.</span>
+<span id="gloss-equal-area">A projection that keeps relative area true. Use one to measure or
+compare areas, or to map density.</span>
+<span id="gloss-equidistant">A projection that keeps true distance from one or two points, or along
+certain lines.</span>
+<span id="gloss-azimuthal">A projection onto a plane that keeps true directions from its center
+point.</span>
+<span id="gloss-compromise-projection">A projection that preserves no property exactly but keeps every
+distortion moderate, such as Robinson or Winkel Tripel.</span>
+<span id="gloss-tissot-s-indicatrix">Identical small circles drawn on the globe and then projected. Their
+size and shape on the map show the projection’s distortion.</span>
+<span id="gloss-rhumb-line">A line of constant compass bearing. It is straight on a Mercator map.</span>
+<span id="gloss-meridian">A line of equal longitude. Meridians run from pole to pole and meet at
+the poles.</span>
+<span id="gloss-parallel">A line of equal latitude. Parallels run east and west and get shorter
+toward the poles.</span>
+<span id="gloss-equator">The parallel halfway between the poles, at 0° latitude. It is the only
+parallel that is a great circle.</span>
+<span id="gloss-openstreetmap">A free, editable map of the world built by volunteers, founded in 2004.</span>
+<span id="gloss-esri">The company that makes ArcGIS, founded in 1969 by Jack and Laura
+Dangermond in Redlands, California.</span>
+<span id="gloss-wgs84">The World Geodetic System of 1984, the global, earth-centered datum used
+by GPS. It differs from NAD83 by about 1 to 2 meters in North America.</span>
+<span id="gloss-reproject">To convert a layer’s coordinates from one CRS to another and save the
+result. Defining a projection, by contrast, only labels what the
+coordinates already are.</span>
+<span id="gloss-scale-factor">The ratio of scale at a place on a map to the map’s stated scale:
+exactly 1 on a standard line, below 1 where the map shrinks the Earth,
+above 1 where it stretches it.</span>
+<span id="gloss-albers-equal-area-conic">An equal-area conic projection, the standard for measuring areas across
+the contiguous United States (EPSG:5070).</span>
+<span id="gloss-gnomonic-projection">An azimuthal projection on which every great circle is a straight line.</span>
+<span id="gloss-great-circle">A circle on a sphere whose plane passes through the center. The shortest
+route between two points follows a great circle.</span>
+<span id="gloss-central-meridian">The meridian at the center of a projection or zone, such as the line
+along which a Transverse Mercator cylinder touches the Earth.</span>
+<span id="gloss-easting">A distance east from a starting line: the x coordinate in a projected
+coordinate system.</span>
+<span id="gloss-northing">A distance north from a starting line: the y coordinate in a projected
+coordinate system.</span>
+<span id="gloss-false-easting">A value added to every <em>x</em> coordinate so that none are negative,
+such as 500,000 m in UTM.</span>
+<span id="gloss-geodesy">The science of measuring the Earth’s size, shape, orientation in space,
+and gravity field.</span>
+<span id="gloss-nad27">The North American Datum of 1927. It used the Clarke 1866 ellipsoid and
+an origin at Meades Ranch, Kansas.</span>
+<span id="gloss-nad83">The North American Datum of 1983, an earth-centered datum on the GRS 80
+ellipsoid, fixed to the North American plate. The datum of most U.S.
+government GIS data.</span>
+<span id="gloss-coordinate-reference-system-crs">The full description of how coordinates relate to the Earth: a datum,
+plus a projection with its parameters, plus units.</span>
+<span id="gloss-projected-coordinate-system">A coordinate system that gives positions as <em>x, y</em> in meters or
+feet, on a map projection built on a datum, such as UTM or State Plane.</span>
+<span id="gloss-qgis">A free and open-source desktop GIS that runs on Windows, Mac, and Linux.</span>
+<span id="gloss-arcgis-pro">Esri’s commercial desktop GIS, for Windows.</span>
+<span id="gloss-gps">The Global Positioning System: U.S. satellites that let a receiver, such
+as your phone, work out its location. GNSS is the general name for GPS
+and similar systems from other countries.</span>
+<span id="gloss-on-the-fly-reprojection">Reprojecting layers as they are drawn, so layers in different CRSs line
+up on the map without changing their stored coordinates.</span>
+<span id="gloss-shapefile">A common vector format from Esri that stores one layer in several files
+with the same name: .shp (geometry), .shx (index), and .dbf (attributes)
+are required, and .prj holds the coordinate system.</span>
+<span id="gloss-raster">A data model that stores the world as a regular grid of equal-sized
+cells, each holding one value. Best for continuous data and imagery.</span>
+<span id="gloss-overlay-analysis">Stacking layers of data for the same area to find places that meet
+several conditions at once, such as flat land near a road and outside a
+floodplain.</span>
+<span id="gloss-population-density">The number of people per unit of area, such as people per square mile.</span>
+<span id="gloss-spatial-data">Data tied to a location on or near Earth, such as the address of a
+house, the outline of a county, or the elevation at a point.</span>
+<span id="gloss-spatial-analysis">Methods that use the locations of things, and the relationships among
+them, to find patterns, explain them, or make predictions.</span>
+<span id="gloss-gis-t-body-of-knowledge">A free collection of short, peer-reviewed articles on geographic
+information science and technology topics, from the University
+Consortium for Geographic Information Science (UCGIS).</span>
+<span id="gloss-cartography">The art and science of making maps.</span>
+<span id="gloss-open-source">Software whose source code anyone may read, change, and share, often
+free of charge. QGIS and GRASS GIS are open source.</span>
+</div>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script>
+
+/* update total correct if #webex-total_correct exists */
+update_total_correct = function() {
+  console.log("webex: update total_correct");
+
+  var t = document.getElementsByClassName("webex-total_correct");
+  for (var i = 0; i < t.length; i++) {
+    p = t[i].parentElement;
+    var correct = p.getElementsByClassName("webex-correct").length;
+    var solvemes = p.getElementsByClassName("webex-solveme").length;
+    var radiogroups = p.getElementsByClassName("webex-radiogroup").length;
+    var selects = p.getElementsByClassName("webex-select").length;
+
+    t[i].innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  }
+}
+
+/* webex-solution button toggling function */
+b_func = function() {
+  console.log("webex: toggle hide");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('open')) {
+    cl.remove("open");
+  } else {
+    cl.add("open");
+  }
+}
+
+/* check answers */
+check_func = function() {
+  console.log("webex: check answers");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('unchecked')) {
+    cl.remove("unchecked");
+    this.innerHTML = "Hide Answers";
+  } else {
+    cl.add("unchecked");
+    this.innerHTML = "Show Answers";
+  }
+}
+
+/* function for checking solveme answers */
+solveme_func = function(e) {
+  console.log("webex: check solveme");
+
+  var real_answers = JSON.parse(this.dataset.answer);
+  var my_answer = this.value;
+  var cl = this.classList;
+  if (cl.contains("ignorecase")) {
+    my_answer = my_answer.toLowerCase();
+  }
+  if (cl.contains("nospaces")) {
+    my_answer = my_answer.replace(/ /g, "")
+  }
+
+  if (my_answer == "") {
+    cl.remove("webex-correct");
+    cl.remove("webex-incorrect");
+  } else if (real_answers.includes(my_answer)) {
+    cl.add("webex-correct");
+    cl.remove("webex-incorrect");
+  } else {
+    cl.add("webex-incorrect");
+    cl.remove("webex-correct");
+  }
+
+  // match numeric answers within a specified tolerance
+  if(this.dataset.tol > 0){
+    var tol = JSON.parse(this.dataset.tol);
+    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+    if (matches.reduce((a, b) => a + b, 0) > 0) {
+      cl.add("webex-correct");
+    } else {
+      cl.remove("webex-correct");
+    }
+  }
+
+  // added regex bit
+  if (cl.contains("regex")){
+    answer_regex = RegExp(real_answers.join("|"))
+    if (answer_regex.test(my_answer)) {
+      cl.add("webex-correct");
+    }
+  }
+
+  update_total_correct();
+}
+
+/* function for checking select answers */
+select_func = function(e) {
+  console.log("webex: check select");
+
+  var cl = this.classList
+
+  /* add style */
+  cl.remove("webex-incorrect");
+  cl.remove("webex-correct");
+  if (this.value == "answer") {
+    cl.add("webex-correct");
+  } else if (this.value != "blank") {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+/* function for checking radiogroups answers */
+radiogroups_func = function(e) {
+  console.log("webex: check radiogroups");
+
+  var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
+  var cl = checked_button.parentElement.classList;
+  var labels = checked_button.parentElement.parentElement.children;
+
+  /* get rid of styles */
+  for (i = 0; i < labels.length; i++) {
+    labels[i].classList.remove("webex-incorrect");
+    labels[i].classList.remove("webex-correct");
+  }
+
+  /* add style */
+  if (checked_button.value == "answer") {
+    cl.add("webex-correct");
+  } else {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+window.onload = function() {
+  console.log("webex onload");
+  /* set up solution buttons */
+  var buttons = document.getElementsByTagName("button");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].parentElement.classList.contains('webex-solution')) {
+      buttons[i].onclick = b_func;
+    }
+  }
+
+  var check_sections = document.getElementsByClassName("webex-check");
+  console.log("check:", check_sections.length);
+  for (var i = 0; i < check_sections.length; i++) {
+    check_sections[i].classList.add("unchecked");
+
+    let btn = document.createElement("button");
+    btn.innerHTML = "Show Answers";
+    btn.classList.add("webex-check-button");
+    btn.onclick = check_func;
+    check_sections[i].appendChild(btn);
+
+    let spn = document.createElement("span");
+    spn.classList.add("webex-total_correct");
+    check_sections[i].appendChild(spn);
+  }
+
+  /* set up webex-solveme inputs */
+  var solveme = document.getElementsByClassName("webex-solveme");
+
+  for (var i = 0; i < solveme.length; i++) {
+    /* make sure input boxes don't auto-anything */
+    solveme[i].setAttribute("autocomplete","off");
+    solveme[i].setAttribute("autocorrect", "off");
+    solveme[i].setAttribute("autocapitalize", "off");
+    solveme[i].setAttribute("spellcheck", "false");
+    solveme[i].value = "";
+
+    /* adjust answer for ignorecase or nospaces */
+    var cl = solveme[i].classList;
+    var real_answer = solveme[i].dataset.answer;
+    if (cl.contains("ignorecase")) {
+      real_answer = real_answer.toLowerCase();
+    }
+    if (cl.contains("nospaces")) {
+      real_answer = real_answer.replace(/ /g, "");
+    }
+    solveme[i].dataset.answer = real_answer;
+
+    /* attach checking function */
+    solveme[i].onkeyup = solveme_func;
+    solveme[i].onchange = solveme_func;
+
+    solveme[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  /* set up radiogroups */
+  var radiogroups = document.getElementsByClassName("webex-radiogroup");
+  for (var i = 0; i < radiogroups.length; i++) {
+    radiogroups[i].onchange = radiogroups_func;
+  }
+
+  /* set up selects */
+  var selects = document.getElementsByClassName("webex-select");
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].onchange = select_func;
+    selects[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  update_total_correct();
+}
+
+</script>
+<!--
+  Highlights the right item in the top menu. Quarto's book layout marks
+  "Welcome" as active on every page, so this sets it from the page address:
+  the course pages match their own item, and every other page (chapters,
+  quizzes, glossary) is part of the Textbook. Pages with no menu item of
+  their own (the AI policy and privacy policy) highlight nothing.
+-->
+<script>
+(function () {
+  "use strict";
+  const COURSE_PAGES = ["index", "syllabus", "materials", "about"];
+  const NO_ITEM_PAGES = ["privacy", "ai-policy"];
+  const file = (location.pathname.split("/").pop() || "index").replace(/\.html$/, "");
+  const inRoot = !/\/chapters\//.test(location.pathname);
+  const target = inRoot && NO_ITEM_PAGES.includes(file) ? null
+    : inRoot && COURSE_PAGES.includes(file) ? file : "preface";
+  document.querySelectorAll("#navbarCollapse a.nav-link").forEach((a) => {
+    const page = (a.getAttribute("href") || "").split("/").pop().replace(/\.html$/, "");
+    const on = page === target;
+    a.classList.toggle("active", on);
+    if (on) a.setAttribute("aria-current", "page");
+    else a.removeAttribute("aria-current");
+  });
+})();
+</script>
+<!--
+  Reading settings, part 2 of 2: the "Aa" menu next to search, where readers
+  pick a font and text size. Choices are kept in this browser (localStorage)
+  and applied on every page by assets/reader-settings-head.html.
+-->
+<script>
+(function () {
+  var FONTS = [
+    { id: "", label: "Atkinson Hyperlegible (default)", css: '"Atkinson Hyperlegible Next", sans-serif' },
+    { id: "lexend", label: "Lexend", css: '"Lexend", sans-serif', href: "https://fonts.googleapis.com/css2?family=Lexend:wght@300..700&display=swap" },
+    { id: "cardo", label: "Cardo (serif)", css: '"Cardo", Georgia, serif', href: "https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&display=swap" },
+    { id: "sans", label: "Standard sans-serif", css: 'system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif' },
+    { id: "serif", label: "Serif", css: 'Georgia, Cambria, "Times New Roman", serif' },
+    { id: "dyslexic", label: "OpenDyslexic", css: '"OpenDyslexic", sans-serif' }
+  ];
+  var SIZES = { "-1": "Small", "0": "Default", "1": "Large", "2": "Larger", "3": "Largest" };
+  var MIN = -1, MAX = 3;
+  var root = document.documentElement;
+
+  function save(key, value) {
+    try {
+      if (value === "" || value === "0") localStorage.removeItem(key);
+      else localStorage.setItem(key, value);
+    } catch (e) { /* storage blocked: setting lasts for this page only */ }
+  }
+  function currentFont() { return root.getAttribute("data-reader-font") || ""; }
+  function currentSize() { return parseInt(root.getAttribute("data-reader-size") || "0", 10) || 0; }
+
+  // Add a Google Fonts stylesheet once (Lexend, Cardo). Fonts download only
+  // when text actually uses them.
+  function loadWebFont(f) {
+    if (!f.href || document.getElementById("sds-reader-webfont-" + f.id)) return;
+    var link = document.createElement("link");
+    link.rel = "stylesheet"; link.href = f.href; link.id = "sds-reader-webfont-" + f.id;
+    document.head.appendChild(link);
+  }
+
+  function setFont(id) {
+    FONTS.forEach(function (f) { if (f.id === id) loadWebFont(f); });
+    if (id) root.setAttribute("data-reader-font", id); else root.removeAttribute("data-reader-font");
+    save("sds-reader-font", id);
+  }
+  function setSize(n) {
+    n = Math.max(MIN, Math.min(MAX, n));
+    if (n) root.setAttribute("data-reader-size", String(n)); else root.removeAttribute("data-reader-size");
+    save("sds-reader-size", String(n));
+    refreshSize();
+  }
+
+  var wrap = document.createElement("div");
+  wrap.className = "sds-reader";
+  var fontOptions = FONTS.map(function (f) {
+    return '<label style=\'font-family:' + f.css.replace(/'/g, "&#39;") + '\'>' +
+      '<input class="form-check-input" type="radio" name="sds-reader-font" value="' + f.id + '"> ' + f.label + '</label>';
+  }).join("");
+  wrap.innerHTML =
+    '<button type="button" class="sds-reader-toggle" aria-expanded="false" aria-controls="sds-reader-panel" ' +
+      'title="Reading settings: font and text size">' +
+      '<span aria-hidden="true">Aa</span><span class="visually-hidden">Reading settings</span></button>' +
+    '<div class="sds-reader-panel" id="sds-reader-panel" role="dialog" aria-label="Reading settings" hidden>' +
+      '<h2>Reading settings</h2>' +
+      '<fieldset class="sds-reader-font"><legend>Font</legend>' + fontOptions + '</fieldset>' +
+      '<fieldset><legend>Text size</legend><div class="sds-reader-size-row">' +
+        '<button type="button" data-step="-1" aria-label="Smaller text">A&minus;</button>' +
+        '<output aria-live="polite"></output>' +
+        '<button type="button" data-step="1" aria-label="Larger text">A+</button>' +
+      '</div></fieldset>' +
+      '<button type="button" class="sds-reader-reset">Reset to defaults</button>' +
+    '</div>';
+
+  var toggle = wrap.querySelector(".sds-reader-toggle");
+  var panel = wrap.querySelector(".sds-reader-panel");
+  var output = wrap.querySelector("output");
+  var minus = wrap.querySelector('[data-step="-1"]');
+  var plus = wrap.querySelector('[data-step="1"]');
+
+  function refreshFont() {
+    var id = currentFont();
+    wrap.querySelectorAll('input[name="sds-reader-font"]').forEach(function (r) { r.checked = r.value === id; });
+  }
+  function refreshSize() {
+    var n = currentSize();
+    output.textContent = SIZES[String(n)] || "Default";
+    minus.disabled = n <= MIN;
+    plus.disabled = n >= MAX;
+  }
+  function open(show) {
+    panel.hidden = !show;
+    toggle.setAttribute("aria-expanded", show ? "true" : "false");
+    if (show) { FONTS.forEach(loadWebFont); refreshFont(); refreshSize(); var c = panel.querySelector("input:checked"); if (c) c.focus(); }
+  }
+
+  toggle.addEventListener("click", function (e) { e.stopPropagation(); open(panel.hidden); });
+  panel.addEventListener("click", function (e) { e.stopPropagation(); });
+  panel.addEventListener("change", function (e) { if (e.target.name === "sds-reader-font") setFont(e.target.value); });
+  minus.addEventListener("click", function () { setSize(currentSize() - 1); });
+  plus.addEventListener("click", function () { setSize(currentSize() + 1); });
+  wrap.querySelector(".sds-reader-reset").addEventListener("click", function () { setFont(""); setSize(0); refreshFont(); });
+  document.addEventListener("click", function () { if (!panel.hidden) open(false); });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !panel.hidden) { open(false); toggle.focus(); }
+  });
+
+  // Put the button by search: in the top menu on
+  // geog370.org, or by the sidebar search in the textbook-only build.
+  var navSearch = document.querySelector("#quarto-header #quarto-search");
+  if (navSearch) navSearch.parentNode.insertBefore(wrap, navSearch);
+  else {
+    var search = document.querySelector("#quarto-sidebar .sidebar-search, #quarto-sidebar #quarto-search, .sidebar-tools-main");
+    if (search && search.parentNode) search.parentNode.insertBefore(wrap, search.nextSibling);
+    else return;
+  }
+  refreshFont();
+  refreshSize();
+})();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/location-and-coordinates.html" class="pagination-link" aria-label="Location and Coordinate Systems">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Location and Coordinate Systems</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../chapters/attribute-queries.html" class="pagination-link" aria-label="Attribute Data and Queries">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Attribute Data and Queries</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

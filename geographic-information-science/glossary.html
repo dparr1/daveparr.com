@@ -37,7 +37,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./about.html" rel="next">
-<link href="./chapters/what-is-geographic-data.html" rel="prev">
+<link href="./chapters/attribute-queries.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
@@ -171,6 +171,24 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">What Is Geographic Data?</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapters/location-and-coordinates.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Location and Coordinate Systems</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapters/map-projections.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Map Projections</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapters/attribute-queries.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Attribute Data and Queries</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -232,9 +250,21 @@ ul.task-list li input[type="checkbox"] {
 <p>Key terms used in this book. In the chapters, a term with a dotted underline shows its definition when you hover over it, tap it, or reach it with the Tab key.</p>
 <div id="glossary">
 <dl>
+<dt><span id="term-"></span></dt>
+<dd>
+A missing value: nothing was recorded. NULL fails every comparison, so test for it with IS NULL.
+</dd>
+<dt><span id="term-absolute-location">absolute location</span></dt>
+<dd>
+A location given in a coordinate system that means the same thing to everyone, such as 38° 53′ 52″ N, 77° 02′ 11″ W.
+</dd>
 <dt><span id="term-accessibility">accessibility</span></dt>
 <dd>
 How easily people can reach a place or service, often measured as distance or travel time.
+</dd>
+<dt><span id="term-albers-equal-area-conic">Albers Equal-Area Conic</span></dt>
+<dd>
+An equal-area conic projection, the standard for measuring areas across the contiguous United States (EPSG:5070).
 </dd>
 <dt><span id="term-annotation">annotation</span></dt>
 <dd>
@@ -256,6 +286,18 @@ Esri’s commercial desktop GIS, for Windows.
 <dd>
 A non-spatial fact about a feature, such as a building’s name or the year it was built. Attributes are stored in a table with one row per feature.
 </dd>
+<dt><span id="term-azimuthal">azimuthal</span></dt>
+<dd>
+A projection onto a plane that keeps true directions from its center point.
+</dd>
+<dt><span id="term-binary">binary</span></dt>
+<dd>
+Base-2 numbers, written with only 0 and 1, in which each column is worth twice the one to its right. Computers store all data in binary.
+</dd>
+<dt><span id="term-bit">bit</span></dt>
+<dd>
+A binary digit, 0 or 1. With <em>n</em> bits you can write 2ⁿ different values.
+</dd>
 <dt><span id="term-cad">CAD</span></dt>
 <dd>
 Computer-aided design: software for drawing buildings, parts, and other objects. It is spatial but not geographic, because its drawings aren’t tied to places on Earth.
@@ -276,6 +318,10 @@ One square in a raster grid. Each cell holds one value. In an image, a cell is c
 <dd>
 The real-world length of one side of a raster cell, such as 30 meters. Smaller cells give finer resolution and larger files.
 </dd>
+<dt><span id="term-central-meridian">central meridian</span></dt>
+<dd>
+The meridian at the center of a projection or zone, such as the line along which a Transverse Mercator cylinder touches the Earth.
+</dd>
 <dt><span id="term-change-detection">change detection</span></dt>
 <dd>
 Comparing images or maps of the same place from different dates to find what changed.
@@ -284,9 +330,33 @@ Comparing images or maps of the same place from different dates to find what cha
 <dd>
 A group of events or features that are closer together than you would expect by chance, such as cases of a disease around one place.
 </dd>
+<dt><span id="term-complement">complement</span></dt>
+<dd>
+Every record outside a set. NOT selects the complement.
+</dd>
+<dt><span id="term-compromise-projection">compromise projection</span></dt>
+<dd>
+A projection that preserves no property exactly but keeps every distortion moderate, such as Robinson or Winkel Tripel.
+</dd>
+<dt><span id="term-conformal">conformal</span></dt>
+<dd>
+A projection that keeps local angles true, so small shapes look right. Mercator and Lambert Conformal Conic are conformal.
+</dd>
 <dt><span id="term-continuous-data">continuous data</span></dt>
 <dd>
 A quantity that has a value at every location and changes gradually from place to place, such as elevation, temperature, or rainfall.
+</dd>
+<dt><span id="term-continuously-operating-reference-stations-cors">Continuously Operating Reference Stations (CORS)</span></dt>
+<dd>
+A network of permanent GPS receivers, run by the National Geodetic Survey and its partners, that keeps NAD83 up to date.
+</dd>
+<dt><span id="term-control-point">control point</span></dt>
+<dd>
+A point on the ground, often marked with a bronze disk, whose coordinates have been measured precisely. Control points tie a datum to the Earth.
+</dd>
+<dt><span id="term-coordinate-reference-system-crs">coordinate reference system (CRS)</span></dt>
+<dd>
+The full description of how coordinates relate to the Earth: a datum, plus a projection with its parameters, plus units.
 </dd>
 <dt><span id="term-coordinate-system">coordinate system</span></dt>
 <dd>
@@ -304,13 +374,57 @@ The way a GIS represents the real world as data, for example as points, lines, a
 <dd>
 How a data model is laid out in a computer’s memory or files, for example as lists of coordinate pairs linked by pointers.
 </dd>
+<dt><span id="term-data-type">data type</span></dt>
+<dd>
+How a field is stored, such as text, integer, double, or date. It limits what the field can hold.
+</dd>
+<dt><span id="term-datum-shift">datum shift</span></dt>
+<dd>
+The difference in where the same latitude and longitude land on the ground in two different datums. Between NAD27 and NAD83 it can exceed 100 m.
+</dd>
+<dt><span id="term-datum-transformation">datum transformation</span></dt>
+<dd>
+Equations or a grid of measured shifts that convert coordinates from one datum to another.
+</dd>
+<dt><span id="term-de-morgan-s-law">De Morgan’s law</span></dt>
+<dd>
+NOT (A AND B) equals (NOT A) OR (NOT B), and NOT (A OR B) equals (NOT A) AND (NOT B).
+</dd>
+<dt><span id="term-decimal-degrees-dd">decimal degrees (DD)</span></dt>
+<dd>
+Latitude or longitude written as one signed number, such as −79.0558. Negative numbers are south latitudes and west longitudes.
+</dd>
+<dt><span id="term-definition-query">definition query</span></dt>
+<dd>
+In ArcGIS Pro, a WHERE clause that hides the features that fail it, until you remove it. QGIS calls this a filter.
+</dd>
+<dt><span id="term-degrees-minutes-and-seconds-dms">degrees, minutes, and seconds (DMS)</span></dt>
+<dd>
+Latitude or longitude written in degrees, minutes (1/60 of a degree), and seconds (1/3,600 of a degree), with a hemisphere letter, such as 79° 03′ 21″ W.
+</dd>
+<dt><span id="term-developable-surface">developable surface</span></dt>
+<dd>
+A shape that can be unrolled flat without stretching: a plane, a cylinder, or a cone.
+</dd>
 <dt><span id="term-discrete-object">discrete object</span></dt>
 <dd>
 Something with clear boundaries that is either present or absent at a location, such as a road, a house, or a state.
 </dd>
+<dt><span id="term-double">Double</span></dt>
+<dd>
+A 64-bit data type for decimal numbers, with about 15 significant digits. Float is the 32-bit version, with about 7.
+</dd>
 <dt><span id="term-easting">easting</span></dt>
 <dd>
 A distance east from a starting line: the x coordinate in a projected coordinate system.
+</dd>
+<dt><span id="term-ellipsoid">ellipsoid</span></dt>
+<dd>
+A smooth mathematical model of the Earth’s shape: an ellipse rotated about its polar axis, wider at the equator than from pole to pole. Examples are Clarke 1866, GRS 80, and WGS 84.
+</dd>
+<dt><span id="term-ellipsoid-height">ellipsoid height</span></dt>
+<dd>
+Height above the ellipsoid, written <em>h</em>. This is the height a GPS receiver measures.
 </dd>
 <dt><span id="term-entity">entity</span></dt>
 <dd>
@@ -320,6 +434,22 @@ A real-world object we want to store as data, such as a tree, a building, or a l
 <dd>
 The study of how diseases are distributed and spread in populations. John Snow’s 1854 cholera map is a founding example.
 </dd>
+<dt><span id="term-epsg-code">EPSG code</span></dt>
+<dd>
+A number that identifies a coordinate reference system in the EPSG registry, such as 4326 for WGS84 or 32119 for North Carolina State Plane.
+</dd>
+<dt><span id="term-equal-area">equal-area</span></dt>
+<dd>
+A projection that keeps relative area true. Use one to measure or compare areas, or to map density.
+</dd>
+<dt><span id="term-equator">equator</span></dt>
+<dd>
+The parallel halfway between the poles, at 0° latitude. It is the only parallel that is a great circle.
+</dd>
+<dt><span id="term-equidistant">equidistant</span></dt>
+<dd>
+A projection that keeps true distance from one or two points, or along certain lines.
+</dd>
 <dt><span id="term-esri">Esri</span></dt>
 <dd>
 The company that makes ArcGIS, founded in 1969 by Jack and Laura Dangermond in Redlands, California.
@@ -328,9 +458,25 @@ The company that makes ArcGIS, founded in 1969 by Jack and Laura Dangermond in R
 <dd>
 How far something reaches: its size, boundary, and dimensions. A layer’s extent is the rectangle that just encloses all its features.
 </dd>
+<dt><span id="term-false-easting">false easting</span></dt>
+<dd>
+A value added to every <em>x</em> coordinate so that none are negative, such as 500,000 m in UTM.
+</dd>
 <dt><span id="term-feature">feature</span></dt>
 <dd>
 How a map or a GIS represents an entity, usually as a point, a line, or a polygon, with attributes that describe it.
+</dd>
+<dt><span id="term-field">field</span></dt>
+<dd>
+A column in an attribute table: one attribute, measured the same way for every feature. Also called an attribute or item.
+</dd>
+<dt><span id="term-field-calculator">field calculator</span></dt>
+<dd>
+A tool that computes values and writes them into a field, for every record or for the selected records only.
+</dd>
+<dt><span id="term-flattening">flattening</span></dt>
+<dd>
+How squashed an ellipsoid is: <em>f</em> = (<em>a</em> − <em>b</em>) / <em>a</em>. For the Earth, about 1/298.
 </dd>
 <dt><span id="term-geoai">GeoAI</span></dt>
 <dd>
@@ -339,6 +485,18 @@ Artificial intelligence applied to geographic data, for example to find building
 <dt><span id="term-geocoding">geocoding</span></dt>
 <dd>
 Turning an address or place name into coordinates, so it can be put on a map.
+</dd>
+<dt><span id="term-geodesy">geodesy</span></dt>
+<dd>
+The science of measuring the Earth’s size, shape, orientation in space, and gravity field.
+</dd>
+<dt><span id="term-geodetic-datum">geodetic datum</span></dt>
+<dd>
+A model that fixes an ellipsoid’s size, shape, and position relative to the Earth, realized by a network of control points, so latitude and longitude point to real places. Examples are NAD27, NAD83, and WGS84.
+</dd>
+<dt><span id="term-geographic-coordinate-system-gcs">geographic coordinate system (GCS)</span></dt>
+<dd>
+A coordinate system that gives positions as latitude and longitude, in degrees, on a datum. EPSG:4326 (WGS84) and 4269 (NAD83) are examples.
 </dd>
 <dt><span id="term-geographic-information-science-giscience">geographic information science (GIScience)</span></dt>
 <dd>
@@ -351,6 +509,14 @@ The theory and methods behind GIS: research on analysis, data representation, vi
 <dt><span id="term-geographic-problem">geographic problem</span></dt>
 <dd>
 A problem that happens in specific places at specific times. It can be described by its scale, time, space, and purpose.
+</dd>
+<dt><span id="term-geoid">geoid</span></dt>
+<dd>
+The surface of equal gravity that best matches global mean sea level. It is lumpy, up to about 100 m above or below the ellipsoid, and elevations are measured from it.
+</dd>
+<dt><span id="term-geoid-height">geoid height</span></dt>
+<dd>
+The distance from the ellipsoid to the geoid at a place, written <em>N</em>. In the lower 48 United States it is negative, about −30 m.
 </dd>
 <dt><span id="term-geometry">geometry</span></dt>
 <dd>
@@ -380,17 +546,53 @@ A free collection of short, peer-reviewed articles on geographic information sci
 <dd>
 Geographic Information Systems Professional: a certification from the GIS Certification Institute for experienced GIS practitioners.
 </dd>
+<dt><span id="term-gnomonic-projection">gnomonic projection</span></dt>
+<dd>
+An azimuthal projection on which every great circle is a straight line.
+</dd>
 <dt><span id="term-gps">GPS</span></dt>
 <dd>
 The Global Positioning System: U.S. satellites that let a receiver, such as your phone, work out its location. GNSS is the general name for GPS and similar systems from other countries.
+</dd>
+<dt><span id="term-graticule">graticule</span></dt>
+<dd>
+The network of parallels and meridians drawn on a map.
+</dd>
+<dt><span id="term-great-circle">great circle</span></dt>
+<dd>
+A circle on a sphere whose plane passes through the center. The shortest route between two points follows a great circle.
+</dd>
+<dt><span id="term-integer">integer</span></dt>
+<dd>
+A data type for whole numbers. Its range depends on its bits: up to 32,767 for 16 bits, about 2.1 billion for 32 bits.
+</dd>
+<dt><span id="term-intersection">intersection</span></dt>
+<dd>
+The records in both of two sets. AND selects the intersection.
+</dd>
+<dt><span id="term-interval">interval</span></dt>
+<dd>
+Values with equal steps but an arbitrary zero, such as temperature in °C or a calendar year. Differences make sense; ratios don’t.
+</dd>
+<dt><span id="term-lambert-conformal-conic">Lambert Conformal Conic</span></dt>
+<dd>
+A conformal conic projection with two standard parallels. It suits mid-latitude regions that run east to west, and is used for North Carolina State Plane.
 </dd>
 <dt><span id="term-landsat">Landsat</span></dt>
 <dd>
 A series of U.S. Earth-observing satellites, run by NASA and the USGS, that have imaged the whole planet since 1972, mostly with 30-meter cells.
 </dd>
+<dt><span id="term-latitude">latitude</span></dt>
+<dd>
+The angle north or south of the equator, from 0° at the equator to 90° at the poles.
+</dd>
 <dt><span id="term-layer">layer</span></dt>
 <dd>
 A set of spatial data about one theme, such as roads, soils, or elevation. Layers for the same area stack on top of each other to make a map.
+</dd>
+<dt><span id="term-level-of-measurement">level of measurement</span></dt>
+<dd>
+What kind of values an attribute holds, which decides what questions make sense: nominal, ordinal, interval, or ratio.
 </dd>
 <dt><span id="term-line">line</span></dt>
 <dd>
@@ -400,6 +602,10 @@ A vector feature with length but no area, stored as an ordered list of coordinat
 <dd>
 The straight piece of a line between two vertices or nodes.
 </dd>
+<dt><span id="term-longitude">longitude</span></dt>
+<dd>
+The angle east or west of the prime meridian, from 0° at Greenwich to 180° east or west.
+</dd>
 <dt><span id="term-map-algebra">map algebra</span></dt>
 <dd>
 Math on rasters, cell by cell, such as adding two grids or finding every cell where slope is under 10 percent.
@@ -408,9 +614,33 @@ Math on rasters, cell by cell, such as adding two grids or finding every cell wh
 <dd>
 A mathematical method for flattening the round Earth onto a flat map. Every projection distorts area, shape, distance, or direction in some way.
 </dd>
+<dt><span id="term-mean-sea-level">mean sea level</span></dt>
+<dd>
+The average height of the sea surface over many years, which the geoid approximates.
+</dd>
+<dt><span id="term-mercator">Mercator</span></dt>
+<dd>
+A conformal cylindrical projection from 1569, made for navigation: lines of constant compass bearing are straight. It greatly enlarges areas toward the poles.
+</dd>
+<dt><span id="term-meridian">meridian</span></dt>
+<dd>
+A line of equal longitude. Meridians run from pole to pole and meet at the poles.
+</dd>
 <dt><span id="term-metadata">metadata</span></dt>
 <dd>
 Data about data: who made a dataset, when, how, in what coordinate system, and how accurate it is.
+</dd>
+<dt><span id="term-nad27">NAD27</span></dt>
+<dd>
+The North American Datum of 1927. It used the Clarke 1866 ellipsoid and an origin at Meades Ranch, Kansas.
+</dd>
+<dt><span id="term-nad83">NAD83</span></dt>
+<dd>
+The North American Datum of 1983, an earth-centered datum on the GRS 80 ellipsoid, fixed to the North American plate. The datum of most U.S. government GIS data.
+</dd>
+<dt><span id="term-natrf2022">NATRF2022</span></dt>
+<dd>
+The North American Terrestrial Reference Frame of 2022, the new datum that will replace NAD83 in the United States.
 </dd>
 <dt><span id="term-network">network</span></dt>
 <dd>
@@ -424,6 +654,10 @@ Analysis of movement along a network, such as roads, to find routes and measure 
 <dd>
 The start or end point of a line. In a network, lines meet at nodes.
 </dd>
+<dt><span id="term-nominal">nominal</span></dt>
+<dd>
+Categories with no order, such as land use or a name. You can test equality and count, but not average.
+</dd>
 <dt><span id="term-non-spatial-data">non-spatial data</span></dt>
 <dd>
 Data with no location of their own, such as a list of grades. When non-spatial data describe a spatial feature, they are its attributes.
@@ -431,6 +665,10 @@ Data with no location of their own, such as a list of grades. When non-spatial d
 <dt><span id="term-northing">northing</span></dt>
 <dd>
 A distance north from a starting line: the y coordinate in a projected coordinate system.
+</dd>
+<dt><span id="term-on-the-fly-reprojection">on-the-fly reprojection</span></dt>
+<dd>
+Reprojecting layers as they are drawn, so layers in different CRSs line up on the map without changing their stored coordinates.
 </dd>
 <dt><span id="term-open-source">open source</span></dt>
 <dd>
@@ -440,9 +678,25 @@ Software whose source code anyone may read, change, and share, often free of cha
 <dd>
 A free, editable map of the world built by volunteers, founded in 2004.
 </dd>
+<dt><span id="term-ordinal">ordinal</span></dt>
+<dd>
+Ranked categories whose steps are of unknown size, such as A, B, C, D or a hurricane’s category.
+</dd>
+<dt><span id="term-orthometric-height">orthometric height</span></dt>
+<dd>
+Height above the geoid, written <em>H</em>: the elevation, or “height above sea level,” printed on maps. <em>h</em> = <em>H</em> + <em>N</em>.
+</dd>
 <dt><span id="term-overlay-analysis">overlay analysis</span></dt>
 <dd>
 Stacking layers of data for the same area to find places that meet several conditions at once, such as flat land near a road and outside a floodplain.
+</dd>
+<dt><span id="term-parallel">parallel</span></dt>
+<dd>
+A line of equal latitude. Parallels run east and west and get shorter toward the poles.
+</dd>
+<dt><span id="term-plate-carr-e">Plate Carrée</span></dt>
+<dd>
+The projection that plots longitude as <em>x</em> and latitude as <em>y</em> on an even grid. It stretches the map east to west toward the poles.
 </dd>
 <dt><span id="term-point">point</span></dt>
 <dd>
@@ -460,9 +714,25 @@ A vector feature that encloses an area: a closed line whose first and last point
 <dd>
 The number of people per unit of area, such as people per square mile.
 </dd>
+<dt><span id="term-precision">precision</span></dt>
+<dd>
+For a numeric field, the total number of digits it can hold. Scale is how many of them fall after the decimal point.
+</dd>
+<dt><span id="term-prime-meridian">prime meridian</span></dt>
+<dd>
+The meridian at 0° longitude, through Greenwich, England, chosen in 1884. Longitude is measured east and west from it.
+</dd>
+<dt><span id="term-projected-coordinate-system">projected coordinate system</span></dt>
+<dd>
+A coordinate system that gives positions as <em>x, y</em> in meters or feet, on a map projection built on a datum, such as UTM or State Plane.
+</dd>
 <dt><span id="term-qgis">QGIS</span></dt>
 <dd>
 A free and open-source desktop GIS that runs on Windows, Mac, and Linux.
+</dd>
+<dt><span id="term-query">query</span></dt>
+<dd>
+A written condition that the software tests against every record, selecting those that pass.
 </dd>
 <dt><span id="term-radar">radar</span></dt>
 <dd>
@@ -476,21 +746,61 @@ A data model that stores the world as a regular grid of equal-sized cells, each 
 <dd>
 To convert vector data into a raster.
 </dd>
+<dt><span id="term-ratio">ratio</span></dt>
+<dd>
+Values with equal steps and a true zero, such as population or area. Every arithmetic operation makes sense.
+</dd>
+<dt><span id="term-record">record</span></dt>
+<dd>
+A row in an attribute table: everything known about one feature.
+</dd>
 <dt><span id="term-redlining">redlining</span></dt>
 <dd>
 Grading neighborhoods as risky for lending, as the federal Home Owners’ Loan Corporation did on maps in the 1930s, which outlined many Black and immigrant neighborhoods in red and denied them credit.
+</dd>
+<dt><span id="term-relative-location">relative location</span></dt>
+<dd>
+A description of where something is in relation to a landmark, such as “ten paces north of the oak.” It only works if you know the landmark.
 </dd>
 <dt><span id="term-remote-sensing">remote sensing</span></dt>
 <dd>
 Collecting information about Earth without touching it, from sensors on satellites, aircraft, or drones.
 </dd>
+<dt><span id="term-reproject">reproject</span></dt>
+<dd>
+To convert a layer’s coordinates from one CRS to another and save the result. Defining a projection, by contrast, only labels what the coordinates already are.
+</dd>
 <dt><span id="term-resolution">resolution</span></dt>
 <dd>
 The level of detail in data. For a raster, it is set by the cell size: the smaller the cells, the finer the resolution.
 </dd>
+<dt><span id="term-rhumb-line">rhumb line</span></dt>
+<dd>
+A line of constant compass bearing. It is straight on a Mercator map.
+</dd>
 <dt><span id="term-route-optimization">route optimization</span></dt>
 <dd>
 Finding the best path through a network, such as the fastest or shortest route, or a delivery route that visits many stops.
+</dd>
+<dt><span id="term-scale-factor">scale factor</span></dt>
+<dd>
+The ratio of scale at a place on a map to the map’s stated scale: exactly 1 on a standard line, below 1 where the map shrinks the Earth, above 1 where it stretches it.
+</dd>
+<dt><span id="term-secant">secant</span></dt>
+<dd>
+A projection surface that cuts through the Earth along two lines (or a circle), spreading the error more evenly.
+</dd>
+<dt><span id="term-selection">selection</span></dt>
+<dd>
+The records, and their features, that pass a query. A selection is temporary until you export it or calculate it into a field.
+</dd>
+<dt><span id="term-semi-major-axis">semi-major axis</span></dt>
+<dd>
+The equatorial radius of an ellipsoid, written <em>a</em>. For the Earth, about 6,378 km.
+</dd>
+<dt><span id="term-semi-minor-axis">semi-minor axis</span></dt>
+<dd>
+The polar radius of an ellipsoid, written <em>b</em>. For the Earth, about 6,357 km.
 </dd>
 <dt><span id="term-shapefile">shapefile</span></dt>
 <dd>
@@ -512,17 +822,53 @@ Data tied to a location on or near Earth, such as the address of a house, the ou
 <dd>
 Using ideas of space, such as location, distance, pattern, and scale, to understand and solve problems.
 </dd>
+<dt><span id="term-sql">SQL</span></dt>
+<dd>
+Structured Query Language, the standard language for asking databases questions. In a GIS you usually write only its WHERE clause.
+</dd>
+<dt><span id="term-standard-line">standard line</span></dt>
+<dd>
+A line where the projection surface meets the Earth, so the scale is exact. Standard lines that follow latitude are standard parallels.
+</dd>
+<dt><span id="term-state-plane-coordinate-system-spcs">State Plane Coordinate System (SPCS)</span></dt>
+<dd>
+A U.S. system of about 120 zones following state and county lines, built for surveyors, with error held to 1 part in 10,000. North Carolina has one zone (EPSG:32119 in meters, 2264 in feet).
+</dd>
 <dt><span id="term-tabular-data">tabular data</span></dt>
 <dd>
 Data stored in tables of rows and columns, such as the attributes of features.
+</dd>
+<dt><span id="term-tangent">tangent</span></dt>
+<dd>
+A projection surface that touches the Earth along one line or at one point.
 </dd>
 <dt><span id="term-tin">TIN</span></dt>
 <dd>
 Triangulated irregular network: a surface model that joins sampled elevation points into triangles, using more triangles where the ground is rough.
 </dd>
+<dt><span id="term-tissot-s-indicatrix">Tissot’s indicatrix</span></dt>
+<dd>
+Identical small circles drawn on the globe and then projected. Their size and shape on the map show the projection’s distortion.
+</dd>
 <dt><span id="term-topology">topology</span></dt>
 <dd>
 The recorded connections between features, such as which polygons share an edge and which lines meet at a node. It keeps neighbors from having gaps or overlaps.
+</dd>
+<dt><span id="term-transverse-mercator">Transverse Mercator</span></dt>
+<dd>
+A Mercator projection turned on its side, so the cylinder touches the Earth along a central meridian. It suits regions that run north to south.
+</dd>
+<dt><span id="term-triangulation">triangulation</span></dt>
+<dd>
+An old surveying method that measures the angles of a chain of triangles between stations to work out their positions across a large area.
+</dd>
+<dt><span id="term-union">union</span></dt>
+<dd>
+The records in either of two sets. OR selects the union.
+</dd>
+<dt><span id="term-universal-transverse-mercator-utm">Universal Transverse Mercator (UTM)</span></dt>
+<dd>
+A system of 60 zones, each 6° of longitude wide, each a secant Transverse Mercator projection in meters. North Carolina spans zones 17N and 18N.
 </dd>
 <dt><span id="term-vector">vector</span></dt>
 <dd>
@@ -532,9 +878,25 @@ A data model that stores the world as points, lines, and polygons, each defined 
 <dd>
 To convert a raster into vector features.
 </dd>
+<dt><span id="term-venn-diagram">Venn diagram</span></dt>
+<dd>
+A drawing of sets as overlapping circles, useful for checking what an AND or OR query will select.
+</dd>
 <dt><span id="term-vertex">vertex</span></dt>
 <dd>
 An intermediate point where a line or polygon boundary changes direction.
+</dd>
+<dt><span id="term-web-mercator">Web Mercator</span></dt>
+<dd>
+The Mercator variant used by nearly every web map (EPSG:3857). Good for display, never for measuring distance or area.
+</dd>
+<dt><span id="term-wgs84">WGS84</span></dt>
+<dd>
+The World Geodetic System of 1984, the global, earth-centered datum used by GPS. It differs from NAD83 by about 1 to 2 meters in North America.
+</dd>
+<dt><span id="term-where-clause">WHERE clause</span></dt>
+<dd>
+The condition part of an SQL query, such as <code>"Area" &gt; 20</code>. It is the part you write in Select by Expression or Select By Attributes.
 </dd>
 </dl>
 </div>
@@ -1367,8 +1729,8 @@ window.onload = function() {
   </script>
 <nav class="page-navigation" aria-label="Page">
   <div class="nav-page nav-page-previous">
-      <a href="./chapters/what-is-geographic-data.html" class="pagination-link" aria-label="What Is Geographic Data?">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">What Is Geographic Data?</span></span>
+      <a href="./chapters/attribute-queries.html" class="pagination-link" aria-label="Attribute Data and Queries">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Attribute Data and Queries</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

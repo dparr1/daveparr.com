@@ -1,0 +1,2060 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>5&nbsp; Attribute Data and Queries – Geographic Information Science</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../glossary.html" rel="next">
+<link href="../chapters/map-projections.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ebb58cfc2c0cc903b00b246007c1be77.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-58aeb932f9769ef5b136914697361c15.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-contrib/glossary-1.0.0/glossary.js"></script>
+<link href="../site_libs/quarto-contrib/glossary-1.0.0/glossary.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<!--
+  Reading settings, part 1 of 2: applies the reader's saved font and text size
+  before the page draws, so it doesn't flash in the default font first.
+  The menu itself is in assets/reader-settings.html; styles are in
+  assets/reader-settings.css.
+-->
+<script>
+  (function () {
+    try {
+      var font = localStorage.getItem("sds-reader-font");
+      var size = localStorage.getItem("sds-reader-size");
+      if (font) document.documentElement.setAttribute("data-reader-font", font);
+      // Lexend and Cardo come from Google Fonts, loaded only for readers who pick them.
+      var webFonts = {
+        lexend: "https://fonts.googleapis.com/css2?family=Lexend:wght@300..700&display=swap",
+        cardo: "https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&display=swap"
+      };
+      if (webFonts[font]) {
+        var link = document.createElement("link");
+        link.rel = "stylesheet"; link.href = webFonts[font]; link.id = "sds-reader-webfont-" + font;
+        document.head.appendChild(link);
+      }
+      if (size) document.documentElement.setAttribute("data-reader-size", size);
+    } catch (e) { /* storage blocked: keep the defaults */ }
+  })();
+</script>
+
+
+<link rel="stylesheet" href="../include/webex.css">
+<link rel="stylesheet" href="../assets/sidebar.css">
+<link rel="stylesheet" href="../assets/grade-table.css">
+<link rel="stylesheet" href="../assets/reader-settings.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../units/unit-1.html">Unit 1: Data Models and Projections</a></li><li class="breadcrumb-item"><a href="../chapters/attribute-queries.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Attribute Data and Queries</span></a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Site">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Geographic Information Science</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../units/unit-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-1-label">Unit 1: Data Models and Projections</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section: Unit 1: Data Models and Projections">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/what-is-gis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">What Is GIS?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/what-is-geographic-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">What Is Geographic Data?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/location-and-coordinates.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Location and Coordinate Systems</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/map-projections.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Map Projections</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/attribute-queries.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Attribute Data and Queries</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-2-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Glossary</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../about.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About the author</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-attribute-data" id="toc-sec-attribute-data" class="nav-link active" data-scroll-target="#sec-attribute-data"><span class="header-section-number">5.1</span> Attribute data</a>
+  <ul class="collapse">
+  <li><a href="#attribute-tables" id="toc-attribute-tables" class="nav-link" data-scroll-target="#attribute-tables"><span class="header-section-number">5.1.1</span> Attribute tables</a></li>
+  <li><a href="#data-types" id="toc-data-types" class="nav-link" data-scroll-target="#data-types"><span class="header-section-number">5.1.2</span> Data types</a></li>
+  <li><a href="#why-fields-have-limits-binary" id="toc-why-fields-have-limits-binary" class="nav-link" data-scroll-target="#why-fields-have-limits-binary"><span class="header-section-number">5.1.3</span> Why fields have limits: binary</a></li>
+  <li><a href="#levels-of-measurement" id="toc-levels-of-measurement" class="nav-link" data-scroll-target="#levels-of-measurement"><span class="header-section-number">5.1.4</span> Levels of measurement</a></li>
+  </ul></li>
+  <li><a href="#sec-querying" id="toc-sec-querying" class="nav-link" data-scroll-target="#sec-querying"><span class="header-section-number">5.2</span> Querying a table</a>
+  <ul class="collapse">
+  <li><a href="#what-is-a-query" id="toc-what-is-a-query" class="nav-link" data-scroll-target="#what-is-a-query"><span class="header-section-number">5.2.1</span> What is a query?</a></li>
+  <li><a href="#sql" id="toc-sql" class="nav-link" data-scroll-target="#sql"><span class="header-section-number">5.2.2</span> SQL</a></li>
+  <li><a href="#simple-and-compound-queries" id="toc-simple-and-compound-queries" class="nav-link" data-scroll-target="#simple-and-compound-queries"><span class="header-section-number">5.2.3</span> Simple and compound queries</a></li>
+  <li><a href="#and-or-and-not" id="toc-and-or-and-not" class="nav-link" data-scroll-target="#and-or-and-not"><span class="header-section-number">5.2.4</span> AND, OR, and NOT</a></li>
+  <li><a href="#selecting-rows-also-selects-features" id="toc-selecting-rows-also-selects-features" class="nav-link" data-scroll-target="#selecting-rows-also-selects-features"><span class="header-section-number">5.2.5</span> Selecting rows also selects features</a></li>
+  <li><a href="#complex-queries-and-brackets" id="toc-complex-queries-and-brackets" class="nav-link" data-scroll-target="#complex-queries-and-brackets"><span class="header-section-number">5.2.6</span> Complex queries and brackets</a></li>
+  <li><a href="#where-you-put-not-matters" id="toc-where-you-put-not-matters" class="nav-link" data-scroll-target="#where-you-put-not-matters"><span class="header-section-number">5.2.7</span> Where you put NOT matters</a></li>
+  <li><a href="#beyond-and" id="toc-beyond-and" class="nav-link" data-scroll-target="#beyond-and"><span class="header-section-number">5.2.8</span> Beyond = and &gt;</a></li>
+  <li><a href="#what-to-do-with-a-selection" id="toc-what-to-do-with-a-selection" class="nav-link" data-scroll-target="#what-to-do-with-a-selection"><span class="header-section-number">5.2.9</span> What to do with a selection</a></li>
+  </ul></li>
+  <li><a href="#sec-sets" id="toc-sec-sets" class="nav-link" data-scroll-target="#sec-sets"><span class="header-section-number">5.3</span> Thinking in sets</a>
+  <ul class="collapse">
+  <li><a href="#every-condition-names-a-set" id="toc-every-condition-names-a-set" class="nav-link" data-scroll-target="#every-condition-names-a-set"><span class="header-section-number">5.3.1</span> Every condition names a set</a></li>
+  <li><a href="#what-do-you-get" id="toc-what-do-you-get" class="nav-link" data-scroll-target="#what-do-you-get"><span class="header-section-number">5.3.2</span> What do you get?</a></li>
+  <li><a href="#each-feature-is-tested-separately" id="toc-each-feature-is-tested-separately" class="nav-link" data-scroll-target="#each-feature-is-tested-separately"><span class="header-section-number">5.3.3</span> Each feature is tested separately</a></li>
+  </ul></li>
+  <li><a href="#sec-null" id="toc-sec-null" class="nav-link" data-scroll-target="#sec-null"><span class="header-section-number">5.4</span> Null values and missing data</a></li>
+  <li><a href="#check-your-understanding" id="toc-check-your-understanding" class="nav-link" data-scroll-target="#check-your-understanding"><span class="header-section-number">5.5</span> Check your understanding</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">5.6</span> Summary</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">5.7</span> Exercises</a></li>
+  <li><a href="#further-reading-and-online-resources" id="toc-further-reading-and-online-resources" class="nav-link" data-scroll-target="#further-reading-and-online-resources"><span class="header-section-number">5.8</span> Further reading and online resources</a>
+  <ul class="collapse">
+  <li><a href="#books-and-open-textbooks" id="toc-books-and-open-textbooks" class="nav-link" data-scroll-target="#books-and-open-textbooks"><span class="header-section-number">5.8.1</span> Books and open textbooks</a></li>
+  <li><a href="#attribute-data-data-types-and-measurement" id="toc-attribute-data-data-types-and-measurement" class="nav-link" data-scroll-target="#attribute-data-data-types-and-measurement"><span class="header-section-number">5.8.2</span> Attribute data, data types, and measurement</a></li>
+  <li><a href="#queries-and-sql" id="toc-queries-and-sql" class="nav-link" data-scroll-target="#queries-and-sql"><span class="header-section-number">5.8.3</span> Queries and SQL</a></li>
+  <li><a href="#sets-and-logic" id="toc-sets-and-logic" class="nav-link" data-scroll-target="#sets-and-logic"><span class="header-section-number">5.8.4</span> Sets and logic</a></li>
+  <li><a href="#tutorials-and-data-for-practice" id="toc-tutorials-and-data-for-practice" class="nav-link" data-scroll-target="#tutorials-and-data-for-practice"><span class="header-section-number">5.8.5</span> Tutorials and data for practice</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../units/unit-1.html">Unit 1: Data Models and Projections</a></li><li class="breadcrumb-item"><a href="../chapters/attribute-queries.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Attribute Data and Queries</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Attribute Data and Queries</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Learning objectives
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>By the end of this chapter you should be able to:</p>
+<ol type="1">
+<li>Describe how an <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-attribute" data-term="attribute">attribute table</span> stores data, with one <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-record" data-term="record">record</span> per feature and one attribute per column.</li>
+<li>Choose a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-type" data-term="data type">data type</span> for a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-field" data-term="field">field</span> in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span> or <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span>, and explain how the number of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-bit" data-term="bit">bits</span> behind a field limits what it can hold.</li>
+<li>Tell the four <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-level-of-measurement" data-term="level of measurement">levels of measurement</span> apart (<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-nominal" data-term="nominal">nominal</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-ordinal" data-term="ordinal">ordinal</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-interval" data-term="interval">interval</span>, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-ratio" data-term="ratio">ratio</span>) and say which questions each one supports.</li>
+<li>Write <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-sql" data-term="SQL">SQL</span> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-where-clause" data-term="WHERE clause">WHERE clauses</span> with comparison operators, AND, OR, NOT, brackets, LIKE, BETWEEN, IN, and IS NULL.</li>
+<li>Predict which records a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-query" data-term="query">query</span> selects, using sets and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-venn-diagram" data-term="Venn diagram">Venn diagrams</span>, and spot queries that can only select everything or nothing.</li>
+<li>Explain how NULL values behave in a query.</li>
+<li>Use a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-selection" data-term="selection">selection</span>: zoom to it, summarize it, calculate a field from it, and export it.</li>
+</ol>
+</div>
+</div>
+<p>Chapters 2 to 4 were about <em>where</em>: how a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> stores geometry, and how <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">coordinates</span> pin it to the Earth. This chapter is about the other half of GIS data, the half that says <em>what</em>. A <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-polygon" data-term="polygon">polygon</span> tells you where a county is. Its attributes tell you its name, how many people live there, how old they are, and how many homes stand empty. Most of the questions people bring to a GIS start with attributes: <em>Which counties lost population? Which parcels are zoned commercial and larger than five acres? Which schools have no address?</em></p>
+<p>To answer them, you need to know how attributes are stored, what kinds of values they hold, and how to write a <strong>query</strong>, a precise question the software can test against every record. We will finish with a way to check your own queries using sets, and with the trap of missing values.</p>
+<p>Five terms carry the whole chapter:</p>
+<ul>
+<li>A <strong>table</strong> is a grid that holds the attributes of every feature in a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layer</span>.</li>
+<li>An <strong>attribute</strong>, also called a <strong>field</strong> or a column, is one variable, measured the same way for every feature.</li>
+<li>A <strong>record</strong>, or row, is everything known about one feature.</li>
+<li>A <strong>data type</strong> is how a field is stored: as text, an <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-integer" data-term="integer">integer</span>, a decimal number, a date, and so on.</li>
+<li>A <strong>query</strong>, usually written in <strong>SQL</strong> (Structured Query Language), is a written condition that selects records.</li>
+</ul>
+<section id="sec-attribute-data" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="sec-attribute-data"><span class="header-section-number">5.1</span> Attribute data</h2>
+<section id="attribute-tables" class="level3" data-number="5.1.1">
+<h3 data-number="5.1.1" class="anchored" data-anchor-id="attribute-tables"><span class="header-section-number">5.1.1</span> Attribute tables</h3>
+<p>In Chapter 2, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-abstraction" data-term="data abstraction">data abstraction</span> turned a wetland into a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-model" data-term="data model">data model</span>: <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-polygon" data-term="polygon">polygons</span> for the geometry, and a table for everything else. That table is the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-attribute" data-term="attribute">attribute table</span></strong>, the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-non-spatial-data" data-term="non-spatial data">non-spatial</span> half of a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-vector" data-term="vector">vector</span> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layer</span>. It follows three rules (<a href="#fig-record-attribute" class="quarto-xref">Figure&nbsp;<span>5.1</span></a>):</p>
+<ul>
+<li><strong>One row per feature.</strong> Every parcel on the map has exactly one <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-record" data-term="record">record</span> in the table, and every record has a parcel.</li>
+<li><strong>One column per attribute.</strong> Each column holds one kind of measurement, such as area or land use, for every feature.</li>
+<li><strong>The table and the map are linked.</strong> Select a record, and its feature lights up on the map; select a feature, and its record lights up in the table. The table is where you ask the question; the map is where the answer is drawn.</li>
+</ul>
+<div id="fig-record-attribute" class="quarto-float quarto-figure quarto-figure-center anchored" alt="On the left, a map of seven rectangular parcels numbered 1 to 7, labeled Parcels, not to scale. Parcel 5 is yellow; the rest are gray. On the right, an attribute table with columns ID, Area, Landuse, Municip, Density, and MillRate, and seven rows. Row 5, which reads 22.1, Urban, City, 916.2, B, is highlighted in yellow. The Landuse column is shaded green. A label pointing to the column reads: an attribute, column, Landuse, for every parcel. A label pointing to row 5 reads: a record, row, everything about parcel 5. A red two-headed arrow links row 5 to parcel 5 on the map.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-record-attribute-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/attribute-queries/record-attribute.png" class="img-fluid figure-img" alt="On the left, a map of seven rectangular parcels numbered 1 to 7, labeled Parcels, not to scale. Parcel 5 is yellow; the rest are gray. On the right, an attribute table with columns ID, Area, Landuse, Municip, Density, and MillRate, and seven rows. Row 5, which reads 22.1, Urban, City, 916.2, B, is highlighted in yellow. The Landuse column is shaded green. A label pointing to the column reads: an attribute, column, Landuse, for every parcel. A label pointing to row 5 reads: a record, row, everything about parcel 5. A red two-headed arrow links row 5 to parcel 5 on the map.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-record-attribute-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.1: Seven parcels and their attribute table. A record is a row: everything known about one parcel, here parcel 5. An attribute is a column: one variable for every parcel, here Landuse. Selecting record 5 in the table also selects parcel 5 on the map. (The parcels are not drawn to scale.)
+</figcaption>
+</figure>
+</div>
+<p>We will use these seven parcels throughout the chapter. Their attributes are:</p>
+<ul>
+<li><strong>ID</strong>, a number that identifies each parcel.</li>
+<li><strong>Area</strong>, in acres.</li>
+<li><strong>Landuse</strong>: Urban, Suburban, or Farm.</li>
+<li><strong>Municip</strong>, the kind of local government the parcel is in: City, Township, or County.</li>
+<li><strong>Density</strong>, in people per square mile.</li>
+<li><strong>MillRate</strong>, a property tax class from A to D.</li>
+</ul>
+<p>Software uses several words for the same things. A column may be called an attribute, a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-field" data-term="field">field</span>, or an item. A row may be called a record, a row, or (because each row is one feature) a feature. In this book, <em>field</em> and <em>attribute</em> mean the same thing, and so do <em>record</em> and <em>row</em>.</p>
+<p>In <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span>, open a layer’s table by right-clicking it in the Layers panel and choosing <strong>Open Attribute Table</strong>. In <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span>, right-click the layer in the Contents pane and choose <strong>Attribute Table</strong>. Click a column header to sort the table by that column; click again to sort the other way. Sorting a layer of world cities by population, largest first, is a quick way to explore a new dataset.</p>
+</section>
+<section id="data-types" class="level3" data-number="5.1.2">
+<h3 data-number="5.1.2" class="anchored" data-anchor-id="data-types"><span class="header-section-number">5.1.2</span> Data types</h3>
+<p>Every field has a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-type" data-term="data type">data type</span></strong>, chosen when the field is created. The data type decides what a field can store and how much space each value takes. QGIS and ArcGIS Pro name their types a little differently (<a href="#tbl-types" class="quarto-xref">Table&nbsp;<span>5.1</span></a>).</p>
+<div id="tbl-types" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-types-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;5.1: Common field data types. Which types are available also depends on the format: a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-shapefile" data-term="shapefile">shapefile</span>, a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geopackage" data-term="GeoPackage">GeoPackage</span>, a file geodatabase, or a database such as PostGIS. ArcGIS Pro’s <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-integer" data-term="integer">Big Integer</span>, Date Only, and Time Only types need version 3.2 or later.
+</figcaption>
+<div aria-describedby="tbl-types-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">What it stores</th>
+<th style="text-align: left;">QGIS</th>
+<th style="text-align: left;">ArcGIS Pro</th>
+<th style="text-align: left;">Range or example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Text, any characters</td>
+<td style="text-align: left;">Text (string)</td>
+<td style="text-align: left;">Text</td>
+<td style="text-align: left;">John Doe, 27514</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Small whole numbers (16-bit)</td>
+<td style="text-align: left;">(none)</td>
+<td style="text-align: left;">Short Integer</td>
+<td style="text-align: left;">−32,768 to 32,767</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Whole numbers (32-bit)</td>
+<td style="text-align: left;">Integer (32 <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-bit" data-term="bit">bit</span>)</td>
+<td style="text-align: left;">Long Integer</td>
+<td style="text-align: left;">−2,147,483,648 to 2,147,483,647</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Large whole numbers (64-bit)</td>
+<td style="text-align: left;">Integer (64 bit)</td>
+<td style="text-align: left;">Big Integer</td>
+<td style="text-align: left;">about ±9.2 × 10¹⁸ in QGIS; ±9,007,199,254,740,991 in ArcGIS Pro</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Decimal numbers, about 7 significant digits</td>
+<td style="text-align: left;">(none)</td>
+<td style="text-align: left;">Float</td>
+<td style="text-align: left;">about ±3.4 × 10³⁸</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Decimal numbers, about 15 significant digits</td>
+<td style="text-align: left;">Decimal number (double)</td>
+<td style="text-align: left;"><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-double" data-term="Double">Double</span></td>
+<td style="text-align: left;">about ±1.8 × 10³⁰⁸</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">True or false</td>
+<td style="text-align: left;">Boolean</td>
+<td style="text-align: left;">(none; use Short Integer 0 or 1)</td>
+<td style="text-align: left;">true, false</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Dates and times</td>
+<td style="text-align: left;">Date, Date &amp; Time</td>
+<td style="text-align: left;">Date, Date Only, Time Only</td>
+<td style="text-align: left;">12/31/2012 11:59:59 PM</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">A unique ID for each record</td>
+<td style="text-align: left;">(fid)</td>
+<td style="text-align: left;">Object ID</td>
+<td style="text-align: left;">1, 2, 3, …</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">The feature’s shape</td>
+<td style="text-align: left;">(geometry)</td>
+<td style="text-align: left;">Geometry (Shape)</td>
+<td style="text-align: left;">point, line, polygon</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Two terms describe numeric fields:</p>
+<ul>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-precision" data-term="precision">Precision</span></strong> is the total number of digits a field can hold.</li>
+<li><strong>Scale</strong> is how many of those digits fall after the decimal point.</li>
+</ul>
+<p>A field with a precision of 6 and a scale of 2 can hold numbers up to 9,999.99. In ArcGIS Pro, you choose the type, and for some formats the precision and scale, when you create a field, and <strong>they can’t be changed later</strong>. To change a field’s type, you add a new field of the right type and calculate the values into it.</p>
+<p>Some rules of thumb for choosing a type:</p>
+<ul>
+<li>Store <strong>identifiers that are never used in arithmetic as text</strong>, even if they look like numbers. ZIP codes, FIPS codes, phone numbers, and parcel IDs all belong in text fields. Stored as a number, the ZIP code of Boston’s City Hall, 02201, becomes 2201, and Orange County’s FIPS code, 37135, can no longer be matched to another table that stores it as text.</li>
+<li>Use an <strong>integer</strong> type for counts, such as population or number of rooms.</li>
+<li>Use <strong>Double</strong> for measurements that need decimals, such as area or density. Float saves a little space, but it keeps only about 7 significant digits, so it can round large numbers.</li>
+</ul>
+</section>
+<section id="why-fields-have-limits-binary" class="level3" data-number="5.1.3">
+<h3 data-number="5.1.3" class="anchored" data-anchor-id="why-fields-have-limits-binary"><span class="header-section-number">5.1.3</span> Why fields have limits: binary</h3>
+<p>Why do field types have such strange limits, like 32,767 or 2,147,483,647? Because everything in an attribute table is ultimately stored in <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-binary" data-term="binary">binary</span></strong>, as ones and zeros, and each field gets a fixed number of <strong>bits</strong> (binary digits).</p>
+<p>In binary, each column is worth twice the one to its right: ones, twos, fours, eights, and so on (<a href="#fig-binary" class="quarto-xref">Figure&nbsp;<span>5.2</span></a>). So the binary number 1101 means 8 + 4 + 0 + 1 = 13.</p>
+<div id="fig-binary" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Four square tiles in a row, labeled above as 8s, 4s, 2s, and 1s. The tiles read 1, 1, 0, 1; the 1 tiles are dark green and the 0 tile is gray. Below each tile: 1 times 8 equals 8, 1 times 4 equals 4, 0 times 2 equals 0, 1 times 1 equals 1. To the right: equals 8 plus 4 plus 0 plus 1 equals 13. A note reads: each column is worth twice the one to its right.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-binary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/attribute-queries/binary.png" class="img-fluid figure-img" alt="Four square tiles in a row, labeled above as 8s, 4s, 2s, and 1s. The tiles read 1, 1, 0, 1; the 1 tiles are dark green and the 0 tile is gray. Below each tile: 1 times 8 equals 8, 1 times 4 equals 4, 0 times 2 equals 0, 1 times 1 equals 1. To the right: equals 8 plus 4 plus 0 plus 1 equals 13. A note reads: each column is worth twice the one to its right.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-binary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.2: The binary number 1101. Each column is worth twice the one to its right, so 1101 is 8 + 4 + 0 + 1 = 13.
+</figcaption>
+</figure>
+</div>
+<p>With <em>n</em> bits you can write 2ⁿ different values. If one bit is used for the sign, plus or minus, half of them are negative:</p>
+<ul>
+<li>A <strong>16-bit</strong> short integer has 2¹⁶ = 65,536 values, from −32,768 to 32,767.</li>
+<li>A <strong>32-bit</strong> integer has about 4.3 billion values, from about −2.1 billion to 2.1 billion.</li>
+<li>A <strong>64-bit</strong> integer has 2⁶⁴ = 18,446,744,073,709,551,616 values, about ±9.22 × 10¹⁸.</li>
+</ul>
+<p>Modern computers process data in 64-bit <em>words</em>: that is what “a 64-bit processor” means. It refers to how many bits the processor handles at once, not to how much memory the computer has. An integer field is only as wide as the bits behind it, so the population of a county fits easily in a 32-bit integer, but the population of the world, about 8.2 billion, does not.</p>
+<div class="did-you-know callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Did you know..?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In December 2014, the music video for PSY’s “Gangnam Style” became the first video on YouTube to be watched more than 2,147,483,647 times, the largest number a signed 32-bit integer can hold. YouTube’s engineers had seen it coming and had already switched the view counter to a 64-bit integer, which can count past nine quintillion. YouTube joked that it had never thought a video would be watched more times than a 32-bit integer could count. The same limit is behind the “Year 2038 problem”: many older computer systems count time as the number of seconds since January 1, 1970, in a signed 32-bit integer, which will run out on January 19, 2038.</p>
+</div>
+</div>
+</section>
+<section id="levels-of-measurement" class="level3" data-number="5.1.4">
+<h3 data-number="5.1.4" class="anchored" data-anchor-id="levels-of-measurement"><span class="header-section-number">5.1.4</span> Levels of measurement</h3>
+<p>The data type says what the computer can <em>store</em>. The <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-level-of-measurement" data-term="level of measurement">level of measurement</span></strong> says what you may legitimately <em>ask</em>. They are different questions. The number 3 stored in an integer field could be a count of bedrooms, a rank, a temperature, or a code for “forest,” and the arithmetic that makes sense is different for each. The psychologist S. S. Stevens described four levels of measurement in 1946 <span class="citation" data-cites="stevens1946">(Stevens 1946)</span>, and they are still the standard way to sort attributes (<a href="#tbl-levels" class="quarto-xref">Table&nbsp;<span>5.2</span></a>).</p>
+<div id="tbl-levels" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-levels-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;5.2: The four levels of measurement. Each level supports everything the levels above it support, and more.
+</figcaption>
+<div aria-describedby="tbl-levels-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Level</th>
+<th style="text-align: left;">What it is</th>
+<th style="text-align: left;">Examples</th>
+<th style="text-align: left;">What you may ask</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-nominal" data-term="nominal">Nominal</span></strong></td>
+<td style="text-align: left;">Categories with no order. Two values are only ever the same or different.</td>
+<td style="text-align: left;">Landuse, county name, land cover code</td>
+<td style="text-align: left;">= and ≠. Counts and the most common value (the mode). No averages.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-ordinal" data-term="ordinal">Ordinal</span></strong></td>
+<td style="text-align: left;">Ranked categories, but the distance between ranks is unknown.</td>
+<td style="text-align: left;">MillRate (A, B, C, D), a hurricane’s category, “low, medium, high”</td>
+<td style="text-align: left;">= ≠ &lt; &gt;. A median, not a mean.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-interval" data-term="interval">Interval</span></strong></td>
+<td style="text-align: left;">Equal steps, but the zero point is arbitrary.</td>
+<td style="text-align: left;">Temperature in °F or °C, calendar year</td>
+<td style="text-align: left;">Differences. Sums and ratios mislead: 20 °C is not twice as hot as 10 °C.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-ratio" data-term="ratio">Ratio</span></strong></td>
+<td style="text-align: left;">Equal steps and a true zero, so ratios hold.</td>
+<td style="text-align: left;">Population, area, density, income, rainfall</td>
+<td style="text-align: left;">Everything, including ratios and normalization, such as density = population ÷ area.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>A few notes:</p>
+<ul>
+<li>A <strong>nominal</strong> attribute can be stored as numbers, like land cover codes 11 for water and 41 for forest, but the average land cover code of a county is meaningless.</li>
+<li>An <strong>ordinal</strong> attribute has an order, but not a size. A Category 4 hurricane is stronger than a Category 2, but it isn’t “twice as strong.”</li>
+<li>An <strong>interval</strong> attribute’s zero doesn’t mean “none.” Zero degrees Celsius is not the absence of temperature, and the year 0 is not the beginning of time, so ratios of interval values make no sense.</li>
+<li>A <strong>ratio</strong> attribute’s zero does mean “none”: zero people, zero acres. Only ratio data supports statements like “twice as many.”</li>
+</ul>
+<p>The level of measurement also guides how you map an attribute: nominal data gets different colors or symbols for each category, while ordinal, interval, and ratio data get graduated colors or sizes. You will meet these ideas again when we make maps of census data.</p>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Think about it
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>What level of measurement is each of these: a parcel’s zoning code, a restaurant’s health inspection grade (A, B, or C), median household income, the year a building was built, elevation in meters above sea level, and a student’s class rank?</p>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-querying" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="sec-querying"><span class="header-section-number">5.2</span> Querying a table</h2>
+<section id="what-is-a-query" class="level3" data-number="5.2.1">
+<h3 data-number="5.2.1" class="anchored" data-anchor-id="what-is-a-query"><span class="header-section-number">5.2.1</span> What is a query?</h3>
+<p>A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-query" data-term="query">query</span></strong> is a written condition, not a click. It asks the table a question, such as <em>which parcels are larger than 20 acres?</em>, and four ideas follow from that:</p>
+<ul>
+<li>The software tests <strong>every <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-record" data-term="record">record</span> separately, one at a time</strong>, against the condition.</li>
+<li>The answer is a <strong>set of records</strong>, and therefore a set of features on the map.</li>
+<li>The records that pass make up the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-selection" data-term="selection">selected set</span></strong>, or <strong>selection</strong>. They are highlighted in the table and on the map.</li>
+<li>The logical operators <strong>AND</strong>, <strong>OR</strong>, and <strong>NOT</strong> decide how several conditions combine.</li>
+</ul>
+</section>
+<section id="sql" class="level3" data-number="5.2.2">
+<h3 data-number="5.2.2" class="anchored" data-anchor-id="sql"><span class="header-section-number">5.2.2</span> SQL</h3>
+<p><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-sql" data-term="SQL">SQL</span></strong>, Structured Query Language, is the standard language for asking a database a question. A full SQL statement reads:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> parcels <span class="kw">WHERE</span> <span class="ot">"Area"</span> <span class="op">&gt;</span> <span class="dv">20</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>In words: <em>select all the columns (<code>*</code>) from the table named parcels, for the records where Area is greater than 20.</em></p>
+<p>In a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> you rarely type the whole statement. The <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layer</span> you are working on supplies the <code>FROM</code> part, and the selection tool supplies the <code>SELECT</code> part, so <strong>you write only the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-where-clause" data-term="WHERE clause">WHERE clause</span></strong>, the condition:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ot">"Area"</span> <span class="op">&gt;</span> <span class="dv">20</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>In <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span></strong>, use <strong>Select Features by Expression</strong> (on the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-attribute" data-term="attribute">attribute table</span>’s toolbar, or under Edit &gt; Select). Type the condition into the expression box, or build it by double-clicking <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-field" data-term="field">fields</span> and operators in the lists.</li>
+<li>In <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span></strong>, use <strong>Select By Attributes</strong> (on the Map tab, or in the attribute table), which runs the <strong>Select Layer By Attribute</strong> tool. Build the clause with drop-down lists, or switch to SQL mode to type it.</li>
+</ul>
+<p>A WHERE clause uses <strong>comparison operators</strong> (<a href="#tbl-operators" class="quarto-xref">Table&nbsp;<span>5.3</span></a>).</p>
+<div id="tbl-operators" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-operators-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;5.3: Comparison operators.
+</figcaption>
+<div aria-describedby="tbl-operators-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Operator</th>
+<th style="text-align: left;">Meaning</th>
+<th style="text-align: left;">Example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>=</code></td>
+<td style="text-align: left;">equal to</td>
+<td style="text-align: left;"><code>"Landuse" = 'Urban'</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>&lt;&gt;</code> or <code>!=</code></td>
+<td style="text-align: left;">not equal to</td>
+<td style="text-align: left;"><code>"Municip" &lt;&gt; 'City'</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>&gt;</code> and <code>&gt;=</code></td>
+<td style="text-align: left;">greater than, greater than or equal to</td>
+<td style="text-align: left;"><code>"Area" &gt; 20</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>&lt;</code> and <code>&lt;=</code></td>
+<td style="text-align: left;">less than, less than or equal to</td>
+<td style="text-align: left;"><code>"Density" &lt;= 100</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p><strong>Quoting is not decoration.</strong> It tells the software what kind of thing each part of the clause is:</p>
+<ul>
+<li><strong>Field names</strong> take double quotes: <code>"Area"</code>, <code>"Landuse"</code>.</li>
+<li><strong>Text values</strong> take single quotes: <code>'Urban'</code>.</li>
+<li><strong>Numbers</strong> take no quotes: <code>20</code>.</li>
+</ul>
+<p>A number in quotes is text, and text sorts alphabetically, so <code>'9'</code> comes after <code>'10'</code>. A text value without quotes is read as a field name, which usually gives an error. Whether a text comparison cares about capital letters depends on the format: <code>'urban'</code> may or may not match <code>Urban</code>, so match the capitalization in the data.</p>
+</section>
+<section id="simple-and-compound-queries" class="level3" data-number="5.2.3">
+<h3 data-number="5.2.3" class="anchored" data-anchor-id="simple-and-compound-queries"><span class="header-section-number">5.2.3</span> Simple and compound queries</h3>
+<p>A <strong>simple query</strong> uses one attribute and one comparison. <code>"Area" &gt; 20</code> tests each parcel’s area and selects four of the seven: parcels 2, 4, 5, and 6 (<a href="#fig-simple-and" class="quarto-xref">Figure&nbsp;<span>5.3</span></a>, top).</p>
+<p>A <strong>compound query</strong> joins two or more conditions with a logical operator. With <strong>AND</strong>, a record must pass <em>both</em> tests. <code>"Landuse" = 'Urban' AND "Municip" = 'City'</code> selects only parcels 1 and 5, the only ones that are both urban and in a city (<a href="#fig-simple-and" class="quarto-xref">Figure&nbsp;<span>5.3</span></a>, bottom).</p>
+<div id="fig-simple-and" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Two panels, each with a parcel map and the attribute table. Top, A simple query, Area greater than 20: parcels 2, 4, 5, and 6 are yellow on the map and their rows are yellow in the table; caption, selected 4 of 7, records 2, 4, 5, 6. Bottom, A compound query with AND, Landuse equals Urban AND Municip equals City: parcels 1 and 5 are yellow; caption, selected 2 of 7, records 1, 5.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-simple-and-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/attribute-queries/simple-and-query.png" class="img-fluid figure-img" alt="Two panels, each with a parcel map and the attribute table. Top, A simple query, Area greater than 20: parcels 2, 4, 5, and 6 are yellow on the map and their rows are yellow in the table; caption, selected 4 of 7, records 2, 4, 5, 6. Bottom, A compound query with AND, Landuse equals Urban AND Municip equals City: parcels 1 and 5 are yellow; caption, selected 2 of 7, records 1, 5.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-simple-and-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.3: A simple query (top) selects parcels larger than 20 acres: four of seven. A compound query with AND (bottom) selects parcels that are both urban and in a city: two of seven.
+</figcaption>
+</figure>
+</div>
+<p><strong>AND narrows.</strong> Adding a condition with AND can never make a selection larger. Every extra condition is one more filter a record has to get through.</p>
+</section>
+<section id="and-or-and-not" class="level3" data-number="5.2.4">
+<h3 data-number="5.2.4" class="anchored" data-anchor-id="and-or-and-not"><span class="header-section-number">5.2.4</span> AND, OR, and NOT</h3>
+<p>There are three logical operators:</p>
+<ul>
+<li><strong>AND</strong>: both conditions must be true for the same record. The result is where the two sets overlap.</li>
+<li><strong>OR</strong>: either condition is enough. The result is everything in either set. <strong>OR widens</strong>: it can never make a selection smaller.</li>
+<li><strong>NOT</strong>: reverses a condition, and selects every record the condition <em>doesn’t</em> describe, its <em><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-complement" data-term="complement">complement</span></em>. It is written in front of the condition: <code>NOT ("Landuse" = 'Urban')</code>, which is the same as <code>"Landuse" &lt;&gt; 'Urban'</code>.</li>
+</ul>
+<p><a href="#fig-or-not" class="quarto-xref">Figure&nbsp;<span>5.4</span></a> shows OR and NOT on the same seven parcels, and <a href="#tbl-and-or-not" class="quarto-xref">Table&nbsp;<span>5.4</span></a> compares all three.</p>
+<div id="fig-or-not" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Two panels, each with a parcel map and the attribute table. Top, OR: either condition is enough, Area greater than 20 OR Municip equals City: parcels 1, 2, 4, 5, and 6 are yellow; caption, selected 5 of 7. Bottom, NOT: the complement, NOT Landuse equals Urban: parcels 2, 3, 4, and 6 are yellow; caption, selected 4 of 7.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-or-not-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/attribute-queries/or-not-query.png" class="img-fluid figure-img" alt="Two panels, each with a parcel map and the attribute table. Top, OR: either condition is enough, Area greater than 20 OR Municip equals City: parcels 1, 2, 4, 5, and 6 are yellow; caption, selected 5 of 7. Bottom, NOT: the complement, NOT Landuse equals Urban: parcels 2, 3, 4, and 6 are yellow; caption, selected 4 of 7.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-or-not-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.4: OR (top) selects parcels that are larger than 20 acres or in a city, or both: five of seven. NOT (bottom) selects every parcel that isn’t urban: four of seven.
+</figcaption>
+</figure>
+</div>
+<div id="tbl-and-or-not" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-and-or-not-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;5.4: The three logical operators on the seven parcels.
+</figcaption>
+<div aria-describedby="tbl-and-or-not-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Operator</th>
+<th style="text-align: left;">Expression</th>
+<th style="text-align: left;">Records selected</th>
+<th style="text-align: left;">Count</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">AND</td>
+<td style="text-align: left;"><code>"Landuse" = 'Urban' AND "Municip" = 'City'</code></td>
+<td style="text-align: left;">1, 5</td>
+<td style="text-align: left;">2 of 7</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">OR</td>
+<td style="text-align: left;"><code>"Area" &gt; 20 OR "Municip" = 'City'</code></td>
+<td style="text-align: left;">1, 2, 4, 5, 6</td>
+<td style="text-align: left;">5 of 7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">NOT</td>
+<td style="text-align: left;"><code>NOT ("Landuse" = 'Urban')</code></td>
+<td style="text-align: left;">2, 3, 4, 6</td>
+<td style="text-align: left;">4 of 7</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Why does OR leave out parcels 3 and 7? Parcel 3 is 2.4 acres in a township, and parcel 7 is 4.4 acres in a county: each fails both tests.</p>
+</section>
+<section id="selecting-rows-also-selects-features" class="level3" data-number="5.2.5">
+<h3 data-number="5.2.5" class="anchored" data-anchor-id="selecting-rows-also-selects-features"><span class="header-section-number">5.2.5</span> Selecting rows also selects features</h3>
+<p>Selecting records in a table and selecting features on a map are the same act. That makes queries a powerful way to find <em>places</em>. <a href="#fig-townships" class="quarto-xref">Figure&nbsp;<span>5.5</span></a> shows a made-up county of forty townships. Each of the first three maps is one simple condition, and each selects a large, plausible-looking region. The fourth map ANDs all three together. Only the townships that pass all three tests remain, and there are far fewer of them than any one map suggests.</p>
+<div id="fig-townships" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Four square maps of the same county divided into forty irregular townships, with selected townships in dark green and the rest in light gray. a, density greater than 50 per square mile: 32 of 40 townships, most of the county except the edges. b, median age less than 40: 23 of 40, mostly in the lower half. c, vacancy greater than 10 percent: 18 of 40, mostly on the right side. a AND b AND c: only 9 of 40 townships, scattered in the lower middle and right.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-townships-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/attribute-queries/townships-and.png" class="img-fluid figure-img" alt="Four square maps of the same county divided into forty irregular townships, with selected townships in dark green and the rest in light gray. a, density greater than 50 per square mile: 32 of 40 townships, most of the county except the edges. b, median age less than 40: 23 of 40, mostly in the lower half. c, vacancy greater than 10 percent: 18 of 40, mostly on the right side. a AND b AND c: only 9 of 40 townships, scattered in the lower middle and right.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-townships-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.5: A made-up county of forty townships. Each of the first three maps selects townships that pass one condition. The fourth selects townships that pass all three: a AND b AND c.
+</figcaption>
+</figure>
+</div>
+<p>Before you run a query like this, predict the result. If the answer is very different from what you expected, either the data or your query will teach you something.</p>
+</section>
+<section id="complex-queries-and-brackets" class="level3" data-number="5.2.6">
+<h3 data-number="5.2.6" class="anchored" data-anchor-id="complex-queries-and-brackets"><span class="header-section-number">5.2.6</span> Complex queries and brackets</h3>
+<p>A <strong>complex query</strong> mixes AND, OR, and NOT. Then the order in which the parts are evaluated matters, and <strong>brackets</strong> (parentheses) decide it. Each bracketed group is worked out on its own before the groups are joined (<a href="#fig-complex" class="quarto-xref">Figure&nbsp;<span>5.6</span></a>):</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>(<span class="ot">"Landuse"</span> <span class="op">=</span> <span class="st">'Urban'</span> <span class="kw">AND</span> <span class="ot">"MillRate"</span> <span class="op">=</span> <span class="st">'B'</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">OR</span> (<span class="kw">NOT</span> <span class="ot">"Municip"</span> <span class="op">=</span> <span class="st">'City'</span> <span class="kw">AND</span> <span class="ot">"Density"</span> <span class="op">&gt;</span> <span class="dv">200</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Read it in two groups. In the first, only parcel 5 is urban with a mill rate of B. In the second, only parcel 3 is outside a city with a density above 200 (it is a township with 237.5 people per square mile). The OR then joins the groups, so the query selects parcels 3 and 5.</p>
+<div id="fig-complex" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A parcel map and the attribute table, under the title A complex query with brackets and the expression: open bracket Landuse equals Urban AND MillRate equals B close bracket, OR open bracket NOT Municip equals City AND Density greater than 200 close bracket. Parcels 3 and 5 are yellow on the map and in the table. Caption: selected 2 of 7, records 3, 5.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-complex-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/attribute-queries/complex-query.png" class="img-fluid figure-img" alt="A parcel map and the attribute table, under the title A complex query with brackets and the expression: open bracket Landuse equals Urban AND MillRate equals B close bracket, OR open bracket NOT Municip equals City AND Density greater than 200 close bracket. Parcels 3 and 5 are yellow on the map and in the table. Caption: selected 2 of 7, records 3, 5.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-complex-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.6: A complex query with brackets selects parcels 3 and 5.
+</figcaption>
+</figure>
+</div>
+<p>Without brackets, SQL evaluates NOT first, then AND, then OR. That happens to give the same answer here, but most of the time, removing brackets changes the answer. <strong>Always write the brackets</strong>, even when you think you don’t need them. They make the query say what you mean, and they make it easy for the next person to read.</p>
+</section>
+<section id="where-you-put-not-matters" class="level3" data-number="5.2.7">
+<h3 data-number="5.2.7" class="anchored" data-anchor-id="where-you-put-not-matters"><span class="header-section-number">5.2.7</span> Where you put NOT matters</h3>
+<p>The position of NOT can change a query’s answer completely (<a href="#fig-not-placement" class="quarto-xref">Figure&nbsp;<span>5.7</span></a>).</p>
+<ul>
+<li><code>NOT ("Landuse" = 'Urban' AND "Municip" = 'County')</code> negates the whole bracket. Only parcel 7 is both urban and in a county, so negating that selects everything else: <strong>six</strong> records.</li>
+<li><code>NOT "Landuse" = 'Urban' AND NOT "Municip" = 'County'</code> negates each condition, then joins them with AND. A parcel must be neither urban nor in a county. Only parcels 3 and 6 qualify: <strong>two</strong> records.</li>
+</ul>
+<div id="fig-not-placement" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Two panels, each with a parcel map and the attribute table. Top, NOT the whole bracket, NOT open bracket Landuse equals Urban AND Municip equals County close bracket: parcels 1 through 6 are yellow and only parcel 7 is gray; caption, selected 6 of 7. Bottom, NOT each condition, joined by AND, NOT Landuse equals Urban AND NOT Municip equals County: only parcels 3 and 6 are yellow; caption, selected 2 of 7.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-not-placement-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/attribute-queries/not-placement.png" class="img-fluid figure-img" alt="Two panels, each with a parcel map and the attribute table. Top, NOT the whole bracket, NOT open bracket Landuse equals Urban AND Municip equals County close bracket: parcels 1 through 6 are yellow and only parcel 7 is gray; caption, selected 6 of 7. Bottom, NOT each condition, joined by AND, NOT Landuse equals Urban AND NOT Municip equals County: only parcels 3 and 6 are yellow; caption, selected 2 of 7.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-not-placement-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.7: Where the NOT sits changes the answer. Negating the whole bracket (top) selects six parcels; negating each condition and joining them with AND (bottom) selects two.
+</figcaption>
+</figure>
+</div>
+<p>This is <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-de-morgan-s-law" data-term="De Morgan’s law">De Morgan’s law</span></strong>, from logic: NOT (A AND B) is the same as (NOT A) OR (NOT B), <em>not</em> (NOT A) AND (NOT B). If you move a NOT inside a bracket, flip each AND to an OR, and each OR to an AND.</p>
+</section>
+<section id="beyond-and" class="level3" data-number="5.2.8">
+<h3 data-number="5.2.8" class="anchored" data-anchor-id="beyond-and"><span class="header-section-number">5.2.8</span> Beyond = and &gt;</h3>
+<p>Four more operators make everyday queries shorter and clearer (<a href="#tbl-more-operators" class="quarto-xref">Table&nbsp;<span>5.5</span></a>).</p>
+<div id="tbl-more-operators" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-more-operators-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;5.5: Four more operators.
+</figcaption>
+<div aria-describedby="tbl-more-operators-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Operator</th>
+<th style="text-align: left;">Example</th>
+<th style="text-align: left;">What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>LIKE</code></td>
+<td style="text-align: left;"><code>"NAME" LIKE 'North%'</code></td>
+<td style="text-align: left;">Matches a text pattern. <code>%</code> stands for any number of characters (including none), and <code>_</code> for exactly one. This finds North Carolina, North Dakota, and Northampton.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>BETWEEN</code></td>
+<td style="text-align: left;"><code>"Pop2020" BETWEEN 5000 AND 9000</code></td>
+<td style="text-align: left;">Selects an inclusive range: <strong>both</strong> 5,000 and 9,000 are selected. It is a tidy way to write <code>"Pop2020" &gt;= 5000 AND "Pop2020" &lt;= 9000</code>.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>IN</code></td>
+<td style="text-align: left;"><code>"Landuse" IN ('Urban', 'Suburban')</code></td>
+<td style="text-align: left;">Tests membership in a list. It is a tidy way to write a chain of ORs on the same field.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>IS NULL</code></td>
+<td style="text-align: left;"><code>"Pop2020" IS NULL</code></td>
+<td style="text-align: left;">The only correct way to test for a missing value (see <a href="#sec-null" class="quarto-xref"><span>Section 5.4</span></a>). <code>IS NOT NULL</code> finds records that have a value.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Watch BETWEEN when you divide data into classes. If one class is <code>BETWEEN 0 AND 5000</code> and the next is <code>BETWEEN 5000 AND 10000</code>, a county with exactly 5,000 people lands in both. In QGIS, <code>ILIKE</code> works like LIKE but ignores capital letters.</p>
+</section>
+<section id="what-to-do-with-a-selection" class="level3" data-number="5.2.9">
+<h3 data-number="5.2.9" class="anchored" data-anchor-id="what-to-do-with-a-selection"><span class="header-section-number">5.2.9</span> What to do with a selection</h3>
+<p>A query only creates a selection. What you do next is what produces a result:</p>
+<ol type="1">
+<li><strong>Zoom to the selection</strong> and look at it. This is the cheapest check there is. If the selected features are in implausible places, the expression is wrong, not the data. (QGIS: <strong>Zoom Map to Selected Rows</strong> in the attribute table. ArcGIS Pro: right-click the layer, <strong>Selection &gt; Zoom To Selection</strong>.)</li>
+<li><strong>Read the summary statistics</strong> for the selected set: the count, sum, mean, and range. Read the <strong>count</strong> first. It tells you whether the query did what you meant. (QGIS: the attribute table’s title bar shows how many features are selected, and the <strong>Statistics</strong> panel summarizes a field for selected features only. ArcGIS Pro: the bottom of the attribute table shows the count, and right-clicking a field and choosing <strong>Statistics</strong> makes a chart and summary.)</li>
+<li><strong>Calculate a field</strong> for the selection. The <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-field-calculator" data-term="field calculator">field calculator</span></strong> writes values into an attribute, for the selected records only. For example, set a new field, <code>Flag</code>, to 1 for the selected parcels. That turns a query into a permanent category you can map and query again. (QGIS: <strong>Field Calculator</strong>, with <em>Only update selected features</em> checked. ArcGIS Pro: <strong>Calculate Field</strong>.)</li>
+<li><strong>Export the selection</strong> to a new layer or table, so it survives. (QGIS: right-click the layer, <strong>Export &gt; Save Selected Features As</strong>. ArcGIS Pro: right-click the layer, <strong>Data &gt; Export Features</strong>; with a selection, only the selected features are exported.)</li>
+</ol>
+<p><strong>A selection is temporary.</strong> Clearing it erases it, and so does closing the project, or sometimes a careless click on the map. If you will need the result again, calculate it into a field or export it.</p>
+<p>When you want a layer to show only some features, all the time, use a filter instead of a selection: in QGIS, <strong>Filter</strong> (in the layer’s right-click menu), and in ArcGIS Pro, a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-definition-query" data-term="definition query">definition query</span></strong> (in the layer’s Properties). A filter uses the same WHERE clause, but it hides the records that fail it until you remove it.</p>
+<div class="did-you-know callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Did you know..?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>SQL was invented at IBM in the early 1970s by Donald Chamberlin and Raymond Boyce, to query the “relational” databases their colleague Edgar F. Codd had described in 1970 <span class="citation" data-cites="codd1970">(Codd 1970)</span>. They first called it SEQUEL, for Structured English Query Language, but another company already had a trademark on that name, so it was shortened to SQL. That is why people still argue about whether to say “sequel” or “S-Q-L.” (Both are fine.) More than fifty years later, SQL is still one of the most widely used programming languages in the world, and every GIS program you will use speaks some form of it.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-sets" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="sec-sets"><span class="header-section-number">5.3</span> Thinking in sets</h2>
+<section id="every-condition-names-a-set" class="level3" data-number="5.3.1">
+<h3 data-number="5.3.1" class="anchored" data-anchor-id="every-condition-names-a-set"><span class="header-section-number">5.3.1</span> Every condition names a set</h3>
+<p>Here is a way to check a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-query" data-term="query">query</span> before you trust it: think in <strong>sets</strong>. Each condition in a query selects a set of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-record" data-term="record">records</span>.</p>
+<ul>
+<li><strong>AND</strong> keeps only the records in both sets: the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-intersection" data-term="intersection">intersection</span></strong>.</li>
+<li><strong>OR</strong> keeps the records in either set: the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-union" data-term="union">union</span></strong>.</li>
+<li><strong>NOT</strong> keeps the records outside a set: the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-complement" data-term="complement">complement</span></strong>.</li>
+</ul>
+<p>A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-venn-diagram" data-term="Venn diagram">Venn diagram</span></strong> draws each set as a circle, inside a rectangle that holds every record. Sketching one before you write a query catches most logic mistakes. Try it with students. Let:</p>
+<ul>
+<li>T = all students at the university (the whole table),</li>
+<li>A = students from New York,</li>
+<li>B = Geography majors, and</li>
+<li>C = English majors.</li>
+</ul>
+<p>The query <code>"Home_State" = 'NY' AND "Major" = 'Geography'</code> selects A AND B: students who are in both sets, the overlap of the circles. Change one word, <code>"Home_State" = 'NY' OR "Major" = 'Geography'</code>, and it selects A OR B: everyone inside either circle, including the overlap (<a href="#fig-venn" class="quarto-xref">Figure&nbsp;<span>5.8</span></a>).</p>
+<div id="fig-venn" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Two Venn diagrams, each a rectangle labeled T holding two overlapping circles, A and B, and a small separate circle, C. Left, A AND B: the intersection: only the lens-shaped overlap of A and B is shaded orange. Right, A OR B: the union: both circles A and B are entirely shaded orange. C is unshaded in both.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-venn-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/attribute-queries/venn-and-or.png" class="img-fluid figure-img" alt="Two Venn diagrams, each a rectangle labeled T holding two overlapping circles, A and B, and a small separate circle, C. Left, A AND B: the intersection: only the lens-shaped overlap of A and B is shaded orange. Right, A OR B: the union: both circles A and B are entirely shaded orange. C is unshaded in both.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-venn-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.8: AND is the intersection of two sets (left); OR is their union (right). T is every student; A is students from New York; B is Geography majors; C is English majors.
+</figcaption>
+</figure>
+</div>
+<p>AND can never select more records than either condition alone; OR can never select fewer. If an OR query returns almost the whole table, check whether you meant AND. If an AND query returns nothing, check whether the circles can overlap at all.</p>
+</section>
+<section id="what-do-you-get" class="level3" data-number="5.3.2">
+<h3 data-number="5.3.2" class="anchored" data-anchor-id="what-do-you-get"><span class="header-section-number">5.3.2</span> What do you get?</h3>
+<p>Try these four before you look at <a href="#fig-venn-quiz" class="quarto-xref">Figure&nbsp;<span>5.9</span></a>. For each, which students are selected?</p>
+<ol type="1">
+<li><code>"Major" = 'Geography' AND "Major" = 'English'</code></li>
+<li><code>"Major" = 'Geography' OR "Major" = 'English'</code></li>
+<li><code>"Home_State" = 'NY' AND "Major" = 'English'</code></li>
+<li><code>"Home_State" = 'NY' OR "Major" = 'English'</code></li>
+</ol>
+<div id="fig-venn-quiz" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Four Venn diagrams. B AND C: two separate circles, B and C, not touching, with nothing shaded; caption, Geography majors who are also English majors, no overlap, so the query selects nothing. B OR C: the same two separate circles, both shaded orange; caption, anyone majoring in Geography or English. A AND C: two overlapping circles, A and C, with only the overlap shaded; caption, New Yorkers who major in English. A OR C: the same overlapping circles, both entirely shaded; caption, anyone from New York or majoring in English.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-venn-quiz-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/attribute-queries/venn-quiz.png" class="img-fluid figure-img" alt="Four Venn diagrams. B AND C: two separate circles, B and C, not touching, with nothing shaded; caption, Geography majors who are also English majors, no overlap, so the query selects nothing. B OR C: the same two separate circles, both shaded orange; caption, anyone majoring in Geography or English. A AND C: two overlapping circles, A and C, with only the overlap shaded; caption, New Yorkers who major in English. A OR C: the same overlapping circles, both entirely shaded; caption, anyone from New York or majoring in English.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-venn-quiz-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.9: The four queries as Venn diagrams. B AND C selects nothing, because in this table a student has only one major, so the circles don’t overlap.
+</figcaption>
+</figure>
+</div>
+<p>The first is the surprise. Each record has only one value in the Major <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-field" data-term="field">field</span>, so no single student is both a Geography major and an English major <em>in this table</em>. The circles don’t overlap, and the query selects nothing. <strong>An AND on two different values of the same field always selects nothing.</strong></p>
+</section>
+<section id="each-feature-is-tested-separately" class="level3" data-number="5.3.3">
+<h3 data-number="5.3.3" class="anchored" data-anchor-id="each-feature-is-tested-separately"><span class="header-section-number">5.3.3</span> Each feature is tested separately</h3>
+<p>That leads to the two most common mistakes in writing queries, both caused by forgetting that <strong>each record is tested on its own</strong> (<a href="#tbl-wrong-right" class="quarto-xref">Table&nbsp;<span>5.6</span></a>).</p>
+<div id="tbl-wrong-right" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-wrong-right-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;5.6: Two classic mistakes.
+</figcaption>
+<div aria-describedby="tbl-wrong-right-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Wrong</th>
+<th style="text-align: left;">Why it fails</th>
+<th style="text-align: left;">Right</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>"Landuse" = 'Urban' AND "Landuse" = 'Farm'</code></td>
+<td style="text-align: left;">No single parcel is both urban and farm, so <strong>nothing</strong> is selected.</td>
+<td style="text-align: left;"><code>"Landuse" = 'Urban' OR "Landuse" = 'Farm'</code>, or <code>"Landuse" IN ('Urban', 'Farm')</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>"Pop2020" &gt;= 5000 OR "Pop2020" &lt; 9000</code></td>
+<td style="text-align: left;">Every number is either at least 5,000 or below 9,000, so <strong>everything</strong> is selected.</td>
+<td style="text-align: left;"><code>"Pop2020" &gt;= 5000 AND "Pop2020" &lt; 9000</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>The rule of thumb: <strong>two values of one <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-attribute" data-term="attribute">attribute</span> take OR; two bounds on one attribute take AND.</strong></p>
+<p>The trouble comes from how we talk. “Show me the urban parcels and the farm parcels” uses <em>and</em> in English, but it means OR in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-sql" data-term="SQL">SQL</span>: you want a parcel if it is urban <em>or</em> if it is farm. Translate the question into “a parcel is selected if…” before you write the query.</p>
+</section>
+</section>
+<section id="sec-null" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="sec-null"><span class="header-section-number">5.4</span> Null values and missing data</h2>
+<p>One last trap. A <strong>NULL</strong> is not a value. It is the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-record" data-term="record">record</span> telling you it doesn’t know.</p>
+<ul>
+<li><strong>NULL is not zero, and not blank.</strong> NULL means no value was recorded. Zero is a measurement, and an empty text string is a value. A Density of 0 says “nobody lives here”; a Density of NULL says “we never counted.”</li>
+<li><strong>NULL is equal to nothing</strong>, not even another NULL. So <code>"Density" = NULL</code> selects no records at all, even if half the table is NULL. Use <code>IS NULL</code> or <code>IS NOT NULL</code> instead.</li>
+<li><strong>NULL fails every comparison.</strong> A record with a NULL Pop2020 is selected by neither <code>"Pop2020" &gt;= 5000</code> nor <code>"Pop2020" &lt; 5000</code>. Two <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-query" data-term="query">queries</span> that look like they split the table in two no longer add up to the whole table.</li>
+<li><strong>NOT doesn’t rescue it.</strong> <code>NOT ("Landuse" = 'Urban')</code> drops the NULL records along with the urban ones. If you want them, say so: <code>NOT ("Landuse" = 'Urban') OR "Landuse" IS NULL</code> (<a href="#fig-null" class="quarto-xref">Figure&nbsp;<span>5.10</span></a>).</li>
+</ul>
+<div id="fig-null" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A table with columns ID, Area, Landuse, and Municip for parcels 1 to 7. The Landuse values of parcels 3 and 6 read NULL in gray italics. Beside it: NOT Landuse equals Urban selects 2 and 4 only; parcels 3 and 6 are dropped, NULL fails every test. Then: OR Landuse IS NULL adds them back: 2, 3, 4 and 6.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-null-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/attribute-queries/null-values.png" class="img-fluid figure-img" alt="A table with columns ID, Area, Landuse, and Municip for parcels 1 to 7. The Landuse values of parcels 3 and 6 read NULL in gray italics. Beside it: NOT Landuse equals Urban selects 2 and 4 only; parcels 3 and 6 are dropped, NULL fails every test. Then: OR Landuse IS NULL adds them back: 2, 3, 4 and 6.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-null-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.10: Parcels 3 and 6 have no recorded land use. NOT (“Landuse” = ‘Urban’) selects only parcels 2 and 4; adding OR “Landuse” IS NULL brings back 3 and 6.
+</figcaption>
+</figure>
+</div>
+<p><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-shapefile" data-term="shapefile">Shapefiles</span> make this worse: the old dBASE format can’t store a true NULL in a numeric <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-field" data-term="field">field</span>, so missing numbers are often stored as 0, or as a code like −9999. Always read the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-metadata" data-term="metadata">metadata</span> to find out how missing values are coded.</p>
+<p>Build a habit: <strong>before you trust any count, query <code>IS NULL</code> on each field you used</strong>, and see how many records were never in the running.</p>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Think about it
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A table of 100 counties has 12 with a NULL median income. <code>"MedIncome" &gt; 50000</code> selects 40 counties. How many does <code>"MedIncome" &lt;= 50000</code> select? How many does <code>NOT ("MedIncome" &gt; 50000)</code> select?</p>
+<details>
+<summary>
+Show the answer
+</summary>
+<strong>48</strong> for both. The 12 counties with NULL income fail both comparisons, and NOT doesn’t bring them back: 40 + 48 + 12 = 100.
+</details>
+</div>
+</div>
+</section>
+<section id="check-your-understanding" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="check-your-understanding"><span class="header-section-number">5.5</span> Check your understanding</h2>
+<ol type="1">
+<li><p>In an attribute table, each row describes one: <select class="webex-select"><option value="blank"></option><option value="">Attribute</option><option value="answer">Feature</option><option value="">Data type</option><option value="">Layer</option></select></p></li>
+<li><p>Which data type should you use for ZIP codes? <select class="webex-select"><option value="blank"></option><option value="answer">Text</option><option value="">Short Integer</option><option value="">Double</option><option value="">Date</option></select></p></li>
+<li><p>What decimal number is the binary number 1010? <input class="webex-solveme nospaces" size="3" data-answer="[&quot;10&quot;]"></p></li>
+<li><p>A hurricane’s category (1 to 5) is measured at which level? <select class="webex-select"><option value="blank"></option><option value="">Nominal</option><option value="answer">Ordinal</option><option value="">Interval</option><option value="">Ratio</option></select></p></li>
+<li><p>Adding a condition with AND can make a selection larger. <select class="webex-select"><option value="blank"></option><option value="">TRUE</option><option value="answer">FALSE</option></select></p></li>
+<li><p>Using the seven parcels, how many records does <code>"Landuse" = 'Urban' OR "Landuse" = 'Farm'</code> select? <input class="webex-solveme nospaces" size="3" data-answer="[&quot;5&quot;]"></p></li>
+<li><p>Which query finds records with a missing population? <select class="webex-select"><option value="blank"></option><option value="">“Pop2020” = NULL</option><option value="">“Pop2020” = 0</option><option value="answer">“Pop2020” IS NULL</option><option value="">NOT “Pop2020”</option></select></p></li>
+<li><p><code>"Landuse" = 'Urban' AND "Landuse" = 'Farm'</code> selects: <select class="webex-select"><option value="blank"></option><option value="">Every record</option><option value="">The urban and farm parcels</option><option value="answer">No records</option><option value="">Only the NULL records</option></select></p></li>
+</ol>
+<div class="webex-solution">
+<button>
+Show hint for question 6
+</button>
+<p>Count the parcels whose Landuse is Urban (1, 5, 7) and those whose Landuse is Farm (2, 6).</p>
+</div>
+</section>
+<section id="summary" class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="summary"><span class="header-section-number">5.6</span> Summary</h2>
+<ul>
+<li>An <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-attribute" data-term="attribute">attribute table</span></strong> stores one <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-record" data-term="record">record</span></strong> (row) per feature and one <strong>attribute</strong> (<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-field" data-term="field">field</span>, column) per variable. Selecting a record selects its feature on the map.</li>
+<li>A field’s <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-type" data-term="data type">data type</span></strong> limits what it can store. <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-integer" data-term="integer">Integer</span> types are only as wide as the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-bit" data-term="bit">bits</span></strong> behind them: a 32-bit integer tops out at 2,147,483,647. Store identifiers like ZIP codes and FIPS codes as <strong>text</strong>.</li>
+<li>The <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-level-of-measurement" data-term="level of measurement">level of measurement</span></strong> limits what you may ask: <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-nominal" data-term="nominal">nominal</span></strong> (categories), <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-ordinal" data-term="ordinal">ordinal</span></strong> (ranks), <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-interval" data-term="interval">interval</span></strong> (equal steps, arbitrary zero), and <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-ratio" data-term="ratio">ratio</span></strong> (a true zero).</li>
+<li>A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-query" data-term="query">query</span></strong> is a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-where-clause" data-term="WHERE clause">WHERE clause</span> the software tests against every record, one at a time. In <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-sql" data-term="SQL">SQL</span></strong>, field names take double quotes, text values single quotes, and numbers none.</li>
+<li><strong>AND</strong> narrows (the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-intersection" data-term="intersection">intersection</span></strong>), <strong>OR</strong> widens (the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-union" data-term="union">union</span></strong>), and <strong>NOT</strong> takes the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-complement" data-term="complement">complement</span></strong>. Brackets and the placement of NOT change the answer, so write them out.</li>
+<li><strong>LIKE</strong>, <strong>BETWEEN</strong>, <strong>IN</strong>, and <strong>IS NULL</strong> shorten everyday queries.</li>
+<li>Draw a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-venn-diagram" data-term="Venn diagram">Venn diagram</span></strong> to check a query. Two values of one attribute take OR; two bounds on one attribute take AND.</li>
+<li><strong>NULL</strong> means no value was recorded. It fails every comparison, so run IS NULL before you trust a count.</li>
+<li>A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-selection" data-term="selection">selection</span></strong> is temporary. Zoom to it, read its count, then calculate a field or export it to keep the result.</li>
+</ul>
+</section>
+<section id="exercises" class="level2" data-number="5.7">
+<h2 data-number="5.7" class="anchored" data-anchor-id="exercises"><span class="header-section-number">5.7</span> Exercises</h2>
+<ol type="1">
+<li><strong>Explore a table.</strong> Download Natural Earth’s populated places <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layer</span> (<a href="https://www.naturalearthdata.com" class="uri">https://www.naturalearthdata.com</a>) and open its <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-attribute" data-term="attribute">attribute table</span>. How many <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-record" data-term="record">records</span> does it have? Sort it by <code>pop_max</code>. What are the ten largest cities? Find a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-field" data-term="field">field</span> with NULL values.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-type" data-term="data type">Data types</span>.</strong> For each of these fields, choose a data type and explain why: a county FIPS code, the number of students in a school, a stream’s length in kilometers, whether a road is paved, a building’s construction date, and a phone number.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-level-of-measurement" data-term="level of measurement">Levels of measurement</span>.</strong> For each field in exercise 2, name its level of measurement. Which could you average?</li>
+<li><strong>Write the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-query" data-term="query">query</span>.</strong> Using the seven parcels, write a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-where-clause" data-term="WHERE clause">WHERE clause</span> for each, and list the parcels it selects: (a) farm parcels larger than 50 acres; (b) parcels in a township or a county; (c) urban parcels with a density over 1,000 or a mill rate of A; (d) every parcel that is not suburban.</li>
+<li><strong>Predict, then run.</strong> In <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span> or <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span>, with the populated places layer, write one query with AND, one with OR, and one with IS NULL. Predict the count before you run each one. How close were you?</li>
+<li><strong>Find the mistake.</strong> Explain what’s wrong with each query, and fix it: (a) <code>"STATE" = 'NC' AND "STATE" = 'SC'</code>; (b) <code>"POP" &gt; 1000 OR "POP" &lt; 5000</code>; (c) <code>"NAME" = Durham</code>; (d) <code>"INCOME" = NULL</code>.</li>
+<li><strong>De Morgan.</strong> Rewrite <code>NOT ("Landuse" = 'Urban' OR "Municip" = 'City')</code> without a bracket after the NOT. Which parcels does it select?</li>
+<li><strong>Keep the answer.</strong> Select the North Carolina counties with more than 100,000 people. Calculate a field, <code>Big</code>, set to 1 for those counties, and export them to a new layer. Then clear the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-selection" data-term="selection">selection</span>. Which of the two results survived?</li>
+</ol>
+</section>
+<section id="further-reading-and-online-resources" class="level2" data-number="5.8">
+<h2 data-number="5.8" class="anchored" data-anchor-id="further-reading-and-online-resources"><span class="header-section-number">5.8</span> Further reading and online resources</h2>
+<section id="books-and-open-textbooks" class="level3" data-number="5.8.1">
+<h3 data-number="5.8.1" class="anchored" data-anchor-id="books-and-open-textbooks"><span class="header-section-number">5.8.1</span> Books and open textbooks</h3>
+<ul>
+<li><em><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> Fundamentals: A First Text on Geographic Information Systems</em>, by Paul Bolstad <span class="citation" data-cites="bolstad2022">(Bolstad 2022)</span>. Chapter 8, “<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-attribute" data-term="attribute">Attribute Data</span> and Tables,” covers attribute tables, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-sql" data-term="SQL">SQL</span> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-query" data-term="query">queries</span>, and Boolean logic.</li>
+<li><em>Understanding GIS through Sustainable Development Goals</em>, by Paul Holloway <span class="citation" data-cites="holloway2023">(Holloway 2023)</span>. Includes worked attribute queries in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span>.</li>
+<li><em>Essentials of Geographic Information Systems</em>, by Jonathan Campbell and Michael Shin. Chapter 5, “<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-data" data-term="spatial data">Geospatial Data</span> Management,” covers attribute tables, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-type" data-term="data type">data types</span>, and queries: <a href="https://open.umn.edu/opentextbooks/textbooks/67" class="uri">https://open.umn.edu/opentextbooks/textbooks/67</a>.</li>
+<li><em>The Nature of Geographic Information</em>, by David DiBiase and colleagues at Penn State. Chapter 3, “Census Data and Thematic Maps,” discusses <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-level-of-measurement" data-term="level of measurement">levels of measurement</span>: <a href="https://www.e-education.psu.edu/natureofgeoinfo/c3.html" class="uri">https://www.e-education.psu.edu/natureofgeoinfo/c3.html</a>.</li>
+<li><em>Intro to GIS and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-analysis" data-term="spatial analysis">Spatial Analysis</span></em>, by Manuel Gimond. The chapter “GIS Data Formats” covers attribute tables and data types: <a href="https://mgimond.github.io/Spatial/" class="uri">https://mgimond.github.io/Spatial/</a>.</li>
+<li><em>Getting Started with SQL</em>, by Thomas Nield (O’Reilly, 2016), a short, friendly introduction to SQL.</li>
+<li><em>PostGIS in Action</em>, by Regina Obe and Leo Hsu (3rd ed., Manning, 2021), for when you are ready to query spatial databases directly.</li>
+</ul>
+</section>
+<section id="attribute-data-data-types-and-measurement" class="level3" data-number="5.8.2">
+<h3 data-number="5.8.2" class="anchored" data-anchor-id="attribute-data-data-types-and-measurement"><span class="header-section-number">5.8.2</span> Attribute data, data types, and measurement</h3>
+<ul>
+<li>QGIS User Guide, “Working with the Attribute Table”: <a href="https://docs.qgis.org/latest/en/docs/user_manual/working_with_vector/attribute_table.html" class="uri">https://docs.qgis.org/latest/en/docs/user_manual/working_with_vector/attribute_table.html</a>.</li>
+<li>QGIS, <em>A Gentle Introduction to GIS</em>, “<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-vector" data-term="vector">Vector</span> Attribute Data”: <a href="https://docs.qgis.org/latest/en/docs/gentle_gis_introduction/vector_attribute_data.html" class="uri">https://docs.qgis.org/latest/en/docs/gentle_gis_introduction/vector_attribute_data.html</a>.</li>
+<li>ArcGIS Pro, “ArcGIS <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-field" data-term="field">field</span> data types”: <a href="https://pro.arcgis.com/en/pro-app/latest/help/data/geodatabases/overview/arcgis-field-data-types.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/help/data/geodatabases/overview/arcgis-field-data-types.htm</a>.</li>
+<li>ArcGIS Pro, “Add Field” tool, including <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-precision" data-term="precision">precision</span> and scale: <a href="https://pro.arcgis.com/en/pro-app/latest/tool-reference/data-management/add-field.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/tool-reference/data-management/add-field.htm</a>.</li>
+<li>Stevens, S. S., “On the Theory of Scales of Measurement,” <em>Science</em> <span class="citation" data-cites="stevens1946">(Stevens 1946)</span>, the original paper on levels of measurement: <a href="https://doi.org/10.1126/science.103.2684.677" class="uri">https://doi.org/10.1126/science.103.2684.677</a>.</li>
+<li>The <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-gis-t-body-of-knowledge" data-term="GIS&amp;T Body of Knowledge">GIS&amp;T Body of Knowledge</span>, “Scales of Measurement,” “Database Management Systems,” and “Structured Query Language (SQL) and Attribute Queries”: <a href="https://gistbok.ucgis.org" class="uri">https://gistbok.ucgis.org</a>.</li>
+</ul>
+</section>
+<section id="queries-and-sql" class="level3" data-number="5.8.3">
+<h3 data-number="5.8.3" class="anchored" data-anchor-id="queries-and-sql"><span class="header-section-number">5.8.3</span> Queries and SQL</h3>
+<ul>
+<li>QGIS User Guide, “Expressions,” the full list of operators and functions you can use in Select by Expression: <a href="https://docs.qgis.org/latest/en/docs/user_manual/expressions/expression.html" class="uri">https://docs.qgis.org/latest/en/docs/user_manual/expressions/expression.html</a>.</li>
+<li>QGIS User Guide, “Selecting features,” including Select by Expression: <a href="https://docs.qgis.org/latest/en/docs/user_manual/introduction/general_tools.html#selecting-features" class="uri">https://docs.qgis.org/latest/en/docs/user_manual/introduction/general_tools.html#selecting-features</a>.</li>
+<li>ArcGIS Pro, “Select <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">Layer</span> By Attribute” tool: <a href="https://pro.arcgis.com/en/pro-app/latest/tool-reference/data-management/select-layer-by-attribute.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/tool-reference/data-management/select-layer-by-attribute.htm</a>.</li>
+<li>ArcGIS Pro, “SQL reference for query expressions used in ArcGIS”: <a href="https://pro.arcgis.com/en/pro-app/latest/help/mapping/navigation/sql-reference-for-elements-used-in-query-expressions.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/help/mapping/navigation/sql-reference-for-elements-used-in-query-expressions.htm</a>.</li>
+<li>ArcGIS Pro, “Write a query in the Query Builder”: <a href="https://pro.arcgis.com/en/pro-app/latest/help/mapping/navigation/write-a-query-in-the-query-builder.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/help/mapping/navigation/write-a-query-in-the-query-builder.htm</a>.</li>
+<li>ArcGIS Pro, “Use <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-definition-query" data-term="definition query">definition queries</span>”: <a href="https://pro.arcgis.com/en/pro-app/latest/help/mapping/layer-properties/definition-query.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/help/mapping/layer-properties/definition-query.htm</a>.</li>
+<li>SQLBolt, free interactive SQL lessons in your browser: <a href="https://sqlbolt.com" class="uri">https://sqlbolt.com</a>.</li>
+<li>W3Schools SQL Tutorial, with a try-it-yourself editor for every operator in this chapter: <a href="https://www.w3schools.com/sql/" class="uri">https://www.w3schools.com/sql/</a>.</li>
+<li>Khan Academy, “Intro to SQL: Querying and managing data”: <a href="https://www.khanacademy.org/computing/computer-programming/sql" class="uri">https://www.khanacademy.org/computing/computer-programming/sql</a>.</li>
+<li>SQLite Tutorial, “SQLite NULL,” on how NULL behaves: <a href="https://www.sqlitetutorial.net/sqlite-is-null/" class="uri">https://www.sqlitetutorial.net/sqlite-is-null/</a>.</li>
+<li>Codd, E. F., “A Relational Model of Data for Large Shared Data Banks” <span class="citation" data-cites="codd1970">(Codd 1970)</span>, the paper that started relational databases: <a href="https://doi.org/10.1145/362384.362685" class="uri">https://doi.org/10.1145/362384.362685</a>.</li>
+</ul>
+</section>
+<section id="sets-and-logic" class="level3" data-number="5.8.4">
+<h3 data-number="5.8.4" class="anchored" data-anchor-id="sets-and-logic"><span class="header-section-number">5.8.4</span> Sets and logic</h3>
+<ul>
+<li>Math is Fun, “Sets and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-venn-diagram" data-term="Venn diagram">Venn Diagrams</span>”: <a href="https://www.mathsisfun.com/sets/venn-diagrams.html" class="uri">https://www.mathsisfun.com/sets/venn-diagrams.html</a>.</li>
+<li>Math is Fun, “Introduction to Sets” and set operations: <a href="https://www.mathsisfun.com/sets/sets-introduction.html" class="uri">https://www.mathsisfun.com/sets/sets-introduction.html</a>.</li>
+<li>Wikipedia, “<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-de-morgan-s-law" data-term="De Morgan’s law">De Morgan’s laws</span>”: <a href="https://en.wikipedia.org/wiki/De_Morgan%27s_laws" class="uri">https://en.wikipedia.org/wiki/De_Morgan%27s_laws</a>.</li>
+<li>Stanford Encyclopedia of Philosophy, “Propositional Logic,” for a deeper look at AND, OR, and NOT: <a href="https://plato.stanford.edu/entries/logic-propositional/" class="uri">https://plato.stanford.edu/entries/logic-propositional/</a>.</li>
+</ul>
+</section>
+<section id="tutorials-and-data-for-practice" class="level3" data-number="5.8.5">
+<h3 data-number="5.8.5" class="anchored" data-anchor-id="tutorials-and-data-for-practice"><span class="header-section-number">5.8.5</span> Tutorials and data for practice</h3>
+<ul>
+<li>Learn ArcGIS, lessons on querying and selecting data, such as “Get started with ArcGIS Pro”: <a href="https://learn.arcgis.com" class="uri">https://learn.arcgis.com</a>.</li>
+<li>Natural Earth, free world data with rich attribute tables to practice on: <a href="https://www.naturalearthdata.com" class="uri">https://www.naturalearthdata.com</a>.</li>
+<li>NC OneMap, North Carolina’s data portal: <a href="https://www.nconemap.gov" class="uri">https://www.nconemap.gov</a>.</li>
+<li>U.S. Census Bureau, TIGER/Line <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-shapefile" data-term="shapefile">shapefiles</span>, whose attribute tables are a good place to practice queries on FIPS codes and names: <a href="https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html" class="uri">https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html</a>.</li>
+</ul>
+
+
+<div class="glossary-defs" hidden="">
+<span id="gloss-attribute">A non-spatial fact about a feature, such as a building’s name or the
+year it was built. Attributes are stored in a table with one row per
+feature.</span>
+<span id="gloss-record">A row in an attribute table: everything known about one feature.</span>
+<span id="gloss-data-type">How a field is stored, such as text, integer, double, or date. It limits
+what the field can hold.</span>
+<span id="gloss-field">A column in an attribute table: one attribute, measured the same way for
+every feature. Also called an attribute or item.</span>
+<span id="gloss-qgis">A free and open-source desktop GIS that runs on Windows, Mac, and Linux.</span>
+<span id="gloss-arcgis-pro">Esri’s commercial desktop GIS, for Windows.</span>
+<span id="gloss-bit">A binary digit, 0 or 1. With <em>n</em> bits you can write 2ⁿ different
+values.</span>
+<span id="gloss-level-of-measurement">What kind of values an attribute holds, which decides what questions
+make sense: nominal, ordinal, interval, or ratio.</span>
+<span id="gloss-nominal">Categories with no order, such as land use or a name. You can test
+equality and count, but not average.</span>
+<span id="gloss-ordinal">Ranked categories whose steps are of unknown size, such as A, B, C, D or
+a hurricane’s category.</span>
+<span id="gloss-interval">Values with equal steps but an arbitrary zero, such as temperature in °C
+or a calendar year. Differences make sense; ratios don’t.</span>
+<span id="gloss-ratio">Values with equal steps and a true zero, such as population or area.
+Every arithmetic operation makes sense.</span>
+<span id="gloss-sql">Structured Query Language, the standard language for asking databases
+questions. In a GIS you usually write only its WHERE clause.</span>
+<span id="gloss-where-clause">The condition part of an SQL query, such as <code>"Area" &gt; 20</code>.
+It is the part you write in Select by Expression or Select By
+Attributes.</span>
+<span id="gloss-query">A written condition that the software tests against every record,
+selecting those that pass.</span>
+<span id="gloss-venn-diagram">A drawing of sets as overlapping circles, useful for checking what an
+AND or OR query will select.</span>
+<span id="gloss-selection">The records, and their features, that pass a query. A selection is
+temporary until you export it or calculate it into a field.</span>
+<span id="gloss-geographic-information-system-gis">“A computer-based system to aid in the collection, maintenance, storage,
+analysis, output, and distribution of spatial data and information”
+(Bolstad). Its five components are data, hardware, software, people, and
+procedures.</span>
+<span id="gloss-coordinate-system">A system of numbers, such as latitude and longitude, that gives every
+location a unique position so layers line up with each other.</span>
+<span id="gloss-polygon">A vector feature that encloses an area: a closed line whose first and
+last points are the same, such as a lake, a park, or a county.</span>
+<span id="gloss-layer">A set of spatial data about one theme, such as roads, soils, or
+elevation. Layers for the same area stack on top of each other to make a
+map.</span>
+<span id="gloss-integer">A data type for whole numbers. Its range depends on its bits: up to
+32,767 for 16 bits, about 2.1 billion for 32 bits.</span>
+<span id="gloss-data-abstraction">The chain of steps that turns the real world into something a computer
+can store: real world, data model, data structure, and machine code.</span>
+<span id="gloss-data-model">The way a GIS represents the real world as data, for example as points,
+lines, and polygons (vector) or as a grid of cells (raster).</span>
+<span id="gloss-non-spatial-data">Data with no location of their own, such as a list of grades. When
+non-spatial data describe a spatial feature, they are its attributes.</span>
+<span id="gloss-vector">A data model that stores the world as points, lines, and polygons, each
+defined by x, y coordinates and linked to its attributes. Best for
+discrete objects.</span>
+<span id="gloss-shapefile">A common vector format from Esri that stores one layer in several files
+with the same name: .shp (geometry), .shx (index), and .dbf (attributes)
+are required, and .prj holds the coordinate system.</span>
+<span id="gloss-geopackage">An open file format (.gpkg) from the Open Geospatial Consortium that
+stores many vector and raster layers in a single file. It is QGIS’s
+default format.</span>
+<span id="gloss-double">A 64-bit data type for decimal numbers, with about 15 significant
+digits. Float is the 32-bit version, with about 7.</span>
+<span id="gloss-precision">For a numeric field, the total number of digits it can hold. Scale is
+how many of them fall after the decimal point.</span>
+<span id="gloss-binary">Base-2 numbers, written with only 0 and 1, in which each column is worth
+twice the one to its right. Computers store all data in binary.</span>
+<span id="gloss-complement">Every record outside a set. NOT selects the complement.</span>
+<span id="gloss-de-morgan-s-law">NOT (A AND B) equals (NOT A) OR (NOT B), and NOT (A OR B) equals (NOT A)
+AND (NOT B).</span>
+<span id="gloss-field-calculator">A tool that computes values and writes them into a field, for every
+record or for the selected records only.</span>
+<span id="gloss-definition-query">In ArcGIS Pro, a WHERE clause that hides the features that fail it,
+until you remove it. QGIS calls this a filter.</span>
+<span id="gloss-intersection">The records in both of two sets. AND selects the intersection.</span>
+<span id="gloss-union">The records in either of two sets. OR selects the union.</span>
+<span id="gloss-metadata">Data about data: who made a dataset, when, how, in what coordinate
+system, and how accurate it is.</span>
+<span id="gloss-spatial-data">Data tied to a location on or near Earth, such as the address of a
+house, the outline of a county, or the elevation at a point.</span>
+<span id="gloss-spatial-analysis">Methods that use the locations of things, and the relationships among
+them, to find patterns, explain them, or make predictions.</span>
+<span id="gloss-gis-t-body-of-knowledge">A free collection of short, peer-reviewed articles on geographic
+information science and technology topics, from the University
+Consortium for Geographic Information Science (UCGIS).</span>
+</div>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script>
+
+/* update total correct if #webex-total_correct exists */
+update_total_correct = function() {
+  console.log("webex: update total_correct");
+
+  var t = document.getElementsByClassName("webex-total_correct");
+  for (var i = 0; i < t.length; i++) {
+    p = t[i].parentElement;
+    var correct = p.getElementsByClassName("webex-correct").length;
+    var solvemes = p.getElementsByClassName("webex-solveme").length;
+    var radiogroups = p.getElementsByClassName("webex-radiogroup").length;
+    var selects = p.getElementsByClassName("webex-select").length;
+
+    t[i].innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  }
+}
+
+/* webex-solution button toggling function */
+b_func = function() {
+  console.log("webex: toggle hide");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('open')) {
+    cl.remove("open");
+  } else {
+    cl.add("open");
+  }
+}
+
+/* check answers */
+check_func = function() {
+  console.log("webex: check answers");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('unchecked')) {
+    cl.remove("unchecked");
+    this.innerHTML = "Hide Answers";
+  } else {
+    cl.add("unchecked");
+    this.innerHTML = "Show Answers";
+  }
+}
+
+/* function for checking solveme answers */
+solveme_func = function(e) {
+  console.log("webex: check solveme");
+
+  var real_answers = JSON.parse(this.dataset.answer);
+  var my_answer = this.value;
+  var cl = this.classList;
+  if (cl.contains("ignorecase")) {
+    my_answer = my_answer.toLowerCase();
+  }
+  if (cl.contains("nospaces")) {
+    my_answer = my_answer.replace(/ /g, "")
+  }
+
+  if (my_answer == "") {
+    cl.remove("webex-correct");
+    cl.remove("webex-incorrect");
+  } else if (real_answers.includes(my_answer)) {
+    cl.add("webex-correct");
+    cl.remove("webex-incorrect");
+  } else {
+    cl.add("webex-incorrect");
+    cl.remove("webex-correct");
+  }
+
+  // match numeric answers within a specified tolerance
+  if(this.dataset.tol > 0){
+    var tol = JSON.parse(this.dataset.tol);
+    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+    if (matches.reduce((a, b) => a + b, 0) > 0) {
+      cl.add("webex-correct");
+    } else {
+      cl.remove("webex-correct");
+    }
+  }
+
+  // added regex bit
+  if (cl.contains("regex")){
+    answer_regex = RegExp(real_answers.join("|"))
+    if (answer_regex.test(my_answer)) {
+      cl.add("webex-correct");
+    }
+  }
+
+  update_total_correct();
+}
+
+/* function for checking select answers */
+select_func = function(e) {
+  console.log("webex: check select");
+
+  var cl = this.classList
+
+  /* add style */
+  cl.remove("webex-incorrect");
+  cl.remove("webex-correct");
+  if (this.value == "answer") {
+    cl.add("webex-correct");
+  } else if (this.value != "blank") {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+/* function for checking radiogroups answers */
+radiogroups_func = function(e) {
+  console.log("webex: check radiogroups");
+
+  var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
+  var cl = checked_button.parentElement.classList;
+  var labels = checked_button.parentElement.parentElement.children;
+
+  /* get rid of styles */
+  for (i = 0; i < labels.length; i++) {
+    labels[i].classList.remove("webex-incorrect");
+    labels[i].classList.remove("webex-correct");
+  }
+
+  /* add style */
+  if (checked_button.value == "answer") {
+    cl.add("webex-correct");
+  } else {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+window.onload = function() {
+  console.log("webex onload");
+  /* set up solution buttons */
+  var buttons = document.getElementsByTagName("button");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].parentElement.classList.contains('webex-solution')) {
+      buttons[i].onclick = b_func;
+    }
+  }
+
+  var check_sections = document.getElementsByClassName("webex-check");
+  console.log("check:", check_sections.length);
+  for (var i = 0; i < check_sections.length; i++) {
+    check_sections[i].classList.add("unchecked");
+
+    let btn = document.createElement("button");
+    btn.innerHTML = "Show Answers";
+    btn.classList.add("webex-check-button");
+    btn.onclick = check_func;
+    check_sections[i].appendChild(btn);
+
+    let spn = document.createElement("span");
+    spn.classList.add("webex-total_correct");
+    check_sections[i].appendChild(spn);
+  }
+
+  /* set up webex-solveme inputs */
+  var solveme = document.getElementsByClassName("webex-solveme");
+
+  for (var i = 0; i < solveme.length; i++) {
+    /* make sure input boxes don't auto-anything */
+    solveme[i].setAttribute("autocomplete","off");
+    solveme[i].setAttribute("autocorrect", "off");
+    solveme[i].setAttribute("autocapitalize", "off");
+    solveme[i].setAttribute("spellcheck", "false");
+    solveme[i].value = "";
+
+    /* adjust answer for ignorecase or nospaces */
+    var cl = solveme[i].classList;
+    var real_answer = solveme[i].dataset.answer;
+    if (cl.contains("ignorecase")) {
+      real_answer = real_answer.toLowerCase();
+    }
+    if (cl.contains("nospaces")) {
+      real_answer = real_answer.replace(/ /g, "");
+    }
+    solveme[i].dataset.answer = real_answer;
+
+    /* attach checking function */
+    solveme[i].onkeyup = solveme_func;
+    solveme[i].onchange = solveme_func;
+
+    solveme[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  /* set up radiogroups */
+  var radiogroups = document.getElementsByClassName("webex-radiogroup");
+  for (var i = 0; i < radiogroups.length; i++) {
+    radiogroups[i].onchange = radiogroups_func;
+  }
+
+  /* set up selects */
+  var selects = document.getElementsByClassName("webex-select");
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].onchange = select_func;
+    selects[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  update_total_correct();
+}
+
+</script>
+<!--
+  Highlights the right item in the top menu. Quarto's book layout marks
+  "Welcome" as active on every page, so this sets it from the page address:
+  the course pages match their own item, and every other page (chapters,
+  quizzes, glossary) is part of the Textbook. Pages with no menu item of
+  their own (the AI policy and privacy policy) highlight nothing.
+-->
+<script>
+(function () {
+  "use strict";
+  const COURSE_PAGES = ["index", "syllabus", "materials", "about"];
+  const NO_ITEM_PAGES = ["privacy", "ai-policy"];
+  const file = (location.pathname.split("/").pop() || "index").replace(/\.html$/, "");
+  const inRoot = !/\/chapters\//.test(location.pathname);
+  const target = inRoot && NO_ITEM_PAGES.includes(file) ? null
+    : inRoot && COURSE_PAGES.includes(file) ? file : "preface";
+  document.querySelectorAll("#navbarCollapse a.nav-link").forEach((a) => {
+    const page = (a.getAttribute("href") || "").split("/").pop().replace(/\.html$/, "");
+    const on = page === target;
+    a.classList.toggle("active", on);
+    if (on) a.setAttribute("aria-current", "page");
+    else a.removeAttribute("aria-current");
+  });
+})();
+</script>
+<!--
+  Reading settings, part 2 of 2: the "Aa" menu next to search, where readers
+  pick a font and text size. Choices are kept in this browser (localStorage)
+  and applied on every page by assets/reader-settings-head.html.
+-->
+<script>
+(function () {
+  var FONTS = [
+    { id: "", label: "Atkinson Hyperlegible (default)", css: '"Atkinson Hyperlegible Next", sans-serif' },
+    { id: "lexend", label: "Lexend", css: '"Lexend", sans-serif', href: "https://fonts.googleapis.com/css2?family=Lexend:wght@300..700&display=swap" },
+    { id: "cardo", label: "Cardo (serif)", css: '"Cardo", Georgia, serif', href: "https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&display=swap" },
+    { id: "sans", label: "Standard sans-serif", css: 'system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif' },
+    { id: "serif", label: "Serif", css: 'Georgia, Cambria, "Times New Roman", serif' },
+    { id: "dyslexic", label: "OpenDyslexic", css: '"OpenDyslexic", sans-serif' }
+  ];
+  var SIZES = { "-1": "Small", "0": "Default", "1": "Large", "2": "Larger", "3": "Largest" };
+  var MIN = -1, MAX = 3;
+  var root = document.documentElement;
+
+  function save(key, value) {
+    try {
+      if (value === "" || value === "0") localStorage.removeItem(key);
+      else localStorage.setItem(key, value);
+    } catch (e) { /* storage blocked: setting lasts for this page only */ }
+  }
+  function currentFont() { return root.getAttribute("data-reader-font") || ""; }
+  function currentSize() { return parseInt(root.getAttribute("data-reader-size") || "0", 10) || 0; }
+
+  // Add a Google Fonts stylesheet once (Lexend, Cardo). Fonts download only
+  // when text actually uses them.
+  function loadWebFont(f) {
+    if (!f.href || document.getElementById("sds-reader-webfont-" + f.id)) return;
+    var link = document.createElement("link");
+    link.rel = "stylesheet"; link.href = f.href; link.id = "sds-reader-webfont-" + f.id;
+    document.head.appendChild(link);
+  }
+
+  function setFont(id) {
+    FONTS.forEach(function (f) { if (f.id === id) loadWebFont(f); });
+    if (id) root.setAttribute("data-reader-font", id); else root.removeAttribute("data-reader-font");
+    save("sds-reader-font", id);
+  }
+  function setSize(n) {
+    n = Math.max(MIN, Math.min(MAX, n));
+    if (n) root.setAttribute("data-reader-size", String(n)); else root.removeAttribute("data-reader-size");
+    save("sds-reader-size", String(n));
+    refreshSize();
+  }
+
+  var wrap = document.createElement("div");
+  wrap.className = "sds-reader";
+  var fontOptions = FONTS.map(function (f) {
+    return '<label style=\'font-family:' + f.css.replace(/'/g, "&#39;") + '\'>' +
+      '<input class="form-check-input" type="radio" name="sds-reader-font" value="' + f.id + '"> ' + f.label + '</label>';
+  }).join("");
+  wrap.innerHTML =
+    '<button type="button" class="sds-reader-toggle" aria-expanded="false" aria-controls="sds-reader-panel" ' +
+      'title="Reading settings: font and text size">' +
+      '<span aria-hidden="true">Aa</span><span class="visually-hidden">Reading settings</span></button>' +
+    '<div class="sds-reader-panel" id="sds-reader-panel" role="dialog" aria-label="Reading settings" hidden>' +
+      '<h2>Reading settings</h2>' +
+      '<fieldset class="sds-reader-font"><legend>Font</legend>' + fontOptions + '</fieldset>' +
+      '<fieldset><legend>Text size</legend><div class="sds-reader-size-row">' +
+        '<button type="button" data-step="-1" aria-label="Smaller text">A&minus;</button>' +
+        '<output aria-live="polite"></output>' +
+        '<button type="button" data-step="1" aria-label="Larger text">A+</button>' +
+      '</div></fieldset>' +
+      '<button type="button" class="sds-reader-reset">Reset to defaults</button>' +
+    '</div>';
+
+  var toggle = wrap.querySelector(".sds-reader-toggle");
+  var panel = wrap.querySelector(".sds-reader-panel");
+  var output = wrap.querySelector("output");
+  var minus = wrap.querySelector('[data-step="-1"]');
+  var plus = wrap.querySelector('[data-step="1"]');
+
+  function refreshFont() {
+    var id = currentFont();
+    wrap.querySelectorAll('input[name="sds-reader-font"]').forEach(function (r) { r.checked = r.value === id; });
+  }
+  function refreshSize() {
+    var n = currentSize();
+    output.textContent = SIZES[String(n)] || "Default";
+    minus.disabled = n <= MIN;
+    plus.disabled = n >= MAX;
+  }
+  function open(show) {
+    panel.hidden = !show;
+    toggle.setAttribute("aria-expanded", show ? "true" : "false");
+    if (show) { FONTS.forEach(loadWebFont); refreshFont(); refreshSize(); var c = panel.querySelector("input:checked"); if (c) c.focus(); }
+  }
+
+  toggle.addEventListener("click", function (e) { e.stopPropagation(); open(panel.hidden); });
+  panel.addEventListener("click", function (e) { e.stopPropagation(); });
+  panel.addEventListener("change", function (e) { if (e.target.name === "sds-reader-font") setFont(e.target.value); });
+  minus.addEventListener("click", function () { setSize(currentSize() - 1); });
+  plus.addEventListener("click", function () { setSize(currentSize() + 1); });
+  wrap.querySelector(".sds-reader-reset").addEventListener("click", function () { setFont(""); setSize(0); refreshFont(); });
+  document.addEventListener("click", function () { if (!panel.hidden) open(false); });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !panel.hidden) { open(false); toggle.focus(); }
+  });
+
+  // Put the button by search: in the top menu on
+  // geog370.org, or by the sidebar search in the textbook-only build.
+  var navSearch = document.querySelector("#quarto-header #quarto-search");
+  if (navSearch) navSearch.parentNode.insertBefore(wrap, navSearch);
+  else {
+    var search = document.querySelector("#quarto-sidebar .sidebar-search, #quarto-sidebar #quarto-search, .sidebar-tools-main");
+    if (search && search.parentNode) search.parentNode.insertBefore(wrap, search.nextSibling);
+    else return;
+  }
+  refreshFont();
+  refreshSize();
+})();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/map-projections.html" class="pagination-link" aria-label="Map Projections">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Map Projections</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../glossary.html" class="pagination-link" aria-label="Glossary">
+        <span class="nav-page-text">Glossary</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

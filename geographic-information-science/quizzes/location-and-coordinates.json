@@ -1,0 +1,458 @@
+{
+  "id": "location-and-coordinates",
+  "title": "Location and Coordinate Systems",
+  "perSession": 10,
+  "minR": 0,
+  "questions": [
+    {
+      "id": "relative-absolute",
+      "type": "choice",
+      "prompt": "Which of these is an absolute location?",
+      "choices": [
+        "35.9132, −79.0558",
+        "Ten paces north of the old oak",
+        "Third floor, past the elevators",
+        "Next to the bus stop on Franklin Street"
+      ],
+      "answer": 0,
+      "explain": "An absolute location is given in a coordinate system that means the same thing to everyone. The others depend on landmarks."
+    },
+    {
+      "id": "gis-needs-absolute",
+      "type": "truefalse",
+      "prompt": "A GIS needs absolute locations so that layers made by different people line up.",
+      "answer": true,
+      "explain": "Coordinates that resolve to the same spot for everyone are what let layers be combined."
+    },
+    {
+      "id": "geodesy-def",
+      "type": "choice",
+      "prompt": "Geodesy is the science of measuring the Earth's:",
+      "choices": [
+        "Size, shape, orientation, and gravity field",
+        "Population and land use",
+        "Rocks and minerals",
+        "Weather and climate"
+      ],
+      "answer": 0,
+      "explain": "Geodesy measures the Earth itself: its size, shape, orientation in space, and gravity field."
+    },
+    {
+      "id": "eratosthenes",
+      "type": "choice",
+      "prompt": "Eratosthenes measured a 7.2° shadow angle at Alexandria. Why did that tell him the Earth's circumference?",
+      "choices": [
+        "7.2° is 1/50 of a circle, so the circumference is 50 times the distance from Alexandria to Syene",
+        "7.2° is the tilt of the Earth's axis",
+        "The sun is 7.2 times farther than the Moon",
+        "Shadows are always 1/50 of a pole's height"
+      ],
+      "answer": 0,
+      "explain": "The sun's rays are parallel, so the shadow angle equals the angle between the cities at the Earth's center: 1/50 of 360°."
+    },
+    {
+      "id": "ellipsoid-shape",
+      "type": "choice",
+      "prompt": "Why is the Earth modeled as an ellipsoid rather than a sphere?",
+      "choices": [
+        "Its spin makes it bulge at the equator",
+        "It is shaped like an egg, pointed at the North Pole",
+        "Mountains make it wider than it is tall",
+        "Ellipsoids are easier to draw"
+      ],
+      "answer": 0,
+      "explain": "The Earth's rotation flattens it at the poles and makes it bulge at the equator."
+    },
+    {
+      "id": "semi-major",
+      "type": "choice",
+      "prompt": "The semi-major axis of an ellipsoid is its:",
+      "choices": [
+        "Equatorial radius",
+        "Polar radius",
+        "Circumference",
+        "Flattening"
+      ],
+      "answer": 0,
+      "explain": "The semi-major axis, a, is the equatorial radius, about 6,378 km for the Earth. The semi-minor axis, b, is the polar radius."
+    },
+    {
+      "id": "flattening-fill",
+      "type": "fill",
+      "prompt": "Flattening is f = (a − ___) / a.",
+      "answers": [
+        "b"
+      ],
+      "explain": "Flattening is the difference between the equatorial radius a and the polar radius b, divided by a.",
+      "ignoreCase": true
+    },
+    {
+      "id": "radius-diff",
+      "type": "fill",
+      "prompt": "The Earth's equatorial radius is about how many kilometers longer than its polar radius?",
+      "answers": [
+        "21",
+        "21.4",
+        "22",
+        "20"
+      ],
+      "explain": "About 21 km: 6,378 km versus 6,357 km.",
+      "numeric": true,
+      "tolerance": 1.5
+    },
+    {
+      "id": "geoid-def",
+      "type": "choice",
+      "prompt": "The geoid is:",
+      "choices": [
+        "The surface of equal gravity that best matches mean sea level",
+        "A smooth mathematical model of the Earth",
+        "The center of the Earth",
+        "A network of survey markers"
+      ],
+      "answer": 0,
+      "explain": "The geoid follows gravity and approximates mean sea level. Elevations are measured from it."
+    },
+    {
+      "id": "gps-orthometric",
+      "type": "truefalse",
+      "prompt": "A GPS receiver measures orthometric height, the elevation printed on maps.",
+      "answer": false,
+      "explain": "GPS measures ellipsoid height, h. Orthometric height, H, is the elevation above the geoid."
+    },
+    {
+      "id": "heights-calc",
+      "type": "fill",
+      "prompt": "A GPS reports an ellipsoid height h of 250 m where the geoid height N is −32 m. What is the orthometric height H, in meters?",
+      "answers": [
+        "282"
+      ],
+      "explain": "H = h − N = 250 − (−32) = 282 m.",
+      "numeric": true
+    },
+    {
+      "id": "heights-eq",
+      "type": "choice",
+      "prompt": "Which equation relates the three heights?",
+      "choices": [
+        "h = H + N",
+        "H = h + N",
+        "N = h + H",
+        "h = H × N"
+      ],
+      "answer": 0,
+      "explain": "Ellipsoid height equals orthometric height plus geoid height."
+    },
+    {
+      "id": "datum-def",
+      "type": "choice",
+      "prompt": "A geodetic datum:",
+      "choices": [
+        "Fixes an ellipsoid's size, shape, and position relative to the Earth",
+        "Converts latitude and longitude to x and y",
+        "Is a unit of measurement for elevation",
+        "Is the same everywhere in the world"
+      ],
+      "answer": 0,
+      "explain": "A datum pins an ellipsoid to the Earth through a network of control points."
+    },
+    {
+      "id": "nad27-origin",
+      "type": "choice",
+      "prompt": "NAD27 was anchored at a survey station in:",
+      "choices": [
+        "Meades Ranch, Kansas",
+        "Greenwich, England",
+        "Washington, DC",
+        "Chapel Hill, North Carolina"
+      ],
+      "answer": 0,
+      "explain": "NAD27 used the Clarke 1866 ellipsoid with an origin at Meades Ranch, Kansas."
+    },
+    {
+      "id": "nad83-ellipsoid",
+      "type": "choice",
+      "prompt": "Which ellipsoid does NAD83 use?",
+      "choices": [
+        "GRS 80",
+        "Clarke 1866",
+        "WGS 72",
+        "A sphere"
+      ],
+      "answer": 0,
+      "explain": "NAD83 uses GRS 80 and is earth-centered."
+    },
+    {
+      "id": "gps-datum",
+      "type": "choice",
+      "prompt": "Coordinates from your phone's GPS are almost always in:",
+      "choices": [
+        "WGS84",
+        "NAD27",
+        "NAD83(2011)",
+        "State Plane"
+      ],
+      "answer": 0,
+      "explain": "GPS uses the WGS84 datum."
+    },
+    {
+      "id": "wgs-nad-differ",
+      "type": "truefalse",
+      "prompt": "In North America today, WGS84 and NAD83 differ by about 1 to 2 meters.",
+      "answer": true,
+      "explain": "NAD83 moves with the North American plate; WGS84 is global, so they have drifted apart."
+    },
+    {
+      "id": "datum-shift",
+      "type": "choice",
+      "prompt": "Two layers that should line up are offset by about 100 m everywhere. What is the most likely cause?",
+      "choices": [
+        "They use different datums, such as NAD27 and NAD83",
+        "One layer has too many vertices",
+        "The attribute tables use different data types",
+        "The layers are drawn in the wrong order"
+      ],
+      "answer": 0,
+      "explain": "A constant offset is the signature of a datum shift. Fix it with a datum transformation."
+    },
+    {
+      "id": "cors",
+      "type": "choice",
+      "prompt": "What keeps NAD83 up to date today?",
+      "choices": [
+        "A network of Continuously Operating Reference Stations (CORS)",
+        "Bronze disks placed in 1927",
+        "The International Date Line",
+        "Weather balloons"
+      ],
+      "answer": 0,
+      "explain": "CORS are permanent GPS stations that run around the clock."
+    },
+    {
+      "id": "prime-meridian",
+      "type": "choice",
+      "prompt": "The prime meridian, chosen in 1884, runs through:",
+      "choices": [
+        "Greenwich, England",
+        "Paris, France",
+        "Washington, DC",
+        "The International Date Line"
+      ],
+      "answer": 0,
+      "explain": "The International Meridian Conference chose Greenwich."
+    },
+    {
+      "id": "latitude-def",
+      "type": "choice",
+      "prompt": "Latitude is measured:",
+      "choices": [
+        "North and south from the equator",
+        "East and west from the prime meridian",
+        "Up from the geoid",
+        "Along the International Date Line"
+      ],
+      "answer": 0,
+      "explain": "Latitude runs from 0° at the equator to 90° at the poles."
+    },
+    {
+      "id": "parallels",
+      "type": "choice",
+      "prompt": "Lines of equal latitude are called:",
+      "choices": [
+        "Parallels",
+        "Meridians",
+        "Great circles",
+        "Graticules"
+      ],
+      "answer": 0,
+      "explain": "Parallels run east and west. Meridians are lines of equal longitude."
+    },
+    {
+      "id": "meridian-meet",
+      "type": "choice",
+      "prompt": "Where do all meridians meet?",
+      "choices": [
+        "At the poles",
+        "At the equator",
+        "At Greenwich",
+        "They never meet"
+      ],
+      "answer": 0,
+      "explain": "Meridians run from pole to pole and converge at both poles."
+    },
+    {
+      "id": "dd-negative",
+      "type": "fill",
+      "prompt": "In decimal degrees, Chapel Hill's longitude is written as −79.0558. The minus sign means ___ (one letter).",
+      "answers": [
+        "W"
+      ],
+      "explain": "Negative longitudes are west of Greenwich; negative latitudes are south of the equator.",
+      "ignoreCase": true
+    },
+    {
+      "id": "dms-to-dd",
+      "type": "fill",
+      "prompt": "Convert 35° 30′ 00″ N to decimal degrees.",
+      "answers": [
+        "35.5"
+      ],
+      "explain": "35 + 30/60 + 0/3600 = 35.5.",
+      "numeric": true,
+      "tolerance": 0.001
+    },
+    {
+      "id": "dms-to-dd2",
+      "type": "fill",
+      "prompt": "Convert 38° 53′ 52″ N to decimal degrees, to four decimal places.",
+      "answers": [
+        "38.8978"
+      ],
+      "explain": "38 + 53/60 + 52/3600 = 38 + 0.8833 + 0.0144 = 38.8978.",
+      "numeric": true,
+      "tolerance": 0.0002
+    },
+    {
+      "id": "dd-to-dms",
+      "type": "choice",
+      "prompt": "What is −104.54° in degrees, minutes, and seconds?",
+      "choices": [
+        "104° 32′ 24″ W",
+        "104° 54′ 00″ W",
+        "104° 32′ 24″ E",
+        "104° 5′ 40″ W"
+      ],
+      "answer": 0,
+      "explain": "0.54 × 60 = 32.4 → 32′; 0.4 × 60 = 24″. Negative longitude is west."
+    },
+    {
+      "id": "order-dd-dms",
+      "type": "order",
+      "prompt": "Put the steps for converting −104.54° to DMS in order.",
+      "answer": [
+        "Take 104 as the degrees",
+        "Multiply 0.54 by 60 to get 32 minutes",
+        "Multiply the leftover 0.4 by 60 to get 24 seconds",
+        "Write W because the longitude is negative"
+      ],
+      "explain": "Degrees first, then minutes from the decimal, then seconds from the leftover, then the hemisphere letter."
+    },
+    {
+      "id": "precision",
+      "type": "choice",
+      "prompt": "About how far is 0.0001° of latitude?",
+      "choices": [
+        "11 m",
+        "1.1 km",
+        "11 cm",
+        "111 km"
+      ],
+      "answer": 0,
+      "explain": "One degree is about 111 km; each decimal place divides that by ten. Four places is about 11 m."
+    },
+    {
+      "id": "phone-decimals",
+      "type": "choice",
+      "prompt": "A phone GPS is accurate to about 3 to 5 m. How many decimal places of a degree are enough?",
+      "choices": [
+        "5",
+        "2",
+        "8",
+        "10"
+      ],
+      "answer": 0,
+      "explain": "Five places is about 1 m. More decimals claim precision the phone doesn't have."
+    },
+    {
+      "id": "degree-length",
+      "type": "choice",
+      "prompt": "Which distance stays about the same, 111 km, everywhere on Earth?",
+      "choices": [
+        "One degree of latitude",
+        "One degree of longitude",
+        "One UTM zone",
+        "One time zone"
+      ],
+      "answer": 0,
+      "explain": "Parallels are evenly spaced. Meridians converge, so a degree of longitude shrinks toward the poles."
+    },
+    {
+      "id": "great-circle-parallel",
+      "type": "choice",
+      "prompt": "Which parallel is a great circle?",
+      "choices": [
+        "The equator",
+        "The Tropic of Cancer",
+        "The Arctic Circle",
+        "45° N"
+      ],
+      "answer": 0,
+      "explain": "Only the equator's plane passes through the Earth's center. All meridians are halves of great circles."
+    },
+    {
+      "id": "great-circle-shortest",
+      "type": "truefalse",
+      "prompt": "The shortest route between two places on the globe follows a great circle.",
+      "answer": true,
+      "explain": "That is why airline routes look curved on flat maps."
+    },
+    {
+      "id": "graticule-def",
+      "type": "choice",
+      "prompt": "The network of parallels and meridians drawn on a map is the:",
+      "choices": [
+        "Graticule",
+        "Datum",
+        "Geoid",
+        "Ellipsoid"
+      ],
+      "answer": 0,
+      "explain": "The graticule shows how a projection bends the globe and helps readers estimate coordinates."
+    },
+    {
+      "id": "plate-carree",
+      "type": "choice",
+      "prompt": "Plotting longitude as x and latitude as y on an even grid gives:",
+      "choices": [
+        "The Plate Carrée",
+        "The Mercator",
+        "UTM",
+        "State Plane"
+      ],
+      "answer": 0,
+      "explain": "The Plate Carrée, or equirectangular projection, stretches the map east to west toward the poles."
+    },
+    {
+      "id": "datum-vs-projection",
+      "type": "truefalse",
+      "prompt": "Changing a layer's datum can move its points on the ground, while changing its projection only changes how they are drawn on a flat map.",
+      "answer": true,
+      "explain": "A datum defines where coordinates are on the Earth; a projection flattens them."
+    },
+    {
+      "id": "gcs-def",
+      "type": "choice",
+      "prompt": "A coordinate system that gives positions in latitude and longitude on a datum is a:",
+      "choices": [
+        "Geographic coordinate system",
+        "Projected coordinate system",
+        "Map projection",
+        "Graticule"
+      ],
+      "answer": 0,
+      "explain": "Geographic coordinate systems use degrees, such as WGS84 (EPSG:4326) and NAD83 (EPSG:4269)."
+    },
+    {
+      "id": "order-stack",
+      "type": "order",
+      "prompt": "Put the layers of location in order, from the bottom up.",
+      "answer": [
+        "Earth",
+        "Ellipsoid",
+        "Datum",
+        "Map projection"
+      ],
+      "explain": "Each layer is built on the one below."
+    }
+  ]
+}

@@ -1,0 +1,1953 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>3&nbsp; Location and Coordinate Systems – Geographic Information Science</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/map-projections.html" rel="next">
+<link href="../chapters/what-is-geographic-data.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ebb58cfc2c0cc903b00b246007c1be77.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-58aeb932f9769ef5b136914697361c15.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-contrib/glossary-1.0.0/glossary.js"></script>
+<link href="../site_libs/quarto-contrib/glossary-1.0.0/glossary.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<!--
+  Reading settings, part 1 of 2: applies the reader's saved font and text size
+  before the page draws, so it doesn't flash in the default font first.
+  The menu itself is in assets/reader-settings.html; styles are in
+  assets/reader-settings.css.
+-->
+<script>
+  (function () {
+    try {
+      var font = localStorage.getItem("sds-reader-font");
+      var size = localStorage.getItem("sds-reader-size");
+      if (font) document.documentElement.setAttribute("data-reader-font", font);
+      // Lexend and Cardo come from Google Fonts, loaded only for readers who pick them.
+      var webFonts = {
+        lexend: "https://fonts.googleapis.com/css2?family=Lexend:wght@300..700&display=swap",
+        cardo: "https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&display=swap"
+      };
+      if (webFonts[font]) {
+        var link = document.createElement("link");
+        link.rel = "stylesheet"; link.href = webFonts[font]; link.id = "sds-reader-webfont-" + font;
+        document.head.appendChild(link);
+      }
+      if (size) document.documentElement.setAttribute("data-reader-size", size);
+    } catch (e) { /* storage blocked: keep the defaults */ }
+  })();
+</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../include/webex.css">
+<link rel="stylesheet" href="../assets/sidebar.css">
+<link rel="stylesheet" href="../assets/grade-table.css">
+<link rel="stylesheet" href="../assets/reader-settings.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../units/unit-1.html">Unit 1: Data Models and Projections</a></li><li class="breadcrumb-item"><a href="../chapters/location-and-coordinates.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Location and Coordinate Systems</span></a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Site">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Geographic Information Science</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../units/unit-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-1-label">Unit 1: Data Models and Projections</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section: Unit 1: Data Models and Projections">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/what-is-gis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">What Is GIS?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/what-is-geographic-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">What Is Geographic Data?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/location-and-coordinates.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Location and Coordinate Systems</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/map-projections.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Map Projections</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/attribute-queries.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Attribute Data and Queries</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-2-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Glossary</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../about.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About the author</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-where" id="toc-sec-where" class="nav-link active" data-scroll-target="#sec-where"><span class="header-section-number">3.1</span> Where are we?</a></li>
+  <li><a href="#sec-shape" id="toc-sec-shape" class="nav-link" data-scroll-target="#sec-shape"><span class="header-section-number">3.2</span> Modeling the shape of the Earth</a>
+  <ul class="collapse">
+  <li><a href="#geodesy" id="toc-geodesy" class="nav-link" data-scroll-target="#geodesy"><span class="header-section-number">3.2.1</span> Geodesy</a></li>
+  <li><a href="#sphere-or-ellipsoid" id="toc-sphere-or-ellipsoid" class="nav-link" data-scroll-target="#sphere-or-ellipsoid"><span class="header-section-number">3.2.2</span> Sphere or ellipsoid?</a></li>
+  <li><a href="#the-geoid" id="toc-the-geoid" class="nav-link" data-scroll-target="#the-geoid"><span class="header-section-number">3.2.3</span> The geoid</a></li>
+  <li><a href="#three-heights" id="toc-three-heights" class="nav-link" data-scroll-target="#three-heights"><span class="header-section-number">3.2.4</span> Three heights</a></li>
+  </ul></li>
+  <li><a href="#sec-datums" id="toc-sec-datums" class="nav-link" data-scroll-target="#sec-datums"><span class="header-section-number">3.3</span> Geodetic datums</a>
+  <ul class="collapse">
+  <li><a href="#what-is-a-datum" id="toc-what-is-a-datum" class="nav-link" data-scroll-target="#what-is-a-datum"><span class="header-section-number">3.3.1</span> What is a datum?</a></li>
+  <li><a href="#nad27" id="toc-nad27" class="nav-link" data-scroll-target="#nad27"><span class="header-section-number">3.3.2</span> NAD27</a></li>
+  <li><a href="#nad83" id="toc-nad83" class="nav-link" data-scroll-target="#nad83"><span class="header-section-number">3.3.3</span> NAD83</a></li>
+  <li><a href="#wgs84" id="toc-wgs84" class="nav-link" data-scroll-target="#wgs84"><span class="header-section-number">3.3.4</span> WGS84</a></li>
+  <li><a href="#datum-shift" id="toc-datum-shift" class="nav-link" data-scroll-target="#datum-shift"><span class="header-section-number">3.3.5</span> Datum shift</a></li>
+  </ul></li>
+  <li><a href="#sec-geographic" id="toc-sec-geographic" class="nav-link" data-scroll-target="#sec-geographic"><span class="header-section-number">3.4</span> Geographic coordinates</a>
+  <ul class="collapse">
+  <li><a href="#building-a-coordinate-system" id="toc-building-a-coordinate-system" class="nav-link" data-scroll-target="#building-a-coordinate-system"><span class="header-section-number">3.4.1</span> Building a coordinate system</a></li>
+  <li><a href="#parallels-and-meridians" id="toc-parallels-and-meridians" class="nav-link" data-scroll-target="#parallels-and-meridians"><span class="header-section-number">3.4.2</span> Parallels and meridians</a></li>
+  <li><a href="#how-far-is-a-degree" id="toc-how-far-is-a-degree" class="nav-link" data-scroll-target="#how-far-is-a-degree"><span class="header-section-number">3.4.3</span> How far is a degree?</a></li>
+  <li><a href="#writing-degrees" id="toc-writing-degrees" class="nav-link" data-scroll-target="#writing-degrees"><span class="header-section-number">3.4.4</span> Writing degrees</a></li>
+  <li><a href="#converting-between-them" id="toc-converting-between-them" class="nav-link" data-scroll-target="#converting-between-them"><span class="header-section-number">3.4.5</span> Converting between them</a></li>
+  <li><a href="#precision-and-location" id="toc-precision-and-location" class="nav-link" data-scroll-target="#precision-and-location"><span class="header-section-number">3.4.6</span> Precision and location</a></li>
+  </ul></li>
+  <li><a href="#sec-lines" id="toc-sec-lines" class="nav-link" data-scroll-target="#sec-lines"><span class="header-section-number">3.5</span> Lines on the globe</a>
+  <ul class="collapse">
+  <li><a href="#great-circles" id="toc-great-circles" class="nav-link" data-scroll-target="#great-circles"><span class="header-section-number">3.5.1</span> Great circles</a></li>
+  <li><a href="#the-graticule" id="toc-the-graticule" class="nav-link" data-scroll-target="#the-graticule"><span class="header-section-number">3.5.2</span> The graticule</a></li>
+  </ul></li>
+  <li><a href="#sec-plate-carree" id="toc-sec-plate-carree" class="nav-link" data-scroll-target="#sec-plate-carree"><span class="header-section-number">3.6</span> From globe to flat map</a></li>
+  <li><a href="#sec-stack" id="toc-sec-stack" class="nav-link" data-scroll-target="#sec-stack"><span class="header-section-number">3.7</span> Putting it together</a></li>
+  <li><a href="#check-your-understanding" id="toc-check-your-understanding" class="nav-link" data-scroll-target="#check-your-understanding"><span class="header-section-number">3.8</span> Check your understanding</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">3.9</span> Summary</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">3.10</span> Exercises</a></li>
+  <li><a href="#further-reading-and-online-resources" id="toc-further-reading-and-online-resources" class="nav-link" data-scroll-target="#further-reading-and-online-resources"><span class="header-section-number">3.11</span> Further reading and online resources</a>
+  <ul class="collapse">
+  <li><a href="#books-and-open-textbooks" id="toc-books-and-open-textbooks" class="nav-link" data-scroll-target="#books-and-open-textbooks"><span class="header-section-number">3.11.1</span> Books and open textbooks</a></li>
+  <li><a href="#geodesy-the-geoid-and-heights" id="toc-geodesy-the-geoid-and-heights" class="nav-link" data-scroll-target="#geodesy-the-geoid-and-heights"><span class="header-section-number">3.11.2</span> Geodesy, the geoid, and heights</a></li>
+  <li><a href="#datums" id="toc-datums" class="nav-link" data-scroll-target="#datums"><span class="header-section-number">3.11.3</span> Datums</a></li>
+  <li><a href="#latitude-longitude-and-great-circles" id="toc-latitude-longitude-and-great-circles" class="nav-link" data-scroll-target="#latitude-longitude-and-great-circles"><span class="header-section-number">3.11.4</span> Latitude, longitude, and great circles</a></li>
+  <li><a href="#software-and-tutorials" id="toc-software-and-tutorials" class="nav-link" data-scroll-target="#software-and-tutorials"><span class="header-section-number">3.11.5</span> Software and tutorials</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../units/unit-1.html">Unit 1: Data Models and Projections</a></li><li class="breadcrumb-item"><a href="../chapters/location-and-coordinates.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Location and Coordinate Systems</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Location and Coordinate Systems</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Learning objectives
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>By the end of this chapter you should be able to:</p>
+<ol type="1">
+<li>Tell <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-relative-location" data-term="relative location">relative location</span> from <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-absolute-location" data-term="absolute location">absolute location</span>, and explain why a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> needs absolute <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">coordinates</span>.</li>
+<li>Describe how <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geodesy" data-term="geodesy">geodesy</span> models the Earth’s shape with a sphere, an <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-ellipsoid" data-term="ellipsoid">ellipsoid</span>, and the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geoid" data-term="geoid">geoid</span>.</li>
+<li>Explain the difference between <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-ellipsoid-height" data-term="ellipsoid height">ellipsoid height</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-orthometric-height" data-term="orthometric height">orthometric height</span>, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geoid-height" data-term="geoid height">geoid height</span>, and use <em>h</em> = <em>H</em> + <em>N</em>.</li>
+<li>Explain what a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geodetic-datum" data-term="geodetic datum">geodetic datum</span> is, compare <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-nad27" data-term="NAD27">NAD27</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-nad83" data-term="NAD83">NAD83</span>, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-wgs84" data-term="WGS84">WGS84</span>, and describe a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-datum-shift" data-term="datum shift">datum shift</span>.</li>
+<li>Convert coordinates between <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-decimal-degrees-dd" data-term="decimal degrees (DD)">decimal degrees</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-degrees-minutes-and-seconds-dms" data-term="degrees, minutes, and seconds (DMS)">degrees, minutes, and seconds</span>, and choose a sensible number of decimal places.</li>
+<li>Describe how <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-latitude" data-term="latitude">latitude</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-longitude" data-term="longitude">longitude</span> are built from the poles, the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-equator" data-term="equator">equator</span>, and a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-prime-meridian" data-term="prime meridian">prime meridian</span>, and define <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-parallel" data-term="parallel">parallels</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-meridian" data-term="meridian">meridians</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-great-circle" data-term="great circle">great circles</span>, and the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-graticule" data-term="graticule">graticule</span>.</li>
+<li>Explain why plotting latitude and longitude as <em>x</em> and <em>y</em> (the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-plate-carr-e" data-term="Plate Carrée">Plate Carrée</span>) distorts the map.</li>
+</ol>
+</div>
+</div>
+<p>Chapter 2 asked how a computer can store a tree, a road, or a mountain. The answer was coordinates: a point is an <em>x, y</em> pair, and a line or <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-polygon" data-term="polygon">polygon</span> is a list of them. This chapter asks the next question. <em>What are those numbers measured from?</em> A coordinate pair like 35.91, −79.05 means nothing until you know what the Earth’s shape is assumed to be, where that shape sits, and how the angles are counted. This is the first central problem of GIS: how do we represent a round, lumpy, spinning world in a computer?</p>
+<p>Every GIS <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layer</span> starts with location, and every location depends on three choices: a <strong>model of the Earth’s shape</strong>, a <strong>datum</strong> that pins that model to the ground, and a <strong>coordinate system</strong> for writing positions. This chapter builds those three layers from the ground up. Chapter 4 adds the fourth, the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-map-projection" data-term="map projection">map projection</span> that flattens it all onto a screen.</p>
+<section id="sec-where" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="sec-where"><span class="header-section-number">3.1</span> Where are we?</h2>
+<p>People describe where things are all the time, and most of the time they do it relative to something else. “You are here” on a mall map. “Ten paces north of the old oak” on a treasure map. A pile of stones, a cairn, that marks a trail above the treeline. “Third floor, past the elevators” on a building directory. Each is a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-relative-location" data-term="relative location">relative location</span></strong>: it describes a place by its relation to a landmark. Relative locations work well, but only if you already know the landmark. Hand the treasure map to someone in another county, cut down the oak, and the directions are useless.</p>
+<p>A street address is a step better. 1600 Pennsylvania Avenue NW, Washington, DC, finds the White House for anyone who knows how Washington numbers its streets. But an address depends on a local naming system, and it doesn’t work in the ocean, in a national forest, or in a new subdivision whose streets haven’t been named yet.</p>
+<p>An <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-absolute-location" data-term="absolute location">absolute location</span></strong> names a place in a system that means the same thing to everyone, everywhere. The White House is at 38° 53′ 52″ N, 77° 02′ 11″ W. Anyone with a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-gps" data-term="GPS">GPS</span> receiver, in any country, can go to that spot without knowing a single landmark in Washington. That is what a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> needs: <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">coordinates</span> that resolve to the same spot no matter who reads them, so that <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layers</span> made by different people at different times line up.</p>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Think about it
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Write down three ways to tell a friend where your dorm or apartment is. Which are relative, which are absolute, and which would still work for a visitor from another country?</p>
+</div>
+</div>
+</section>
+<section id="sec-shape" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="sec-shape"><span class="header-section-number">3.2</span> Modeling the shape of the Earth</h2>
+<section id="geodesy" class="level3" data-number="3.2.1">
+<h3 data-number="3.2.1" class="anchored" data-anchor-id="geodesy"><span class="header-section-number">3.2.1</span> Geodesy</h3>
+<p>Before we can give anything a coordinate, we need a mathematical model of the Earth to measure against. <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geodesy" data-term="geodesy">Geodesy</span></strong> is the science of measuring the Earth’s size, shape, orientation in space, and gravity field. It is one of the oldest sciences, and it began with a clever <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-bit" data-term="bit">bit</span> of geometry.</p>
+<p>Around 240 BCE, Eratosthenes, the head of the great library at Alexandria, in Egypt, heard that at noon on the summer solstice the sun shone straight down a well at Syene (today’s Aswan), far to the south, so that it cast no shadow. At the same moment in Alexandria, a vertical pole did cast a shadow, at an angle of about 7.2°. Because the sun is so far away, its rays arrive at the Earth <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-parallel" data-term="parallel">parallel</span> to each other. So the shadow angle at Alexandria is the same as the angle between the two cities measured at the Earth’s center (<a href="#fig-eratosthenes" class="quarto-xref">Figure&nbsp;<span>3.1</span></a>). And 7.2° is one-fiftieth of a full circle (360° ÷ 7.2° = 50). The distance from Alexandria to Syene, about 5,000 <em>stadia</em>, must therefore be one-fiftieth of the Earth’s circumference, which makes the circumference about 250,000 stadia.</p>
+<div id="fig-eratosthenes" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A diagram of the Earth as a circle, with parallel orange arrows of sunlight coming down from above. At the top of the circle, at Syene, a blue well catches the sunlight straight down. A little to the left, at Alexandria, a navy pole stands straight out from the surface and is tilted relative to the sun's rays. A small red arc between the pole and the ray is labeled 7.2 degrees. Two lines run from the two cities to the Earth's center, and a red arc between them is also labeled 7.2 degrees. A note says the angle is drawn larger than 7.2 degrees so you can see it.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-eratosthenes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/location-and-coordinates/eratosthenes.png" class="img-fluid figure-img" alt="A diagram of the Earth as a circle, with parallel orange arrows of sunlight coming down from above. At the top of the circle, at Syene, a blue well catches the sunlight straight down. A little to the left, at Alexandria, a navy pole stands straight out from the surface and is tilted relative to the sun's rays. A small red arc between the pole and the ray is labeled 7.2 degrees. Two lines run from the two cities to the Earth's center, and a red arc between them is also labeled 7.2 degrees. A note says the angle is drawn larger than 7.2 degrees so you can see it.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-eratosthenes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.1: How Eratosthenes measured the Earth. The sun’s rays are parallel, so the angle of a pole’s shadow at Alexandria equals the angle between Alexandria and Syene at the Earth’s center.
+</figcaption>
+</figure>
+</div>
+<p>Nobody knows exactly how long Eratosthenes’s stadion was, so we can’t say exactly how close he came. Depending on which length you use, his answer is within roughly 2 to 15 percent of today’s value of about 40,075 km around the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-equator" data-term="equator">equator</span>. Not bad for a stick, a well, and some geometry, more than 2,200 years ago.</p>
+<p>Modern geodesy uses satellites, lasers, radio telescopes, and the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-gps" data-term="GPS">Global Positioning System</span> (GPS) to measure positions to the centimeter, and to watch the continents drift by a few centimeters a year. That precision is what makes modern <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geodetic-datum" data-term="geodetic datum">datums</span> possible.</p>
+</section>
+<section id="sphere-or-ellipsoid" class="level3" data-number="3.2.2">
+<h3 data-number="3.2.2" class="anchored" data-anchor-id="sphere-or-ellipsoid"><span class="header-section-number">3.2.2</span> Sphere or ellipsoid?</h3>
+<p>The simplest model of the Earth is a <strong>sphere</strong>, with one radius, about 6,371 km, everywhere. For a world map on a page, a sphere is good enough.</p>
+<p>But the Earth spins, and spinning makes it bulge at the equator and flatten at the poles. Its shape is an <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-ellipsoid" data-term="ellipsoid">oblate spheroid</span></strong>, or <strong>ellipsoid</strong>: an ellipse rotated about its short, polar axis (<a href="#fig-ellipsoid" class="quarto-xref">Figure&nbsp;<span>3.2</span></a>). Two numbers define an ellipsoid:</p>
+<ul>
+<li>The <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-semi-major-axis" data-term="semi-major axis">semi-major axis</span></strong>, <em>a</em>, is the equatorial radius: about 6,378 km.</li>
+<li>The <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-semi-minor-axis" data-term="semi-minor axis">semi-minor axis</span></strong>, <em>b</em>, is the polar radius: about 6,357 km.</li>
+</ul>
+<p>How squashed the ellipsoid is, its <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-flattening" data-term="flattening">flattening</span></strong>, is</p>
+<p><span class="math display">\[f = \frac{a - b}{a}\]</span></p>
+<p>For the Earth, <em>f</em> is about 1/298. The equatorial radius is only about 21 km longer than the polar radius, a third of one percent, which is why the Earth looks perfectly round from space. But 21 km is a big error when you want positions to the meter, so detailed mapping always uses an ellipsoid.</p>
+<div id="fig-ellipsoid" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Two panels. Left, titled Sphere: one radius everywhere, a pale blue circle with a red arrow from the center to the edge labeled r. Right, titled Ellipsoid: wider at the equator, a pale blue ellipse that is wider than it is tall, with a dotted circle behind it for comparison. A red arrow from the center to the right edge is labeled a, at the equator, and a green arrow from the center to the top is labeled b, at the North Pole. Below it reads flattening f equals a minus b over a. A note says the flattening is exaggerated, and on the real Earth a is only about 21 kilometers longer than b.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ellipsoid-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/location-and-coordinates/sphere-ellipsoid.png" class="img-fluid figure-img" alt="Two panels. Left, titled Sphere: one radius everywhere, a pale blue circle with a red arrow from the center to the edge labeled r. Right, titled Ellipsoid: wider at the equator, a pale blue ellipse that is wider than it is tall, with a dotted circle behind it for comparison. A red arrow from the center to the right edge is labeled a, at the equator, and a green arrow from the center to the top is labeled b, at the North Pole. Below it reads flattening f equals a minus b over a. A note says the flattening is exaggerated, and on the real Earth a is only about 21 kilometers longer than b.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ellipsoid-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.2: A sphere (left) has one radius. An ellipsoid (right) has a longer equatorial radius, a, and a shorter polar radius, b. The flattening is greatly exaggerated here.
+</figcaption>
+</figure>
+</div>
+<p>Over the years, surveyors have fitted many ellipsoids to the Earth, each from the best measurements of its day, and some fitted to one region rather than the whole planet. Three you will meet:</p>
+<div id="tbl-ellipsoids" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ellipsoids-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3.1: Three common ellipsoids. GRS 80 and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-wgs84" data-term="WGS84">WGS 84</span> differ by only a fraction of a millimeter in <em>b</em>.
+</figcaption>
+<div aria-describedby="tbl-ellipsoids-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Ellipsoid</th>
+<th style="text-align: left;">Semi-major axis <em>a</em></th>
+<th style="text-align: left;">Semi-minor axis <em>b</em></th>
+<th style="text-align: left;">Used by</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Clarke 1866</td>
+<td style="text-align: left;">6,378,206.4 m</td>
+<td style="text-align: left;">6,356,583.8 m</td>
+<td style="text-align: left;"><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-nad27" data-term="NAD27">NAD27</span>, the older North American datum</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GRS 80</td>
+<td style="text-align: left;">6,378,137.0 m</td>
+<td style="text-align: left;">6,356,752.3 m</td>
+<td style="text-align: left;"><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-nad83" data-term="NAD83">NAD83</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">WGS 84</td>
+<td style="text-align: left;">6,378,137.0 m</td>
+<td style="text-align: left;">6,356,752.3 m</td>
+<td style="text-align: left;">WGS84, the datum GPS uses</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<div class="did-you-know callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Did you know..?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Mount Everest is the highest mountain above sea level, at 8,849 m. But because the Earth bulges at the equator, the summit of Chimborazo, a volcano in Ecuador just one degree south of the equator, is the point on Earth’s surface farthest from the Earth’s center: about 6,384 km, roughly 2 km farther out than Everest’s summit, even though Chimborazo is only about 6,263 m above sea level. Stand on top of Chimborazo, and you are the person on land closest to the stars.</p>
+</div>
+</div>
+</section>
+<section id="the-geoid" class="level3" data-number="3.2.3">
+<h3 data-number="3.2.3" class="anchored" data-anchor-id="the-geoid"><span class="header-section-number">3.2.3</span> The geoid</h3>
+<p>An ellipsoid is smooth and mathematical. The real Earth isn’t. Mountains, ocean trenches, and dense rock deep inside the planet make gravity a little stronger in some places and weaker in others, and water flows “downhill” toward the stronger pull.</p>
+<p>Imagine the oceans perfectly still, with no tides, winds, or currents, and extended in canals under the continents. Their surface would settle along a surface of equal gravity. That surface is the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geoid" data-term="geoid">geoid</span></strong>, and it is the best match to global <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-mean-sea-level" data-term="mean sea level">mean sea level</span></strong>. Because mass inside the Earth is unevenly spread, the geoid is lumpy: relative to the WGS 84 ellipsoid, it sits as much as about 106 m below, in the Indian Ocean south of India, and about 85 m above, near New Guinea.</p>
+<p>The geoid matters because it is what <em>elevation</em> is measured from. When a topographic map says a summit is 2,037 m above sea level, that height is measured from the geoid. Geodesists publish geoid models that give the geoid’s height everywhere: <strong>EGM2008</strong> for the whole world, and <strong>GEOID18</strong> for the United States.</p>
+</section>
+<section id="three-heights" class="level3" data-number="3.2.4">
+<h3 data-number="3.2.4" class="anchored" data-anchor-id="three-heights"><span class="header-section-number">3.2.4</span> Three heights</h3>
+<p>So every point on the ground has three related heights (<a href="#fig-heights" class="quarto-xref">Figure&nbsp;<span>3.3</span></a>):</p>
+<ul>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-ellipsoid-height" data-term="ellipsoid height">Ellipsoid height</span></strong>, <em>h</em>: the height above the ellipsoid. This is what a GPS receiver measures.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-orthometric-height" data-term="orthometric height">Orthometric height</span></strong>, <em>H</em>: the height above the geoid. This is the elevation printed on maps, the “height above sea level.”</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geoid-height" data-term="geoid height">Geoid height</span></strong>, <em>N</em>: the distance between the two surfaces at that spot, from the ellipsoid up to the geoid.</li>
+</ul>
+<p>They are related by a simple equation:</p>
+<p><span class="math display">\[h = H + N\]</span></p>
+<div id="fig-heights" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A cross-section of a hill. The tan ground rises to a peak in the middle, with pale blue water on each side. A dashed blue wavy line, the geoid, about mean sea level, runs through the hill near its base. A solid purple straight line below it is the ellipsoid, a smooth model. A red dot marks the top of the hill. A purple arrow labeled h runs from the ellipsoid up to the dot. A blue arrow labeled H runs from the geoid up to the dot. A short green arrow labeled N runs from the ellipsoid up to the geoid. A key in the corner reads: h equals ellipsoid height, what GPS reports; H equals orthometric height, elevation above the geoid; N equals geoid height, gap between the two; h equals H plus N.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-heights-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/location-and-coordinates/three-heights.png" class="img-fluid figure-img" alt="A cross-section of a hill. The tan ground rises to a peak in the middle, with pale blue water on each side. A dashed blue wavy line, the geoid, about mean sea level, runs through the hill near its base. A solid purple straight line below it is the ellipsoid, a smooth model. A red dot marks the top of the hill. A purple arrow labeled h runs from the ellipsoid up to the dot. A blue arrow labeled H runs from the geoid up to the dot. A short green arrow labeled N runs from the ellipsoid up to the geoid. A key in the corner reads: h equals ellipsoid height, what GPS reports; H equals orthometric height, elevation above the geoid; N equals geoid height, gap between the two; h equals H plus N.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-heights-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.3: Three heights at one point. GPS measures ellipsoid height, h. Maps show orthometric height, H, above the geoid. The geoid height, N, is the gap between the two surfaces.
+</figcaption>
+</figure>
+</div>
+<p>In the lower 48 United States the geoid lies <em>below</em> the ellipsoid, so <em>N</em> is negative, roughly −30 m. In North Carolina it is roughly −30 to −35 m. Rearranging the equation, <em>H</em> = <em>h</em> − <em>N</em>, so elevation is about 30 m <em>higher</em> than the raw height a GPS receiver reports. That is why surveyors and GPS apps always apply a geoid model before they report an elevation.</p>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Think about it
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A GPS receiver on a hilltop in Chapel Hill reports an ellipsoid height of 120 m. The geoid height there is about −33 m. What is the hilltop’s elevation above sea level?</p>
+<details>
+<summary>
+Show the answer
+</summary>
+<em>H</em> = <em>h</em> − <em>N</em> = 120 − (−33) = <strong>153 m</strong>. Subtracting a negative number adds it, so the elevation is higher than the GPS height.
+</details>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-datums" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="sec-datums"><span class="header-section-number">3.3</span> Geodetic datums</h2>
+<section id="what-is-a-datum" class="level3" data-number="3.3.1">
+<h3 data-number="3.3.1" class="anchored" data-anchor-id="what-is-a-datum"><span class="header-section-number">3.3.1</span> What is a datum?</h3>
+<p>An <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-ellipsoid" data-term="ellipsoid">ellipsoid</span> on its own is just a shape floating in space. A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geodetic-datum" data-term="geodetic datum">geodetic datum</span></strong> fixes an ellipsoid’s size, shape, and position relative to the real Earth: where its center is, and how it is oriented. Only then do <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-latitude" data-term="latitude">latitude</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-longitude" data-term="longitude">longitude</span> point to real places on the ground. A datum combines:</p>
+<ul>
+<li>an <strong>ellipsoid</strong>,</li>
+<li>an <strong>origin and orientation</strong>, which say where the ellipsoid sits, and</li>
+<li>a <strong>network of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-control-point" data-term="control point">control points</span></strong> on the ground whose <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">coordinates</span> have been measured precisely.</li>
+</ul>
+<p>Those <strong>control points</strong> are how a datum is <em>realized</em>, made real on the ground. For two centuries surveyors measured them with instruments like the theodolite, a telescope that measures horizontal and vertical angles very precisely, and by <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-triangulation" data-term="triangulation">triangulation</span></strong>: measuring the angles of a chain of triangles between hilltop stations, and from a few carefully measured baselines working out the distance to every other station, across a whole continent. At each station they set a bronze disk, a <strong>benchmark</strong> or survey marker, in rock or concrete, often with a witness post nearby warning people not to disturb it. You can find these disks on mountaintops, bridges, and courthouse steps all over the country, and the National <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geodesy" data-term="geodesy">Geodetic</span> Survey publishes the coordinates of each one.</p>
+<p>Today the control network is mostly satellites and permanent <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-gps" data-term="GPS">GPS</span> stations, but the idea is the same. Every coordinate you collect is only meaningful relative to a particular datum.</p>
+</section>
+<section id="nad27" class="level3" data-number="3.3.2">
+<h3 data-number="3.3.2" class="anchored" data-anchor-id="nad27"><span class="header-section-number">3.3.2</span> NAD27</h3>
+<p>The <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-nad27" data-term="NAD27">North American Datum of 1927</span> (NAD27)</strong> used the Clarke 1866 ellipsoid, which was fitted to North America rather than to the whole Earth. Its origin was a single survey station on Meades Ranch, in Kansas, near the middle of the contiguous United States. Its coordinates came from a huge adjustment of the triangulation networks of the day. Many older maps, including the classic USGS paper topographic quadrangles, use NAD27.</p>
+</section>
+<section id="nad83" class="level3" data-number="3.3.3">
+<h3 data-number="3.3.3" class="anchored" data-anchor-id="nad83"><span class="header-section-number">3.3.3</span> NAD83</h3>
+<p>The <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-nad83" data-term="NAD83">North American Datum of 1983</span> (NAD83)</strong> uses the GRS 80 ellipsoid and is <em>earth-centered</em>: the center of its ellipsoid is at the Earth’s center of mass. That made it compatible with satellite positioning. NAD83 is fixed to the North American tectonic plate, so the coordinates of a benchmark stay the same as the continent drifts.</p>
+<p>NAD83 has been readjusted several times as measurements improved. Each version is a <em>realization</em>, written with its year in parentheses: NAD83(HARN), NAD83(2007), and <strong>NAD83(2011)</strong>, the current one. A nationwide network of <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-continuously-operating-reference-stations-cors" data-term="Continuously Operating Reference Stations (CORS)">Continuously Operating Reference Stations</span> (CORS)</strong>, GPS receivers bolted to buildings and concrete piers that run around the clock, keeps it accurate.</p>
+<p>NAD83 is the datum of most U.S. federal and state <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> data, including the U.S. Census Bureau’s TIGER/Line files and North Carolina’s NC OneMap.</p>
+</section>
+<section id="wgs84" class="level3" data-number="3.3.4">
+<h3 data-number="3.3.4" class="anchored" data-anchor-id="wgs84"><span class="header-section-number">3.3.4</span> WGS84</h3>
+<p>The <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-wgs84" data-term="WGS84">World Geodetic System 1984</span> (WGS84)</strong> is a global, earth-centered datum maintained by the U.S. Department of Defense, and it is the datum GPS uses. Coordinates from your phone, from Google Maps, and from most websites are almost always WGS84.</p>
+<p>In 1984, WGS84 and NAD83 agreed to within about a meter. But NAD83 moves with the North American plate, while WGS84 is tied to the whole Earth, so as the plate has drifted (and been realized again with better measurements) the two have separated. In North America today they differ by about 1 to 2 meters. For a statewide map, that is too small to see. For a survey of a property line, it matters a lot.</p>
+</section>
+<section id="datum-shift" class="level3" data-number="3.3.5">
+<h3 data-number="3.3.5" class="anchored" data-anchor-id="datum-shift"><span class="header-section-number">3.3.5</span> Datum shift</h3>
+<p>Here is the key point: <strong>the same latitude and longitude point to different places in different datums</strong> (<a href="#fig-datum-shift" class="quarto-xref">Figure&nbsp;<span>3.4</span></a>). The difference between where a coordinate lands in one datum and where it lands in another is a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-datum-shift" data-term="datum shift">datum shift</span></strong>.</p>
+<div id="fig-datum-shift" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A diagram of the real Earth as a slightly lumpy tan shape. A solid green ellipse, Datum 1, earth-centered like NAD83 or WGS84, fits around it centered on the Earth's center. A dashed red ellipse, Datum 2, fitted to one region like NAD27, is slightly smaller and shifted up and to the right. From each ellipse's center, marked with a plus sign, a line runs out at the same angle to a dot on that ellipse. The two dots are close together but not in the same place. A label reads: same latitude and longitude, two different places on the ground.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-datum-shift-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/location-and-coordinates/datum-shift.png" class="img-fluid figure-img" alt="A diagram of the real Earth as a slightly lumpy tan shape. A solid green ellipse, Datum 1, earth-centered like NAD83 or WGS84, fits around it centered on the Earth's center. A dashed red ellipse, Datum 2, fitted to one region like NAD27, is slightly smaller and shifted up and to the right. From each ellipse's center, marked with a plus sign, a line runs out at the same angle to a dot on that ellipse. The two dots are close together but not in the same place. A label reads: same latitude and longitude, two different places on the ground.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-datum-shift-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.4: A datum shift. Two datums use different ellipsoids in different positions, so the same latitude and longitude land at two different places on the real Earth.
+</figcaption>
+</figure>
+</div>
+<p>Between NAD27 and NAD83, the shift is anywhere from a few meters to over 100 meters across the United States. In one well-known USGS example from the Hayward, California, quadrangle, a single coordinate pair plotted in NAD27 and in NAD83 lands nearly 100 meters apart. That is a city block, plenty to put a well on the wrong side of a property line or a fire hydrant in the middle of a street.</p>
+<p>This is one of the most common errors in GIS. Two <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layers</span> that should line up, such as roads and parcels, are offset by a constant amount, because one is in NAD27 and the other in NAD83. The fix is a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-datum-transformation" data-term="datum transformation">datum transformation</span></strong>: a set of equations, or a grid of measured shifts, that converts coordinates from one datum to another. <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span> apply datum transformations when you project or import data, and they will sometimes ask you to choose one. Before you combine layers, <strong>check each layer’s datum</strong>.</p>
+<div class="did-you-know callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Did you know..?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>NAD83 is about to retire. The National Geodetic Survey is replacing it with a new set of datums, the modernized National Spatial Reference System. <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-natrf2022" data-term="NATRF2022">NATRF2022</span></strong> (the North American Terrestrial Reference Frame of 2022) will replace NAD83 for latitude and longitude, and <strong>NAPGD2022</strong> will replace NAVD 88 for elevations. Because NAD83’s center turned out to be about 2 meters off the Earth’s true center of mass, coordinates in the new datum will move by about 1 to 2 meters across the country, and elevations will change by up to a meter or more. Beta tools were released in 2026 and adoption is expected around 2027, so this is a datum change you will live through in your own career.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-geographic" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="sec-geographic"><span class="header-section-number">3.4</span> Geographic coordinates</h2>
+<section id="building-a-coordinate-system" class="level3" data-number="3.4.1">
+<h3 data-number="3.4.1" class="anchored" data-anchor-id="building-a-coordinate-system"><span class="header-section-number">3.4.1</span> Building a coordinate system</h3>
+<p>With a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geodetic-datum" data-term="geodetic datum">datum</span> in place, we can write positions as <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-latitude" data-term="latitude">latitude</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-longitude" data-term="longitude">longitude</span>. Let’s build that <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">coordinate system</span> from scratch.</p>
+<ol type="1">
+<li><strong>The poles.</strong> The Earth spins around an axis. Where the axis meets the surface are the North and South Poles: two natural reference points.</li>
+<li><strong>The <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-equator" data-term="equator">equator</span>.</strong> Halfway between the poles is the equator, the natural zero line for north and south.</li>
+<li><strong>A <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-prime-meridian" data-term="prime meridian">prime meridian</span>.</strong> For east and west there is no natural zero line, so we have to choose one. Many countries once used their own: Paris, Washington, Philadelphia, Cádiz. In 1884, the International <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-meridian" data-term="meridian">Meridian</span> Conference in Washington, DC, chose the meridian through the Royal Observatory at Greenwich, England, as the <strong>prime meridian</strong> for the world.</li>
+</ol>
+<p>With those reference lines in place (<a href="#fig-latlon" class="quarto-xref">Figure&nbsp;<span>3.5</span></a>):</p>
+<ul>
+<li><strong>Latitude</strong> is the angle north or south of the equator, measured at the Earth’s center. It runs from 0° at the equator to 90° N at the North Pole and 90° S at the South Pole.</li>
+<li><strong>Longitude</strong> is the angle east or west of the prime meridian. It runs from 0° at Greenwich to 180° east or west. 180° E and 180° W are the same line, which the International Date Line roughly follows.</li>
+</ul>
+<div id="fig-latlon" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Two circle diagrams. Left, titled Latitude: the angle north or south of the equator, seen from the side. A circle with a dashed horizontal line labeled equator, 0 degrees, and a vertical axis from the North Pole, 90 degrees north, to the South Pole, 90 degrees south. A red line runs from the center to a dot on the edge labeled Chapel Hill, with a red arc between it and the equator labeled latitude 35.9 degrees north. Right, titled Longitude: the angle east or west of the prime meridian, seen from above the pole. A circle with the North Pole at the center. A navy line runs straight down to the edge, labeled prime meridian, 0 degrees, Greenwich. A green line runs from the center to a dot on the left edge labeled Chapel Hill, with a green arc between the two lines labeled longitude 79.05 degrees west.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-latlon-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/location-and-coordinates/latitude-longitude.png" class="img-fluid figure-img" alt="Two circle diagrams. Left, titled Latitude: the angle north or south of the equator, seen from the side. A circle with a dashed horizontal line labeled equator, 0 degrees, and a vertical axis from the North Pole, 90 degrees north, to the South Pole, 90 degrees south. A red line runs from the center to a dot on the edge labeled Chapel Hill, with a red arc between it and the equator labeled latitude 35.9 degrees north. Right, titled Longitude: the angle east or west of the prime meridian, seen from above the pole. A circle with the North Pole at the center. A navy line runs straight down to the edge, labeled prime meridian, 0 degrees, Greenwich. A green line runs from the center to a dot on the left edge labeled Chapel Hill, with a green arc between the two lines labeled longitude 79.05 degrees west.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-latlon-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.5: Latitude (left) is an angle north or south of the equator. Longitude (right) is an angle east or west of the prime meridian, here seen from above the North Pole. Chapel Hill is at about 35.9° N, 79.05° W.
+</figcaption>
+</figure>
+</div>
+<p>Strictly, on an <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-ellipsoid" data-term="ellipsoid">ellipsoid</span> the latitude angle is measured between the equator and a line <em>perpendicular to the ellipsoid’s surface</em>, which doesn’t pass quite through the center. This <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geodesy" data-term="geodesy">geodetic</span> latitude</strong> is what <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> software and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-gps" data-term="GPS">GPS</span> use. The difference from the simple picture is at most about a fifth of a degree, at 45°.</p>
+</section>
+<section id="parallels-and-meridians" class="level3" data-number="3.4.2">
+<h3 data-number="3.4.2" class="anchored" data-anchor-id="parallels-and-meridians"><span class="header-section-number">3.4.2</span> Parallels and meridians</h3>
+<p>Now draw the grid (<a href="#fig-parallels-meridians" class="quarto-xref">Figure&nbsp;<span>3.6</span></a>).</p>
+<ul>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-parallel" data-term="parallel">Parallels</span></strong> are lines of equal latitude. They run east and west, they are parallel to the equator and to each other, and they get shorter toward the poles. They measure latitude.</li>
+<li><strong>Meridians</strong> are lines of equal longitude. They run north and south, from pole to pole, and all of them meet at the poles. They measure longitude.</li>
+</ul>
+<div id="fig-parallels-meridians" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Two globes centered on the Atlantic. On the left, titled Parallels: lines of latitude, red circles run east and west around the globe every 15 degrees, getting smaller toward the North Pole, with a thick red line labeled Equator 0 degrees. On the right, titled Meridians: lines of longitude, green lines run from pole to pole every 15 degrees, meeting at the North Pole, with a thick green line through western Europe and Africa labeled Prime Meridian 0 degrees.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-parallels-meridians-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/location-and-coordinates/parallels-meridians.png" class="img-fluid figure-img" alt="Two globes centered on the Atlantic. On the left, titled Parallels: lines of latitude, red circles run east and west around the globe every 15 degrees, getting smaller toward the North Pole, with a thick red line labeled Equator 0 degrees. On the right, titled Meridians: lines of longitude, green lines run from pole to pole every 15 degrees, meeting at the North Pole, with a thick green line through western Europe and Africa labeled Prime Meridian 0 degrees.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-parallels-meridians-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.6: Parallels (left) are lines of equal latitude; the equator is the parallel at 0°. Meridians (right) are lines of equal longitude; the prime meridian is the meridian at 0°.
+</figcaption>
+</figure>
+</div>
+<p>The equator and the prime meridian are both zero lines, so a place on the equator is at 0° N, which is the same as 0° S, and a place on the prime meridian is at 0° E, which is the same as 0° W. Both answers are right.</p>
+</section>
+<section id="how-far-is-a-degree" class="level3" data-number="3.4.3">
+<h3 data-number="3.4.3" class="anchored" data-anchor-id="how-far-is-a-degree"><span class="header-section-number">3.4.3</span> How far is a degree?</h3>
+<p>Because the parallels are evenly spaced, one degree of latitude is always about the same distance: <strong>about 111 km</strong>, or 69 miles. (It varies a little, from 110.6 km at the equator to 111.7 km at the poles, because the ellipsoid is flatter there.)</p>
+<p>A degree of longitude is different. The meridians come together at the poles, so the distance between them shrinks as you move away from the equator. One degree of longitude is about 111 km at the equator, about 90 km at Chapel Hill’s latitude, 56 km at 60° N, and zero at the poles. (The rule is 111 km × the cosine of the latitude.) Remember this. It is why latitude and longitude are angles, not distances, and why you can’t measure distance or area in degrees.</p>
+</section>
+<section id="writing-degrees" class="level3" data-number="3.4.4">
+<h3 data-number="3.4.4" class="anchored" data-anchor-id="writing-degrees"><span class="header-section-number">3.4.4</span> Writing degrees</h3>
+<p>Latitude and longitude are angles, and there are two common ways to write them (<a href="#tbl-dd-dms" class="quarto-xref">Table&nbsp;<span>3.2</span></a>).</p>
+<p><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-decimal-degrees-dd" data-term="decimal degrees (DD)">Decimal degrees</span> (DD)</strong> write the angle as one signed number. Positive numbers are north latitudes and east longitudes; <strong>negative numbers are south latitudes and west longitudes</strong>. Chapel Hill is at 35.9132, −79.0558. This is the format most GIS software and GPS units use, and the one you should type into a GIS.</p>
+<p><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-degrees-minutes-and-seconds-dms" data-term="degrees, minutes, and seconds (DMS)">Degrees, minutes, and seconds</span> (DMS)</strong> split the angle the way we split an hour: there are 60 minutes (′) in a degree and 60 seconds (″) in a minute, so a second is 1/3,600 of a degree. Instead of a sign, DMS uses a letter for the hemisphere: N, S, E, or W. Chapel Hill is at 35° 54′ 48″ N, 79° 03′ 21″ W.</p>
+<div id="tbl-dd-dms" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-dd-dms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3.2: Two ways to write the same longitude, a meridian that runs just east of Denver, Colorado.
+</figcaption>
+<div aria-describedby="tbl-dd-dms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">Decimal degrees</th>
+<th style="text-align: left;">Degrees, minutes, seconds</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Example</td>
+<td style="text-align: left;">−104.54°</td>
+<td style="text-align: left;">104° 32′ 24″ W</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Hemisphere</td>
+<td style="text-align: left;">A sign: negative is south or west</td>
+<td style="text-align: left;">A letter: N, S, E, or W</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Used by</td>
+<td style="text-align: left;">GIS software, GPS, spreadsheets, the web</td>
+<td style="text-align: left;">Paper maps, nautical charts, surveys, deeds</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+<section id="converting-between-them" class="level3" data-number="3.4.5">
+<h3 data-number="3.4.5" class="anchored" data-anchor-id="converting-between-them"><span class="header-section-number">3.4.5</span> Converting between them</h3>
+<p><strong>Decimal degrees to DMS.</strong> Take −104.54°:</p>
+<ol type="1">
+<li>The whole number is the degrees: <strong>104°</strong>.</li>
+<li>Multiply the decimal part by 60 to get minutes: 0.54 × 60 = 32.4, so <strong>32′</strong>.</li>
+<li>Multiply the leftover decimal by 60 again to get seconds: 0.4 × 60 = <strong>24″</strong>.</li>
+<li>The sign becomes the hemisphere letter. A negative longitude is west: <strong>104° 32′ 24″ W</strong>.</li>
+</ol>
+<p><strong>DMS to decimal degrees.</strong> Take the White House’s latitude, 38° 53′ 52″ N:</p>
+<p><span class="math display">\[DD = D + \frac{M}{60} + \frac{S}{3600}\]</span></p>
+<p><span class="math display">\[38 + \frac{53}{60} + \frac{52}{3600} = 38 + 0.8833 + 0.0144 = 38.8978°\]</span></p>
+<p>It is north, so the number stays positive: <strong>38.8978°</strong>. For a longitude west of Greenwich or a latitude south of the equator, put a minus sign in front.</p>
+<p>Keep at least four to six decimal places when you convert, or the point will move. The next section shows how far.</p>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Think about it
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Convert Chapel Hill’s longitude, −79.0558°, to degrees, minutes, and seconds. Then convert 35° 54′ 48″ N to decimal degrees.</p>
+<details>
+<summary>
+Show the answers
+</summary>
+<p>79°; 0.0558 × 60 = 3.348, so 3′; 0.348 × 60 = 20.88, about 21″. Negative, so west: <strong>79° 03′ 21″ W</strong>.</p>
+35 + 54/60 + 48/3600 = 35 + 0.9 + 0.01333 = <strong>35.9133°</strong>.
+</details>
+</div>
+</div>
+</section>
+<section id="precision-and-location" class="level3" data-number="3.4.6">
+<h3 data-number="3.4.6" class="anchored" data-anchor-id="precision-and-location"><span class="header-section-number">3.4.6</span> Precision and location</h3>
+<p>How many decimal places should a coordinate have? Each decimal place makes a coordinate ten times more precise (<a href="#tbl-precision" class="quarto-xref">Table&nbsp;<span>3.3</span></a>). Since a degree of latitude is about 111 km, each place you add divides that distance by ten.</p>
+<div id="tbl-precision" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-precision-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3.3: How precise is a decimal degree? Distances are for latitude, and for longitude at the equator; a degree of longitude covers less ground away from the equator.
+</figcaption>
+<div aria-describedby="tbl-precision-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Decimal places</th>
+<th style="text-align: left;">Example</th>
+<th style="text-align: left;">Distance at the equator (approx.)</th>
+<th style="text-align: left;">Enough to find</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">36°</td>
+<td style="text-align: left;">111 km</td>
+<td style="text-align: left;">A large region</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">35.9°</td>
+<td style="text-align: left;">11 km</td>
+<td style="text-align: left;">A town</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">35.91°</td>
+<td style="text-align: left;">1.1 km</td>
+<td style="text-align: left;">A neighborhood</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">35.913°</td>
+<td style="text-align: left;">110 m</td>
+<td style="text-align: left;">A large field or a city block</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">35.9132°</td>
+<td style="text-align: left;">11 m</td>
+<td style="text-align: left;">A house lot</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">35.91320°</td>
+<td style="text-align: left;">1.1 m</td>
+<td style="text-align: left;">A tree</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">6</td>
+<td style="text-align: left;">35.913200°</td>
+<td style="text-align: left;">11 cm</td>
+<td style="text-align: left;">A <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-control-point" data-term="control point">survey marker</span>, with survey-grade GPS</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">7</td>
+<td style="text-align: left;">35.9132000°</td>
+<td style="text-align: left;">1.1 cm</td>
+<td style="text-align: left;">Plate tectonics research</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>A phone’s GPS is usually accurate to about 3 to 5 meters in the open, so <strong>five decimal places</strong>, about a meter, is already more than enough. Reporting eight decimal places claims millimeter precision that a phone doesn’t have. Extra decimals don’t make your data more accurate; they only make it look more accurate than it is. On the other hand, cutting coordinates to two or three decimal places, which spreadsheets sometimes do on their own, can move your points by a kilometer.</p>
+</section>
+</section>
+<section id="sec-lines" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="sec-lines"><span class="header-section-number">3.5</span> Lines on the globe</h2>
+<section id="great-circles" class="level3" data-number="3.5.1">
+<h3 data-number="3.5.1" class="anchored" data-anchor-id="great-circles"><span class="header-section-number">3.5.1</span> Great circles</h3>
+<p>A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-great-circle" data-term="great circle">great circle</span></strong> is the largest circle you can draw on a sphere. Its plane passes through the Earth’s center, and it cuts the globe into two equal halves. Any circle whose plane doesn’t pass through the center is a <em>small circle</em>.</p>
+<p>Great circles matter for one big reason: <strong>the shortest route between two points on a sphere follows a great circle</strong>. That is why airline routes look curved on flat maps. A flight from New York to London heads northeast, passes near Newfoundland, and approaches Britain from the northwest. It looks like a detour on a flat map, but on the globe it is the straight path (<a href="#fig-great-circle" class="quarto-xref">Figure&nbsp;<span>3.7</span></a>).</p>
+<div id="fig-great-circle" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Two maps. Left, On a flat Plate Carrée map, a rectangular map of the North Atlantic with a square grid. A solid red line arcs north from New York and down to London, and a dashed navy line runs straight between them. Right, On the globe, the same two routes on a globe centered on the North Atlantic: here the red line looks straight and the dashed line bows south. A note below reads: Solid red, the great-circle route, the shortest path, about 5,560 kilometers. Dashed, a straight line on the flat map, about 5,790 kilometers.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-great-circle-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/location-and-coordinates/great-circle.png" class="img-fluid figure-img" alt="Two maps. Left, On a flat Plate Carrée map, a rectangular map of the North Atlantic with a square grid. A solid red line arcs north from New York and down to London, and a dashed navy line runs straight between them. Right, On the globe, the same two routes on a globe centered on the North Atlantic: here the red line looks straight and the dashed line bows south. A note below reads: Solid red, the great-circle route, the shortest path, about 5,560 kilometers. Dashed, a straight line on the flat map, about 5,790 kilometers.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-great-circle-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.7: The great-circle route from New York to London (solid red) and a straight line on a flat <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-plate-carr-e" data-term="Plate Carrée">Plate Carrée</span> map (dashed). The great circle looks curved on the flat map, but it is the shortest path; the “straight” line is about 230 km longer.
+</figcaption>
+</figure>
+</div>
+<p>Which <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-parallel" data-term="parallel">parallels</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-meridian" data-term="meridian">meridians</span> are great circles?</p>
+<details>
+<summary>
+Show the answer
+</summary>
+Every meridian, together with the meridian on the opposite side of the globe (180° away), makes a great circle, because its plane passes through the poles and the Earth’s center. Of the parallels, <strong>only the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-equator" data-term="equator">equator</span></strong> is a great circle. Every other parallel is a small circle, and the parallels get smaller toward the poles.
+</details>
+</section>
+<section id="the-graticule" class="level3" data-number="3.5.2">
+<h3 data-number="3.5.2" class="anchored" data-anchor-id="the-graticule"><span class="header-section-number">3.5.2</span> The graticule</h3>
+<p>The <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-graticule" data-term="graticule">graticule</span></strong> is the network of parallels and meridians drawn on a map. It tells readers how the map has bent the globe to flatten it, and it lets them estimate the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-latitude" data-term="latitude">latitude</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-longitude" data-term="longitude">longitude</span> of any place.</p>
+<p>Choosing which lines to draw is a design decision (<a href="#fig-graticule" class="quarto-xref">Figure&nbsp;<span>3.8</span></a>). Too many lines clutter the map and compete with the data; too few, and the grid stops being useful. A common rule of thumb is every 15° or 30° on a world map, every 5° or 10° on a map of a continent, and every degree or less on a map of a state. Always ask what the reader needs the grid for. A world map of climate zones might only need the equator, the tropics, and the Arctic and Antarctic Circles.</p>
+<div id="fig-graticule" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Three small world maps on the Robinson projection, side by side. Every 5 degrees: so many gray grid lines that the land is hard to see. Every 15 degrees: a moderate grid. Every 30 degrees: only a few lines.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-graticule-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/location-and-coordinates/graticule-spacing.png" class="img-fluid figure-img" alt="Three small world maps on the Robinson projection, side by side. Every 5 degrees: so many gray grid lines that the land is hard to see. Every 15 degrees: a moderate grid. Every 30 degrees: only a few lines.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-graticule-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.8: The same world map with a graticule every 5°, every 15°, and every 30°. The 5° grid crowds the map; the 30° grid barely helps you read a location.
+</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="sec-plate-carree" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="sec-plate-carree"><span class="header-section-number">3.6</span> From globe to flat map</h2>
+<p><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-latitude" data-term="latitude">Latitude</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-longitude" data-term="longitude">longitude</span> are angles measured on a curved surface. They are not <em>x</em> and <em>y</em> distances on a flat plane. But a computer screen is flat, and so is a sheet of paper. So what happens if we simply pretend they are?</p>
+<p>Plot longitude as <em>x</em> and latitude as <em>y</em> on an even grid, and you get the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-plate-carr-e" data-term="Plate Carrée">Plate Carrée</span></strong>, French for “flat square,” also called the <em>equirectangular projection</em> (<a href="#fig-plate-carree" class="quarto-xref">Figure&nbsp;<span>3.9</span></a>). Every 1° by 1° cell is a square on the map. It is what you see when you add a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layer</span> in latitude and longitude to a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> without choosing a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-map-projection" data-term="map projection">projection</span>.</p>
+<div id="fig-plate-carree" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Two maps. Left, a globe centered on the Atlantic with a 15 degree grid and five red circles, all the same size on the globe, at the equator, at 30 degrees north, and at 60 degrees north. Right, a rectangular world map with a square 15 degree grid and the same five circles. The circle on the equator is round, the ones at 30 degrees north are a little wider than they are tall, and the ones at 60 degrees north are stretched into wide ovals, about twice as wide as they are tall.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-plate-carree-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/location-and-coordinates/plate-carree.png" class="img-fluid figure-img" alt="Two maps. Left, a globe centered on the Atlantic with a 15 degree grid and five red circles, all the same size on the globe, at the equator, at 30 degrees north, and at 60 degrees north. Right, a rectangular world map with a square 15 degree grid and the same five circles. The circle on the equator is round, the ones at 30 degrees north are a little wider than they are tall, and the ones at 60 degrees north are stretched into wide ovals, about twice as wide as they are tall.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-plate-carree-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.9: On the globe (left), each red circle covers the same area on the ground. On the Plate Carrée (right), where longitude is x and latitude is y, the circles stretch east to west more and more toward the poles.
+</figcaption>
+</figure>
+</div>
+<p>The grid is simple, but the cells are only square on the map, not on the globe. On the Earth, a 1° cell at the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-equator" data-term="equator">equator</span> is about 111 km on each side; at 60° N it is still 111 km tall but only 56 km wide. The Plate Carrée draws both as squares, so it stretches everything east to west more and more toward the poles. Greenland looks wide and squat, and Antarctica becomes a long band across the bottom of the map.</p>
+<p>That raises the question for the next chapter: <em>how do we represent a round Earth on a flat surface?</em> Every answer, called a <strong>map projection</strong>, distorts something. Chapter 4 shows what each kind of projection keeps and what it gives up.</p>
+<div class="did-you-know callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Did you know..?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you visit the Royal Observatory in Greenwich and stand astride the famous brass line of the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-prime-meridian" data-term="prime meridian">prime meridian</span>, a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-gps" data-term="GPS">GPS</span> app will tell you that you are not at 0°. It reads about 0.0015° W: the zero of longitude that GPS uses is about <strong>102 meters east</strong> of the line. Nothing moved. The brass line marks the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-meridian" data-term="meridian">meridian</span> astronomers defined in 1851 with a telescope that pointed along the local direction of gravity, which is tilted slightly by the local <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geoid" data-term="geoid">geoid</span>. The modern earth-centered <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geodetic-datum" data-term="geodetic datum">datums</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-wgs84" data-term="WGS84">WGS84</span> among them, define longitude from the Earth’s center of mass instead, and that small difference in the vertical becomes about 100 meters on the ground.</p>
+</div>
+</div>
+</section>
+<section id="sec-stack" class="level2" data-number="3.7">
+<h2 data-number="3.7" class="anchored" data-anchor-id="sec-stack"><span class="header-section-number">3.7</span> Putting it together</h2>
+<p>Think of location in a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> as a stack, with each <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layer</span> built on the one below (<a href="map-projections.html#fig-stack" class="quarto-xref">Figure&nbsp;<span>4.1</span></a>):</p>
+<ol type="1">
+<li><strong>The Earth</strong>, the real, irregular surface, approximated by the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geoid" data-term="geoid">geoid</span>.</li>
+<li><strong>An <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-ellipsoid" data-term="ellipsoid">ellipsoid</span></strong>, a smooth mathematical model of the Earth, such as GRS 80.</li>
+<li><strong>A <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geodetic-datum" data-term="geodetic datum">datum</span></strong>, which pins the ellipsoid to the Earth and defines <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-latitude" data-term="latitude">latitude</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-longitude" data-term="longitude">longitude</span>, such as <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-nad83" data-term="NAD83">NAD83</span>.</li>
+<li><strong>A <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-map-projection" data-term="map projection">map projection</span></strong>, which turns latitude and longitude into flat <em>x, y</em> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">coordinates</span>, such as <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-universal-transverse-mercator-utm" data-term="Universal Transverse Mercator (UTM)">UTM</span>.</li>
+</ol>
+<div id="fig-stack" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Four stacked boxes, widest at the bottom, with an arrow pointing up beside them labeled each layer is built on the one below. From the bottom: Earth, the real, irregular surface, the geoid approximates mean sea level; Ellipsoid, a smooth mathematical shape that fits the Earth, such as GRS 80; Datum, pins the ellipsoid to the Earth and defines latitude and longitude, such as NAD83; Map projection, turns latitude and longitude into flat x, y coordinates, such as UTM.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-stack-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/map-projections/building-a-projection.png" class="img-fluid figure-img" alt="Four stacked boxes, widest at the bottom, with an arrow pointing up beside them labeled each layer is built on the one below. From the bottom: Earth, the real, irregular surface, the geoid approximates mean sea level; Ellipsoid, a smooth mathematical shape that fits the Earth, such as GRS 80; Datum, pins the ellipsoid to the Earth and defines latitude and longitude, such as NAD83; Map projection, turns latitude and longitude into flat x, y coordinates, such as UTM.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-stack-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.10: From the Earth to a map. Each layer is built on the one below. This chapter covered the bottom three; Chapter 4 covers map projections.
+</figcaption>
+</figure>
+</div>
+<p>A coordinate system that stops at the third layer, giving positions in latitude and longitude on a datum, is a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-coordinate-system-gcs" data-term="geographic coordinate system (GCS)">geographic coordinate system</span> (GCS)</strong>. NAD83 and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-wgs84" data-term="WGS84">WGS84</span>, used for latitude and longitude, are both geographic coordinate systems. A coordinate system that adds the fourth layer is a <em><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-projected-coordinate-system" data-term="projected coordinate system">projected coordinate system</span></em>, the subject of Chapter 4.</p>
+<p>The most common point of confusion in this part of the course is the difference between a <strong>datum</strong> and a <strong>projection</strong>. A datum answers <em>where is the Earth, and what shape is it?</em> A projection answers <em>how do I flatten it?</em> Changing the datum moves your points on the ground. Changing the projection only changes how they are drawn on a flat map.</p>
+</section>
+<section id="check-your-understanding" class="level2" data-number="3.8">
+<h2 data-number="3.8" class="anchored" data-anchor-id="check-your-understanding"><span class="header-section-number">3.8</span> Check your understanding</h2>
+<ol type="1">
+<li><p>“Ten paces north of the old oak” is an example of: <select class="webex-select"><option value="blank"></option><option value="">Absolute location</option><option value="answer">Relative location</option><option value="">A datum</option><option value="">A great circle</option></select></p></li>
+<li><p>Because the Earth spins, its shape is best modeled as: <select class="webex-select"><option value="blank"></option><option value="">A perfect sphere</option><option value="answer">An oblate ellipsoid</option><option value="">A cylinder</option><option value="">A cube</option></select></p></li>
+<li><p>Elevations above sea level are measured from the ellipsoid. <select class="webex-select"><option value="blank"></option><option value="">TRUE</option><option value="answer">FALSE</option></select></p></li>
+<li><p>A GPS reports an ellipsoid height of 100 m where the geoid height is −30 m. What is the orthometric height, in meters? <input class="webex-solveme nospaces" size="5" data-answer="[&quot;130&quot;]"></p></li>
+<li><p>Which datum does GPS use? <select class="webex-select"><option value="blank"></option><option value="">NAD27</option><option value="">NAD83</option><option value="answer">WGS84</option><option value="">Clarke 1866</option></select></p></li>
+<li><p>In decimal degrees, a longitude west of Greenwich is written as a ___ number. <select class="webex-select"><option value="blank"></option><option value="">positive</option><option value="answer">negative</option></select></p></li>
+<li><p>Convert 38° 30′ 00″ N to decimal degrees. <input class="webex-solveme nospaces" size="6" data-answer="[&quot;38.5&quot;]"></p></li>
+<li><p>Which parallel is a great circle? <select class="webex-select"><option value="blank"></option><option value="">The Tropic of Cancer</option><option value="answer">The equator</option><option value="">The Arctic Circle</option><option value="">45° N</option></select></p></li>
+</ol>
+<div class="webex-solution">
+<button>
+Show hint for question 4
+</button>
+<p>Use <em>H</em> = <em>h</em> − <em>N</em>, and remember that subtracting a negative number adds it.</p>
+</div>
+</section>
+<section id="summary" class="level2" data-number="3.9">
+<h2 data-number="3.9" class="anchored" data-anchor-id="summary"><span class="header-section-number">3.9</span> Summary</h2>
+<ul>
+<li>A <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> needs <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-absolute-location" data-term="absolute location">absolute locations</span></strong>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">coordinates</span> that mean the same thing to everyone, rather than <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-relative-location" data-term="relative location">relative locations</span></strong> tied to landmarks.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geodesy" data-term="geodesy">Geodesy</span></strong> measures the Earth’s size and shape. Eratosthenes estimated its circumference around 240 BCE from shadow angles.</li>
+<li>The Earth is modeled as an <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-ellipsoid" data-term="ellipsoid">ellipsoid</span></strong>, defined by its <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-semi-major-axis" data-term="semi-major axis">semi-major axis</span></strong> <em>a</em> and <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-semi-minor-axis" data-term="semi-minor axis">semi-minor axis</span></strong> <em>b</em>, with a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-flattening" data-term="flattening">flattening</span></strong> of about 1/298. Common ellipsoids are Clarke 1866, GRS 80, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-wgs84" data-term="WGS84">WGS 84</span>.</li>
+<li>The <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geoid" data-term="geoid">geoid</span></strong> is the surface of equal gravity that best matches <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-mean-sea-level" data-term="mean sea level">mean sea level</span>. Elevations are measured from it. <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-ellipsoid-height" data-term="ellipsoid height">Ellipsoid height</span></strong> (from <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-gps" data-term="GPS">GPS</span>), <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-orthometric-height" data-term="orthometric height">orthometric height</span></strong> (elevation), and <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geoid-height" data-term="geoid height">geoid height</span></strong> are related by <em>h</em> = <em>H</em> + <em>N</em>.</li>
+<li>A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geodetic-datum" data-term="geodetic datum">geodetic datum</span></strong> fixes an ellipsoid to the Earth through <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-control-point" data-term="control point">control points</span></strong>. <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-nad27" data-term="NAD27">NAD27</span></strong> used Clarke 1866 and an origin in Kansas; <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-nad83" data-term="NAD83">NAD83</span></strong> uses GRS 80 and is earth-centered; <strong>WGS84</strong> is the global datum GPS uses. The same coordinates land in different places in different datums, so check each <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layer</span>’s datum and apply a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-datum-transformation" data-term="datum transformation">datum transformation</span></strong> when needed.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-latitude" data-term="latitude">Latitude</span></strong> is measured north and south from the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-equator" data-term="equator">equator</span></strong>, and <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-longitude" data-term="longitude">longitude</span></strong> east and west from the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-prime-meridian" data-term="prime meridian">prime meridian</span></strong> at Greenwich. <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-parallel" data-term="parallel">Parallels</span></strong> are lines of latitude and <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-meridian" data-term="meridian">meridians</span></strong> are lines of longitude; the network of both on a map is the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-graticule" data-term="graticule">graticule</span></strong>.</li>
+<li>Coordinates can be written in <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-decimal-degrees-dd" data-term="decimal degrees (DD)">decimal degrees</span></strong> (negative for south and west) or <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-degrees-minutes-and-seconds-dms" data-term="degrees, minutes, and seconds (DMS)">degrees, minutes, and seconds</span></strong>. Each decimal place makes a coordinate ten times more precise; five places is about a meter.</li>
+<li>The shortest route between two places follows a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-great-circle" data-term="great circle">great circle</span></strong>.</li>
+<li>Treating latitude and longitude as <em>x</em> and <em>y</em> gives the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-plate-carr-e" data-term="Plate Carrée">Plate Carrée</span></strong>, which stretches the map toward the poles. Flattening the Earth well takes a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-map-projection" data-term="map projection">map projection</span>, the subject of Chapter 4.</li>
+</ul>
+</section>
+<section id="exercises" class="level2" data-number="3.10">
+<h2 data-number="3.10" class="anchored" data-anchor-id="exercises"><span class="header-section-number">3.10</span> Exercises</h2>
+<ol type="1">
+<li><strong>Describe a place three ways.</strong> Pick a place on campus. Describe it with a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-relative-location" data-term="relative location">relative location</span>, a street address, and an <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-absolute-location" data-term="absolute location">absolute location</span> in both <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-decimal-degrees-dd" data-term="decimal degrees (DD)">decimal degrees</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-degrees-minutes-and-seconds-dms" data-term="degrees, minutes, and seconds (DMS)">DMS</span>. (Find its <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">coordinates</span> by right-clicking it in Google Maps or <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-openstreetmap" data-term="OpenStreetMap">OpenStreetMap</span>.)</li>
+<li><strong>Eratosthenes at home.</strong> Suppose that at noon a pole in your town casts a shadow at an angle of 5°, while at the same moment the sun is straight overhead in a town 550 km due south. What is the Earth’s circumference by Eratosthenes’s method? How close is it to 40,075 km?</li>
+<li><strong>Conversions.</strong> Convert to DMS: 35.2271, −80.8431 (Charlotte) and −33.8568, 151.2153 (the Sydney Opera House). Convert to decimal degrees: 40° 41′ 21″ N, 74° 02′ 40″ W (the Statue of Liberty).</li>
+<li><strong>Heights.</strong> Look up the elevation and the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geoid-height" data-term="geoid height">geoid height</span> for your hometown with the NGS GEOID18 calculator (<a href="https://geodesy.noaa.gov/GEOID/GEOID18/computation.html" class="uri">https://geodesy.noaa.gov/GEOID/GEOID18/computation.html</a>). What <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-ellipsoid-height" data-term="ellipsoid height">ellipsoid height</span> would a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-gps" data-term="GPS">GPS</span> receiver report there?</li>
+<li><strong>Find a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-control-point" data-term="control point">benchmark</span>.</strong> Use the NGS Data Explorer (<a href="https://geodesy.noaa.gov/NGSDataExplorer/" class="uri">https://geodesy.noaa.gov/NGSDataExplorer/</a>) to find a survey marker near campus. What <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geodetic-datum" data-term="geodetic datum">datum</span> are its coordinates given in? When was it last recovered?</li>
+<li><strong>Datum detective.</strong> In <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span>, open the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">Layer</span> Properties of any layer and find its <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-reference-system-crs" data-term="coordinate reference system (CRS)">coordinate reference system</span> on the Information tab. In <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span>, look in the layer’s Properties, on the Source tab. Which datum does it use? Find one layer from a state or federal source and one from a website or a phone app. Do they use the same datum?</li>
+<li><strong>Precision.</strong> A classmate collects tree locations with a phone and records them to ten decimal places. Explain, using <a href="#tbl-precision" class="quarto-xref">Table&nbsp;<span>3.3</span></a>, why that is misleading. How many decimal places would you keep, and why?</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-great-circle" data-term="great circle">Great circles</span>.</strong> Use the Great Circle Mapper (<a href="http://www.gcmap.com" class="uri">http://www.gcmap.com</a>) to draw the route from Raleigh-Durham (RDU) to Tokyo (NRT). Which states and countries does it pass over? Why doesn’t it head due west?</li>
+</ol>
+</section>
+<section id="further-reading-and-online-resources" class="level2" data-number="3.11">
+<h2 data-number="3.11" class="anchored" data-anchor-id="further-reading-and-online-resources"><span class="header-section-number">3.11</span> Further reading and online resources</h2>
+<section id="books-and-open-textbooks" class="level3" data-number="3.11.1">
+<h3 data-number="3.11.1" class="anchored" data-anchor-id="books-and-open-textbooks"><span class="header-section-number">3.11.1</span> Books and open textbooks</h3>
+<ul>
+<li><em><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> Fundamentals: A First Text on Geographic Information Systems</em>, by Paul Bolstad <span class="citation" data-cites="bolstad2022">(Bolstad 2022)</span>. Chapter 3, “<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geodesy" data-term="geodesy">Geodesy</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-map-projection" data-term="map projection">Projections</span>, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">Coordinate Systems</span>,” covers <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-ellipsoid" data-term="ellipsoid">ellipsoids</span>, the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geoid" data-term="geoid">geoid</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geodetic-datum" data-term="geodetic datum">datums</span>, and coordinates in depth.</li>
+<li><em>Understanding GIS through Sustainable Development Goals</em>, by Paul Holloway <span class="citation" data-cites="holloway2023">(Holloway 2023)</span>. Its chapter on coordinate systems and projections works through these ideas in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span>.</li>
+<li><em>The Nature of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-data" data-term="spatial data">Geographic Information</span></em>, by David DiBiase and colleagues at Penn State. Chapter 2, “Scales and Transformations,” explains coordinate systems, the geoid, the ellipsoid, and datums: <a href="https://www.e-education.psu.edu/natureofgeoinfo/c2.html" class="uri">https://www.e-education.psu.edu/natureofgeoinfo/c2.html</a>.</li>
+<li><em>Essentials of Geographic Information Systems</em>, by Jonathan Campbell and Michael Shin. Chapter 2, “Map Anatomy,” covers the Earth’s shape, coordinate systems, and datums: <a href="https://open.umn.edu/opentextbooks/textbooks/67" class="uri">https://open.umn.edu/opentextbooks/textbooks/67</a>.</li>
+<li><em>Intro to GIS and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-analysis" data-term="spatial analysis">Spatial Analysis</span></em>, by Manuel Gimond. The chapter “Coordinate Systems” is short and clear: <a href="https://mgimond.github.io/Spatial/chp09_0.html" class="uri">https://mgimond.github.io/Spatial/chp09_0.html</a>.</li>
+<li><em>GIS Commons</em>, by Michael Schmandt. The chapter “Coordinate Systems and Map Projections”: <a href="https://giscommons.org" class="uri">https://giscommons.org</a>.</li>
+<li><em>Map Projections: A Working Manual</em>, by John P. Snyder <span class="citation" data-cites="snyder1987">(Snyder 1987)</span>, USGS Professional Paper 1395. The first chapters explain the Earth’s shape, datums, and the geometry behind coordinates: <a href="https://pubs.usgs.gov/publication/pp1395" class="uri">https://pubs.usgs.gov/publication/pp1395</a>.</li>
+</ul>
+</section>
+<section id="geodesy-the-geoid-and-heights" class="level3" data-number="3.11.2">
+<h3 data-number="3.11.2" class="anchored" data-anchor-id="geodesy-the-geoid-and-heights"><span class="header-section-number">3.11.2</span> Geodesy, the geoid, and heights</h3>
+<ul>
+<li>NOAA National Geodetic Survey (NGS), “What is geodesy?”: <a href="https://oceanservice.noaa.gov/facts/geodesy.html" class="uri">https://oceanservice.noaa.gov/facts/geodesy.html</a>.</li>
+<li>NOAA National Ocean Service, “Geodesy” tutorial, a short illustrated course on the Earth’s shape, the geoid, and datums: <a href="https://oceanservice.noaa.gov/education/tutorial_geodesy/" class="uri">https://oceanservice.noaa.gov/education/tutorial_geodesy/</a>.</li>
+<li>NGS, the GEOID18 model and an online calculator for <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geoid-height" data-term="geoid height">geoid height</span> anywhere in the United States: <a href="https://geodesy.noaa.gov/GEOID/GEOID18/" class="uri">https://geodesy.noaa.gov/GEOID/GEOID18/</a>.</li>
+<li>NGS, “What is the geoid?”: <a href="https://geodesy.noaa.gov/GEOID/geoid_def.html" class="uri">https://geodesy.noaa.gov/GEOID/geoid_def.html</a>.</li>
+<li>National Geospatial-Intelligence Agency (NGA), Earth Gravitational Model 2008 (EGM2008): <a href="https://earth-info.nga.mil/" class="uri">https://earth-info.nga.mil/</a>.</li>
+<li><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-esri" data-term="Esri">Esri</span>, “Earth’s shape and the geoid,” in the ArcGIS Pro help on vertical coordinate systems: <a href="https://pro.arcgis.com/en/pro-app/latest/help/mapping/properties/vertical-coordinate-systems.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/help/mapping/properties/vertical-coordinate-systems.htm</a>.</li>
+<li>The <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-gis-t-body-of-knowledge" data-term="GIS&amp;T Body of Knowledge">GIS&amp;T Body of Knowledge</span> has articles on “Geodesy,” “Earth Geometry,” “Datums,” “Plane Coordinate Systems,” and “Georeferencing Systems”: <a href="https://gistbok.ucgis.org" class="uri">https://gistbok.ucgis.org</a>.</li>
+</ul>
+</section>
+<section id="datums" class="level3" data-number="3.11.3">
+<h3 data-number="3.11.3" class="anchored" data-anchor-id="datums"><span class="header-section-number">3.11.3</span> Datums</h3>
+<ul>
+<li>NGS, “Datums and reference frames,” and the NGS Datums page: <a href="https://geodesy.noaa.gov/datums/index.shtml" class="uri">https://geodesy.noaa.gov/datums/index.shtml</a>.</li>
+<li>NGS, “New Datums,” on <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-natrf2022" data-term="NATRF2022">NATRF2022</span> and NAPGD2022, the replacements for <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-nad83" data-term="NAD83">NAD83</span> and NAVD 88: <a href="https://geodesy.noaa.gov/datums/newdatums/index.shtml" class="uri">https://geodesy.noaa.gov/datums/newdatums/index.shtml</a>.</li>
+<li>NGS, the Continuously Operating Reference Station (<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-continuously-operating-reference-stations-cors" data-term="Continuously Operating Reference Stations (CORS)">CORS</span>) network: <a href="https://geodesy.noaa.gov/CORS/" class="uri">https://geodesy.noaa.gov/CORS/</a>.</li>
+<li>NGS Data Explorer, a map of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-control-point" data-term="control point">survey markers</span> and their datasheets: <a href="https://geodesy.noaa.gov/NGSDataExplorer/" class="uri">https://geodesy.noaa.gov/NGSDataExplorer/</a>.</li>
+<li>NGS Coordinate Conversion and Transformation Tool (NCAT), for converting coordinates between datums and formats: <a href="https://geodesy.noaa.gov/NCAT/" class="uri">https://geodesy.noaa.gov/NCAT/</a>.</li>
+<li>QGIS User Guide, “Working with Projections,” including <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-datum-transformation" data-term="datum transformation">datum transformations</span>: <a href="https://docs.qgis.org/latest/en/docs/user_manual/working_with_projections/working_with_projections.html" class="uri">https://docs.qgis.org/latest/en/docs/user_manual/working_with_projections/working_with_projections.html</a>.</li>
+<li>U.S. Geological Survey, “What is the difference between <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-nad27" data-term="NAD27">NAD27</span> and NAD83?” and related FAQs: <a href="https://www.usgs.gov/faqs" class="uri">https://www.usgs.gov/faqs</a>.</li>
+<li>Esri ArcGIS Blog, articles on preparing data for the modernized National Spatial Reference System: <a href="https://www.esri.com/arcgis-blog/" class="uri">https://www.esri.com/arcgis-blog/</a>.</li>
+</ul>
+</section>
+<section id="latitude-longitude-and-great-circles" class="level3" data-number="3.11.4">
+<h3 data-number="3.11.4" class="anchored" data-anchor-id="latitude-longitude-and-great-circles"><span class="header-section-number">3.11.4</span> Latitude, longitude, and great circles</h3>
+<ul>
+<li>National Geographic Education, “<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-latitude" data-term="latitude">Latitude</span>” and “<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-longitude" data-term="longitude">Longitude</span>” encyclopedia entries: <a href="https://education.nationalgeographic.org/resource/latitude/" class="uri">https://education.nationalgeographic.org/resource/latitude/</a> and <a href="https://education.nationalgeographic.org/resource/longitude/" class="uri">https://education.nationalgeographic.org/resource/longitude/</a>.</li>
+<li>Malys, Seago, Pavlis, Seidelmann, and Kaplan, “Why the Greenwich <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-meridian" data-term="meridian">meridian</span> moved,” <em>Journal of Geodesy</em> <span class="citation" data-cites="malys2015">(Malys et al. 2015)</span>, the explanation of the 102-meter offset at Greenwich: <a href="https://doi.org/10.1007/s00190-015-0844-y" class="uri">https://doi.org/10.1007/s00190-015-0844-y</a>.</li>
+<li><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-great-circle" data-term="great circle">Great Circle</span> Mapper, for drawing great-circle routes between airports: <a href="http://www.gcmap.com" class="uri">http://www.gcmap.com</a>.</li>
+<li><em>Longitude</em>, by Dava Sobel (Walker, 1995), the story of how sailors learned to find their longitude at sea.</li>
+</ul>
+</section>
+<section id="software-and-tutorials" class="level3" data-number="3.11.5">
+<h3 data-number="3.11.5" class="anchored" data-anchor-id="software-and-tutorials"><span class="header-section-number">3.11.5</span> Software and tutorials</h3>
+<ul>
+<li>QGIS Training Manual, “<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-vector" data-term="vector">Vector</span> Analysis: <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-reproject" data-term="reproject">Reprojecting</span> and Transforming Data”: <a href="https://docs.qgis.org/latest/en/docs/training_manual/vector_analysis/reproject_transform.html" class="uri">https://docs.qgis.org/latest/en/docs/training_manual/vector_analysis/reproject_transform.html</a>.</li>
+<li>QGIS, <em>A Gentle Introduction to GIS</em>, the chapter “<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-reference-system-crs" data-term="coordinate reference system (CRS)">Coordinate Reference Systems</span>”: <a href="https://docs.qgis.org/latest/en/docs/gentle_gis_introduction/coordinate_reference_systems.html" class="uri">https://docs.qgis.org/latest/en/docs/gentle_gis_introduction/coordinate_reference_systems.html</a>.</li>
+<li>Esri, “Coordinate systems, map projections, and transformations” in the ArcGIS Pro help: <a href="https://pro.arcgis.com/en/pro-app/latest/help/mapping/properties/coordinate-systems-and-projections.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/help/mapping/properties/coordinate-systems-and-projections.htm</a>.</li>
+<li>Learn ArcGIS, “Choose the right projection” and related lessons: <a href="https://learn.arcgis.com" class="uri">https://learn.arcgis.com</a>.</li>
+<li>epsg.io, a searchable list of coordinate reference systems and their parameters: <a href="https://epsg.io" class="uri">https://epsg.io</a>.</li>
+</ul>
+
+
+<div class="glossary-defs" hidden="">
+<span id="gloss-relative-location">A description of where something is in relation to a landmark, such as
+“ten paces north of the oak.” It only works if you know the landmark.</span>
+<span id="gloss-absolute-location">A location given in a coordinate system that means the same thing to
+everyone, such as 38° 53′ 52″ N, 77° 02′ 11″ W.</span>
+<span id="gloss-geographic-information-system-gis">“A computer-based system to aid in the collection, maintenance, storage,
+analysis, output, and distribution of spatial data and information”
+(Bolstad). Its five components are data, hardware, software, people, and
+procedures.</span>
+<span id="gloss-coordinate-system">A system of numbers, such as latitude and longitude, that gives every
+location a unique position so layers line up with each other.</span>
+<span id="gloss-geodesy">The science of measuring the Earth’s size, shape, orientation in space,
+and gravity field.</span>
+<span id="gloss-ellipsoid">A smooth mathematical model of the Earth’s shape: an ellipse rotated
+about its polar axis, wider at the equator than from pole to pole.
+Examples are Clarke 1866, GRS 80, and WGS 84.</span>
+<span id="gloss-geoid">The surface of equal gravity that best matches global mean sea level. It
+is lumpy, up to about 100 m above or below the ellipsoid, and elevations
+are measured from it.</span>
+<span id="gloss-ellipsoid-height">Height above the ellipsoid, written <em>h</em>. This is the height a GPS
+receiver measures.</span>
+<span id="gloss-orthometric-height">Height above the geoid, written <em>H</em>: the elevation, or “height
+above sea level,” printed on maps. <em>h</em> = <em>H</em> + <em>N</em>.</span>
+<span id="gloss-geoid-height">The distance from the ellipsoid to the geoid at a place, written
+<em>N</em>. In the lower 48 United States it is negative, about −30 m.</span>
+<span id="gloss-geodetic-datum">A model that fixes an ellipsoid’s size, shape, and position relative to
+the Earth, realized by a network of control points, so latitude and
+longitude point to real places. Examples are NAD27, NAD83, and WGS84.</span>
+<span id="gloss-nad27">The North American Datum of 1927. It used the Clarke 1866 ellipsoid and
+an origin at Meades Ranch, Kansas.</span>
+<span id="gloss-nad83">The North American Datum of 1983, an earth-centered datum on the GRS 80
+ellipsoid, fixed to the North American plate. The datum of most U.S.
+government GIS data.</span>
+<span id="gloss-wgs84">The World Geodetic System of 1984, the global, earth-centered datum used
+by GPS. It differs from NAD83 by about 1 to 2 meters in North America.</span>
+<span id="gloss-datum-shift">The difference in where the same latitude and longitude land on the
+ground in two different datums. Between NAD27 and NAD83 it can exceed
+100 m.</span>
+<span id="gloss-decimal-degrees-dd">Latitude or longitude written as one signed number, such as −79.0558.
+Negative numbers are south latitudes and west longitudes.</span>
+<span id="gloss-degrees-minutes-and-seconds-dms">Latitude or longitude written in degrees, minutes (1/60 of a degree),
+and seconds (1/3,600 of a degree), with a hemisphere letter, such as 79°
+03′ 21″ W.</span>
+<span id="gloss-latitude">The angle north or south of the equator, from 0° at the equator to 90°
+at the poles.</span>
+<span id="gloss-longitude">The angle east or west of the prime meridian, from 0° at Greenwich to
+180° east or west.</span>
+<span id="gloss-equator">The parallel halfway between the poles, at 0° latitude. It is the only
+parallel that is a great circle.</span>
+<span id="gloss-prime-meridian">The meridian at 0° longitude, through Greenwich, England, chosen in
+1884. Longitude is measured east and west from it.</span>
+<span id="gloss-parallel">A line of equal latitude. Parallels run east and west and get shorter
+toward the poles.</span>
+<span id="gloss-meridian">A line of equal longitude. Meridians run from pole to pole and meet at
+the poles.</span>
+<span id="gloss-great-circle">A circle on a sphere whose plane passes through the center. The shortest
+route between two points follows a great circle.</span>
+<span id="gloss-graticule">The network of parallels and meridians drawn on a map.</span>
+<span id="gloss-plate-carr-e">The projection that plots longitude as <em>x</em> and latitude as
+<em>y</em> on an even grid. It stretches the map east to west toward the
+poles.</span>
+<span id="gloss-polygon">A vector feature that encloses an area: a closed line whose first and
+last points are the same, such as a lake, a park, or a county.</span>
+<span id="gloss-layer">A set of spatial data about one theme, such as roads, soils, or
+elevation. Layers for the same area stack on top of each other to make a
+map.</span>
+<span id="gloss-map-projection">A mathematical method for flattening the round Earth onto a flat map.
+Every projection distorts area, shape, distance, or direction in some
+way.</span>
+<span id="gloss-gps">The Global Positioning System: U.S. satellites that let a receiver, such
+as your phone, work out its location. GNSS is the general name for GPS
+and similar systems from other countries.</span>
+<span id="gloss-bit">A binary digit, 0 or 1. With <em>n</em> bits you can write 2ⁿ different
+values.</span>
+<span id="gloss-semi-major-axis">The equatorial radius of an ellipsoid, written <em>a</em>. For the
+Earth, about 6,378 km.</span>
+<span id="gloss-semi-minor-axis">The polar radius of an ellipsoid, written <em>b</em>. For the Earth,
+about 6,357 km.</span>
+<span id="gloss-flattening">How squashed an ellipsoid is: <em>f</em> = (<em>a</em> − <em>b</em>) /
+<em>a</em>. For the Earth, about 1/298.</span>
+<span id="gloss-mean-sea-level">The average height of the sea surface over many years, which the geoid
+approximates.</span>
+<span id="gloss-control-point">A point on the ground, often marked with a bronze disk, whose
+coordinates have been measured precisely. Control points tie a datum to
+the Earth.</span>
+<span id="gloss-triangulation">An old surveying method that measures the angles of a chain of triangles
+between stations to work out their positions across a large area.</span>
+<span id="gloss-continuously-operating-reference-stations-cors">A network of permanent GPS receivers, run by the National Geodetic
+Survey and its partners, that keeps NAD83 up to date.</span>
+<span id="gloss-datum-transformation">Equations or a grid of measured shifts that convert coordinates from one
+datum to another.</span>
+<span id="gloss-qgis">A free and open-source desktop GIS that runs on Windows, Mac, and Linux.</span>
+<span id="gloss-arcgis-pro">Esri’s commercial desktop GIS, for Windows.</span>
+<span id="gloss-natrf2022">The North American Terrestrial Reference Frame of 2022, the new datum
+that will replace NAD83 in the United States.</span>
+<span id="gloss-universal-transverse-mercator-utm">A system of 60 zones, each 6° of longitude wide, each a secant
+Transverse Mercator projection in meters. North Carolina spans zones 17N
+and 18N.</span>
+<span id="gloss-geographic-coordinate-system-gcs">A coordinate system that gives positions as latitude and longitude, in
+degrees, on a datum. EPSG:4326 (WGS84) and 4269 (NAD83) are examples.</span>
+<span id="gloss-projected-coordinate-system">A coordinate system that gives positions as <em>x, y</em> in meters or
+feet, on a map projection built on a datum, such as UTM or State Plane.</span>
+<span id="gloss-openstreetmap">A free, editable map of the world built by volunteers, founded in 2004.</span>
+<span id="gloss-coordinate-reference-system-crs">The full description of how coordinates relate to the Earth: a datum,
+plus a projection with its parameters, plus units.</span>
+<span id="gloss-spatial-data">Data tied to a location on or near Earth, such as the address of a
+house, the outline of a county, or the elevation at a point.</span>
+<span id="gloss-spatial-analysis">Methods that use the locations of things, and the relationships among
+them, to find patterns, explain them, or make predictions.</span>
+<span id="gloss-esri">The company that makes ArcGIS, founded in 1969 by Jack and Laura
+Dangermond in Redlands, California.</span>
+<span id="gloss-gis-t-body-of-knowledge">A free collection of short, peer-reviewed articles on geographic
+information science and technology topics, from the University
+Consortium for Geographic Information Science (UCGIS).</span>
+<span id="gloss-vector">A data model that stores the world as points, lines, and polygons, each
+defined by x, y coordinates and linked to its attributes. Best for
+discrete objects.</span>
+<span id="gloss-reproject">To convert a layer’s coordinates from one CRS to another and save the
+result. Defining a projection, by contrast, only labels what the
+coordinates already are.</span>
+</div>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script>
+
+/* update total correct if #webex-total_correct exists */
+update_total_correct = function() {
+  console.log("webex: update total_correct");
+
+  var t = document.getElementsByClassName("webex-total_correct");
+  for (var i = 0; i < t.length; i++) {
+    p = t[i].parentElement;
+    var correct = p.getElementsByClassName("webex-correct").length;
+    var solvemes = p.getElementsByClassName("webex-solveme").length;
+    var radiogroups = p.getElementsByClassName("webex-radiogroup").length;
+    var selects = p.getElementsByClassName("webex-select").length;
+
+    t[i].innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  }
+}
+
+/* webex-solution button toggling function */
+b_func = function() {
+  console.log("webex: toggle hide");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('open')) {
+    cl.remove("open");
+  } else {
+    cl.add("open");
+  }
+}
+
+/* check answers */
+check_func = function() {
+  console.log("webex: check answers");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('unchecked')) {
+    cl.remove("unchecked");
+    this.innerHTML = "Hide Answers";
+  } else {
+    cl.add("unchecked");
+    this.innerHTML = "Show Answers";
+  }
+}
+
+/* function for checking solveme answers */
+solveme_func = function(e) {
+  console.log("webex: check solveme");
+
+  var real_answers = JSON.parse(this.dataset.answer);
+  var my_answer = this.value;
+  var cl = this.classList;
+  if (cl.contains("ignorecase")) {
+    my_answer = my_answer.toLowerCase();
+  }
+  if (cl.contains("nospaces")) {
+    my_answer = my_answer.replace(/ /g, "")
+  }
+
+  if (my_answer == "") {
+    cl.remove("webex-correct");
+    cl.remove("webex-incorrect");
+  } else if (real_answers.includes(my_answer)) {
+    cl.add("webex-correct");
+    cl.remove("webex-incorrect");
+  } else {
+    cl.add("webex-incorrect");
+    cl.remove("webex-correct");
+  }
+
+  // match numeric answers within a specified tolerance
+  if(this.dataset.tol > 0){
+    var tol = JSON.parse(this.dataset.tol);
+    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+    if (matches.reduce((a, b) => a + b, 0) > 0) {
+      cl.add("webex-correct");
+    } else {
+      cl.remove("webex-correct");
+    }
+  }
+
+  // added regex bit
+  if (cl.contains("regex")){
+    answer_regex = RegExp(real_answers.join("|"))
+    if (answer_regex.test(my_answer)) {
+      cl.add("webex-correct");
+    }
+  }
+
+  update_total_correct();
+}
+
+/* function for checking select answers */
+select_func = function(e) {
+  console.log("webex: check select");
+
+  var cl = this.classList
+
+  /* add style */
+  cl.remove("webex-incorrect");
+  cl.remove("webex-correct");
+  if (this.value == "answer") {
+    cl.add("webex-correct");
+  } else if (this.value != "blank") {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+/* function for checking radiogroups answers */
+radiogroups_func = function(e) {
+  console.log("webex: check radiogroups");
+
+  var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
+  var cl = checked_button.parentElement.classList;
+  var labels = checked_button.parentElement.parentElement.children;
+
+  /* get rid of styles */
+  for (i = 0; i < labels.length; i++) {
+    labels[i].classList.remove("webex-incorrect");
+    labels[i].classList.remove("webex-correct");
+  }
+
+  /* add style */
+  if (checked_button.value == "answer") {
+    cl.add("webex-correct");
+  } else {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+window.onload = function() {
+  console.log("webex onload");
+  /* set up solution buttons */
+  var buttons = document.getElementsByTagName("button");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].parentElement.classList.contains('webex-solution')) {
+      buttons[i].onclick = b_func;
+    }
+  }
+
+  var check_sections = document.getElementsByClassName("webex-check");
+  console.log("check:", check_sections.length);
+  for (var i = 0; i < check_sections.length; i++) {
+    check_sections[i].classList.add("unchecked");
+
+    let btn = document.createElement("button");
+    btn.innerHTML = "Show Answers";
+    btn.classList.add("webex-check-button");
+    btn.onclick = check_func;
+    check_sections[i].appendChild(btn);
+
+    let spn = document.createElement("span");
+    spn.classList.add("webex-total_correct");
+    check_sections[i].appendChild(spn);
+  }
+
+  /* set up webex-solveme inputs */
+  var solveme = document.getElementsByClassName("webex-solveme");
+
+  for (var i = 0; i < solveme.length; i++) {
+    /* make sure input boxes don't auto-anything */
+    solveme[i].setAttribute("autocomplete","off");
+    solveme[i].setAttribute("autocorrect", "off");
+    solveme[i].setAttribute("autocapitalize", "off");
+    solveme[i].setAttribute("spellcheck", "false");
+    solveme[i].value = "";
+
+    /* adjust answer for ignorecase or nospaces */
+    var cl = solveme[i].classList;
+    var real_answer = solveme[i].dataset.answer;
+    if (cl.contains("ignorecase")) {
+      real_answer = real_answer.toLowerCase();
+    }
+    if (cl.contains("nospaces")) {
+      real_answer = real_answer.replace(/ /g, "");
+    }
+    solveme[i].dataset.answer = real_answer;
+
+    /* attach checking function */
+    solveme[i].onkeyup = solveme_func;
+    solveme[i].onchange = solveme_func;
+
+    solveme[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  /* set up radiogroups */
+  var radiogroups = document.getElementsByClassName("webex-radiogroup");
+  for (var i = 0; i < radiogroups.length; i++) {
+    radiogroups[i].onchange = radiogroups_func;
+  }
+
+  /* set up selects */
+  var selects = document.getElementsByClassName("webex-select");
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].onchange = select_func;
+    selects[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  update_total_correct();
+}
+
+</script>
+<!--
+  Highlights the right item in the top menu. Quarto's book layout marks
+  "Welcome" as active on every page, so this sets it from the page address:
+  the course pages match their own item, and every other page (chapters,
+  quizzes, glossary) is part of the Textbook. Pages with no menu item of
+  their own (the AI policy and privacy policy) highlight nothing.
+-->
+<script>
+(function () {
+  "use strict";
+  const COURSE_PAGES = ["index", "syllabus", "materials", "about"];
+  const NO_ITEM_PAGES = ["privacy", "ai-policy"];
+  const file = (location.pathname.split("/").pop() || "index").replace(/\.html$/, "");
+  const inRoot = !/\/chapters\//.test(location.pathname);
+  const target = inRoot && NO_ITEM_PAGES.includes(file) ? null
+    : inRoot && COURSE_PAGES.includes(file) ? file : "preface";
+  document.querySelectorAll("#navbarCollapse a.nav-link").forEach((a) => {
+    const page = (a.getAttribute("href") || "").split("/").pop().replace(/\.html$/, "");
+    const on = page === target;
+    a.classList.toggle("active", on);
+    if (on) a.setAttribute("aria-current", "page");
+    else a.removeAttribute("aria-current");
+  });
+})();
+</script>
+<!--
+  Reading settings, part 2 of 2: the "Aa" menu next to search, where readers
+  pick a font and text size. Choices are kept in this browser (localStorage)
+  and applied on every page by assets/reader-settings-head.html.
+-->
+<script>
+(function () {
+  var FONTS = [
+    { id: "", label: "Atkinson Hyperlegible (default)", css: '"Atkinson Hyperlegible Next", sans-serif' },
+    { id: "lexend", label: "Lexend", css: '"Lexend", sans-serif', href: "https://fonts.googleapis.com/css2?family=Lexend:wght@300..700&display=swap" },
+    { id: "cardo", label: "Cardo (serif)", css: '"Cardo", Georgia, serif', href: "https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&display=swap" },
+    { id: "sans", label: "Standard sans-serif", css: 'system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif' },
+    { id: "serif", label: "Serif", css: 'Georgia, Cambria, "Times New Roman", serif' },
+    { id: "dyslexic", label: "OpenDyslexic", css: '"OpenDyslexic", sans-serif' }
+  ];
+  var SIZES = { "-1": "Small", "0": "Default", "1": "Large", "2": "Larger", "3": "Largest" };
+  var MIN = -1, MAX = 3;
+  var root = document.documentElement;
+
+  function save(key, value) {
+    try {
+      if (value === "" || value === "0") localStorage.removeItem(key);
+      else localStorage.setItem(key, value);
+    } catch (e) { /* storage blocked: setting lasts for this page only */ }
+  }
+  function currentFont() { return root.getAttribute("data-reader-font") || ""; }
+  function currentSize() { return parseInt(root.getAttribute("data-reader-size") || "0", 10) || 0; }
+
+  // Add a Google Fonts stylesheet once (Lexend, Cardo). Fonts download only
+  // when text actually uses them.
+  function loadWebFont(f) {
+    if (!f.href || document.getElementById("sds-reader-webfont-" + f.id)) return;
+    var link = document.createElement("link");
+    link.rel = "stylesheet"; link.href = f.href; link.id = "sds-reader-webfont-" + f.id;
+    document.head.appendChild(link);
+  }
+
+  function setFont(id) {
+    FONTS.forEach(function (f) { if (f.id === id) loadWebFont(f); });
+    if (id) root.setAttribute("data-reader-font", id); else root.removeAttribute("data-reader-font");
+    save("sds-reader-font", id);
+  }
+  function setSize(n) {
+    n = Math.max(MIN, Math.min(MAX, n));
+    if (n) root.setAttribute("data-reader-size", String(n)); else root.removeAttribute("data-reader-size");
+    save("sds-reader-size", String(n));
+    refreshSize();
+  }
+
+  var wrap = document.createElement("div");
+  wrap.className = "sds-reader";
+  var fontOptions = FONTS.map(function (f) {
+    return '<label style=\'font-family:' + f.css.replace(/'/g, "&#39;") + '\'>' +
+      '<input class="form-check-input" type="radio" name="sds-reader-font" value="' + f.id + '"> ' + f.label + '</label>';
+  }).join("");
+  wrap.innerHTML =
+    '<button type="button" class="sds-reader-toggle" aria-expanded="false" aria-controls="sds-reader-panel" ' +
+      'title="Reading settings: font and text size">' +
+      '<span aria-hidden="true">Aa</span><span class="visually-hidden">Reading settings</span></button>' +
+    '<div class="sds-reader-panel" id="sds-reader-panel" role="dialog" aria-label="Reading settings" hidden>' +
+      '<h2>Reading settings</h2>' +
+      '<fieldset class="sds-reader-font"><legend>Font</legend>' + fontOptions + '</fieldset>' +
+      '<fieldset><legend>Text size</legend><div class="sds-reader-size-row">' +
+        '<button type="button" data-step="-1" aria-label="Smaller text">A&minus;</button>' +
+        '<output aria-live="polite"></output>' +
+        '<button type="button" data-step="1" aria-label="Larger text">A+</button>' +
+      '</div></fieldset>' +
+      '<button type="button" class="sds-reader-reset">Reset to defaults</button>' +
+    '</div>';
+
+  var toggle = wrap.querySelector(".sds-reader-toggle");
+  var panel = wrap.querySelector(".sds-reader-panel");
+  var output = wrap.querySelector("output");
+  var minus = wrap.querySelector('[data-step="-1"]');
+  var plus = wrap.querySelector('[data-step="1"]');
+
+  function refreshFont() {
+    var id = currentFont();
+    wrap.querySelectorAll('input[name="sds-reader-font"]').forEach(function (r) { r.checked = r.value === id; });
+  }
+  function refreshSize() {
+    var n = currentSize();
+    output.textContent = SIZES[String(n)] || "Default";
+    minus.disabled = n <= MIN;
+    plus.disabled = n >= MAX;
+  }
+  function open(show) {
+    panel.hidden = !show;
+    toggle.setAttribute("aria-expanded", show ? "true" : "false");
+    if (show) { FONTS.forEach(loadWebFont); refreshFont(); refreshSize(); var c = panel.querySelector("input:checked"); if (c) c.focus(); }
+  }
+
+  toggle.addEventListener("click", function (e) { e.stopPropagation(); open(panel.hidden); });
+  panel.addEventListener("click", function (e) { e.stopPropagation(); });
+  panel.addEventListener("change", function (e) { if (e.target.name === "sds-reader-font") setFont(e.target.value); });
+  minus.addEventListener("click", function () { setSize(currentSize() - 1); });
+  plus.addEventListener("click", function () { setSize(currentSize() + 1); });
+  wrap.querySelector(".sds-reader-reset").addEventListener("click", function () { setFont(""); setSize(0); refreshFont(); });
+  document.addEventListener("click", function () { if (!panel.hidden) open(false); });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !panel.hidden) { open(false); toggle.focus(); }
+  });
+
+  // Put the button by search: in the top menu on
+  // geog370.org, or by the sidebar search in the textbook-only build.
+  var navSearch = document.querySelector("#quarto-header #quarto-search");
+  if (navSearch) navSearch.parentNode.insertBefore(wrap, navSearch);
+  else {
+    var search = document.querySelector("#quarto-sidebar .sidebar-search, #quarto-sidebar #quarto-search, .sidebar-tools-main");
+    if (search && search.parentNode) search.parentNode.insertBefore(wrap, search.nextSibling);
+    else return;
+  }
+  refreshFont();
+  refreshSize();
+})();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/what-is-geographic-data.html" class="pagination-link" aria-label="What Is Geographic Data?">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">What Is Geographic Data?</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../chapters/map-projections.html" class="pagination-link" aria-label="Map Projections">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Map Projections</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

@@ -176,6 +176,24 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">What Is Geographic Data?</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/location-and-coordinates.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Location and Coordinate Systems</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/map-projections.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Map Projections</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/attribute-queries.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Attribute Data and Queries</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -546,7 +564,7 @@ Table&nbsp;1.2: Five kinds of questions a GIS can answer.
 <h2 data-number="1.4" class="anchored" data-anchor-id="sec-what-is-gis"><span class="header-section-number">1.4</span> What is GIS?</h2>
 <section id="where-geography-meets-computer-science" class="level3" data-number="1.4.1">
 <h3 data-number="1.4.1" class="anchored" data-anchor-id="where-geography-meets-computer-science"><span class="header-section-number">1.4.1</span> Where geography meets computer science</h3>
-<p>So what is <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span>? It sits where two fields overlap (<a href="#fig-venn" class="quarto-xref">Figure&nbsp;<span>1.7</span></a>). <strong>Geography</strong> asks where things are, and why they are there. <strong>Computer science</strong> gives us the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-structure" data-term="data structure">data structures</span>, algorithms, and software to store and analyze large amounts of data. GIS is the overlap: using computers to capture, store, analyze, and display <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-data" data-term="spatial data">geographic data</span>.</p>
+<p>So what is <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span>? It sits where two fields overlap (<a href="attribute-queries.html#fig-venn" class="quarto-xref">Figure&nbsp;<span>5.8</span></a>). <strong>Geography</strong> asks where things are, and why they are there. <strong>Computer science</strong> gives us the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-structure" data-term="data structure">data structures</span>, algorithms, and software to store and analyze large amounts of data. GIS is the overlap: using computers to capture, store, analyze, and display <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-data" data-term="spatial data">geographic data</span>.</p>
 <div id="fig-venn" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A Venn diagram of two overlapping circles. The left circle, in blue, is labeled Computer science: data, algorithms, software. The right circle, in green, is labeled Geography: where things are, and why. The overlap in the middle is labeled GIS.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-venn-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -934,7 +952,7 @@ Table&nbsp;1.6: The two desktop GIS programs used in this book.
 <p>By the end of the book, you will be able to:</p>
 <ol type="1">
 <li><strong>Use <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> software</strong> to design, develop, and carry out a GIS for a scientific spatial research project.</li>
-<li><strong>Understand the concepts behind GIS</strong>, including <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-model" data-term="data model">data models</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-map-projection" data-term="map projection">map projections</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">coordinate systems</span>, measurement, and data types.</li>
+<li><strong>Understand the concepts behind GIS</strong>, including <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-model" data-term="data model">data models</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-map-projection" data-term="map projection">map projections</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">coordinate systems</span>, measurement, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-type" data-term="data type">data types</span>.</li>
 <li><strong>Think critically about <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-data" data-term="spatial data">spatial data</span></strong>: how it is collected and used, who it affects, and the ethics of working with it.</li>
 </ol>
 <p>The book follows the course’s three units, each ending with a project (<a href="#tbl-roadmap" class="quarto-xref">Table&nbsp;<span>1.7</span></a>).</p>
@@ -1267,6 +1285,8 @@ clipping, or overlaying layers.</span>
 <span id="gloss-arcgis-online">Esri’s system for making and sharing maps and layers on the web.</span>
 <span id="gloss-data-model">The way a GIS represents the real world as data, for example as points,
 lines, and polygons (vector) or as a grid of cells (raster).</span>
+<span id="gloss-data-type">How a field is stored, such as text, integer, double, or date. It limits
+what the field can hold.</span>
 <span id="gloss-accessibility">How easily people can reach a place or service, often measured as
 distance or travel time.</span>
 <span id="gloss-spatial-thinking">Using ideas of space, such as location, distance, pattern, and scale, to

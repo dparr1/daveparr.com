@@ -36,7 +36,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../glossary.html" rel="next">
+<link href="../chapters/location-and-coordinates.html" rel="next">
 <link href="../chapters/what-is-gis.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -200,6 +200,24 @@ window.Quarto = {
   <div class="sidebar-item-container"> 
   <a href="../chapters/what-is-geographic-data.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">What Is Geographic Data?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/location-and-coordinates.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Location and Coordinate Systems</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/map-projections.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Map Projections</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/attribute-queries.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Attribute Data and Queries</span></span></a>
   </div>
 </li>
       </ul>
@@ -450,7 +468,7 @@ Figure&nbsp;2.5: The four kinds of map features: points, lines, polygons, and an
 <h3 data-number="2.2.3" class="anchored" data-anchor-id="what-is-an-entity"><span class="header-section-number">2.2.3</span> What is an entity?</h3>
 <p>Every entity carries five kinds of information. Take a lake as an example:</p>
 <ul>
-<li><strong>A spatial location</strong>: where it is, as an address or <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">coordinates</span>. The lake’s center is at a particular latitude and longitude.</li>
+<li><strong>A spatial location</strong>: where it is, as an address or <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">coordinates</span>. The lake’s center is at a particular <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-latitude" data-term="latitude">latitude</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-longitude" data-term="longitude">longitude</span>.</li>
 <li><strong>An <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-extent" data-term="extent">extent</span></strong>: how big it is, its size, boundary, and dimensions. The lake covers 40 hectares.</li>
 <li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-non-spatial-data" data-term="non-spatial data">Non-spatial</span> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-attribute" data-term="attribute">attributes</span></strong>: facts that describe it without saying where it is, such as a name, a number, a quality, or a color. The lake is called Lake Ridge, and it is 12 meters deep.</li>
 <li><strong>Time</strong>: when it existed, and when the data were collected. The shoreline was mapped from aerial photos taken in 2023, and a dry summer could move it.</li>
@@ -1101,6 +1119,10 @@ last points are the same, such as a lake, a park, or a county.</span>
 elevation points into triangles, using more triangles where the ground
 is rough.</span>
 <span id="gloss-annotation">Text placed on a map, such as place names, street names, and labels.</span>
+<span id="gloss-latitude">The angle north or south of the equator, from 0° at the equator to 90°
+at the poles.</span>
+<span id="gloss-longitude">The angle east or west of the prime meridian, from 0° at Greenwich to
+180° east or west.</span>
 <span id="gloss-extent">How far something reaches: its size, boundary, and dimensions. A layer’s
 extent is the rectangle that just encloses all its features.</span>
 <span id="gloss-non-spatial-data">Data with no location of their own, such as a list of grades. When
@@ -1991,8 +2013,8 @@ window.onload = function() {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../glossary.html" class="pagination-link" aria-label="Glossary">
-        <span class="nav-page-text">Glossary</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../chapters/location-and-coordinates.html" class="pagination-link" aria-label="Location and Coordinate Systems">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Location and Coordinate Systems</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

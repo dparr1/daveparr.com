@@ -1,0 +1,497 @@
+{
+  "id": "map-projections",
+  "title": "Map Projections",
+  "perSession": 10,
+  "minR": 0,
+  "questions": [
+    {
+      "id": "projection-def",
+      "type": "choice",
+      "prompt": "A map projection converts:",
+      "choices": [
+        "Latitude and longitude into flat x, y coordinates",
+        "One datum into another",
+        "Elevations into depths",
+        "Attributes into geometry"
+      ],
+      "answer": 0,
+      "explain": "A projection is a set of equations that flattens angles on the ellipsoid into x and y."
+    },
+    {
+      "id": "every-distorts",
+      "type": "truefalse",
+      "prompt": "Every flat map distorts at least one of shape, area, distance, or direction.",
+      "answer": true,
+      "explain": "You can't flatten a curved surface without stretching or tearing it."
+    },
+    {
+      "id": "conformal-def",
+      "type": "choice",
+      "prompt": "A conformal projection preserves:",
+      "choices": [
+        "Local angles and small shapes",
+        "Area",
+        "Distance from every point",
+        "Nothing exactly"
+      ],
+      "answer": 0,
+      "explain": "Conformal projections keep local angles true, so small shapes look right."
+    },
+    {
+      "id": "equal-area-def",
+      "type": "choice",
+      "prompt": "Which kind of projection should you use to map population density?",
+      "choices": [
+        "Equal-area",
+        "Conformal",
+        "Azimuthal",
+        "Gnomonic"
+      ],
+      "answer": 0,
+      "explain": "Density divides by area, so area must be preserved."
+    },
+    {
+      "id": "conformal-equal-area",
+      "type": "truefalse",
+      "prompt": "A projection can be both conformal and equal-area.",
+      "answer": false,
+      "explain": "No projection can be both."
+    },
+    {
+      "id": "azimuthal-def",
+      "type": "choice",
+      "prompt": "An azimuthal projection keeps true:",
+      "choices": [
+        "Directions from a center point",
+        "Areas everywhere",
+        "Shapes everywhere",
+        "Distances between every pair of points"
+      ],
+      "answer": 0,
+      "explain": "Azimuthal projections preserve bearings from their center."
+    },
+    {
+      "id": "compromise",
+      "type": "choice",
+      "prompt": "Robinson and Winkel Tripel are examples of:",
+      "choices": [
+        "Compromise projections",
+        "Conformal projections",
+        "Equal-area projections",
+        "Datums"
+      ],
+      "answer": 0,
+      "explain": "They preserve nothing exactly but keep every error moderate."
+    },
+    {
+      "id": "tissot",
+      "type": "choice",
+      "prompt": "Tissot's indicatrix shows a projection's distortion by:",
+      "choices": [
+        "Projecting identical small circles and seeing how they change",
+        "Measuring the geoid",
+        "Counting the meridians",
+        "Comparing two datums"
+      ],
+      "answer": 0,
+      "explain": "On the map, each circle becomes an ellipse whose size and shape show the distortion there."
+    },
+    {
+      "id": "mercator-60",
+      "type": "fill",
+      "prompt": "On a Mercator map, how many times too large does an area at 60° latitude appear?",
+      "answers": [
+        "4",
+        "four"
+      ],
+      "explain": "The scale factor is the secant of the latitude, 2 at 60°, and areas grow by its square: 2 × 2 = 4.",
+      "ignoreCase": true
+    },
+    {
+      "id": "greenland-africa",
+      "type": "choice",
+      "prompt": "Greenland looks about as large as Africa on a Mercator map. How much larger is Africa really?",
+      "choices": [
+        "About 14 times",
+        "About the same",
+        "About 2 times",
+        "About 100 times"
+      ],
+      "answer": 0,
+      "explain": "Africa is about 30 million km²; Greenland about 2.2 million km²."
+    },
+    {
+      "id": "mercator-use",
+      "type": "choice",
+      "prompt": "Mercator is best used for:",
+      "choices": [
+        "Navigation, because rhumb lines are straight",
+        "Comparing the areas of countries",
+        "Mapping the poles",
+        "Measuring distances between cities"
+      ],
+      "answer": 0,
+      "explain": "A line of constant compass bearing is straight on a Mercator map."
+    },
+    {
+      "id": "web-mercator",
+      "type": "choice",
+      "prompt": "Web Mercator (EPSG:3857) is good for:",
+      "choices": [
+        "Displaying web basemaps",
+        "Measuring area",
+        "Measuring distance",
+        "Mapping the North Pole"
+      ],
+      "answer": 0,
+      "explain": "It is for display. It inherits Mercator's area enlargement and cuts off at about 85° N and S."
+    },
+    {
+      "id": "web-mercator-code",
+      "type": "fill",
+      "prompt": "What is the EPSG code for Web Mercator?",
+      "answers": [
+        "3857"
+      ],
+      "explain": "EPSG:3857, WGS 84 / Pseudo-Mercator.",
+      "numeric": true
+    },
+    {
+      "id": "developable",
+      "type": "choice",
+      "prompt": "Which is NOT a developable surface used for map projections?",
+      "choices": [
+        "Sphere",
+        "Plane",
+        "Cylinder",
+        "Cone"
+      ],
+      "answer": 0,
+      "explain": "A sphere can't be unrolled flat without stretching. That is the whole problem."
+    },
+    {
+      "id": "conic-use",
+      "type": "choice",
+      "prompt": "Which surface best suits a mid-latitude region that runs east to west, like the contiguous United States?",
+      "choices": [
+        "Cone",
+        "Cylinder in its normal position",
+        "Plane",
+        "Transverse cylinder"
+      ],
+      "answer": 0,
+      "explain": "A cone touches along one or two parallels, which follow an east–west region."
+    },
+    {
+      "id": "planar-use",
+      "type": "choice",
+      "prompt": "Which surface best suits a map of Antarctica?",
+      "choices": [
+        "Plane",
+        "Cone",
+        "Cylinder",
+        "None; Antarctica can't be mapped"
+      ],
+      "answer": 0,
+      "explain": "Planar (azimuthal) projections centered on a pole suit the polar regions."
+    },
+    {
+      "id": "secant-def",
+      "type": "choice",
+      "prompt": "A secant projection surface:",
+      "choices": [
+        "Cuts through the Earth along two lines",
+        "Touches the Earth at one point",
+        "Never touches the Earth",
+        "Is always a cylinder"
+      ],
+      "answer": 0,
+      "explain": "A secant surface cuts the Earth; a tangent surface touches it."
+    },
+    {
+      "id": "secant-why",
+      "type": "choice",
+      "prompt": "Why use a secant surface instead of a tangent one?",
+      "choices": [
+        "It spreads the error, keeping the largest error smaller",
+        "It makes the map conformal",
+        "It removes all distortion",
+        "It makes the map equal-area"
+      ],
+      "answer": 0,
+      "explain": "Scale is slightly small between the standard lines and slightly large outside them, instead of growing from one line."
+    },
+    {
+      "id": "standard-line",
+      "type": "choice",
+      "prompt": "On a standard line, the scale factor is:",
+      "choices": [
+        "Exactly 1",
+        "0",
+        "Less than 1",
+        "Infinite"
+      ],
+      "answer": 0,
+      "explain": "Standard lines are where the projection surface meets the Earth, so scale is exact."
+    },
+    {
+      "id": "between-standard",
+      "type": "choice",
+      "prompt": "On a secant projection, distances between the two standard lines are:",
+      "choices": [
+        "Slightly too short",
+        "Slightly too long",
+        "Exact",
+        "Infinite"
+      ],
+      "answer": 0,
+      "explain": "Between the standard lines the map surface is inside the Earth, so ab is shorter than AB."
+    },
+    {
+      "id": "lcc",
+      "type": "choice",
+      "prompt": "Lambert Conformal Conic is used for:",
+      "choices": [
+        "North Carolina State Plane and U.S. aeronautical charts",
+        "Web maps",
+        "UTM zones",
+        "Maps of the poles"
+      ],
+      "answer": 0,
+      "explain": "It suits regions wider east to west than north to south."
+    },
+    {
+      "id": "tm",
+      "type": "choice",
+      "prompt": "Transverse Mercator suits regions that:",
+      "choices": [
+        "Run north to south",
+        "Run east to west",
+        "Cover the whole world",
+        "Are near the poles"
+      ],
+      "answer": 0,
+      "explain": "Its cylinder touches along a central meridian, and error grows east and west."
+    },
+    {
+      "id": "utm-zones",
+      "type": "fill",
+      "prompt": "How many zones does UTM have?",
+      "answers": [
+        "60",
+        "sixty"
+      ],
+      "explain": "60 zones, each 6° of longitude wide.",
+      "ignoreCase": true
+    },
+    {
+      "id": "utm-width",
+      "type": "fill",
+      "prompt": "Each UTM zone is how many degrees of longitude wide?",
+      "answers": [
+        "6",
+        "six"
+      ],
+      "explain": "360° ÷ 60 zones = 6°.",
+      "ignoreCase": true
+    },
+    {
+      "id": "utm-scale",
+      "type": "choice",
+      "prompt": "The scale factor on each UTM zone's central meridian is:",
+      "choices": [
+        "0.9996",
+        "1.0000",
+        "0.9999",
+        "1.0004"
+      ],
+      "answer": 0,
+      "explain": "0.9996 makes each zone secant, with lines of true scale about 180 km either side."
+    },
+    {
+      "id": "false-easting",
+      "type": "fill",
+      "prompt": "What is the false easting of every UTM zone, in meters?",
+      "answers": [
+        "500000",
+        "500,000"
+      ],
+      "explain": "Each central meridian gets 500,000 m so every easting is positive."
+    },
+    {
+      "id": "nc-utm",
+      "type": "choice",
+      "prompt": "North Carolina spans which two UTM zones?",
+      "choices": [
+        "17N and 18N",
+        "16N and 17N",
+        "18N and 19N",
+        "17S and 18S"
+      ],
+      "answer": 0,
+      "explain": "The zones split at 78° W."
+    },
+    {
+      "id": "chapel-hill-utm",
+      "type": "choice",
+      "prompt": "Chapel Hill (79.05° W) is in which UTM zone?",
+      "choices": [
+        "17N",
+        "18N",
+        "16N",
+        "19N"
+      ],
+      "answer": 0,
+      "explain": "Zone 17 runs from 84° W to 78° W."
+    },
+    {
+      "id": "state-plane-error",
+      "type": "choice",
+      "prompt": "State Plane zones keep scale error to about:",
+      "choices": [
+        "1 part in 10,000",
+        "1 part in 10",
+        "1 part in 100",
+        "None at all"
+      ],
+      "answer": 0,
+      "explain": "That is no more than 1 m in 10 km."
+    },
+    {
+      "id": "nc-state-plane",
+      "type": "choice",
+      "prompt": "North Carolina's State Plane system has:",
+      "choices": [
+        "One Lambert Conformal Conic zone",
+        "Two Transverse Mercator zones",
+        "Three zones, east to west",
+        "No State Plane zone"
+      ],
+      "answer": 0,
+      "explain": "Standard parallels at 34° 20′ N and 36° 10′ N."
+    },
+    {
+      "id": "epsg-32119-2264",
+      "type": "choice",
+      "prompt": "EPSG:32119 and EPSG:2264 are both NC State Plane. How do they differ?",
+      "choices": [
+        "32119 is in meters; 2264 is in U.S. survey feet",
+        "32119 is NAD27; 2264 is NAD83",
+        "They use different projections",
+        "2264 is geographic"
+      ],
+      "answer": 0,
+      "explain": "Same projection, different units. Always check a dataset's units."
+    },
+    {
+      "id": "crs-def",
+      "type": "choice",
+      "prompt": "A coordinate reference system bundles:",
+      "choices": [
+        "A datum, a projection with its parameters, and units",
+        "An attribute table and a geometry",
+        "A layer and a symbol",
+        "A raster and a vector"
+      ],
+      "answer": 0,
+      "explain": "That is what an EPSG code identifies."
+    },
+    {
+      "id": "geographic-vs-projected",
+      "type": "choice",
+      "prompt": "Which EPSG code is a geographic coordinate system?",
+      "choices": [
+        "4326",
+        "26917",
+        "32119",
+        "5070"
+      ],
+      "answer": 0,
+      "explain": "4326 is WGS84 latitude and longitude, in degrees. The others are projected."
+    },
+    {
+      "id": "measure-degrees",
+      "type": "truefalse",
+      "prompt": "It is fine to measure area in a geographic coordinate system, in square degrees.",
+      "answer": false,
+      "explain": "A degree of longitude shrinks toward the poles, so degrees aren't a measure of distance. Use a projected CRS."
+    },
+    {
+      "id": "area-us",
+      "type": "choice",
+      "prompt": "You need the area of every county in the contiguous United States. Which CRS?",
+      "choices": [
+        "EPSG:5070, Conus Albers",
+        "EPSG:3857, Web Mercator",
+        "EPSG:4326, WGS 84",
+        "EPSG:26917, UTM 17N"
+      ],
+      "answer": 0,
+      "explain": "Albers Equal-Area Conic preserves area across the country."
+    },
+    {
+      "id": "distance-from",
+      "type": "choice",
+      "prompt": "You want true distances from RDU airport to everywhere. Which projection?",
+      "choices": [
+        "Azimuthal equidistant centered on RDU",
+        "Mercator",
+        "Albers Equal-Area Conic",
+        "Plate Carrée"
+      ],
+      "answer": 0,
+      "explain": "An azimuthal equidistant projection keeps true distance from its center."
+    },
+    {
+      "id": "dem-units",
+      "type": "choice",
+      "prompt": "A DEM has elevations in feet but is in a projection in meters. What happens to slope?",
+      "choices": [
+        "It is wrong by a factor of about 3.3",
+        "It is correct",
+        "It is wrong by a factor of 10",
+        "It can't be calculated"
+      ],
+      "answer": 0,
+      "explain": "There are about 3.28 feet in a meter, so match horizontal and vertical units."
+    },
+    {
+      "id": "define-vs-project",
+      "type": "choice",
+      "prompt": "A shapefile has lost its .prj file, and you know its data are in NC State Plane feet. What should you do?",
+      "choices": [
+        "Define (assign) its projection as EPSG:2264",
+        "Project it to EPSG:2264",
+        "Delete it",
+        "Project it to WGS84"
+      ],
+      "answer": 0,
+      "explain": "Defining tells the software what CRS the data are already in, without changing coordinates."
+    },
+    {
+      "id": "wrong-place",
+      "type": "choice",
+      "prompt": "A layer of NC schools shows up near 0° latitude, 0° longitude, off West Africa. The most likely cause is:",
+      "choices": [
+        "Latitude and longitude coordinates wrongly defined as a projected CRS in feet or meters",
+        "Too many decimal places",
+        "A NULL value",
+        "The layer is drawn above the basemap"
+      ],
+      "answer": 0,
+      "explain": "Read as feet or meters, numbers like 35.9 and −79.1 are only a few steps from 0, 0. Define the layer's CRS correctly as a geographic CRS."
+    },
+    {
+      "id": "choose-steps",
+      "type": "order",
+      "prompt": "Put the steps for choosing a projection in order.",
+      "answer": [
+        "Find where your study area is",
+        "Decide what you will measure",
+        "Pick a projection designed for that area that preserves that property",
+        "Project your layers before measuring"
+      ],
+      "explain": "Area first, then property, then project the data."
+    }
+  ]
+}
