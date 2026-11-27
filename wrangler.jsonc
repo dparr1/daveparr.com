@@ -9,5 +9,9 @@
   "assets": {
     "directory": "./_site",
     "not_found_handling": "404-page"
-  }
+  },
+  // Required by `npx wrangler preview`, which Workers Builds runs for
+  // non-production branches (PR previews). Empty means previews use the
+  // settings above.
+  "previews": {}
 }
