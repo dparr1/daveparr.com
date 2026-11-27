@@ -313,9 +313,29 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-4-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+ <span class="menu-text" id="quarto-sidebar-section-4-label">GIS Software</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
       <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/qgis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Getting to Know QGIS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/arcgis-pro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Getting to Know ArcGIS Pro</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-controls="quarto-sidebar-section-5" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-5-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-5" aria-labelledby="quarto-sidebar-section-5-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../glossary.html" class="sidebar-item-text sidebar-link">
@@ -784,7 +804,7 @@ Figure&nbsp;15.13: One step of cross validation.
 <h2 data-number="15.5" class="anchored" data-anchor-id="sec-interp-software"><span class="header-section-number">15.5</span> Interpolation in ArcGIS Pro and QGIS</h2>
 <ul>
 <li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span>.</strong> The Spatial Analyst toolbox has <em><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-inverse-distance-weighted" data-term="inverse distance weighted">IDW</span></em>, <em><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-radial-basis-function" data-term="radial basis function">Spline</span></em> (an RBF), <em>Natural Neighbor</em>, and <em>Trend</em> (a global polynomial). The <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geostatistics" data-term="geostatistics">Geostatistical</span> Analyst</strong> extension adds the <strong>Geostatistical Wizard</strong>, which runs IDW, global and local polynomials, RBFs, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-kriging" data-term="kriging">kriging</span> with full control of the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-search-neighborhood" data-term="search neighborhood">search neighborhood</span>, and reports <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cross-validation" data-term="cross validation">cross-validation</span> statistics, including <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-root-mean-square-error-rmse" data-term="root mean square error (RMSE)">RMSE</span> and the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-mean-error" data-term="mean error">mean error</span>. <em>Create <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-thiessen-polygons" data-term="Thiessen polygons">Thiessen Polygons</span></em> (Analysis toolbox) draws Thiessen polygons.</li>
-<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span>.</strong> The Processing Toolbox’s <em><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-interpolation" data-term="spatial interpolation">Interpolation</span></em> group has <em>IDW interpolation</em> and <em><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tin" data-term="TIN">TIN</span> interpolation</em>; GDAL’s <em>Grid</em> tools add <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-nearest-neighbor" data-term="nearest neighbor">nearest neighbor</span>, moving average (<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-average-neighbor" data-term="average neighbor">average neighbor</span>), and inverse distance to a power; and <em>Voronoi polygons</em> draws Thiessen polygons. SAGA and GRASS add splines and kriging.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span>.</strong> The Processing Toolbox’s <em><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-interpolation" data-term="spatial interpolation">Interpolation</span></em> group has <em>IDW interpolation</em> and <em><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tin" data-term="TIN">TIN</span> interpolation</em>; <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-gdal" data-term="GDAL">GDAL</span>’s <em>Grid</em> tools add <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-nearest-neighbor" data-term="nearest neighbor">nearest neighbor</span>, moving average (<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-average-neighbor" data-term="average neighbor">average neighbor</span>), and inverse distance to a power; and <em>Voronoi polygons</em> draws Thiessen polygons. SAGA and GRASS add splines and kriging.</li>
 </ul>
 </section>
 <section id="check-your-understanding" class="level2" data-number="15.6">
@@ -847,7 +867,7 @@ Figure&nbsp;15.13: One step of cross validation.
 <h3 data-number="15.9.3" class="anchored" data-anchor-id="qgis"><span class="header-section-number">15.9.3</span> QGIS</h3>
 <ul>
 <li><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span> User Guide, “Interpolation” algorithms (IDW and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tin" data-term="TIN">TIN</span>): <a href="https://docs.qgis.org/latest/en/docs/user_manual/processing_algs/qgis/interpolation.html" class="uri">https://docs.qgis.org/latest/en/docs/user_manual/processing_algs/qgis/interpolation.html</a>.</li>
-<li>QGIS User Guide, GDAL “<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">Raster</span> analysis” algorithms (Grid tools): <a href="https://docs.qgis.org/latest/en/docs/user_manual/processing_algs/gdal/rasteranalysis.html" class="uri">https://docs.qgis.org/latest/en/docs/user_manual/processing_algs/gdal/rasteranalysis.html</a>.</li>
+<li>QGIS User Guide, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-gdal" data-term="GDAL">GDAL</span> “<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">Raster</span> analysis” algorithms (Grid tools): <a href="https://docs.qgis.org/latest/en/docs/user_manual/processing_algs/gdal/rasteranalysis.html" class="uri">https://docs.qgis.org/latest/en/docs/user_manual/processing_algs/gdal/rasteranalysis.html</a>.</li>
 <li>QGIS Training Manual, “Spatial Statistics” and interpolation lessons: <a href="https://docs.qgis.org/latest/en/docs/training_manual/processing/interpolation.html" class="uri">https://docs.qgis.org/latest/en/docs/training_manual/processing/interpolation.html</a>.</li>
 </ul>
 </section>
@@ -924,6 +944,9 @@ unbiased.</span>
 <span id="gloss-tin">Triangulated irregular network: a surface model that joins sampled
 elevation points into triangles, using more triangles where the ground
 is rough.</span>
+<span id="gloss-gdal">The Geospatial Data Abstraction Library, open-source software that reads
+and writes hundreds of raster and vector formats. QGIS, ArcGIS Pro, and
+many other programs use it.</span>
 <span id="gloss-geographic-information-system-gis">“A computer-based system to aid in the collection, maintenance, storage,
 analysis, output, and distribution of spatial data and information”
 (Bolstad). Its five components are data, hardware, software, people, and

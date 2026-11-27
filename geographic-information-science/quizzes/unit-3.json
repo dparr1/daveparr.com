@@ -1,0 +1,13 @@
+{
+  "id": "unit-3",
+  "title": "Unit 3 quiz: Spatial Analysis",
+  "perSession": 20,
+  "chapters": [
+    "data-classing",
+    "density",
+    "spatial-analysis",
+    "raster",
+    "interpolation",
+    "kriging"
+  ]
+}

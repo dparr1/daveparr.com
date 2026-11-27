@@ -313,9 +313,29 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-4-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+ <span class="menu-text" id="quarto-sidebar-section-4-label">GIS Software</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
       <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/qgis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Getting to Know QGIS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/arcgis-pro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Getting to Know ArcGIS Pro</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-controls="quarto-sidebar-section-5" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-5-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-5" aria-labelledby="quarto-sidebar-section-5-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../glossary.html" class="sidebar-item-text sidebar-link">
@@ -819,7 +839,7 @@ Figure&nbsp;8.5: Made-up ACS estimates of median household income for five tract
 <li><strong>Check the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-key" data-term="key">key fields</span>.</strong> Open the county layer’s fields view (<em>right-click &gt; Data Design &gt; Fields</em>). The county layer’s <code>GEOID</code> is text, 5 characters. Open the CSV: ArcGIS Pro reads its ID column, after you clean it to the 5-digit code, as a number (<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-integer" data-term="integer">Long integer</span>). <strong>The two key fields must have the same type</strong>, so one has to change.</li>
 <li><strong>Match the types.</strong> A CSV is read-only in ArcGIS Pro, so add a field to the county layer instead. In the county <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-attribute" data-term="attribute">attribute table</span>, click <em>Add</em>, name the field <code>fips5</code>, set its type to <em>Long</em>, and save. Right-click the new column and choose <em><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-field-calculator" data-term="field calculator">Calculate Field</span></em>, with the expression <code>fips5 = !GEOID!</code>. Each text code is converted to a number. (Because both keys are now numbers, the missing leading zeros don’t matter.)</li>
 <li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-table-join" data-term="table join">Join</span>.</strong> Right-click the county layer, choose <em>Joins and Relates &gt; Add Join</em>. Set the <em>Input Join Field</em> to <code>fips5</code>, the <em><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-source-table" data-term="source table">Join Table</span></em> to the CSV, and the <em>Join Table Field</em> to its ID column. Click <em>Validate Join</em> to check how many records match: it should be all 100. Click <em>OK</em>.</li>
-<li><strong>Check and make it permanent.</strong> Open the attribute table and look for NULLs in the joined fields. Then right-click the layer and choose <em>Data &gt; Export Features</em> to save a new feature class with the joined fields.</li>
+<li><strong>Check and make it permanent.</strong> Open the attribute table and look for NULLs in the joined fields. Then right-click the layer and choose <em>Data &gt; Export Features</em> to save a new <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-feature-class" data-term="feature class">feature class</span> with the joined fields.</li>
 <li><strong>Map it.</strong> Symbolize the counties with <em>Graduated Colors</em> on the median household income field. Add the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-margin-of-error-moe" data-term="margin of error (MOE)">margin of error</span> to the pop-up, so that readers can see how precise each estimate is.</li>
 </ol>
 </section>
@@ -996,6 +1016,8 @@ feature.</span>
 <span id="gloss-field-calculator">A tool that computes values and writes them into a field, for every
 record or for the selected records only.</span>
 <span id="gloss-source-table">In a join, the table whose fields are appended to the destination.</span>
+<span id="gloss-feature-class">Esri’s term for a vector layer stored in a geodatabase: a set of
+features with the same geometry type and fields.</span>
 <span id="gloss-data-type">How a field is stored, such as text, integer, double, or date. It limits
 what the field can hold.</span>
 <span id="gloss-parcel">A polygon for one piece of property, usually with its owner and address.</span>

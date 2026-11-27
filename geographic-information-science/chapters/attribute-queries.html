@@ -319,9 +319,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-4-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+ <span class="menu-text" id="quarto-sidebar-section-4-label">GIS Software</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
       <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/qgis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Getting to Know QGIS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/arcgis-pro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Getting to Know ArcGIS Pro</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-controls="quarto-sidebar-section-5" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-5-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-5" aria-labelledby="quarto-sidebar-section-5-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../glossary.html" class="sidebar-item-text sidebar-link">
@@ -484,7 +504,7 @@ Figure&nbsp;5.1: Seven parcels and their attribute table. A record is a row: eve
 <div id="tbl-types" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-types-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;5.1: Common field data types. Which types are available also depends on the format: a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-shapefile" data-term="shapefile">shapefile</span>, a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geopackage" data-term="GeoPackage">GeoPackage</span>, a file geodatabase, or a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-database" data-term="database">database</span> such as <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-postgis" data-term="PostGIS">PostGIS</span>. ArcGIS Pro’s <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-integer" data-term="integer">Big Integer</span>, Date Only, and Time Only types need version 3.2 or later.
+Table&nbsp;5.1: Common field data types. Which types are available also depends on the format: a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-shapefile" data-term="shapefile">shapefile</span>, a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geopackage" data-term="GeoPackage">GeoPackage</span>, a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geodatabase" data-term="geodatabase">file geodatabase</span>, or a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-database" data-term="database">database</span> such as <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-postgis" data-term="PostGIS">PostGIS</span>. ArcGIS Pro’s <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-integer" data-term="integer">Big Integer</span>, Date Only, and Time Only types need version 3.2 or later.
 </figcaption>
 <div aria-describedby="tbl-types-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
@@ -1277,6 +1297,8 @@ are required, and .prj holds the coordinate system.</span>
 <span id="gloss-geopackage">An open file format (.gpkg) from the Open Geospatial Consortium that
 stores many vector and raster layers in a single file. It is QGIS’s
 default format.</span>
+<span id="gloss-geodatabase">Esri’s format for storing feature classes, tables, and rasters together.
+A file geodatabase is a folder ending in .gdb.</span>
 <span id="gloss-database">An organized collection of tables, usually stored and managed by a
 database management system.</span>
 <span id="gloss-postgis">A free extension that adds geometry types and spatial functions to the

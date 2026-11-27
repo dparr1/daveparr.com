@@ -284,9 +284,29 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-4-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+ <span class="menu-text" id="quarto-sidebar-section-4-label">GIS Software</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
       <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/qgis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Getting to Know QGIS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/arcgis-pro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Getting to Know ArcGIS Pro</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-controls="quarto-sidebar-section-5" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-5-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-5" aria-labelledby="quarto-sidebar-section-5-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../glossary.html" class="sidebar-item-text sidebar-link">
@@ -500,7 +520,7 @@ Figure&nbsp;4.4: Greenland (blue) and Africa (green) on a Mercator map (left) an
 </section>
 <section id="web-mercator-for-display-not-measurement" class="level3" data-number="4.2.4">
 <h3 data-number="4.2.4" class="anchored" data-anchor-id="web-mercator-for-display-not-measurement"><span class="header-section-number">4.2.4</span> Web Mercator: for display, not measurement</h3>
-<p>Look at almost any web map, such as Google Maps, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-openstreetmap" data-term="OpenStreetMap">OpenStreetMap</span>, Bing Maps, or an <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-esri" data-term="Esri">Esri</span> basemap, and you are looking at <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-web-mercator" data-term="Web Mercator">Web Mercator</span></strong>, code <strong>EPSG:3857</strong>. It treats the Earth as a sphere while using <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-wgs84" data-term="WGS84">WGS84</span> latitude and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-longitude" data-term="longitude">longitude</span>, which makes the math fast. Its great strength is that the whole world fits in a square, which can be cut into square <strong>tiles</strong> at every zoom level: one tile at zoom 0, four at zoom 1, sixteen at zoom 2, and so on (<a href="#fig-tiles" class="quarto-xref">Figure&nbsp;<span>4.5</span></a>). Your browser only downloads the tiles you are looking at, which is why web maps scroll and zoom so smoothly.</p>
+<p>Look at almost any web map, such as Google Maps, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-openstreetmap" data-term="OpenStreetMap">OpenStreetMap</span>, Bing Maps, or an <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-esri" data-term="Esri">Esri</span> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-basemap" data-term="basemap">basemap</span>, and you are looking at <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-web-mercator" data-term="Web Mercator">Web Mercator</span></strong>, code <strong>EPSG:3857</strong>. It treats the Earth as a sphere while using <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-wgs84" data-term="WGS84">WGS84</span> latitude and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-longitude" data-term="longitude">longitude</span>, which makes the math fast. Its great strength is that the whole world fits in a square, which can be cut into square <strong>tiles</strong> at every zoom level: one tile at zoom 0, four at zoom 1, sixteen at zoom 2, and so on (<a href="#fig-tiles" class="quarto-xref">Figure&nbsp;<span>4.5</span></a>). Your browser only downloads the tiles you are looking at, which is why web maps scroll and zoom so smoothly.</p>
 <div id="fig-tiles" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Three square world maps on the Mercator projection, side by side. Zoom 0, 1 tile: one square. Zoom 1, 4 tiles: the same map divided into a 2 by 2 grid. Zoom 2, 16 tiles: a 4 by 4 grid.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-tiles-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -1033,6 +1053,8 @@ parallel that is a great circle.</span>
 <span id="gloss-openstreetmap">A free, editable map of the world built by volunteers, founded in 2004.</span>
 <span id="gloss-esri">The company that makes ArcGIS, founded in 1969 by Jack and Laura
 Dangermond in Redlands, California.</span>
+<span id="gloss-basemap">A background map, such as streets, topography, or aerial imagery, that
+gives context to the layers drawn on top of it.</span>
 <span id="gloss-wgs84">The World Geodetic System of 1984, the global, earth-centered datum used
 by GPS. It differs from NAD83 by about 1 to 2 meters in North America.</span>
 <span id="gloss-reproject">To convert a layer’s coordinates from one CRS to another and save the

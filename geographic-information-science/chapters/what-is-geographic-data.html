@@ -313,9 +313,29 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-4-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+ <span class="menu-text" id="quarto-sidebar-section-4-label">GIS Software</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
       <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/qgis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Getting to Know QGIS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/arcgis-pro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Getting to Know ArcGIS Pro</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-controls="quarto-sidebar-section-5" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-5-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-5" aria-labelledby="quarto-sidebar-section-5-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../glossary.html" class="sidebar-item-text sidebar-link">
@@ -599,7 +619,7 @@ Figure&nbsp;2.7: Thematic layers stacked over the same area, from the Earth’s 
 </div>
 <p>The two programs in this book organize layers slightly differently:</p>
 <ul>
-<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span></strong>: the layers you display together make up a <em>map</em>. A project (an <code>.aprx</code> file) can hold several maps, along with layouts and other items. (Older ArcMap called a map a <em>data frame</em>, and saved its work as a <em>map document</em>, an <code>.mxd</code> file.)</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span></strong>: the layers you display together make up a <em>map</em>. A project (an <code>.aprx</code> file) can hold several maps, along with layouts and other items. (Older <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcmap" data-term="ArcMap">ArcMap</span> called a map a <em>data frame</em>, and saved its work as a <em>map document</em>, an <code>.mxd</code> file.)</li>
 <li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span></strong>: layers belong to a <em>project</em> (a <code>.qgz</code> file), and are drawn in the <em>map canvas</em>. The Layers panel lists them, top to bottom, in the order they are drawn.</li>
 </ul>
 <p>In both programs, a layer <em>points to</em> data stored somewhere else, in a file or a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-database" data-term="database">database</span>. It does not hold the data itself. Deleting a layer from your map does not delete the data, and moving the data can break the layer. Keep that in mind when you move a project to another computer.</p>
@@ -1106,7 +1126,7 @@ Show hint for question 6
 <li>Esri, “Shapefiles” in the ArcGIS Pro help, including which files make up a shapefile: <a href="https://pro.arcgis.com/en/pro-app/latest/help/data/shapefiles/working-with-shapefiles-in-arcgis-pro.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/help/data/shapefiles/working-with-shapefiles-in-arcgis-pro.htm</a>, and “<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geoprocessing" data-term="geoprocessing">Geoprocessing</span> considerations for shapefile output,” on its limits: <a href="https://pro.arcgis.com/en/pro-app/latest/tool-reference/appendices/geoprocessing-considerations-for-shapefile-output.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/tool-reference/appendices/geoprocessing-considerations-for-shapefile-output.htm</a>.</li>
 <li>Switch from Shapefile, a community site that lists the shapefile’s limits and the alternatives: <a href="http://switchfromshapefile.org" class="uri">http://switchfromshapefile.org</a>.</li>
 <li><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geopackage" data-term="GeoPackage">GeoPackage</span>, the open standard from the Open Geospatial Consortium (OGC): <a href="https://www.geopackage.org" class="uri">https://www.geopackage.org</a>.</li>
-<li>GDAL, the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-open-source" data-term="open source">open-source</span> library behind most GIS software’s ability to read and write data, with a list of every vector and raster format it supports: <a href="https://gdal.org/en/stable/drivers/vector/index.html" class="uri">https://gdal.org/en/stable/drivers/vector/index.html</a> and <a href="https://gdal.org/en/stable/drivers/raster/index.html" class="uri">https://gdal.org/en/stable/drivers/raster/index.html</a>.</li>
+<li><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-gdal" data-term="GDAL">GDAL</span>, the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-open-source" data-term="open source">open-source</span> library behind most GIS software’s ability to read and write data, with a list of every vector and raster format it supports: <a href="https://gdal.org/en/stable/drivers/vector/index.html" class="uri">https://gdal.org/en/stable/drivers/vector/index.html</a> and <a href="https://gdal.org/en/stable/drivers/raster/index.html" class="uri">https://gdal.org/en/stable/drivers/raster/index.html</a>.</li>
 <li>GeoJSON, a simple text format for vector data on the web: <a href="https://geojson.org" class="uri">https://geojson.org</a>. Try drawing features and watching the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">coordinates</span> appear at <a href="https://geojson.io" class="uri">https://geojson.io</a>.</li>
 <li>Cloud Optimized GeoTIFF, a raster format built for the cloud: <a href="https://cogeo.org" class="uri">https://cogeo.org</a>.</li>
 </ul>
@@ -1225,6 +1245,8 @@ map.</span>
 <span id="gloss-overlay-analysis">Stacking layers of data for the same area to find places that meet
 several conditions at once, such as flat land near a road and outside a
 floodplain.</span>
+<span id="gloss-arcmap">Esri’s main desktop GIS application from 1999 until ArcGIS Pro replaced
+it. Esri ended support for it on March 1, 2026.</span>
 <span id="gloss-node">The start or end point of a line. In a network, lines meet at nodes. In
 OpenStreetMap, a node is any single point with a latitude and longitude,
 standing alone or as a vertex of a way.</span>
@@ -1270,6 +1292,9 @@ Consortium for Geographic Information Science (UCGIS).</span>
 the military, and government.</span>
 <span id="gloss-geoprocessing">Running a GIS tool on spatial data to make new data, such as buffering,
 clipping, or overlaying layers.</span>
+<span id="gloss-gdal">The Geospatial Data Abstraction Library, open-source software that reads
+and writes hundreds of raster and vector formats. QGIS, ArcGIS Pro, and
+many other programs use it.</span>
 <span id="gloss-open-source">Software whose source code anyone may read, change, and share, often
 free of charge. QGIS and GRASS GIS are open source.</span>
 <span id="gloss-openstreetmap">A free, editable map of the world built by volunteers, founded in 2004.</span>

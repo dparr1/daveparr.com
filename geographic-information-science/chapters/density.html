@@ -313,9 +313,29 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-4-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+ <span class="menu-text" id="quarto-sidebar-section-4-label">GIS Software</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
       <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/qgis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Getting to Know QGIS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/arcgis-pro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Getting to Know ArcGIS Pro</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-controls="quarto-sidebar-section-5" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-5-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-5" aria-labelledby="quarto-sidebar-section-5-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../glossary.html" class="sidebar-item-text sidebar-link">
@@ -711,7 +731,7 @@ Figure&nbsp;12.7: Kernel density surfaces of the same made-up incident points wi
 <li>Optionally, choose a <strong>Weight from field</strong>, and a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-kernel" data-term="kernel">Kernel</span> shape</strong> (<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-quartic-kernel" data-term="quartic kernel">quartic</span> is the default; the others are triangular, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-uniform-kernel" data-term="uniform kernel">uniform</span>, triweight, and Epanechnikov).</li>
 <li>Run the tool, and symbolize the output with <em>Singleband pseudocolor</em>.</li>
 </ol>
-<p>For a quick look, without creating a new raster, set the layer’s symbology to the <strong>Heatmap</strong> renderer, which draws a kernel density surface on the fly.</p>
+<p>For a quick look, without creating a new raster, set the layer’s <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-symbology" data-term="symbology">symbology</span> to the <strong>Heatmap</strong> renderer, which draws a kernel density surface on the fly.</p>
 </section>
 </section>
 <section id="check-your-understanding" class="level2" data-number="12.5">
@@ -839,6 +859,8 @@ observations at sampled ones.</span>
 <span id="gloss-layer">A set of spatial data about one theme, such as roads, soils, or
 elevation. Layers for the same area stack on top of each other to make a
 map.</span>
+<span id="gloss-symbology">The rules that control how a layer is drawn: its symbols, colors, sizes,
+and classes.</span>
 <span id="gloss-geographic-information-system-gis">“A computer-based system to aid in the collection, maintenance, storage,
 analysis, output, and distribution of spatial data and information”
 (Bolstad). Its five components are data, hardware, software, people, and

@@ -284,9 +284,29 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-4-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+ <span class="menu-text" id="quarto-sidebar-section-4-label">GIS Software</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
       <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/qgis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Getting to Know QGIS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/arcgis-pro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Getting to Know ArcGIS Pro</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-controls="quarto-sidebar-section-5" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-5-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-5" aria-labelledby="quarto-sidebar-section-5-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../glossary.html" class="sidebar-item-text sidebar-link">
@@ -548,7 +568,7 @@ Figure&nbsp;14.4: Resampling a 4 × 4 land-cover raster to a 3 × 3 grid. Neares
 <ol type="1">
 <li><strong>Cell size.</strong> Choose one output cell size, usually the coarsest input. Resampling to finer cells adds no real detail.</li>
 <li><strong>Extent.</strong> <em>Intersection</em> keeps only the area where every input has data; <em>union</em> keeps everything, with NoData in the gaps. Intersection is the safer default.</li>
-<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-snap-raster" data-term="snap raster">Snap raster</span>.</strong> Even with the same cell size, two grids can be offset by part of a cell. Snapping aligns the output’s cell edges to one input’s grid.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-snap-raster" data-term="snap raster">Snap raster</span>.</strong> Even with the same cell size, two grids can be offset by part of a cell. <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-snapping" data-term="snapping">Snapping</span> aligns the output’s cell edges to one input’s grid.</li>
 </ol>
 <p>The output can only be as detailed as its coarsest input (<a href="#fig-cell-size" class="quarto-xref">Figure&nbsp;<span>14.5</span></a>). If you add a 30 m land-use raster to a 1 km elevation raster, the result is a blocky 1 km grid, and choosing 30 m output cells would only copy each 1 km value into a thousand smaller cells. If you need 30 m results, find a better elevation source, such as a 10 m or 30 m <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-digital-elevation-model" data-term="digital elevation model">digital elevation model</span> from USGS 3DEP.</p>
 <div id="fig-cell-size" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Three shaded terrain maps of the same area. Left: 240 by 240 cells, smooth. Middle: 30 by 30 cells, visibly blocky. Right: 6 by 6 cells, only large colored squares, with almost no recognizable terrain.">
@@ -858,6 +878,8 @@ map.</span>
 <span id="gloss-bilinear-interpolation">Resampling that averages the four nearest input cells, weighted by
 distance.</span>
 <span id="gloss-cubic-convolution">Resampling that uses the 16 nearest input cells.</span>
+<span id="gloss-snapping">An editing setting that makes a new vertex jump to a nearby vertex or
+edge, so that shared boundaries line up exactly.</span>
 <span id="gloss-digital-elevation-model">A raster whose cell values are elevations of the ground surface.</span>
 <span id="gloss-focal-function">A map algebra function that computes each cell’s output from a moving
 window of nearby cells, such as a 3×3 mean.</span>

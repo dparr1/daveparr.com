@@ -1,0 +1,14 @@
+{
+  "id": "unit-1",
+  "title": "Unit 1 quiz: Data Models and Projections",
+  "perSession": 20,
+  "chapters": [
+    "what-is-gis",
+    "what-is-geographic-data",
+    "location-and-coordinates",
+    "map-projections",
+    "attribute-queries",
+    "database-joins",
+    "spatial-joins"
+  ]
+}

@@ -313,9 +313,29 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-4-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+ <span class="menu-text" id="quarto-sidebar-section-4-label">GIS Software</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
       <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/qgis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Getting to Know QGIS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/arcgis-pro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Getting to Know ArcGIS Pro</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-controls="quarto-sidebar-section-5" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-5-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-5" aria-labelledby="quarto-sidebar-section-5-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../glossary.html" class="sidebar-item-text sidebar-link">
@@ -660,7 +680,7 @@ Y_\# = Y_{\text{from}} + A\% \times (Y_{\text{to}} - Y_{\text{from}})
 <h2 data-number="9.2" class="anchored" data-anchor-id="sec-georeferencing"><span class="header-section-number">9.2</span> Georeferencing</h2>
 <section id="why-georeference" class="level3" data-number="9.2.1">
 <h3 data-number="9.2.1" class="anchored" data-anchor-id="why-georeference"><span class="header-section-number">9.2.1</span> Why georeference?</h3>
-<p>A scanned map, an aerial photo, or a raw satellite image is a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">raster</span> that knows only its own <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-file-coordinates" data-term="file coordinates">file coordinates</span></strong>: pixel columns and rows, counted from the top-left corner. Its features don’t sit at their true positions on the Earth. To <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-overlay-analysis" data-term="overlay analysis">overlay</span> it on other <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layers</span>, measure on it, or digitize from it, you have to give it map <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">coordinates</span> (<a href="#fig-file-to-map" class="quarto-xref">Figure&nbsp;<span>9.3</span></a>).</p>
+<p>A scanned map, an aerial photo, or a raw satellite image is a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">raster</span> that knows only its own <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-file-coordinates" data-term="file coordinates">file coordinates</span></strong>: pixel columns and rows, counted from the top-left corner. Its features don’t sit at their true positions on the Earth. To <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-overlay-analysis" data-term="overlay analysis">overlay</span> it on other <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layers</span>, measure on it, or <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-digitize" data-term="digitize">digitize</span> from it, you have to give it map <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">coordinates</span> (<a href="#fig-file-to-map" class="quarto-xref">Figure&nbsp;<span>9.3</span></a>).</p>
 <p><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-georeferencing" data-term="georeferencing">Georeferencing</span></strong> transforms a raster from file coordinates to map coordinates in a coordinate system and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-map-projection" data-term="map projection">projection</span>. It is a kind of <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-image-rectification" data-term="image rectification">image rectification</span></strong>. Common uses include:</p>
 <ul>
 <li>Overlaying historic maps on modern data, to see how a city, coastline, or forest has changed.</li>
@@ -691,7 +711,7 @@ Figure&nbsp;9.3: Building outlines on a scanned image in file coordinates (left)
 </section>
 <section id="ground-control-points" class="level3" data-number="9.2.3">
 <h3 data-number="9.2.3" class="anchored" data-anchor-id="ground-control-points"><span class="header-section-number">9.2.3</span> Ground control points</h3>
-<p><strong>Ground control points (GCPs)</strong> are features that can be identified on the image and located accurately on a reference layer, such as a basemap, an orthophoto, or a road layer. Good GCPs are:</p>
+<p><strong>Ground control points (GCPs)</strong> are features that can be identified on the image and located accurately on a reference layer, such as a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-basemap" data-term="basemap">basemap</span>, an orthophoto, or a road layer. Good GCPs are:</p>
 <ul>
 <li><strong>Easy to identify</strong> on both: road intersections, building corners, bridges, and dams.</li>
 <li><strong>Spatially accurate</strong> in the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-reference-file" data-term="reference file">reference data</span>.</li>
@@ -1042,6 +1062,8 @@ cells, each holding one value. Best for continuous data and imagery.</span>
 <span id="gloss-overlay-analysis">Stacking layers of data for the same area to find places that meet
 several conditions at once, such as flat land near a road and outside a
 floodplain.</span>
+<span id="gloss-digitize">To create vector features by drawing them, clicking each point or vertex
+on a map or image.</span>
 <span id="gloss-map-projection">A mathematical method for flattening the round Earth onto a flat map.
 Every projection distorts area, shape, distance, or direction in some
 way.</span>
@@ -1051,6 +1073,8 @@ Transverse Mercator projection in meters. North Carolina spans zones 17N
 and 18N.</span>
 <span id="gloss-resampling">Giving each cell of a transformed raster a value from the input cells:
 nearest neighbor, bilinear, or cubic convolution.</span>
+<span id="gloss-basemap">A background map, such as streets, topography, or aerial imagery, that
+gives context to the layers drawn on top of it.</span>
 <span id="gloss-least-squares">Fitting a model by choosing the coefficients that make the sum of the
 squared errors as small as possible.</span>
 <span id="gloss-skewed">Describes a distribution with a long tail on one side, such as many

@@ -284,9 +284,29 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-4-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+ <span class="menu-text" id="quarto-sidebar-section-4-label">GIS Software</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
       <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/qgis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Getting to Know QGIS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/arcgis-pro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Getting to Know ArcGIS Pro</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-controls="quarto-sidebar-section-5" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-5-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-5" aria-labelledby="quarto-sidebar-section-5-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../glossary.html" class="sidebar-item-text sidebar-link">
@@ -655,7 +675,7 @@ Table&nbsp;13.1: Clip, intersect, and union.
 </section>
 <section id="slivers" class="level3" data-number="13.5.3">
 <h3 data-number="13.5.3" class="anchored" data-anchor-id="slivers"><span class="header-section-number">13.5.3</span> Slivers</h3>
-<p><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-vector" data-term="vector">Vector</span> overlay has a well-known problem. When two layers contain the same boundary, such as a county line, digitized at different times or scales, the two versions never match exactly. Overlay splits polygons wherever they cross, so the result is full of <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-sliver" data-term="sliver">slivers</span></strong>: thin, tiny polygons along the shared boundary that represent nothing real (<a href="#fig-slivers" class="quarto-xref">Figure&nbsp;<span>13.10</span></a>).</p>
+<p><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-vector" data-term="vector">Vector</span> overlay has a well-known problem. When two layers contain the same boundary, such as a county line, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-digitize" data-term="digitize">digitized</span> at different times or scales, the two versions never match exactly. Overlay splits polygons wherever they cross, so the result is full of <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-sliver" data-term="sliver">slivers</span></strong>: thin, tiny polygons along the shared boundary that represent nothing real (<a href="#fig-slivers" class="quarto-xref">Figure&nbsp;<span>13.10</span></a>).</p>
 <div id="fig-slivers" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Left: a smooth blue line and a jagged red line that follow the same boundary but cross each other many times. Right: the red sliver polygons created between them after overlay, a chain of tiny slivers along the boundary.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-slivers-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -668,7 +688,7 @@ Figure&nbsp;13.10: Slivers. The same boundary, digitized twice (left), produces 
 </div>
 <p>Fixes include:</p>
 <ul>
-<li>setting a <strong>snapping</strong> or <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cluster-tolerance" data-term="cluster tolerance">cluster tolerance</span></strong> when you run the overlay, so that <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-vertex" data-term="vertex">vertices</span> closer than the tolerance are treated as the same;</li>
+<li>setting a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-snapping" data-term="snapping">snapping</span></strong> or <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cluster-tolerance" data-term="cluster tolerance">cluster tolerance</span></strong> when you run the overlay, so that <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-vertex" data-term="vertex">vertices</span> closer than the tolerance are treated as the same;</li>
 <li>using the <strong>same source</strong> for shared boundaries in every layer;</li>
 <li>removing polygons below a minimum area afterward, for example with ArcGIS Pro’s <strong>Eliminate</strong> tool, which merges each sliver into its neighbor.</li>
 </ul>
@@ -726,7 +746,7 @@ Figure&nbsp;13.11: Map algebra on a made-up 4×4 raster: local, focal, and zonal
 <li><strong>Selection</strong>, <strong>joins</strong>, <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-reclassification" data-term="reclassification">reclassification</span></strong>, and <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-dissolve" data-term="dissolve">dissolve</span></strong> prepare <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layers</span> for analysis. Dissolve merges features with a shared value, and can carry summary statistics.</li>
 <li>A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-buffer" data-term="buffer">buffer</span></strong> is the area within a distance of a feature. Buffers can be <strong>fixed</strong>, <strong>dissolved</strong>, <strong>multiple-ring</strong>, or <strong>variable-distance</strong>; line buffers can enclose areas outside the buffer.</li>
 <li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-overlay-analysis" data-term="overlay analysis">Overlay</span></strong> splits <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-polygon" data-term="polygon">polygons</span> where layers cross and combines their attributes. <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-clip" data-term="clip">Clip</span></strong> cuts like a cookie cutter, <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-intersect" data-term="intersect">intersect</span></strong> keeps what is in both (<code>AND</code>), and <strong>union</strong> keeps everything (<code>OR</code>). Layers must share a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">coordinate system</span>.</li>
-<li>Inconsistent shared boundaries produce <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-sliver" data-term="sliver">slivers</span></strong>; snapping tolerances, common sources, and Eliminate fix them.</li>
+<li>Inconsistent shared boundaries produce <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-sliver" data-term="sliver">slivers</span></strong>; <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-snapping" data-term="snapping">snapping</span> tolerances, common sources, and Eliminate fix them.</li>
 <li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-map-algebra" data-term="map algebra">Map algebra</span></strong> overlays <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">rasters</span> cell by cell with <strong>local</strong>, <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-focal-function" data-term="focal function">focal</span></strong>, <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-zonal-function" data-term="zonal function">zonal</span></strong>, and <strong>global</strong> functions, with no slivers, but no more precision than the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cell-size" data-term="cell size">cell size</span>.</li>
 </ul>
 </section>
@@ -851,6 +871,10 @@ store the address range on each side of each segment.</span>
 <span id="gloss-vector">A data model that stores the world as points, lines, and polygons, each
 defined by x, y coordinates and linked to its attributes. Best for
 discrete objects.</span>
+<span id="gloss-digitize">To create vector features by drawing them, clicking each point or vertex
+on a map or image.</span>
+<span id="gloss-snapping">An editing setting that makes a new vertex jump to a nearby vertex or
+edge, so that shared boundaries line up exactly.</span>
 <span id="gloss-cluster-tolerance">A distance within which vertices are treated as the same point during
 overlay, to prevent slivers.</span>
 <span id="gloss-vertex">An intermediate point where a line or polygon boundary changes

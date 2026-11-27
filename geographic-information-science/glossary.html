@@ -37,7 +37,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./about.html" rel="next">
-<link href="./chapters/kriging.html" rel="prev">
+<link href="./chapters/arcgis-pro.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
@@ -282,9 +282,29 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-4-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+ <span class="menu-text" id="quarto-sidebar-section-4-label">GIS Software</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
       <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapters/qgis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Getting to Know QGIS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapters/arcgis-pro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Getting to Know ArcGIS Pro</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-controls="quarto-sidebar-section-5" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-5-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-5" aria-labelledby="quarto-sidebar-section-5-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./glossary.html" class="sidebar-item-text sidebar-link active">
@@ -410,6 +430,14 @@ Dividing the 435 seats in the U.S. House of Representatives among the states, by
 <dd>
 A line stored as an ordered list of coordinates. Polygons can be built from arcs that share their end points.
 </dd>
+<dt><span id="term-arc-info">ARC/INFO</span></dt>
+<dd>
+Esri’s command-line GIS, first released in 1982.
+</dd>
+<dt><span id="term-arcade">Arcade</span></dt>
+<dd>
+Esri’s expression language, used for calculating fields, labels, and pop-ups in ArcGIS Pro and ArcGIS Online.
+</dd>
 <dt><span id="term-arcgis-online">ArcGIS Online</span></dt>
 <dd>
 Esri’s system for making and sharing maps and layers on the web.
@@ -417,6 +445,14 @@ Esri’s system for making and sharing maps and layers on the web.
 <dt><span id="term-arcgis-pro">ArcGIS Pro</span></dt>
 <dd>
 Esri’s commercial desktop GIS, for Windows.
+</dd>
+<dt><span id="term-arcmap">ArcMap</span></dt>
+<dd>
+Esri’s main desktop GIS application from 1999 until ArcGIS Pro replaced it. Esri ended support for it on March 1, 2026.
+</dd>
+<dt><span id="term-arcpy">ArcPy</span></dt>
+<dd>
+Esri’s Python library for running ArcGIS tools and automating work in ArcGIS Pro.
 </dd>
 <dt><span id="term-arithmetic-progression">arithmetic progression</span></dt>
 <dd>
@@ -454,6 +490,10 @@ A collection that can contain duplicates. A table is a bag unless a primary key 
 <dd>
 The radius of a kernel. Small bandwidths show local hot spots; large ones show regional patterns.
 </dd>
+<dt><span id="term-basemap">basemap</span></dt>
+<dd>
+A background map, such as streets, topography, or aerial imagery, that gives context to the layers drawn on top of it.
+</dd>
 <dt><span id="term-batch-geocoding">batch geocoding</span></dt>
 <dd>
 Geocoding a whole table of addresses in one run.
@@ -477,6 +517,10 @@ A binary digit, 0 or 1. With <em>n</em> bits you can write 2ⁿ different values
 <dt><span id="term-block-group">block group</span></dt>
 <dd>
 A cluster of census blocks within a tract, usually with 600 to 3,000 people. The smallest area with ACS estimates.
+</dd>
+<dt><span id="term-browser-panel">Browser panel</span></dt>
+<dd>
+The QGIS panel that shows folders, databases, and web services, from which data can be dragged onto the map.
 </dd>
 <dt><span id="term-buffer">buffer</span></dt>
 <dd>
@@ -509,6 +553,10 @@ Planning and running a chain of spatial operations to solve a problem, where eac
 <dt><span id="term-cartography">cartography</span></dt>
 <dd>
 The art and science of making maps.
+</dd>
+<dt><span id="term-catalog-pane">Catalog pane</span></dt>
+<dd>
+The ArcGIS Pro pane that shows a project’s maps, layouts, toolboxes, databases, and folder connections.
 </dd>
 <dt><span id="term-cell">cell</span></dt>
 <dd>
@@ -626,6 +674,14 @@ How often a range built the same way would contain the true value, if the survey
 <dd>
 A projection that keeps local angles true, so small shapes look right. Mercator and Lambert Conformal Conic are conformal.
 </dd>
+<dt><span id="term-contents-pane">Contents pane</span></dt>
+<dd>
+The ArcGIS Pro pane that lists the layers in the active map or the elements of the active layout.
+</dd>
+<dt><span id="term-contextual-tab">contextual tab</span></dt>
+<dd>
+A ribbon tab in ArcGIS Pro that appears only when a certain kind of item, such as a feature layer, is selected.
+</dd>
 <dt><span id="term-contiguity">contiguity</span></dt>
 <dd>
 Touching. Contiguous polygons share a border (rook’s case) or a border or corner (queen’s case).
@@ -654,6 +710,10 @@ A system of numbers, such as latitude and longitude, that gives every location a
 <dd>
 Distance measured as an accumulated cost, such as travel time or effort, across a cost raster, rather than in meters.
 </dd>
+<dt><span id="term-credits">credits</span></dt>
+<dd>
+The currency an ArcGIS organization uses to pay for some services, such as batch geocoding and storing data in ArcGIS Online.
+</dd>
 <dt><span id="term-crisis-mapping">crisis mapping</span></dt>
 <dd>
 Mapping by volunteers to support the response to a disaster or other crisis.
@@ -681,6 +741,10 @@ The chain of steps that turns the real world into something a computer can store
 <dt><span id="term-data-model">data model</span></dt>
 <dd>
 The way a GIS represents the real world as data, for example as points, lines, and polygons (vector) or as a grid of cells (raster).
+</dd>
+<dt><span id="term-data-source-manager">Data Source Manager</span></dt>
+<dd>
+The QGIS dialog for adding layers of every kind: files, delimited text, databases, and web services.
 </dd>
 <dt><span id="term-data-structure">data structure</span></dt>
 <dd>
@@ -757,6 +821,10 @@ A method that adds calibrated statistical noise to published tables, so that ind
 <dt><span id="term-digital-elevation-model">digital elevation model</span></dt>
 <dd>
 A raster whose cell values are elevations of the ground surface.
+</dd>
+<dt><span id="term-digitize">digitize</span></dt>
+<dd>
+To create vector features by drawing them, clicking each point or vertex on a map or image.
 </dd>
 <dt><span id="term-discrete-object">discrete object</span></dt>
 <dd>
@@ -846,6 +914,10 @@ Straight-line distance. As a raster function, each cell’s distance to the near
 <dd>
 An interpolation method whose surface passes through every observed value.
 </dd>
+<dt><span id="term-expression">expression</span></dt>
+<dd>
+A formula of fields, values, operators, and functions that computes a value for each feature, used to calculate fields, select features, and control labels and symbology.
+</dd>
 <dt><span id="term-extent">extent</span></dt>
 <dd>
 How far something reaches: its size, boundary, and dimensions. A layer’s extent is the rectangle that just encloses all its features.
@@ -869,6 +941,10 @@ A value added to every <em>x</em> coordinate so that none are negative, such as 
 <dt><span id="term-feature">feature</span></dt>
 <dd>
 How a map or a GIS represents an entity, usually as a point, a line, or a polygon, with attributes that describe it.
+</dd>
+<dt><span id="term-feature-class">feature class</span></dt>
+<dd>
+Esri’s term for a vector layer stored in a geodatabase: a set of features with the same geometry type and fields.
 </dd>
 <dt><span id="term-field">field</span></dt>
 <dd>
@@ -906,6 +982,10 @@ A field that holds values of another table’s primary key. Its values can repea
 <dd>
 A join that keeps every record of both tables.
 </dd>
+<dt><span id="term-gdal">GDAL</span></dt>
+<dd>
+The Geospatial Data Abstraction Library, open-source software that reads and writes hundreds of raster and vector formats. QGIS, ArcGIS Pro, and many other programs use it.
+</dd>
 <dt><span id="term-geoai">GeoAI</span></dt>
 <dd>
 Artificial intelligence applied to geographic data, for example to find buildings or roads in satellite images automatically.
@@ -913,6 +993,10 @@ Artificial intelligence applied to geographic data, for example to find building
 <dt><span id="term-geocoding">geocoding</span></dt>
 <dd>
 Turning an address or place name into coordinates, so it can be put on a map.
+</dd>
+<dt><span id="term-geodatabase">geodatabase</span></dt>
+<dd>
+Esri’s format for storing feature classes, tables, and rasters together. A file geodatabase is a folder ending in .gdb.
 </dd>
 <dt><span id="term-geodesic-distance">geodesic distance</span></dt>
 <dd>
@@ -973,6 +1057,10 @@ An open file format (.gpkg) from the Open Geospatial Consortium that stores many
 <dt><span id="term-geoprocessing">geoprocessing</span></dt>
 <dd>
 Running a GIS tool on spatial data to make new data, such as buffering, clipping, or overlaying layers.
+</dd>
+<dt><span id="term-geoprocessing-pane">Geoprocessing pane</span></dt>
+<dd>
+The ArcGIS Pro pane for finding, filling in, and running geoprocessing tools.
 </dd>
 <dt><span id="term-georeferencing">georeferencing</span></dt>
 <dd>
@@ -1130,6 +1218,10 @@ The angle north or south of the equator, from 0° at the equator to 90° at the 
 <dd>
 A set of spatial data about one theme, such as roads, soils, or elevation. Layers for the same area stack on top of each other to make a map.
 </dd>
+<dt><span id="term-layers-panel">Layers panel</span></dt>
+<dd>
+The QGIS panel that lists the project’s layers in drawing order.
+</dd>
 <dt><span id="term-least-squares">least squares</span></dt>
 <dd>
 Fitting a model by choosing the coefficients that make the sum of the squared errors as small as possible.
@@ -1138,9 +1230,17 @@ Fitting a model by choosing the coefficients that make the sum of the squared er
 <dd>
 A join that keeps every record of the left (destination) table, with NULL where nothing matched. The default in QGIS and ArcGIS Pro.
 </dd>
+<dt><span id="term-legend">legend</span></dt>
+<dd>
+The part of a map that explains its symbols.
+</dd>
 <dt><span id="term-level-of-measurement">level of measurement</span></dt>
 <dd>
 What kind of values an attribute holds, which decides what questions make sense: nominal, ordinal, interval, or ratio.
+</dd>
+<dt><span id="term-license-level">license level</span></dt>
+<dd>
+One of the three tiers of an ArcGIS Pro license, Basic, Standard, and Advanced, each adding tools to the one below.
 </dd>
 <dt><span id="term-line">line</span></dt>
 <dd>
@@ -1169,6 +1269,10 @@ A table with one row for each pair of related records, used to handle a many-to-
 <dt><span id="term-logical-consistency">logical consistency</span></dt>
 <dd>
 Whether data agree with their own rules, for example polygons that close and roads that meet at intersections.
+</dd>
+<dt><span id="term-long-term-release">long-term release</span></dt>
+<dd>
+A QGIS version, released once a year, that gets bug fixes but no new features for about a year. It is the most stable choice.
 </dd>
 <dt><span id="term-longitude">longitude</span></dt>
 <dd>
@@ -1270,6 +1374,10 @@ The North American Datum of 1927. It used the Clarke 1866 ellipsoid and an origi
 <dd>
 The North American Datum of 1983, an earth-centered datum on the GRS 80 ellipsoid, fixed to the North American plate. The datum of most U.S. government GIS data.
 </dd>
+<dt><span id="term-named-user-license">named user license</span></dt>
+<dd>
+An ArcGIS Pro license assigned to a person’s ArcGIS account, and checked when they sign in.
+</dd>
 <dt><span id="term-natrf2022">NATRF2022</span></dt>
 <dd>
 The North American Terrestrial Reference Frame of 2022, the new datum that will replace NAD83 in the United States.
@@ -1322,6 +1430,10 @@ Data with no location of their own, such as a list of grades. When non-spatial d
 <dd>
 To divide a count by an area, a population, or another total, so that areas of different sizes can be compared fairly.
 </dd>
+<dt><span id="term-north-arrow">north arrow</span></dt>
+<dd>
+A symbol showing the direction of north on a map.
+</dd>
 <dt><span id="term-northing">northing</span></dt>
 <dd>
 A distance north from a starting line: the y coordinate in a projected coordinate system.
@@ -1366,6 +1478,10 @@ Kriging that assumes an unknown but constant mean. The most common type.
 <dd>
 Height above the geoid, written <em>H</em>: the elevation, or “height above sea level,” printed on maps. <em>h</em> = <em>H</em> + <em>N</em>.
 </dd>
+<dt><span id="term-osgeo">OSGeo</span></dt>
+<dd>
+The Open Source Geospatial Foundation, a nonprofit that supports open-source geospatial software such as QGIS, GDAL, PROJ, and PostGIS.
+</dd>
 <dt><span id="term-osmcha">OSMCha</span></dt>
 <dd>
 OSM Changeset Analyzer, a tool for reviewing recent OpenStreetMap edits to catch mistakes and vandalism.
@@ -1397,6 +1513,10 @@ The sill minus the nugget: the part of the variation that is spatially autocorre
 <dt><span id="term-plate-carr-e">Plate Carrée</span></dt>
 <dd>
 The projection that plots longitude as <em>x</em> and latitude as <em>y</em> on an even grid. It stretches the map east to west toward the poles.
+</dd>
+<dt><span id="term-plugin">plugin</span></dt>
+<dd>
+An add-on that extends QGIS with new tools, installed from inside QGIS with Plugins ▸ Manage and Install Plugins.
 </dd>
 <dt><span id="term-point">point</span></dt>
 <dd>
@@ -1445,6 +1565,14 @@ A field whose values identify each row of a table uniquely. No value may repeat 
 <dt><span id="term-prime-meridian">prime meridian</span></dt>
 <dd>
 The meridian at 0° longitude, through Greenwich, England, chosen in 1884. Longitude is measured east and west from it.
+</dd>
+<dt><span id="term-print-layout">print layout</span></dt>
+<dd>
+In QGIS, a page on which a map is arranged with its title, legend, scale bar, and other elements, for printing or export. ArcGIS Pro calls it a layout.
+</dd>
+<dt><span id="term-processing-toolbox">Processing Toolbox</span></dt>
+<dd>
+The QGIS panel that holds its analysis tools (algorithms), from QGIS itself, GDAL, and GRASS GIS.
 </dd>
 <dt><span id="term-projected-coordinate-system">projected coordinate system</span></dt>
 <dd>
@@ -1566,6 +1694,10 @@ The level of detail in data. For a raster, it is set by the cell size: the small
 <dd>
 A line of constant compass bearing. It is straight on a Mercator map.
 </dd>
+<dt><span id="term-ribbon">ribbon</span></dt>
+<dd>
+The band of tabs and grouped commands across the top of the ArcGIS Pro window.
+</dd>
 <dt><span id="term-right-join">right join</span></dt>
 <dd>
 A join that keeps every record of the right (source) table.
@@ -1585,6 +1717,10 @@ Finding the best path through a network, such as the fastest or shortest route, 
 <dt><span id="term-sampling-design">sampling design</span></dt>
 <dd>
 The pattern of observation locations: systematic, random, clustered, or adaptive.
+</dd>
+<dt><span id="term-scale-bar">scale bar</span></dt>
+<dd>
+A line marked with distances that shows the map’s scale graphically. It stays correct when the map is enlarged or shrunk.
 </dd>
 <dt><span id="term-scale-factor">scale factor</span></dt>
 <dd>
@@ -1653,6 +1789,10 @@ A thin, tiny polygon created by overlay where two versions of the same boundary 
 <dt><span id="term-snap-raster">snap raster</span></dt>
 <dd>
 A raster whose grid sets where output cell edges fall, so that the outputs of raster tools line up exactly with it.
+</dd>
+<dt><span id="term-snapping">snapping</span></dt>
+<dd>
+An editing setting that makes a new vertex jump to a nearby vertex or edge, so that shared boundaries line up exactly.
 </dd>
 <dt><span id="term-socioeconomic-data">socioeconomic data</span></dt>
 <dd>
@@ -1742,6 +1882,10 @@ A starting point for the number of classes: about 1 + 3.3 log10(n), where n is t
 <dd>
 A join that counts and summarizes all the source features matching each destination feature (count, sum, mean, minimum, maximum).
 </dd>
+<dt><span id="term-symbology">symbology</span></dt>
+<dd>
+The rules that control how a layer is drawn: its symbols, colors, sizes, and classes.
+</dd>
 <dt><span id="term-table-join">table join</span></dt>
 <dd>
 Appending the fields of a source table to a destination table by matching the values of a key field.
@@ -1765,6 +1909,10 @@ HOT’s tool that divides a mapping project into small squares, so that voluntee
 <dt><span id="term-temporal-quality">temporal quality</span></dt>
 <dd>
 How current a dataset is, and how accurate its dates are.
+</dd>
+<dt><span id="term-temporary-layer">temporary layer</span></dt>
+<dd>
+A layer kept only in memory, such as a tool output not saved to a file. It is lost when QGIS closes.
 </dd>
 <dt><span id="term-thiessen-polygons">Thiessen polygons</span></dt>
 <dd>
@@ -2717,8 +2865,8 @@ window.onload = function() {
   </script>
 <nav class="page-navigation" aria-label="Page">
   <div class="nav-page nav-page-previous">
-      <a href="./chapters/kriging.html" class="pagination-link" aria-label="Kriging">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Kriging</span></span>
+      <a href="./chapters/arcgis-pro.html" class="pagination-link" aria-label="Getting to Know ArcGIS Pro">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Getting to Know ArcGIS Pro</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

@@ -313,9 +313,29 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-4-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+ <span class="menu-text" id="quarto-sidebar-section-4-label">GIS Software</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
       <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/qgis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Getting to Know QGIS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/arcgis-pro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Getting to Know ArcGIS Pro</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-controls="quarto-sidebar-section-5" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-5-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-5" aria-labelledby="quarto-sidebar-section-5-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../glossary.html" class="sidebar-item-text sidebar-link">
@@ -742,7 +762,7 @@ Table&nbsp;11.1: Classification methods and when to use them.
 <section id="arcgis-pro" class="level3" data-number="11.5.2">
 <h3 data-number="11.5.2" class="anchored" data-anchor-id="arcgis-pro"><span class="header-section-number">11.5.2</span> ArcGIS Pro</h3>
 <ol type="1">
-<li><strong>Prepare the data.</strong> Join your table to its boundaries (Chapter 6), and add a field with the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-normalize" data-term="normalize">normalized</span> value, or plan to normalize in the symbology.</li>
+<li><strong>Prepare the data.</strong> Join your table to its boundaries (Chapter 6), and add a field with the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-normalize" data-term="normalize">normalized</span> value, or plan to normalize in the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-symbology" data-term="symbology">symbology</span>.</li>
 <li><strong>Open the symbology.</strong> Right-click the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layer</span>, choose <em>Symbology</em>, and set <em>Primary symbology</em> to <strong>Graduated Colors</strong>.</li>
 <li><strong>Choose the field.</strong> Set <em>Field</em> to the value to map. To divide by another field on the fly, set <em>Normalization</em> (for example, a population field to map a count per person, or a land-area field to map a density).</li>
 <li><strong>Choose the method and classes.</strong> Set <em>Method</em> (<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-natural-breaks" data-term="natural breaks">Natural Breaks</span> (Jenks) is the default; the others include <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-equal-interval" data-term="equal interval">Equal Interval</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-quantile" data-term="quantile">Quantile</span>, Standard Deviation, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geometric-progression" data-term="geometric progression">Geometrical Interval</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-manual-intervals" data-term="manual intervals">Defined Interval</span>, and Manual Interval) and the number of <em>Classes</em>.</li>
@@ -847,7 +867,7 @@ Show hint for question 5
 <li><em>Geography 486: Cartography and Visualization</em>, Penn State, on classing and color: <a href="https://courses.ems.psu.edu/geog486/" class="uri">https://courses.ems.psu.edu/geog486/</a>.</li>
 <li>The <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-gis-t-body-of-knowledge" data-term="GIS&amp;T Body of Knowledge">GIS&amp;T Body of Knowledge</span>, “Statistical Mapping (Enumeration, Normalization, Classification)” and “Choropleth Maps”: <a href="https://www.ucgis.org/site/gis-t-body-of-knowledge" class="uri">https://www.ucgis.org/site/gis-t-body-of-knowledge</a>.</li>
 <li><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-esri" data-term="Esri">Esri</span>, “Data classification methods” in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span>: <a href="https://pro.arcgis.com/en/pro-app/latest/help/mapping/layer-properties/data-classification-methods.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/help/mapping/layer-properties/data-classification-methods.htm</a>.</li>
-<li>Esri, “Graduated colors” symbology in ArcGIS Pro: <a href="https://pro.arcgis.com/en/pro-app/latest/help/mapping/layer-properties/graduated-colors.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/help/mapping/layer-properties/graduated-colors.htm</a>.</li>
+<li>Esri, “Graduated colors” <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-symbology" data-term="symbology">symbology</span> in ArcGIS Pro: <a href="https://pro.arcgis.com/en/pro-app/latest/help/mapping/layer-properties/graduated-colors.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/help/mapping/layer-properties/graduated-colors.htm</a>.</li>
 <li><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span> User Guide, “Graduated Renderer”: <a href="https://docs.qgis.org/latest/en/docs/user_manual/working_with_vector/vector_properties.html#graduated-renderer" class="uri">https://docs.qgis.org/latest/en/docs/user_manual/working_with_vector/vector_properties.html#graduated-renderer</a>.</li>
 <li>Kenneth Field, <em>Cartography.</em> (Esri Press, 2018), a richly illustrated reference with entries on classification and choropleth maps.</li>
 <li>Datawrapper Academy, “What to consider when creating choropleth maps”: <a href="https://academy.datawrapper.de/article/134-what-to-consider-when-creating-choropleth-maps" class="uri">https://academy.datawrapper.de/article/134-what-to-consider-when-creating-choropleth-maps</a>.</li>
@@ -915,6 +935,8 @@ line, or the same breaks for a series of maps.</span>
 low to high.</span>
 <span id="gloss-qualitative-color-scheme">Distinct hues of similar lightness, for categories rather than
 quantities.</span>
+<span id="gloss-symbology">The rules that control how a layer is drawn: its symbols, colors, sizes,
+and classes.</span>
 <span id="gloss-layer">A set of spatial data about one theme, such as roads, soils, or
 elevation. Layers for the same area stack on top of each other to make a
 map.</span>

@@ -1,0 +1,1976 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>18&nbsp; Getting to Know ArcGIS Pro – Geographic Information Science</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../glossary.html" rel="next">
+<link href="../chapters/qgis.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ebb58cfc2c0cc903b00b246007c1be77.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-58aeb932f9769ef5b136914697361c15.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-contrib/glossary-1.0.0/glossary.js"></script>
+<link href="../site_libs/quarto-contrib/glossary-1.0.0/glossary.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<!--
+  Reading settings, part 1 of 2: applies the reader's saved font and text size
+  before the page draws, so it doesn't flash in the default font first.
+  The menu itself is in assets/reader-settings.html; styles are in
+  assets/reader-settings.css.
+-->
+<script>
+  (function () {
+    try {
+      var font = localStorage.getItem("sds-reader-font");
+      var size = localStorage.getItem("sds-reader-size");
+      if (font) document.documentElement.setAttribute("data-reader-font", font);
+      // Lexend and Cardo come from Google Fonts, loaded only for readers who pick them.
+      var webFonts = {
+        lexend: "https://fonts.googleapis.com/css2?family=Lexend:wght@300..700&display=swap",
+        cardo: "https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&display=swap"
+      };
+      if (webFonts[font]) {
+        var link = document.createElement("link");
+        link.rel = "stylesheet"; link.href = webFonts[font]; link.id = "sds-reader-webfont-" + font;
+        document.head.appendChild(link);
+      }
+      if (size) document.documentElement.setAttribute("data-reader-size", size);
+    } catch (e) { /* storage blocked: keep the defaults */ }
+  })();
+</script>
+
+
+<link rel="stylesheet" href="../include/webex.css">
+<link rel="stylesheet" href="../assets/sidebar.css">
+<link rel="stylesheet" href="../assets/grade-table.css">
+<link rel="stylesheet" href="../assets/reader-settings.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/qgis.html">GIS Software</a></li><li class="breadcrumb-item"><a href="../chapters/arcgis-pro.html"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Getting to Know ArcGIS Pro</span></a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Site">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Geographic Information Science</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../units/unit-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-1-label">Unit 1: Data Models and Projections</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section: Unit 1: Data Models and Projections">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/what-is-gis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">What Is GIS?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/what-is-geographic-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">What Is Geographic Data?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/location-and-coordinates.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Location and Coordinate Systems</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/map-projections.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Map Projections</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/attribute-queries.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Attribute Data and Queries</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/database-joins.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Databases and Table Joins</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/spatial-joins.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Spatial Joins</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../units/unit-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-2-label">Unit 2: Spatial Data Quality</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section: Unit 2: Spatial Data Quality">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/census-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Census Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/geocoding-georeferencing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Geocoding and Georeferencing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/osm-data-quality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">OpenStreetMap and Data Quality</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../units/unit-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Unit 3: Spatial Analysis</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section: Unit 3: Spatial Analysis">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/data-classing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Data Classing and Choropleth Maps</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/density.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Density and Neighborhoods</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/spatial-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Spatial Analysis: Selection, Buffers, and Overlay</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/raster.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Raster Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/interpolation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Spatial Interpolation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/kriging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Kriging</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-4-label">GIS Software</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/qgis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Getting to Know QGIS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/arcgis-pro.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Getting to Know ArcGIS Pro</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-controls="quarto-sidebar-section-5" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-5-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-5" aria-labelledby="quarto-sidebar-section-5-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Glossary</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../about.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About the author</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-arcgis-family" id="toc-sec-arcgis-family" class="nav-link active" data-scroll-target="#sec-arcgis-family"><span class="header-section-number">18.1</span> ArcGIS and ArcGIS Pro</a></li>
+  <li><a href="#sec-arcgis-history" id="toc-sec-arcgis-history" class="nav-link" data-scroll-target="#sec-arcgis-history"><span class="header-section-number">18.2</span> A short history</a></li>
+  <li><a href="#sec-arcgis-license" id="toc-sec-arcgis-license" class="nav-link" data-scroll-target="#sec-arcgis-license"><span class="header-section-number">18.3</span> Getting ArcGIS Pro</a>
+  <ul class="collapse">
+  <li><a href="#licensing" id="toc-licensing" class="nav-link" data-scroll-target="#licensing"><span class="header-section-number">18.3.1</span> Licensing</a></li>
+  <li><a href="#installing-and-signing-in" id="toc-installing-and-signing-in" class="nav-link" data-scroll-target="#installing-and-signing-in"><span class="header-section-number">18.3.2</span> Installing and signing in</a></li>
+  </ul></li>
+  <li><a href="#sec-arcgis-window" id="toc-sec-arcgis-window" class="nav-link" data-scroll-target="#sec-arcgis-window"><span class="header-section-number">18.4</span> The ArcGIS Pro window</a>
+  <ul class="collapse">
+  <li><a href="#navigating-the-map" id="toc-navigating-the-map" class="nav-link" data-scroll-target="#navigating-the-map"><span class="header-section-number">18.4.1</span> Navigating the map</a></li>
+  </ul></li>
+  <li><a href="#sec-arcgis-projects" id="toc-sec-arcgis-projects" class="nav-link" data-scroll-target="#sec-arcgis-projects"><span class="header-section-number">18.5</span> Projects</a>
+  <ul class="collapse">
+  <li><a href="#the-geodatabase" id="toc-the-geodatabase" class="nav-link" data-scroll-target="#the-geodatabase"><span class="header-section-number">18.5.1</span> The geodatabase</a></li>
+  </ul></li>
+  <li><a href="#sec-arcgis-adding-data" id="toc-sec-arcgis-adding-data" class="nav-link" data-scroll-target="#sec-arcgis-adding-data"><span class="header-section-number">18.6</span> Adding data</a>
+  <ul class="collapse">
+  <li><a href="#points-from-a-table-of-coordinates" id="toc-points-from-a-table-of-coordinates" class="nav-link" data-scroll-target="#points-from-a-table-of-coordinates"><span class="header-section-number">18.6.1</span> Points from a table of coordinates</a></li>
+  <li><a href="#basemaps" id="toc-basemaps" class="nav-link" data-scroll-target="#basemaps"><span class="header-section-number">18.6.2</span> Basemaps</a></li>
+  </ul></li>
+  <li><a href="#sec-arcgis-entering-data" id="toc-sec-arcgis-entering-data" class="nav-link" data-scroll-target="#sec-arcgis-entering-data"><span class="header-section-number">18.7</span> Entering data</a>
+  <ul class="collapse">
+  <li><a href="#creating-a-feature-class" id="toc-creating-a-feature-class" class="nav-link" data-scroll-target="#creating-a-feature-class"><span class="header-section-number">18.7.1</span> Creating a feature class</a></li>
+  <li><a href="#editing-features" id="toc-editing-features" class="nav-link" data-scroll-target="#editing-features"><span class="header-section-number">18.7.2</span> Editing features</a></li>
+  <li><a href="#the-attribute-table" id="toc-the-attribute-table" class="nav-link" data-scroll-target="#the-attribute-table"><span class="header-section-number">18.7.3</span> The attribute table</a></li>
+  <li><a href="#calculating-fields" id="toc-calculating-fields" class="nav-link" data-scroll-target="#calculating-fields"><span class="header-section-number">18.7.4</span> Calculating fields</a></li>
+  <li><a href="#joins" id="toc-joins" class="nav-link" data-scroll-target="#joins"><span class="header-section-number">18.7.5</span> Joins</a></li>
+  </ul></li>
+  <li><a href="#sec-arcgis-selecting" id="toc-sec-arcgis-selecting" class="nav-link" data-scroll-target="#sec-arcgis-selecting"><span class="header-section-number">18.8</span> Selecting and querying</a></li>
+  <li><a href="#sec-arcgis-basic-map" id="toc-sec-arcgis-basic-map" class="nav-link" data-scroll-target="#sec-arcgis-basic-map"><span class="header-section-number">18.9</span> Making a basic map</a>
+  <ul class="collapse">
+  <li><a href="#symbology" id="toc-symbology" class="nav-link" data-scroll-target="#symbology"><span class="header-section-number">18.9.1</span> Symbology</a></li>
+  <li><a href="#labels" id="toc-labels" class="nav-link" data-scroll-target="#labels"><span class="header-section-number">18.9.2</span> Labels</a></li>
+  <li><a href="#layouts" id="toc-layouts" class="nav-link" data-scroll-target="#layouts"><span class="header-section-number">18.9.3</span> Layouts</a></li>
+  </ul></li>
+  <li><a href="#sec-arcgis-geoprocessing" id="toc-sec-arcgis-geoprocessing" class="nav-link" data-scroll-target="#sec-arcgis-geoprocessing"><span class="header-section-number">18.10</span> Geoprocessing</a></li>
+  <li><a href="#sec-arcgis-sharing" id="toc-sec-arcgis-sharing" class="nav-link" data-scroll-target="#sec-arcgis-sharing"><span class="header-section-number">18.11</span> Sharing to the web</a></li>
+  <li><a href="#sec-qgis-vs-arcgis" id="toc-sec-qgis-vs-arcgis" class="nav-link" data-scroll-target="#sec-qgis-vs-arcgis"><span class="header-section-number">18.12</span> QGIS and ArcGIS Pro compared</a></li>
+  <li><a href="#sec-arcgis-help" id="toc-sec-arcgis-help" class="nav-link" data-scroll-target="#sec-arcgis-help"><span class="header-section-number">18.13</span> Getting help</a></li>
+  <li><a href="#check-your-understanding" id="toc-check-your-understanding" class="nav-link" data-scroll-target="#check-your-understanding"><span class="header-section-number">18.14</span> Check your understanding</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">18.15</span> Summary</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">18.16</span> Exercises</a></li>
+  <li><a href="#further-reading-and-online-resources" id="toc-further-reading-and-online-resources" class="nav-link" data-scroll-target="#further-reading-and-online-resources"><span class="header-section-number">18.17</span> Further reading and online resources</a>
+  <ul class="collapse">
+  <li><a href="#arcgis-pro-documentation" id="toc-arcgis-pro-documentation" class="nav-link" data-scroll-target="#arcgis-pro-documentation"><span class="header-section-number">18.17.1</span> ArcGIS Pro documentation</a></li>
+  <li><a href="#lessons-and-courses" id="toc-lessons-and-courses" class="nav-link" data-scroll-target="#lessons-and-courses"><span class="header-section-number">18.17.2</span> Lessons and courses</a></li>
+  <li><a href="#history-and-community" id="toc-history-and-community" class="nav-link" data-scroll-target="#history-and-community"><span class="header-section-number">18.17.3</span> History and community</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/qgis.html">GIS Software</a></li><li class="breadcrumb-item"><a href="../chapters/arcgis-pro.html"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Getting to Know ArcGIS Pro</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Getting to Know ArcGIS Pro</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Learning objectives
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>By the end of this chapter you should be able to:</p>
+<ol type="1">
+<li>Describe <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span> and the ArcGIS family of software, and how <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-esri" data-term="Esri">Esri</span>’s desktop <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> developed from <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arc-info" data-term="ARC/INFO">ARC/INFO</span> to <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcmap" data-term="ArcMap">ArcMap</span> to ArcGIS Pro.</li>
+<li>Explain how ArcGIS Pro is licensed, and how to install it and sign in.</li>
+<li>Find your way around the ArcGIS Pro window: the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-ribbon" data-term="ribbon">ribbon</span>, views, and panes.</li>
+<li>Explain what an ArcGIS Pro project contains, and organize a project and its data.</li>
+<li>Add data, create a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-feature-class" data-term="feature class">feature class</span>, edit features, and calculate <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-attribute" data-term="attribute">attributes</span>.</li>
+<li>Make a basic map with <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-symbology" data-term="symbology">symbology</span>, labels, and a layout, and run tools in the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geoprocessing-pane" data-term="Geoprocessing pane">Geoprocessing pane</span>.</li>
+</ol>
+</div>
+</div>
+<p>ArcGIS Pro is the desktop GIS made by <strong>Esri</strong>, the largest GIS software company in the world. It is used by governments, utilities, businesses, and universities, so it appears in a large share of job postings for GIS analysts. Like <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span> (<a href="../chapters/qgis.html">Chapter 17</a>), it can do nearly everything described in this book, and most tasks follow the same steps in both. This chapter introduces ArcGIS Pro: its history, how it is licensed, how its window is organized, and how to do the common tasks of entering data and making a map.</p>
+<p>The figures in this chapter are diagrams of the ArcGIS Pro window, not screenshots, so they show where things are rather than every button. Esri’s own documentation, listed at the end of the chapter, has screenshots of the current version. Commands are written as <strong>Tab ▸ Group ▸ Button</strong>, following the ribbon.</p>
+<section id="sec-arcgis-family" class="level2" data-number="18.1">
+<h2 data-number="18.1" class="anchored" data-anchor-id="sec-arcgis-family"><span class="header-section-number">18.1</span> ArcGIS and ArcGIS Pro</h2>
+<p><strong>ArcGIS</strong> is not one program but a family of products that share data formats and accounts:</p>
+<ul>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span></strong>, the desktop application, for editing, analysis, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cartography" data-term="cartography">cartography</span>. It is the subject of this chapter.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-online" data-term="ArcGIS Online">ArcGIS Online</span></strong>, a cloud service for storing data, making web maps and apps, and sharing them, run by <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-esri" data-term="Esri">Esri</span>.</li>
+<li><strong>ArcGIS Enterprise</strong>, the same kinds of services, run on an organization’s own servers.</li>
+<li><strong>Field and web apps</strong>, such as ArcGIS Field Maps (for collecting data on a phone), ArcGIS Survey123 (forms), ArcGIS StoryMaps (stories built around maps), and ArcGIS Dashboards.</li>
+<li><strong>Developer tools</strong>, such as <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcpy" data-term="ArcPy">ArcPy</span></strong>, a Python library for running ArcGIS tools from scripts, and APIs for building web and mobile apps.</li>
+</ul>
+<p>ArcGIS Pro is <strong>proprietary</strong> software: Esri owns it, its source code is private, and using it requires a paid license. It runs only on <strong>Windows</strong>. On a Mac, you can run it in a Windows virtual machine or use a university’s virtual computer lab.</p>
+<p>ArcGIS Pro is a 64-bit program that works with 2D maps and 3D scenes side by side, and its tools are arranged on a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-ribbon" data-term="ribbon">ribbon</span></strong>, like Microsoft Office. It is closely tied to ArcGIS Online: you sign in with an ArcGIS account to use it, and you can share maps and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layers</span> from it to the web in a few clicks.</p>
+</section>
+<section id="sec-arcgis-history" class="level2" data-number="18.2">
+<h2 data-number="18.2" class="anchored" data-anchor-id="sec-arcgis-history"><span class="header-section-number">18.2</span> A short history</h2>
+<p><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-esri" data-term="Esri">Esri</span> (originally the Environmental Systems Research Institute) was founded in 1969 by Jack and Laura Dangermond in Redlands, California, as a land-use consulting firm. Jack Dangermond had studied at Harvard’s Graduate School of Design, near the Harvard Laboratory for Computer Graphics and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-analysis" data-term="spatial analysis">Spatial Analysis</span>, one of the birthplaces of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> (Chapter 1). Esri’s early work was GIS projects for government clients, and the software it wrote for them became its products (<a href="#fig-esri-timeline" class="quarto-xref">Figure&nbsp;<span>18.1</span></a>).</p>
+<div id="fig-esri-timeline" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A timeline from 1967 to 2027. 1969: Jack and Laura Dangermond found Esri in Redlands, California. 1982: ARC/INFO, a command-line GIS. 1992: ArcView GIS. 1999 to 2001: ArcGIS 8, with ArcMap and ArcCatalog. 2004: ArcGIS 9 adds ArcGIS Server. 2015: ArcGIS Pro 1.0, 64-bit, 2D and 3D. 2022: ArcGIS Pro 3.0. 2026: ArcMap retired, March 1.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-esri-timeline-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/arcgis-pro/esri-timeline.png" class="img-fluid figure-img" alt="A timeline from 1967 to 2027. 1969: Jack and Laura Dangermond found Esri in Redlands, California. 1982: ARC/INFO, a command-line GIS. 1992: ArcView GIS. 1999 to 2001: ArcGIS 8, with ArcMap and ArcCatalog. 2004: ArcGIS 9 adds ArcGIS Server. 2015: ArcGIS Pro 1.0, 64-bit, 2D and 3D. 2022: ArcGIS Pro 3.0. 2026: ArcMap retired, March 1.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-esri-timeline-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;18.1: Milestones in the history of Esri’s desktop GIS software.
+</figcaption>
+</figure>
+</div>
+<ul>
+<li><strong>1982: <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arc-info" data-term="ARC/INFO">ARC/INFO</span>.</strong> Esri’s first major product was a command-line GIS. Users typed commands to build and analyze <em>coverages</em>, a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-vector" data-term="vector">vector</span> format that stored <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-topology" data-term="topology">topology</span>. ARC/INFO ran on minicomputers and workstations, and dominated professional GIS through the 1980s and 1990s.</li>
+<li><strong>1992: ArcView GIS.</strong> A desktop program with a graphical interface, for viewing, querying, and mapping data. ArcView introduced the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-shapefile" data-term="shapefile">shapefile</span></strong>, a simple, openly documented format that became the most widely shared vector format in the world (Chapter 2).</li>
+<li><strong>1999–2001: ArcGIS 8.</strong> Esri rebuilt its software as a single system for Windows, called <strong>ArcGIS Desktop</strong>. Its main applications were <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcmap" data-term="ArcMap">ArcMap</span></strong>, for mapping, editing, and analysis, and <strong>ArcCatalog</strong>, for managing data. It also introduced the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geodatabase" data-term="geodatabase">geodatabase</span></strong>, Esri’s format for storing many <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layers</span> and tables together.</li>
+<li><strong>2004 onward: ArcGIS 9 and 10.</strong> Later versions added ArcGIS Server, for publishing maps and data on the web, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-online" data-term="ArcGIS Online">ArcGIS Online</span>, Esri’s cloud platform. ArcMap 10.x became the standard desktop GIS in many offices for most of two decades.</li>
+<li><strong>2015: <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span> 1.0.</strong> A new, 64-bit desktop application, released alongside ArcMap, with integrated 2D and 3D, a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-ribbon" data-term="ribbon">ribbon</span> interface, multiple maps and layouts in one project, and close ties to ArcGIS Online.</li>
+<li><strong>2022: ArcGIS Pro 3.0.</strong> A major update. A project saved in version 3 can no longer be opened in version 2.</li>
+<li><strong>2026: ArcMap retired.</strong> In 2020, Esri announced that ArcMap 10.8 would be its last version, and that ArcMap would be supported until March 1, 2026. ArcGIS Pro is now Esri’s only desktop GIS.</li>
+</ul>
+<p>You will still find ArcMap in older tutorials, books, and offices. Its ideas carry over to ArcGIS Pro, but its menus and toolbars do not, so look for tutorials written for Pro.</p>
+<div class="did-you-know callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Did you know..?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Esri was started in 1969 with $1,100 of the Dangermonds’ savings, and is still privately owned by its founders. Its first user conference, held in Redlands in 1981, had 16 attendees. Today the Esri User Conference fills the San Diego Convention Center every July, and is one of the largest GIS gatherings in the world.</p>
+</div>
+</div>
+</section>
+<section id="sec-arcgis-license" class="level2" data-number="18.3">
+<h2 data-number="18.3" class="anchored" data-anchor-id="sec-arcgis-license"><span class="header-section-number">18.3</span> Getting ArcGIS Pro</h2>
+<section id="licensing" class="level3" data-number="18.3.1">
+<h3 data-number="18.3.1" class="anchored" data-anchor-id="licensing"><span class="header-section-number">18.3.1</span> Licensing</h3>
+<p>Using <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span> requires a license, which comes at one of three <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-license-level" data-term="license level">license levels</span></strong>. Each level includes everything in the levels below it:</p>
+<div id="tbl-license-levels" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-license-levels-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;18.1: ArcGIS Pro license levels.
+</figcaption>
+<div aria-describedby="tbl-license-levels-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Level</th>
+<th>Formerly</th>
+<th>What it adds</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Basic</strong></td>
+<td>ArcView</td>
+<td>Viewing, mapping, editing simple data, and most analysis tools</td>
+</tr>
+<tr class="even">
+<td><strong>Standard</strong></td>
+<td>ArcEditor</td>
+<td>Editing of advanced <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geodatabase" data-term="geodatabase">geodatabase</span> features, such as <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-topology" data-term="topology">topology</span> and versioned data shared by many editors</td>
+</tr>
+<tr class="odd">
+<td><strong>Advanced</strong></td>
+<td><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arc-info" data-term="ARC/INFO">ArcInfo</span></td>
+<td>The full set of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geoprocessing" data-term="geoprocessing">geoprocessing tools</span>, including advanced <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-overlay-analysis" data-term="overlay analysis">overlay</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-map-generalization" data-term="map generalization">generalization</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p><strong>Extensions</strong>, such as Spatial Analyst (<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">raster</span> analysis, Chapter 14), <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geostatistics" data-term="geostatistics">Geostatistical</span> Analyst (<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-kriging" data-term="kriging">kriging</span>, Chapter 16), 3D Analyst, and Network Analyst, add more tools, and are licensed separately.</p>
+<p>In an ArcGIS organization, the level comes with the account’s <em>user type</em>: Basic with the Creator user type, Standard with Professional, and Advanced with Professional Plus. Most users today have a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-named-user-license" data-term="named user license">named user license</span></strong>: the license is assigned to your ArcGIS account by your organization (such as a university or employer), and ArcGIS Pro checks it when you sign in. Universities usually have a campus license that covers students, with the extensions included. <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-esri" data-term="Esri">Esri</span> also sells personal-use licenses at low cost for non-commercial use, and offers free trials.</p>
+<p>Some tools and services, such as <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geocoding" data-term="geocoding">geocoding</span> many addresses with Esri’s World Geocoding Service, demographic enrichment, and storing large amounts of data in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-online" data-term="ArcGIS Online">ArcGIS Online</span>, use <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-credits" data-term="credits">credits</span></strong>, a currency that your organization buys and allots to its users. Tools that use credits say so in their documentation.</p>
+</section>
+<section id="installing-and-signing-in" class="level3" data-number="18.3.2">
+<h3 data-number="18.3.2" class="anchored" data-anchor-id="installing-and-signing-in"><span class="header-section-number">18.3.2</span> Installing and signing in</h3>
+<ol type="1">
+<li>Check that your computer meets the system requirements: for current versions, 64-bit Windows 11, with at least 8 GB of memory (32 GB is recommended).</li>
+<li>Download ArcGIS Pro from your ArcGIS account (my.esri.com, or the link your organization gives you) and run the installer.</li>
+<li>Start ArcGIS Pro and <strong>sign in</strong> with your organization’s ArcGIS account. University accounts usually sign in through the university’s own login page: choose <em>Your ArcGIS organization’s URL</em> and enter it.</li>
+</ol>
+<p>ArcGIS Pro is updated a few times a year. The version number is in <strong>Project ▸ About ArcGIS Pro</strong>.</p>
+</section>
+</section>
+<section id="sec-arcgis-window" class="level2" data-number="18.4">
+<h2 data-number="18.4" class="anchored" data-anchor-id="sec-arcgis-window"><span class="header-section-number">18.4</span> The ArcGIS Pro window</h2>
+<p>When <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span> starts, it shows a start page for opening a recent project or creating a new one from a template. The <strong>Map</strong> template creates a project with one empty map, which is the usual place to start. <a href="#fig-arcgis-interface" class="quarto-xref">Figure&nbsp;<span>18.2</span></a> shows the main window.</p>
+<div id="fig-arcgis-interface" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A schematic drawing of the ArcGIS Pro window. A dark title bar holds the Quick Access Toolbar buttons and the project name. Below it, ribbon tabs read Project, Map, Insert, Analysis, View, Edit, Imagery, Share, and Help, with contextual tabs Feature Layer, Labeling, and Data in a different color. The ribbon shows command groups labeled Clipboard, Navigate, Layer, Selection, Inquiry, Labeling, and Offline. On the left, the Contents pane lists the map's layers, cities, rivers, counties, and a Topographic basemap. In the middle, the map view shows a land area with a river and cities. On the right, the Catalog pane lists Maps, Layouts, Toolboxes, Databases, Styles, Folders, and Locators. Along the bottom are the map scale, coordinates, and selected feature count.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-arcgis-interface-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/arcgis-pro/arcgis-pro-interface.png" class="img-fluid figure-img" alt="A schematic drawing of the ArcGIS Pro window. A dark title bar holds the Quick Access Toolbar buttons and the project name. Below it, ribbon tabs read Project, Map, Insert, Analysis, View, Edit, Imagery, Share, and Help, with contextual tabs Feature Layer, Labeling, and Data in a different color. The ribbon shows command groups labeled Clipboard, Navigate, Layer, Selection, Inquiry, Labeling, and Offline. On the left, the Contents pane lists the map's layers, cities, rivers, counties, and a Topographic basemap. In the middle, the map view shows a land area with a river and cities. On the right, the Catalog pane lists Maps, Layouts, Toolboxes, Databases, Styles, Folders, and Locators. Along the bottom are the map scale, coordinates, and selected feature count.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-arcgis-interface-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;18.2: The parts of the ArcGIS Pro window: (1) the Quick Access Toolbar and title bar, (2) <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-ribbon" data-term="ribbon">ribbon</span> tabs, including <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-contextual-tab" data-term="contextual tab">contextual tabs</span>, (3) the ribbon, with commands in groups, (4) the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-contents-pane" data-term="Contents pane">Contents pane</span>, (5) the view, here a map, (6) the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-catalog-pane" data-term="Catalog pane">Catalog pane</span>, which shares its space with other panes, and (7) the status bar under the map, with the scale, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">coordinates</span>, and number of selected features. A schematic drawing, not a screenshot.
+</figcaption>
+</figure>
+</div>
+<ol type="1">
+<li>The <strong>Quick Access Toolbar</strong> at the top left has buttons for saving, undoing, and opening projects. The title bar also holds <strong>Command Search</strong> (Alt+Q), where you can type the name of any command or tool to find it, and your sign-in name.</li>
+<li><strong>Ribbon tabs</strong> organize the commands: <strong>Project</strong> (open, save, options, and licensing), <strong>Map</strong> (navigating, adding data, selecting), <strong>Insert</strong> (new maps, layouts, and toolboxes), <strong>Analysis</strong> (<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geoprocessing" data-term="geoprocessing">geoprocessing tools</span>), <strong>View</strong> (panes and windows), <strong>Edit</strong>, <strong>Imagery</strong>, <strong>Share</strong>, and <strong>Help</strong>. <strong>Contextual tabs</strong>, in a different color, appear only when something is selected. Select a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layer</span> in the Contents pane, for example, and the <strong>Feature Layer</strong>, <strong>Labeling</strong>, and <strong>Data</strong> tabs appear.</li>
+<li>The <strong>ribbon</strong> shows the commands on the current tab, arranged in <strong>groups</strong>, such as Navigate, Layer, and Selection on the Map tab.</li>
+<li>The <strong>Contents pane</strong> lists the layers in the active map, in drawing order: layers at the top draw on top. Check a box to show or hide a layer, drag to reorder, and right-click a layer for its options.</li>
+<li>The <strong>view</strong> is where you work with a map, a 3D scene, a layout, or a table. Each opens as a tab, and you can have many open at once, side by side or stacked.</li>
+<li>The <strong>Catalog pane</strong> shows everything in the project: its maps, layouts, toolboxes, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-database" data-term="database">databases</span>, styles, and folder connections. Other panes, such as <strong>Geoprocessing</strong>, <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-symbology" data-term="symbology">Symbology</span></strong>, <strong>Create Features</strong>, and <strong>Element</strong>, open in the same space as tabs.</li>
+<li>The bottom of each map view shows the <strong>scale</strong>, the <strong>coordinates</strong> under the cursor, and the number of <strong>selected features</strong>.</li>
+</ol>
+<p>Panes can be docked, floated, or closed. To reopen a pane, find it on the <strong>View</strong> tab, or search for it with Command Search.</p>
+<section id="navigating-the-map" class="level3" data-number="18.4.1">
+<h3 data-number="18.4.1" class="anchored" data-anchor-id="navigating-the-map"><span class="header-section-number">18.4.1</span> Navigating the map</h3>
+<div id="tbl-arcgis-navigation" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-arcgis-navigation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;18.2: Navigating a map in ArcGIS Pro.
+</figcaption>
+<div aria-describedby="tbl-arcgis-navigation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>To do this</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Pan and zoom</td>
+<td><strong>Map ▸ Navigate ▸ Explore</strong>, then drag to pan and roll the wheel to zoom</td>
+</tr>
+<tr class="even">
+<td>Show a whole layer</td>
+<td>Right-click the layer ▸ <strong>Zoom To Layer</strong></td>
+</tr>
+<tr class="odd">
+<td>Show all layers</td>
+<td><strong>Map ▸ Navigate ▸ Full Extent</strong></td>
+</tr>
+<tr class="even">
+<td>Go back to the previous view</td>
+<td><strong>Map ▸ Navigate ▸ Previous Extent</strong></td>
+</tr>
+<tr class="odd">
+<td>See a feature’s <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-attribute" data-term="attribute">attributes</span></td>
+<td>Click the feature with the <strong>Explore</strong> tool; a pop-up shows its attributes</td>
+</tr>
+<tr class="even">
+<td>Measure a distance or area</td>
+<td><strong>Map ▸ Inquiry ▸ Measure</strong></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+</section>
+<section id="sec-arcgis-projects" class="level2" data-number="18.5">
+<h2 data-number="18.5" class="anchored" data-anchor-id="sec-arcgis-projects"><span class="header-section-number">18.5</span> Projects</h2>
+<p>Work in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span> is saved as a <strong>project</strong>. When you create a project, ArcGIS Pro makes a <strong>project folder</strong> with the project file and a few default items (<a href="#fig-arcgis-project" class="quarto-xref">Figure&nbsp;<span>18.3</span></a>):</p>
+<ul>
+<li>The <strong>project file</strong> (<code>.aprx</code>) stores the project’s maps, layouts, and settings, and <em>links</em> to its data. Like a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span> project, it does not contain the data itself.</li>
+<li>The <strong>default <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geodatabase" data-term="geodatabase">geodatabase</span></strong> (<code>.gdb</code>), named after the project, is where new data and tool outputs are saved unless you choose otherwise.</li>
+<li>The <strong>default toolbox</strong> (<code>.atbx</code>) holds models and script tools you create.</li>
+<li>Other folders, such as <code>ImportLog</code> and <code>Index</code>, are used by ArcGIS Pro itself.</li>
+</ul>
+<div id="fig-arcgis-project" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A diagram of a project folder called NC_Density. Inside, the project file NC_Density.aprx stores settings and links, not data, and contains maps, layouts, connections, and toolboxes and tasks. Arrows point to the default file geodatabase NC_Density.gdb, holding counties, rivers, and counties_Buffer, and to the default toolbox NC_Density.atbx. Other folders such as ImportLog and Index are created by ArcGIS Pro. A dashed red arrow points to your data elsewhere, such as shapefiles and rasters on a USB drive, with the warning that links to outside data break if those files move.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-arcgis-project-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/arcgis-pro/arcgis-pro-project.png" class="img-fluid figure-img" alt="A diagram of a project folder called NC_Density. Inside, the project file NC_Density.aprx stores settings and links, not data, and contains maps, layouts, connections, and toolboxes and tasks. Arrows point to the default file geodatabase NC_Density.gdb, holding counties, rivers, and counties_Buffer, and to the default toolbox NC_Density.atbx. Other folders such as ImportLog and Index are created by ArcGIS Pro. A dashed red arrow points to your data elsewhere, such as shapefiles and rasters on a USB drive, with the warning that links to outside data break if those files move.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-arcgis-project-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;18.3: What an ArcGIS Pro project folder contains. The project file stores maps, layouts, connections, and toolboxes, and links to data in the default geodatabase and elsewhere.
+</figcaption>
+</figure>
+</div>
+<p>The habits that keep QGIS projects working apply here too: keep each project and its data together in one folder, use short names without spaces, and work on a local drive rather than a USB drive or a cloud-synced folder. Save often with Ctrl+S. If a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layer</span>’s data moves, a red exclamation mark appears next to it in the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-contents-pane" data-term="Contents pane">Contents pane</span>; click it to locate the data again.</p>
+<section id="the-geodatabase" class="level3" data-number="18.5.1">
+<h3 data-number="18.5.1" class="anchored" data-anchor-id="the-geodatabase"><span class="header-section-number">18.5.1</span> The geodatabase</h3>
+<p>A <strong>geodatabase</strong> is <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-esri" data-term="Esri">Esri</span>’s format for storing <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-data" data-term="spatial data">geographic data</span>. A <strong>file geodatabase</strong> is a folder ending in <code>.gdb</code> that holds any number of <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-feature-class" data-term="feature class">feature classes</span></strong> (<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-vector" data-term="vector">vector</span> layers), <strong>tables</strong>, and <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">raster</span> datasets</strong>. It has advantages over <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-shapefile" data-term="shapefile">shapefiles</span>: long field names, large sizes, null values, and advanced features such as domains (lists of valid values), <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-topology" data-term="topology">topology</span>, and relationship classes. Use the project’s default geodatabase for your new data. Don’t open, copy, or rename the files <em>inside</em> a <code>.gdb</code> folder with Windows File Explorer; manage them in the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-catalog-pane" data-term="Catalog pane">Catalog pane</span>.</p>
+<p>A geodatabase is not readable by every program the way a shapefile or <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geopackage" data-term="GeoPackage">GeoPackage</span> is. QGIS can read file geodatabases, and newer versions can edit them, but to share data with someone who doesn’t use ArcGIS, export it to a GeoPackage or shapefile.</p>
+</section>
+</section>
+<section id="sec-arcgis-adding-data" class="level2" data-number="18.6">
+<h2 data-number="18.6" class="anchored" data-anchor-id="sec-arcgis-adding-data"><span class="header-section-number">18.6</span> Adding data</h2>
+<ul>
+<li><strong>Map ▸ <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">Layer</span> ▸ Add Data</strong> opens a browse dialog for files, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geodatabase" data-term="geodatabase">geodatabases</span>, and data in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-online" data-term="ArcGIS Online">ArcGIS Online</span>.</li>
+<li><strong>Drag</strong> a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-feature-class" data-term="feature class">feature class</span> or file from the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-catalog-pane" data-term="Catalog pane">Catalog pane</span> onto the map.</li>
+<li>To browse a folder outside the project, right-click <strong>Folders</strong> in the Catalog pane and choose <strong>Add Folder Connection</strong>.</li>
+</ul>
+<p>When the first layer is added to a new map, the map takes on that layer’s <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">coordinate system</span>, and later layers are projected on the fly to match. To change it, right-click the map’s name in the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-contents-pane" data-term="Contents pane">Contents pane</span>, choose <strong>Properties</strong>, and open the <strong>Coordinate Systems</strong> tab.</p>
+<section id="points-from-a-table-of-coordinates" class="level3" data-number="18.6.1">
+<h3 data-number="18.6.1" class="anchored" data-anchor-id="points-from-a-table-of-coordinates"><span class="header-section-number">18.6.1</span> Points from a table of coordinates</h3>
+<p>To make points from a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-csv" data-term="CSV">CSV</span> or Excel table of coordinates, add the table to the map (it appears under <em>Standalone Tables</em> in the Contents pane), right-click it, and choose <strong>Create Points From Table ▸ XY Table To Point</strong>. The tool asks for:</p>
+<ul>
+<li><strong>X Field</strong>: the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-longitude" data-term="longitude">longitude</span> (or <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-easting" data-term="easting">easting</span>).</li>
+<li><strong>Y Field</strong>: the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-latitude" data-term="latitude">latitude</span> (or <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-northing" data-term="northing">northing</span>).</li>
+<li><strong>Coordinate System</strong>: the system the coordinates are in. For latitude and longitude from a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-gps" data-term="GPS">GPS</span> or web map, this is usually <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-coordinate-system-gcs" data-term="geographic coordinate system (GCS)">GCS</span> WGS 1984.</li>
+</ul>
+<p>The output is a new point feature class in the project geodatabase. As in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span>, the most common mistake is swapping X and Y: longitude is X.</p>
+</section>
+<section id="basemaps" class="level3" data-number="18.6.2">
+<h3 data-number="18.6.2" class="anchored" data-anchor-id="basemaps"><span class="header-section-number">18.6.2</span> Basemaps</h3>
+<p><strong>Map ▸ Layer ▸ <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-basemap" data-term="basemap">Basemap</span></strong> opens a gallery of basemaps from ArcGIS Online, such as Topographic, Imagery, Streets, and Light Gray Canvas. New maps start with a basemap, usually World Topographic Map, which appears at the bottom of the Contents pane. Basemaps require an internet connection and sign-in.</p>
+</section>
+</section>
+<section id="sec-arcgis-entering-data" class="level2" data-number="18.7">
+<h2 data-number="18.7" class="anchored" data-anchor-id="sec-arcgis-entering-data"><span class="header-section-number">18.7</span> Entering data</h2>
+<section id="creating-a-feature-class" class="level3" data-number="18.7.1">
+<h3 data-number="18.7.1" class="anchored" data-anchor-id="creating-a-feature-class"><span class="header-section-number">18.7.1</span> Creating a feature class</h3>
+<p>To create a new, empty <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layer</span>, right-click the project <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geodatabase" data-term="geodatabase">geodatabase</span> in the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-catalog-pane" data-term="Catalog pane">Catalog pane</span> and choose <strong>New ▸ <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-feature-class" data-term="feature class">Feature Class</span></strong>. A wizard walks through the steps:</p>
+<ol type="1">
+<li><strong>Name</strong> the feature class (such as <code>field_sites</code>) and choose its <strong>feature class type</strong>: point, line, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-polygon" data-term="polygon">polygon</span>, or another type.</li>
+<li><strong>Fields</strong>: add fields, giving each a name and a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-type" data-term="data type">data type</span></strong>, such as Text, Short or Long (<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-integer" data-term="integer">integers</span>), Float or <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-double" data-term="Double">Double</span> (decimal numbers), or Date. ArcGIS adds an <code>OBJECTID</code> field (the feature ID) and, for lines and polygons, <code>Shape_Length</code> and <code>Shape_Area</code> fields, which it keeps up to date.</li>
+<li><strong>Spatial Reference</strong>: choose the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">coordinate system</span>, such as NAD 1983 StatePlane North Carolina <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-fips-code" data-term="FIPS code">FIPS</span> 3200 (Meters).</li>
+<li>Click <strong>Finish</strong>. The new, empty layer is added to the map.</li>
+</ol>
+<p>The <strong>Create Feature Class</strong> tool in the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geoprocessing-pane" data-term="Geoprocessing pane">Geoprocessing pane</span> does the same thing.</p>
+</section>
+<section id="editing-features" class="level3" data-number="18.7.2">
+<h3 data-number="18.7.2" class="anchored" data-anchor-id="editing-features"><span class="header-section-number">18.7.2</span> Editing features</h3>
+<p>Editing in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span> is done from the <strong>Edit</strong> tab:</p>
+<ol type="1">
+<li>Click <strong>Edit ▸ Features ▸ Create</strong>. The <strong>Create Features</strong> pane lists a <em>template</em> for each editable layer.</li>
+<li>Click the template for the layer you want, such as <code>field_sites</code>, and choose a construction tool (for a point layer, Point).</li>
+<li>Click the map to place a point. For a line or polygon, click each <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-vertex" data-term="vertex">vertex</span>, and double-click (or press F2) to finish.</li>
+<li>Fill in the new feature’s <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-attribute" data-term="attribute">attributes</span> in the <strong>Attributes</strong> pane (<strong>Edit ▸ Selection ▸ Attributes</strong>).</li>
+<li>Click <strong>Edit ▸ Manage Edits ▸ Save</strong> to save the edits, or <strong>Discard</strong> to throw them away.</li>
+</ol>
+<p>Other tools on the Edit tab move, reshape, split, and merge features. <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-snapping" data-term="snapping">Snapping</span></strong> (<strong>Edit ▸ Snapping</strong>) makes new vertices jump to existing vertices and edges, so that shared boundaries line up.</p>
+</section>
+<section id="the-attribute-table" class="level3" data-number="18.7.3">
+<h3 data-number="18.7.3" class="anchored" data-anchor-id="the-attribute-table"><span class="header-section-number">18.7.3</span> The attribute table</h3>
+<p>Right-click a layer and choose <strong>Attribute Table</strong> (or select the layer and press Ctrl+T) to open its table as a view below the map. Click a row’s gray box at the left to select the feature; double-click a cell to edit it. The table’s menu buttons add fields, calculate fields, select by attributes, and switch between all and selected records.</p>
+</section>
+<section id="calculating-fields" class="level3" data-number="18.7.4">
+<h3 data-number="18.7.4" class="anchored" data-anchor-id="calculating-fields"><span class="header-section-number">18.7.4</span> Calculating fields</h3>
+<p><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-field-calculator" data-term="field calculator">Calculate Field</span></strong> (right-click a column heading in the table, or find the tool in the Geoprocessing pane) fills a field with an <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-expression" data-term="expression">expression</span>. You can write the expression in <strong>Python</strong> or in <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcade" data-term="Arcade">Arcade</span></strong>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-esri" data-term="Esri">Esri</span>’s own expression language, which also works in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-online" data-term="ArcGIS Online">ArcGIS Online</span>:</p>
+<ul>
+<li>In Python, field names are wrapped in exclamation marks: <code>!pop_2025! / (!aland_sqmi! * 2.58999)</code>.</li>
+<li>In Arcade, fields are properties of <code>$feature</code>: <code>$feature.pop_2025 / ($feature.aland_sqmi * 2.58999)</code>.</li>
+</ul>
+<p>To add a field first, use <strong>Add Field</strong> on the table’s menu, or <strong>Data ▸ Design ▸ Fields</strong>, which shows all the layer’s fields and their types. <strong>Calculate Geometry</strong> (right-click a column heading) fills a field with each feature’s area, length, or coordinates, in the units and coordinate system you choose.</p>
+</section>
+<section id="joins" class="level3" data-number="18.7.5">
+<h3 data-number="18.7.5" class="anchored" data-anchor-id="joins"><span class="header-section-number">18.7.5</span> Joins</h3>
+<p>To join a table to a layer by a common field (Chapter 6), right-click the layer and choose <strong>Joins and Relates ▸ Add Join</strong>. For a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-join" data-term="spatial join">spatial join</span> (Chapter 7), use the <strong>Spatial Join</strong> tool or <strong>Add Spatial Join</strong>.</p>
+</section>
+</section>
+<section id="sec-arcgis-selecting" class="level2" data-number="18.8">
+<h2 data-number="18.8" class="anchored" data-anchor-id="sec-arcgis-selecting"><span class="header-section-number">18.8</span> Selecting and querying</h2>
+<p>The <strong>Map ▸ Selection</strong> group holds the selection tools (Chapter 5):</p>
+<ul>
+<li><strong>Select</strong> selects features by clicking or dragging on the map.</li>
+<li><strong>Select By <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-attribute" data-term="attribute">Attributes</span></strong> selects features with a query built from clauses, such as <code>density is greater than 500</code>, or written in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-sql" data-term="SQL">SQL</span>.</li>
+<li><strong>Select By Location</strong> selects features by their spatial relationship to another <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layer</span>.</li>
+<li><strong>Clear</strong> clears the selection.</li>
+</ul>
+<p>The number of selected features is shown at the bottom of the map and of the table. Most tools run on the selected features only, when a layer has a selection, so clear selections you no longer need. To keep a selection as a new layer, right-click the layer and choose <strong>Data ▸ Export Features</strong>.</p>
+<p>A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-definition-query" data-term="definition query">definition query</span></strong> (layer <strong>Properties ▸ Definition Query</strong>) hides every feature that doesn’t match a query. Like a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span> filter, it affects everything you do with the layer.</p>
+</section>
+<section id="sec-arcgis-basic-map" class="level2" data-number="18.9">
+<h2 data-number="18.9" class="anchored" data-anchor-id="sec-arcgis-basic-map"><span class="header-section-number">18.9</span> Making a basic map</h2>
+<p>The steps of making a map are the same as in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span> (<a href="#fig-map-workflow-pro" class="quarto-xref">Figure&nbsp;<span>18.4</span></a>): add data, check the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">coordinate system</span>, symbolize, label, lay out, and export.</p>
+<div id="fig-map-workflow-pro" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A flowchart of six steps: 1, add data; 2, check the CRS; 3, symbolize; 4, label; 5, lay out, with title, legend, scale bar, north arrow, and source; 6, export as PNG, PDF, or SVG.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-map-workflow-pro-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/qgis/map-workflow.png" class="img-fluid figure-img" alt="A flowchart of six steps: 1, add data; 2, check the CRS; 3, symbolize; 4, label; 5, lay out, with title, legend, scale bar, north arrow, and source; 6, export as PNG, PDF, or SVG.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-map-workflow-pro-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;18.4: The steps of making a basic map, in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span> or any other <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span>.
+</figcaption>
+</figure>
+</div>
+<section id="symbology" class="level3" data-number="18.9.1">
+<h3 data-number="18.9.1" class="anchored" data-anchor-id="symbology"><span class="header-section-number">18.9.1</span> Symbology</h3>
+<p>Right-click a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layer</span> and choose <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-symbology" data-term="symbology">Symbology</span></strong> to open the <strong>Symbology pane</strong>. The <strong>Primary symbology</strong> menu chooses how features are drawn:</p>
+<ul>
+<li><strong>Single Symbol</strong>: every feature the same.</li>
+<li><strong>Unique Values</strong>: a symbol for each value of a field, for categories.</li>
+<li><strong>Graduated Colors</strong>: classes of a numeric field shown in a color scheme, for <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-choropleth-map" data-term="choropleth map">choropleth maps</span>.</li>
+<li><strong>Graduated Symbols</strong> and <strong>Proportional Symbols</strong>: symbol sizes that vary with a numeric field.</li>
+<li><strong>Dot Density</strong>, <strong>Charts</strong>, <strong>Heat Map</strong>, and others.</li>
+</ul>
+<p>For the map of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-population-density" data-term="population density">population density</span>, choose <strong>Graduated Colors</strong>, set <strong>Field</strong> to <code>density</code>, set <strong>Method</strong> to <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-natural-breaks" data-term="natural breaks">Natural Breaks</span> (Jenks) and <strong>Classes</strong> to 5, and pick a <strong>Color scheme</strong>. The <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-histogram" data-term="histogram">Histogram</span></strong> tab shows the class breaks on the data’s distribution (Chapter 11). Changes appear on the map as you make them.</p>
+</section>
+<section id="labels" class="level3" data-number="18.9.2">
+<h3 data-number="18.9.2" class="anchored" data-anchor-id="labels"><span class="header-section-number">18.9.2</span> Labels</h3>
+<p>Select the layer in the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-contents-pane" data-term="Contents pane">Contents pane</span>, and click the <strong>Labeling</strong> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-contextual-tab" data-term="contextual tab">contextual tab</span>. Click <strong>Label</strong> to turn labels on, choose the <strong>Field</strong> (such as <code>name</code>), and set the font, size, and color in the <strong>Text Symbol</strong> group. A halo (<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-esri" data-term="Esri">Esri</span>’s name for a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-buffer" data-term="buffer">buffer</span> around the text) makes labels readable over busy backgrounds. To add one, click the small launcher arrow at the corner of the <strong>Text Symbol</strong> group, which opens the <strong>Label Class</strong> pane, and set the <strong>Halo</strong> under the symbol’s appearance settings.</p>
+</section>
+<section id="layouts" class="level3" data-number="18.9.3">
+<h3 data-number="18.9.3" class="anchored" data-anchor-id="layouts"><span class="header-section-number">18.9.3</span> Layouts</h3>
+<p>A <strong>layout</strong> is a page for printing or exporting a finished map.</p>
+<ol type="1">
+<li><strong>Insert ▸ Project ▸ New Layout</strong>, and choose a page size and orientation, such as Letter, landscape. The layout opens as a new view.</li>
+<li><strong>Insert ▸ Map Frames ▸ Map Frame</strong>, choose the map, and drag a rectangle on the page. To change what the frame shows, use <strong>Layout ▸ Map ▸ Activate</strong>, navigate the map, then close the activated view.</li>
+<li><strong>Insert ▸ Graphics and Text ▸ Text</strong> (or <strong>Dynamic Text ▸ Title</strong>) for the title, source, and author.</li>
+<li><strong>Insert ▸ Map Surrounds ▸ <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-legend" data-term="legend">Legend</span></strong>, <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-scale-bar" data-term="scale bar">Scale Bar</span></strong>, and <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-north-arrow" data-term="north arrow">North Arrow</span></strong>. Each is linked to the map frame and updates when the map changes.</li>
+<li>Select any element and use the <strong>Format</strong> pane (or the <strong>Element</strong> pane) to change its properties: legend items, scale bar units and divisions, fonts, and sizes.</li>
+<li><strong>Share ▸ Output ▸ Export Layout</strong> to export the layout as a PDF, PNG, JPEG, SVG, or other format, at the resolution you choose. <strong>Share ▸ Output ▸ <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-print-layout" data-term="print layout">Print Layout</span></strong> prints it.</li>
+</ol>
+<p>A project can hold many maps and many layouts, all listed in the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-catalog-pane" data-term="Catalog pane">Catalog pane</span>.</p>
+</section>
+</section>
+<section id="sec-arcgis-geoprocessing" class="level2" data-number="18.10">
+<h2 data-number="18.10" class="anchored" data-anchor-id="sec-arcgis-geoprocessing"><span class="header-section-number">18.10</span> Geoprocessing</h2>
+<p><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geoprocessing" data-term="geoprocessing">Geoprocessing</span></strong> is <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-esri" data-term="Esri">Esri</span>’s term for running tools that create or change data: <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-buffer" data-term="buffer">buffers</span>, overlays, conversions, and analysis of every kind (Chapters 13–16). The tools are organized in <strong>toolboxes</strong>, such as the Analysis, Data Management, Conversion, and Spatial Analyst toolboxes.</p>
+<p>Open the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geoprocessing-pane" data-term="Geoprocessing pane">Geoprocessing pane</span></strong> with <strong>Analysis ▸ Geoprocessing ▸ Tools</strong>. Type a tool’s name in the search box, and click it to open it (<a href="#fig-arcgis-gp" class="quarto-xref">Figure&nbsp;<span>18.5</span></a>):</p>
+<div id="fig-arcgis-gp" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A schematic drawing of the Geoprocessing pane with the Pairwise Buffer tool open. Required parameters are marked with red asterisks: Input Features set to rivers, Output Feature Class set to rivers_PairwiseBuffer, and Distance set to 5 miles. Optional parameters are Method set to Planar and Dissolve Type set to dissolve all output features into a single feature. A Run button is at the bottom, with a message that the tool completed in 1.9 seconds.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-arcgis-gp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/arcgis-pro/arcgis-pro-geoprocessing.png" class="img-fluid figure-img" alt="A schematic drawing of the Geoprocessing pane with the Pairwise Buffer tool open. Required parameters are marked with red asterisks: Input Features set to rivers, Output Feature Class set to rivers_PairwiseBuffer, and Distance set to 5 miles. Optional parameters are Method set to Planar and Dissolve Type set to dissolve all output features into a single feature. A Run button is at the bottom, with a message that the tool completed in 1.9 seconds.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-arcgis-gp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;18.5: The Geoprocessing pane with the Pairwise Buffer tool: (1) the tool’s name, (2) the input <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layer</span>, (3) the output <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-feature-class" data-term="feature class">feature class</span>, (4) the buffer distance, (5) optional parameters, and (6) the Run button and status. A schematic drawing, not a screenshot.
+</figcaption>
+</figure>
+</div>
+<ul>
+<li><strong>Required parameters</strong> are marked with a red asterisk. A tool can’t run until they are filled in.</li>
+<li>The <strong>output</strong> is saved by default to the project <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geodatabase" data-term="geodatabase">geodatabase</span>, with a name built from the input and the tool.</li>
+<li><strong>Environments</strong> set rules for every tool, such as the output <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">coordinate system</span>, the processing extent, and the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cell-size" data-term="cell size">cell size</span> for <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">raster</span> outputs.</li>
+<li><strong>Run</strong> starts the tool. A green check means it succeeded, and <strong>View Details</strong> shows its messages; a red X means it failed, and the messages explain why.</li>
+</ul>
+<p>Every tool you run is recorded in the project’s <strong>History</strong> (<strong>Analysis ▸ Geoprocessing ▸ History</strong>), where you can open it again with the same settings. To chain tools into a repeatable workflow, use <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-modelbuilder" data-term="ModelBuilder">ModelBuilder</span></strong> (<strong>Analysis ▸ Geoprocessing ▸ ModelBuilder</strong>), which draws the workflow as a flowchart (Chapter 13). For scripting, the <strong>Python window</strong> (<strong>Analysis ▸ Geoprocessing ▸ Python</strong>) and <strong>ArcGIS Notebooks</strong> run tools with <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcpy" data-term="ArcPy">ArcPy</span></strong>. Every tool’s help page shows the Python code to run it.</p>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Think about it
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span> has both a <strong>Buffer</strong> and a <strong>Pairwise Buffer</strong> tool, and both a <strong>Dissolve</strong> and a <strong>Pairwise Dissolve</strong>. The “pairwise” tools are newer versions that are faster on large datasets and use all of your computer’s processor cores. Why might Esri keep both versions, instead of replacing the old tools?</p>
+</div>
+</div>
+</section>
+<section id="sec-arcgis-sharing" class="level2" data-number="18.11">
+<h2 data-number="18.11" class="anchored" data-anchor-id="sec-arcgis-sharing"><span class="header-section-number">18.11</span> Sharing to the web</h2>
+<p>Because <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span> is tied to <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-online" data-term="ArcGIS Online">ArcGIS Online</span>, you can publish your work to the web. <strong>Share ▸ Share As ▸ Web Map</strong> shares a map, with its <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layers</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-symbology" data-term="symbology">symbology</span>, as a web map that anyone you choose can open in a browser; <strong>Web Layer</strong> shares a single layer. Web maps can then be used in ArcGIS StoryMaps, Dashboards, and apps. You choose who can see each item: just you, groups, your organization, or everyone.</p>
+</section>
+<section id="sec-qgis-vs-arcgis" class="level2" data-number="18.12">
+<h2 data-number="18.12" class="anchored" data-anchor-id="sec-qgis-vs-arcgis"><span class="header-section-number">18.12</span> QGIS and ArcGIS Pro compared</h2>
+<div id="tbl-qgis-vs-arcgis" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-qgis-vs-arcgis-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;18.3: <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span> side by side.
+</figcaption>
+<div aria-describedby="tbl-qgis-vs-arcgis-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>QGIS</th>
+<th>ArcGIS Pro</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Cost</td>
+<td>Free</td>
+<td>Paid license (usually through an employer or university)</td>
+</tr>
+<tr class="even">
+<td>License</td>
+<td><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-open-source" data-term="open source">Open source</span> (GNU GPL)</td>
+<td>Proprietary</td>
+</tr>
+<tr class="odd">
+<td>Operating systems</td>
+<td>Windows, macOS, Linux</td>
+<td>Windows only</td>
+</tr>
+<tr class="even">
+<td>Main <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-vector" data-term="vector">vector</span> format</td>
+<td><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geopackage" data-term="GeoPackage">GeoPackage</span></td>
+<td><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geodatabase" data-term="geodatabase">File geodatabase</span></td>
+</tr>
+<tr class="odd">
+<td>Project file</td>
+<td><code>.qgz</code></td>
+<td><code>.aprx</code></td>
+</tr>
+<tr class="even">
+<td>Analysis tools</td>
+<td><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-processing-toolbox" data-term="Processing Toolbox">Processing Toolbox</span> (QGIS, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-gdal" data-term="GDAL">GDAL</span>, GRASS)</td>
+<td><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geoprocessing" data-term="geoprocessing">Geoprocessing</span> toolboxes and extensions</td>
+</tr>
+<tr class="odd">
+<td>Workflow models</td>
+<td>Model Designer</td>
+<td><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-modelbuilder" data-term="ModelBuilder">ModelBuilder</span></td>
+</tr>
+<tr class="even">
+<td>Scripting</td>
+<td>Python (PyQGIS)</td>
+<td>Python (<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcpy" data-term="ArcPy">ArcPy</span>), <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcade" data-term="Arcade">Arcade</span></td>
+</tr>
+<tr class="odd">
+<td>Map output</td>
+<td><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-print-layout" data-term="print layout">Print layout</span></td>
+<td>Layout</td>
+</tr>
+<tr class="even">
+<td>Web sharing</td>
+<td>Plugins and other software, such as qgis2web and QGIS Server</td>
+<td>Built in, through <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-online" data-term="ArcGIS Online">ArcGIS Online</span> or Enterprise</td>
+</tr>
+<tr class="odd">
+<td>Extending</td>
+<td>Thousands of free community plugins</td>
+<td><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-esri" data-term="Esri">Esri</span> extensions, add-ins, and partner products</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>The two programs share far more than they differ. Both read the same common formats (<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-shapefile" data-term="shapefile">shapefiles</span>, GeoPackages, GeoTIFFs, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-csv" data-term="CSV">CSVs</span>), both use GDAL and PROJ-style <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">coordinate systems</span> identified by <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-epsg-code" data-term="EPSG code">EPSG codes</span>, and the concepts in this book apply equally to both. Many <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> professionals use both: ArcGIS Pro where their organization runs on Esri software, and QGIS on their own computers, for formats or tools that ArcGIS lacks, or when sharing work with people without a license.</p>
+</section>
+<section id="sec-arcgis-help" class="level2" data-number="18.13">
+<h2 data-number="18.13" class="anchored" data-anchor-id="sec-arcgis-help"><span class="header-section-number">18.13</span> Getting help</h2>
+<ul>
+<li><strong>Help buttons</strong>: the <strong>?</strong> on any tool or pane, or F1, opens the matching page of the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span> documentation.</li>
+<li><strong>The ArcGIS Pro documentation</strong> at <a href="https://pro.arcgis.com" class="uri">https://pro.arcgis.com</a> includes a “Get started” section, a tool reference for every <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geoprocessing" data-term="geoprocessing">geoprocessing tool</span>, and the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcpy" data-term="ArcPy">ArcPy</span> reference.</li>
+<li><strong>Learn ArcGIS</strong> (<a href="https://learn.arcgis.com/en/" class="uri">https://learn.arcgis.com/en/</a>) has free, step-by-step lessons with data, from beginner to advanced.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-esri" data-term="Esri">Esri</span> Training</strong> (<a href="https://www.esri.com/training/" class="uri">https://www.esri.com/training/</a>) has courses, many of them free, including <em>Getting Started with ArcGIS Pro</em>.</li>
+<li><strong>Esri Community</strong> (<a href="https://community.esri.com" class="uri">https://community.esri.com</a>) and <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> Stack Exchange</strong> (tag <code>arcgis-pro</code>) answer questions.</li>
+</ul>
+</section>
+<section id="check-your-understanding" class="level2" data-number="18.14">
+<h2 data-number="18.14" class="anchored" data-anchor-id="check-your-understanding"><span class="header-section-number">18.14</span> Check your understanding</h2>
+<ol type="1">
+<li><p>Which company makes ArcGIS Pro? <select class="webex-select"><option value="blank"></option><option value="">OSGeo</option><option value="answer">Esri</option><option value="">Google</option><option value="">Microsoft</option></select></p></li>
+<li><p>Which operating system does ArcGIS Pro run on? <select class="webex-select"><option value="blank"></option><option value="answer">Windows only</option><option value="">Windows and macOS</option><option value="">Linux only</option><option value="">Any operating system with a web browser</option></select></p></li>
+<li><p>Esri’s older desktop application, retired in March 2026, was: <select class="webex-select"><option value="blank"></option><option value="">ArcGIS Online</option><option value="answer">ArcMap</option><option value="">QGIS</option><option value="">ArcGIS StoryMaps</option></select></p></li>
+<li><p>An ArcGIS Pro project file has the extension: <select class="webex-select"><option value="blank"></option><option value="">.qgz</option><option value="">.shp</option><option value="answer">.aprx</option><option value="">.gdb</option></select></p></li>
+<li><p>By default, where are new feature classes and tool outputs saved? <select class="webex-select"><option value="blank"></option><option value="">On the desktop</option><option value="answer">In the project’s default geodatabase</option><option value="">In ArcGIS Online</option><option value="">Inside the .aprx file</option></select></p></li>
+<li><p>Tabs that appear on the ribbon only when a certain kind of item is selected are called: <select class="webex-select"><option value="blank"></option><option value="">Hidden tabs</option><option value="answer">Contextual tabs</option><option value="">Quick tabs</option><option value="">Extension tabs</option></select></p></li>
+<li><p>In a Python expression for Calculate Field, a field named density is written: <select class="webex-select"><option value="blank"></option><option value="">“density”</option><option value="">$feature.density</option><option value="answer">!density!</option><option value="">[density]</option></select></p></li>
+<li><p>Which license level includes the full set of geoprocessing tools? <select class="webex-select"><option value="blank"></option><option value="">Basic</option><option value="">Standard</option><option value="answer">Advanced</option><option value="">Viewer</option></select></p></li>
+<li><p>Which symbology makes a choropleth map from a numeric field? <select class="webex-select"><option value="blank"></option><option value="">Single Symbol</option><option value="">Unique Values</option><option value="answer">Graduated Colors</option><option value="">Dot Density</option></select></p></li>
+</ol>
+</section>
+<section id="summary" class="level2" data-number="18.15">
+<h2 data-number="18.15" class="anchored" data-anchor-id="summary"><span class="header-section-number">18.15</span> Summary</h2>
+<ul>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span></strong> is <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-esri" data-term="Esri">Esri</span>’s proprietary desktop <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> for Windows, part of the ArcGIS family that includes <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-online" data-term="ArcGIS Online">ArcGIS Online</span>, ArcGIS Enterprise, field and web apps, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcpy" data-term="ArcPy">ArcPy</span>.</li>
+<li><strong>Esri</strong> was founded in 1969 by Jack and Laura Dangermond. Its desktop GIS went from <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arc-info" data-term="ARC/INFO">ARC/INFO</span></strong> (1982) to <strong>ArcView</strong> (1992), <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcmap" data-term="ArcMap">ArcMap</span></strong> (1999), and <strong>ArcGIS Pro</strong> (2015). ArcMap was retired in March 2026.</li>
+<li>ArcGIS Pro needs a license, usually a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-named-user-license" data-term="named user license">named user license</span></strong> assigned to your ArcGIS account, at the <strong>Basic</strong>, <strong>Standard</strong>, or <strong>Advanced</strong> level, with <strong>extensions</strong> for specialized tools. Some services use <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-credits" data-term="credits">credits</span></strong>.</li>
+<li>The window has a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-ribbon" data-term="ribbon">ribbon</span></strong> of tabs and groups, with <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-contextual-tab" data-term="contextual tab">contextual tabs</span></strong> that appear as needed; <strong>views</strong> for maps, layouts, and tables; and <strong>panes</strong>, such as Contents, Catalog, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geoprocessing" data-term="geoprocessing">Geoprocessing</span>, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-symbology" data-term="symbology">Symbology</span>. <strong>Command Search</strong> finds any command.</li>
+<li>A <strong>project</strong> (<code>.aprx</code>) links to data and holds maps and layouts. New data goes in the project’s default <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geodatabase" data-term="geodatabase">file geodatabase</span></strong>.</li>
+<li>Add data with <strong>Add Data</strong> or from the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-catalog-pane" data-term="Catalog pane">Catalog pane</span>, and points from <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">coordinates</span> with <strong>XY Table To Point</strong>. Create <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-feature-class" data-term="feature class">feature classes</span></strong> in the Catalog pane, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-digitize" data-term="digitize">digitize</span> with <strong>Create Features</strong>, and save edits from the <strong>Edit</strong> tab.</li>
+<li>Make a map with the <strong>Symbology</strong> pane, the <strong>Labeling</strong> tab, and a <strong>layout</strong> with a map frame, title, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-legend" data-term="legend">legend</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-scale-bar" data-term="scale bar">scale bar</span>, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-north-arrow" data-term="north arrow">north arrow</span>, then export it.</li>
+<li>Run tools in the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geoprocessing-pane" data-term="Geoprocessing pane">Geoprocessing pane</span></strong>, chain them in <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-modelbuilder" data-term="ModelBuilder">ModelBuilder</span></strong>, and script them with <strong>ArcPy</strong>.</li>
+</ul>
+</section>
+<section id="exercises" class="level2" data-number="18.16">
+<h2 data-number="18.16" class="anchored" data-anchor-id="exercises"><span class="header-section-number">18.16</span> Exercises</h2>
+<ol type="1">
+<li><strong>Sign in and explore.</strong> Start <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span>, sign in, and create a project from the Map template. What version are you using? What <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-license-level" data-term="license level">license level</span> and extensions do you have (<strong>Project ▸ Licensing</strong>)? Find the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-contents-pane" data-term="Contents pane">Contents pane</span>, the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-catalog-pane" data-term="Catalog pane">Catalog pane</span>, and Command Search.</li>
+<li><strong>The project folder.</strong> Open the project folder in Windows File Explorer. List what ArcGIS Pro created. Which items hold data, and which hold settings?</li>
+<li><strong>Points from a spreadsheet.</strong> Make a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-csv" data-term="CSV">CSV</span> of five places with their <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-latitude" data-term="latitude">latitudes</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-longitude" data-term="longitude">longitudes</span>, and use XY Table To Point to map them. Add a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-basemap" data-term="basemap">basemap</span> and check that they land in the right places.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-digitize" data-term="digitize">Digitize</span>.</strong> Create a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-polygon" data-term="polygon">polygon</span> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-feature-class" data-term="feature class">feature class</span> in the project <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geodatabase" data-term="geodatabase">geodatabase</span>, with a Text field <code>name</code>, in a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-state-plane-coordinate-system-spcs" data-term="State Plane Coordinate System (SPCS)">State Plane coordinate system</span>. Digitize three buildings on campus over the Imagery basemap. What are their areas in the <code>Shape_Area</code> field, and in what units?</li>
+<li><strong>A <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-choropleth-map" data-term="choropleth map">choropleth map</span>.</strong> Map <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-population-density" data-term="population density">population density</span> for North Carolina’s counties with Graduated Colors and five natural-breaks classes. Build a layout with a title, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-legend" data-term="legend">legend</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-scale-bar" data-term="scale bar">scale bar</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-north-arrow" data-term="north arrow">north arrow</span>, and source, and export it as a PDF. Then make the same map in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span>. Which steps were the same, and which were different?</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geoprocessing" data-term="geoprocessing">Geoprocessing</span> history.</strong> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-buffer" data-term="buffer">Buffer</span> a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layer</span> with the Pairwise Buffer tool, then open the History. Copy the tool’s Python command (right-click ▸ Copy Python Command), and paste it into the Python window. What does each part of the command mean?</li>
+</ol>
+</section>
+<section id="further-reading-and-online-resources" class="level2" data-number="18.17">
+<h2 data-number="18.17" class="anchored" data-anchor-id="further-reading-and-online-resources"><span class="header-section-number">18.17</span> Further reading and online resources</h2>
+<section id="arcgis-pro-documentation" class="level3" data-number="18.17.1">
+<h3 data-number="18.17.1" class="anchored" data-anchor-id="arcgis-pro-documentation"><span class="header-section-number">18.17.1</span> ArcGIS Pro documentation</h3>
+<ul>
+<li><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span> documentation home: <a href="https://pro.arcgis.com/en/pro-app/latest/get-started/get-started.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/get-started/get-started.htm</a>.</li>
+<li>“What’s new in ArcGIS Pro,” for the current version: <a href="https://pro.arcgis.com/en/pro-app/latest/get-started/whats-new-in-arcgis-pro.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/get-started/whats-new-in-arcgis-pro.htm</a>.</li>
+<li>“ArcGIS Pro system requirements”: <a href="https://pro.arcgis.com/en/pro-app/latest/get-started/arcgis-pro-system-requirements.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/get-started/arcgis-pro-system-requirements.htm</a>.</li>
+<li>“Layouts in ArcGIS Pro”: <a href="https://pro.arcgis.com/en/pro-app/latest/help/layouts/layouts-in-arcgis-pro.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/help/layouts/layouts-in-arcgis-pro.htm</a>.</li>
+<li>“What is <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geoprocessing" data-term="geoprocessing">geoprocessing</span>?”: <a href="https://pro.arcgis.com/en/pro-app/latest/help/analysis/geoprocessing/basics/what-is-geoprocessing-.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/help/analysis/geoprocessing/basics/what-is-geoprocessing-.htm</a>.</li>
+<li>“What is <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcpy" data-term="ArcPy">ArcPy</span>?”: <a href="https://pro.arcgis.com/en/pro-app/latest/arcpy/get-started/what-is-arcpy-.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/arcpy/get-started/what-is-arcpy-.htm</a>.</li>
+<li>“<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-license-level" data-term="license level">License levels</span>” for ArcGIS Pro: <a href="https://pro.arcgis.com/en/pro-app/latest/get-started/license-levels.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/get-started/license-levels.htm</a>.</li>
+<li>ArcGIS <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcade" data-term="Arcade">Arcade</span> documentation: <a href="https://developers.arcgis.com/arcade/" class="uri">https://developers.arcgis.com/arcade/</a>.</li>
+</ul>
+</section>
+<section id="lessons-and-courses" class="level3" data-number="18.17.2">
+<h3 data-number="18.17.2" class="anchored" data-anchor-id="lessons-and-courses"><span class="header-section-number">18.17.2</span> Lessons and courses</h3>
+<ul>
+<li>Learn ArcGIS, free lessons: <a href="https://learn.arcgis.com/en/" class="uri">https://learn.arcgis.com/en/</a>.</li>
+<li><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-esri" data-term="Esri">Esri</span> Training catalog: <a href="https://www.esri.com/training/" class="uri">https://www.esri.com/training/</a>.</li>
+<li><em>Getting to Know ArcGIS Pro</em>, by Michael Law and Amy Collins (Esri Press), a step-by-step workbook updated for each major version.</li>
+<li><em>Understanding <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span>: An ArcGIS Pro Project Workbook</em>, by Christian Harder and Clint Brown (Esri Press).</li>
+</ul>
+</section>
+<section id="history-and-community" class="level3" data-number="18.17.3">
+<h3 data-number="18.17.3" class="anchored" data-anchor-id="history-and-community"><span class="header-section-number">18.17.3</span> History and community</h3>
+<ul>
+<li>Esri on Wikipedia: <a href="https://en.wikipedia.org/wiki/Esri" class="uri">https://en.wikipedia.org/wiki/Esri</a>.</li>
+<li>ArcGIS on Wikipedia, with a table of versions: <a href="https://en.wikipedia.org/wiki/ArcGIS" class="uri">https://en.wikipedia.org/wiki/ArcGIS</a>.</li>
+<li>Esri Community: <a href="https://community.esri.com" class="uri">https://community.esri.com</a>.</li>
+<li>GIS Stack Exchange, questions tagged <code>arcgis-pro</code>: <a href="https://gis.stackexchange.com/questions/tagged/arcgis-pro" class="uri">https://gis.stackexchange.com/questions/tagged/arcgis-pro</a>.</li>
+<li>Esri User Conference: <a href="https://www.esri.com/en-us/about/events/uc/overview" class="uri">https://www.esri.com/en-us/about/events/uc/overview</a>.</li>
+</ul>
+
+
+<div class="glossary-defs" hidden="">
+<span id="gloss-arcgis-pro">Esri’s commercial desktop GIS, for Windows.</span>
+<span id="gloss-esri">The company that makes ArcGIS, founded in 1969 by Jack and Laura
+Dangermond in Redlands, California.</span>
+<span id="gloss-geographic-information-system-gis">“A computer-based system to aid in the collection, maintenance, storage,
+analysis, output, and distribution of spatial data and information”
+(Bolstad). Its five components are data, hardware, software, people, and
+procedures.</span>
+<span id="gloss-arc-info">Esri’s command-line GIS, first released in 1982.</span>
+<span id="gloss-arcmap">Esri’s main desktop GIS application from 1999 until ArcGIS Pro replaced
+it. Esri ended support for it on March 1, 2026.</span>
+<span id="gloss-ribbon">The band of tabs and grouped commands across the top of the ArcGIS Pro
+window.</span>
+<span id="gloss-feature-class">Esri’s term for a vector layer stored in a geodatabase: a set of
+features with the same geometry type and fields.</span>
+<span id="gloss-attribute">A non-spatial fact about a feature, such as a building’s name or the
+year it was built. Attributes are stored in a table with one row per
+feature.</span>
+<span id="gloss-symbology">The rules that control how a layer is drawn: its symbols, colors, sizes,
+and classes.</span>
+<span id="gloss-geoprocessing-pane">The ArcGIS Pro pane for finding, filling in, and running geoprocessing
+tools.</span>
+<span id="gloss-qgis">A free and open-source desktop GIS that runs on Windows, Mac, and Linux.</span>
+<span id="gloss-cartography">The art and science of making maps.</span>
+<span id="gloss-arcgis-online">Esri’s system for making and sharing maps and layers on the web.</span>
+<span id="gloss-arcpy">Esri’s Python library for running ArcGIS tools and automating work in
+ArcGIS Pro.</span>
+<span id="gloss-layer">A set of spatial data about one theme, such as roads, soils, or
+elevation. Layers for the same area stack on top of each other to make a
+map.</span>
+<span id="gloss-spatial-analysis">Methods that use the locations of things, and the relationships among
+them, to find patterns, explain them, or make predictions.</span>
+<span id="gloss-vector">A data model that stores the world as points, lines, and polygons, each
+defined by x, y coordinates and linked to its attributes. Best for
+discrete objects.</span>
+<span id="gloss-topology">The recorded connections between features, such as which polygons share
+an edge and which lines meet at a node. It keeps neighbors from having
+gaps or overlaps.</span>
+<span id="gloss-shapefile">A common vector format from Esri that stores one layer in several files
+with the same name: .shp (geometry), .shx (index), and .dbf (attributes)
+are required, and .prj holds the coordinate system.</span>
+<span id="gloss-geodatabase">Esri’s format for storing feature classes, tables, and rasters together.
+A file geodatabase is a folder ending in .gdb.</span>
+<span id="gloss-license-level">One of the three tiers of an ArcGIS Pro license, Basic, Standard, and
+Advanced, each adding tools to the one below.</span>
+<span id="gloss-geoprocessing">Running a GIS tool on spatial data to make new data, such as buffering,
+clipping, or overlaying layers.</span>
+<span id="gloss-overlay-analysis">Stacking layers of data for the same area to find places that meet
+several conditions at once, such as flat land near a road and outside a
+floodplain.</span>
+<span id="gloss-map-generalization">Deciding what detail to keep on a map, by simplifying, classifying, and
+enhancing.</span>
+<span id="gloss-raster">A data model that stores the world as a regular grid of equal-sized
+cells, each holding one value. Best for continuous data and imagery.</span>
+<span id="gloss-geostatistics">Statistics for spatially continuous data, which model spatial
+autocorrelation to predict values and their uncertainty. Kriging is its
+best-known method.</span>
+<span id="gloss-kriging">A geostatistical interpolation method that weights observations using a
+model of spatial autocorrelation (the semivariogram), and estimates the
+uncertainty of each prediction.</span>
+<span id="gloss-named-user-license">An ArcGIS Pro license assigned to a person’s ArcGIS account, and checked
+when they sign in.</span>
+<span id="gloss-geocoding">Turning an address or place name into coordinates, so it can be put on a
+map.</span>
+<span id="gloss-credits">The currency an ArcGIS organization uses to pay for some services, such
+as batch geocoding and storing data in ArcGIS Online.</span>
+<span id="gloss-contextual-tab">A ribbon tab in ArcGIS Pro that appears only when a certain kind of
+item, such as a feature layer, is selected.</span>
+<span id="gloss-contents-pane">The ArcGIS Pro pane that lists the layers in the active map or the
+elements of the active layout.</span>
+<span id="gloss-catalog-pane">The ArcGIS Pro pane that shows a project’s maps, layouts, toolboxes,
+databases, and folder connections.</span>
+<span id="gloss-coordinate-system">A system of numbers, such as latitude and longitude, that gives every
+location a unique position so layers line up with each other.</span>
+<span id="gloss-database">An organized collection of tables, usually stored and managed by a
+database management system.</span>
+<span id="gloss-spatial-data">Data tied to a location on or near Earth, such as the address of a
+house, the outline of a county, or the elevation at a point.</span>
+<span id="gloss-geopackage">An open file format (.gpkg) from the Open Geospatial Consortium that
+stores many vector and raster layers in a single file. It is QGIS’s
+default format.</span>
+<span id="gloss-csv">A plain-text table in which values are separated by commas, one record
+per line.</span>
+<span id="gloss-longitude">The angle east or west of the prime meridian, from 0° at Greenwich to
+180° east or west.</span>
+<span id="gloss-easting">A distance east from a starting line: the x coordinate in a projected
+coordinate system.</span>
+<span id="gloss-latitude">The angle north or south of the equator, from 0° at the equator to 90°
+at the poles.</span>
+<span id="gloss-northing">A distance north from a starting line: the y coordinate in a projected
+coordinate system.</span>
+<span id="gloss-gps">The Global Positioning System: U.S. satellites that let a receiver, such
+as your phone, work out its location. GNSS is the general name for GPS
+and similar systems from other countries.</span>
+<span id="gloss-geographic-coordinate-system-gcs">A coordinate system that gives positions as latitude and longitude, in
+degrees, on a datum. EPSG:4326 (WGS84) and 4269 (NAD83) are examples.</span>
+<span id="gloss-basemap">A background map, such as streets, topography, or aerial imagery, that
+gives context to the layers drawn on top of it.</span>
+<span id="gloss-polygon">A vector feature that encloses an area: a closed line whose first and
+last points are the same, such as a lake, a park, or a county.</span>
+<span id="gloss-data-type">How a field is stored, such as text, integer, double, or date. It limits
+what the field can hold.</span>
+<span id="gloss-integer">A data type for whole numbers. Its range depends on its bits: up to
+32,767 for 16 bits, about 2.1 billion for 32 bits.</span>
+<span id="gloss-double">A 64-bit data type for decimal numbers, with about 15 significant
+digits. Float is the 32-bit version, with about 7.</span>
+<span id="gloss-fips-code">A numeric code the U.S. government assigns to each state, county, and
+other area, such as 37 for North Carolina and 37135 for Orange County.</span>
+<span id="gloss-vertex">An intermediate point where a line or polygon boundary changes
+direction.</span>
+<span id="gloss-snapping">An editing setting that makes a new vertex jump to a nearby vertex or
+edge, so that shared boundaries line up exactly.</span>
+<span id="gloss-field-calculator">A tool that computes values and writes them into a field, for every
+record or for the selected records only.</span>
+<span id="gloss-expression">A formula of fields, values, operators, and functions that computes a
+value for each feature, used to calculate fields, select features, and
+control labels and symbology.</span>
+<span id="gloss-arcade">Esri’s expression language, used for calculating fields, labels, and
+pop-ups in ArcGIS Pro and ArcGIS Online.</span>
+<span id="gloss-spatial-join">A join that matches the features of two layers by location instead of by
+a shared key, then appends attributes from one to the other.</span>
+<span id="gloss-sql">Structured Query Language, the standard language for asking databases
+questions. In a GIS you usually write only its WHERE clause.</span>
+<span id="gloss-definition-query">In ArcGIS Pro, a WHERE clause that hides the features that fail it,
+until you remove it. QGIS calls this a filter.</span>
+<span id="gloss-choropleth-map">A map that shades each area, such as a county, by its value, usually in
+a few classes from light to dark.</span>
+<span id="gloss-population-density">The number of people per unit of area, such as people per square mile.</span>
+<span id="gloss-natural-breaks">A classification method (Jenks) that groups similar values by minimizing
+the variance within classes. The default in ArcGIS Pro.</span>
+<span id="gloss-histogram">A bar chart of how many values fall in each range, used to see the shape
+of a distribution.</span>
+<span id="gloss-buffer">The region within a specified distance of a point, line, or polygon.</span>
+<span id="gloss-legend">The part of a map that explains its symbols.</span>
+<span id="gloss-scale-bar">A line marked with distances that shows the map’s scale graphically. It
+stays correct when the map is enlarged or shrunk.</span>
+<span id="gloss-north-arrow">A symbol showing the direction of north on a map.</span>
+<span id="gloss-print-layout">In QGIS, a page on which a map is arranged with its title, legend, scale
+bar, and other elements, for printing or export. ArcGIS Pro calls it a
+layout.</span>
+<span id="gloss-cell-size">The real-world length of one side of a raster cell, such as 30 meters.
+Smaller cells give finer resolution and larger files.</span>
+<span id="gloss-modelbuilder">ArcGIS Pro’s visual tool for drawing and running a cartographic model as
+a flowchart. QGIS’s equivalent is the Model Designer.</span>
+<span id="gloss-open-source">Software whose source code anyone may read, change, and share, often
+free of charge. QGIS and GRASS GIS are open source.</span>
+<span id="gloss-processing-toolbox">The QGIS panel that holds its analysis tools (algorithms), from QGIS
+itself, GDAL, and GRASS GIS.</span>
+<span id="gloss-gdal">The Geospatial Data Abstraction Library, open-source software that reads
+and writes hundreds of raster and vector formats. QGIS, ArcGIS Pro, and
+many other programs use it.</span>
+<span id="gloss-epsg-code">A number that identifies a coordinate reference system in the EPSG
+registry, such as 4326 for WGS84 or 32119 for North Carolina State
+Plane.</span>
+<span id="gloss-digitize">To create vector features by drawing them, clicking each point or vertex
+on a map or image.</span>
+<span id="gloss-state-plane-coordinate-system-spcs">A U.S. system of about 120 zones following state and county lines, built
+for surveyors, with error held to 1 part in 10,000. North Carolina has
+one zone (EPSG:32119 in meters, 2264 in feet).</span>
+</div>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script>
+
+/* update total correct if #webex-total_correct exists */
+update_total_correct = function() {
+  console.log("webex: update total_correct");
+
+  var t = document.getElementsByClassName("webex-total_correct");
+  for (var i = 0; i < t.length; i++) {
+    p = t[i].parentElement;
+    var correct = p.getElementsByClassName("webex-correct").length;
+    var solvemes = p.getElementsByClassName("webex-solveme").length;
+    var radiogroups = p.getElementsByClassName("webex-radiogroup").length;
+    var selects = p.getElementsByClassName("webex-select").length;
+
+    t[i].innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  }
+}
+
+/* webex-solution button toggling function */
+b_func = function() {
+  console.log("webex: toggle hide");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('open')) {
+    cl.remove("open");
+  } else {
+    cl.add("open");
+  }
+}
+
+/* check answers */
+check_func = function() {
+  console.log("webex: check answers");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('unchecked')) {
+    cl.remove("unchecked");
+    this.innerHTML = "Hide Answers";
+  } else {
+    cl.add("unchecked");
+    this.innerHTML = "Show Answers";
+  }
+}
+
+/* function for checking solveme answers */
+solveme_func = function(e) {
+  console.log("webex: check solveme");
+
+  var real_answers = JSON.parse(this.dataset.answer);
+  var my_answer = this.value;
+  var cl = this.classList;
+  if (cl.contains("ignorecase")) {
+    my_answer = my_answer.toLowerCase();
+  }
+  if (cl.contains("nospaces")) {
+    my_answer = my_answer.replace(/ /g, "")
+  }
+
+  if (my_answer == "") {
+    cl.remove("webex-correct");
+    cl.remove("webex-incorrect");
+  } else if (real_answers.includes(my_answer)) {
+    cl.add("webex-correct");
+    cl.remove("webex-incorrect");
+  } else {
+    cl.add("webex-incorrect");
+    cl.remove("webex-correct");
+  }
+
+  // match numeric answers within a specified tolerance
+  if(this.dataset.tol > 0){
+    var tol = JSON.parse(this.dataset.tol);
+    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+    if (matches.reduce((a, b) => a + b, 0) > 0) {
+      cl.add("webex-correct");
+    } else {
+      cl.remove("webex-correct");
+    }
+  }
+
+  // added regex bit
+  if (cl.contains("regex")){
+    answer_regex = RegExp(real_answers.join("|"))
+    if (answer_regex.test(my_answer)) {
+      cl.add("webex-correct");
+    }
+  }
+
+  update_total_correct();
+}
+
+/* function for checking select answers */
+select_func = function(e) {
+  console.log("webex: check select");
+
+  var cl = this.classList
+
+  /* add style */
+  cl.remove("webex-incorrect");
+  cl.remove("webex-correct");
+  if (this.value == "answer") {
+    cl.add("webex-correct");
+  } else if (this.value != "blank") {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+/* function for checking radiogroups answers */
+radiogroups_func = function(e) {
+  console.log("webex: check radiogroups");
+
+  var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
+  var cl = checked_button.parentElement.classList;
+  var labels = checked_button.parentElement.parentElement.children;
+
+  /* get rid of styles */
+  for (i = 0; i < labels.length; i++) {
+    labels[i].classList.remove("webex-incorrect");
+    labels[i].classList.remove("webex-correct");
+  }
+
+  /* add style */
+  if (checked_button.value == "answer") {
+    cl.add("webex-correct");
+  } else {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+window.onload = function() {
+  console.log("webex onload");
+  /* set up solution buttons */
+  var buttons = document.getElementsByTagName("button");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].parentElement.classList.contains('webex-solution')) {
+      buttons[i].onclick = b_func;
+    }
+  }
+
+  var check_sections = document.getElementsByClassName("webex-check");
+  console.log("check:", check_sections.length);
+  for (var i = 0; i < check_sections.length; i++) {
+    check_sections[i].classList.add("unchecked");
+
+    let btn = document.createElement("button");
+    btn.innerHTML = "Show Answers";
+    btn.classList.add("webex-check-button");
+    btn.onclick = check_func;
+    check_sections[i].appendChild(btn);
+
+    let spn = document.createElement("span");
+    spn.classList.add("webex-total_correct");
+    check_sections[i].appendChild(spn);
+  }
+
+  /* set up webex-solveme inputs */
+  var solveme = document.getElementsByClassName("webex-solveme");
+
+  for (var i = 0; i < solveme.length; i++) {
+    /* make sure input boxes don't auto-anything */
+    solveme[i].setAttribute("autocomplete","off");
+    solveme[i].setAttribute("autocorrect", "off");
+    solveme[i].setAttribute("autocapitalize", "off");
+    solveme[i].setAttribute("spellcheck", "false");
+    solveme[i].value = "";
+
+    /* adjust answer for ignorecase or nospaces */
+    var cl = solveme[i].classList;
+    var real_answer = solveme[i].dataset.answer;
+    if (cl.contains("ignorecase")) {
+      real_answer = real_answer.toLowerCase();
+    }
+    if (cl.contains("nospaces")) {
+      real_answer = real_answer.replace(/ /g, "");
+    }
+    solveme[i].dataset.answer = real_answer;
+
+    /* attach checking function */
+    solveme[i].onkeyup = solveme_func;
+    solveme[i].onchange = solveme_func;
+
+    solveme[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  /* set up radiogroups */
+  var radiogroups = document.getElementsByClassName("webex-radiogroup");
+  for (var i = 0; i < radiogroups.length; i++) {
+    radiogroups[i].onchange = radiogroups_func;
+  }
+
+  /* set up selects */
+  var selects = document.getElementsByClassName("webex-select");
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].onchange = select_func;
+    selects[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  update_total_correct();
+}
+
+</script>
+<!--
+  Highlights the right item in the top menu. Quarto's book layout marks
+  "Welcome" as active on every page, so this sets it from the page address:
+  the course pages match their own item, and every other page (chapters,
+  quizzes, glossary) is part of the Textbook. Pages with no menu item of
+  their own (the AI policy and privacy policy) highlight nothing.
+-->
+<script>
+(function () {
+  "use strict";
+  const COURSE_PAGES = ["index", "syllabus", "materials", "about"];
+  const NO_ITEM_PAGES = ["privacy", "ai-policy"];
+  const file = (location.pathname.split("/").pop() || "index").replace(/\.html$/, "");
+  const inRoot = !/\/chapters\//.test(location.pathname);
+  const target = inRoot && NO_ITEM_PAGES.includes(file) ? null
+    : inRoot && COURSE_PAGES.includes(file) ? file : "preface";
+  document.querySelectorAll("#navbarCollapse a.nav-link").forEach((a) => {
+    const page = (a.getAttribute("href") || "").split("/").pop().replace(/\.html$/, "");
+    const on = page === target;
+    a.classList.toggle("active", on);
+    if (on) a.setAttribute("aria-current", "page");
+    else a.removeAttribute("aria-current");
+  });
+})();
+</script>
+<!--
+  Reading settings, part 2 of 2: the "Aa" menu next to search, where readers
+  pick a font and text size. Choices are kept in this browser (localStorage)
+  and applied on every page by assets/reader-settings-head.html.
+-->
+<script>
+(function () {
+  var FONTS = [
+    { id: "", label: "Atkinson Hyperlegible (default)", css: '"Atkinson Hyperlegible Next", sans-serif' },
+    { id: "lexend", label: "Lexend", css: '"Lexend", sans-serif', href: "https://fonts.googleapis.com/css2?family=Lexend:wght@300..700&display=swap" },
+    { id: "cardo", label: "Cardo (serif)", css: '"Cardo", Georgia, serif', href: "https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&display=swap" },
+    { id: "sans", label: "Standard sans-serif", css: 'system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif' },
+    { id: "serif", label: "Serif", css: 'Georgia, Cambria, "Times New Roman", serif' },
+    { id: "dyslexic", label: "OpenDyslexic", css: '"OpenDyslexic", sans-serif' }
+  ];
+  var SIZES = { "-1": "Small", "0": "Default", "1": "Large", "2": "Larger", "3": "Largest" };
+  var MIN = -1, MAX = 3;
+  var root = document.documentElement;
+
+  function save(key, value) {
+    try {
+      if (value === "" || value === "0") localStorage.removeItem(key);
+      else localStorage.setItem(key, value);
+    } catch (e) { /* storage blocked: setting lasts for this page only */ }
+  }
+  function currentFont() { return root.getAttribute("data-reader-font") || ""; }
+  function currentSize() { return parseInt(root.getAttribute("data-reader-size") || "0", 10) || 0; }
+
+  // Add a Google Fonts stylesheet once (Lexend, Cardo). Fonts download only
+  // when text actually uses them.
+  function loadWebFont(f) {
+    if (!f.href || document.getElementById("sds-reader-webfont-" + f.id)) return;
+    var link = document.createElement("link");
+    link.rel = "stylesheet"; link.href = f.href; link.id = "sds-reader-webfont-" + f.id;
+    document.head.appendChild(link);
+  }
+
+  function setFont(id) {
+    FONTS.forEach(function (f) { if (f.id === id) loadWebFont(f); });
+    if (id) root.setAttribute("data-reader-font", id); else root.removeAttribute("data-reader-font");
+    save("sds-reader-font", id);
+  }
+  function setSize(n) {
+    n = Math.max(MIN, Math.min(MAX, n));
+    if (n) root.setAttribute("data-reader-size", String(n)); else root.removeAttribute("data-reader-size");
+    save("sds-reader-size", String(n));
+    refreshSize();
+  }
+
+  var wrap = document.createElement("div");
+  wrap.className = "sds-reader";
+  var fontOptions = FONTS.map(function (f) {
+    return '<label style=\'font-family:' + f.css.replace(/'/g, "&#39;") + '\'>' +
+      '<input class="form-check-input" type="radio" name="sds-reader-font" value="' + f.id + '"> ' + f.label + '</label>';
+  }).join("");
+  wrap.innerHTML =
+    '<button type="button" class="sds-reader-toggle" aria-expanded="false" aria-controls="sds-reader-panel" ' +
+      'title="Reading settings: font and text size">' +
+      '<span aria-hidden="true">Aa</span><span class="visually-hidden">Reading settings</span></button>' +
+    '<div class="sds-reader-panel" id="sds-reader-panel" role="dialog" aria-label="Reading settings" hidden>' +
+      '<h2>Reading settings</h2>' +
+      '<fieldset class="sds-reader-font"><legend>Font</legend>' + fontOptions + '</fieldset>' +
+      '<fieldset><legend>Text size</legend><div class="sds-reader-size-row">' +
+        '<button type="button" data-step="-1" aria-label="Smaller text">A&minus;</button>' +
+        '<output aria-live="polite"></output>' +
+        '<button type="button" data-step="1" aria-label="Larger text">A+</button>' +
+      '</div></fieldset>' +
+      '<button type="button" class="sds-reader-reset">Reset to defaults</button>' +
+    '</div>';
+
+  var toggle = wrap.querySelector(".sds-reader-toggle");
+  var panel = wrap.querySelector(".sds-reader-panel");
+  var output = wrap.querySelector("output");
+  var minus = wrap.querySelector('[data-step="-1"]');
+  var plus = wrap.querySelector('[data-step="1"]');
+
+  function refreshFont() {
+    var id = currentFont();
+    wrap.querySelectorAll('input[name="sds-reader-font"]').forEach(function (r) { r.checked = r.value === id; });
+  }
+  function refreshSize() {
+    var n = currentSize();
+    output.textContent = SIZES[String(n)] || "Default";
+    minus.disabled = n <= MIN;
+    plus.disabled = n >= MAX;
+  }
+  function open(show) {
+    panel.hidden = !show;
+    toggle.setAttribute("aria-expanded", show ? "true" : "false");
+    if (show) { FONTS.forEach(loadWebFont); refreshFont(); refreshSize(); var c = panel.querySelector("input:checked"); if (c) c.focus(); }
+  }
+
+  toggle.addEventListener("click", function (e) { e.stopPropagation(); open(panel.hidden); });
+  panel.addEventListener("click", function (e) { e.stopPropagation(); });
+  panel.addEventListener("change", function (e) { if (e.target.name === "sds-reader-font") setFont(e.target.value); });
+  minus.addEventListener("click", function () { setSize(currentSize() - 1); });
+  plus.addEventListener("click", function () { setSize(currentSize() + 1); });
+  wrap.querySelector(".sds-reader-reset").addEventListener("click", function () { setFont(""); setSize(0); refreshFont(); });
+  document.addEventListener("click", function () { if (!panel.hidden) open(false); });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !panel.hidden) { open(false); toggle.focus(); }
+  });
+
+  // Put the button by search: in the top menu on
+  // geog370.org, or by the sidebar search in the textbook-only build.
+  var navSearch = document.querySelector("#quarto-header #quarto-search");
+  if (navSearch) navSearch.parentNode.insertBefore(wrap, navSearch);
+  else {
+    var search = document.querySelector("#quarto-sidebar .sidebar-search, #quarto-sidebar #quarto-search, .sidebar-tools-main");
+    if (search && search.parentNode) search.parentNode.insertBefore(wrap, search.nextSibling);
+    else return;
+  }
+  refreshFont();
+  refreshSize();
+})();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/qgis.html" class="pagination-link" aria-label="Getting to Know QGIS">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Getting to Know QGIS</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../glossary.html" class="pagination-link" aria-label="Glossary">
+        <span class="nav-page-text">Glossary</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

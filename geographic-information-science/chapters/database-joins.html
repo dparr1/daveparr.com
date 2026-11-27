@@ -284,9 +284,29 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-4-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+ <span class="menu-text" id="quarto-sidebar-section-4-label">GIS Software</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
       <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/qgis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Getting to Know QGIS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/arcgis-pro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Getting to Know ArcGIS Pro</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-controls="quarto-sidebar-section-5" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-5-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-5" aria-labelledby="quarto-sidebar-section-5-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../glossary.html" class="sidebar-item-text sidebar-link">
@@ -917,7 +937,7 @@ Table&nbsp;6.6: The parts of an 11-character tract GEOID, 37135010701.
 <li><strong>Join.</strong> Open the tract layer’s <em>Properties</em> and go to the <em>Joins</em> tab. Click the green plus. Set <em>Join layer</em> to the CSV, <em>Join field</em> to its GEOID column, and <em>Target field</em> to <code>GEOID</code>. You can choose which fields to bring across, and set a short prefix for their names. Click <em>OK</em>.</li>
 <li><strong>Check the join.</strong> Reopen the tract layer’s attribute table. The joined fields appear at the right end, named with the CSV’s name or your prefix, such as <code>pop_P1_001N</code>. Sort by the joined field and look for NULL values. Every NULL is a tract that found no match. Never assume a join worked: always look.</li>
 <li><strong>Make it permanent.</strong> Export the joined layer (<em>right-click &gt; Export &gt; Save Features As</em>) to a new <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geopackage" data-term="GeoPackage">GeoPackage</span>. The joined fields are now part of the new file.</li>
-<li><strong>Map it.</strong> Style the tracts with <em>Graduated</em> symbology on the population field. Chapter 11 covers how to choose the classes.</li>
+<li><strong>Map it.</strong> Style the tracts with <em>Graduated</em> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-symbology" data-term="symbology">symbology</span> on the population field. Chapter 11 covers how to choose the classes.</li>
 </ol>
 <p>In <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span> the steps are the same, except that you add the table with <em>Add Data</em> and join it with <em>Add Join</em> (right-click the layer, then <em>Joins and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-relate" data-term="relate">Relates</span></em>).</p>
 <div class="did-you-know callout callout-style-simple callout-note no-icon callout-titled">
@@ -993,7 +1013,7 @@ Figure&nbsp;6.8: When a CSV’s GEOID field is read as a number, the leading zer
 </figcaption>
 </figure>
 </div>
-<p>A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-csvt-file" data-term=".csvt file">.csvt file</span></strong> fixes the field types of a CSV in QGIS and GDAL. It is a one-line text file with the same name as the CSV (for example <code>pop.csvt</code> next to <code>pop.csv</code>), which lists the type of each column in order, in quotes:</p>
+<p>A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-csvt-file" data-term=".csvt file">.csvt file</span></strong> fixes the field types of a CSV in QGIS and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-gdal" data-term="GDAL">GDAL</span>. It is a one-line text file with the same name as the CSV (for example <code>pop.csvt</code> next to <code>pop.csv</code>), which lists the type of each column in order, in quotes:</p>
 <pre><code>"String","Integer"</code></pre>
 </section>
 <section id="attribute-joins-and-spatial-joins" class="level3" data-number="6.4.5">
@@ -1126,7 +1146,7 @@ Show hint for question 5
 <li>QGIS Tutorials and Tips, “Performing Table Joins,” by Ujaval Gandhi, a step-by-step census join: <a href="https://www.qgistutorials.com/en/docs/3/performing_table_joins.html" class="uri">https://www.qgistutorials.com/en/docs/3/performing_table_joins.html</a>.</li>
 <li>ArcGIS Pro, “Add Join” tool: <a href="https://pro.arcgis.com/en/pro-app/latest/tool-reference/data-management/add-join.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/tool-reference/data-management/add-join.htm</a>.</li>
 <li>ArcGIS Pro, “Joins and relates”: <a href="https://pro.arcgis.com/en/pro-app/latest/help/data/tables/joins-and-relates.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/help/data/tables/joins-and-relates.htm</a>.</li>
-<li>GDAL, “Comma Separated Value (.csv),” including how <code>.csvt</code> files set <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-type" data-term="data type">field types</span>: <a href="https://gdal.org/en/stable/drivers/vector/csv.html" class="uri">https://gdal.org/en/stable/drivers/vector/csv.html</a>.</li>
+<li><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-gdal" data-term="GDAL">GDAL</span>, “Comma Separated Value (.csv),” including how <code>.csvt</code> files set <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-type" data-term="data type">field types</span>: <a href="https://gdal.org/en/stable/drivers/vector/csv.html" class="uri">https://gdal.org/en/stable/drivers/vector/csv.html</a>.</li>
 </ul>
 </section>
 <section id="sql-joins" class="level3" data-number="6.8.4">
@@ -1241,8 +1261,13 @@ are required, and .prj holds the coordinate system.</span>
 Constitution requires.</span>
 <span id="gloss-csv">A plain-text table in which values are separated by commas, one record
 per line.</span>
+<span id="gloss-symbology">The rules that control how a layer is drawn: its symbols, colors, sizes,
+and classes.</span>
 <span id="gloss-csvt-file">A one-line file next to a CSV that sets the data type of each column for
 QGIS and GDAL, such as “String”,“Integer”.</span>
+<span id="gloss-gdal">The Geospatial Data Abstraction Library, open-source software that reads
+and writes hundreds of raster and vector formats. QGIS, ArcGIS Pro, and
+many other programs use it.</span>
 <span id="gloss-coordinate-system">A system of numbers, such as latitude and longitude, that gives every
 location a unique position so layers line up with each other.</span>
 <span id="gloss-spatial-join">A join that matches the features of two layers by location instead of by

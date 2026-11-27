@@ -287,9 +287,29 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-4-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+ <span class="menu-text" id="quarto-sidebar-section-4-label">GIS Software</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
       <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/qgis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Getting to Know QGIS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/arcgis-pro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Getting to Know ArcGIS Pro</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-controls="quarto-sidebar-section-5" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-5-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-5" aria-labelledby="quarto-sidebar-section-5-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../glossary.html" class="sidebar-item-text sidebar-link">
@@ -834,7 +854,7 @@ Table&nbsp;1.4: Some milestones in the history of GIS.
 </tr>
 <tr class="even">
 <td style="text-align: left;">1980s</td>
-<td style="text-align: left;">Desktop and workstation GIS software spreads, including Esri’s ARC/INFO (1982) and the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-open-source" data-term="open source">open-source</span> GRASS GIS, first developed by the U.S. Army Corps of Engineers.</td>
+<td style="text-align: left;">Desktop and workstation GIS software spreads, including Esri’s <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arc-info" data-term="ARC/INFO">ARC/INFO</span> (1982) and the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-open-source" data-term="open source">open-source</span> GRASS GIS, first developed by the U.S. Army Corps of Engineers.</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">1990</td>
@@ -1009,7 +1029,7 @@ Table&nbsp;1.6: The two desktop GIS programs used in this book.
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Made by</td>
-<td style="text-align: left;">A volunteer community (the QGIS project, part of OSGeo)</td>
+<td style="text-align: left;">A volunteer community (the QGIS project, part of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-osgeo" data-term="OSGeo">OSGeo</span>)</td>
 <td style="text-align: left;"><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-esri" data-term="Esri">Esri</span></td>
 </tr>
 <tr class="even">
@@ -1239,7 +1259,7 @@ Show hint for question 4
 <ul>
 <li>QGIS, free and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-open-source" data-term="open source">open source</span>: <a href="https://qgis.org" class="uri">https://qgis.org</a>. Install the Long Term Release. The <em>QGIS Training Manual</em> is at <a href="https://docs.qgis.org/latest/en/docs/training_manual/" class="uri">https://docs.qgis.org/latest/en/docs/training_manual/</a>.</li>
 <li><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span>: get started at <a href="https://pro.arcgis.com/en/pro-app/latest/get-started/get-started.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/get-started/get-started.htm</a>. Free, guided lessons are at Learn ArcGIS, <a href="https://learn.arcgis.com" class="uri">https://learn.arcgis.com</a>.</li>
-<li>OSGeo, the Open Source Geospatial Foundation, home of QGIS, GRASS GIS, and other open-source GIS projects: <a href="https://www.osgeo.org" class="uri">https://www.osgeo.org</a>.</li>
+<li><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-osgeo" data-term="OSGeo">OSGeo</span>, the Open Source Geospatial Foundation, home of QGIS, GRASS GIS, and other open-source GIS projects: <a href="https://www.osgeo.org" class="uri">https://www.osgeo.org</a>.</li>
 <li>Google Earth Engine, for analyzing satellite imagery in the cloud: <a href="https://earthengine.google.com" class="uri">https://earthengine.google.com</a>.</li>
 <li>geojson.io, a simple website for drawing features on a map and seeing the data behind them: <a href="https://geojson.io" class="uri">https://geojson.io</a>.</li>
 </ul>
@@ -1359,6 +1379,7 @@ floodplain.</span>
 <span id="gloss-landsat">A series of U.S. Earth-observing satellites, run by NASA and the USGS,
 that have imaged the whole planet since 1972, mostly with 30-meter
 cells.</span>
+<span id="gloss-arc-info">Esri’s command-line GIS, first released in 1982.</span>
 <span id="gloss-open-source">Software whose source code anyone may read, change, and share, often
 free of charge. QGIS and GRASS GIS are open source.</span>
 <span id="gloss-openstreetmap">A free, editable map of the world built by volunteers, founded in 2004.</span>
@@ -1371,6 +1392,8 @@ disaster response and development.</span>
 <span id="gloss-redlining">Grading neighborhoods as risky for lending, as the federal Home Owners’
 Loan Corporation did on maps in the 1930s, which outlined many Black and
 immigrant neighborhoods in red and denied them credit.</span>
+<span id="gloss-osgeo">The Open Source Geospatial Foundation, a nonprofit that supports
+open-source geospatial software such as QGIS, GDAL, PROJ, and PostGIS.</span>
 <span id="gloss-geoprocessing">Running a GIS tool on spatial data to make new data, such as buffering,
 clipping, or overlaying layers.</span>
 <span id="gloss-arcgis-online">Esri’s system for making and sharing maps and layers on the web.</span>
