@@ -1,0 +1,698 @@
+{
+  "id": "data-classing",
+  "title": "Data Classing and Choropleth Maps",
+  "perSession": 10,
+  "minR": 0,
+  "questions": [
+    {
+      "id": "choro-def",
+      "type": "choice",
+      "prompt": "A choropleth map:",
+      "choices": [
+        "Shades each area by its value",
+        "Sizes a symbol at each place by its value",
+        "Draws lines of equal value",
+        "Places one dot per person"
+      ],
+      "answer": 0,
+      "explain": "Usually in a few classes from light to dark."
+    },
+    {
+      "id": "enum-unit",
+      "type": "choice",
+      "prompt": "An area for which data are collected and reported, such as a county, is a(n):",
+      "choices": [
+        "Enumeration unit",
+        "Class break",
+        "Histogram",
+        "Raster cell"
+      ],
+      "answer": 0,
+      "explain": "Choropleth maps shade enumeration units."
+    },
+    {
+      "id": "raw-count",
+      "type": "choice",
+      "prompt": "Which of these should be normalized before it goes on a choropleth map?",
+      "choices": [
+        "Number of people without health insurance",
+        "Median age",
+        "Percentage of adults with a degree",
+        "Population density"
+      ],
+      "answer": 0,
+      "explain": "It is a raw count, which grows with population."
+    },
+    {
+      "id": "why-normalize",
+      "type": "choice",
+      "prompt": "Why do raw counts mislead on a choropleth map?",
+      "choices": [
+        "Large or populous areas get large counts just because they are large",
+        "Counts can't be classed",
+        "Counts are always skewed",
+        "GIS software can't display counts"
+      ],
+      "answer": 0,
+      "explain": "And the eye is drawn to large areas too."
+    },
+    {
+      "id": "normalize-area",
+      "type": "choice",
+      "prompt": "Dividing a count by area gives a:",
+      "choices": [
+        "Density",
+        "Rate per person",
+        "Median",
+        "Class break"
+      ],
+      "answer": 0,
+      "explain": "Such as people per square mile."
+    },
+    {
+      "id": "normalize-pop",
+      "type": "choice",
+      "prompt": "Dividing deaths by population gives a:",
+      "choices": [
+        "Rate",
+        "Density",
+        "Raw count",
+        "Class"
+      ],
+      "answer": 0,
+      "explain": "Such as deaths per 100,000 residents."
+    },
+    {
+      "id": "raw-where",
+      "type": "choice",
+      "prompt": "Raw counts are best shown on a:",
+      "choices": [
+        "Proportional symbol map",
+        "Choropleth map",
+        "Unclassed map",
+        "Diverging map"
+      ],
+      "answer": 0,
+      "explain": "The symbol's size shows the count."
+    },
+    {
+      "id": "dupin",
+      "type": "choice",
+      "prompt": "Who made the first choropleth map, in 1826?",
+      "choices": [
+        "Charles Dupin",
+        "John Snow",
+        "Waldo Tobler",
+        "George Jenks"
+      ],
+      "answer": 0,
+      "explain": "Of schooling in France."
+    },
+    {
+      "id": "histogram",
+      "type": "choice",
+      "prompt": "Before choosing a classification method, you should look at the data's:",
+      "choices": [
+        "Histogram",
+        "Projection",
+        "Metadata",
+        "Attribute table order"
+      ],
+      "answer": 0,
+      "explain": "It shows skew, gaps, and outliers."
+    },
+    {
+      "id": "skew",
+      "type": "choice",
+      "prompt": "NC county densities have a mean of 228 and a median of 116. The distribution is:",
+      "choices": [
+        "Skewed, with a long tail of high values",
+        "Normal",
+        "Uniform",
+        "Skewed, with a long tail of low values"
+      ],
+      "answer": 0,
+      "explain": "A few dense counties pull the mean up."
+    },
+    {
+      "id": "tobler-unclassed",
+      "type": "choice",
+      "prompt": "Who argued in 1973 that computers made class intervals unnecessary?",
+      "choices": [
+        "Waldo Tobler",
+        "Cynthia Brewer",
+        "George Jenks",
+        "Mark Monmonier"
+      ],
+      "answer": 0,
+      "explain": "'Choropleth Maps Without Class Intervals?'"
+    },
+    {
+      "id": "why-class",
+      "type": "choice",
+      "prompt": "An argument FOR classed maps is that:",
+      "choices": [
+        "Readers match a few shades to a legend more accurately",
+        "Data are continuous",
+        "Computers can shade every value",
+        "They show every value exactly"
+      ],
+      "answer": 0,
+      "explain": "And breaks can mark meaningful thresholds."
+    },
+    {
+      "id": "how-many",
+      "type": "choice",
+      "prompt": "Most readers can reliably tell apart about how many shades of one color?",
+      "choices": [
+        "5 to 7",
+        "2 to 3",
+        "10 to 12",
+        "20"
+      ],
+      "answer": 0,
+      "explain": "Beyond that they confuse neighboring classes."
+    },
+    {
+      "id": "sturges-100",
+      "type": "fill",
+      "prompt": "Using Sturges' rule, about how many classes for 100 areas? (one decimal)",
+      "answers": [
+        "7.6"
+      ],
+      "explain": "1 + 3.3 × 2 = 7.6.",
+      "numeric": true,
+      "tolerance": 0.05
+    },
+    {
+      "id": "sturges-1000",
+      "type": "fill",
+      "prompt": "Using Sturges' rule, about how many classes for 1,000 areas? (one decimal)",
+      "answers": [
+        "10.9"
+      ],
+      "explain": "1 + 3.3 × 3 = 10.9.",
+      "numeric": true,
+      "tolerance": 0.05
+    },
+    {
+      "id": "fewer-classes",
+      "type": "choice",
+      "prompt": "When should you use fewer classes?",
+      "choices": [
+        "For grayscale printing or a general audience",
+        "When readers need fine detail",
+        "When there are thousands of areas",
+        "Never"
+      ],
+      "answer": 0,
+      "explain": "Fewer shades are easier to tell apart."
+    },
+    {
+      "id": "colorbrewer",
+      "type": "choice",
+      "prompt": "ColorBrewer offers:",
+      "choices": [
+        "Tested color schemes for maps",
+        "Census data",
+        "Classification algorithms only",
+        "Map projections"
+      ],
+      "answer": 0,
+      "explain": "For 3 to 9 classes, with color-blind-safe options."
+    },
+    {
+      "id": "generalization",
+      "type": "order",
+      "prompt": "Name the three broad operations of map generalization.",
+      "answer": [
+        "Simplification",
+        "Classification",
+        "Enhancement"
+      ],
+      "explain": "Remove detail, group, and add emphasis."
+    },
+    {
+      "id": "eco-fallacy",
+      "type": "choice",
+      "prompt": "Assuming everyone in a county has the county's average density is the:",
+      "choices": [
+        "Ecological fallacy",
+        "Modifiable areal unit problem",
+        "Edge effect",
+        "Linus's Law"
+      ],
+      "answer": 0,
+      "explain": "Choropleth maps hide variation inside each area."
+    },
+    {
+      "id": "dasymetric",
+      "type": "choice",
+      "prompt": "A map that places people only on land where people live is a:",
+      "choices": [
+        "Dasymetric map",
+        "Choropleth map",
+        "Proportional symbol map",
+        "Unclassed map"
+      ],
+      "answer": 0,
+      "explain": "An answer to the ecological fallacy."
+    },
+    {
+      "id": "ei-def",
+      "type": "choice",
+      "prompt": "Equal interval classes:",
+      "choices": [
+        "Have equal widths across the range",
+        "Hold equal numbers of areas",
+        "Group similar values",
+        "Are set by standard deviations"
+      ],
+      "answer": 0,
+      "explain": "Range ÷ number of classes."
+    },
+    {
+      "id": "ei-width",
+      "type": "fill",
+      "prompt": "Data range from 0 to 500. How wide is each of five equal-interval classes?",
+      "answers": [
+        "100"
+      ],
+      "explain": "500 ÷ 5.",
+      "numeric": true,
+      "tolerance": 0
+    },
+    {
+      "id": "ei-breaks",
+      "type": "fill",
+      "prompt": "Data range from 20 to 80. What is the first break for three equal-interval classes?",
+      "answers": [
+        "40"
+      ],
+      "explain": "Width = 60 ÷ 3 = 20, so the first break is 20 + 20.",
+      "numeric": true,
+      "tolerance": 0
+    },
+    {
+      "id": "ei-risk",
+      "type": "choice",
+      "prompt": "Equal interval on strongly skewed data tends to:",
+      "choices": [
+        "Put most areas in the lowest class",
+        "Put the same number in each class",
+        "Show only the mean",
+        "Create a diverging map"
+      ],
+      "answer": 0,
+      "explain": "91 of 100 NC counties fell in one class."
+    },
+    {
+      "id": "q-def",
+      "type": "choice",
+      "prompt": "Quantile classes:",
+      "choices": [
+        "Hold the same number of areas",
+        "Have equal widths",
+        "Minimize variance within classes",
+        "Center on the mean"
+      ],
+      "answer": 0,
+      "explain": "Five quantile classes are quintiles."
+    },
+    {
+      "id": "quintile-count",
+      "type": "fill",
+      "prompt": "With 100 counties in five quantile classes, how many counties are in each class?",
+      "answers": [
+        "20"
+      ],
+      "explain": "100 ÷ 5.",
+      "numeric": true,
+      "tolerance": 0
+    },
+    {
+      "id": "q-risk",
+      "type": "choice",
+      "prompt": "A weakness of quantile classes is that:",
+      "choices": [
+        "Very different values can share a class while similar values are split",
+        "Most areas land in one class",
+        "They assume a normal distribution",
+        "They can't be computed for skewed data"
+      ],
+      "answer": 0,
+      "explain": "The breaks ignore gaps in the data."
+    },
+    {
+      "id": "q-good",
+      "type": "choice",
+      "prompt": "Quantile classes are good for:",
+      "choices": [
+        "Ranking places",
+        "Showing above or below average",
+        "Showing gaps in the data",
+        "Comparing exact values"
+      ],
+      "answer": 0,
+      "explain": "A dark area is in the top fifth."
+    },
+    {
+      "id": "brewer-pickle",
+      "type": "choice",
+      "prompt": "In Brewer and Pickle's test of map readers, which method was among the best?",
+      "choices": [
+        "Quantile",
+        "Natural breaks",
+        "Equal interval",
+        "Standard deviation"
+      ],
+      "answer": 0,
+      "explain": "Natural breaks did less well."
+    },
+    {
+      "id": "arith",
+      "type": "choice",
+      "prompt": "In an arithmetic progression, each class is wider than the last by:",
+      "choices": [
+        "A constant amount",
+        "A constant ratio",
+        "One standard deviation",
+        "The same number of areas"
+      ],
+      "answer": 0,
+      "explain": "w, 2w, 3w, ..."
+    },
+    {
+      "id": "geom",
+      "type": "choice",
+      "prompt": "In a geometric progression, each class is wider than the last by:",
+      "choices": [
+        "A constant ratio",
+        "A constant amount",
+        "One standard deviation",
+        "Nothing: widths are equal"
+      ],
+      "answer": 0,
+      "explain": "The breaks are evenly spaced on a log scale."
+    },
+    {
+      "id": "geom-good",
+      "type": "choice",
+      "prompt": "Which method suits strongly skewed data spanning orders of magnitude?",
+      "choices": [
+        "Geometric progression",
+        "Equal interval",
+        "Standard deviation",
+        "Arithmetic progression"
+      ],
+      "answer": 0,
+      "explain": "Like population density or income."
+    },
+    {
+      "id": "jenks-def",
+      "type": "choice",
+      "prompt": "Natural breaks (Jenks):",
+      "choices": [
+        "Minimizes variance within classes and maximizes it between them",
+        "Puts equal numbers in each class",
+        "Uses equal widths",
+        "Uses the mean and standard deviation"
+      ],
+      "answer": 0,
+      "explain": "It tends to put breaks at gaps."
+    },
+    {
+      "id": "jenks-default",
+      "type": "choice",
+      "prompt": "Which method is the default for graduated colors in ArcGIS Pro?",
+      "choices": [
+        "Natural breaks (Jenks)",
+        "Quantile",
+        "Equal interval",
+        "Standard deviation"
+      ],
+      "answer": 0,
+      "explain": "Check whether it suits your data."
+    },
+    {
+      "id": "jenks-risk",
+      "type": "choice",
+      "prompt": "Why are natural breaks maps hard to compare?",
+      "choices": [
+        "The breaks are fitted to each dataset",
+        "They always have nine classes",
+        "They need a diverging scheme",
+        "They ignore gaps"
+      ],
+      "answer": 0,
+      "explain": "Two maps usually have different breaks."
+    },
+    {
+      "id": "jenks-spelling",
+      "type": "truefalse",
+      "prompt": "The method is named for George Jenks, so it is spelled Jenks, not Jenk's.",
+      "answer": true,
+      "explain": "A cartographer at the University of Kansas."
+    },
+    {
+      "id": "sd-def",
+      "type": "choice",
+      "prompt": "Standard deviation classes are set by:",
+      "choices": [
+        "Fixed distances from the mean",
+        "Equal counts",
+        "Equal widths",
+        "Gaps in the data"
+      ],
+      "answer": 0,
+      "explain": "Such as every half or whole standard deviation."
+    },
+    {
+      "id": "sd-scheme",
+      "type": "choice",
+      "prompt": "Which color scheme fits standard deviation classes?",
+      "choices": [
+        "Diverging",
+        "Sequential",
+        "Qualitative",
+        "Grayscale only"
+      ],
+      "answer": 0,
+      "explain": "The mean is a meaningful midpoint."
+    },
+    {
+      "id": "sd-assume",
+      "type": "choice",
+      "prompt": "Standard deviation classing works best when the data are:",
+      "choices": [
+        "Roughly normal",
+        "Strongly skewed",
+        "Categorical",
+        "Raw counts"
+      ],
+      "answer": 0,
+      "explain": "Skewed data give lopsided classes."
+    },
+    {
+      "id": "manual",
+      "type": "choice",
+      "prompt": "When maps of different years must be compared, the best choice is:",
+      "choices": [
+        "The same manual (defined) breaks on every map",
+        "Natural breaks on each map",
+        "Quantiles on each map",
+        "Standard deviation on each map"
+      ],
+      "answer": 0,
+      "explain": "Then a shade means the same on every map."
+    },
+    {
+      "id": "manual-def",
+      "type": "choice",
+      "prompt": "Manual intervals are useful for:",
+      "choices": [
+        "Meaningful thresholds, such as a poverty line",
+        "Maximizing GVF",
+        "Equal counts",
+        "Skewed data only"
+      ],
+      "answer": 0,
+      "explain": "The analyst sets the breaks."
+    },
+    {
+      "id": "modeling",
+      "type": "choice",
+      "prompt": "A pattern that appears under every classification method is:",
+      "choices": [
+        "More likely to be real",
+        "An artifact",
+        "Always wrong",
+        "Caused by the color scheme"
+      ],
+      "answer": 0,
+      "explain": "Try several methods and compare."
+    },
+    {
+      "id": "gvf-def",
+      "type": "choice",
+      "prompt": "The goodness of variance fit (GVF) measures:",
+      "choices": [
+        "How well classes fit the data values",
+        "How many classes readers can see",
+        "How skewed the data are",
+        "The map's projection error"
+      ],
+      "answer": 0,
+      "explain": "1 − SDCM ÷ SDAM."
+    },
+    {
+      "id": "gvf-one",
+      "type": "choice",
+      "prompt": "A GVF of 1 means:",
+      "choices": [
+        "Every value equals its class mean",
+        "The classes fit as badly as possible",
+        "There is one class",
+        "The data are normal"
+      ],
+      "answer": 0,
+      "explain": "SDCM would be 0."
+    },
+    {
+      "id": "gvf-calc",
+      "type": "fill",
+      "prompt": "SDAM is 1,000 and SDCM is 100. What is the GVF? (two decimals)",
+      "answers": [
+        "0.90",
+        "0.9"
+      ],
+      "explain": "1 − 100 ÷ 1,000 = 0.90.",
+      "numeric": true,
+      "tolerance": 0.005
+    },
+    {
+      "id": "gvf-max",
+      "type": "choice",
+      "prompt": "Which method is designed to maximize the GVF?",
+      "choices": [
+        "Natural breaks (Jenks)",
+        "Quantile",
+        "Equal interval",
+        "Manual"
+      ],
+      "answer": 0,
+      "explain": "It minimizes variance within classes."
+    },
+    {
+      "id": "gvf-best-map",
+      "type": "truefalse",
+      "prompt": "The classification with the highest GVF always makes the best map.",
+      "answer": false,
+      "explain": "Purpose matters too; the NC quantile map shows more geography despite a low GVF."
+    },
+    {
+      "id": "sequential",
+      "type": "choice",
+      "prompt": "Which scheme fits data running from low to high?",
+      "choices": [
+        "Sequential",
+        "Diverging",
+        "Qualitative",
+        "Random"
+      ],
+      "answer": 0,
+      "explain": "Light usually means low."
+    },
+    {
+      "id": "diverging",
+      "type": "choice",
+      "prompt": "A map of population change from 2010 to 2020, with losses and gains, should use a:",
+      "choices": [
+        "Diverging scheme",
+        "Sequential scheme",
+        "Qualitative scheme",
+        "Single color"
+      ],
+      "answer": 0,
+      "explain": "Zero is a meaningful midpoint."
+    },
+    {
+      "id": "qualitative",
+      "type": "choice",
+      "prompt": "Land-cover types should use a:",
+      "choices": [
+        "Qualitative scheme",
+        "Sequential scheme",
+        "Diverging scheme",
+        "Grayscale ramp"
+      ],
+      "answer": 0,
+      "explain": "Categories, not quantities."
+    },
+    {
+      "id": "arcgis-symb",
+      "type": "choice",
+      "prompt": "In ArcGIS Pro, a classed choropleth map uses which primary symbology?",
+      "choices": [
+        "Graduated Colors",
+        "Unique Values",
+        "Single Symbol",
+        "Proportional Symbols"
+      ],
+      "answer": 0,
+      "explain": "Then choose the method and classes."
+    },
+    {
+      "id": "arcgis-norm",
+      "type": "choice",
+      "prompt": "In ArcGIS Pro's Graduated Colors, the Normalization setting:",
+      "choices": [
+        "Divides the field by another field on the fly",
+        "Rounds class labels",
+        "Changes the projection",
+        "Sets the number of classes"
+      ],
+      "answer": 0,
+      "explain": "For example, a count by a land-area field."
+    },
+    {
+      "id": "qgis-quantile",
+      "type": "choice",
+      "prompt": "In QGIS, quantile classes are called:",
+      "choices": [
+        "Equal Count (Quantile)",
+        "Pretty Breaks",
+        "Logarithmic scale",
+        "Equal Interval"
+      ],
+      "answer": 0,
+      "explain": "In the Graduated renderer's Mode list."
+    },
+    {
+      "id": "qgis-renderer",
+      "type": "choice",
+      "prompt": "Which QGIS renderer makes a classed choropleth map?",
+      "choices": [
+        "Graduated",
+        "Categorized",
+        "Single Symbol",
+        "Heatmap"
+      ],
+      "answer": 0,
+      "explain": "Choose a value, ramp, mode, and classes."
+    },
+    {
+      "id": "manual-drag",
+      "type": "choice",
+      "prompt": "In ArcGIS Pro, dragging a break on the histogram changes the method to:",
+      "choices": [
+        "Manual Interval",
+        "Quantile",
+        "Natural Breaks",
+        "Equal Interval"
+      ],
+      "answer": 0,
+      "explain": "You've set the breaks yourself."
+    }
+  ]
+}

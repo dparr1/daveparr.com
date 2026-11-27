@@ -236,10 +236,57 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-3-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+            <a href="../units/unit-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Unit 3: Spatial Analysis</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section: Unit 3: Spatial Analysis">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
       </div>
       <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/data-classing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Data Classing and Choropleth Maps</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/density.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Density and Neighborhoods</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/spatial-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Spatial Analysis: Selection, Buffers, and Overlay</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/raster.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Raster Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/interpolation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Spatial Interpolation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/kriging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Kriging</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-4-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../glossary.html" class="sidebar-item-text sidebar-link">
@@ -651,7 +698,7 @@ Figure&nbsp;7.4: Left: the ground length of one degree of latitude and one degre
 <li><strong>Join operation</strong>: <em>Join one to one</em> gives one output row per target feature. When several join features match, it adds a <code>Join_Count</code> field and combines their values with the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-merge-rule" data-term="merge rule">merge rules</span></strong> in the field map (first, sum, mean, minimum, maximum, and others). <em>Join one to many</em> writes one output row for each match.</li>
 <li><strong>Keep all target features</strong>: checked, unmatched targets are kept (a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-left-join" data-term="left join">left join</span>); unchecked, they are dropped.</li>
 <li><strong>Match option</strong>: the predicate, such as <em>Intersect</em>, <em>Completely contains</em>, <em>Within a distance</em>, or <em>Closest</em>.</li>
-<li><strong>Search radius</strong>: for <em>Within a distance</em> and <em>Closest</em>.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-bandwidth" data-term="bandwidth">Search radius</span></strong>: for <em>Within a distance</em> and <em>Closest</em>.</li>
 <li><strong>Distance field name</strong>: for <em>Closest</em>, the field that will hold the distance.</li>
 </ul>
 <p>For example, to count the motorcycle crashes within 30 feet of each road, set Roads as the target, the crashes as the join features, <em>Join one to one</em>, <em>Keep all target features</em>, and <em>Within a distance</em> with a 30-foot radius. The <code>Join_Count</code> of each road is the number of crashes near it (<a href="#fig-within-distance" class="quarto-xref">Figure&nbsp;<span>7.5</span></a>).</p>
@@ -703,7 +750,7 @@ Table&nbsp;7.2: Tools for each kind of spatial join, as named in QGIS 3 and ArcG
 </tr>
 <tr class="even">
 <td>Distance, count within a radius</td>
-<td>Buffer, then Join Attributes by Location (Summary)</td>
+<td><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-buffer" data-term="buffer">Buffer</span>, then Join Attributes by Location (Summary)</td>
 <td>Match option <em>Within a distance</em>; Join one to one</td>
 </tr>
 </tbody>
@@ -996,8 +1043,11 @@ clipping, or overlaying layers.</span>
 into one, such as first, sum, or mean.</span>
 <span id="gloss-left-join">A join that keeps every record of the left (destination) table, with
 NULL where nothing matched. The default in QGIS and ArcGIS Pro.</span>
+<span id="gloss-bandwidth">The radius of a kernel. Small bandwidths show local hot spots; large
+ones show regional patterns.</span>
 <span id="gloss-join-count">The field ArcGIS Pro’s Spatial Join adds to hold the number of join
 features that matched each target feature.</span>
+<span id="gloss-buffer">The region within a specified distance of a point, line, or polygon.</span>
 <span id="gloss-equidistant">A projection that keeps true distance from one or two points, or along
 certain lines.</span>
 <span id="gloss-equal-area">A projection that keeps relative area true. Use one to measure or

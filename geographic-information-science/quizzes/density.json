@@ -1,0 +1,698 @@
+{
+  "id": "density",
+  "title": "Density and Neighborhoods",
+  "perSession": 10,
+  "minR": 0,
+  "questions": [
+    {
+      "id": "density-def",
+      "type": "choice",
+      "prompt": "Density is:",
+      "choices": [
+        "A count divided by an area",
+        "An area divided by a count",
+        "A count divided by population",
+        "The number of neighbors"
+      ],
+      "answer": 0,
+      "explain": "Such as people per square mile."
+    },
+    {
+      "id": "nc-land",
+      "type": "fill",
+      "prompt": "NC had 10,439,388 people and 48,618 sq mi of land in 2020. Density per sq mi? (one decimal)",
+      "answers": [
+        "214.7"
+      ],
+      "explain": "10,439,388 ÷ 48,618.",
+      "numeric": true,
+      "tolerance": 0.1
+    },
+    {
+      "id": "nc-total",
+      "type": "fill",
+      "prompt": "With NC's total area of 53,819 sq mi instead, the density is about? (whole number)",
+      "answers": [
+        "194"
+      ],
+      "explain": "10,439,388 ÷ 53,819 ≈ 194.",
+      "numeric": true,
+      "tolerance": 0.6
+    },
+    {
+      "id": "land-vs-total",
+      "type": "choice",
+      "prompt": "Why does dividing by land area give a higher density than total area?",
+      "choices": [
+        "Land area leaves out water, so it is smaller",
+        "Land area includes water",
+        "More people live on water",
+        "The Census counts differently"
+      ],
+      "answer": 0,
+      "explain": "Same people, smaller area."
+    },
+    {
+      "id": "county-density",
+      "type": "fill",
+      "prompt": "A county has 50,000 people and 250 square miles. People per square mile?",
+      "answers": [
+        "200"
+      ],
+      "explain": "50,000 ÷ 250.",
+      "numeric": true,
+      "tolerance": 0
+    },
+    {
+      "id": "why-neighborhood",
+      "type": "choice",
+      "prompt": "Why do we need neighborhoods to measure the density of points?",
+      "choices": [
+        "Points have no area to divide by",
+        "Points are always projected",
+        "Points have no attributes",
+        "Points can't be mapped"
+      ],
+      "answer": 0,
+      "explain": "We define an area around each location."
+    },
+    {
+      "id": "three-defs",
+      "type": "order",
+      "prompt": "Name the three ways to define a neighborhood, as in the chapter.",
+      "answer": [
+        "Distance",
+        "Contiguity",
+        "Number of neighbors"
+      ],
+      "explain": "Distance, contiguity, and k nearest neighbors."
+    },
+    {
+      "id": "tobler-law",
+      "type": "choice",
+      "prompt": "Who stated 'everything is related to everything else, but near things are more related than distant things'?",
+      "choices": [
+        "Waldo Tobler",
+        "John Snow",
+        "George Jenks",
+        "Michael Goodchild"
+      ],
+      "answer": 0,
+      "explain": "Tobler's first law, 1970."
+    },
+    {
+      "id": "tobler-year",
+      "type": "fill",
+      "prompt": "In what year did Tobler publish his first law?",
+      "answers": [
+        "1970"
+      ],
+      "explain": "In a paper on a computer movie of Detroit's growth."
+    },
+    {
+      "id": "autocorr",
+      "type": "choice",
+      "prompt": "The measurable version of Tobler's first law is:",
+      "choices": [
+        "Spatial autocorrelation",
+        "The ecological fallacy",
+        "Kernel density",
+        "The edge effect"
+      ],
+      "answer": 0,
+      "explain": "Nearby values are more alike than chance."
+    },
+    {
+      "id": "positive-ac",
+      "type": "choice",
+      "prompt": "Dense blocks next to dense blocks is an example of:",
+      "choices": [
+        "Positive spatial autocorrelation",
+        "Negative spatial autocorrelation",
+        "No autocorrelation",
+        "An edge effect"
+      ],
+      "answer": 0,
+      "explain": "Nearby values are alike."
+    },
+    {
+      "id": "negative-ac",
+      "type": "choice",
+      "prompt": "A checkerboard pattern of high and low values shows:",
+      "choices": [
+        "Negative spatial autocorrelation",
+        "Positive spatial autocorrelation",
+        "Random pattern",
+        "Clustering"
+      ],
+      "answer": 0,
+      "explain": "Neighbors are more different than chance."
+    },
+    {
+      "id": "neighborhood-effect",
+      "type": "choice",
+      "prompt": "A house's price tracking the prices of nearby houses is a:",
+      "choices": [
+        "Neighborhood effect",
+        "Projection error",
+        "Classification artifact",
+        "Contiguity rule"
+      ],
+      "answer": 0,
+      "explain": "Many things show neighborhood effects."
+    },
+    {
+      "id": "binary",
+      "type": "choice",
+      "prompt": "In a binary distance neighborhood, a location within d gets a weight of:",
+      "choices": [
+        "1",
+        "0",
+        "d",
+        "1/d"
+      ],
+      "answer": 0,
+      "explain": "Outside gets 0."
+    },
+    {
+      "id": "weights-matrix",
+      "type": "choice",
+      "prompt": "A table of which locations are neighbors of which is a:",
+      "choices": [
+        "Spatial weights matrix",
+        "Attribute table",
+        "Histogram",
+        "Join table"
+      ],
+      "answer": 0,
+      "explain": "Built by repeating the neighbor test for every location."
+    },
+    {
+      "id": "projected",
+      "type": "choice",
+      "prompt": "Distance neighborhoods need data in a projected coordinate system because:",
+      "choices": [
+        "The cutoff d must be in meters or feet, not degrees",
+        "Contiguity needs it",
+        "Kernels can't use latitude",
+        "It makes the map prettier"
+      ],
+      "answer": 0,
+      "explain": "Degrees change length with latitude."
+    },
+    {
+      "id": "edge-effect",
+      "type": "choice",
+      "prompt": "Points near the edge of a study area find fewer neighbors than they should. This is the:",
+      "choices": [
+        "Edge effect",
+        "Ecological fallacy",
+        "Island problem",
+        "Bandwidth problem"
+      ],
+      "answer": 0,
+      "explain": "Their neighbors outside weren't observed."
+    },
+    {
+      "id": "edge-fix",
+      "type": "choice",
+      "prompt": "A fix for the edge effect is to:",
+      "choices": [
+        "Collect data in a buffer beyond the study area",
+        "Use a larger color ramp",
+        "Use fewer classes",
+        "Use rook's case"
+      ],
+      "answer": 0,
+      "explain": "Or apply an edge correction."
+    },
+    {
+      "id": "distance-isolated",
+      "type": "choice",
+      "prompt": "A weakness of distance neighborhoods is that:",
+      "choices": [
+        "Isolated points may get no neighbors",
+        "Every point gets exactly k neighbors",
+        "They need polygons",
+        "They ignore distance"
+      ],
+      "answer": 0,
+      "explain": "Nothing within d."
+    },
+    {
+      "id": "contiguity-def",
+      "type": "choice",
+      "prompt": "Contiguity neighbors are:",
+      "choices": [
+        "Polygons that touch",
+        "Points within a distance",
+        "The k nearest points",
+        "Polygons of the same size"
+      ],
+      "answer": 0,
+      "explain": "Shared borders define the neighborhood."
+    },
+    {
+      "id": "contiguity-type",
+      "type": "choice",
+      "prompt": "Contiguity works with:",
+      "choices": [
+        "Polygons only",
+        "Points only",
+        "Rasters only",
+        "Lines only"
+      ],
+      "answer": 0,
+      "explain": "Points can't share borders."
+    },
+    {
+      "id": "rook",
+      "type": "choice",
+      "prompt": "In rook's case, neighbors share:",
+      "choices": [
+        "An edge",
+        "Only a corner",
+        "An edge or a corner",
+        "Nothing"
+      ],
+      "answer": 0,
+      "explain": "The rook moves in straight lines."
+    },
+    {
+      "id": "queen",
+      "type": "choice",
+      "prompt": "In queen's case, neighbors share:",
+      "choices": [
+        "An edge or a corner",
+        "An edge only",
+        "A corner only",
+        "A centroid"
+      ],
+      "answer": 0,
+      "explain": "The queen moves straight or diagonally."
+    },
+    {
+      "id": "rook-grid",
+      "type": "fill",
+      "prompt": "How many rook's case neighbors does an interior grid cell have?",
+      "answers": [
+        "4"
+      ],
+      "explain": "Up, down, left, right.",
+      "numeric": true,
+      "tolerance": 0
+    },
+    {
+      "id": "queen-grid",
+      "type": "fill",
+      "prompt": "How many queen's case neighbors does an interior grid cell have?",
+      "answers": [
+        "8"
+      ],
+      "explain": "The four sides and four corners.",
+      "numeric": true,
+      "tolerance": 0
+    },
+    {
+      "id": "rook-corner",
+      "type": "fill",
+      "prompt": "How many rook's case neighbors does a corner cell of a grid have?",
+      "answers": [
+        "2"
+      ],
+      "explain": "Only two cells share its edges.",
+      "numeric": true,
+      "tolerance": 0
+    },
+    {
+      "id": "queen-more",
+      "type": "truefalse",
+      "prompt": "Queen's case always finds the same number of neighbors as rook's case, or more.",
+      "answer": true,
+      "explain": "Corners add neighbors."
+    },
+    {
+      "id": "four-corners",
+      "type": "choice",
+      "prompt": "Arizona and Colorado are neighbors in:",
+      "choices": [
+        "Queen's case only",
+        "Rook's case only",
+        "Both",
+        "Neither"
+      ],
+      "answer": 0,
+      "explain": "They touch only at the Four Corners."
+    },
+    {
+      "id": "first-order",
+      "type": "choice",
+      "prompt": "Neighbors of a polygon's neighbors are its:",
+      "choices": [
+        "Second-order neighbors",
+        "First-order neighbors",
+        "k nearest neighbors",
+        "Rook neighbors"
+      ],
+      "answer": 0,
+      "explain": "First-order neighbors touch it directly."
+    },
+    {
+      "id": "orange",
+      "type": "choice",
+      "prompt": "How many first-order neighbors does Orange County, NC, have?",
+      "choices": [
+        "5",
+        "3",
+        "8",
+        "10"
+      ],
+      "answer": 0,
+      "explain": "Caswell, Person, Durham, Chatham, Alamance."
+    },
+    {
+      "id": "island",
+      "type": "choice",
+      "prompt": "Contiguity struggles with:",
+      "choices": [
+        "Islands and odd shapes",
+        "Projected data",
+        "Large datasets",
+        "Point data with weights"
+      ],
+      "answer": 0,
+      "explain": "An island may touch no other polygon."
+    },
+    {
+      "id": "knn-def",
+      "type": "choice",
+      "prompt": "A k-nearest-neighbor neighborhood fixes:",
+      "choices": [
+        "The number of neighbors",
+        "The distance",
+        "The area",
+        "The bandwidth"
+      ],
+      "answer": 0,
+      "explain": "Each location finds its k closest."
+    },
+    {
+      "id": "knn-strength",
+      "type": "choice",
+      "prompt": "A strength of k nearest neighbors is that:",
+      "choices": [
+        "Every location gets neighbors",
+        "Neighbors are always close",
+        "It needs no coordinates",
+        "It handles edges perfectly"
+      ],
+      "answer": 0,
+      "explain": "No point is left out."
+    },
+    {
+      "id": "knn-weakness",
+      "type": "choice",
+      "prompt": "A weakness of k nearest neighbors is that:",
+      "choices": [
+        "An isolated point's neighbors may be far away",
+        "Isolated points get no neighbors",
+        "It needs polygons",
+        "It assumes a normal distribution"
+      ],
+      "answer": 0,
+      "explain": "And not really related."
+    },
+    {
+      "id": "knn-vs-dist",
+      "type": "choice",
+      "prompt": "With k nearest neighbors, the neighborhood's size:",
+      "choices": [
+        "Varies with the density of points",
+        "Is fixed",
+        "Is always one mile",
+        "Equals the bandwidth"
+      ],
+      "answer": 0,
+      "explain": "With distance neighborhoods, the size is fixed and the count varies."
+    },
+    {
+      "id": "which-def-county",
+      "type": "choice",
+      "prompt": "To study spillover of a policy between adjacent counties, the best neighborhood is:",
+      "choices": [
+        "Contiguity",
+        "k nearest neighbors with k = 50",
+        "A 1-meter distance",
+        "None"
+      ],
+      "answer": 0,
+      "explain": "Shared borders match the process."
+    },
+    {
+      "id": "kde-def",
+      "type": "choice",
+      "prompt": "Kernel density estimation produces:",
+      "choices": [
+        "A continuous density surface (raster)",
+        "A table of neighbors",
+        "A choropleth map of counties",
+        "A list of points"
+      ],
+      "answer": 0,
+      "explain": "Values for every cell."
+    },
+    {
+      "id": "kde-steps",
+      "type": "order",
+      "prompt": "Put the steps at each cell in order.",
+      "answer": [
+        "Find the points inside the kernel",
+        "Weight each point by its distance",
+        "Add the weights and divide by the kernel's area",
+        "Write the value to the cell"
+      ],
+      "explain": "Then move to the next cell."
+    },
+    {
+      "id": "bandwidth-def",
+      "type": "choice",
+      "prompt": "The kernel's radius is called the:",
+      "choices": [
+        "Bandwidth or search radius",
+        "Cell size",
+        "Population field",
+        "Edge"
+      ],
+      "answer": 0,
+      "explain": "The most important choice in KDE."
+    },
+    {
+      "id": "bandwidth-small",
+      "type": "choice",
+      "prompt": "A too-small bandwidth produces:",
+      "choices": [
+        "A spiky surface of isolated peaks",
+        "One smooth blob",
+        "A blank raster",
+        "A choropleth map"
+      ],
+      "answer": 0,
+      "explain": "One peak for each point."
+    },
+    {
+      "id": "bandwidth-large",
+      "type": "choice",
+      "prompt": "A too-large bandwidth produces:",
+      "choices": [
+        "One smooth blob that hides hot spots",
+        "A spiky surface",
+        "No output",
+        "Negative densities"
+      ],
+      "answer": 0,
+      "explain": "Everything averages together."
+    },
+    {
+      "id": "shape-vs-bw",
+      "type": "choice",
+      "prompt": "Which matters more for a kernel density surface?",
+      "choices": [
+        "Bandwidth",
+        "Kernel shape",
+        "Both equally",
+        "Neither"
+      ],
+      "answer": 0,
+      "explain": "Shape changes results far less (Silverman 1986)."
+    },
+    {
+      "id": "uniform",
+      "type": "choice",
+      "prompt": "A uniform kernel:",
+      "choices": [
+        "Gives every point inside the bandwidth the same weight",
+        "Weights nearer points more",
+        "Never reaches zero",
+        "Is ArcGIS Pro's default"
+      ],
+      "answer": 0,
+      "explain": "Like a cookie cutter."
+    },
+    {
+      "id": "quartic",
+      "type": "choice",
+      "prompt": "Which kernel is the default in ArcGIS Pro and QGIS?",
+      "choices": [
+        "Quartic",
+        "Uniform",
+        "Gaussian",
+        "Triangular"
+      ],
+      "answer": 0,
+      "explain": "A smooth hump that reaches zero at the bandwidth."
+    },
+    {
+      "id": "gaussian",
+      "type": "choice",
+      "prompt": "Which kernel in theory never quite reaches zero?",
+      "choices": [
+        "Gaussian",
+        "Quartic",
+        "Uniform",
+        "Epanechnikov"
+      ],
+      "answer": 0,
+      "explain": "A bell curve."
+    },
+    {
+      "id": "cell-size",
+      "type": "choice",
+      "prompt": "The output cell size mainly controls:",
+      "choices": [
+        "How fine the surface looks",
+        "The pattern of hot spots",
+        "The kernel shape",
+        "The number of points"
+      ],
+      "answer": 0,
+      "explain": "Bandwidth controls the pattern."
+    },
+    {
+      "id": "project-first",
+      "type": "choice",
+      "prompt": "Why project points before running Kernel Density?",
+      "choices": [
+        "So cell size and search radius are in meters or feet, not degrees",
+        "To add attributes",
+        "To speed up the map",
+        "Kernel Density only reads shapefiles"
+      ],
+      "answer": 0,
+      "explain": "Degrees change length with latitude."
+    },
+    {
+      "id": "arcgis-input",
+      "type": "choice",
+      "prompt": "ArcGIS Pro's Kernel Density tool takes as input:",
+      "choices": [
+        "Points or polylines",
+        "Polygons only",
+        "Rasters only",
+        "Tables only"
+      ],
+      "answer": 0,
+      "explain": "Not polygons."
+    },
+    {
+      "id": "pop-field",
+      "type": "choice",
+      "prompt": "In ArcGIS Pro's Kernel Density, the population field:",
+      "choices": [
+        "Lets one feature count more than once",
+        "Sets the bandwidth",
+        "Sets the cell size",
+        "Chooses the kernel"
+      ],
+      "answer": 0,
+      "explain": "For example, a building with 12 units."
+    },
+    {
+      "id": "default-radius",
+      "type": "choice",
+      "prompt": "If you leave ArcGIS Pro's search radius blank, the tool:",
+      "choices": [
+        "Estimates one from the spread of the points",
+        "Fails",
+        "Uses 1 meter",
+        "Uses the cell size"
+      ],
+      "answer": 0,
+      "explain": "With a version of Silverman's rule of thumb."
+    },
+    {
+      "id": "license",
+      "type": "choice",
+      "prompt": "ArcGIS Pro's Kernel Density tool requires which extension?",
+      "choices": [
+        "Spatial Analyst",
+        "Network Analyst",
+        "Geostatistical Analyst",
+        "3D Analyst"
+      ],
+      "answer": 0,
+      "explain": "It is in the Density toolset."
+    },
+    {
+      "id": "point-density",
+      "type": "choice",
+      "prompt": "ArcGIS Pro's Point Density tool is like a kernel with which shape?",
+      "choices": [
+        "Uniform",
+        "Quartic",
+        "Gaussian",
+        "Triangular"
+      ],
+      "answer": 0,
+      "explain": "It counts points in a neighborhood and divides by its area."
+    },
+    {
+      "id": "qgis-heatmap",
+      "type": "choice",
+      "prompt": "In QGIS, kernel density estimation is the tool:",
+      "choices": [
+        "Heatmap (Kernel Density Estimation)",
+        "Join attributes by location",
+        "Georeferencer",
+        "Graduated"
+      ],
+      "answer": 0,
+      "explain": "In the Processing Toolbox under Interpolation."
+    },
+    {
+      "id": "qgis-renderer",
+      "type": "choice",
+      "prompt": "To see a kernel density surface in QGIS without creating a raster, use the:",
+      "choices": [
+        "Heatmap renderer",
+        "Graduated renderer",
+        "Categorized renderer",
+        "Georeferencer"
+      ],
+      "answer": 0,
+      "explain": "It draws the surface on the fly."
+    },
+    {
+      "id": "hotspot-bias",
+      "type": "choice",
+      "prompt": "A hot-spot map built from reported crimes may partly show:",
+      "choices": [
+        "Where police already patrolled",
+        "Where all crimes happened",
+        "Population density",
+        "Land area"
+      ],
+      "answer": 0,
+      "explain": "A possible feedback loop."
+    }
+  ]
+}

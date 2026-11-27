@@ -1,0 +1,896 @@
+{
+  "id": "raster",
+  "title": "Raster Analysis",
+  "perSession": 10,
+  "minR": 0,
+  "questions": [
+    {
+      "id": "raster-def",
+      "type": "choice",
+      "prompt": "A raster represents the world as:",
+      "choices": [
+        "A regular grid of cells",
+        "Points, lines, and polygons",
+        "A network of edges",
+        "A table of addresses"
+      ],
+      "answer": 0,
+      "explain": "Each cell holds a value."
+    },
+    {
+      "id": "cell-size",
+      "type": "choice",
+      "prompt": "Cell size is:",
+      "choices": [
+        "The ground length of one side of a cell",
+        "The number of cells",
+        "The number of bands",
+        "The file size"
+      ],
+      "answer": 0,
+      "explain": "Also called resolution."
+    },
+    {
+      "id": "extent",
+      "type": "choice",
+      "prompt": "The extent of a raster is:",
+      "choices": [
+        "The ground area the whole grid covers",
+        "The size of one cell",
+        "The range of values",
+        "The number of rows"
+      ],
+      "answer": 0,
+      "explain": "From lower-left to upper-right corner."
+    },
+    {
+      "id": "extent-200",
+      "type": "fill",
+      "prompt": "A raster is 200 cells wide with 30 m cells. How wide is it, in meters?",
+      "answers": [
+        "6000"
+      ],
+      "explain": "200 × 30.",
+      "numeric": true,
+      "tolerance": 0
+    },
+    {
+      "id": "extent-100",
+      "type": "fill",
+      "prompt": "A raster is 100 cells wide with 30 m cells. How wide is it, in km?",
+      "answers": [
+        "3"
+      ],
+      "explain": "100 × 30 m = 3,000 m.",
+      "numeric": true,
+      "tolerance": 0
+    },
+    {
+      "id": "locate",
+      "type": "choice",
+      "prompt": "The software locates each cell from:",
+      "choices": [
+        "A corner, the cell size, and the cell's row and column",
+        "Coordinates stored for every cell",
+        "The attribute table",
+        "The file name"
+      ],
+      "answer": 0,
+      "explain": "No per-cell coordinates are stored."
+    },
+    {
+      "id": "pixel",
+      "type": "choice",
+      "prompt": "Pixel is short for:",
+      "choices": [
+        "Picture element",
+        "Pixel extent",
+        "Point index",
+        "Projected cell"
+      ],
+      "answer": 0,
+      "explain": "Another name for a cell."
+    },
+    {
+      "id": "multiband",
+      "type": "choice",
+      "prompt": "A satellite image with red, green, blue, and near-infrared values in each cell is:",
+      "choices": [
+        "Multiband",
+        "Categorical",
+        "Unary",
+        "Zonal"
+      ],
+      "answer": 0,
+      "explain": "One value per band."
+    },
+    {
+      "id": "categorical",
+      "type": "choice",
+      "prompt": "Land-cover codes are:",
+      "choices": [
+        "Categorical values",
+        "Continuous values",
+        "Distances",
+        "NoData"
+      ],
+      "answer": 0,
+      "explain": "Numbers are codes for classes."
+    },
+    {
+      "id": "continuous",
+      "type": "choice",
+      "prompt": "Elevation values are:",
+      "choices": [
+        "Continuous",
+        "Categorical",
+        "Codes",
+        "Zones"
+      ],
+      "answer": 0,
+      "explain": "Measurements, not classes."
+    },
+    {
+      "id": "nodata-def",
+      "type": "choice",
+      "prompt": "NoData means:",
+      "choices": [
+        "The cell has no value",
+        "The value is 0",
+        "The cell is water",
+        "The value is negative"
+      ],
+      "answer": 0,
+      "explain": "Also called Null."
+    },
+    {
+      "id": "nodata-add",
+      "type": "choice",
+      "prompt": "5 + NoData =",
+      "choices": [
+        "NoData",
+        "5",
+        "0",
+        "An error"
+      ],
+      "answer": 0,
+      "explain": "NoData in, NoData out."
+    },
+    {
+      "id": "nodata-mean",
+      "type": "fill",
+      "prompt": "What is the mean of 2, 4, and NoData?",
+      "answers": [
+        "3"
+      ],
+      "explain": "Statistics skip NoData.",
+      "numeric": true,
+      "tolerance": 0
+    },
+    {
+      "id": "nodata-zero",
+      "type": "choice",
+      "prompt": "Storing missing elevations as 0 instead of NoData:",
+      "choices": [
+        "Lowers means and makes the map wrong",
+        "Has no effect",
+        "Speeds up analysis",
+        "Is required"
+      ],
+      "answer": 0,
+      "explain": "0 means sea level."
+    },
+    {
+      "id": "map-algebra",
+      "type": "choice",
+      "prompt": "Map algebra combines rasters:",
+      "choices": [
+        "Cell by cell",
+        "Polygon by polygon",
+        "Row by row only",
+        "By attribute join"
+      ],
+      "answer": 0,
+      "explain": "Like variables in an equation."
+    },
+    {
+      "id": "ma-topleft",
+      "type": "fill",
+      "prompt": "In the chapter's example, the top-left cells are 1 in A and −1 in B. What is A + B there?",
+      "answers": [
+        "0"
+      ],
+      "explain": "1 + (−1).",
+      "numeric": true,
+      "tolerance": 0
+    },
+    {
+      "id": "ma-subtract",
+      "type": "fill",
+      "prompt": "The middle cells are 1 in A and 4 in B. What is A − B there?",
+      "answers": [
+        "-3"
+      ],
+      "explain": "1 − 4.",
+      "numeric": true,
+      "tolerance": 0
+    },
+    {
+      "id": "unary",
+      "type": "choice",
+      "prompt": "A × 2 is:",
+      "choices": [
+        "Unary",
+        "Binary",
+        "Zonal",
+        "Global"
+      ],
+      "answer": 0,
+      "explain": "One input raster; the constant doesn't count."
+    },
+    {
+      "id": "binary",
+      "type": "choice",
+      "prompt": "A + B is:",
+      "choices": [
+        "Binary",
+        "Unary",
+        "Zonal",
+        "Global"
+      ],
+      "answer": 0,
+      "explain": "Two input rasters."
+    },
+    {
+      "id": "sqrt",
+      "type": "choice",
+      "prompt": "The square root of a raster is:",
+      "choices": [
+        "Unary",
+        "Binary",
+        "Zonal",
+        "Neighborhood"
+      ],
+      "answer": 0,
+      "explain": "One input."
+    },
+    {
+      "id": "mismatch",
+      "type": "choice",
+      "prompt": "A problem with map algebra on rasters with different cell sizes is that:",
+      "choices": [
+        "A coarse cell sits over parts of many fine cells",
+        "The values become text",
+        "NoData disappears",
+        "The extent doubles"
+      ],
+      "answer": 0,
+      "explain": "No one-to-one match."
+    },
+    {
+      "id": "extent-mismatch",
+      "type": "choice",
+      "prompt": "Where two rasters don't overlap, map algebra outputs:",
+      "choices": [
+        "NoData",
+        "0",
+        "The first raster's value",
+        "An average"
+      ],
+      "answer": 0,
+      "explain": "One input is missing."
+    },
+    {
+      "id": "resample-def",
+      "type": "choice",
+      "prompt": "Resampling:",
+      "choices": [
+        "Rebuilds a raster on a new grid",
+        "Reclassifies values",
+        "Computes slope",
+        "Clips a raster"
+      ],
+      "answer": 0,
+      "explain": "So that layers share one cell size."
+    },
+    {
+      "id": "nn",
+      "type": "choice",
+      "prompt": "For a land-cover raster, resample with:",
+      "choices": [
+        "Nearest neighbor",
+        "Bilinear",
+        "Cubic convolution",
+        "Mean"
+      ],
+      "answer": 0,
+      "explain": "It never invents values."
+    },
+    {
+      "id": "bilinear",
+      "type": "choice",
+      "prompt": "Bilinear resampling uses:",
+      "choices": [
+        "A distance-weighted mean of the 4 nearest cells",
+        "The single nearest cell",
+        "The 16 nearest cells",
+        "The global mean"
+      ],
+      "answer": 0,
+      "explain": "For continuous surfaces."
+    },
+    {
+      "id": "cubic-n",
+      "type": "fill",
+      "prompt": "How many nearest cells does cubic convolution use?",
+      "answers": [
+        "16"
+      ],
+      "explain": "A smooth curve through 16 cells.",
+      "numeric": true,
+      "tolerance": 0
+    },
+    {
+      "id": "bad-class",
+      "type": "choice",
+      "prompt": "You resample land cover with bilinear and get a value of 2.25. What went wrong?",
+      "choices": [
+        "Bilinear averaged class codes into a fake class",
+        "The raster has NoData",
+        "Nothing; 2.25 is a class",
+        "The extent is wrong"
+      ],
+      "answer": 0,
+      "explain": "Use nearest neighbor."
+    },
+    {
+      "id": "coarser",
+      "type": "choice",
+      "prompt": "You combine 30 m land use and 1 km elevation. The output cell size should usually be:",
+      "choices": [
+        "1 km",
+        "30 m",
+        "15 m",
+        "10 km"
+      ],
+      "answer": 0,
+      "explain": "The coarsest input; finer adds no detail."
+    },
+    {
+      "id": "snap",
+      "type": "choice",
+      "prompt": "The snap raster setting:",
+      "choices": [
+        "Aligns output cell edges to one input's grid",
+        "Sets the cell size",
+        "Clips the extent",
+        "Fills NoData"
+      ],
+      "answer": 0,
+      "explain": "So cells don't shift by part of a cell."
+    },
+    {
+      "id": "extent-int",
+      "type": "choice",
+      "prompt": "The extent setting that keeps only the area where every input has data is:",
+      "choices": [
+        "Intersection",
+        "Union",
+        "Snap",
+        "Maximum"
+      ],
+      "answer": 0,
+      "explain": "The safer default."
+    },
+    {
+      "id": "env",
+      "type": "choice",
+      "prompt": "In ArcGIS Pro, cell size, extent, and snap raster are:",
+      "choices": [
+        "Environment settings",
+        "Symbology options",
+        "Attribute fields",
+        "Layout elements"
+      ],
+      "answer": 0,
+      "explain": "Used by every raster tool."
+    },
+    {
+      "id": "scope-def",
+      "type": "choice",
+      "prompt": "Scope is:",
+      "choices": [
+        "The set of input cells that feed each output cell",
+        "The cell size",
+        "The extent",
+        "The number of bands"
+      ],
+      "answer": 0,
+      "explain": "Local, neighborhood, zonal, or global."
+    },
+    {
+      "id": "local",
+      "type": "choice",
+      "prompt": "Adding 4 to every cell is:",
+      "choices": [
+        "Local",
+        "Neighborhood",
+        "Zonal",
+        "Global"
+      ],
+      "answer": 0,
+      "explain": "Each cell on its own."
+    },
+    {
+      "id": "feet-m",
+      "type": "choice",
+      "prompt": "Converting elevation from feet to meters is:",
+      "choices": [
+        "Local",
+        "Neighborhood",
+        "Zonal",
+        "Global"
+      ],
+      "answer": 0,
+      "explain": "Multiply each cell by 0.3048."
+    },
+    {
+      "id": "neighborhood",
+      "type": "choice",
+      "prompt": "A 3×3 mean is:",
+      "choices": [
+        "Neighborhood",
+        "Local",
+        "Zonal",
+        "Global"
+      ],
+      "answer": 0,
+      "explain": "A moving window."
+    },
+    {
+      "id": "zonal",
+      "type": "choice",
+      "prompt": "The mean elevation of each county is:",
+      "choices": [
+        "Zonal",
+        "Local",
+        "Neighborhood",
+        "Global"
+      ],
+      "answer": 0,
+      "explain": "Counties are the zones."
+    },
+    {
+      "id": "global",
+      "type": "choice",
+      "prompt": "Distance from every cell to the nearest river is:",
+      "choices": [
+        "Global",
+        "Local",
+        "Neighborhood",
+        "Zonal"
+      ],
+      "answer": 0,
+      "explain": "The tool must look everywhere."
+    },
+    {
+      "id": "zone-a",
+      "type": "fill",
+      "prompt": "In the chapter's zonal example, zone a holds 10, 12, 8, and 42. What is its mean?",
+      "answers": [
+        "18"
+      ],
+      "explain": "72 ÷ 4.",
+      "numeric": true,
+      "tolerance": 0
+    },
+    {
+      "id": "edge",
+      "type": "choice",
+      "prompt": "A 3×3 window centered on a corner cell holds how many cells?",
+      "choices": [
+        "4",
+        "9",
+        "6",
+        "3"
+      ],
+      "answer": 0,
+      "explain": "Edge cells have fewer neighbors."
+    },
+    {
+      "id": "trig",
+      "type": "choice",
+      "prompt": "Trigonometric functions in most GIS software expect angles in:",
+      "choices": [
+        "Radians",
+        "Degrees",
+        "Percent",
+        "Gradians"
+      ],
+      "answer": 0,
+      "explain": "Convert degrees first."
+    },
+    {
+      "id": "rescale",
+      "type": "choice",
+      "prompt": "Before multiplying elevation (meters) by slope (degrees), you should:",
+      "choices": [
+        "Rescale both to the same range",
+        "Convert both to text",
+        "Resample to finer cells",
+        "Use bilinear"
+      ],
+      "answer": 0,
+      "explain": "Otherwise one dominates."
+    },
+    {
+      "id": "raster-calc",
+      "type": "choice",
+      "prompt": "ArcGIS Pro and QGIS both evaluate map algebra expressions with the:",
+      "choices": [
+        "Raster Calculator",
+        "Field Calculator",
+        "Georeferencer",
+        "Model Designer"
+      ],
+      "answer": 0,
+      "explain": "Same name in both."
+    },
+    {
+      "id": "lt",
+      "type": "choice",
+      "prompt": "A relational operator such as A < B outputs:",
+      "choices": [
+        "1 where true, 0 where false",
+        "The smaller value",
+        "The difference",
+        "A class name"
+      ],
+      "answer": 0,
+      "explain": "NoData where either input is NoData."
+    },
+    {
+      "id": "change",
+      "type": "choice",
+      "prompt": "To find cells where land cover changed between 2010 and 2020, use:",
+      "choices": [
+        "LC2010 != LC2020",
+        "LC2010 + LC2020",
+        "LC2010 < 15",
+        "ISNULL(LC2010)"
+      ],
+      "answer": 0,
+      "explain": "1 wherever the class changed."
+    },
+    {
+      "id": "between",
+      "type": "choice",
+      "prompt": "Slope between 5 and 15 degrees is:",
+      "choices": [
+        "(Slope > 5) AND (Slope < 15)",
+        "(Slope > 5) OR (Slope < 15)",
+        "Slope = 10",
+        "NOT (Slope > 5)"
+      ],
+      "answer": 0,
+      "explain": "Both must be true."
+    },
+    {
+      "id": "equal-cont",
+      "type": "choice",
+      "prompt": "Why avoid testing equality on continuous data?",
+      "choices": [
+        "1.30000 and 1.30001 are not equal",
+        "Equality is not allowed",
+        "It always gives NoData",
+        "It is too slow"
+      ],
+      "answer": 0,
+      "explain": "Test a small difference instead."
+    },
+    {
+      "id": "isnull",
+      "type": "choice",
+      "prompt": "ISNULL writes:",
+      "choices": [
+        "1 where the cell is NoData, 0 elsewhere",
+        "NoData where the cell is 0",
+        "The cell's value",
+        "0 where the cell is NoData"
+      ],
+      "answer": 0,
+      "explain": "It never outputs NoData."
+    },
+    {
+      "id": "isnull-why",
+      "type": "choice",
+      "prompt": "Why can't you find NoData cells with A = NoData?",
+      "choices": [
+        "Any comparison with NoData gives NoData",
+        "NoData equals 0",
+        "It returns all 1s",
+        "It is unary"
+      ],
+      "answer": 0,
+      "explain": "Use ISNULL instead."
+    },
+    {
+      "id": "reclass-table",
+      "type": "choice",
+      "prompt": "Reclassifying by table suits:",
+      "choices": [
+        "Categorical data",
+        "Continuous data",
+        "Distances",
+        "Any unprojected raster"
+      ],
+      "answer": 0,
+      "explain": "Exact values map to new values."
+    },
+    {
+      "id": "reclass-range",
+      "type": "choice",
+      "prompt": "Reclassifying by ranges suits:",
+      "choices": [
+        "Continuous data",
+        "Categorical data",
+        "Text",
+        "Multiband images only"
+      ],
+      "answer": 0,
+      "explain": "Such as slope."
+    },
+    {
+      "id": "reclass-scope",
+      "type": "choice",
+      "prompt": "Reclassification is:",
+      "choices": [
+        "Local and unary",
+        "Neighborhood and binary",
+        "Zonal",
+        "Global"
+      ],
+      "answer": 0,
+      "explain": "Each cell on its own, one input."
+    },
+    {
+      "id": "con-def",
+      "type": "choice",
+      "prompt": "CON is the raster version of:",
+      "choices": [
+        "If-then-else",
+        "A join",
+        "A buffer",
+        "A clip"
+      ],
+      "answer": 0,
+      "explain": "Condition, true value, false value."
+    },
+    {
+      "id": "con-a",
+      "type": "choice",
+      "prompt": "In Con(A == 1, B, C), where A is 4, the output comes from:",
+      "choices": [
+        "C",
+        "B",
+        "A",
+        "NoData"
+      ],
+      "answer": 0,
+      "explain": "The condition is false."
+    },
+    {
+      "id": "con-n",
+      "type": "choice",
+      "prompt": "In Con(A == 1, B, C), a cell where A is 2, B is 9, and C is NoData gives:",
+      "choices": [
+        "NoData",
+        "9",
+        "2",
+        "1"
+      ],
+      "answer": 0,
+      "explain": "C is chosen, and it is NoData."
+    },
+    {
+      "id": "con-fill",
+      "type": "choice",
+      "prompt": "Con(IsNull(A), 0, A) does what?",
+      "choices": [
+        "Replaces NoData with 0 and keeps other values",
+        "Deletes A",
+        "Sets everything to 0",
+        "Finds the maximum"
+      ],
+      "answer": 0,
+      "explain": "A common way to fill gaps."
+    },
+    {
+      "id": "win-mean",
+      "type": "fill",
+      "prompt": "What is the mean of the window 1, 2, 3, 3, 6, 6, 3, 9, 2? (one decimal)",
+      "answers": [
+        "3.9"
+      ],
+      "explain": "35 ÷ 9.",
+      "numeric": true,
+      "tolerance": 0.05
+    },
+    {
+      "id": "win-range",
+      "type": "fill",
+      "prompt": "What is the range of that window?",
+      "answers": [
+        "8"
+      ],
+      "explain": "9 − 1.",
+      "numeric": true,
+      "tolerance": 0
+    },
+    {
+      "id": "win-majority",
+      "type": "fill",
+      "prompt": "What is the majority of that window?",
+      "answers": [
+        "3"
+      ],
+      "explain": "3 appears three times.",
+      "numeric": true,
+      "tolerance": 0
+    },
+    {
+      "id": "majority-lc",
+      "type": "choice",
+      "prompt": "Which neighborhood statistic suits a land-cover raster?",
+      "choices": [
+        "Majority",
+        "Mean",
+        "Sum",
+        "Standard deviation"
+      ],
+      "answer": 0,
+      "explain": "Averaging class codes is meaningless."
+    },
+    {
+      "id": "smooth",
+      "type": "choice",
+      "prompt": "Which statistic smooths a noisy elevation surface?",
+      "choices": [
+        "Mean",
+        "Maximum",
+        "Variety",
+        "Majority"
+      ],
+      "answer": 0,
+      "explain": "Or the median."
+    },
+    {
+      "id": "slope-nbhd",
+      "type": "choice",
+      "prompt": "Slope and aspect are computed by:",
+      "choices": [
+        "Fitting a surface through a neighborhood window",
+        "A local function",
+        "A zonal function",
+        "Reclassification"
+      ],
+      "answer": 0,
+      "explain": "How steep, and which way it faces."
+    },
+    {
+      "id": "majority-filter",
+      "type": "choice",
+      "prompt": "A majority filter is used to:",
+      "choices": [
+        "Remove salt-and-pepper noise from classified images",
+        "Compute distances",
+        "Resample a DEM",
+        "Fill NoData"
+      ],
+      "answer": 0,
+      "explain": "Each cell takes its neighbors' majority."
+    },
+    {
+      "id": "focal-tool",
+      "type": "choice",
+      "prompt": "ArcGIS Pro's tool for neighborhood statistics is:",
+      "choices": [
+        "Focal Statistics",
+        "Zonal Statistics",
+        "Aggregate",
+        "Con"
+      ],
+      "answer": 0,
+      "explain": "In QGIS, r.neighbors."
+    },
+    {
+      "id": "aggregate",
+      "type": "choice",
+      "prompt": "Aggregation:",
+      "choices": [
+        "Rescales a raster to coarser cells by combining blocks",
+        "Adds two rasters",
+        "Resamples to finer cells",
+        "Fills NoData"
+      ],
+      "answer": 0,
+      "explain": "One value per block."
+    },
+    {
+      "id": "agg-mean",
+      "type": "fill",
+      "prompt": "A 3×3 block holds 3, 2, 2, 3, 1, 1, 3, 2, 1. What is its mean?",
+      "answers": [
+        "2"
+      ],
+      "explain": "18 ÷ 9.",
+      "numeric": true,
+      "tolerance": 0
+    },
+    {
+      "id": "agg-rain",
+      "type": "choice",
+      "prompt": "To aggregate rainfall, use the:",
+      "choices": [
+        "Mean",
+        "Majority",
+        "Variety",
+        "Minimum"
+      ],
+      "answer": 0,
+      "explain": "Majority is for categories."
+    },
+    {
+      "id": "zonal-small",
+      "type": "choice",
+      "prompt": "When zones are small polygons, a risk is that:",
+      "choices": [
+        "A polygon smaller than a cell may get no cells",
+        "The mean doubles",
+        "Every zone gets NoData",
+        "The raster is reprojected"
+      ],
+      "answer": 0,
+      "explain": "Use a small enough cell size."
+    },
+    {
+      "id": "zonal-table",
+      "type": "choice",
+      "prompt": "Which ArcGIS Pro tool writes one row per zone?",
+      "choices": [
+        "Zonal Statistics as Table",
+        "Focal Statistics",
+        "Raster Calculator",
+        "Resample"
+      ],
+      "answer": 0,
+      "explain": "Zonal Statistics writes a raster."
+    },
+    {
+      "id": "cost",
+      "type": "choice",
+      "prompt": "Accumulating travel time across terrain, rather than meters, is:",
+      "choices": [
+        "Cost distance",
+        "Euclidean distance",
+        "Aggregation",
+        "Reclassification"
+      ],
+      "answer": 0,
+      "explain": "Distance measured as cost."
+    },
+    {
+      "id": "nlcd",
+      "type": "choice",
+      "prompt": "The NLCD maps land cover for the lower 48 states with cells of:",
+      "choices": [
+        "30 m",
+        "1 km",
+        "1 m",
+        "250 m"
+      ],
+      "answer": 0,
+      "explain": "About 9 billion cells."
+    }
+  ]
+}

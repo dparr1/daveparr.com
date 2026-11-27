@@ -1,0 +1,797 @@
+{
+  "id": "spatial-analysis",
+  "title": "Spatial Analysis",
+  "perSession": 10,
+  "minR": 0,
+  "questions": [
+    {
+      "id": "sa-def",
+      "type": "choice",
+      "prompt": "Bolstad defines spatial analysis as the application of operations to:",
+      "choices": [
+        "Coordinate data and related attribute data, often to solve a problem",
+        "Attribute data only",
+        "Maps for display",
+        "Raster data only"
+      ],
+      "answer": 0,
+      "explain": "Both geometry and table, driven by a problem."
+    },
+    {
+      "id": "operation",
+      "type": "choice",
+      "prompt": "A spatial operation:",
+      "choices": [
+        "Takes one or more input layers and produces an output layer",
+        "Only changes the symbology",
+        "Only edits the attribute table",
+        "Deletes a layer"
+      ],
+      "answer": 0,
+      "explain": "Also called a spatial function."
+    },
+    {
+      "id": "cart-model",
+      "type": "choice",
+      "prompt": "Planning a chain of spatial operations, each output feeding the next, is called:",
+      "choices": [
+        "Cartographic modeling",
+        "Georeferencing",
+        "Generalization",
+        "Geocoding"
+      ],
+      "answer": 0,
+      "explain": "A term from Dana Tomlin."
+    },
+    {
+      "id": "tomlin",
+      "type": "choice",
+      "prompt": "Who introduced cartographic modeling and map algebra?",
+      "choices": [
+        "Dana Tomlin",
+        "Waldo Tobler",
+        "George Jenks",
+        "John Snow"
+      ],
+      "answer": 0,
+      "explain": "Tomlin's 1990 book."
+    },
+    {
+      "id": "modelbuilder",
+      "type": "choice",
+      "prompt": "ArcGIS Pro's tool for drawing and running a cartographic model is:",
+      "choices": [
+        "ModelBuilder",
+        "Georeferencer",
+        "Field Calculator",
+        "Catalog"
+      ],
+      "answer": 0,
+      "explain": "QGIS's is the Model Designer."
+    },
+    {
+      "id": "qgis-model",
+      "type": "choice",
+      "prompt": "QGIS's tool for building a cartographic model is the:",
+      "choices": [
+        "Model Designer (graphical modeler)",
+        "Georeferencer",
+        "Heatmap renderer",
+        "Identify tool"
+      ],
+      "answer": 0,
+      "explain": "In the Processing menu."
+    },
+    {
+      "id": "sketch-first",
+      "type": "truefalse",
+      "prompt": "The chapter recommends sketching the model before opening the software.",
+      "answer": true,
+      "explain": "Plan the inputs, operations, and outputs first."
+    },
+    {
+      "id": "batman-soil",
+      "type": "choice",
+      "prompt": "In the Batcave problem, which soil does Batman want?",
+      "choices": [
+        "Limestone",
+        "Clay",
+        "Sand",
+        "Peat"
+      ],
+      "answer": 0,
+      "explain": "Soft and cave-forming."
+    },
+    {
+      "id": "batman-step1",
+      "type": "choice",
+      "prompt": "The first step in the Batcave model is to:",
+      "choices": [
+        "Select limestone soils",
+        "Buffer the ZIP Codes",
+        "Union soils and ZIP Codes",
+        "Dissolve the crime table"
+      ],
+      "answer": 0,
+      "explain": "Select by attribute, SOIL = 'Limestone'."
+    },
+    {
+      "id": "batman-join",
+      "type": "choice",
+      "prompt": "The crime table is attached to the ZIP Code layer with a:",
+      "choices": [
+        "Table join on ZIP Code",
+        "Spatial join",
+        "Clip",
+        "Union"
+      ],
+      "answer": 0,
+      "explain": "They share a key."
+    },
+    {
+      "id": "batman-final",
+      "type": "choice",
+      "prompt": "The last step finds the limestone closest to the highest-crime ZIP Code with a:",
+      "choices": [
+        "Spatial join (closest)",
+        "Table join",
+        "Dissolve",
+        "Reclassification"
+      ],
+      "answer": 0,
+      "explain": "There is no shared key, so join by location."
+    },
+    {
+      "id": "batman-zip",
+      "type": "fill",
+      "prompt": "In the chapter's made-up city, which ZIP Code had the most crimes?",
+      "answers": [
+        "78741"
+      ],
+      "explain": "4,870 crimes."
+    },
+    {
+      "id": "batman-rate",
+      "type": "choice",
+      "prompt": "If the Batcave model used crimes per person instead of total crimes:",
+      "choices": [
+        "A different ZIP Code, and site, might win",
+        "The answer could not change",
+        "The model would not run",
+        "Only the colors would change"
+      ],
+      "answer": 0,
+      "explain": "The answer depends on our choices."
+    },
+    {
+      "id": "bats-austin",
+      "type": "choice",
+      "prompt": "About how many bats live under Austin's Congress Avenue Bridge in summer?",
+      "choices": [
+        "1.5 million",
+        "15,000",
+        "150",
+        "15 million"
+      ],
+      "answer": 0,
+      "explain": "Mexican free-tailed bats."
+    },
+    {
+      "id": "scope-def",
+      "type": "choice",
+      "prompt": "Spatial scope is:",
+      "choices": [
+        "The input locations used to compute each output value",
+        "The map scale",
+        "The extent of the study area only",
+        "The number of layers"
+      ],
+      "answer": 0,
+      "explain": "Local, neighborhood, or global."
+    },
+    {
+      "id": "scope-local",
+      "type": "choice",
+      "prompt": "Computing Utah's population density from its own population and area is:",
+      "choices": [
+        "Local",
+        "Neighborhood",
+        "Global",
+        "Zonal"
+      ],
+      "answer": 0,
+      "explain": "Only Utah's values are used."
+    },
+    {
+      "id": "scope-neighborhood",
+      "type": "choice",
+      "prompt": "Counting the states that border Utah is:",
+      "choices": [
+        "Neighborhood",
+        "Local",
+        "Global",
+        "Focal only for rasters"
+      ],
+      "answer": 0,
+      "explain": "It depends on nearby locations."
+    },
+    {
+      "id": "scope-global",
+      "type": "choice",
+      "prompt": "Ranking every state by population is:",
+      "choices": [
+        "Global",
+        "Local",
+        "Neighborhood",
+        "Zonal"
+      ],
+      "answer": 0,
+      "explain": "Every state's value matters."
+    },
+    {
+      "id": "utah-neighbors",
+      "type": "fill",
+      "prompt": "How many neighbors does Utah have, counting the state it touches only at a corner?",
+      "answers": [
+        "6"
+      ],
+      "explain": "ID, WY, CO, NM, AZ, NV.",
+      "numeric": true,
+      "tolerance": 0
+    },
+    {
+      "id": "utah-corner",
+      "type": "choice",
+      "prompt": "Which state touches Utah only at a corner?",
+      "choices": [
+        "New Mexico",
+        "Colorado",
+        "Arizona",
+        "Nevada"
+      ],
+      "answer": 0,
+      "explain": "At the Four Corners."
+    },
+    {
+      "id": "global-change",
+      "type": "truefalse",
+      "prompt": "In a global operation, changing one input can change every output.",
+      "answer": true,
+      "explain": "Every location feeds every output."
+    },
+    {
+      "id": "buffer-scope",
+      "type": "choice",
+      "prompt": "A buffer is which kind of operation?",
+      "choices": [
+        "Neighborhood",
+        "Local",
+        "Global",
+        "Zonal"
+      ],
+      "answer": 0,
+      "explain": "It uses the area near each feature."
+    },
+    {
+      "id": "selection-attr",
+      "type": "choice",
+      "prompt": "Selecting features where SOIL = 'Limestone' is a:",
+      "choices": [
+        "Attribute query",
+        "Spatial query",
+        "Buffer",
+        "Dissolve"
+      ],
+      "answer": 0,
+      "explain": "Based on values in the table."
+    },
+    {
+      "id": "selection-spatial",
+      "type": "choice",
+      "prompt": "Selecting ZIP Codes that touch a river is a:",
+      "choices": [
+        "Spatial query",
+        "Attribute query",
+        "Table join",
+        "Reclassification"
+      ],
+      "answer": 0,
+      "explain": "Based on location."
+    },
+    {
+      "id": "join-no-key",
+      "type": "choice",
+      "prompt": "When two layers share no key field, attach attributes with a:",
+      "choices": [
+        "Spatial join",
+        "Table join",
+        "Union",
+        "Dissolve"
+      ],
+      "answer": 0,
+      "explain": "Join by location instead."
+    },
+    {
+      "id": "reclass-def",
+      "type": "choice",
+      "prompt": "Grouping elevations into low, medium, and high is:",
+      "choices": [
+        "Reclassification",
+        "Dissolve",
+        "Buffering",
+        "Overlay"
+      ],
+      "answer": 0,
+      "explain": "Fewer, more meaningful classes."
+    },
+    {
+      "id": "reclass-scope",
+      "type": "choice",
+      "prompt": "Reclassification is a:",
+      "choices": [
+        "Local operation",
+        "Neighborhood operation",
+        "Global operation",
+        "Overlay"
+      ],
+      "answer": 0,
+      "explain": "Each new class depends only on its own value."
+    },
+    {
+      "id": "suitability",
+      "type": "choice",
+      "prompt": "In a suitability model, layers are often reclassified onto:",
+      "choices": [
+        "A common scale, such as 1 to 5",
+        "Different scales for each layer",
+        "Degrees of latitude",
+        "Raw counts"
+      ],
+      "answer": 0,
+      "explain": "So that they can be combined."
+    },
+    {
+      "id": "dissolve-def",
+      "type": "choice",
+      "prompt": "Dissolve:",
+      "choices": [
+        "Merges features that share a value in a field",
+        "Splits polygons where layers cross",
+        "Creates a zone around features",
+        "Cuts one layer with another"
+      ],
+      "answer": 0,
+      "explain": "Removes the boundaries between them."
+    },
+    {
+      "id": "dissolve-regions",
+      "type": "fill",
+      "prompt": "Dissolving the lower 48 states and DC on Census region gives how many polygons?",
+      "answers": [
+        "4"
+      ],
+      "explain": "West, Midwest, South, Northeast.",
+      "numeric": true,
+      "tolerance": 0
+    },
+    {
+      "id": "dissolve-stats",
+      "type": "choice",
+      "prompt": "When dissolving counties into states, you can keep population totals with:",
+      "choices": [
+        "Summary statistics, such as a sum",
+        "A spatial query",
+        "A buffer",
+        "A clip"
+      ],
+      "answer": 0,
+      "explain": "Dissolve can carry statistics."
+    },
+    {
+      "id": "dissolve-cost",
+      "type": "choice",
+      "prompt": "The cost of dissolving is:",
+      "choices": [
+        "Losing the detail of the merged features",
+        "A larger dataset",
+        "More boundaries",
+        "Slivers"
+      ],
+      "answer": 0,
+      "explain": "The benefit is simplicity."
+    },
+    {
+      "id": "buffer-def",
+      "type": "choice",
+      "prompt": "A buffer is:",
+      "choices": [
+        "The region within a specified distance of a feature",
+        "A merged set of polygons",
+        "The overlap of two layers",
+        "A moving window"
+      ],
+      "answer": 0,
+      "explain": "Points, lines, or polygons can be buffered."
+    },
+    {
+      "id": "proximity",
+      "type": "choice",
+      "prompt": "Buffers belong to which family of functions?",
+      "choices": [
+        "Proximity functions",
+        "Classification functions",
+        "Projection functions",
+        "Join functions"
+      ],
+      "answer": 0,
+      "explain": "They work with distance."
+    },
+    {
+      "id": "fixed-buffer",
+      "type": "choice",
+      "prompt": "In fixed (undissolved) buffers, where buffers overlap:",
+      "choices": [
+        "They stay separate polygons, covering the area twice",
+        "They merge into one",
+        "They are deleted",
+        "They become slivers"
+      ],
+      "answer": 0,
+      "explain": "Each feature keeps its own buffer."
+    },
+    {
+      "id": "dissolved-buffer",
+      "type": "choice",
+      "prompt": "To find the share of a county within a mile of any school, use:",
+      "choices": [
+        "Dissolved buffers",
+        "Fixed buffers",
+        "Nested buffers",
+        "A clip only"
+      ],
+      "answer": 0,
+      "explain": "Otherwise overlaps are double counted."
+    },
+    {
+      "id": "nested",
+      "type": "choice",
+      "prompt": "Buffers at 1, 2, and 3 km around the same features are:",
+      "choices": [
+        "Multiple-ring (nested) buffers",
+        "Variable-distance buffers",
+        "Dissolved buffers",
+        "Slivers"
+      ],
+      "answer": 0,
+      "explain": "For distance bands."
+    },
+    {
+      "id": "variable",
+      "type": "choice",
+      "prompt": "Giving wider buffers to larger rivers, from a field, is a:",
+      "choices": [
+        "Variable-distance buffer",
+        "Fixed buffer",
+        "Nested buffer",
+        "Negative buffer"
+      ],
+      "answer": 0,
+      "explain": "Each feature's distance comes from its attributes."
+    },
+    {
+      "id": "line-hole",
+      "type": "choice",
+      "prompt": "When a stream's two branches are buffered, the area between them:",
+      "choices": [
+        "May be enclosed but not part of the buffer",
+        "Is always in the buffer",
+        "Becomes a sliver",
+        "Is deleted from the map"
+      ],
+      "answer": 0,
+      "explain": "Check output for holes."
+    },
+    {
+      "id": "negative-buffer",
+      "type": "choice",
+      "prompt": "A negative buffer distance on a polygon:",
+      "choices": [
+        "Shrinks it inward",
+        "Enlarges it",
+        "Deletes it",
+        "Creates rings"
+      ],
+      "answer": 0,
+      "explain": "Polygons can be buffered inward."
+    },
+    {
+      "id": "buffer-crs",
+      "type": "choice",
+      "prompt": "Buffers should be built in:",
+      "choices": [
+        "A projected coordinate system, or with a geodesic option",
+        "Unprojected degrees",
+        "Any coordinate system; it doesn't matter",
+        "Web Mercator only"
+      ],
+      "answer": 0,
+      "explain": "So that distances are real meters or feet."
+    },
+    {
+      "id": "overlay-def",
+      "type": "choice",
+      "prompt": "Overlay:",
+      "choices": [
+        "Combines layers at the same locations, splitting polygons where boundaries cross",
+        "Merges features with the same value",
+        "Creates a zone around features",
+        "Changes a layer's projection"
+      ],
+      "answer": 0,
+      "explain": "Geometry and attributes both change."
+    },
+    {
+      "id": "overlay-count",
+      "type": "fill",
+      "prompt": "Two layers of two polygons each, with every boundary crossing once as in the chapter's figure, give how many output polygons?",
+      "answers": [
+        "4"
+      ],
+      "explain": "A,10; A,25; B,10; B,25.",
+      "numeric": true,
+      "tolerance": 0
+    },
+    {
+      "id": "overlay-crs",
+      "type": "choice",
+      "prompt": "Before overlay, the layers must:",
+      "choices": [
+        "Share a coordinate system",
+        "Have the same number of features",
+        "Have the same attributes",
+        "Be rasters"
+      ],
+      "answer": 0,
+      "explain": "Otherwise features won't line up."
+    },
+    {
+      "id": "pip",
+      "type": "choice",
+      "prompt": "In a point-in-polygon overlay, each point:",
+      "choices": [
+        "Gains the attributes of the polygon it falls in",
+        "Is deleted",
+        "Becomes a polygon",
+        "Is buffered"
+      ],
+      "answer": 0,
+      "explain": "Like each crime gaining its county."
+    },
+    {
+      "id": "polygon-from-points",
+      "type": "choice",
+      "prompt": "When attaching many points' values to one polygon, you need:",
+      "choices": [
+        "A rule, such as a count, sum, or majority",
+        "Nothing; all values fit",
+        "A buffer",
+        "A clip"
+      ],
+      "answer": 0,
+      "explain": "A field holds only one value."
+    },
+    {
+      "id": "clip-def",
+      "type": "choice",
+      "prompt": "Clip:",
+      "choices": [
+        "Keeps the data layer inside the bounding layer, with only the data layer's attributes",
+        "Keeps all areas from both layers",
+        "Keeps areas in both layers, with both layers' attributes",
+        "Removes the data layer inside the bounding layer"
+      ],
+      "answer": 0,
+      "explain": "Like a cookie cutter."
+    },
+    {
+      "id": "intersect-def",
+      "type": "choice",
+      "prompt": "Intersect keeps:",
+      "choices": [
+        "Only areas in both layers, with attributes from both",
+        "All areas in either layer",
+        "The data layer only",
+        "Areas outside the other layer"
+      ],
+      "answer": 0,
+      "explain": "The overlay version of AND."
+    },
+    {
+      "id": "union-def",
+      "type": "choice",
+      "prompt": "Union keeps:",
+      "choices": [
+        "All areas from both layers, split where they overlap",
+        "Only overlapping areas",
+        "Only the data layer",
+        "Areas outside both layers"
+      ],
+      "answer": 0,
+      "explain": "The overlay version of OR."
+    },
+    {
+      "id": "union-polygons",
+      "type": "truefalse",
+      "prompt": "In ArcGIS Pro, both inputs to a union must be polygons.",
+      "answer": true,
+      "explain": "Clip and intersect accept other geometry types."
+    },
+    {
+      "id": "roads-flood",
+      "type": "choice",
+      "prompt": "To find road segments in the 100-year floodplain, with the road name and flood zone in each record, use:",
+      "choices": [
+        "Intersect",
+        "Union",
+        "Dissolve",
+        "Buffer"
+      ],
+      "answer": 0,
+      "explain": "Keeps what is in both, with both attributes."
+    },
+    {
+      "id": "statewide",
+      "type": "choice",
+      "prompt": "To cut statewide data down to one county, the simplest tool is:",
+      "choices": [
+        "Clip",
+        "Union",
+        "Dissolve",
+        "Spatial join"
+      ],
+      "answer": 0,
+      "explain": "The cookie cutter."
+    },
+    {
+      "id": "erase",
+      "type": "choice",
+      "prompt": "Keeping the parts of a layer outside another layer is:",
+      "choices": [
+        "Erase",
+        "Clip",
+        "Intersect",
+        "Identity"
+      ],
+      "answer": 0,
+      "explain": "Called Difference in QGIS."
+    },
+    {
+      "id": "sliver-def",
+      "type": "choice",
+      "prompt": "Thin, tiny polygons created where two versions of a boundary don't match are:",
+      "choices": [
+        "Slivers",
+        "Buffers",
+        "Zones",
+        "Islands"
+      ],
+      "answer": 0,
+      "explain": "A well-known overlay problem."
+    },
+    {
+      "id": "sliver-fix",
+      "type": "choice",
+      "prompt": "Which does NOT help with slivers?",
+      "choices": [
+        "Using a larger buffer distance",
+        "Setting a cluster tolerance",
+        "Using the same source for shared boundaries",
+        "Running Eliminate"
+      ],
+      "answer": 0,
+      "explain": "Buffers don't fix boundary mismatches."
+    },
+    {
+      "id": "eliminate",
+      "type": "choice",
+      "prompt": "ArcGIS Pro's tool that merges slivers into neighboring polygons is:",
+      "choices": [
+        "Eliminate",
+        "Clip",
+        "Dissolve",
+        "Buffer"
+      ],
+      "answer": 0,
+      "explain": "Run after overlay."
+    },
+    {
+      "id": "map-algebra",
+      "type": "choice",
+      "prompt": "Raster overlay is done cell by cell with:",
+      "choices": [
+        "Map algebra",
+        "Union",
+        "Spatial joins",
+        "Georeferencing"
+      ],
+      "answer": 0,
+      "explain": "Tomlin's framework."
+    },
+    {
+      "id": "focal",
+      "type": "choice",
+      "prompt": "A 3×3 moving-window mean is a:",
+      "choices": [
+        "Focal function",
+        "Local function",
+        "Zonal function",
+        "Global function"
+      ],
+      "answer": 0,
+      "explain": "Neighborhood scope for rasters."
+    },
+    {
+      "id": "zonal",
+      "type": "choice",
+      "prompt": "The mean elevation of each watershed is a:",
+      "choices": [
+        "Zonal function",
+        "Focal function",
+        "Local function",
+        "Buffer"
+      ],
+      "answer": 0,
+      "explain": "Summarizes cells within each zone."
+    },
+    {
+      "id": "local-raster",
+      "type": "choice",
+      "prompt": "Adding a slope score raster to a soil score raster is a:",
+      "choices": [
+        "Local function",
+        "Focal function",
+        "Zonal function",
+        "Global function"
+      ],
+      "answer": 0,
+      "explain": "Same cell in each input."
+    },
+    {
+      "id": "focal-mean",
+      "type": "fill",
+      "prompt": "In the chapter's figure, what is the mean of the 3×3 window? (one decimal)",
+      "answers": [
+        "5.6"
+      ],
+      "explain": "The sum of nine cells, 50, divided by 9.",
+      "numeric": true,
+      "tolerance": 0.05
+    },
+    {
+      "id": "raster-slivers",
+      "type": "choice",
+      "prompt": "Raster overlay avoids slivers, but its precision is limited by:",
+      "choices": [
+        "The cell size",
+        "The number of layers",
+        "The coordinate system",
+        "The color ramp"
+      ],
+      "answer": 0,
+      "explain": "No boundary is more precise than a cell."
+    },
+    {
+      "id": "network",
+      "type": "choice",
+      "prompt": "Finding the shortest route along roads is:",
+      "choices": [
+        "Network analysis",
+        "Interpolation",
+        "Overlay",
+        "Dissolve"
+      ],
+      "answer": 0,
+      "explain": "Another family of spatial analysis."
+    }
+  ]
+}

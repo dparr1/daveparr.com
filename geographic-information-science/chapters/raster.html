@@ -1,0 +1,1748 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>14&nbsp; Raster Analysis – Geographic Information Science</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/interpolation.html" rel="next">
+<link href="../chapters/spatial-analysis.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ebb58cfc2c0cc903b00b246007c1be77.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-58aeb932f9769ef5b136914697361c15.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-contrib/glossary-1.0.0/glossary.js"></script>
+<link href="../site_libs/quarto-contrib/glossary-1.0.0/glossary.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<!--
+  Reading settings, part 1 of 2: applies the reader's saved font and text size
+  before the page draws, so it doesn't flash in the default font first.
+  The menu itself is in assets/reader-settings.html; styles are in
+  assets/reader-settings.css.
+-->
+<script>
+  (function () {
+    try {
+      var font = localStorage.getItem("sds-reader-font");
+      var size = localStorage.getItem("sds-reader-size");
+      if (font) document.documentElement.setAttribute("data-reader-font", font);
+      // Lexend and Cardo come from Google Fonts, loaded only for readers who pick them.
+      var webFonts = {
+        lexend: "https://fonts.googleapis.com/css2?family=Lexend:wght@300..700&display=swap",
+        cardo: "https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&display=swap"
+      };
+      if (webFonts[font]) {
+        var link = document.createElement("link");
+        link.rel = "stylesheet"; link.href = webFonts[font]; link.id = "sds-reader-webfont-" + font;
+        document.head.appendChild(link);
+      }
+      if (size) document.documentElement.setAttribute("data-reader-size", size);
+    } catch (e) { /* storage blocked: keep the defaults */ }
+  })();
+</script>
+
+
+<link rel="stylesheet" href="../include/webex.css">
+<link rel="stylesheet" href="../assets/sidebar.css">
+<link rel="stylesheet" href="../assets/grade-table.css">
+<link rel="stylesheet" href="../assets/reader-settings.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../units/unit-3.html">Unit 3: Spatial Analysis</a></li><li class="breadcrumb-item"><a href="../chapters/raster.html"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Raster Analysis</span></a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Site">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Geographic Information Science</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../units/unit-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-1-label">Unit 1: Data Models and Projections</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section: Unit 1: Data Models and Projections">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/what-is-gis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">What Is GIS?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/what-is-geographic-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">What Is Geographic Data?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/location-and-coordinates.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Location and Coordinate Systems</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/map-projections.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Map Projections</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/attribute-queries.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Attribute Data and Queries</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/database-joins.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Databases and Table Joins</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/spatial-joins.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Spatial Joins</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../units/unit-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-2-label">Unit 2: Spatial Data Quality</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section: Unit 2: Spatial Data Quality">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/census-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Census Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/geocoding-georeferencing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Geocoding and Georeferencing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/osm-data-quality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">OpenStreetMap and Data Quality</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../units/unit-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Unit 3: Spatial Analysis</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section: Unit 3: Spatial Analysis">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/data-classing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Data Classing and Choropleth Maps</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/density.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Density and Neighborhoods</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/spatial-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Spatial Analysis: Selection, Buffers, and Overlay</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/raster.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Raster Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/interpolation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Spatial Interpolation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/kriging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Kriging</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-4-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Glossary</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../about.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About the author</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-raster-basics" id="toc-sec-raster-basics" class="nav-link active" data-scroll-target="#sec-raster-basics"><span class="header-section-number">14.1</span> Raster basics</a>
+  <ul class="collapse">
+  <li><a href="#cells-cell-size-and-extent" id="toc-cells-cell-size-and-extent" class="nav-link" data-scroll-target="#cells-cell-size-and-extent"><span class="header-section-number">14.1.1</span> Cells, cell size, and extent</a></li>
+  <li><a href="#whats-in-a-cell" id="toc-whats-in-a-cell" class="nav-link" data-scroll-target="#whats-in-a-cell"><span class="header-section-number">14.1.2</span> What’s in a cell?</a></li>
+  <li><a href="#nodata" id="toc-nodata" class="nav-link" data-scroll-target="#nodata"><span class="header-section-number">14.1.3</span> NoData</a></li>
+  </ul></li>
+  <li><a href="#sec-combining-rasters" id="toc-sec-combining-rasters" class="nav-link" data-scroll-target="#sec-combining-rasters"><span class="header-section-number">14.2</span> Combining rasters</a>
+  <ul class="collapse">
+  <li><a href="#map-algebra" id="toc-map-algebra" class="nav-link" data-scroll-target="#map-algebra"><span class="header-section-number">14.2.1</span> Map algebra</a></li>
+  <li><a href="#when-the-grids-dont-line-up" id="toc-when-the-grids-dont-line-up" class="nav-link" data-scroll-target="#when-the-grids-dont-line-up"><span class="header-section-number">14.2.2</span> When the grids don’t line up</a></li>
+  <li><a href="#resampling" id="toc-resampling" class="nav-link" data-scroll-target="#resampling"><span class="header-section-number">14.2.3</span> Resampling</a></li>
+  <li><a href="#cell-size-extent-and-snap-raster" id="toc-cell-size-extent-and-snap-raster" class="nav-link" data-scroll-target="#cell-size-extent-and-snap-raster"><span class="header-section-number">14.2.4</span> Cell size, extent, and snap raster</a></li>
+  </ul></li>
+  <li><a href="#sec-raster-scope" id="toc-sec-raster-scope" class="nav-link" data-scroll-target="#sec-raster-scope"><span class="header-section-number">14.3</span> The scope of raster functions</a></li>
+  <li><a href="#sec-local-functions" id="toc-sec-local-functions" class="nav-link" data-scroll-target="#sec-local-functions"><span class="header-section-number">14.4</span> Local functions</a>
+  <ul class="collapse">
+  <li><a href="#mathematical-functions" id="toc-mathematical-functions" class="nav-link" data-scroll-target="#mathematical-functions"><span class="header-section-number">14.4.1</span> Mathematical functions</a></li>
+  <li><a href="#logical-functions" id="toc-logical-functions" class="nav-link" data-scroll-target="#logical-functions"><span class="header-section-number">14.4.2</span> Logical functions</a></li>
+  <li><a href="#reclassification" id="toc-reclassification" class="nav-link" data-scroll-target="#reclassification"><span class="header-section-number">14.4.3</span> Reclassification</a></li>
+  <li><a href="#conditional-functions" id="toc-conditional-functions" class="nav-link" data-scroll-target="#conditional-functions"><span class="header-section-number">14.4.4</span> Conditional functions</a></li>
+  </ul></li>
+  <li><a href="#sec-beyond-local" id="toc-sec-beyond-local" class="nav-link" data-scroll-target="#sec-beyond-local"><span class="header-section-number">14.5</span> Beyond local</a>
+  <ul class="collapse">
+  <li><a href="#neighborhood-functions" id="toc-neighborhood-functions" class="nav-link" data-scroll-target="#neighborhood-functions"><span class="header-section-number">14.5.1</span> Neighborhood functions</a></li>
+  <li><a href="#the-moving-window" id="toc-the-moving-window" class="nav-link" data-scroll-target="#the-moving-window"><span class="header-section-number">14.5.2</span> The moving window</a></li>
+  <li><a href="#aggregation" id="toc-aggregation" class="nav-link" data-scroll-target="#aggregation"><span class="header-section-number">14.5.3</span> Aggregation</a></li>
+  <li><a href="#zonal-functions" id="toc-zonal-functions" class="nav-link" data-scroll-target="#zonal-functions"><span class="header-section-number">14.5.4</span> Zonal functions</a></li>
+  <li><a href="#global-functions-distance" id="toc-global-functions-distance" class="nav-link" data-scroll-target="#global-functions-distance"><span class="header-section-number">14.5.5</span> Global functions: distance</a></li>
+  </ul></li>
+  <li><a href="#check-your-understanding" id="toc-check-your-understanding" class="nav-link" data-scroll-target="#check-your-understanding"><span class="header-section-number">14.6</span> Check your understanding</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">14.7</span> Summary</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">14.8</span> Exercises</a></li>
+  <li><a href="#further-reading-and-online-resources" id="toc-further-reading-and-online-resources" class="nav-link" data-scroll-target="#further-reading-and-online-resources"><span class="header-section-number">14.9</span> Further reading and online resources</a>
+  <ul class="collapse">
+  <li><a href="#books" id="toc-books" class="nav-link" data-scroll-target="#books"><span class="header-section-number">14.9.1</span> Books</a></li>
+  <li><a href="#arcgis-pro" id="toc-arcgis-pro" class="nav-link" data-scroll-target="#arcgis-pro"><span class="header-section-number">14.9.2</span> ArcGIS Pro</a></li>
+  <li><a href="#qgis" id="toc-qgis" class="nav-link" data-scroll-target="#qgis"><span class="header-section-number">14.9.3</span> QGIS</a></li>
+  <li><a href="#data-and-other-resources" id="toc-data-and-other-resources" class="nav-link" data-scroll-target="#data-and-other-resources"><span class="header-section-number">14.9.4</span> Data and other resources</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../units/unit-3.html">Unit 3: Spatial Analysis</a></li><li class="breadcrumb-item"><a href="../chapters/raster.html"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Raster Analysis</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Raster Analysis</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Learning objectives
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>By the end of this chapter you should be able to:</p>
+<ol type="1">
+<li>Describe a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">raster</span> by its cells, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cell-size" data-term="cell size">cell size</span>, extent, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-nodata" data-term="NoData">NoData</span> values.</li>
+<li>Combine rasters with <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-map-algebra" data-term="map algebra">map algebra</span>, and predict how NoData passes through.</li>
+<li>Line up rasters before analysis by <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-resampling" data-term="resampling">resampling</span>, and by setting the cell size, extent, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-snap-raster" data-term="snap raster">snap raster</span>.</li>
+<li>Classify a raster function by its scope: local, neighborhood, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-zonal-function" data-term="zonal function">zonal</span>, or global.</li>
+<li>Use mathematical, logical, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-reclassification" data-term="reclassification">reclassification</span>, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-conditional-function" data-term="conditional function">conditional functions</span>.</li>
+<li>Compute neighborhood and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-zonal-statistics" data-term="zonal statistics">zonal statistics</span>, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-aggregation" data-term="aggregation">aggregate</span> a raster to a coarser cell size.</li>
+</ol>
+</div>
+</div>
+<p>Chapter 13 ended with a glimpse of raster <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-overlay-analysis" data-term="overlay analysis">overlay</span>. This chapter takes rasters on their own terms. A raster stores the world as a grid, and almost every raster tool does the same thing: it repeats one operation cell by cell. What changes from tool to tool is <em>which</em> input cells feed each output cell, and <em>what</em> is done with them. Once you see that, the long list of raster tools in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span> becomes much easier to understand.</p>
+<section id="sec-raster-basics" class="level2" data-number="14.1">
+<h2 data-number="14.1" class="anchored" data-anchor-id="sec-raster-basics"><span class="header-section-number">14.1</span> Raster basics</h2>
+<section id="cells-cell-size-and-extent" class="level3" data-number="14.1.1">
+<h3 data-number="14.1.1" class="anchored" data-anchor-id="cells-cell-size-and-extent"><span class="header-section-number">14.1.1</span> Cells, cell size, and extent</h3>
+<p>A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">raster</span></strong> represents the world as a regular grid of <strong>cells</strong> (also called pixels, short for <em>picture elements</em>). Each cell holds a value, such as an elevation, a temperature, or a land-cover code. Two numbers describe the grid (<a href="#fig-raster-model" class="quarto-xref">Figure&nbsp;<span>14.1</span></a>):</p>
+<ul>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cell-size" data-term="cell size">Cell size</span></strong>, also called resolution, is the ground length of one side of a cell, such as 30 m or 1 km.</li>
+<li><strong>Extent</strong> is the ground area the whole grid covers, from its lower-left to its upper-right corner.</li>
+</ul>
+<div id="fig-raster-model" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A grid of 5 rows and 7 columns of green cells with numbers. A dot marks the lower-left corner, labeled x zero, y zero. An arrow under the first cell is labeled cell size, and an arrow across the top says the extent is 7 columns times the cell size. The cell in row 1, column 6 is outlined in red, with its x equal to x zero plus 6 cell sizes and its y equal to y zero plus 3 cell sizes.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-raster-model-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/raster/raster-model.png" class="img-fluid figure-img" alt="A grid of 5 rows and 7 columns of green cells with numbers. A dot marks the lower-left corner, labeled x zero, y zero. An arrow under the first cell is labeled cell size, and an arrow across the top says the extent is 7 columns times the cell size. The cell in row 1, column 6 is outlined in red, with its x equal to x zero plus 6 cell sizes and its y equal to y zero plus 3 cell sizes.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-raster-model-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;14.1: A raster is a grid of cells. The software stores the lower-left corner and the cell size, and computes every cell’s location from its row and column.
+</figcaption>
+</figure>
+</div>
+<p>The software does not store <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">coordinates</span> for every cell. It stores the location of one corner and the cell size, and works out any cell’s position from its row and column. So a raster 100 cells wide with 30 m cells has an extent 3 km wide. It also explains why the cell size matters so much: change it, and every cell’s footprint changes.</p>
+</section>
+<section id="whats-in-a-cell" class="level3" data-number="14.1.2">
+<h3 data-number="14.1.2" class="anchored" data-anchor-id="whats-in-a-cell"><span class="header-section-number">14.1.2</span> What’s in a cell?</h3>
+<p>A cell can hold a whole number (such as a land-cover code), a decimal (such as rainfall in inches), or, in some formats, text. Most rasters hold one value per cell. <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-multiband" data-term="multiband">Multiband</span></strong> rasters, such as satellite images, hold one value per band in each cell, for example red, green, blue, and near-infrared.</p>
+<p>Cell values are either <strong>categorical</strong> (also called discrete or thematic), where numbers are codes for classes such as land cover or soil type, or <strong>continuous</strong>, where numbers are measurements, such as elevation or temperature. Many choices in this chapter depend on which kind you have.</p>
+</section>
+<section id="nodata" class="level3" data-number="14.1.3">
+<h3 data-number="14.1.3" class="anchored" data-anchor-id="nodata"><span class="header-section-number">14.1.3</span> NoData</h3>
+<p>A cell is never truly empty. A cell without a measurement holds a special code, <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-nodata" data-term="NoData">NoData</span></strong> (Null in some software). There are two rules for NoData:</p>
+<ol type="1">
+<li><strong>NoData in, NoData out.</strong> In <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-map-algebra" data-term="map algebra">map algebra</span>, any operation that touches a NoData cell writes NoData to the output: 5 + NoData = NoData.</li>
+<li><strong>Statistics skip NoData.</strong> The mean of 2, 4, and NoData is 3, not 2.</li>
+</ol>
+<p>The difference between NoData and 0 matters. In an elevation raster, 0 means sea level; NoData means “unknown.” If missing values are stored as 0, every mean that includes them is too low, and the map is wrong.</p>
+<div class="did-you-know callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Did you know..?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The National Land Cover <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-database" data-term="database">Database</span> (NLCD) maps the lower 48 states with 30 m cells. Each cell covers 900 m², about one-sixth of a football field, so the lower 48’s roughly 8 million km² takes about 9 billion cells. The land-cover codes used later in this chapter, such as 41 for deciduous forest and 82 for cultivated crops, are NLCD codes.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-combining-rasters" class="level2" data-number="14.2">
+<h2 data-number="14.2" class="anchored" data-anchor-id="sec-combining-rasters"><span class="header-section-number">14.2</span> Combining rasters</h2>
+<section id="map-algebra" class="level3" data-number="14.2.1">
+<h3 data-number="14.2.1" class="anchored" data-anchor-id="map-algebra"><span class="header-section-number">14.2.1</span> Map algebra</h3>
+<p><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-map-algebra" data-term="map algebra">Map algebra</span></strong> treats <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">rasters</span> as variables in an equation, and evaluates it cell by cell <span class="citation" data-cites="tomlin1990">(Tomlin 1990)</span>. In <a href="#fig-map-algebra-add" class="quarto-xref">Figure&nbsp;<span>14.2</span></a>, each cell of raster C is the sum of the cells at the same position in A and B. The top-left cell is 1 + (−1) = 0. The bottom-right cell of B is <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-nodata" data-term="NoData">NoData</span>, so the bottom-right cell of C is NoData too, whatever A holds.</p>
+<div id="fig-map-algebra-add" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Three 3 by 3 grids of numbers. Raster A plus raster B equals raster C. The top-left cells are outlined: 1 plus negative 1 equals 0. The bottom-right cell of B is N, for NoData, so the bottom-right cell of C is also N.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-map-algebra-add-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/raster/map-algebra-add.png" class="img-fluid figure-img" alt="Three 3 by 3 grids of numbers. Raster A plus raster B equals raster C. The top-left cells are outlined: 1 plus negative 1 equals 0. The bottom-right cell of B is N, for NoData, so the bottom-right cell of C is also N.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-map-algebra-add-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;14.2: Map algebra: raster A plus raster B equals raster C, cell by cell. N marks NoData.
+</figcaption>
+</figure>
+</div>
+<p>An operation with one input raster, such as A × 2 or the square root of A, is <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-unary-operation" data-term="unary operation">unary</span></strong>. One with two input rasters, such as A + B, is <strong>binary</strong>. (A constant such as 2 is not a raster, so it doesn’t count as an input.)</p>
+</section>
+<section id="when-the-grids-dont-line-up" class="level3" data-number="14.2.2">
+<h3 data-number="14.2.2" class="anchored" data-anchor-id="when-the-grids-dont-line-up"><span class="header-section-number">14.2.2</span> When the grids don’t line up</h3>
+<p>Map algebra assumes the rasters line up exactly: the same <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cell-size" data-term="cell size">cell size</span>, the same extent, and cells in the same places. Real data rarely do (<a href="#fig-mismatch" class="quarto-xref">Figure&nbsp;<span>14.3</span></a>).</p>
+<ul>
+<li><strong>Mismatched cell sizes.</strong> A coarse cell sits over parts of many fine cells. Which of them should it be added to? There is no one answer.</li>
+<li><strong>Different extents.</strong> Outside the overlap, one input has no cells at all, so the output there can only be NoData.</li>
+</ul>
+<div id="fig-mismatch" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Left: a 3 by 3 grid of large green cells with a finer blue grid offset on top. The center large cell, B, outlined in red, overlaps parts of 16 small cells. Right: a green square and a blue square overlap; the overlap, outlined with a red dashed line, is labeled Intersection: both layers have data. The rest is labeled Layer 1 only or Layer 2 only.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-mismatch-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/raster/mismatch.png" class="img-fluid figure-img" alt="Left: a 3 by 3 grid of large green cells with a finer blue grid offset on top. The center large cell, B, outlined in red, overlaps parts of 16 small cells. Right: a green square and a blue square overlap; the overlap, outlined with a red dashed line, is labeled Intersection: both layers have data. The rest is labeled Layer 1 only or Layer 2 only.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mismatch-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;14.3: Two problems for map algebra: mismatched cell sizes (left) and different extents (right).
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="resampling" class="level3" data-number="14.2.3">
+<h3 data-number="14.2.3" class="anchored" data-anchor-id="resampling"><span class="header-section-number">14.2.3</span> Resampling</h3>
+<p><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-resampling" data-term="resampling">Resampling</span></strong> rebuilds a raster on a new grid, so that every <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layer</span> shares one cell size and one set of cell positions. For each new cell, it decides what value the cell should get. There are three standard methods (<a href="#tbl-resampling" class="quarto-xref">Table&nbsp;<span>14.1</span></a>):</p>
+<div id="tbl-resampling" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-resampling-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;14.1: Resampling methods.
+</figcaption>
+<div aria-describedby="tbl-resampling-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Method</th>
+<th>How it picks the new value</th>
+<th>Use it for</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-nearest-neighbor" data-term="nearest neighbor">Nearest neighbor</span></td>
+<td>Copies the value of the closest input cell center</td>
+<td>Categories: land cover, soils, zones</td>
+</tr>
+<tr class="even">
+<td><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-bilinear-interpolation" data-term="bilinear interpolation">Bilinear</span></td>
+<td>Distance-weighted mean of the 4 nearest cells</td>
+<td>Continuous surfaces: elevation, temperature</td>
+</tr>
+<tr class="odd">
+<td><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cubic-convolution" data-term="cubic convolution">Cubic convolution</span></td>
+<td>A smooth curve through the 16 nearest cells</td>
+<td>Continuous surfaces where smoothness matters</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Nearest neighbor never invents values, so it is the only safe choice for categories: you can’t average forest and water. Bilinear and cubic blend nearby cells, which gives smoother surfaces for continuous data, but creates values that were never measured. On a land-cover raster, they produce nonsense such as class 2.25 (<a href="#fig-resampling" class="quarto-xref">Figure&nbsp;<span>14.4</span></a>).</p>
+<div id="fig-resampling" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Left: a 4 by 4 grid of land-cover classes 1 to 4, with a dashed 3 by 3 grid over it. Middle: the nearest neighbor result, a 3 by 3 grid of real classes 1, 2, 3, and 4. Right: the bilinear result, where only two cells are whole classes; the others are values such as 1.5, 2.14, 2.25, and 3.92, shown in red.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-resampling-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/raster/resampling.png" class="img-fluid figure-img" alt="Left: a 4 by 4 grid of land-cover classes 1 to 4, with a dashed 3 by 3 grid over it. Middle: the nearest neighbor result, a 3 by 3 grid of real classes 1, 2, 3, and 4. Right: the bilinear result, where only two cells are whole classes; the others are values such as 1.5, 2.14, 2.25, and 3.92, shown in red.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-resampling-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;14.4: Resampling a 4 × 4 land-cover raster to a 3 × 3 grid. Nearest neighbor keeps real classes; bilinear produces in-between values that are not classes at all.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="cell-size-extent-and-snap-raster" class="level3" data-number="14.2.4">
+<h3 data-number="14.2.4" class="anchored" data-anchor-id="cell-size-extent-and-snap-raster"><span class="header-section-number">14.2.4</span> Cell size, extent, and snap raster</h3>
+<p>Three settings make the grids line up before any map algebra runs. In <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span> they are <strong>environment settings</strong>, used by every raster tool; <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span> asks for them in each tool’s dialog.</p>
+<ol type="1">
+<li><strong>Cell size.</strong> Choose one output cell size, usually the coarsest input. Resampling to finer cells adds no real detail.</li>
+<li><strong>Extent.</strong> <em>Intersection</em> keeps only the area where every input has data; <em>union</em> keeps everything, with NoData in the gaps. Intersection is the safer default.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-snap-raster" data-term="snap raster">Snap raster</span>.</strong> Even with the same cell size, two grids can be offset by part of a cell. Snapping aligns the output’s cell edges to one input’s grid.</li>
+</ol>
+<p>The output can only be as detailed as its coarsest input (<a href="#fig-cell-size" class="quarto-xref">Figure&nbsp;<span>14.5</span></a>). If you add a 30 m land-use raster to a 1 km elevation raster, the result is a blocky 1 km grid, and choosing 30 m output cells would only copy each 1 km value into a thousand smaller cells. If you need 30 m results, find a better elevation source, such as a 10 m or 30 m <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-digital-elevation-model" data-term="digital elevation model">digital elevation model</span> from USGS 3DEP.</p>
+<div id="fig-cell-size" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Three shaded terrain maps of the same area. Left: 240 by 240 cells, smooth. Middle: 30 by 30 cells, visibly blocky. Right: 6 by 6 cells, only large colored squares, with almost no recognizable terrain.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-cell-size-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/raster/cell-size.png" class="img-fluid figure-img" alt="Three shaded terrain maps of the same area. Left: 240 by 240 cells, smooth. Middle: 30 by 30 cells, visibly blocky. Right: 6 by 6 cells, only large colored squares, with almost no recognizable terrain.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cell-size-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;14.5: The same made-up terrain at three cell sizes. Each coarser raster averages blocks of finer cells.
+</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="sec-raster-scope" class="level2" data-number="14.3">
+<h2 data-number="14.3" class="anchored" data-anchor-id="sec-raster-scope"><span class="header-section-number">14.3</span> The scope of raster functions</h2>
+<p><strong>Scope</strong> is the set of input cells that feed each output cell. Chapter 13 introduced local, neighborhood, and global scope; <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">rasters</span> add a fourth, <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-zonal-function" data-term="zonal function">zonal</span></strong> (<a href="#fig-scopes" class="quarto-xref">Figure&nbsp;<span>14.6</span></a>):</p>
+<ul>
+<li><strong>Local</strong> functions use only the input cell at the same location. Adding 4 to every cell is local: 10 becomes 14.</li>
+<li><strong>Neighborhood</strong> (<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-focal-function" data-term="focal function">focal</span>) functions use a window of cells around each location, usually 3 × 3. The window’s result is written to its center cell, and then the window moves.</li>
+<li><strong>Zonal</strong> functions use every cell in the same zone, where zones come from a second <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layer</span>. Each cell in zone <em>a</em> gets the mean of all cells in zone <em>a</em>.</li>
+<li><strong>Global</strong> functions can use every cell in the raster. The global maximum is written to every cell; more useful global functions, such as distance to the nearest road, give a different answer for each cell but still need to look everywhere.</li>
+</ul>
+<div id="fig-scopes" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Four panels, each with a 4 by 4 input grid and an output grid. Local: add 4 to each cell; the top-left 10 becomes 14. Neighborhood: a 3 by 3 window outlined in red has a maximum of 42, written to its center. Zonal: a zone grid with zones a, b, and c, and an output where zone a cells are 18, zone b cells are 12, and zone c cells are 6.7. Global: the whole input is outlined, and every output cell is 42.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-scopes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/raster/scopes.png" class="img-fluid figure-img" alt="Four panels, each with a 4 by 4 input grid and an output grid. Local: add 4 to each cell; the top-left 10 becomes 14. Neighborhood: a 3 by 3 window outlined in red has a maximum of 42, written to its center. Zonal: a zone grid with zones a, b, and c, and an output where zone a cells are 18, zone b cells are 12, and zone c cells are 6.7. Global: the whole input is outlined, and every output cell is 42.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-scopes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;14.6: The four scopes of raster functions, on the same made-up input.
+</figcaption>
+</figure>
+</div>
+<p>Notice the edge cells in the neighborhood example: a window centered on a corner holds only four cells, so edge cells always have fewer neighbors.</p>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Think about it
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Is each of these local, neighborhood, zonal, or global? Converting elevation from feet to meters; smoothing a noisy elevation surface; computing the mean elevation of each county; finding the distance from every cell to the nearest hospital.</p>
+</div>
+</div>
+</section>
+<section id="sec-local-functions" class="level2" data-number="14.4">
+<h2 data-number="14.4" class="anchored" data-anchor-id="sec-local-functions"><span class="header-section-number">14.4</span> Local functions</h2>
+<section id="mathematical-functions" class="level3" data-number="14.4.1">
+<h3 data-number="14.4.1" class="anchored" data-anchor-id="mathematical-functions"><span class="header-section-number">14.4.1</span> Mathematical functions</h3>
+<p>Mathematical functions are the most common <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-map-algebra" data-term="map algebra">map algebra</span>. You write <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">rasters</span> as letters in an <strong>expression</strong>, such as <code>A * B</code>, <code>(A * 2) / B</code>, or <code>A + B + C</code>, and the tool evaluates it cell by cell. You can also apply functions to a single raster: absolute value, exponents and logarithms, sine and cosine, rounding, square roots, and powers. In <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span>, the <strong>Raster Calculator</strong> tool evaluates expressions; in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span>, it is also called the Raster Calculator.</p>
+<p>Watch two things. Trigonometric functions expect radians in most software, so convert slope or aspect in degrees first. And when you combine variables with different units, one can dominate. Multiplying elevation (100 to 1,000 m) by slope (0 to 31 degrees) gives a result driven mostly by elevation. <strong>Rescale</strong> both to the same range, such as 0 to 1, first (<a href="#fig-elevation-slope" class="quarto-xref">Figure&nbsp;<span>14.7</span></a>).</p>
+<div id="fig-elevation-slope" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Three maps of the same area. A: elevation from 100 to 1,000 meters, highest at the top. B: slope in degrees, steepest in a band near the top. Rescaled A times rescaled B: bright only near the top, where the land is both high and steep, and dark elsewhere.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-elevation-slope-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/raster/elevation-slope.png" class="img-fluid figure-img" alt="Three maps of the same area. A: elevation from 100 to 1,000 meters, highest at the top. B: slope in degrees, steepest in a band near the top. Rescaled A times rescaled B: bright only near the top, where the land is both high and steep, and dark elsewhere.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-elevation-slope-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;14.7: A binary local operation on made-up terrain: elevation (A) times slope (B), after rescaling each to 0–1. The result is high only where the land is both high and steep.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="logical-functions" class="level3" data-number="14.4.2">
+<h3 data-number="14.4.2" class="anchored" data-anchor-id="logical-functions"><span class="header-section-number">14.4.2</span> Logical functions</h3>
+<p><strong>Relational</strong> operators compare two rasters, or a raster and a constant, cell by cell: less than, greater than, equal, and not equal. They write 1 where the comparison is true and 0 where it is false. <strong>Boolean</strong> operators, such as AND, OR, and NOT, combine those 0s and 1s (<a href="#fig-logical" class="quarto-xref">Figure&nbsp;<span>14.8</span></a>).</p>
+<div id="fig-logical" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Three rows. Less than: A compared with B gives an output of 1s where A is smaller, 0s elsewhere, and N where either input is N. Equal: 1s where A and B hold the same value. ISNULL: applied to B alone, 1 in the one cell where B is NoData and 0 everywhere else.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-logical-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/raster/logical.png" class="img-fluid figure-img" alt="Three rows. Less than: A compared with B gives an output of 1s where A is smaller, 0s elsewhere, and N where either input is N. Equal: 1s where A and B hold the same value. ISNULL: applied to B alone, 1 in the one cell where B is NoData and 0 everywhere else.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-logical-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;14.8: Logical functions on made-up rasters. Less than and equal output <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-nodata" data-term="NoData">NoData</span> wherever either input is NoData; <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-isnull" data-term="ISNULL">ISNULL</span> never does.
+</figcaption>
+</figure>
+</div>
+<p>Typical uses:</p>
+<ul>
+<li>Find buildable land: <code>Slope &lt; 15</code>.</li>
+<li>Find land-cover change: <code>LC2010 != LC2020</code> gives 1 wherever the class changed.</li>
+<li>Find cells between two values: <code>(Slope &gt; 5) AND (Slope &lt; 15)</code>.</li>
+</ul>
+<p>For continuous data, avoid testing equality: 1.30000 and 1.30001 are not equal. Test whether the difference is small instead.</p>
+<p><strong>ISNULL</strong> is <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-unary-operation" data-term="unary operation">unary</span>: it writes 1 where a cell is NoData and 0 everywhere else. It is the one test that never outputs NoData, which makes it the tool for finding gaps. (You can’t find NoData with <code>A = NoData</code>, since any comparison with NoData gives NoData.)</p>
+</section>
+<section id="reclassification" class="level3" data-number="14.4.3">
+<h3 data-number="14.4.3" class="anchored" data-anchor-id="reclassification"><span class="header-section-number">14.4.3</span> Reclassification</h3>
+<p><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-reclassification" data-term="reclassification">Reclassification</span></strong> replaces each cell’s value with a new value from a rule you supply (<a href="#fig-reclass" class="quarto-xref">Figure&nbsp;<span>14.9</span></a>). It is local and unary, and one of the most used raster tools.</p>
+<ul>
+<li><strong>By table</strong>, each exact value maps to a new value. Use this for categorical data, such as converting land-cover codes to a suitability score.</li>
+<li><strong>By ranges</strong>, every value within a range maps to one new value. Use this for continuous data, such as slope.</li>
+</ul>
+<div id="fig-reclass" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Left: a 4 by 4 grid of NLCD land-cover codes, a lookup table (11 water to 0, 21 developed open to 2, 24 developed high to 1, 41 deciduous forest to 4, 42 evergreen forest to 4, 82 cultivated crops to 5, 90 woody wetlands to 3), and the resulting suitability grid. Right: a 4 by 4 grid of slopes in degrees, a list of ranges (0 to under 5 is a, 5 to under 15 is b, 15 and up is c, NoData is d), and the resulting class grid.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-reclass-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/raster/reclass.png" class="img-fluid figure-img" alt="Left: a 4 by 4 grid of NLCD land-cover codes, a lookup table (11 water to 0, 21 developed open to 2, 24 developed high to 1, 41 deciduous forest to 4, 42 evergreen forest to 4, 82 cultivated crops to 5, 90 woody wetlands to 3), and the resulting suitability grid. Right: a 4 by 4 grid of slopes in degrees, a list of ranges (0 to under 5 is a, 5 to under 15 is b, 15 and up is c, NoData is d), and the resulting class grid.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-reclass-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;14.9: Reclassification by table (a), for categorical land-cover codes, and by ranges (b), for continuous slope. NoData can stay NoData or get its own class.
+</figcaption>
+</figure>
+</div>
+<p>Watch the boundaries: is a slope of exactly 5 in class <em>a</em> or <em>b</em>? Software has a rule, and you should check it. Write ranges so that every value falls into exactly one class.</p>
+</section>
+<section id="conditional-functions" class="level3" data-number="14.4.4">
+<h3 data-number="14.4.4" class="anchored" data-anchor-id="conditional-functions"><span class="header-section-number">14.4.4</span> Conditional functions</h3>
+<p>The <strong>conditional</strong> function, CON in ArcGIS Pro, is the raster version of if-then-else. It takes a condition, a value or raster to use where the condition is true, and one to use where it is false. In <a href="#fig-conditional" class="quarto-xref">Figure&nbsp;<span>14.10</span></a>, the expression is <code>Con(A == 1, B, C)</code>: where A is 1, copy B; everywhere else, copy C. A decides, but its values never appear in the output.</p>
+<div id="fig-conditional" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Five 3 by 3 grids. A, then a yes/no grid for A equals 1, then B with the yes cells outlined in green, C with the no cells outlined in red, and the output. The output is negative 1, 3, 6 in the top row; negative 1, 4, 4 in the middle; and 1, 3, N in the bottom. The bottom-right came from C, which is NoData there.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-conditional-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/raster/conditional.png" class="img-fluid figure-img" alt="Five 3 by 3 grids. A, then a yes/no grid for A equals 1, then B with the yes cells outlined in green, C with the no cells outlined in red, and the output. The output is negative 1, 3, 6 in the top row; negative 1, 4, 4 in the middle; and 1, 3, N in the bottom. The bottom-right came from C, which is NoData there.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-conditional-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;14.10: A <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-conditional-function" data-term="conditional function">conditional function</span>: Con(A == 1, B, C). Outlined cells are the ones copied to the output.
+</figcaption>
+</figure>
+</div>
+<p>The output’s bottom-right cell is NoData because it comes from C, which is NoData there. B has a value in that cell, but B wasn’t chosen. A common pattern fills gaps: <code>Con(IsNull(A), 0, A)</code> replaces NoData with 0 and keeps every other value.</p>
+</section>
+</section>
+<section id="sec-beyond-local" class="level2" data-number="14.5">
+<h2 data-number="14.5" class="anchored" data-anchor-id="sec-beyond-local"><span class="header-section-number">14.5</span> Beyond local</h2>
+<section id="neighborhood-functions" class="level3" data-number="14.5.1">
+<h3 data-number="14.5.1" class="anchored" data-anchor-id="neighborhood-functions"><span class="header-section-number">14.5.1</span> Neighborhood functions</h3>
+<p>A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-neighborhood-function" data-term="neighborhood function">neighborhood function</span></strong> computes a statistic from a window of cells and writes it to the center cell (<a href="#fig-neighborhood-stats" class="quarto-xref">Figure&nbsp;<span>14.11</span></a>). The window is usually 3 × 3, but can be larger, a circle, or an annulus. In <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span>, the tool is <strong>Focal Statistics</strong>; in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span>, it is <em>r.neighbors</em> (from GRASS).</p>
+<div id="fig-neighborhood-stats" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A 3 by 3 window with values 1, 2, 3 / 3, 6, 6 / 3, 9, 2, and a list: mean 35 divided by 9 equals 3.9; median 3; minimum 1; maximum 9; range 8; sum 35; majority 3, appearing 3 times; variety, 5 different values.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-neighborhood-stats-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/raster/neighborhood-stats.png" class="img-fluid figure-img" alt="A 3 by 3 window with values 1, 2, 3 / 3, 6, 6 / 3, 9, 2, and a list: mean 35 divided by 9 equals 3.9; median 3; minimum 1; maximum 9; range 8; sum 35; majority 3, appearing 3 times; variety, 5 different values.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-neighborhood-stats-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;14.11: Statistics of one 3 × 3 window. Each result is written to the window’s center cell.
+</figcaption>
+</figure>
+</div>
+<p>Choose the statistic to fit the data. Mean and median smooth continuous surfaces; maximum and minimum find peaks and pits; <strong>majority</strong> suits categories, since a mean of land-cover codes is meaningless. Slope and aspect are neighborhood functions too: they fit a surface through the window and report how steep it is and which way it faces.</p>
+</section>
+<section id="the-moving-window" class="level3" data-number="14.5.2">
+<h3 data-number="14.5.2" class="anchored" data-anchor-id="the-moving-window"><span class="header-section-number">14.5.2</span> The moving window</h3>
+<p>Neighborhood functions run by sliding the window across the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">raster</span> one cell at a time, left to right and top to bottom. A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-majority-filter" data-term="majority filter">majority filter</span></strong> uses this to clean up classified satellite images, which often have single misclassified cells, called “salt and pepper” noise (<a href="#fig-majority-filter" class="quarto-xref">Figure&nbsp;<span>14.12</span></a>). Each cell takes the value shared by most of its neighbors; if there’s no majority, it keeps its value.</p>
+<div id="fig-majority-filter" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Two 5 by 5 grids of crop classes: B for beans, C for corn, W for water. Left: a single corn cell, outlined in red, is surrounded by beans. Right, after the filter: that cell is beans. A beans cell between corn cells has become corn, and a water cell at the bottom has become beans.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-majority-filter-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/raster/majority-filter.png" class="img-fluid figure-img" alt="Two 5 by 5 grids of crop classes: B for beans, C for corn, W for water. Left: a single corn cell, outlined in red, is surrounded by beans. Right, after the filter: that cell is beans. A beans cell between corn cells has become corn, and a water cell at the bottom has become beans.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-majority-filter-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;14.12: A majority filter using each cell’s four rook’s-case neighbors. The lone corn cell becomes beans, and two other cells change too.
+</figcaption>
+</figure>
+</div>
+<p>Filters have side effects. Here, two other cells changed as well, including a water cell on the edge of a small water body. That is why filters are used with care, and checked afterward.</p>
+</section>
+<section id="aggregation" class="level3" data-number="14.5.3">
+<h3 data-number="14.5.3" class="anchored" data-anchor-id="aggregation"><span class="header-section-number">14.5.3</span> Aggregation</h3>
+<p><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-aggregation" data-term="aggregation">Aggregation</span></strong> (rescaling to a coarser <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cell-size" data-term="cell size">cell size</span>) groups blocks of cells and writes one value per block (<a href="#fig-aggregate" class="quarto-xref">Figure&nbsp;<span>14.13</span></a>). It is the cleanest way to bring a fine raster to a coarser one’s cell size. In ArcGIS Pro, the tool is <strong>Aggregate</strong>; in QGIS, set the resolution and a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-resampling" data-term="resampling">resampling</span> method such as <em>average</em> in the <strong>Align Rasters</strong> tool.</p>
+<div id="fig-aggregate" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Left: a 9 by 9 grid of numbers divided into nine 3 by 3 blocks; the lower-left block is all NoData. Right: the 3 by 3 result. Top row: 2, 6.1, 0.3. Middle row: 2, 9, 3. Bottom row: N, 3, 20. The top-left block and cell are outlined in red: the mean of 3, 2, 2, 3, 1, 1, 3, 2, 1 is 2.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-aggregate-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/raster/aggregate.png" class="img-fluid figure-img" alt="Left: a 9 by 9 grid of numbers divided into nine 3 by 3 blocks; the lower-left block is all NoData. Right: the 3 by 3 result. Top row: 2, 6.1, 0.3. Middle row: 2, 9, 3. Bottom row: N, 3, 20. The top-left block and cell are outlined in red: the mean of 3, 2, 2, 3, 1, 1, 3, 2, 1 is 2.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-aggregate-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;14.13: Aggregating a 9 × 9 raster to 3 × 3 with the mean of each 3 × 3 block.
+</figcaption>
+</figure>
+</div>
+<p>Use the mean or sum for continuous data, such as rainfall or population, and the majority for categories.</p>
+</section>
+<section id="zonal-functions" class="level3" data-number="14.5.4">
+<h3 data-number="14.5.4" class="anchored" data-anchor-id="zonal-functions"><span class="header-section-number">14.5.4</span> Zonal functions</h3>
+<p><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-zonal-function" data-term="zonal function">Zonal</span></strong> functions compute a statistic for every cell in a zone. Every neighborhood statistic (mean, sum, maximum, majority, and so on) can be computed by zone instead of by window. Zones can come from a raster, as in <a href="#fig-scopes" class="quarto-xref">Figure&nbsp;<span>14.6</span></a>, or from <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-polygon" data-term="polygon">polygons</span>, such as counties or watersheds. ArcGIS Pro’s <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-zonal-statistics" data-term="zonal statistics">Zonal Statistics</span></strong> writes the result to a raster; <strong>Zonal Statistics as Table</strong> writes one row per zone. QGIS’s <strong>Zonal statistics</strong> tool adds the results as fields in a polygon <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layer</span>.</p>
+<p>When the zones are polygons, the software converts them to cells behind the scenes. A polygon smaller than a cell may get no cells at all, and drop out of the results. Use a cell size that is small relative to your smallest polygon.</p>
+</section>
+<section id="global-functions-distance" class="level3" data-number="14.5.5">
+<h3 data-number="14.5.5" class="anchored" data-anchor-id="global-functions-distance"><span class="header-section-number">14.5.5</span> Global functions: distance</h3>
+<p>The most useful global functions measure <strong>distance</strong> (<a href="#fig-distance" class="quarto-xref">Figure&nbsp;<span>14.14</span></a>). <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-euclidean-distance" data-term="Euclidean distance">Euclidean distance</span> gives every cell its straight-line distance to the nearest source cell, such as a river or a road. To know which source is nearest, the tool has to consider all of them, so the scope is global. <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cost-distance" data-term="cost distance">Cost distance</span></strong> works the same way, but accumulates a cost, such as travel time across terrain, rather than meters.</p>
+<div id="fig-distance" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Left: a winding blue river on a blank background. Right: the same river over a distance surface, dark red near the river and fading to pale yellow far away, with contour lines every 100 meters parallel to the river.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-distance-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/raster/distance.png" class="img-fluid figure-img" alt="Left: a winding blue river on a blank background. Right: the same river over a distance surface, dark red near the river and fading to pale yellow far away, with contour lines every 100 meters parallel to the river.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-distance-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;14.14: Euclidean distance from a made-up river, with contours every 100 m.
+</figcaption>
+</figure>
+</div>
+<p>Distance rasters are often reclassified (into bands such as 0–100 m and 100–500 m) and combined with other layers in a suitability model, the raster version of the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-buffer" data-term="buffer">buffer</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-overlay-analysis" data-term="overlay analysis">overlay</span> workflow in Chapter 13.</p>
+</section>
+</section>
+<section id="check-your-understanding" class="level2" data-number="14.6">
+<h2 data-number="14.6" class="anchored" data-anchor-id="check-your-understanding"><span class="header-section-number">14.6</span> Check your understanding</h2>
+<ol type="1">
+<li><p>A raster is 200 cells wide with a 30 m cell size. How wide is its extent, in meters? <input class="webex-solveme nospaces" size="5" data-answer="[&quot;6000&quot;,&quot;6,000&quot;]"></p></li>
+<li><p>What is 5 + NoData in map algebra? <select class="webex-select"><option value="blank"></option><option value="">5</option><option value="">0</option><option value="answer">NoData</option><option value="">An error</option></select></p></li>
+<li><p>Which resampling method should you use for a land-cover raster? <select class="webex-select"><option value="blank"></option><option value="answer">Nearest neighbor</option><option value="">Bilinear</option><option value="">Cubic convolution</option><option value="">Any of them</option></select></p></li>
+<li><p>You add a 30 m land-use raster to a 1 km elevation raster. Which output cell size should you usually choose? <select class="webex-select"><option value="blank"></option><option value="">30 m</option><option value="answer">1 km</option><option value="">500 m</option><option value="">15 m</option></select></p></li>
+<li><p>Computing the distance from every cell to the nearest river has which scope? <select class="webex-select"><option value="blank"></option><option value="">Local</option><option value="">Neighborhood</option><option value="">Zonal</option><option value="answer">Global</option></select></p></li>
+<li><p>What is the mean of the 3 × 3 window 1, 2, 3 / 3, 6, 6 / 3, 9, 2, to one decimal? <input class="webex-solveme nospaces" size="4" data-answer="[&quot;3.9&quot;]"></p></li>
+<li><p>In <code>Con(A == 1, B, C)</code>, where A is 4, the output takes the value from: <select class="webex-select"><option value="blank"></option><option value="">A</option><option value="">B</option><option value="answer">C</option><option value="">NoData</option></select></p></li>
+<li><p>ISNULL can output NoData. <select class="webex-select"><option value="blank"></option><option value="">TRUE</option><option value="answer">FALSE</option></select></p></li>
+</ol>
+</section>
+<section id="summary" class="level2" data-number="14.7">
+<h2 data-number="14.7" class="anchored" data-anchor-id="summary"><span class="header-section-number">14.7</span> Summary</h2>
+<ul>
+<li>A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">raster</span></strong> is a grid of <strong>cells</strong>. The <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cell-size" data-term="cell size">cell size</span></strong> and the corner of the <strong>extent</strong> locate every cell. Values can be <strong>categorical</strong> or <strong>continuous</strong>.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-nodata" data-term="NoData">NoData</span></strong> means “no value.” It passes through <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-map-algebra" data-term="map algebra">map algebra</span> (NoData in, NoData out), and statistics skip it. Don’t store missing data as 0.</li>
+<li><strong>Map algebra</strong> combines rasters cell by cell. <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-unary-operation" data-term="unary operation">Unary</span></strong> operations have one input raster; <strong>binary</strong> ones have two.</li>
+<li>Before combining rasters, line up the grids: <strong>resample</strong> to one cell size (<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-nearest-neighbor" data-term="nearest neighbor">nearest neighbor</span> for categories, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-bilinear-interpolation" data-term="bilinear interpolation">bilinear</span> or cubic for surfaces), choose an <strong>extent</strong>, and set a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-snap-raster" data-term="snap raster">snap raster</span></strong>. The output is only as detailed as its coarsest input.</li>
+<li>Raster functions have four scopes: <strong>local</strong> (one cell), <strong>neighborhood</strong> (a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-moving-window" data-term="moving window">moving window</span>), <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-zonal-function" data-term="zonal function">zonal</span></strong> (all cells in a zone), and <strong>global</strong> (every cell).</li>
+<li>Local functions include <strong>math</strong>, <strong>logical</strong> (relational and Boolean), <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-reclassification" data-term="reclassification">reclassification</span></strong>, and <strong>conditional</strong> (CON) functions.</li>
+<li><strong>Neighborhood</strong> functions compute statistics in a moving window, such as a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-majority-filter" data-term="majority filter">majority filter</span></strong>. <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-aggregation" data-term="aggregation">Aggregation</span></strong> rescales to coarser cells. <strong>Zonal</strong> functions summarize by zone. <strong>Distance</strong> is the most common global function.</li>
+</ul>
+</section>
+<section id="exercises" class="level2" data-number="14.8">
+<h2 data-number="14.8" class="anchored" data-anchor-id="exercises"><span class="header-section-number">14.8</span> Exercises</h2>
+<ol type="1">
+<li><strong>Extent.</strong> A <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-digital-elevation-model" data-term="digital elevation model">DEM</span> has 3,601 columns and 3,601 rows of 1-arc-second cells. About how far across is it in degrees? At the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-equator" data-term="equator">equator</span>, about how many kilometers?</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-map-algebra" data-term="map algebra">Map algebra</span> by hand.</strong> For A and B in <a href="#fig-map-algebra-add" class="quarto-xref">Figure&nbsp;<span>14.2</span></a>, compute A − B and A × B. Where does <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-nodata" data-term="NoData">NoData</span> appear?</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-resampling" data-term="resampling">Resampling</span>.</strong> In <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span> or <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span>, download an NLCD land-cover <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">raster</span> for your county from the MRLC viewer, and resample it to 300 m twice, once with <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-nearest-neighbor" data-term="nearest neighbor">nearest neighbor</span> and once with <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-bilinear-interpolation" data-term="bilinear interpolation">bilinear</span>. Open the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-attribute" data-term="attribute">attribute tables</span> or <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-histogram" data-term="histogram">histograms</span>. What happened to the classes?</li>
+<li><strong>Suitability.</strong> Using a DEM for Orange County, NC, from USGS 3DEP or NC OneMap, compute slope, then find the cells with a slope under 10 degrees and an elevation above 150 m. Write the expression you used.</li>
+<li><strong>Fill the gaps.</strong> Write a CON expression that replaces NoData in a rainfall raster with the raster’s global mean, and leaves every other value unchanged.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-zonal-statistics" data-term="zonal statistics">Zonal statistics</span>.</strong> Compute the mean elevation of each county in North Carolina with Zonal Statistics as Table. Which county is highest, and which is lowest?</li>
+</ol>
+</section>
+<section id="further-reading-and-online-resources" class="level2" data-number="14.9">
+<h2 data-number="14.9" class="anchored" data-anchor-id="further-reading-and-online-resources"><span class="header-section-number">14.9</span> Further reading and online resources</h2>
+<section id="books" class="level3" data-number="14.9.1">
+<h3 data-number="14.9.1" class="anchored" data-anchor-id="books"><span class="header-section-number">14.9.1</span> Books</h3>
+<ul>
+<li><em><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> Fundamentals</em>, by Paul Bolstad <span class="citation" data-cites="bolstad2022">(Bolstad 2022)</span>. The chapter on <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">raster</span> analyses covers <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-map-algebra" data-term="map algebra">map algebra</span>, scope, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-resampling" data-term="resampling">resampling</span>.</li>
+<li><em>Geographic Information Systems and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cartographic-modeling" data-term="cartographic modeling">Cartographic Modeling</span></em>, by C. Dana Tomlin <span class="citation" data-cites="tomlin1990">(Tomlin 1990)</span>, the source of map algebra and its local, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-focal-function" data-term="focal function">focal</span>, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-zonal-function" data-term="zonal function">zonal functions</span>.</li>
+<li><em>GIS for Environmental Applications</em>, by Xuan Zhu, has clear chapters on raster analysis and suitability modeling.</li>
+<li><em>Intro to GIS and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-analysis" data-term="spatial analysis">Spatial Analysis</span></em>, by Manuel Gimond, free online, includes chapters on raster data and map algebra: <a href="https://mgimond.github.io/Spatial/" class="uri">https://mgimond.github.io/Spatial/</a>.</li>
+</ul>
+</section>
+<section id="arcgis-pro" class="level3" data-number="14.9.2">
+<h3 data-number="14.9.2" class="anchored" data-anchor-id="arcgis-pro"><span class="header-section-number">14.9.2</span> ArcGIS Pro</h3>
+<ul>
+<li><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-esri" data-term="Esri">Esri</span>, “Understanding Map Algebra”: <a href="https://pro.arcgis.com/en/pro-app/latest/help/analysis/spatial-analyst/mapalgebra/what-is-map-algebra.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/help/analysis/spatial-analyst/mapalgebra/what-is-map-algebra.htm</a>.</li>
+<li>Esri, “Raster Calculator” tool reference: <a href="https://pro.arcgis.com/en/pro-app/latest/tool-reference/spatial-analyst/raster-calculator.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/tool-reference/spatial-analyst/raster-calculator.htm</a>.</li>
+<li>Esri, “Con” tool reference: <a href="https://pro.arcgis.com/en/pro-app/latest/tool-reference/spatial-analyst/con-.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/tool-reference/spatial-analyst/con-.htm</a>.</li>
+<li>Esri, “<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-neighborhood-function" data-term="neighborhood function">Focal Statistics</span>”: <a href="https://pro.arcgis.com/en/pro-app/latest/tool-reference/spatial-analyst/focal-statistics.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/tool-reference/spatial-analyst/focal-statistics.htm</a>.</li>
+<li>Esri, “<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-zonal-statistics" data-term="zonal statistics">Zonal Statistics</span> as Table”: <a href="https://pro.arcgis.com/en/pro-app/latest/tool-reference/spatial-analyst/zonal-statistics-as-table.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/tool-reference/spatial-analyst/zonal-statistics-as-table.htm</a>.</li>
+<li>Esri, “<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cell-size" data-term="cell size">Cell size</span> and resampling in analysis”: <a href="https://pro.arcgis.com/en/pro-app/latest/help/analysis/spatial-analyst/performing-analysis/cell-size-and-resampling-in-analysis.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/help/analysis/spatial-analyst/performing-analysis/cell-size-and-resampling-in-analysis.htm</a>.</li>
+</ul>
+</section>
+<section id="qgis" class="level3" data-number="14.9.3">
+<h3 data-number="14.9.3" class="anchored" data-anchor-id="qgis"><span class="header-section-number">14.9.3</span> QGIS</h3>
+<ul>
+<li><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span> User Guide, “Raster Calculator”: <a href="https://docs.qgis.org/latest/en/docs/user_manual/working_with_raster/raster_analysis.html" class="uri">https://docs.qgis.org/latest/en/docs/user_manual/working_with_raster/raster_analysis.html</a>.</li>
+<li>QGIS User Guide, “Raster analysis” algorithms (<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-reclassification" data-term="reclassification">Reclassify</span> by table, Zonal statistics): <a href="https://docs.qgis.org/latest/en/docs/user_manual/processing_algs/qgis/rasteranalysis.html" class="uri">https://docs.qgis.org/latest/en/docs/user_manual/processing_algs/qgis/rasteranalysis.html</a>.</li>
+<li>QGIS Training Manual, “Raster analysis” lessons: <a href="https://docs.qgis.org/latest/en/docs/training_manual/rasters/index.html" class="uri">https://docs.qgis.org/latest/en/docs/training_manual/rasters/index.html</a>.</li>
+</ul>
+</section>
+<section id="data-and-other-resources" class="level3" data-number="14.9.4">
+<h3 data-number="14.9.4" class="anchored" data-anchor-id="data-and-other-resources"><span class="header-section-number">14.9.4</span> Data and other resources</h3>
+<ul>
+<li>Multi-Resolution Land Characteristics Consortium (NLCD): <a href="https://www.mrlc.gov" class="uri">https://www.mrlc.gov</a>.</li>
+<li>USGS 3D Elevation Program (3DEP): <a href="https://www.usgs.gov/3d-elevation-program" class="uri">https://www.usgs.gov/3d-elevation-program</a>.</li>
+<li>USGS EarthExplorer, for <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-landsat" data-term="Landsat">Landsat</span> and elevation data: <a href="https://earthexplorer.usgs.gov" class="uri">https://earthexplorer.usgs.gov</a>.</li>
+<li>The <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-gis-t-body-of-knowledge" data-term="GIS&amp;T Body of Knowledge">GIS&amp;T Body of Knowledge</span>, “Map Algebra” and “Raster Data Models”: <a href="https://www.ucgis.org/site/gis-t-body-of-knowledge" class="uri">https://www.ucgis.org/site/gis-t-body-of-knowledge</a>.</li>
+</ul>
+
+
+<div class="glossary-defs" hidden="">
+<span id="gloss-raster">A data model that stores the world as a regular grid of equal-sized
+cells, each holding one value. Best for continuous data and imagery.</span>
+<span id="gloss-cell-size">The real-world length of one side of a raster cell, such as 30 meters.
+Smaller cells give finer resolution and larger files.</span>
+<span id="gloss-nodata">A code meaning a raster cell has no value. Any map algebra operation
+that touches NoData outputs NoData, and statistics skip it.</span>
+<span id="gloss-map-algebra">Math on rasters, cell by cell, such as adding two grids or finding every
+cell where slope is under 10 percent.</span>
+<span id="gloss-resampling">Giving each cell of a transformed raster a value from the input cells:
+nearest neighbor, bilinear, or cubic convolution.</span>
+<span id="gloss-snap-raster">A raster whose grid sets where output cell edges fall, so that the
+outputs of raster tools line up exactly with it.</span>
+<span id="gloss-zonal-function">A map algebra function that summarizes the cells within each zone, such
+as the mean elevation of each watershed.</span>
+<span id="gloss-reclassification">Grouping the values of a layer into fewer, more meaningful classes, such
+as elevations into low, medium, and high.</span>
+<span id="gloss-conditional-function">The raster version of if-then-else (CON in ArcGIS Pro): where a
+condition is true, take one value or raster; where false, another.</span>
+<span id="gloss-zonal-statistics">A statistic, such as the mean or sum, computed for all the raster cells
+within each zone of a zone layer.</span>
+<span id="gloss-aggregation">Rescaling a raster to coarser cells by combining blocks of cells into
+one, using a statistic such as the mean, sum, or majority.</span>
+<span id="gloss-overlay-analysis">Stacking layers of data for the same area to find places that meet
+several conditions at once, such as flat land near a road and outside a
+floodplain.</span>
+<span id="gloss-arcgis-pro">Esri’s commercial desktop GIS, for Windows.</span>
+<span id="gloss-qgis">A free and open-source desktop GIS that runs on Windows, Mac, and Linux.</span>
+<span id="gloss-coordinate-system">A system of numbers, such as latitude and longitude, that gives every
+location a unique position so layers line up with each other.</span>
+<span id="gloss-multiband">A raster with several values per cell, one per band, such as the red,
+green, blue, and near-infrared bands of a satellite image.</span>
+<span id="gloss-database">An organized collection of tables, usually stored and managed by a
+database management system.</span>
+<span id="gloss-unary-operation">A raster operation with one input raster, such as A × 2. A binary
+operation has two, such as A + B.</span>
+<span id="gloss-layer">A set of spatial data about one theme, such as roads, soils, or
+elevation. Layers for the same area stack on top of each other to make a
+map.</span>
+<span id="gloss-nearest-neighbor">The feature closest to a given feature.</span>
+<span id="gloss-bilinear-interpolation">Resampling that averages the four nearest input cells, weighted by
+distance.</span>
+<span id="gloss-cubic-convolution">Resampling that uses the 16 nearest input cells.</span>
+<span id="gloss-digital-elevation-model">A raster whose cell values are elevations of the ground surface.</span>
+<span id="gloss-focal-function">A map algebra function that computes each cell’s output from a moving
+window of nearby cells, such as a 3×3 mean.</span>
+<span id="gloss-isnull">A raster function that outputs 1 where a cell is NoData and 0 elsewhere.
+It never outputs NoData itself.</span>
+<span id="gloss-neighborhood-function">A raster function that computes a statistic from a window of cells
+around each cell and writes it to the center cell.</span>
+<span id="gloss-majority-filter">A neighborhood function that gives each cell the value shared by most of
+its neighbors, used to clean up classified images.</span>
+<span id="gloss-polygon">A vector feature that encloses an area: a closed line whose first and
+last points are the same, such as a lake, a park, or a county.</span>
+<span id="gloss-euclidean-distance">Straight-line distance. As a raster function, each cell’s distance to
+the nearest source cell.</span>
+<span id="gloss-cost-distance">Distance measured as an accumulated cost, such as travel time or effort,
+across a cost raster, rather than in meters.</span>
+<span id="gloss-buffer">The region within a specified distance of a point, line, or polygon.</span>
+<span id="gloss-moving-window">A window of cells, usually 3 × 3, that slides across a raster one cell
+at a time while a neighborhood function runs.</span>
+<span id="gloss-equator">The parallel halfway between the poles, at 0° latitude. It is the only
+parallel that is a great circle.</span>
+<span id="gloss-attribute">A non-spatial fact about a feature, such as a building’s name or the
+year it was built. Attributes are stored in a table with one row per
+feature.</span>
+<span id="gloss-histogram">A bar chart of how many values fall in each range, used to see the shape
+of a distribution.</span>
+<span id="gloss-geographic-information-system-gis">“A computer-based system to aid in the collection, maintenance, storage,
+analysis, output, and distribution of spatial data and information”
+(Bolstad). Its five components are data, hardware, software, people, and
+procedures.</span>
+<span id="gloss-cartographic-modeling">Planning and running a chain of spatial operations to solve a problem,
+where each operation’s output becomes the next one’s input. The term is
+Dana Tomlin’s.</span>
+<span id="gloss-spatial-analysis">Methods that use the locations of things, and the relationships among
+them, to find patterns, explain them, or make predictions.</span>
+<span id="gloss-esri">The company that makes ArcGIS, founded in 1969 by Jack and Laura
+Dangermond in Redlands, California.</span>
+<span id="gloss-landsat">A series of U.S. Earth-observing satellites, run by NASA and the USGS,
+that have imaged the whole planet since 1972, mostly with 30-meter
+cells.</span>
+<span id="gloss-gis-t-body-of-knowledge">A free collection of short, peer-reviewed articles on geographic
+information science and technology topics, from the University
+Consortium for Geographic Information Science (UCGIS).</span>
+</div>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script>
+
+/* update total correct if #webex-total_correct exists */
+update_total_correct = function() {
+  console.log("webex: update total_correct");
+
+  var t = document.getElementsByClassName("webex-total_correct");
+  for (var i = 0; i < t.length; i++) {
+    p = t[i].parentElement;
+    var correct = p.getElementsByClassName("webex-correct").length;
+    var solvemes = p.getElementsByClassName("webex-solveme").length;
+    var radiogroups = p.getElementsByClassName("webex-radiogroup").length;
+    var selects = p.getElementsByClassName("webex-select").length;
+
+    t[i].innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  }
+}
+
+/* webex-solution button toggling function */
+b_func = function() {
+  console.log("webex: toggle hide");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('open')) {
+    cl.remove("open");
+  } else {
+    cl.add("open");
+  }
+}
+
+/* check answers */
+check_func = function() {
+  console.log("webex: check answers");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('unchecked')) {
+    cl.remove("unchecked");
+    this.innerHTML = "Hide Answers";
+  } else {
+    cl.add("unchecked");
+    this.innerHTML = "Show Answers";
+  }
+}
+
+/* function for checking solveme answers */
+solveme_func = function(e) {
+  console.log("webex: check solveme");
+
+  var real_answers = JSON.parse(this.dataset.answer);
+  var my_answer = this.value;
+  var cl = this.classList;
+  if (cl.contains("ignorecase")) {
+    my_answer = my_answer.toLowerCase();
+  }
+  if (cl.contains("nospaces")) {
+    my_answer = my_answer.replace(/ /g, "")
+  }
+
+  if (my_answer == "") {
+    cl.remove("webex-correct");
+    cl.remove("webex-incorrect");
+  } else if (real_answers.includes(my_answer)) {
+    cl.add("webex-correct");
+    cl.remove("webex-incorrect");
+  } else {
+    cl.add("webex-incorrect");
+    cl.remove("webex-correct");
+  }
+
+  // match numeric answers within a specified tolerance
+  if(this.dataset.tol > 0){
+    var tol = JSON.parse(this.dataset.tol);
+    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+    if (matches.reduce((a, b) => a + b, 0) > 0) {
+      cl.add("webex-correct");
+    } else {
+      cl.remove("webex-correct");
+    }
+  }
+
+  // added regex bit
+  if (cl.contains("regex")){
+    answer_regex = RegExp(real_answers.join("|"))
+    if (answer_regex.test(my_answer)) {
+      cl.add("webex-correct");
+    }
+  }
+
+  update_total_correct();
+}
+
+/* function for checking select answers */
+select_func = function(e) {
+  console.log("webex: check select");
+
+  var cl = this.classList
+
+  /* add style */
+  cl.remove("webex-incorrect");
+  cl.remove("webex-correct");
+  if (this.value == "answer") {
+    cl.add("webex-correct");
+  } else if (this.value != "blank") {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+/* function for checking radiogroups answers */
+radiogroups_func = function(e) {
+  console.log("webex: check radiogroups");
+
+  var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
+  var cl = checked_button.parentElement.classList;
+  var labels = checked_button.parentElement.parentElement.children;
+
+  /* get rid of styles */
+  for (i = 0; i < labels.length; i++) {
+    labels[i].classList.remove("webex-incorrect");
+    labels[i].classList.remove("webex-correct");
+  }
+
+  /* add style */
+  if (checked_button.value == "answer") {
+    cl.add("webex-correct");
+  } else {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+window.onload = function() {
+  console.log("webex onload");
+  /* set up solution buttons */
+  var buttons = document.getElementsByTagName("button");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].parentElement.classList.contains('webex-solution')) {
+      buttons[i].onclick = b_func;
+    }
+  }
+
+  var check_sections = document.getElementsByClassName("webex-check");
+  console.log("check:", check_sections.length);
+  for (var i = 0; i < check_sections.length; i++) {
+    check_sections[i].classList.add("unchecked");
+
+    let btn = document.createElement("button");
+    btn.innerHTML = "Show Answers";
+    btn.classList.add("webex-check-button");
+    btn.onclick = check_func;
+    check_sections[i].appendChild(btn);
+
+    let spn = document.createElement("span");
+    spn.classList.add("webex-total_correct");
+    check_sections[i].appendChild(spn);
+  }
+
+  /* set up webex-solveme inputs */
+  var solveme = document.getElementsByClassName("webex-solveme");
+
+  for (var i = 0; i < solveme.length; i++) {
+    /* make sure input boxes don't auto-anything */
+    solveme[i].setAttribute("autocomplete","off");
+    solveme[i].setAttribute("autocorrect", "off");
+    solveme[i].setAttribute("autocapitalize", "off");
+    solveme[i].setAttribute("spellcheck", "false");
+    solveme[i].value = "";
+
+    /* adjust answer for ignorecase or nospaces */
+    var cl = solveme[i].classList;
+    var real_answer = solveme[i].dataset.answer;
+    if (cl.contains("ignorecase")) {
+      real_answer = real_answer.toLowerCase();
+    }
+    if (cl.contains("nospaces")) {
+      real_answer = real_answer.replace(/ /g, "");
+    }
+    solveme[i].dataset.answer = real_answer;
+
+    /* attach checking function */
+    solveme[i].onkeyup = solveme_func;
+    solveme[i].onchange = solveme_func;
+
+    solveme[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  /* set up radiogroups */
+  var radiogroups = document.getElementsByClassName("webex-radiogroup");
+  for (var i = 0; i < radiogroups.length; i++) {
+    radiogroups[i].onchange = radiogroups_func;
+  }
+
+  /* set up selects */
+  var selects = document.getElementsByClassName("webex-select");
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].onchange = select_func;
+    selects[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  update_total_correct();
+}
+
+</script>
+<!--
+  Highlights the right item in the top menu. Quarto's book layout marks
+  "Welcome" as active on every page, so this sets it from the page address:
+  the course pages match their own item, and every other page (chapters,
+  quizzes, glossary) is part of the Textbook. Pages with no menu item of
+  their own (the AI policy and privacy policy) highlight nothing.
+-->
+<script>
+(function () {
+  "use strict";
+  const COURSE_PAGES = ["index", "syllabus", "materials", "about"];
+  const NO_ITEM_PAGES = ["privacy", "ai-policy"];
+  const file = (location.pathname.split("/").pop() || "index").replace(/\.html$/, "");
+  const inRoot = !/\/chapters\//.test(location.pathname);
+  const target = inRoot && NO_ITEM_PAGES.includes(file) ? null
+    : inRoot && COURSE_PAGES.includes(file) ? file : "preface";
+  document.querySelectorAll("#navbarCollapse a.nav-link").forEach((a) => {
+    const page = (a.getAttribute("href") || "").split("/").pop().replace(/\.html$/, "");
+    const on = page === target;
+    a.classList.toggle("active", on);
+    if (on) a.setAttribute("aria-current", "page");
+    else a.removeAttribute("aria-current");
+  });
+})();
+</script>
+<!--
+  Reading settings, part 2 of 2: the "Aa" menu next to search, where readers
+  pick a font and text size. Choices are kept in this browser (localStorage)
+  and applied on every page by assets/reader-settings-head.html.
+-->
+<script>
+(function () {
+  var FONTS = [
+    { id: "", label: "Atkinson Hyperlegible (default)", css: '"Atkinson Hyperlegible Next", sans-serif' },
+    { id: "lexend", label: "Lexend", css: '"Lexend", sans-serif', href: "https://fonts.googleapis.com/css2?family=Lexend:wght@300..700&display=swap" },
+    { id: "cardo", label: "Cardo (serif)", css: '"Cardo", Georgia, serif', href: "https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&display=swap" },
+    { id: "sans", label: "Standard sans-serif", css: 'system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif' },
+    { id: "serif", label: "Serif", css: 'Georgia, Cambria, "Times New Roman", serif' },
+    { id: "dyslexic", label: "OpenDyslexic", css: '"OpenDyslexic", sans-serif' }
+  ];
+  var SIZES = { "-1": "Small", "0": "Default", "1": "Large", "2": "Larger", "3": "Largest" };
+  var MIN = -1, MAX = 3;
+  var root = document.documentElement;
+
+  function save(key, value) {
+    try {
+      if (value === "" || value === "0") localStorage.removeItem(key);
+      else localStorage.setItem(key, value);
+    } catch (e) { /* storage blocked: setting lasts for this page only */ }
+  }
+  function currentFont() { return root.getAttribute("data-reader-font") || ""; }
+  function currentSize() { return parseInt(root.getAttribute("data-reader-size") || "0", 10) || 0; }
+
+  // Add a Google Fonts stylesheet once (Lexend, Cardo). Fonts download only
+  // when text actually uses them.
+  function loadWebFont(f) {
+    if (!f.href || document.getElementById("sds-reader-webfont-" + f.id)) return;
+    var link = document.createElement("link");
+    link.rel = "stylesheet"; link.href = f.href; link.id = "sds-reader-webfont-" + f.id;
+    document.head.appendChild(link);
+  }
+
+  function setFont(id) {
+    FONTS.forEach(function (f) { if (f.id === id) loadWebFont(f); });
+    if (id) root.setAttribute("data-reader-font", id); else root.removeAttribute("data-reader-font");
+    save("sds-reader-font", id);
+  }
+  function setSize(n) {
+    n = Math.max(MIN, Math.min(MAX, n));
+    if (n) root.setAttribute("data-reader-size", String(n)); else root.removeAttribute("data-reader-size");
+    save("sds-reader-size", String(n));
+    refreshSize();
+  }
+
+  var wrap = document.createElement("div");
+  wrap.className = "sds-reader";
+  var fontOptions = FONTS.map(function (f) {
+    return '<label style=\'font-family:' + f.css.replace(/'/g, "&#39;") + '\'>' +
+      '<input class="form-check-input" type="radio" name="sds-reader-font" value="' + f.id + '"> ' + f.label + '</label>';
+  }).join("");
+  wrap.innerHTML =
+    '<button type="button" class="sds-reader-toggle" aria-expanded="false" aria-controls="sds-reader-panel" ' +
+      'title="Reading settings: font and text size">' +
+      '<span aria-hidden="true">Aa</span><span class="visually-hidden">Reading settings</span></button>' +
+    '<div class="sds-reader-panel" id="sds-reader-panel" role="dialog" aria-label="Reading settings" hidden>' +
+      '<h2>Reading settings</h2>' +
+      '<fieldset class="sds-reader-font"><legend>Font</legend>' + fontOptions + '</fieldset>' +
+      '<fieldset><legend>Text size</legend><div class="sds-reader-size-row">' +
+        '<button type="button" data-step="-1" aria-label="Smaller text">A&minus;</button>' +
+        '<output aria-live="polite"></output>' +
+        '<button type="button" data-step="1" aria-label="Larger text">A+</button>' +
+      '</div></fieldset>' +
+      '<button type="button" class="sds-reader-reset">Reset to defaults</button>' +
+    '</div>';
+
+  var toggle = wrap.querySelector(".sds-reader-toggle");
+  var panel = wrap.querySelector(".sds-reader-panel");
+  var output = wrap.querySelector("output");
+  var minus = wrap.querySelector('[data-step="-1"]');
+  var plus = wrap.querySelector('[data-step="1"]');
+
+  function refreshFont() {
+    var id = currentFont();
+    wrap.querySelectorAll('input[name="sds-reader-font"]').forEach(function (r) { r.checked = r.value === id; });
+  }
+  function refreshSize() {
+    var n = currentSize();
+    output.textContent = SIZES[String(n)] || "Default";
+    minus.disabled = n <= MIN;
+    plus.disabled = n >= MAX;
+  }
+  function open(show) {
+    panel.hidden = !show;
+    toggle.setAttribute("aria-expanded", show ? "true" : "false");
+    if (show) { FONTS.forEach(loadWebFont); refreshFont(); refreshSize(); var c = panel.querySelector("input:checked"); if (c) c.focus(); }
+  }
+
+  toggle.addEventListener("click", function (e) { e.stopPropagation(); open(panel.hidden); });
+  panel.addEventListener("click", function (e) { e.stopPropagation(); });
+  panel.addEventListener("change", function (e) { if (e.target.name === "sds-reader-font") setFont(e.target.value); });
+  minus.addEventListener("click", function () { setSize(currentSize() - 1); });
+  plus.addEventListener("click", function () { setSize(currentSize() + 1); });
+  wrap.querySelector(".sds-reader-reset").addEventListener("click", function () { setFont(""); setSize(0); refreshFont(); });
+  document.addEventListener("click", function () { if (!panel.hidden) open(false); });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !panel.hidden) { open(false); toggle.focus(); }
+  });
+
+  // Put the button by search: in the top menu on
+  // geog370.org, or by the sidebar search in the textbook-only build.
+  var navSearch = document.querySelector("#quarto-header #quarto-search");
+  if (navSearch) navSearch.parentNode.insertBefore(wrap, navSearch);
+  else {
+    var search = document.querySelector("#quarto-sidebar .sidebar-search, #quarto-sidebar #quarto-search, .sidebar-tools-main");
+    if (search && search.parentNode) search.parentNode.insertBefore(wrap, search.nextSibling);
+    else return;
+  }
+  refreshFont();
+  refreshSize();
+})();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/spatial-analysis.html" class="pagination-link" aria-label="Spatial Analysis: Selection, Buffers, and Overlay">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Spatial Analysis: Selection, Buffers, and Overlay</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../chapters/interpolation.html" class="pagination-link" aria-label="Spatial Interpolation">
+        <span class="nav-page-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Spatial Interpolation</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

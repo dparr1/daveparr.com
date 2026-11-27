@@ -236,10 +236,57 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-3-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+            <a href="../units/unit-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Unit 3: Spatial Analysis</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section: Unit 3: Spatial Analysis">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
       </div>
       <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/data-classing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Data Classing and Choropleth Maps</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/density.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Density and Neighborhoods</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/spatial-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Spatial Analysis: Selection, Buffers, and Overlay</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/raster.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Raster Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/interpolation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Spatial Interpolation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/kriging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Kriging</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-4-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../glossary.html" class="sidebar-item-text sidebar-link">
@@ -787,7 +834,7 @@ Table&nbsp;4.2: EPSG codes you will meet most often in North Carolina.
 <li>Measuring direction from a starting point? Choose <strong>azimuthal</strong>, centered on that point.</li>
 <li>Need shapes and angles to look right? Choose <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-conformal" data-term="conformal">conformal</span></strong>. A conformal projection does not preserve area, so it is not a substitute for equal-area when you measure area.</li>
 </ul>
-<p><strong>3. Using elevation data? Pick a projection whose horizontal units match your elevation units.</strong> Slope and hillshade calculations divide a change in height by a distance across the ground. A digital elevation model with heights in feet on a projection in meters produces slopes that are off by a factor of about 3.3, the number of feet in a meter.</p>
+<p><strong>3. Using elevation data? Pick a projection whose horizontal units match your elevation units.</strong> Slope and hillshade calculations divide a change in height by a distance across the ground. A <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-digital-elevation-model" data-term="digital elevation model">digital elevation model</span> with heights in feet on a projection in meters produces slopes that are off by a factor of about 3.3, the number of feet in a meter.</p>
 <p>For a small study area, such as a county or a city, any good local projection works, and the differences among them are smaller than the errors in most data. The bigger your study area, the more the choice matters.</p>
 </section>
 <section id="sec-software" class="level2" data-number="4.7">
@@ -843,7 +890,7 @@ Show hint for question 4
 <li><strong>Read a CRS.</strong> Look up EPSG:32119 at <a href="https://epsg.io/32119" class="uri">https://epsg.io/32119</a>. Find its <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geodetic-datum" data-term="geodetic datum">datum</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-map-projection" data-term="map projection">projection</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-standard-line" data-term="standard line">standard parallels</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-latitude" data-term="latitude">latitude</span> of origin, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-central-meridian" data-term="central meridian">central meridian</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-false-easting" data-term="false easting">false easting</span>, and units.</li>
 <li><strong>Choose a projection.</strong> For each project, choose a projection or CRS and explain why: (a) the area of every wetland in Orange County, NC; (b) a map of flight distances from RDU airport; (c) a world map of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-population-density" data-term="population density">population density</span>; (d) a map of the Arctic Ocean’s sea ice; (e) a statewide map of North Carolina for a highway department.</li>
 <li><strong>Wrong CRS.</strong> A classmate’s layer of North Carolina schools shows up as a tiny cluster in the ocean off West Africa, near 0° latitude and 0° longitude. What has gone wrong, and how would you fix it?</li>
-<li><strong>Units and slope.</strong> You have a digital elevation model with elevations in feet, in a projection in meters. What will happen to a slope calculation? How would you fix it?</li>
+<li><strong>Units and slope.</strong> You have a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-digital-elevation-model" data-term="digital elevation model">digital elevation model</span> with elevations in feet, in a projection in meters. What will happen to a slope calculation? How would you fix it?</li>
 </ol>
 </section>
 <section id="further-reading-and-online-resources" class="level2" data-number="4.11">
@@ -1025,6 +1072,7 @@ PostgreSQL database.</span>
 <span id="gloss-gps">The Global Positioning System: U.S. satellites that let a receiver, such
 as your phone, work out its location. GNSS is the general name for GPS
 and similar systems from other countries.</span>
+<span id="gloss-digital-elevation-model">A raster whose cell values are elevations of the ground surface.</span>
 <span id="gloss-on-the-fly-reprojection">Reprojecting layers as they are drawn, so layers in different CRSs line
 up on the map without changing their stored coordinates.</span>
 <span id="gloss-shapefile">A common vector format from Esri that stores one layer in several files

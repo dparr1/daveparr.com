@@ -1,0 +1,837 @@
+{
+  "id": "interpolation",
+  "title": "Spatial Interpolation",
+  "perSession": 10,
+  "minR": 0,
+  "questions": [
+    {
+      "id": "def",
+      "type": "choice",
+      "prompt": "Spatial interpolation is:",
+      "choices": [
+        "Estimating values at unsampled locations from observations",
+        "Drawing maps of observations only",
+        "Converting rasters to vectors",
+        "Joining tables by location"
+      ],
+      "answer": 0,
+      "explain": "Filling the gaps between measurements."
+    },
+    {
+      "id": "observation",
+      "type": "choice",
+      "prompt": "An observation is:",
+      "choices": [
+        "A location where the attribute was measured",
+        "An estimated value",
+        "A raster cell",
+        "A polygon"
+      ],
+      "answer": 0,
+      "explain": "The input to interpolation."
+    },
+    {
+      "id": "tobler",
+      "type": "choice",
+      "prompt": "Interpolation relies on:",
+      "choices": [
+        "Tobler's first law",
+        "The ecological fallacy",
+        "The modifiable areal unit problem",
+        "Map projections"
+      ],
+      "answer": 0,
+      "explain": "Near things are more related."
+    },
+    {
+      "id": "extrap",
+      "type": "choice",
+      "prompt": "Estimating values beyond the area or range of the observations is:",
+      "choices": [
+        "Extrapolation",
+        "Interpolation",
+        "Resampling",
+        "Aggregation"
+      ],
+      "answer": 0,
+      "explain": "Some methods can; others can't."
+    },
+    {
+      "id": "steps",
+      "type": "order",
+      "prompt": "Put the five steps of interpolation in order.",
+      "answer": [
+        "Choose a function and its parameters",
+        "Define the neighborhood",
+        "Find the points in the neighborhood",
+        "Evaluate the function",
+        "Estimate the error"
+      ],
+      "explain": "Function, neighborhood, points, evaluate, error."
+    },
+    {
+      "id": "exact",
+      "type": "choice",
+      "prompt": "An exact interpolator:",
+      "choices": [
+        "Passes through every observed value",
+        "Always has zero error everywhere",
+        "Smooths the data",
+        "Cannot be used for rasters"
+      ],
+      "answer": 0,
+      "explain": "Its surface honors each observation."
+    },
+    {
+      "id": "inexact-worse",
+      "type": "truefalse",
+      "prompt": "An inexact interpolator is always worse than an exact one.",
+      "answer": false,
+      "explain": "With noisy measurements, smoothing can be better."
+    },
+    {
+      "id": "deterministic",
+      "type": "choice",
+      "prompt": "IDW, polynomials, and RBFs are:",
+      "choices": [
+        "Deterministic",
+        "Geostatistical",
+        "Categorical",
+        "Stochastic"
+      ],
+      "answer": 0,
+      "explain": "Fully determined by a formula and parameters."
+    },
+    {
+      "id": "geostat",
+      "type": "choice",
+      "prompt": "Which method models spatial autocorrelation and estimates uncertainty?",
+      "choices": [
+        "Kriging",
+        "IDW",
+        "Nearest neighbor",
+        "Global polynomial"
+      ],
+      "answer": 0,
+      "explain": "Chapter 16."
+    },
+    {
+      "id": "nn",
+      "type": "choice",
+      "prompt": "Nearest neighbor interpolation gives each location:",
+      "choices": [
+        "The value of the closest observation",
+        "The mean of all observations",
+        "A distance-weighted average",
+        "A trend surface value"
+      ],
+      "answer": 0,
+      "explain": "Same as Thiessen polygons."
+    },
+    {
+      "id": "thiessen",
+      "type": "choice",
+      "prompt": "Thiessen polygon boundaries are:",
+      "choices": [
+        "Perpendicular bisectors between neighboring points",
+        "Contour lines",
+        "County lines",
+        "Buffers"
+      ],
+      "answer": 0,
+      "explain": "Every location is closer to its polygon's point."
+    },
+    {
+      "id": "voronoi",
+      "type": "choice",
+      "prompt": "Thiessen polygons are also called:",
+      "choices": [
+        "Voronoi polygons",
+        "Delaunay triangles",
+        "Contours",
+        "Zones"
+      ],
+      "answer": 0,
+      "explain": "After Georgy Voronoy."
+    },
+    {
+      "id": "nn-use",
+      "type": "choice",
+      "prompt": "Nearest neighbor is best for:",
+      "choices": [
+        "Categorical data",
+        "Smooth continuous surfaces",
+        "Extrapolation",
+        "Trend removal"
+      ],
+      "answer": 0,
+      "explain": "Averaging categories makes no sense."
+    },
+    {
+      "id": "nn-weak",
+      "type": "choice",
+      "prompt": "The weakness of nearest neighbor for continuous data is:",
+      "choices": [
+        "A stepped surface",
+        "Bull's-eyes",
+        "Overshoot",
+        "It needs a power"
+      ],
+      "answer": 0,
+      "explain": "Values jump at polygon edges."
+    },
+    {
+      "id": "large-poly",
+      "type": "choice",
+      "prompt": "Large Thiessen polygons around weather stations show:",
+      "choices": [
+        "Where estimates are least reliable",
+        "Where it rains most",
+        "Where stations are densest",
+        "Errors in the data"
+      ],
+      "answer": 0,
+      "explain": "The station may be far away."
+    },
+    {
+      "id": "thiessen-year",
+      "type": "fill",
+      "prompt": "In what year did Alfred Thiessen publish his method?",
+      "answers": [
+        "1911"
+      ],
+      "explain": "For average rainfall over large areas."
+    },
+    {
+      "id": "thiessen-why",
+      "type": "choice",
+      "prompt": "Thiessen developed his polygons to estimate:",
+      "choices": [
+        "Average rainfall over an area",
+        "Population density",
+        "Elevation",
+        "Soil type"
+      ],
+      "answer": 0,
+      "explain": "From uneven rain gauges."
+    },
+    {
+      "id": "avg",
+      "type": "fill",
+      "prompt": "Average neighbor with 1, 2, 3, and 3 inside the radius gives?",
+      "answers": [
+        "2.25"
+      ],
+      "explain": "9 ÷ 4.",
+      "numeric": true,
+      "tolerance": 0.001
+    },
+    {
+      "id": "avg-weak",
+      "type": "choice",
+      "prompt": "A weakness of average neighbor is that:",
+      "choices": [
+        "A point at the edge counts as much as one next door",
+        "It is an exact interpolator",
+        "It extrapolates wildly",
+        "It needs polygons"
+      ],
+      "answer": 0,
+      "explain": "It ignores distance within the circle."
+    },
+    {
+      "id": "avg-range",
+      "type": "truefalse",
+      "prompt": "Average neighbor can estimate values above the highest observation.",
+      "answer": false,
+      "explain": "An average stays within the range."
+    },
+    {
+      "id": "idw-def",
+      "type": "choice",
+      "prompt": "IDW weights each observation by:",
+      "choices": [
+        "1 divided by its distance raised to a power",
+        "Its distance",
+        "The polygon area",
+        "Its rank"
+      ],
+      "answer": 0,
+      "explain": "Nearer counts more."
+    },
+    {
+      "id": "idw-calc",
+      "type": "fill",
+      "prompt": "IDW, power 1: 19 at distance 40, 22 at 50, 21 at 150. The estimate, to one decimal?",
+      "answers": [
+        "20.4"
+      ],
+      "explain": "1.055 ÷ 0.05167.",
+      "numeric": true,
+      "tolerance": 0.05
+    },
+    {
+      "id": "idw-calc2",
+      "type": "fill",
+      "prompt": "Same data with power 2. The estimate, to one decimal?",
+      "answers": [
+        "20.2"
+      ],
+      "explain": "Nearer stations matter more.",
+      "numeric": true,
+      "tolerance": 0.05
+    },
+    {
+      "id": "power-default",
+      "type": "choice",
+      "prompt": "The most common IDW power is:",
+      "choices": [
+        "2",
+        "1",
+        "0",
+        "10"
+      ],
+      "answer": 0,
+      "explain": "Nearby points far more influential."
+    },
+    {
+      "id": "power-large",
+      "type": "choice",
+      "prompt": "As the IDW power grows very large, IDW approaches:",
+      "choices": [
+        "Nearest neighbor",
+        "A simple average",
+        "A global polynomial",
+        "Kriging"
+      ],
+      "answer": 0,
+      "explain": "The nearest point dominates."
+    },
+    {
+      "id": "power-zero",
+      "type": "choice",
+      "prompt": "As the IDW power approaches 0, IDW approaches:",
+      "choices": [
+        "A simple average",
+        "Nearest neighbor",
+        "A spline",
+        "Kriging"
+      ],
+      "answer": 0,
+      "explain": "All weights become equal."
+    },
+    {
+      "id": "idw-exact",
+      "type": "truefalse",
+      "prompt": "IDW is an exact interpolator.",
+      "answer": true,
+      "explain": "At an observation, the distance is 0."
+    },
+    {
+      "id": "bullseye",
+      "type": "choice",
+      "prompt": "Rings around single observations are a signature of:",
+      "choices": [
+        "IDW",
+        "Global polynomial",
+        "Nearest neighbor",
+        "Kriging"
+      ],
+      "answer": 0,
+      "explain": "Bull's-eyes."
+    },
+    {
+      "id": "idw-range",
+      "type": "choice",
+      "prompt": "Which is true of IDW?",
+      "choices": [
+        "It cannot predict values outside the observed range",
+        "It always extrapolates",
+        "It is inexact",
+        "It considers direction"
+      ],
+      "answer": 0,
+      "explain": "It is a weighted average."
+    },
+    {
+      "id": "idw-choices",
+      "type": "choice",
+      "prompt": "IDW requires choosing:",
+      "choices": [
+        "The power and the number of neighbors",
+        "Only the order",
+        "The variogram model",
+        "Nothing"
+      ],
+      "answer": 0,
+      "explain": "Results are sensitive to both."
+    },
+    {
+      "id": "poly-def",
+      "type": "choice",
+      "prompt": "Polynomial interpolation fits:",
+      "choices": [
+        "One mathematical trend surface, usually by least squares",
+        "A surface through every point",
+        "Thiessen polygons",
+        "A moving average"
+      ],
+      "answer": 0,
+      "explain": "A trend surface."
+    },
+    {
+      "id": "order1",
+      "type": "choice",
+      "prompt": "A first-order polynomial is:",
+      "choices": [
+        "A tilted plane",
+        "A bowl",
+        "A surface with two bends",
+        "A spline"
+      ],
+      "answer": 0,
+      "explain": "z = β0 + β1x + β2y."
+    },
+    {
+      "id": "order2-bends",
+      "type": "fill",
+      "prompt": "How many bends can a second-order polynomial have?",
+      "answers": [
+        "1"
+      ],
+      "explain": "Like a bowl or a ridge.",
+      "numeric": true,
+      "tolerance": 0
+    },
+    {
+      "id": "order3-bends",
+      "type": "fill",
+      "prompt": "How many bends can a third-order polynomial have?",
+      "answers": [
+        "2"
+      ],
+      "explain": "Each order adds a bend.",
+      "numeric": true,
+      "tolerance": 0
+    },
+    {
+      "id": "high-order",
+      "type": "choice",
+      "prompt": "Why are polynomial orders above 3 or 4 rarely useful?",
+      "choices": [
+        "They become unstable, especially near the edges",
+        "They can't be computed",
+        "They are always exact",
+        "They need categorical data"
+      ],
+      "answer": 0,
+      "explain": "Overfitting."
+    },
+    {
+      "id": "global-poly",
+      "type": "choice",
+      "prompt": "A global polynomial is useful for:",
+      "choices": [
+        "Showing or removing a broad, regional trend",
+        "Honoring every observation",
+        "Categorical data",
+        "Finding bull's-eyes"
+      ],
+      "answer": 0,
+      "explain": "It captures the coarse pattern."
+    },
+    {
+      "id": "global-exact",
+      "type": "truefalse",
+      "prompt": "A global polynomial is an exact interpolator.",
+      "answer": false,
+      "explain": "It is a best fit."
+    },
+    {
+      "id": "local-poly",
+      "type": "choice",
+      "prompt": "A local polynomial:",
+      "choices": [
+        "Fits separate surfaces to overlapping neighborhoods",
+        "Uses one formula everywhere",
+        "Is the same as IDW",
+        "Cannot extrapolate"
+      ],
+      "answer": 0,
+      "explain": "It follows complex surfaces."
+    },
+    {
+      "id": "residuals",
+      "type": "choice",
+      "prompt": "After removing a trend surface, what is left to interpolate is called the:",
+      "choices": [
+        "Residuals",
+        "Bull's-eyes",
+        "Sectors",
+        "Nuggets"
+      ],
+      "answer": 0,
+      "explain": "Observed minus trend."
+    },
+    {
+      "id": "rbf-def",
+      "type": "choice",
+      "prompt": "A radial basis function (spline) fits:",
+      "choices": [
+        "A smooth, minimum-curvature surface through every observation",
+        "A tilted plane",
+        "Flat polygons",
+        "A moving average"
+      ],
+      "answer": 0,
+      "explain": "A flexible sheet pinned at each point."
+    },
+    {
+      "id": "rbf-extrap",
+      "type": "choice",
+      "prompt": "Which method is exact AND can extrapolate?",
+      "choices": [
+        "Radial basis function",
+        "IDW",
+        "Average neighbor",
+        "Nearest neighbor"
+      ],
+      "answer": 0,
+      "explain": "It can overshoot the observed range."
+    },
+    {
+      "id": "rbf-weak",
+      "type": "choice",
+      "prompt": "Splines struggle with:",
+      "choices": [
+        "Abrupt changes such as cliffs or faults",
+        "Smooth surfaces",
+        "Many observations",
+        "Continuous data"
+      ],
+      "answer": 0,
+      "explain": "A smooth sheet overshoots."
+    },
+    {
+      "id": "compare-best",
+      "type": "choice",
+      "prompt": "In the chapter's comparison, which method had the lowest cross-validation RMSE?",
+      "choices": [
+        "Radial basis function",
+        "Global polynomial",
+        "Nearest neighbor",
+        "IDW"
+      ],
+      "answer": 0,
+      "explain": "4.2 on that surface."
+    },
+    {
+      "id": "compare-worst",
+      "type": "choice",
+      "prompt": "In the chapter's comparison, which method had the highest RMSE?",
+      "choices": [
+        "Global polynomial",
+        "Radial basis function",
+        "IDW",
+        "Local polynomial"
+      ],
+      "answer": 0,
+      "explain": "A single bowl can't follow peaks and a basin."
+    },
+    {
+      "id": "fixed-radius",
+      "type": "choice",
+      "prompt": "A fixed search radius:",
+      "choices": [
+        "Uses every observation within a set distance",
+        "Always finds k points",
+        "Uses sectors",
+        "Is an ellipse"
+      ],
+      "answer": 0,
+      "explain": "May find few points in sparse areas."
+    },
+    {
+      "id": "variable-radius",
+      "type": "choice",
+      "prompt": "A variable search radius:",
+      "choices": [
+        "Grows until it captures k points",
+        "Is always 1 km",
+        "Ignores distance",
+        "Uses one point"
+      ],
+      "answer": 0,
+      "explain": "Fixed number of points."
+    },
+    {
+      "id": "sectors",
+      "type": "choice",
+      "prompt": "Taking a few points from each quadrant or octant:",
+      "choices": [
+        "Keeps one dense cluster from dominating",
+        "Increases bull's-eyes",
+        "Makes the method inexact",
+        "Removes the trend"
+      ],
+      "answer": 0,
+      "explain": "Points come from every direction."
+    },
+    {
+      "id": "ellipse",
+      "type": "choice",
+      "prompt": "An elliptical search neighborhood suits:",
+      "choices": [
+        "A directional trend",
+        "Categorical data",
+        "Random sampling",
+        "Perfectly uniform data"
+      ],
+      "answer": 0,
+      "explain": "Values change faster in one direction."
+    },
+    {
+      "id": "systematic",
+      "type": "choice",
+      "prompt": "Points on a regular grid are:",
+      "choices": [
+        "Systematic sampling",
+        "Random sampling",
+        "Clustered sampling",
+        "Adaptive sampling"
+      ],
+      "answer": 0,
+      "explain": "Even coverage."
+    },
+    {
+      "id": "systematic-weak",
+      "type": "choice",
+      "prompt": "A weakness of systematic sampling is that:",
+      "choices": [
+        "It can miss patterns that repeat at the grid spacing",
+        "It leaves random gaps",
+        "It clusters points",
+        "It needs two passes"
+      ],
+      "answer": 0,
+      "explain": "Aliasing."
+    },
+    {
+      "id": "random-weak",
+      "type": "choice",
+      "prompt": "A weakness of random sampling is that:",
+      "choices": [
+        "By chance it leaves gaps and clumps",
+        "It is biased",
+        "It misses repeating patterns",
+        "It is always clustered"
+      ],
+      "answer": 0,
+      "explain": "Unbiased, but uneven."
+    },
+    {
+      "id": "clustered",
+      "type": "choice",
+      "prompt": "Clustered sampling is usually chosen to:",
+      "choices": [
+        "Save travel time in the field",
+        "Cover the area evenly",
+        "Remove bias",
+        "Find the trend"
+      ],
+      "answer": 0,
+      "explain": "But leaves gaps between clusters."
+    },
+    {
+      "id": "adaptive",
+      "type": "choice",
+      "prompt": "Adaptive sampling:",
+      "choices": [
+        "Adds samples where a first pass shows rapid change",
+        "Places points on a grid",
+        "Is purely random",
+        "Uses one pass only"
+      ],
+      "answer": 0,
+      "explain": "Often the most efficient."
+    },
+    {
+      "id": "rule",
+      "type": "choice",
+      "prompt": "A good sampling rule of thumb is to:",
+      "choices": [
+        "Sample more where the surface changes quickly",
+        "Sample only along roads",
+        "Sample evenly no matter what",
+        "Sample only at peaks"
+      ],
+      "answer": 0,
+      "explain": "Fewer where it is uniform."
+    },
+    {
+      "id": "cv-def",
+      "type": "choice",
+      "prompt": "Leave-one-out cross validation:",
+      "choices": [
+        "Removes each observation, estimates it from the rest, and records the error",
+        "Uses a new field sample",
+        "Averages all observations",
+        "Fits a trend surface"
+      ],
+      "answer": 0,
+      "explain": "Repeated for every observation."
+    },
+    {
+      "id": "cv-example",
+      "type": "fill",
+      "prompt": "IDW (power 1) estimates a removed observation of 3.0 as 3.29. What is the error?",
+      "answers": [
+        "0.29"
+      ],
+      "explain": "3.29 − 3.0.",
+      "numeric": true,
+      "tolerance": 0.001
+    },
+    {
+      "id": "validation",
+      "type": "choice",
+      "prompt": "Holding back a separate test set that is never used to build the surface is:",
+      "choices": [
+        "Validation",
+        "Cross validation",
+        "Resampling",
+        "Detrending"
+      ],
+      "answer": 0,
+      "explain": "Needs enough observations."
+    },
+    {
+      "id": "rmse-def",
+      "type": "choice",
+      "prompt": "RMSE is:",
+      "choices": [
+        "The square root of the mean of the squared errors",
+        "The mean of the errors",
+        "The largest error",
+        "The number of errors"
+      ],
+      "answer": 0,
+      "explain": "Same units as the data."
+    },
+    {
+      "id": "rmse-square",
+      "type": "choice",
+      "prompt": "Errors are squared in RMSE so that:",
+      "choices": [
+        "Positive and negative errors don't cancel",
+        "The units change",
+        "Small errors grow",
+        "The result is negative"
+      ],
+      "answer": 0,
+      "explain": "Then the square root restores units."
+    },
+    {
+      "id": "rmse-lower",
+      "type": "choice",
+      "prompt": "When comparing methods on the same data, the better RMSE is:",
+      "choices": [
+        "Lower",
+        "Higher",
+        "Closer to 1",
+        "Negative"
+      ],
+      "answer": 0,
+      "explain": "Smaller errors."
+    },
+    {
+      "id": "rmse-calc",
+      "type": "fill",
+      "prompt": "Cross-validation errors are 1, −1, 1, and −1. What is the RMSE?",
+      "answers": [
+        "1"
+      ],
+      "explain": "√((1+1+1+1)/4).",
+      "numeric": true,
+      "tolerance": 0
+    },
+    {
+      "id": "mean-error",
+      "type": "choice",
+      "prompt": "A mean error far from 0 means:",
+      "choices": [
+        "The surface is biased, consistently too high or too low",
+        "The surface is perfect",
+        "The RMSE is 0",
+        "The data are categorical"
+      ],
+      "answer": 0,
+      "explain": "It should be near 0."
+    },
+    {
+      "id": "random-error",
+      "type": "choice",
+      "prompt": "Errors that are consistently large in one region suggest:",
+      "choices": [
+        "The method or settings are wrong there",
+        "The errors are random",
+        "A perfect fit",
+        "Too few cells"
+      ],
+      "answer": 0,
+      "explain": "Errors should look random."
+    },
+    {
+      "id": "wizard",
+      "type": "choice",
+      "prompt": "ArcGIS Pro's tool for IDW, polynomials, RBFs, and kriging with cross validation is the:",
+      "choices": [
+        "Geostatistical Wizard",
+        "ModelBuilder",
+        "Raster Calculator",
+        "Georeferencer"
+      ],
+      "answer": 0,
+      "explain": "In Geostatistical Analyst."
+    },
+    {
+      "id": "qgis-idw",
+      "type": "choice",
+      "prompt": "In QGIS, IDW interpolation is in the Processing Toolbox group:",
+      "choices": [
+        "Interpolation",
+        "Vector overlay",
+        "Raster terrain analysis",
+        "Database"
+      ],
+      "answer": 0,
+      "explain": "Along with TIN interpolation."
+    },
+    {
+      "id": "asos",
+      "type": "choice",
+      "prompt": "Many U.S. weather stations in the ASOS network are located at:",
+      "choices": [
+        "Airports",
+        "Schools",
+        "Post offices",
+        "Hospitals"
+      ],
+      "answer": 0,
+      "explain": "The Automated Surface Observing System."
+    },
+    {
+      "id": "prism",
+      "type": "choice",
+      "prompt": "Which group publishes interpolated climate maps for the United States?",
+      "choices": [
+        "PRISM Climate Group",
+        "OpenStreetMap",
+        "Natural Earth",
+        "MRLC"
+      ],
+      "answer": 0,
+      "explain": "At Oregon State University."
+    }
+  ]
+}

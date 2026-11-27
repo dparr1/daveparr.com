@@ -37,7 +37,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./about.html" rel="next">
-<link href="./chapters/osm-data-quality.html" rel="prev">
+<link href="./chapters/kriging.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
@@ -234,10 +234,57 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-3-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+            <a href="./units/unit-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Unit 3: Spatial Analysis</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section: Unit 3: Spatial Analysis">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
       </div>
       <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapters/data-classing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Data Classing and Choropleth Maps</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapters/density.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Density and Neighborhoods</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapters/spatial-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Spatial Analysis: Selection, Buffers, and Overlay</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapters/raster.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Raster Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapters/interpolation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Spatial Interpolation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapters/kriging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Kriging</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-4-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./glossary.html" class="sidebar-item-text sidebar-link active">
@@ -315,6 +362,10 @@ ACS estimates from 12 months of data, published only for areas with 65,000 or mo
 <dd>
 ACS estimates from 60 months of data, published for every area down to block groups.
 </dd>
+<dt><span id="term-adaptive-sampling">adaptive sampling</span></dt>
+<dd>
+Sampling in passes: a sparse first pass, then more samples where values change quickly.
+</dd>
 <dt><span id="term-address-matching">address matching</span></dt>
 <dd>
 Geocoding an address by comparing it with a reference file whose features already carry address information.
@@ -331,6 +382,10 @@ The lowest and highest house numbers on one side of a street segment.
 <dd>
 A six-coefficient transformation that corrects translation, scale, skew, and rotation. Needs at least 3 GCPs.
 </dd>
+<dt><span id="term-aggregation">aggregation</span></dt>
+<dd>
+Rescaling a raster to coarser cells by combining blocks of cells into one, using a statistic such as the mean, sum, or majority.
+</dd>
 <dt><span id="term-albers-equal-area-conic">Albers Equal-Area Conic</span></dt>
 <dd>
 An equal-area conic projection, the standard for measuring areas across the contiguous United States (EPSG:5070).
@@ -338,6 +393,10 @@ An equal-area conic projection, the standard for measuring areas across the cont
 <dt><span id="term-american-community-survey-acs">American Community Survey (ACS)</span></dt>
 <dd>
 The Census Bureau’s yearly sample survey of about 3.5 million addresses, the main source of social, economic, and housing data.
+</dd>
+<dt><span id="term-anisotropy">anisotropy</span></dt>
+<dd>
+Spatial dependence that changes with direction. Its opposite is isotropy, the same dependence in every direction.
 </dd>
 <dt><span id="term-annotation">annotation</span></dt>
 <dd>
@@ -359,6 +418,10 @@ Esri’s system for making and sharing maps and layers on the web.
 <dd>
 Esri’s commercial desktop GIS, for Windows.
 </dd>
+<dt><span id="term-arithmetic-progression">arithmetic progression</span></dt>
+<dd>
+A classification method in which each class is wider than the one before by a constant amount.
+</dd>
 <dt><span id="term-asserted-data">asserted data</span></dt>
 <dd>
 Data contributed by the public, such as OpenStreetMap. Their accuracy is undocumented and uneven.
@@ -375,6 +438,10 @@ How correct the non-spatial values in a dataset are, such as a feature’s type 
 <dd>
 Data from official agencies, collected under documented standards and published with metadata.
 </dd>
+<dt><span id="term-average-neighbor">average neighbor</span></dt>
+<dd>
+An interpolation method that estimates each location as the mean of the observations within a search radius.
+</dd>
 <dt><span id="term-azimuthal">azimuthal</span></dt>
 <dd>
 A projection onto a plane that keeps true directions from its center point.
@@ -382,6 +449,10 @@ A projection onto a plane that keeps true directions from its center point.
 <dt><span id="term-bag">bag</span></dt>
 <dd>
 A collection that can contain duplicates. A table is a bag unless a primary key forbids repeated rows.
+</dd>
+<dt><span id="term-bandwidth">bandwidth</span></dt>
+<dd>
+The radius of a kernel. Small bandwidths show local hot spots; large ones show regional patterns.
 </dd>
 <dt><span id="term-batch-geocoding">batch geocoding</span></dt>
 <dd>
@@ -407,6 +478,14 @@ A binary digit, 0 or 1. With <em>n</em> bits you can write 2ⁿ different values
 <dd>
 A cluster of census blocks within a tract, usually with 600 to 3,000 people. The smallest area with ACS estimates.
 </dd>
+<dt><span id="term-buffer">buffer</span></dt>
+<dd>
+The region within a specified distance of a point, line, or polygon.
+</dd>
+<dt><span id="term-bull-s-eye">bull’s-eye</span></dt>
+<dd>
+A ring of values around a single observation that differs from its neighbors; a sign of IDW interpolation.
+</dd>
 <dt><span id="term-cad">CAD</span></dt>
 <dd>
 Computer-aided design: software for drawing buildings, parts, and other objects. It is spatial but not geographic, because its drawings aren’t tied to places on Earth.
@@ -422,6 +501,10 @@ How many records in one table match each record in another: one-to-one, many-to-
 <dt><span id="term-cartographic-boundary-files">cartographic boundary files</span></dt>
 <dd>
 Simplified census boundaries clipped to the shoreline, for small-scale maps.
+</dd>
+<dt><span id="term-cartographic-modeling">cartographic modeling</span></dt>
+<dd>
+Planning and running a chain of spatial operations to solve a problem, where each operation’s output becomes the next one’s input. The term is Dana Tomlin’s.
 </dd>
 <dt><span id="term-cartography">cartography</span></dt>
 <dd>
@@ -471,9 +554,25 @@ A group of edits to OpenStreetMap saved together, with the editor’s username a
 <dd>
 A point with known coordinates that is not used to fit a transformation, kept back to test its accuracy.
 </dd>
+<dt><span id="term-choropleth-map">choropleth map</span></dt>
+<dd>
+A map that shades each area, such as a county, by its value, usually in a few classes from light to dark.
+</dd>
+<dt><span id="term-class-break">class break</span></dt>
+<dd>
+A value that divides one class from the next on a classed map.
+</dd>
+<dt><span id="term-classed-map">classed map</span></dt>
+<dd>
+A choropleth map in which values are grouped into a few classes, each shown with one shade.
+</dd>
 <dt><span id="term-client-server">client/server</span></dt>
 <dd>
 A design in which client programs send requests to a server, which does the work and sends back the answer.
+</dd>
+<dt><span id="term-clip">clip</span></dt>
+<dd>
+An overlay that keeps only the parts of a data layer inside a bounding layer, keeping only the data layer’s attributes.
 </dd>
 <dt><span id="term-closed-way">closed way</span></dt>
 <dd>
@@ -483,9 +582,21 @@ In OpenStreetMap, a way (an ordered list of nodes) whose first and last nodes ar
 <dd>
 A group of events or features that are closer together than you would expect by chance, such as cases of a disease around one place.
 </dd>
+<dt><span id="term-cluster-tolerance">cluster tolerance</span></dt>
+<dd>
+A distance within which vertices are treated as the same point during overlay, to prevent slivers.
+</dd>
 <dt><span id="term-coefficient-of-variation-cv">coefficient of variation (CV)</span></dt>
 <dd>
 The standard error as a percentage of the estimate. Over about 40 percent, an ACS estimate is usually treated as unreliable.
+</dd>
+<dt><span id="term-cokriging">cokriging</span></dt>
+<dd>
+Kriging that also uses one or more correlated secondary variables, such as elevation when predicting temperature.
+</dd>
+<dt><span id="term-colorbrewer">ColorBrewer</span></dt>
+<dd>
+A free online tool with tested color schemes for maps, for 3 to 9 classes.
 </dd>
 <dt><span id="term-complement">complement</span></dt>
 <dd>
@@ -503,6 +614,10 @@ A projection that preserves no property exactly but keeps every distortion moder
 <dd>
 Many users reading and editing a database at the same time, without overwriting each other’s changes.
 </dd>
+<dt><span id="term-conditional-function">conditional function</span></dt>
+<dd>
+The raster version of if-then-else (CON in ArcGIS Pro): where a condition is true, take one value or raster; where false, another.
+</dd>
 <dt><span id="term-confidence-level">confidence level</span></dt>
 <dd>
 How often a range built the same way would contain the true value, if the survey were repeated many times.
@@ -510,6 +625,10 @@ How often a range built the same way would contain the true value, if the survey
 <dt><span id="term-conformal">conformal</span></dt>
 <dd>
 A projection that keeps local angles true, so small shapes look right. Mercator and Lambert Conformal Conic are conformal.
+</dd>
+<dt><span id="term-contiguity">contiguity</span></dt>
+<dd>
+Touching. Contiguous polygons share a border (rook’s case) or a border or corner (queen’s case).
 </dd>
 <dt><span id="term-continuous-data">continuous data</span></dt>
 <dd>
@@ -531,9 +650,17 @@ The full description of how coordinates relate to the Earth: a datum, plus a pro
 <dd>
 A system of numbers, such as latitude and longitude, that gives every location a unique position so layers line up with each other.
 </dd>
+<dt><span id="term-cost-distance">cost distance</span></dt>
+<dd>
+Distance measured as an accumulated cost, such as travel time or effort, across a cost raster, rather than in meters.
+</dd>
 <dt><span id="term-crisis-mapping">crisis mapping</span></dt>
 <dd>
 Mapping by volunteers to support the response to a disaster or other crisis.
+</dd>
+<dt><span id="term-cross-validation">cross validation</span></dt>
+<dd>
+Testing an interpolation by removing each observation in turn, estimating it from the rest, and recording the error.
 </dd>
 <dt><span id="term-csv">CSV</span></dt>
 <dd>
@@ -542,6 +669,10 @@ A plain-text table in which values are separated by commas, one record per line.
 <dt><span id="term-cubic-convolution">cubic convolution</span></dt>
 <dd>
 Resampling that uses the 16 nearest input cells.
+</dd>
+<dt><span id="term-dasymetric-map">dasymetric map</span></dt>
+<dd>
+A map that redistributes values within each area onto the land where they occur, such as placing people only where there are homes.
 </dd>
 <dt><span id="term-data-abstraction">data abstraction</span></dt>
 <dd>
@@ -599,6 +730,10 @@ Latitude or longitude written in degrees, minutes (1/60 of a degree), and second
 <dd>
 Data on who lives in a place: counts of people and households, and their age, sex, race and ethnicity, and household type.
 </dd>
+<dt><span id="term-density">density</span></dt>
+<dd>
+A count divided by an area, such as people or crimes per square mile.
+</dd>
 <dt><span id="term-deprivation-index">deprivation index</span></dt>
 <dd>
 A single score that combines several socioeconomic variables to measure how disadvantaged an area is.
@@ -606,6 +741,10 @@ A single score that combines several socioeconomic variables to measure how disa
 <dt><span id="term-destination-table">destination table</span></dt>
 <dd>
 In a join, the table that receives the new fields. All of its records are kept.
+</dd>
+<dt><span id="term-deterministic-interpolation">deterministic interpolation</span></dt>
+<dd>
+Interpolation in which the surface is fully determined by a formula and the chosen parameters, with no statistical model of error.
 </dd>
 <dt><span id="term-developable-surface">developable surface</span></dt>
 <dd>
@@ -615,13 +754,25 @@ A shape that can be unrolled flat without stretching: a plane, a cylinder, or a 
 <dd>
 A method that adds calibrated statistical noise to published tables, so that individuals cannot be identified.
 </dd>
+<dt><span id="term-digital-elevation-model">digital elevation model</span></dt>
+<dd>
+A raster whose cell values are elevations of the ground surface.
+</dd>
 <dt><span id="term-discrete-object">discrete object</span></dt>
 <dd>
 Something with clear boundaries that is either present or absent at a location, such as a road, a house, or a state.
 </dd>
+<dt><span id="term-dissolve">dissolve</span></dt>
+<dd>
+An operation that merges features sharing a value in a field, removing the boundaries between them.
+</dd>
 <dt><span id="term-distance-join">distance join</span></dt>
 <dd>
 A spatial join that matches each feature to the closest feature, or to every feature within a set distance, and can record the distance.
+</dd>
+<dt><span id="term-diverging-color-scheme">diverging color scheme</span></dt>
+<dd>
+Two hues that meet at a light neutral color, for data with a meaningful midpoint such as a mean or zero.
 </dd>
 <dt><span id="term-double">Double</span></dt>
 <dd>
@@ -631,9 +782,17 @@ A 64-bit data type for decimal numbers, with about 15 significant digits. Float 
 <dd>
 A distance east from a starting line: the x coordinate in a projected coordinate system.
 </dd>
+<dt><span id="term-ecological-fallacy">ecological fallacy</span></dt>
+<dd>
+Assuming that every person or place in an area shares the area’s average value.
+</dd>
 <dt><span id="term-economic-census">Economic Census</span></dt>
 <dd>
 The Census Bureau’s survey of businesses, taken every five years in years ending in 2 and 7.
+</dd>
+<dt><span id="term-edge-effect">edge effect</span></dt>
+<dd>
+Locations near the boundary of a study area find fewer neighbors than they should, because their neighbors outside it were not observed.
 </dd>
 <dt><span id="term-ellipsoid">ellipsoid</span></dt>
 <dd>
@@ -647,6 +806,10 @@ Height above the ellipsoid, written <em>h</em>. This is the height a GPS receive
 <dd>
 A real-world object we want to store as data, such as a tree, a building, or a lake. On a map, an entity is shown as a feature.
 </dd>
+<dt><span id="term-enumeration-unit">enumeration unit</span></dt>
+<dd>
+An area for which data are collected and reported, such as a county, census tract, or state.
+</dd>
 <dt><span id="term-epidemiology">epidemiology</span></dt>
 <dd>
 The study of how diseases are distributed and spread in populations. John Snow’s 1854 cholera map is a founding example.
@@ -654,6 +817,10 @@ The study of how diseases are distributed and spread in populations. John Snow�
 <dt><span id="term-epsg-code">EPSG code</span></dt>
 <dd>
 A number that identifies a coordinate reference system in the EPSG registry, such as 4326 for WGS84 or 32119 for North Carolina State Plane.
+</dd>
+<dt><span id="term-equal-interval">equal interval</span></dt>
+<dd>
+A classification method that divides the range of the data into classes of equal width.
 </dd>
 <dt><span id="term-equal-area">equal-area</span></dt>
 <dd>
@@ -671,9 +838,21 @@ A projection that keeps true distance from one or two points, or along certain l
 <dd>
 The company that makes ArcGIS, founded in 1969 by Jack and Laura Dangermond in Redlands, California.
 </dd>
+<dt><span id="term-euclidean-distance">Euclidean distance</span></dt>
+<dd>
+Straight-line distance. As a raster function, each cell’s distance to the nearest source cell.
+</dd>
+<dt><span id="term-exact-interpolator">exact interpolator</span></dt>
+<dd>
+An interpolation method whose surface passes through every observed value.
+</dd>
 <dt><span id="term-extent">extent</span></dt>
 <dd>
 How far something reaches: its size, boundary, and dimensions. A layer’s extent is the rectangle that just encloses all its features.
+</dd>
+<dt><span id="term-extrapolation">extrapolation</span></dt>
+<dd>
+Estimating values beyond the observations: outside the area they cover, or above or below the observed range.
 </dd>
 <dt><span id="term-extrinsic-quality-assessment">extrinsic quality assessment</span></dt>
 <dd>
@@ -707,9 +886,17 @@ Positions in a raster given as pixel columns and rows.
 <dd>
 A numeric code the U.S. government assigns to each state, county, and other area, such as 37 for North Carolina and 37135 for Orange County.
 </dd>
+<dt><span id="term-first-order-neighbor">first-order neighbor</span></dt>
+<dd>
+A polygon that touches the polygon in question directly. Its own neighbors are second-order neighbors.
+</dd>
 <dt><span id="term-flattening">flattening</span></dt>
 <dd>
 How squashed an ellipsoid is: <em>f</em> = (<em>a</em> − <em>b</em>) / <em>a</em>. For the Earth, about 1/298.
+</dd>
+<dt><span id="term-focal-function">focal function</span></dt>
+<dd>
+A map algebra function that computes each cell’s output from a moving window of nearby cells, such as a 3×3 mean.
 </dd>
 <dt><span id="term-foreign-key">foreign key</span></dt>
 <dd>
@@ -771,6 +958,10 @@ The distance from the ellipsoid to the geoid at a place, written <em>N</em>. In 
 <dd>
 Moving geocoded points by a small random amount to protect the privacy of the people they represent.
 </dd>
+<dt><span id="term-geometric-progression">geometric progression</span></dt>
+<dd>
+A classification method in which each class is wider than the one before by a constant ratio, suited to strongly skewed data.
+</dd>
 <dt><span id="term-geometry">geometry</span></dt>
 <dd>
 The shape of a feature: a point, a line, or a polygon, stored as coordinates.
@@ -791,6 +982,10 @@ Transforming a raster, such as a scanned map or image, from file coordinates to 
 <dd>
 A common synonym for <em>geographic</em>, used especially in industry, the military, and government.
 </dd>
+<dt><span id="term-geostatistics">geostatistics</span></dt>
+<dd>
+Statistics for spatially continuous data, which model spatial autocorrelation to predict values and their uncertainty. Kriging is its best-known method.
+</dd>
 <dt><span id="term-gis-question">GIS question</span></dt>
 <dd>
 A question whose answer depends on location, such as where something clusters, how places differ, what factors explain a pattern, how a place has changed, or how accessible a service is.
@@ -806,6 +1001,10 @@ Geographic Information Systems Professional: a certification from the GIS Certif
 <dt><span id="term-gnomonic-projection">gnomonic projection</span></dt>
 <dd>
 An azimuthal projection on which every great circle is a straight line.
+</dd>
+<dt><span id="term-goodness-of-variance-fit">goodness of variance fit</span></dt>
+<dd>
+A measure from 0 to 1 of how well classes fit the data: 1 minus the squared deviations from the class means divided by those from the overall mean.
 </dd>
 <dt><span id="term-gps">GPS</span></dt>
 <dd>
@@ -823,6 +1022,14 @@ A circle on a sphere whose plane passes through the center. The shortest route b
 <dd>
 A feature that can be found on both an image and a reference layer, used to work out the transformation between them.
 </dd>
+<dt><span id="term-heat-map">heat map</span></dt>
+<dd>
+A map of a density surface, usually from kernel density estimation.
+</dd>
+<dt><span id="term-histogram">histogram</span></dt>
+<dd>
+A bar chart of how many values fall in each range, used to see the shape of a distribution.
+</dd>
 <dt><span id="term-humanitarian-openstreetmap-team">Humanitarian OpenStreetMap Team</span></dt>
 <dd>
 An organization that coordinates volunteer OpenStreetMap mapping for disaster response and development.
@@ -834,6 +1041,10 @@ OpenStreetMap’s web-based editor, which runs in a browser with no installation
 <dt><span id="term-image-rectification">image rectification</span></dt>
 <dd>
 Correcting an image’s geometry so that it fits a map coordinate system.
+</dd>
+<dt><span id="term-inexact-interpolator">inexact interpolator</span></dt>
+<dd>
+An interpolation method that smooths the data, so its surface may not pass through the observed values.
 </dd>
 <dt><span id="term-inner-join">inner join</span></dt>
 <dd>
@@ -847,6 +1058,10 @@ A spatial join that matches features that contain, lie within, or intersect each
 <dd>
 A data type for whole numbers. Its range depends on its bits: up to 32,767 for 16 bits, about 2.1 billion for 32 bits.
 </dd>
+<dt><span id="term-intersect">intersect</span></dt>
+<dd>
+An overlay that keeps only the areas covered by both input layers, with attributes from both. The overlay version of AND.
+</dd>
 <dt><span id="term-intersection">intersection</span></dt>
 <dd>
 The records in both of two sets. AND selects the intersection.
@@ -858,6 +1073,14 @@ Values with equal steps but an arbitrary zero, such as temperature in °C or a c
 <dt><span id="term-intrinsic-quality-assessment">intrinsic quality assessment</span></dt>
 <dd>
 Measuring the quality of OpenStreetMap from its own editing history, such as the number of editors and versions in an area.
+</dd>
+<dt><span id="term-inverse-distance-weighted">inverse distance weighted</span></dt>
+<dd>
+An interpolation method that estimates each location as a weighted average of nearby observations, with weights of 1 / distance raised to a power.
+</dd>
+<dt><span id="term-isnull">ISNULL</span></dt>
+<dd>
+A raster function that outputs 1 where a cell is NoData and 0 elsewhere. It never outputs NoData itself.
 </dd>
 <dt><span id="term-iso-19157">ISO 19157</span></dt>
 <dd>
@@ -871,9 +1094,25 @@ The field ArcGIS Pro’s Spatial Join adds to hold the number of join features t
 <dd>
 The Java OpenStreetMap editor, a desktop editor for advanced work.
 </dd>
+<dt><span id="term-k-nearest-neighbors">k nearest neighbors</span></dt>
+<dd>
+A neighborhood made of the k closest locations, whatever their distance.
+</dd>
+<dt><span id="term-kernel">kernel</span></dt>
+<dd>
+In density estimation, a moving window that weights nearby points by their distance from the cell at its center.
+</dd>
+<dt><span id="term-kernel-density-estimation">kernel density estimation</span></dt>
+<dd>
+A method that turns points into a continuous density surface by sliding a weighted window (a kernel) across a grid.
+</dd>
 <dt><span id="term-key">key</span></dt>
 <dd>
 A field whose values link the records of one table to the records of another.
+</dd>
+<dt><span id="term-kriging">kriging</span></dt>
+<dd>
+A geostatistical interpolation method that weights observations using a model of spatial autocorrelation (the semivariogram), and estimates the uncertainty of each prediction.
 </dd>
 <dt><span id="term-lambert-conformal-conic">Lambert Conformal Conic</span></dt>
 <dd>
@@ -935,6 +1174,14 @@ Whether data agree with their own rules, for example polygons that close and roa
 <dd>
 The angle east or west of the prime meridian, from 0° at Greenwich to 180° east or west.
 </dd>
+<dt><span id="term-majority-filter">majority filter</span></dt>
+<dd>
+A neighborhood function that gives each cell the value shared by most of its neighbors, used to clean up classified images.
+</dd>
+<dt><span id="term-manual-intervals">manual intervals</span></dt>
+<dd>
+Class breaks set by the analyst at meaningful values, such as a poverty line, or the same breaks for a series of maps.
+</dd>
 <dt><span id="term-many-to-many">many-to-many</span></dt>
 <dd>
 Records on each side match many records on the other. Needs a linking table.
@@ -946,6 +1193,10 @@ Many destination records match the same source record, but each matches only one
 <dt><span id="term-map-algebra">map algebra</span></dt>
 <dd>
 Math on rasters, cell by cell, such as adding two grids or finding every cell where slope is under 10 percent.
+</dd>
+<dt><span id="term-map-generalization">map generalization</span></dt>
+<dd>
+Deciding what detail to keep on a map, by simplifying, classifying, and enhancing.
 </dd>
 <dt><span id="term-map-projection">map projection</span></dt>
 <dd>
@@ -971,6 +1222,10 @@ The share of addresses in a table that were successfully geocoded.
 <dd>
 How closely an address agrees with a candidate in the reference file, often on a scale from 0 to 100.
 </dd>
+<dt><span id="term-mean-error">mean error</span></dt>
+<dd>
+The average of the cross-validation errors. Near 0 means the surface is unbiased.
+</dd>
 <dt><span id="term-mean-sea-level">mean sea level</span></dt>
 <dd>
 The average height of the sea surface over many years, which the geoid approximates.
@@ -995,6 +1250,18 @@ Data about data: who made a dataset, when, how, in what coordinate system, and h
 <dd>
 A project founded in 2014 that maps vulnerable places before disasters happen.
 </dd>
+<dt><span id="term-modelbuilder">ModelBuilder</span></dt>
+<dd>
+ArcGIS Pro’s visual tool for drawing and running a cartographic model as a flowchart. QGIS’s equivalent is the Model Designer.
+</dd>
+<dt><span id="term-moving-window">moving window</span></dt>
+<dd>
+A window of cells, usually 3 × 3, that slides across a raster one cell at a time while a neighborhood function runs.
+</dd>
+<dt><span id="term-multiband">multiband</span></dt>
+<dd>
+A raster with several values per cell, one per band, such as the red, green, blue, and near-infrared bands of a satellite image.
+</dd>
 <dt><span id="term-nad27">NAD27</span></dt>
 <dd>
 The North American Datum of 1927. It used the Clarke 1866 ellipsoid and an origin at Meades Ranch, Kansas.
@@ -1007,9 +1274,25 @@ The North American Datum of 1983, an earth-centered datum on the GRS 80 ellipsoi
 <dd>
 The North American Terrestrial Reference Frame of 2022, the new datum that will replace NAD83 in the United States.
 </dd>
+<dt><span id="term-natural-breaks">natural breaks</span></dt>
+<dd>
+A classification method (Jenks) that groups similar values by minimizing the variance within classes. The default in ArcGIS Pro.
+</dd>
 <dt><span id="term-nearest-neighbor">nearest neighbor</span></dt>
 <dd>
 The feature closest to a given feature.
+</dd>
+<dt><span id="term-neighborhood">neighborhood</span></dt>
+<dd>
+In spatial analysis, a zone drawn around a location, defined by distance, by contiguity, or by a number of nearest neighbors.
+</dd>
+<dt><span id="term-neighborhood-effect">neighborhood effect</span></dt>
+<dd>
+The tendency of a place’s value to depend on the values around it.
+</dd>
+<dt><span id="term-neighborhood-function">neighborhood function</span></dt>
+<dd>
+A raster function that computes a statistic from a window of cells around each cell and writes it to the center cell.
 </dd>
 <dt><span id="term-network">network</span></dt>
 <dd>
@@ -1018,6 +1301,10 @@ Connected lines and intersections, such as roads, rails, rivers, or pipes, with 
 <dt><span id="term-network-analysis">network analysis</span></dt>
 <dd>
 Analysis of movement along a network, such as roads, to find routes and measure travel distance or time.
+</dd>
+<dt><span id="term-nodata">NoData</span></dt>
+<dd>
+A code meaning a raster cell has no value. Any map algebra operation that touches NoData outputs NoData, and statistics skip it.
 </dd>
 <dt><span id="term-node">node</span></dt>
 <dd>
@@ -1031,9 +1318,17 @@ Categories with no order, such as land use or a name. You can test equality and 
 <dd>
 Data with no location of their own, such as a list of grades. When non-spatial data describe a spatial feature, they are its attributes.
 </dd>
+<dt><span id="term-normalize">normalize</span></dt>
+<dd>
+To divide a count by an area, a population, or another total, so that areas of different sizes can be compared fairly.
+</dd>
 <dt><span id="term-northing">northing</span></dt>
 <dd>
 A distance north from a starting line: the y coordinate in a projected coordinate system.
+</dd>
+<dt><span id="term-nugget">nugget</span></dt>
+<dd>
+The semivariance at (nearly) zero distance, from measurement error or variation smaller than the sample spacing.
 </dd>
 <dt><span id="term-on-the-fly-reprojection">on-the-fly reprojection</span></dt>
 <dd>
@@ -1063,6 +1358,10 @@ A free, editable map of the world built by volunteers, founded in 2004.
 <dd>
 Ranked categories whose steps are of unknown size, such as A, B, C, D or a hurricane’s category.
 </dd>
+<dt><span id="term-ordinary-kriging">ordinary kriging</span></dt>
+<dd>
+Kriging that assumes an unknown but constant mean. The most common type.
+</dd>
 <dt><span id="term-orthometric-height">orthometric height</span></dt>
 <dd>
 Height above the geoid, written <em>H</em>: the elevation, or “height above sea level,” printed on maps. <em>h</em> = <em>H</em> + <em>N</em>.
@@ -1090,6 +1389,10 @@ A line of equal latitude. Parallels run east and west and get shorter toward the
 <dt><span id="term-parcel">parcel</span></dt>
 <dd>
 A polygon for one piece of property, usually with its owner and address.
+</dd>
+<dt><span id="term-partial-sill">partial sill</span></dt>
+<dd>
+The sill minus the nugget: the part of the variation that is spatially autocorrelated.
 </dd>
 <dt><span id="term-plate-carr-e">Plate Carrée</span></dt>
 <dd>
@@ -1131,6 +1434,10 @@ A free extension that adds geometry types and spatial functions to the PostgreSQ
 <dd>
 For a numeric field, the total number of digits it can hold. Scale is how many of them fall after the decimal point.
 </dd>
+<dt><span id="term-prediction-standard-error">prediction standard error</span></dt>
+<dd>
+Kriging’s estimate of how far off each prediction might be. It is largest where observations are sparse.
+</dd>
 <dt><span id="term-primary-key">primary key</span></dt>
 <dd>
 A field whose values identify each row of a table uniquely. No value may repeat or be missing.
@@ -1143,9 +1450,29 @@ The meridian at 0° longitude, through Greenwich, England, chosen in 1884. Longi
 <dd>
 A coordinate system that gives positions as <em>x, y</em> in meters or feet, on a map projection built on a datum, such as UTM or State Plane.
 </dd>
+<dt><span id="term-proportional-symbol-map">proportional symbol map</span></dt>
+<dd>
+A map that shows counts with symbols, such as circles, sized in proportion to each value.
+</dd>
 <dt><span id="term-qgis">QGIS</span></dt>
 <dd>
 A free and open-source desktop GIS that runs on Windows, Mac, and Linux.
+</dd>
+<dt><span id="term-qualitative-color-scheme">qualitative color scheme</span></dt>
+<dd>
+Distinct hues of similar lightness, for categories rather than quantities.
+</dd>
+<dt><span id="term-quantile">quantile</span></dt>
+<dd>
+A classification method that puts the same number of areas in each class. Five quantile classes are quintiles.
+</dd>
+<dt><span id="term-quartic-kernel">quartic kernel</span></dt>
+<dd>
+A hump-shaped kernel that weights points most at the center and falls to zero at the bandwidth. The default in ArcGIS Pro and QGIS.
+</dd>
+<dt><span id="term-queen-s-case">queen’s case</span></dt>
+<dd>
+Contiguity in which polygons are neighbors if they share an edge or a corner.
 </dd>
 <dt><span id="term-query">query</span></dt>
 <dd>
@@ -1154,6 +1481,14 @@ A written condition that the software tests against every record, selecting thos
 <dt><span id="term-radar">radar</span></dt>
 <dd>
 A remote sensing method in which a satellite or aircraft sends out its own microwave signal and records what bounces back. It sees through clouds and smoke, and works at night.
+</dd>
+<dt><span id="term-radial-basis-function">radial basis function</span></dt>
+<dd>
+An exact interpolation method that fits a smooth, minimum-curvature surface through every observation, like a flexible sheet pinned at each point.
+</dd>
+<dt><span id="term-range">range</span></dt>
+<dd>
+In a semivariogram, the distance at which the sill is reached. Beyond it, observations are not autocorrelated.
 </dd>
 <dt><span id="term-raster">raster</span></dt>
 <dd>
@@ -1167,9 +1502,17 @@ To convert vector data into a raster.
 <dd>
 Values with equal steps and a true zero, such as population or area. Every arithmetic operation makes sense.
 </dd>
+<dt><span id="term-raw-count">raw count</span></dt>
+<dd>
+A total that hasn’t been normalized, such as a number of people or crimes. Raw counts grow with the size of an area.
+</dd>
 <dt><span id="term-ray-casting">ray casting</span></dt>
 <dd>
 A point-in-polygon test that counts how often a line from the point crosses the polygon’s edge. An odd count means inside.
+</dd>
+<dt><span id="term-reclassification">reclassification</span></dt>
+<dd>
+Grouping the values of a layer into fewer, more meaningful classes, such as elevations into low, medium, and high.
 </dd>
 <dt><span id="term-record">record</span></dt>
 <dd>
@@ -1227,6 +1570,10 @@ A line of constant compass bearing. It is straight on a Mercator map.
 <dd>
 A join that keeps every record of the right (source) table.
 </dd>
+<dt><span id="term-rook-s-case">rook’s case</span></dt>
+<dd>
+Contiguity in which polygons are neighbors only if they share an edge.
+</dd>
 <dt><span id="term-root-mean-square-error-rmse">root mean square error (RMSE)</span></dt>
 <dd>
 The square root of the average squared residual: one number that sums up how well a model fits.
@@ -1235,9 +1582,17 @@ The square root of the average squared residual: one number that sums up how wel
 <dd>
 Finding the best path through a network, such as the fastest or shortest route, or a delivery route that visits many stops.
 </dd>
+<dt><span id="term-sampling-design">sampling design</span></dt>
+<dd>
+The pattern of observation locations: systematic, random, clustered, or adaptive.
+</dd>
 <dt><span id="term-scale-factor">scale factor</span></dt>
 <dd>
 The ratio of scale at a place on a map to the map’s stated scale: exactly 1 on a standard line, below 1 where the map shrinks the Earth, above 1 where it stretches it.
+</dd>
+<dt><span id="term-search-neighborhood">search neighborhood</span></dt>
+<dd>
+The area around an unknown location, set by a radius, sectors, and a shape, from which observations are taken to estimate it.
 </dd>
 <dt><span id="term-secant">secant</span></dt>
 <dd>
@@ -1255,17 +1610,49 @@ The equatorial radius of an ellipsoid, written <em>a</em>. For the Earth, about 
 <dd>
 The polar radius of an ellipsoid, written <em>b</em>. For the Earth, about 6,357 km.
 </dd>
+<dt><span id="term-semivariance">semivariance</span></dt>
+<dd>
+Half the squared difference between two observed values. Averaged over pairs in a distance bin, it measures dissimilarity at that distance.
+</dd>
+<dt><span id="term-semivariogram">semivariogram</span></dt>
+<dd>
+A plot of semivariance against the distance between pairs of observations, described by its nugget, sill, and range.
+</dd>
+<dt><span id="term-sequential-color-scheme">sequential color scheme</span></dt>
+<dd>
+Light-to-dark steps of one or a few related hues, for data that run from low to high.
+</dd>
 <dt><span id="term-shapefile">shapefile</span></dt>
 <dd>
 A common vector format from Esri that stores one layer in several files with the same name: .shp (geometry), .shx (index), and .dbf (attributes) are required, and .prj holds the coordinate system.
+</dd>
+<dt><span id="term-sill">sill</span></dt>
+<dd>
+The semivariance at which a semivariogram levels off.
 </dd>
 <dt><span id="term-simple-join">simple join</span></dt>
 <dd>
 A join that copies the attributes of one source feature to each destination feature. Works for one-to-one and many-to-one relationships.
 </dd>
+<dt><span id="term-simple-kriging">simple kriging</span></dt>
+<dd>
+Kriging that assumes a known, constant mean.
+</dd>
 <dt><span id="term-site-selection">site selection</span></dt>
 <dd>
 Using GIS to choose the best location for something, such as a new store, clinic, or fire station.
+</dd>
+<dt><span id="term-skewed">skewed</span></dt>
+<dd>
+Describes a distribution with a long tail on one side, such as many small values and a few very large ones.
+</dd>
+<dt><span id="term-sliver">sliver</span></dt>
+<dd>
+A thin, tiny polygon created by overlay where two versions of the same boundary don’t match exactly.
+</dd>
+<dt><span id="term-snap-raster">snap raster</span></dt>
+<dd>
+A raster whose grid sets where output cell edges fall, so that the outputs of raster tools line up exactly with it.
 </dd>
 <dt><span id="term-socioeconomic-data">socioeconomic data</span></dt>
 <dd>
@@ -1279,6 +1666,10 @@ In a join, the table whose fields are appended to the destination.
 <dd>
 Methods that use the locations of things, and the relationships among them, to find patterns, explain them, or make predictions.
 </dd>
+<dt><span id="term-spatial-autocorrelation">spatial autocorrelation</span></dt>
+<dd>
+The degree to which values at nearby locations are more alike (positive) or more different (negative) than chance would predict.
+</dd>
 <dt><span id="term-spatial-data">spatial data</span></dt>
 <dd>
 Data tied to a location on or near Earth, such as the address of a house, the outline of a county, or the elevation at a point.
@@ -1287,17 +1678,33 @@ Data tied to a location on or near Earth, such as the address of a house, the ou
 <dd>
 How well a geographic dataset fits its intended use, described by elements such as lineage, accuracy, consistency, and completeness.
 </dd>
+<dt><span id="term-spatial-interpolation">spatial interpolation</span></dt>
+<dd>
+Estimating the value of an attribute at unsampled locations from observations at sampled ones.
+</dd>
 <dt><span id="term-spatial-join">spatial join</span></dt>
 <dd>
 A join that matches the features of two layers by location instead of by a shared key, then appends attributes from one to the other.
+</dd>
+<dt><span id="term-spatial-operation">spatial operation</span></dt>
+<dd>
+A GIS function that takes one or more input layers and produces an output layer, such as a buffer, dissolve, or overlay.
 </dd>
 <dt><span id="term-spatial-predicate">spatial predicate</span></dt>
 <dd>
 A rule that tests a spatial relationship between two geometries, such as intersects, contains, within, or touches.
 </dd>
+<dt><span id="term-spatial-scope">spatial scope</span></dt>
+<dd>
+The input locations used to compute the value at an output location: local (the same location), neighborhood (nearby locations), or global (every location).
+</dd>
 <dt><span id="term-spatial-thinking">spatial thinking</span></dt>
 <dd>
 Using ideas of space, such as location, distance, pattern, and scale, to understand and solve problems.
+</dd>
+<dt><span id="term-spatial-weights-matrix">spatial weights matrix</span></dt>
+<dd>
+A table recording which locations are neighbors of which, and how much each neighbor counts.
 </dd>
 <dt><span id="term-spine">spine</span></dt>
 <dd>
@@ -1311,6 +1718,10 @@ Structured Query Language, the standard language for asking databases questions.
 <dd>
 A small database that lives in a single file. GeoPackages are SQLite databases.
 </dd>
+<dt><span id="term-standard-deviation-classification">standard deviation classification</span></dt>
+<dd>
+A classification method that sets class breaks at fixed numbers of standard deviations above and below the mean.
+</dd>
 <dt><span id="term-standard-line">standard line</span></dt>
 <dd>
 A line where the projection surface meets the Earth, so the scale is exact. Standard lines that follow latitude are standard parallels.
@@ -1322,6 +1733,10 @@ A U.S. system of about 120 zones following state and county lines, built for sur
 <dt><span id="term-street-centerline">street centerline</span></dt>
 <dd>
 A line along the middle of a street. Centerline files used for geocoding store the address range on each side of each segment.
+</dd>
+<dt><span id="term-sturges-rule">Sturges’ rule</span></dt>
+<dd>
+A starting point for the number of classes: about 1 + 3.3 log10(n), where n is the number of values.
 </dd>
 <dt><span id="term-summarized-join">summarized join</span></dt>
 <dd>
@@ -1367,6 +1782,10 @@ Triangulated irregular network: a surface model that joins sampled elevation poi
 <dd>
 Identical small circles drawn on the globe and then projected. Their size and shape on the map show the projection’s distortion.
 </dd>
+<dt><span id="term-tobler-s-first-law-of-geography">Tobler’s first law of geography</span></dt>
+<dd>
+“Everything is related to everything else, but near things are more related than distant things” (Tobler 1970).
+</dd>
 <dt><span id="term-topology">topology</span></dt>
 <dd>
 The recorded connections between features, such as which polygons share an edge and which lines meet at a node. It keeps neighbors from having gaps or overlaps.
@@ -1379,13 +1798,33 @@ Equations that convert image coordinates into map coordinates, with coefficients
 <dd>
 A Mercator projection turned on its side, so the cylinder touches the Earth along a central meridian. It suits regions that run north to south.
 </dd>
+<dt><span id="term-trend-surface">trend surface</span></dt>
+<dd>
+A smooth polynomial surface fit to all the observations, usually by least squares. Its order sets how many bends it can have.
+</dd>
 <dt><span id="term-triangulation">triangulation</span></dt>
 <dd>
 An old surveying method that measures the angles of a chain of triangles between stations to work out their positions across a large area.
 </dd>
+<dt><span id="term-unary-operation">unary operation</span></dt>
+<dd>
+A raster operation with one input raster, such as A × 2. A binary operation has two, such as A + B.
+</dd>
+<dt><span id="term-unclassed-map">unclassed map</span></dt>
+<dd>
+A choropleth map in which each area gets its own shade, in proportion to its value, instead of being grouped into classes.
+</dd>
+<dt><span id="term-uniform-kernel">uniform kernel</span></dt>
+<dd>
+A kernel that gives every point inside the bandwidth the same weight.
+</dd>
 <dt><span id="term-union">union</span></dt>
 <dd>
 The records in either of two sets. OR selects the union.
+</dd>
+<dt><span id="term-universal-kriging">universal kriging</span></dt>
+<dd>
+Kriging that models the trend as a function of location, such as a polynomial, and krigs the residuals.
 </dd>
 <dt><span id="term-universal-transverse-mercator-utm">Universal Transverse Mercator (UTM)</span></dt>
 <dd>
@@ -1438,6 +1877,14 @@ An approximation of a ZIP Code’s area built from census blocks.
 <dt><span id="term-zip-4">ZIP+4</span></dt>
 <dd>
 A nine-digit ZIP Code whose last four digits identify a short segment of a mail route, such as one side of a block.
+</dd>
+<dt><span id="term-zonal-function">zonal function</span></dt>
+<dd>
+A map algebra function that summarizes the cells within each zone, such as the mean elevation of each watershed.
+</dd>
+<dt><span id="term-zonal-statistics">zonal statistics</span></dt>
+<dd>
+A statistic, such as the mean or sum, computed for all the raster cells within each zone of a zone layer.
 </dd>
 </dl>
 </div>
@@ -2270,8 +2717,8 @@ window.onload = function() {
   </script>
 <nav class="page-navigation" aria-label="Page">
   <div class="nav-page nav-page-previous">
-      <a href="./chapters/osm-data-quality.html" class="pagination-link" aria-label="OpenStreetMap and Data Quality">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">OpenStreetMap and Data Quality</span></span>
+      <a href="./chapters/kriging.html" class="pagination-link" aria-label="Kriging">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Kriging</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

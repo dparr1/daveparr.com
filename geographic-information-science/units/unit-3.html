@@ -1,0 +1,1324 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Unit 3: Spatial Analysis – Geographic Information Science</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/data-classing.html" rel="next">
+<link href="../chapters/osm-data-quality.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ebb58cfc2c0cc903b00b246007c1be77.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-58aeb932f9769ef5b136914697361c15.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-contrib/glossary-1.0.0/glossary.js"></script>
+<link href="../site_libs/quarto-contrib/glossary-1.0.0/glossary.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<!--
+  Reading settings, part 1 of 2: applies the reader's saved font and text size
+  before the page draws, so it doesn't flash in the default font first.
+  The menu itself is in assets/reader-settings.html; styles are in
+  assets/reader-settings.css.
+-->
+<script>
+  (function () {
+    try {
+      var font = localStorage.getItem("sds-reader-font");
+      var size = localStorage.getItem("sds-reader-size");
+      if (font) document.documentElement.setAttribute("data-reader-font", font);
+      // Lexend and Cardo come from Google Fonts, loaded only for readers who pick them.
+      var webFonts = {
+        lexend: "https://fonts.googleapis.com/css2?family=Lexend:wght@300..700&display=swap",
+        cardo: "https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&display=swap"
+      };
+      if (webFonts[font]) {
+        var link = document.createElement("link");
+        link.rel = "stylesheet"; link.href = webFonts[font]; link.id = "sds-reader-webfont-" + font;
+        document.head.appendChild(link);
+      }
+      if (size) document.documentElement.setAttribute("data-reader-size", size);
+    } catch (e) { /* storage blocked: keep the defaults */ }
+  })();
+</script>
+
+
+<link rel="stylesheet" href="../include/webex.css">
+<link rel="stylesheet" href="../assets/sidebar.css">
+<link rel="stylesheet" href="../assets/grade-table.css">
+<link rel="stylesheet" href="../assets/reader-settings.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../units/unit-3.html">Unit 3: Spatial Analysis</a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Site">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Geographic Information Science</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../units/unit-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-1-label">Unit 1: Data Models and Projections</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section: Unit 1: Data Models and Projections">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/what-is-gis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">What Is GIS?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/what-is-geographic-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">What Is Geographic Data?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/location-and-coordinates.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Location and Coordinate Systems</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/map-projections.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Map Projections</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/attribute-queries.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Attribute Data and Queries</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/database-joins.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Databases and Table Joins</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/spatial-joins.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Spatial Joins</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../units/unit-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-2-label">Unit 2: Spatial Data Quality</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section: Unit 2: Spatial Data Quality">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/census-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Census Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/geocoding-georeferencing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Geocoding and Georeferencing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/osm-data-quality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">OpenStreetMap and Data Quality</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../units/unit-3.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Unit 3: Spatial Analysis</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section: Unit 3: Spatial Analysis">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/data-classing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Data Classing and Choropleth Maps</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/density.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Density and Neighborhoods</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/spatial-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Spatial Analysis: Selection, Buffers, and Overlay</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/raster.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Raster Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/interpolation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Spatial Interpolation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/kriging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Kriging</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-4-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Glossary</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../about.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About the author</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#chapter-11-data-classing-and-choropleth-maps" id="toc-chapter-11-data-classing-and-choropleth-maps" class="nav-link active" data-scroll-target="#chapter-11-data-classing-and-choropleth-maps">Chapter 11: Data Classing and Choropleth Maps</a></li>
+  <li><a href="#chapter-12-density-and-neighborhoods" id="toc-chapter-12-density-and-neighborhoods" class="nav-link" data-scroll-target="#chapter-12-density-and-neighborhoods">Chapter 12: Density and Neighborhoods</a></li>
+  <li><a href="#chapter-13-spatial-analysis-selection-buffers-and-overlay" id="toc-chapter-13-spatial-analysis-selection-buffers-and-overlay" class="nav-link" data-scroll-target="#chapter-13-spatial-analysis-selection-buffers-and-overlay">Chapter 13: Spatial Analysis: Selection, Buffers, and Overlay</a></li>
+  <li><a href="#chapter-14-raster-analysis" id="toc-chapter-14-raster-analysis" class="nav-link" data-scroll-target="#chapter-14-raster-analysis">Chapter 14: Raster Analysis</a></li>
+  <li><a href="#chapter-15-spatial-interpolation" id="toc-chapter-15-spatial-interpolation" class="nav-link" data-scroll-target="#chapter-15-spatial-interpolation">Chapter 15: Spatial Interpolation</a></li>
+  <li><a href="#chapter-16-kriging" id="toc-chapter-16-kriging" class="nav-link" data-scroll-target="#chapter-16-kriging">Chapter 16: Kriging</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Unit 3: Spatial Analysis</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>With data in hand and its quality understood, this unit turns to answering questions with it. It starts with two ways of summarizing data over space: classing values for <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-choropleth-map" data-term="choropleth map">choropleth maps</span>, and measuring density with neighborhoods and kernels. It then covers the core toolkit of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> analysis, from selection, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-buffer" data-term="buffer">buffers</span>, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-overlay-analysis" data-term="overlay analysis">overlay</span> on vectors to <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-map-algebra" data-term="map algebra">map algebra</span> on <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">rasters</span>. It ends by estimating values where nothing was measured, first with deterministic <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-interpolation" data-term="spatial interpolation">interpolation</span> and then with <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-kriging" data-term="kriging">kriging</span>. By the end of the unit you can plan a chain of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-operation" data-term="spatial operation">spatial operations</span>, carry it out in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span>, and judge how much to trust the result.</p>
+<section id="chapter-11-data-classing-and-choropleth-maps" class="level2">
+<h2 class="anchored" data-anchor-id="chapter-11-data-classing-and-choropleth-maps">Chapter 11: <a href="../chapters/data-classing.html">Data Classing and Choropleth Maps</a></h2>
+<p>The same data can tell different stories depending on how they are grouped into classes. This chapter explains why <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-choropleth-map" data-term="choropleth map">choropleth maps</span> should show rates and densities rather than counts, how to choose the number of classes, and how the main classification methods work: <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-equal-interval" data-term="equal interval">equal interval</span>, quantile, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-natural-breaks" data-term="natural breaks">natural breaks</span> (Jenks), arithmetic and geometric intervals, and standard deviation. Using the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-population-density" data-term="population density">population density</span> of North Carolina’s 100 counties, it compares the methods with <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-histogram" data-term="histogram">histograms</span> and the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-goodness-of-variance-fit" data-term="goodness of variance fit">goodness of variance fit</span>.</p>
+</section>
+<section id="chapter-12-density-and-neighborhoods" class="level2">
+<h2 class="anchored" data-anchor-id="chapter-12-density-and-neighborhoods">Chapter 12: <a href="../chapters/density.html">Density and Neighborhoods</a></h2>
+<p>Density is a count divided by an area, but points have no area of their own. This chapter introduces <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tobler-s-first-law-of-geography" data-term="Tobler’s first law of geography">Tobler’s first law</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-autocorrelation" data-term="spatial autocorrelation">spatial autocorrelation</span>, and three ways of defining a neighborhood: by distance, by <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-contiguity" data-term="contiguity">contiguity</span> (rook’s and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-queen-s-case" data-term="queen’s case">queen’s case</span>), and by <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-k-nearest-neighbors" data-term="k nearest neighbors">k nearest neighbors</span>. It ends with <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-kernel-density-estimation" data-term="kernel density estimation">kernel density estimation</span>, the method behind hot-spot and heat maps, and the choices of kernel shape and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-bandwidth" data-term="bandwidth">bandwidth</span> that change what the map shows.</p>
+</section>
+<section id="chapter-13-spatial-analysis-selection-buffers-and-overlay" class="level2">
+<h2 class="anchored" data-anchor-id="chapter-13-spatial-analysis-selection-buffers-and-overlay">Chapter 13: <a href="../chapters/spatial-analysis.html">Spatial Analysis: Selection, Buffers, and Overlay</a></h2>
+<p>Most <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-gis-question" data-term="GIS question">GIS questions</span> are answered by chaining a few operations together. Starting with a light problem, where Batman should build his cave in Austin, this chapter introduces <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cartographic-modeling" data-term="cartographic modeling">cartographic modeling</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-scope" data-term="spatial scope">spatial scope</span> (local, neighborhood, and global), then covers selection, joins, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-reclassification" data-term="reclassification">reclassification</span>, dissolve, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-buffer" data-term="buffer">buffers</span> of every kind, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-overlay-analysis" data-term="overlay analysis">overlay</span>: point-in-polygon, clip, intersect, and union. It explains why overlay produces <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-sliver" data-term="sliver">slivers</span> and how to prevent them, and closes with <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-map-algebra" data-term="map algebra">map algebra</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">raster</span> overlay cell by cell.</p>
+</section>
+<section id="chapter-14-raster-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="chapter-14-raster-analysis">Chapter 14: <a href="../chapters/raster.html">Raster Analysis</a></h2>
+<p>A <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">raster</span> stores the world as a grid, and almost every raster tool repeats one operation cell by cell. This chapter covers cells, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cell-size" data-term="cell size">cell size</span>, extent, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-nodata" data-term="NoData">NoData</span>; <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-map-algebra" data-term="map algebra">map algebra</span>; and how to line up rasters with <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-resampling" data-term="resampling">resampling</span>, extent, and snap settings. It sorts raster functions by scope (local, neighborhood, zonal, and global) and works through mathematical, logical, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-reclassification" data-term="reclassification">reclassification</span>, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-conditional-function" data-term="conditional function">conditional functions</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-moving-window" data-term="moving window">moving windows</span>, aggregation, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-zonal-statistics" data-term="zonal statistics">zonal statistics</span>, and distance.</p>
+</section>
+<section id="chapter-15-spatial-interpolation" class="level2">
+<h2 class="anchored" data-anchor-id="chapter-15-spatial-interpolation">Chapter 15: <a href="../chapters/interpolation.html">Spatial Interpolation</a></h2>
+<p>Weather stations, soil samples, and wells measure the world only at points. This chapter covers the five steps of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-interpolation" data-term="spatial interpolation">interpolation</span> and the main deterministic methods: <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-nearest-neighbor" data-term="nearest neighbor">nearest neighbor</span> (<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-thiessen-polygons" data-term="Thiessen polygons">Thiessen polygons</span>), <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-average-neighbor" data-term="average neighbor">average neighbor</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-inverse-distance-weighted" data-term="inverse distance weighted">inverse distance weighting</span>, polynomial <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-trend-surface" data-term="trend surface">trend surfaces</span>, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-radial-basis-function" data-term="radial basis function">radial basis functions</span>. It shows how <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-search-neighborhood" data-term="search neighborhood">search neighborhoods</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-sampling-design" data-term="sampling design">sampling designs</span> shape the result, and how <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cross-validation" data-term="cross validation">cross validation</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-root-mean-square-error-rmse" data-term="root mean square error (RMSE)">RMSE</span> compare methods objectively.</p>
+</section>
+<section id="chapter-16-kriging" class="level2">
+<h2 class="anchored" data-anchor-id="chapter-16-kriging">Chapter 16: <a href="../chapters/kriging.html">Kriging</a></h2>
+<p><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-kriging" data-term="kriging">Kriging</span> measures how values in the data are related at different distances before deciding how to weight them. This chapter builds the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-semivariogram" data-term="semivariogram">semivariogram</span> from <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-semivariance" data-term="semivariance">semivariance</span>, explains its nugget, sill, and range, and shows how kriging sets its weights, handles <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-anisotropy" data-term="anisotropy">anisotropy</span> and trends, and differs in its ordinary, simple, universal, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cokriging" data-term="cokriging">cokriging</span> forms. It ends with the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cross-validation" data-term="cross validation">cross-validation</span> statistics and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-prediction-standard-error" data-term="prediction standard error">prediction standard errors</span> used to judge a kriged surface.</p>
+
+
+<div class="glossary-defs" hidden="">
+<span id="gloss-choropleth-map">A map that shades each area, such as a county, by its value, usually in
+a few classes from light to dark.</span>
+<span id="gloss-geographic-information-system-gis">“A computer-based system to aid in the collection, maintenance, storage,
+analysis, output, and distribution of spatial data and information”
+(Bolstad). Its five components are data, hardware, software, people, and
+procedures.</span>
+<span id="gloss-buffer">The region within a specified distance of a point, line, or polygon.</span>
+<span id="gloss-overlay-analysis">Stacking layers of data for the same area to find places that meet
+several conditions at once, such as flat land near a road and outside a
+floodplain.</span>
+<span id="gloss-map-algebra">Math on rasters, cell by cell, such as adding two grids or finding every
+cell where slope is under 10 percent.</span>
+<span id="gloss-raster">A data model that stores the world as a regular grid of equal-sized
+cells, each holding one value. Best for continuous data and imagery.</span>
+<span id="gloss-spatial-interpolation">Estimating the value of an attribute at unsampled locations from
+observations at sampled ones.</span>
+<span id="gloss-kriging">A geostatistical interpolation method that weights observations using a
+model of spatial autocorrelation (the semivariogram), and estimates the
+uncertainty of each prediction.</span>
+<span id="gloss-spatial-operation">A GIS function that takes one or more input layers and produces an
+output layer, such as a buffer, dissolve, or overlay.</span>
+<span id="gloss-qgis">A free and open-source desktop GIS that runs on Windows, Mac, and Linux.</span>
+<span id="gloss-arcgis-pro">Esri’s commercial desktop GIS, for Windows.</span>
+<span id="gloss-equal-interval">A classification method that divides the range of the data into classes
+of equal width.</span>
+<span id="gloss-natural-breaks">A classification method (Jenks) that groups similar values by minimizing
+the variance within classes. The default in ArcGIS Pro.</span>
+<span id="gloss-population-density">The number of people per unit of area, such as people per square mile.</span>
+<span id="gloss-histogram">A bar chart of how many values fall in each range, used to see the shape
+of a distribution.</span>
+<span id="gloss-goodness-of-variance-fit">A measure from 0 to 1 of how well classes fit the data: 1 minus the
+squared deviations from the class means divided by those from the
+overall mean.</span>
+<span id="gloss-tobler-s-first-law-of-geography">“Everything is related to everything else, but near things are more
+related than distant things” (Tobler 1970).</span>
+<span id="gloss-spatial-autocorrelation">The degree to which values at nearby locations are more alike (positive)
+or more different (negative) than chance would predict.</span>
+<span id="gloss-contiguity">Touching. Contiguous polygons share a border (rook’s case) or a border
+or corner (queen’s case).</span>
+<span id="gloss-queen-s-case">Contiguity in which polygons are neighbors if they share an edge or a
+corner.</span>
+<span id="gloss-k-nearest-neighbors">A neighborhood made of the k closest locations, whatever their distance.</span>
+<span id="gloss-kernel-density-estimation">A method that turns points into a continuous density surface by sliding
+a weighted window (a kernel) across a grid.</span>
+<span id="gloss-bandwidth">The radius of a kernel. Small bandwidths show local hot spots; large
+ones show regional patterns.</span>
+<span id="gloss-gis-question">A question whose answer depends on location, such as where something
+clusters, how places differ, what factors explain a pattern, how a place
+has changed, or how accessible a service is.</span>
+<span id="gloss-cartographic-modeling">Planning and running a chain of spatial operations to solve a problem,
+where each operation’s output becomes the next one’s input. The term is
+Dana Tomlin’s.</span>
+<span id="gloss-spatial-scope">The input locations used to compute the value at an output location:
+local (the same location), neighborhood (nearby locations), or global
+(every location).</span>
+<span id="gloss-reclassification">Grouping the values of a layer into fewer, more meaningful classes, such
+as elevations into low, medium, and high.</span>
+<span id="gloss-sliver">A thin, tiny polygon created by overlay where two versions of the same
+boundary don’t match exactly.</span>
+<span id="gloss-cell-size">The real-world length of one side of a raster cell, such as 30 meters.
+Smaller cells give finer resolution and larger files.</span>
+<span id="gloss-nodata">A code meaning a raster cell has no value. Any map algebra operation
+that touches NoData outputs NoData, and statistics skip it.</span>
+<span id="gloss-resampling">Giving each cell of a transformed raster a value from the input cells:
+nearest neighbor, bilinear, or cubic convolution.</span>
+<span id="gloss-conditional-function">The raster version of if-then-else (CON in ArcGIS Pro): where a
+condition is true, take one value or raster; where false, another.</span>
+<span id="gloss-moving-window">A window of cells, usually 3 × 3, that slides across a raster one cell
+at a time while a neighborhood function runs.</span>
+<span id="gloss-zonal-statistics">A statistic, such as the mean or sum, computed for all the raster cells
+within each zone of a zone layer.</span>
+<span id="gloss-nearest-neighbor">The feature closest to a given feature.</span>
+<span id="gloss-thiessen-polygons">Polygons that surround each point with all the area closer to it than to
+any other point.</span>
+<span id="gloss-average-neighbor">An interpolation method that estimates each location as the mean of the
+observations within a search radius.</span>
+<span id="gloss-inverse-distance-weighted">An interpolation method that estimates each location as a weighted
+average of nearby observations, with weights of 1 / distance raised to a
+power.</span>
+<span id="gloss-trend-surface">A smooth polynomial surface fit to all the observations, usually by
+least squares. Its order sets how many bends it can have.</span>
+<span id="gloss-radial-basis-function">An exact interpolation method that fits a smooth, minimum-curvature
+surface through every observation, like a flexible sheet pinned at each
+point.</span>
+<span id="gloss-search-neighborhood">The area around an unknown location, set by a radius, sectors, and a
+shape, from which observations are taken to estimate it.</span>
+<span id="gloss-sampling-design">The pattern of observation locations: systematic, random, clustered, or
+adaptive.</span>
+<span id="gloss-cross-validation">Testing an interpolation by removing each observation in turn,
+estimating it from the rest, and recording the error.</span>
+<span id="gloss-root-mean-square-error-rmse">The square root of the average squared residual: one number that sums up
+how well a model fits.</span>
+<span id="gloss-semivariogram">A plot of semivariance against the distance between pairs of
+observations, described by its nugget, sill, and range.</span>
+<span id="gloss-semivariance">Half the squared difference between two observed values. Averaged over
+pairs in a distance bin, it measures dissimilarity at that distance.</span>
+<span id="gloss-anisotropy">Spatial dependence that changes with direction. Its opposite is
+isotropy, the same dependence in every direction.</span>
+<span id="gloss-cokriging">Kriging that also uses one or more correlated secondary variables, such
+as elevation when predicting temperature.</span>
+<span id="gloss-prediction-standard-error">Kriging’s estimate of how far off each prediction might be. It is
+largest where observations are sparse.</span>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script>
+
+/* update total correct if #webex-total_correct exists */
+update_total_correct = function() {
+  console.log("webex: update total_correct");
+
+  var t = document.getElementsByClassName("webex-total_correct");
+  for (var i = 0; i < t.length; i++) {
+    p = t[i].parentElement;
+    var correct = p.getElementsByClassName("webex-correct").length;
+    var solvemes = p.getElementsByClassName("webex-solveme").length;
+    var radiogroups = p.getElementsByClassName("webex-radiogroup").length;
+    var selects = p.getElementsByClassName("webex-select").length;
+
+    t[i].innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  }
+}
+
+/* webex-solution button toggling function */
+b_func = function() {
+  console.log("webex: toggle hide");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('open')) {
+    cl.remove("open");
+  } else {
+    cl.add("open");
+  }
+}
+
+/* check answers */
+check_func = function() {
+  console.log("webex: check answers");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('unchecked')) {
+    cl.remove("unchecked");
+    this.innerHTML = "Hide Answers";
+  } else {
+    cl.add("unchecked");
+    this.innerHTML = "Show Answers";
+  }
+}
+
+/* function for checking solveme answers */
+solveme_func = function(e) {
+  console.log("webex: check solveme");
+
+  var real_answers = JSON.parse(this.dataset.answer);
+  var my_answer = this.value;
+  var cl = this.classList;
+  if (cl.contains("ignorecase")) {
+    my_answer = my_answer.toLowerCase();
+  }
+  if (cl.contains("nospaces")) {
+    my_answer = my_answer.replace(/ /g, "")
+  }
+
+  if (my_answer == "") {
+    cl.remove("webex-correct");
+    cl.remove("webex-incorrect");
+  } else if (real_answers.includes(my_answer)) {
+    cl.add("webex-correct");
+    cl.remove("webex-incorrect");
+  } else {
+    cl.add("webex-incorrect");
+    cl.remove("webex-correct");
+  }
+
+  // match numeric answers within a specified tolerance
+  if(this.dataset.tol > 0){
+    var tol = JSON.parse(this.dataset.tol);
+    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+    if (matches.reduce((a, b) => a + b, 0) > 0) {
+      cl.add("webex-correct");
+    } else {
+      cl.remove("webex-correct");
+    }
+  }
+
+  // added regex bit
+  if (cl.contains("regex")){
+    answer_regex = RegExp(real_answers.join("|"))
+    if (answer_regex.test(my_answer)) {
+      cl.add("webex-correct");
+    }
+  }
+
+  update_total_correct();
+}
+
+/* function for checking select answers */
+select_func = function(e) {
+  console.log("webex: check select");
+
+  var cl = this.classList
+
+  /* add style */
+  cl.remove("webex-incorrect");
+  cl.remove("webex-correct");
+  if (this.value == "answer") {
+    cl.add("webex-correct");
+  } else if (this.value != "blank") {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+/* function for checking radiogroups answers */
+radiogroups_func = function(e) {
+  console.log("webex: check radiogroups");
+
+  var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
+  var cl = checked_button.parentElement.classList;
+  var labels = checked_button.parentElement.parentElement.children;
+
+  /* get rid of styles */
+  for (i = 0; i < labels.length; i++) {
+    labels[i].classList.remove("webex-incorrect");
+    labels[i].classList.remove("webex-correct");
+  }
+
+  /* add style */
+  if (checked_button.value == "answer") {
+    cl.add("webex-correct");
+  } else {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+window.onload = function() {
+  console.log("webex onload");
+  /* set up solution buttons */
+  var buttons = document.getElementsByTagName("button");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].parentElement.classList.contains('webex-solution')) {
+      buttons[i].onclick = b_func;
+    }
+  }
+
+  var check_sections = document.getElementsByClassName("webex-check");
+  console.log("check:", check_sections.length);
+  for (var i = 0; i < check_sections.length; i++) {
+    check_sections[i].classList.add("unchecked");
+
+    let btn = document.createElement("button");
+    btn.innerHTML = "Show Answers";
+    btn.classList.add("webex-check-button");
+    btn.onclick = check_func;
+    check_sections[i].appendChild(btn);
+
+    let spn = document.createElement("span");
+    spn.classList.add("webex-total_correct");
+    check_sections[i].appendChild(spn);
+  }
+
+  /* set up webex-solveme inputs */
+  var solveme = document.getElementsByClassName("webex-solveme");
+
+  for (var i = 0; i < solveme.length; i++) {
+    /* make sure input boxes don't auto-anything */
+    solveme[i].setAttribute("autocomplete","off");
+    solveme[i].setAttribute("autocorrect", "off");
+    solveme[i].setAttribute("autocapitalize", "off");
+    solveme[i].setAttribute("spellcheck", "false");
+    solveme[i].value = "";
+
+    /* adjust answer for ignorecase or nospaces */
+    var cl = solveme[i].classList;
+    var real_answer = solveme[i].dataset.answer;
+    if (cl.contains("ignorecase")) {
+      real_answer = real_answer.toLowerCase();
+    }
+    if (cl.contains("nospaces")) {
+      real_answer = real_answer.replace(/ /g, "");
+    }
+    solveme[i].dataset.answer = real_answer;
+
+    /* attach checking function */
+    solveme[i].onkeyup = solveme_func;
+    solveme[i].onchange = solveme_func;
+
+    solveme[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  /* set up radiogroups */
+  var radiogroups = document.getElementsByClassName("webex-radiogroup");
+  for (var i = 0; i < radiogroups.length; i++) {
+    radiogroups[i].onchange = radiogroups_func;
+  }
+
+  /* set up selects */
+  var selects = document.getElementsByClassName("webex-select");
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].onchange = select_func;
+    selects[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  update_total_correct();
+}
+
+</script>
+<!--
+  Highlights the right item in the top menu. Quarto's book layout marks
+  "Welcome" as active on every page, so this sets it from the page address:
+  the course pages match their own item, and every other page (chapters,
+  quizzes, glossary) is part of the Textbook. Pages with no menu item of
+  their own (the AI policy and privacy policy) highlight nothing.
+-->
+<script>
+(function () {
+  "use strict";
+  const COURSE_PAGES = ["index", "syllabus", "materials", "about"];
+  const NO_ITEM_PAGES = ["privacy", "ai-policy"];
+  const file = (location.pathname.split("/").pop() || "index").replace(/\.html$/, "");
+  const inRoot = !/\/chapters\//.test(location.pathname);
+  const target = inRoot && NO_ITEM_PAGES.includes(file) ? null
+    : inRoot && COURSE_PAGES.includes(file) ? file : "preface";
+  document.querySelectorAll("#navbarCollapse a.nav-link").forEach((a) => {
+    const page = (a.getAttribute("href") || "").split("/").pop().replace(/\.html$/, "");
+    const on = page === target;
+    a.classList.toggle("active", on);
+    if (on) a.setAttribute("aria-current", "page");
+    else a.removeAttribute("aria-current");
+  });
+})();
+</script>
+<!--
+  Reading settings, part 2 of 2: the "Aa" menu next to search, where readers
+  pick a font and text size. Choices are kept in this browser (localStorage)
+  and applied on every page by assets/reader-settings-head.html.
+-->
+<script>
+(function () {
+  var FONTS = [
+    { id: "", label: "Atkinson Hyperlegible (default)", css: '"Atkinson Hyperlegible Next", sans-serif' },
+    { id: "lexend", label: "Lexend", css: '"Lexend", sans-serif', href: "https://fonts.googleapis.com/css2?family=Lexend:wght@300..700&display=swap" },
+    { id: "cardo", label: "Cardo (serif)", css: '"Cardo", Georgia, serif', href: "https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&display=swap" },
+    { id: "sans", label: "Standard sans-serif", css: 'system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif' },
+    { id: "serif", label: "Serif", css: 'Georgia, Cambria, "Times New Roman", serif' },
+    { id: "dyslexic", label: "OpenDyslexic", css: '"OpenDyslexic", sans-serif' }
+  ];
+  var SIZES = { "-1": "Small", "0": "Default", "1": "Large", "2": "Larger", "3": "Largest" };
+  var MIN = -1, MAX = 3;
+  var root = document.documentElement;
+
+  function save(key, value) {
+    try {
+      if (value === "" || value === "0") localStorage.removeItem(key);
+      else localStorage.setItem(key, value);
+    } catch (e) { /* storage blocked: setting lasts for this page only */ }
+  }
+  function currentFont() { return root.getAttribute("data-reader-font") || ""; }
+  function currentSize() { return parseInt(root.getAttribute("data-reader-size") || "0", 10) || 0; }
+
+  // Add a Google Fonts stylesheet once (Lexend, Cardo). Fonts download only
+  // when text actually uses them.
+  function loadWebFont(f) {
+    if (!f.href || document.getElementById("sds-reader-webfont-" + f.id)) return;
+    var link = document.createElement("link");
+    link.rel = "stylesheet"; link.href = f.href; link.id = "sds-reader-webfont-" + f.id;
+    document.head.appendChild(link);
+  }
+
+  function setFont(id) {
+    FONTS.forEach(function (f) { if (f.id === id) loadWebFont(f); });
+    if (id) root.setAttribute("data-reader-font", id); else root.removeAttribute("data-reader-font");
+    save("sds-reader-font", id);
+  }
+  function setSize(n) {
+    n = Math.max(MIN, Math.min(MAX, n));
+    if (n) root.setAttribute("data-reader-size", String(n)); else root.removeAttribute("data-reader-size");
+    save("sds-reader-size", String(n));
+    refreshSize();
+  }
+
+  var wrap = document.createElement("div");
+  wrap.className = "sds-reader";
+  var fontOptions = FONTS.map(function (f) {
+    return '<label style=\'font-family:' + f.css.replace(/'/g, "&#39;") + '\'>' +
+      '<input class="form-check-input" type="radio" name="sds-reader-font" value="' + f.id + '"> ' + f.label + '</label>';
+  }).join("");
+  wrap.innerHTML =
+    '<button type="button" class="sds-reader-toggle" aria-expanded="false" aria-controls="sds-reader-panel" ' +
+      'title="Reading settings: font and text size">' +
+      '<span aria-hidden="true">Aa</span><span class="visually-hidden">Reading settings</span></button>' +
+    '<div class="sds-reader-panel" id="sds-reader-panel" role="dialog" aria-label="Reading settings" hidden>' +
+      '<h2>Reading settings</h2>' +
+      '<fieldset class="sds-reader-font"><legend>Font</legend>' + fontOptions + '</fieldset>' +
+      '<fieldset><legend>Text size</legend><div class="sds-reader-size-row">' +
+        '<button type="button" data-step="-1" aria-label="Smaller text">A&minus;</button>' +
+        '<output aria-live="polite"></output>' +
+        '<button type="button" data-step="1" aria-label="Larger text">A+</button>' +
+      '</div></fieldset>' +
+      '<button type="button" class="sds-reader-reset">Reset to defaults</button>' +
+    '</div>';
+
+  var toggle = wrap.querySelector(".sds-reader-toggle");
+  var panel = wrap.querySelector(".sds-reader-panel");
+  var output = wrap.querySelector("output");
+  var minus = wrap.querySelector('[data-step="-1"]');
+  var plus = wrap.querySelector('[data-step="1"]');
+
+  function refreshFont() {
+    var id = currentFont();
+    wrap.querySelectorAll('input[name="sds-reader-font"]').forEach(function (r) { r.checked = r.value === id; });
+  }
+  function refreshSize() {
+    var n = currentSize();
+    output.textContent = SIZES[String(n)] || "Default";
+    minus.disabled = n <= MIN;
+    plus.disabled = n >= MAX;
+  }
+  function open(show) {
+    panel.hidden = !show;
+    toggle.setAttribute("aria-expanded", show ? "true" : "false");
+    if (show) { FONTS.forEach(loadWebFont); refreshFont(); refreshSize(); var c = panel.querySelector("input:checked"); if (c) c.focus(); }
+  }
+
+  toggle.addEventListener("click", function (e) { e.stopPropagation(); open(panel.hidden); });
+  panel.addEventListener("click", function (e) { e.stopPropagation(); });
+  panel.addEventListener("change", function (e) { if (e.target.name === "sds-reader-font") setFont(e.target.value); });
+  minus.addEventListener("click", function () { setSize(currentSize() - 1); });
+  plus.addEventListener("click", function () { setSize(currentSize() + 1); });
+  wrap.querySelector(".sds-reader-reset").addEventListener("click", function () { setFont(""); setSize(0); refreshFont(); });
+  document.addEventListener("click", function () { if (!panel.hidden) open(false); });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !panel.hidden) { open(false); toggle.focus(); }
+  });
+
+  // Put the button by search: in the top menu on
+  // geog370.org, or by the sidebar search in the textbook-only build.
+  var navSearch = document.querySelector("#quarto-header #quarto-search");
+  if (navSearch) navSearch.parentNode.insertBefore(wrap, navSearch);
+  else {
+    var search = document.querySelector("#quarto-sidebar .sidebar-search, #quarto-sidebar #quarto-search, .sidebar-tools-main");
+    if (search && search.parentNode) search.parentNode.insertBefore(wrap, search.nextSibling);
+    else return;
+  }
+  refreshFont();
+  refreshSize();
+})();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/osm-data-quality.html" class="pagination-link" aria-label="OpenStreetMap and Data Quality">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">OpenStreetMap and Data Quality</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../chapters/data-classing.html" class="pagination-link" aria-label="Data Classing and Choropleth Maps">
+        <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Data Classing and Choropleth Maps</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

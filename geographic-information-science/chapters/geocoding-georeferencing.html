@@ -265,10 +265,57 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-3-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+            <a href="../units/unit-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Unit 3: Spatial Analysis</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section: Unit 3: Spatial Analysis">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
       </div>
       <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/data-classing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Data Classing and Choropleth Maps</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/density.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Density and Neighborhoods</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/spatial-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Spatial Analysis: Selection, Buffers, and Overlay</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/raster.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Raster Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/interpolation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Spatial Interpolation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/kriging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Kriging</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-4-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../glossary.html" class="sidebar-item-text sidebar-link">
@@ -452,7 +499,7 @@ Table&nbsp;9.1: The three common kinds of reference file for address matching.
 <ul>
 <li><strong>ZIP Code <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-centroid" data-term="centroid">centroids</span>.</strong> Every address in a five-digit ZIP Code is placed at the same point, the ZIP Code’s center. It matches almost every address, and quickly, but it is the least precise option: in a large rural ZIP Code, the error can be several kilometers. (Remember that ZIP Codes are mail delivery routes, not areas. The Census Bureau’s <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-zip-code-tabulation-area-zcta" data-term="ZIP Code Tabulation Area (ZCTA)">ZIP Code Tabulation Areas</span>, Chapter 8, approximate them.)</li>
 <li><strong>ZIP+4 and ZIP+2.</strong> The four extra digits of a ZIP+4 identify a short piece of a delivery route: one side of a block, a single building, or a large mail recipient. The address is placed at the center of that segment. A ZIP+2 (the first two of the four digits) groups several segments.</li>
-<li><strong>Street centerlines.</strong> Each street segment stores the range of addresses on its left and right sides. The address is placed by <strong>interpolation</strong> along the segment (<a href="#sec-interpolation" class="quarto-xref"><span>Section 9.1.4</span></a>). The Census Bureau’s free, nationwide TIGER/Line files make this the most common method in the United States.</li>
+<li><strong>Street centerlines.</strong> Each street segment stores the range of addresses on its left and right sides. The address is placed by <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-interpolation" data-term="spatial interpolation">interpolation</span></strong> along the segment (<a href="#sec-interpolation" class="quarto-xref"><span>Section 9.1.4</span></a>). The Census Bureau’s free, nationwide TIGER/Line files make this the most common method in the United States.</li>
 <li><strong>Parcels.</strong> Each parcel polygon is one property with its own address, so a match finds the exact lot. The point can be placed at the parcel’s <strong>centroid</strong>, inside the property rather than on the street. Parcels are the most accurate reference, but counties maintain them, so coverage and quality vary from place to place.</li>
 <li><strong>Address points.</strong> Many states and counties, including North Carolina, now keep a point for every address, often on the rooftop or the building entrance. Where they exist, address points are as accurate as parcels.</li>
 </ul>
@@ -637,7 +684,7 @@ Figure&nbsp;9.3: Building outlines on a scanned image in file coordinates (left)
 <ol type="1">
 <li><strong>Get to know the data.</strong> What does the image show, what is its scale and date, and what reference layers cover the same area?</li>
 <li><strong>Set up <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-ground-control-point-gcp" data-term="ground control point (GCP)">ground control points</span> (GCPs)</strong>: features you can find on both the image and a reference layer.</li>
-<li><strong>Transform the raster.</strong> This has two parts. A <strong>coordinate <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-transformation" data-term="transformation">transformation</span></strong> (spatial interpolation) works out where each cell belongs on the map. <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-resampling" data-term="resampling">Resampling</span></strong> (intensity interpolation) then gives each output cell a value.</li>
+<li><strong>Transform the raster.</strong> This has two parts. A <strong>coordinate <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-transformation" data-term="transformation">transformation</span></strong> (<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-interpolation" data-term="spatial interpolation">spatial interpolation</span>) works out where each cell belongs on the map. <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-resampling" data-term="resampling">Resampling</span></strong> (intensity interpolation) then gives each output cell a value.</li>
 <li><strong>Validate</strong> the result with the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-residual" data-term="residual">residuals</span> and the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-root-mean-square-error-rmse" data-term="root mean square error (RMSE)">root mean square error</span> (RMSE).</li>
 <li><strong>Rectify</strong>: save the georeferenced raster.</li>
 </ol>
@@ -659,7 +706,7 @@ Figure&nbsp;9.3: Building outlines on a scanned image in file coordinates (left)
 <p><span class="math display">\[
 x = a_0 + a_1 x' + a_2 y', \qquad y = b_0 + b_1 x' + b_2 y'
 \]</span></p>
-<p>The six coefficients model the distortions in <a href="#fig-affine" class="quarto-xref">Figure&nbsp;<span>9.4</span></a>: a shift in x and y (<strong>translation</strong>), a change of <strong>scale</strong> in x and in y, <strong>skew</strong>, and <strong>rotation</strong>. An affine transformation keeps straight lines straight and parallel lines parallel. It needs at least <strong>3 GCPs</strong>.</p>
+<p>The six coefficients model the distortions in <a href="#fig-affine" class="quarto-xref">Figure&nbsp;<span>9.4</span></a>: a shift in x and y (<strong>translation</strong>), a change of <strong>scale</strong> in x and in y, <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-skewed" data-term="skewed">skew</span></strong>, and <strong>rotation</strong>. An affine transformation keeps straight lines straight and parallel lines parallel. It needs at least <strong>3 GCPs</strong>.</p>
 <div id="fig-affine" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Five panels. Original shows a square. Translation shows it shifted up and right. Scale shows it stretched horizontally and squashed vertically. Skew shows it slanted into a parallelogram. Rotation shows it turned about 25 degrees. In each changed panel, the original square is drawn dashed.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-affine-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -721,7 +768,7 @@ Figure&nbsp;9.5: Fitting the same GCPs with 1st-, 2nd-, and 3rd-order polynomial
 <li><strong>Collect more than the minimum.</strong> With exactly 3 GCPs, an affine transformation fits them perfectly, and you have no way to measure the error. Ten or more well-spread GCPs are a good habit.</li>
 <li><strong>Use the lowest order that fits.</strong> A high-order polynomial bends to fit the GCPs, but it can warp badly in areas between and beyond them, as the right edge of the third panel in <a href="#fig-polynomial" class="quarto-xref">Figure&nbsp;<span>9.5</span></a> shows. Try first order, and move up only if the error is too large.</li>
 </ul>
-<p>Software offers other transformations too. A <strong>Helmert</strong> (similarity) transformation allows only shift, rotation, and uniform scale. A <strong>spline</strong> (thin plate spline or rubber sheeting) fits every GCP exactly and stretches the image between them; it is useful for badly distorted historic maps, but it hides errors at the GCPs, because their residuals are all zero.</p>
+<p>Software offers other transformations too. A <strong>Helmert</strong> (similarity) transformation allows only shift, rotation, and uniform scale. A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-radial-basis-function" data-term="radial basis function">spline</span></strong> (thin plate spline or rubber sheeting) fits every GCP exactly and stretches the image between them; it is useful for badly distorted historic maps, but it hides errors at the GCPs, because their residuals are all zero.</p>
 </section>
 <section id="resampling" class="level3" data-number="9.2.5">
 <h3 data-number="9.2.5" class="anchored" data-anchor-id="resampling"><span class="header-section-number">9.2.5</span> Resampling</h3>
@@ -832,7 +879,7 @@ Table&nbsp;9.4: Computing the RMSE from four residuals.
 </section>
 <section id="georeferencing-in-qgis" class="level3" data-number="9.2.8">
 <h3 data-number="9.2.8" class="anchored" data-anchor-id="georeferencing-in-qgis"><span class="header-section-number">9.2.8</span> Georeferencing in QGIS</h3>
-<p><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span> has a built-in <strong>Georeferencer</strong> (<em>Layer &gt; Georeferencer</em>). Open the raster in the Georeferencer window, and click <em>Add Point</em> to place GCPs: click a feature on the image, then click <em>From Map Canvas</em> to pick its location on the main map. Under <em>Transformation Settings</em>, choose the transformation type (Linear, Helmert, Polynomial 1 to 3, Thin Plate Spline, or Projective), the target <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-reference-system-crs" data-term="coordinate reference system (CRS)">CRS</span>, the resampling method, and the output file. The GCP table shows each point’s residual, and the status bar shows the mean error. <em>Start Georeferencing</em> writes the rectified raster, and the GCPs can be saved to a <code>.points</code> file.</p>
+<p><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span> has a built-in <strong>Georeferencer</strong> (<em>Layer &gt; Georeferencer</em>). Open the raster in the Georeferencer window, and click <em>Add Point</em> to place GCPs: click a feature on the image, then click <em>From Map Canvas</em> to pick its location on the main map. Under <em>Transformation Settings</em>, choose the transformation type (Linear, Helmert, Polynomial 1 to 3, Thin Plate Spline, or Projective), the target <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-reference-system-crs" data-term="coordinate reference system (CRS)">CRS</span>, the resampling method, and the output file. The GCP table shows each point’s residual, and the status bar shows the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-mean-error" data-term="mean error">mean error</span>. <em>Start Georeferencing</em> writes the rectified raster, and the GCPs can be saved to a <code>.points</code> file.</p>
 </section>
 </section>
 <section id="check-your-understanding" class="level2" data-number="9.3">
@@ -858,12 +905,12 @@ Show hint for question 8
 <h2 data-number="9.4" class="anchored" data-anchor-id="summary"><span class="header-section-number">9.4</span> Summary</h2>
 <ul>
 <li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geocoding" data-term="geocoding">Geocoding</span></strong> assigns <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">coordinates</span> to data that describe a location in another way. <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-address-matching" data-term="address matching">Address matching</span></strong> places an address by comparing it with a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-reference-file" data-term="reference file">reference file</span></strong>.</li>
-<li>U.S. addresses can be interpolated because house numbers increase along each street, with odd and even numbers on opposite sides.</li>
+<li>U.S. addresses can be <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-interpolation" data-term="spatial interpolation">interpolated</span> because house numbers increase along each street, with odd and even numbers on opposite sides.</li>
 <li>Reference files range from <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-parcel" data-term="parcel">parcels</span></strong> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-address-point" data-term="address point">address points</span> (most accurate) through <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-street-centerline" data-term="street centerline">street centerlines</span></strong> and <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-zip-4" data-term="ZIP+4">ZIP+4</span></strong> to <strong>ZIP Code <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-centroid" data-term="centroid">centroids</span></strong> (least accurate). The same address lands in different places with each.</li>
 <li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-linear-interpolation" data-term="linear interpolation">Linear interpolation</span></strong> places an address along a street segment in proportion to its number within the segment’s range: <span class="math inline">\(A\% = (A_\# - A_{\text{from}}) / (A_{\text{to}} - A_{\text{from}})\)</span>.</li>
 <li><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-batch-geocoding" data-term="batch geocoding">Batch geocoding</span> standardizes addresses and scores each candidate. Report the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-match-rate" data-term="match rate">match rate</span></strong>, and review tied and unmatched addresses, which are rarely missing at random.</li>
 <li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-georeferencing" data-term="georeferencing">Georeferencing</span></strong> transforms a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">raster</span> from <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-file-coordinates" data-term="file coordinates">file coordinates</span> (rows and columns) to map coordinates, using <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-ground-control-point-gcp" data-term="ground control point (GCP)">ground control points</span></strong> that are easy to identify, accurate, stable, and spread across the image.</li>
-<li>A <strong>first-order (<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-affine-transformation" data-term="affine transformation">affine</span>)</strong> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-transformation" data-term="transformation">transformation</span> corrects shift, scale, skew, and rotation, and needs at least 3 GCPs. <strong>Second-</strong> and <strong>third-order</strong> polynomials bend to fit nonlinear distortion and need 6 and 10. Use the lowest order that fits.</li>
+<li>A <strong>first-order (<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-affine-transformation" data-term="affine transformation">affine</span>)</strong> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-transformation" data-term="transformation">transformation</span> corrects shift, scale, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-skewed" data-term="skewed">skew</span>, and rotation, and needs at least 3 GCPs. <strong>Second-</strong> and <strong>third-order</strong> polynomials bend to fit nonlinear distortion and need 6 and 10. Use the lowest order that fits.</li>
 <li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-resampling" data-term="resampling">Resampling</span></strong> gives the output cells their values: <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-nearest-neighbor" data-term="nearest neighbor">nearest neighbor</span> for categories, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-bilinear-interpolation" data-term="bilinear interpolation">bilinear</span> or cubic for images.</li>
 <li>A GCP’s <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-residual" data-term="residual">residual</span></strong> is the distance between where the transformation puts it and where it really is. The <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-root-mean-square-error-rmse" data-term="root mean square error (RMSE)">RMSE</span></strong> combines the residuals into one number. Check it, fix outliers, and report it with the result.</li>
 </ul>
@@ -871,7 +918,7 @@ Show hint for question 8
 <section id="exercises" class="level2" data-number="9.5">
 <h2 data-number="9.5" class="anchored" data-anchor-id="exercises"><span class="header-section-number">9.5</span> Exercises</h2>
 <ol type="1">
-<li><strong>Interpolate.</strong> A street segment runs from (100, 200) to (300, 260). Its left side holds 200 to 298 and its right side 201 to 299. Find the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">coordinates</span> of 250 and 275, and say which side each is on.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-interpolation" data-term="spatial interpolation">Interpolate</span>.</strong> A street segment runs from (100, 200) to (300, 260). Its left side holds 200 to 298 and its right side 201 to 299. Find the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">coordinates</span> of 250 and 275, and say which side each is on.</li>
 <li><strong>Compare <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-reference-file" data-term="reference file">reference files</span>.</strong> Use the Census Geocoder to geocode your department’s address, or any public building. Then find the same building on a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-parcel" data-term="parcel">parcel</span> map from NC OneMap or the county <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> website. How far apart are the two points?</li>
 <li><strong>Batch geocode.</strong> Make a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-csv" data-term="CSV">CSV</span> of 20 public addresses in Chapel Hill (schools, libraries, fire stations). Geocode them in batch with the Census Geocoder or in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span>. What is the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-match-rate" data-term="match rate">match rate</span>? Why did any addresses fail?</li>
 <li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-georeferencing" data-term="georeferencing">Georeference</span> a historic map.</strong> Download a historic map of Chapel Hill or another North Carolina town from the Library of Congress or the North Carolina Collection’s digital maps. Georeference it in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span> or ArcGIS Pro with at least 8 <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-ground-control-point-gcp" data-term="ground control point (GCP)">GCPs</span> and a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-affine-transformation" data-term="affine transformation">first-order transformation</span>. Record the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-root-mean-square-error-rmse" data-term="root mean square error (RMSE)">RMSE</span>. Then try a second-order <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-transformation" data-term="transformation">transformation</span>. Did the RMSE fall? Does the image look better or worse away from the GCPs?</li>
@@ -975,6 +1022,8 @@ and other features.</span>
 store the address range on each side of each segment.</span>
 <span id="gloss-centroid">The center point of a polygon.</span>
 <span id="gloss-zip-code-tabulation-area-zcta">An approximation of a ZIP Code’s area built from census blocks.</span>
+<span id="gloss-spatial-interpolation">Estimating the value of an attribute at unsampled locations from
+observations at sampled ones.</span>
 <span id="gloss-address-range">The lowest and highest house numbers on one side of a street segment.</span>
 <span id="gloss-batch-geocoding">Geocoding a whole table of addresses in one run.</span>
 <span id="gloss-census-tract">A relatively permanent subdivision of a county with 1,200 to 8,000
@@ -1004,8 +1053,13 @@ and 18N.</span>
 nearest neighbor, bilinear, or cubic convolution.</span>
 <span id="gloss-least-squares">Fitting a model by choosing the coefficients that make the sum of the
 squared errors as small as possible.</span>
+<span id="gloss-skewed">Describes a distribution with a long tail on one side, such as many
+small values and a few very large ones.</span>
 <span id="gloss-polynomial-transformation">A transformation that can bend an image. Second order needs at least 6
 GCPs; third order needs 10.</span>
+<span id="gloss-radial-basis-function">An exact interpolation method that fits a smooth, minimum-curvature
+surface through every observation, like a flexible sheet pinned at each
+point.</span>
 <span id="gloss-nearest-neighbor">The feature closest to a given feature.</span>
 <span id="gloss-bilinear-interpolation">Resampling that averages the four nearest input cells, weighted by
 distance.</span>
@@ -1016,6 +1070,8 @@ Smaller cells give finer resolution and larger files.</span>
 kept back to test its accuracy.</span>
 <span id="gloss-coordinate-reference-system-crs">The full description of how coordinates relate to the Earth: a datum,
 plus a projection with its parameters, plus units.</span>
+<span id="gloss-mean-error">The average of the cross-validation errors. Near 0 means the surface is
+unbiased.</span>
 <span id="gloss-remote-sensing">Collecting information about Earth without touching it, from sensors on
 satellites, aircraft, or drones.</span>
 <span id="gloss-spatial-data">Data tied to a location on or near Earth, such as the address of a

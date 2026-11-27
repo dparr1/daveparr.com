@@ -1,0 +1,1720 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>13&nbsp; Spatial Analysis: Selection, Buffers, and Overlay – Geographic Information Science</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/raster.html" rel="next">
+<link href="../chapters/density.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ebb58cfc2c0cc903b00b246007c1be77.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-58aeb932f9769ef5b136914697361c15.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-contrib/glossary-1.0.0/glossary.js"></script>
+<link href="../site_libs/quarto-contrib/glossary-1.0.0/glossary.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<!--
+  Reading settings, part 1 of 2: applies the reader's saved font and text size
+  before the page draws, so it doesn't flash in the default font first.
+  The menu itself is in assets/reader-settings.html; styles are in
+  assets/reader-settings.css.
+-->
+<script>
+  (function () {
+    try {
+      var font = localStorage.getItem("sds-reader-font");
+      var size = localStorage.getItem("sds-reader-size");
+      if (font) document.documentElement.setAttribute("data-reader-font", font);
+      // Lexend and Cardo come from Google Fonts, loaded only for readers who pick them.
+      var webFonts = {
+        lexend: "https://fonts.googleapis.com/css2?family=Lexend:wght@300..700&display=swap",
+        cardo: "https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&display=swap"
+      };
+      if (webFonts[font]) {
+        var link = document.createElement("link");
+        link.rel = "stylesheet"; link.href = webFonts[font]; link.id = "sds-reader-webfont-" + font;
+        document.head.appendChild(link);
+      }
+      if (size) document.documentElement.setAttribute("data-reader-size", size);
+    } catch (e) { /* storage blocked: keep the defaults */ }
+  })();
+</script>
+
+
+<link rel="stylesheet" href="../include/webex.css">
+<link rel="stylesheet" href="../assets/sidebar.css">
+<link rel="stylesheet" href="../assets/grade-table.css">
+<link rel="stylesheet" href="../assets/reader-settings.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../units/unit-3.html">Unit 3: Spatial Analysis</a></li><li class="breadcrumb-item"><a href="../chapters/spatial-analysis.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Spatial Analysis: Selection, Buffers, and Overlay</span></a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Site">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Geographic Information Science</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../units/unit-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-1-label">Unit 1: Data Models and Projections</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section: Unit 1: Data Models and Projections">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/what-is-gis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">What Is GIS?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/what-is-geographic-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">What Is Geographic Data?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/location-and-coordinates.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Location and Coordinate Systems</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/map-projections.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Map Projections</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/attribute-queries.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Attribute Data and Queries</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/database-joins.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Databases and Table Joins</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/spatial-joins.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Spatial Joins</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../units/unit-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-2-label">Unit 2: Spatial Data Quality</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section: Unit 2: Spatial Data Quality">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/census-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Census Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/geocoding-georeferencing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Geocoding and Georeferencing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/osm-data-quality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">OpenStreetMap and Data Quality</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../units/unit-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Unit 3: Spatial Analysis</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section: Unit 3: Spatial Analysis">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/data-classing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Data Classing and Choropleth Maps</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/density.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Density and Neighborhoods</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/spatial-analysis.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Spatial Analysis: Selection, Buffers, and Overlay</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/raster.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Raster Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/interpolation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Spatial Interpolation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/kriging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Kriging</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-4-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Glossary</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../about.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About the author</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-what-is-spatial-analysis" id="toc-sec-what-is-spatial-analysis" class="nav-link active" data-scroll-target="#sec-what-is-spatial-analysis"><span class="header-section-number">13.1</span> What is spatial analysis?</a>
+  <ul class="collapse">
+  <li><a href="#a-problem-where-would-batman-live" id="toc-a-problem-where-would-batman-live" class="nav-link" data-scroll-target="#a-problem-where-would-batman-live"><span class="header-section-number">13.1.1</span> A problem: where would Batman live?</a></li>
+  <li><a href="#spatial-operations-and-cartographic-models" id="toc-spatial-operations-and-cartographic-models" class="nav-link" data-scroll-target="#spatial-operations-and-cartographic-models"><span class="header-section-number">13.1.2</span> Spatial operations and cartographic models</a></li>
+  </ul></li>
+  <li><a href="#sec-spatial-scope" id="toc-sec-spatial-scope" class="nav-link" data-scroll-target="#sec-spatial-scope"><span class="header-section-number">13.2</span> Spatial scope</a></li>
+  <li><a href="#sec-preparing-layers" id="toc-sec-preparing-layers" class="nav-link" data-scroll-target="#sec-preparing-layers"><span class="header-section-number">13.3</span> Preparing layers</a>
+  <ul class="collapse">
+  <li><a href="#selection" id="toc-selection" class="nav-link" data-scroll-target="#selection"><span class="header-section-number">13.3.1</span> Selection</a></li>
+  <li><a href="#joins" id="toc-joins" class="nav-link" data-scroll-target="#joins"><span class="header-section-number">13.3.2</span> Joins</a></li>
+  <li><a href="#reclassification" id="toc-reclassification" class="nav-link" data-scroll-target="#reclassification"><span class="header-section-number">13.3.3</span> Reclassification</a></li>
+  <li><a href="#dissolve" id="toc-dissolve" class="nav-link" data-scroll-target="#dissolve"><span class="header-section-number">13.3.4</span> Dissolve</a></li>
+  </ul></li>
+  <li><a href="#sec-buffers" id="toc-sec-buffers" class="nav-link" data-scroll-target="#sec-buffers"><span class="header-section-number">13.4</span> Buffers</a>
+  <ul class="collapse">
+  <li><a href="#proximity" id="toc-proximity" class="nav-link" data-scroll-target="#proximity"><span class="header-section-number">13.4.1</span> Proximity</a></li>
+  <li><a href="#line-and-polygon-buffers" id="toc-line-and-polygon-buffers" class="nav-link" data-scroll-target="#line-and-polygon-buffers"><span class="header-section-number">13.4.2</span> Line and polygon buffers</a></li>
+  </ul></li>
+  <li><a href="#sec-overlay" id="toc-sec-overlay" class="nav-link" data-scroll-target="#sec-overlay"><span class="header-section-number">13.5</span> Overlay</a>
+  <ul class="collapse">
+  <li><a href="#combining-layers-by-location" id="toc-combining-layers-by-location" class="nav-link" data-scroll-target="#combining-layers-by-location"><span class="header-section-number">13.5.1</span> Combining layers by location</a></li>
+  <li><a href="#clip-intersect-and-union" id="toc-clip-intersect-and-union" class="nav-link" data-scroll-target="#clip-intersect-and-union"><span class="header-section-number">13.5.2</span> Clip, intersect, and union</a></li>
+  <li><a href="#slivers" id="toc-slivers" class="nav-link" data-scroll-target="#slivers"><span class="header-section-number">13.5.3</span> Slivers</a></li>
+  </ul></li>
+  <li><a href="#sec-map-algebra" id="toc-sec-map-algebra" class="nav-link" data-scroll-target="#sec-map-algebra"><span class="header-section-number">13.6</span> Raster overlay: map algebra</a></li>
+  <li><a href="#sec-other-analysis" id="toc-sec-other-analysis" class="nav-link" data-scroll-target="#sec-other-analysis"><span class="header-section-number">13.7</span> Other kinds of spatial analysis</a></li>
+  <li><a href="#check-your-understanding" id="toc-check-your-understanding" class="nav-link" data-scroll-target="#check-your-understanding"><span class="header-section-number">13.8</span> Check your understanding</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">13.9</span> Summary</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">13.10</span> Exercises</a></li>
+  <li><a href="#further-reading-and-online-resources" id="toc-further-reading-and-online-resources" class="nav-link" data-scroll-target="#further-reading-and-online-resources"><span class="header-section-number">13.11</span> Further reading and online resources</a>
+  <ul class="collapse">
+  <li><a href="#books" id="toc-books" class="nav-link" data-scroll-target="#books"><span class="header-section-number">13.11.1</span> Books</a></li>
+  <li><a href="#arcgis-pro" id="toc-arcgis-pro" class="nav-link" data-scroll-target="#arcgis-pro"><span class="header-section-number">13.11.2</span> ArcGIS Pro</a></li>
+  <li><a href="#qgis" id="toc-qgis" class="nav-link" data-scroll-target="#qgis"><span class="header-section-number">13.11.3</span> QGIS</a></li>
+  <li><a href="#other-resources" id="toc-other-resources" class="nav-link" data-scroll-target="#other-resources"><span class="header-section-number">13.11.4</span> Other resources</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../units/unit-3.html">Unit 3: Spatial Analysis</a></li><li class="breadcrumb-item"><a href="../chapters/spatial-analysis.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Spatial Analysis: Selection, Buffers, and Overlay</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Spatial Analysis: Selection, Buffers, and Overlay</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Learning objectives
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>By the end of this chapter you should be able to:</p>
+<ol type="1">
+<li>Define <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-analysis" data-term="spatial analysis">spatial analysis</span>, and break a problem into a chain of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-operation" data-term="spatial operation">spatial operations</span>, as a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cartographic-modeling" data-term="cartographic modeling">cartographic model</span>.</li>
+<li>Tell local, neighborhood, and global operations apart by their <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-scope" data-term="spatial scope">spatial scope</span>.</li>
+<li>Use selection, joins, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-reclassification" data-term="reclassification">reclassification</span>, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-dissolve" data-term="dissolve">dissolve</span> to prepare <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layers</span> for analysis.</li>
+<li>Create fixed, dissolved, multiple-ring, and variable-distance <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-buffer" data-term="buffer">buffers</span>, and spot the problems they can cause.</li>
+<li>Explain what <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-overlay-analysis" data-term="overlay analysis">overlay</span> does to geometry and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-attribute" data-term="attribute">attributes</span>, and choose between <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-clip" data-term="clip">clip</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-intersect" data-term="intersect">intersect</span>, and union.</li>
+<li>Recognize <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-sliver" data-term="sliver">sliver polygons</span>, and describe how <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-map-algebra" data-term="map algebra">map algebra</span> performs overlay on <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">rasters</span>.</li>
+</ol>
+</div>
+</div>
+<p>So far, this book has been about getting data into a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> and mapping it well. This chapter turns to answering questions with it. Most <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-gis-question" data-term="GIS question">GIS questions</span>, from “which homes are in the flood zone?” to “where should the new clinic go?”, are answered with a small set of tools used over and over: selection, joins, reclassification, dissolve, buffers, and overlay. The art is in chaining them together.</p>
+<section id="sec-what-is-spatial-analysis" class="level2" data-number="13.1">
+<h2 data-number="13.1" class="anchored" data-anchor-id="sec-what-is-spatial-analysis"><span class="header-section-number">13.1</span> What is spatial analysis?</h2>
+<section id="a-problem-where-would-batman-live" class="level3" data-number="13.1.1">
+<h3 data-number="13.1.1" class="anchored" data-anchor-id="a-problem-where-would-batman-live"><span class="header-section-number">13.1.1</span> A problem: where would Batman live?</h3>
+<p>Start with a light problem. Suppose Batman is moving to Austin, Texas. He has two requirements:</p>
+<ul>
+<li><strong>Limestone soils</strong>, soft enough to dig a Batcave, and prone to forming caves on their own.</li>
+<li><strong>A high-crime area nearby</strong>, so that he can fight crime.</li>
+</ul>
+<p>Austin is a good choice. It sits on the Balcones Escarpment, where limestone is common, and it is home to one of the largest urban bat colonies in North America. To find the best site, we need two data <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layers</span>, soils and ZIP Codes, and a table of crimes by ZIP Code. Then we solve the problem in four steps (<a href="#fig-batcave-model" class="quarto-xref">Figure&nbsp;<span>13.1</span></a>):</p>
+<ol type="1">
+<li><strong>Select</strong> the limestone soils from the soils layer, to create a new layer.</li>
+<li><strong>Table join</strong> the crime table to the ZIP Code layer, on the ZIP Code (Chapter 6).</li>
+<li><strong>Select</strong> the ZIP Code with the most crimes, to create a new layer.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-join" data-term="spatial join">Spatial join</span></strong> the limestone layer to the highest-crime ZIP Code, to find the closest limestone area (Chapter 7).</li>
+</ol>
+<div id="fig-batcave-model" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A flowchart. The soils layer goes into step 1, select by attribute SOIL equals Limestone, producing limestone areas. The crime table and ZIP Code layer go into step 2, table join on ZIP Code, producing ZIP Codes with crimes, which go into step 3, select highest-crime ZIP Code, producing the highest-crime ZIP Code. The limestone areas and the highest-crime ZIP Code go into step 4, spatial join on closest, producing the Batcave site.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-batcave-model-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/spatial-analysis/batcave-model.png" class="img-fluid figure-img" alt="A flowchart. The soils layer goes into step 1, select by attribute SOIL equals Limestone, producing limestone areas. The crime table and ZIP Code layer go into step 2, table join on ZIP Code, producing ZIP Codes with crimes, which go into step 3, select highest-crime ZIP Code, producing the highest-crime ZIP Code. The limestone areas and the highest-crime ZIP Code go into step 4, spatial join on closest, producing the Batcave site.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-batcave-model-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;13.1: The Batcave problem as a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cartographic-modeling" data-term="cartographic modeling">cartographic model</span>. Each operation’s output becomes the next operation’s input.
+</figcaption>
+</figure>
+</div>
+<div id="fig-batcave-map" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Three maps of the same made-up city. Left: scattered limestone and clay soil polygons. Middle: six ZIP Code squares shaded by crime count, from 1,480 to 4,870; 78741 in the lower right is darkest. Right: ZIP Code 78741 is highlighted, and the limestone polygon closest to it, in the neighboring ZIP Code, is dark green and labeled Batcave site.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-batcave-map-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/spatial-analysis/batcave-map.png" class="img-fluid figure-img" alt="Three maps of the same made-up city. Left: scattered limestone and clay soil polygons. Middle: six ZIP Code squares shaded by crime count, from 1,480 to 4,870; 78741 in the lower right is darkest. Right: ZIP Code 78741 is highlighted, and the limestone polygon closest to it, in the neighboring ZIP Code, is dark green and labeled Batcave site.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-batcave-map-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;13.2: The Batcave problem in a made-up city: soils (left), crimes by ZIP Code after the table join (middle), and the closest limestone area to the highest-crime ZIP Code (right).
+</figcaption>
+</figure>
+</div>
+<p>The answer depends on our choices. If we used crimes <em>per person</em> rather than total crimes (Chapter 11), a different ZIP Code might win, and so might a different site. The same workflow, with different criteria, is used to site real facilities, such as schools, clinics, and landfills.</p>
+<div class="did-you-know callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Did you know..?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Austin really is a good place for bats. From March to October, about 1.5 million Mexican free-tailed bats live under the Congress Avenue Bridge downtown, and at dusk they stream out in a cloud to hunt insects. The colony moved in after the bridge was rebuilt in 1980 with narrow crevices underneath, just the right size for roosting. Crowds now gather every summer evening to watch.</p>
+</div>
+</div>
+</section>
+<section id="spatial-operations-and-cartographic-models" class="level3" data-number="13.1.2">
+<h3 data-number="13.1.2" class="anchored" data-anchor-id="spatial-operations-and-cartographic-models"><span class="header-section-number">13.1.2</span> Spatial operations and cartographic models</h3>
+<p>Bolstad defines <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-analysis" data-term="spatial analysis">spatial analysis</span></strong> as the “application of operations to coordinate data and related <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-attribute" data-term="attribute">attribute data</span>, often to solve a problem” <span class="citation" data-cites="bolstad2022">(Bolstad 2022)</span>. Two things stand out in that definition. Operations work on both the geometry (<em>coordinate data</em>) and the table (<em>attribute data</em>), and they usually change both. And analysis is driven by a <em>problem</em>, not by the tools.</p>
+<p>A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-operation" data-term="spatial operation">spatial operation</span></strong>, also called a spatial function, takes one or more input layers and produces an output layer. Real problems are solved by chaining operations, each output becoming the next input. Planning such a chain is called <strong>cartographic modeling</strong>, a term introduced by Dana Tomlin <span class="citation" data-cites="tomlin1990">(Tomlin 1990)</span>. A flowchart like <a href="#fig-batcave-model" class="quarto-xref">Figure&nbsp;<span>13.1</span></a> is the plan: the inputs, the operations, the intermediate layers, and the final output.</p>
+<p><strong>Sketch the model before you open the software.</strong> Then build it in a tool such as <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span>’s <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-modelbuilder" data-term="ModelBuilder">ModelBuilder</span></strong> or <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span>’s <strong>Model Designer</strong>, which let you draw the flowchart and run it. A model documents every step, and can be rerun when the data change.</p>
+</section>
+</section>
+<section id="sec-spatial-scope" class="level2" data-number="13.2">
+<h2 data-number="13.2" class="anchored" data-anchor-id="sec-spatial-scope"><span class="header-section-number">13.2</span> Spatial scope</h2>
+<p><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-scope" data-term="spatial scope">Spatial scope</span></strong> is “the extent or area of the input data that are used in determining the values at output locations” <span class="citation" data-cites="bolstad2022">(Bolstad 2022)</span>. It tells you which input locations feed each output value. There are three kinds (<a href="#fig-spatial-scope" class="quarto-xref">Figure&nbsp;<span>13.3</span></a>):</p>
+<ul>
+<li><strong>Local</strong> operations use only the input at the same location. Utah’s <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-population-density" data-term="population density">population density</span> uses only Utah’s population and area; its neighbors’ values don’t matter.</li>
+<li><strong>Neighborhood</strong> operations use the input at a location and at nearby locations. Counting the states that border Utah is a neighborhood operation: the answer, 6, depends on which states touch it. <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-buffer" data-term="buffer">Buffers</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-moving-window" data-term="moving window">moving windows</span> are neighborhood operations.</li>
+<li><strong>Global</strong> operations use every location in the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layer</span>. Ranking the states by population is global: Utah’s rank depends on every other state’s value. Changing any one input can change every output.</li>
+</ul>
+<div id="fig-spatial-scope" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Three maps of the western United States. Local: only Utah is shaded. Neighborhood: Utah and its six neighbors, Idaho, Wyoming, Colorado, New Mexico, Arizona, and Nevada, are shaded. Global: every western state is shaded.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-spatial-scope-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/spatial-analysis/spatial-scope.png" class="img-fluid figure-img" alt="Three maps of the western United States. Local: only Utah is shaded. Neighborhood: Utah and its six neighbors, Idaho, Wyoming, Colorado, New Mexico, Arizona, and Nevada, are shaded. Global: every western state is shaded.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-spatial-scope-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;13.3: Spatial scope, with Utah as the example location. Shaded states are the inputs used to compute Utah’s output value.
+</figcaption>
+</figure>
+</div>
+<p>Utah’s six neighbors include New Mexico, which it touches only at the Four Corners. Counted in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-rook-s-case" data-term="rook’s case">rook’s case</span> (Chapter 12), Utah would have five. The same three scopes appear in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">raster</span> analysis as local, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-focal-function" data-term="focal function">focal</span>, and global functions (<a href="#sec-map-algebra" class="quarto-xref"><span>Section 13.6</span></a>).</p>
+</section>
+<section id="sec-preparing-layers" class="level2" data-number="13.3">
+<h2 data-number="13.3" class="anchored" data-anchor-id="sec-preparing-layers"><span class="header-section-number">13.3</span> Preparing layers</h2>
+<section id="selection" class="level3" data-number="13.3.1">
+<h3 data-number="13.3.1" class="anchored" data-anchor-id="selection"><span class="header-section-number">13.3.1</span> Selection</h3>
+<p><strong>Selection</strong> is usually the first step. An <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-attribute" data-term="attribute">attribute</span> query</strong> selects features by their values in the table, such as <code>SOIL = 'Limestone'</code> (Chapter 5). A <strong>spatial query</strong> selects them by location, such as the ZIP Codes that touch a river (Chapter 7). Both combine conditions with <code>AND</code>, <code>OR</code>, and <code>NOT</code>. Export the selection to a new <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layer</span> to feed the next operation.</p>
+</section>
+<section id="joins" class="level3" data-number="13.3.2">
+<h3 data-number="13.3.2" class="anchored" data-anchor-id="joins"><span class="header-section-number">13.3.2</span> Joins</h3>
+<p><strong>Joins</strong> attach attributes from one dataset to another. A <strong>table join</strong> links records through a shared key, such as a ZIP Code (Chapter 6). A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-join" data-term="spatial join">spatial join</span></strong> links them by location, such as <em>contains</em>, <em>intersects</em>, or <em>closest</em>, and works when the layers share no key (Chapter 7). The Batcave problem uses both.</p>
+</section>
+<section id="reclassification" class="level3" data-number="13.3.3">
+<h3 data-number="13.3.3" class="anchored" data-anchor-id="reclassification"><span class="header-section-number">13.3.3</span> Reclassification</h3>
+<p><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-reclassification" data-term="reclassification">Reclassification</span></strong> groups values into fewer, more meaningful classes, such as elevation into <em>low</em> (below 500 m), <em>medium</em>, and <em>high</em> (above 1,500 m). It is a local operation: each feature’s new class depends only on its own value. In suitability models, each input layer is usually reclassified onto a common scale, such as 1 (poor) to 5 (good), before the layers are combined.</p>
+</section>
+<section id="dissolve" class="level3" data-number="13.3.4">
+<h3 data-number="13.3.4" class="anchored" data-anchor-id="dissolve"><span class="header-section-number">13.3.4</span> Dissolve</h3>
+<p><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-dissolve" data-term="dissolve">Dissolve</span></strong> merges features that share a value in a field, removing the boundaries between them (<a href="#fig-dissolve" class="quarto-xref">Figure&nbsp;<span>13.4</span></a>). Dissolving U.S. states on their Census region turns 49 <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-polygon" data-term="polygon">polygons</span> into 4. Dissolve is how you aggregate to a coarser unit: counties to states, or <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-parcel" data-term="parcel">parcels</span> to zoning districts.</p>
+<div id="fig-dissolve" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Two maps of the lower 48 states. Before: each state is outlined and colored by its Census region, West, Midwest, South, or Northeast. After: the internal state boundaries are gone, leaving four large region polygons, each labeled.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dissolve-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/spatial-analysis/dissolve.png" class="img-fluid figure-img" alt="Two maps of the lower 48 states. Before: each state is outlined and colored by its Census region, West, Midwest, South, or Northeast. After: the internal state boundaries are gone, leaving four large region polygons, each labeled.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dissolve-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;13.4: The lower 48 states and DC, before and after dissolving on a Region field.
+</figcaption>
+</figure>
+</div>
+<p>The benefit is a simpler map and a smaller dataset; the cost is the detail of the merged features. When you dissolve, you can keep <strong>summary statistics</strong>, such as the sum of population, so that the new polygons carry totals of the old ones.</p>
+</section>
+</section>
+<section id="sec-buffers" class="level2" data-number="13.4">
+<h2 data-number="13.4" class="anchored" data-anchor-id="sec-buffers"><span class="header-section-number">13.4</span> Buffers</h2>
+<section id="proximity" class="level3" data-number="13.4.1">
+<h3 data-number="13.4.1" class="anchored" data-anchor-id="proximity"><span class="header-section-number">13.4.1</span> Proximity</h3>
+<p><strong>Proximity functions</strong> work with distance. The main one is the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-buffer" data-term="buffer">buffer</span></strong>: the region within a specified distance of a feature. You can buffer points, lines, or <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-polygon" data-term="polygon">polygons</span>, to answer questions such as “which homes are within 500 meters of a highway?”</p>
+<p>There are several kinds of buffer (<a href="#fig-buffer-types" class="quarto-xref">Figure&nbsp;<span>13.5</span></a>):</p>
+<ul>
+<li><strong>Fixed buffers</strong> use one distance for every feature. Where buffers overlap, they stay separate polygons, so an area near two features is covered twice.</li>
+<li><strong>Dissolved buffers</strong> merge overlapping buffers into one region. Use them when you want the total area within the distance, and don’t care which feature each part came from.</li>
+<li><strong>Multiple-ring</strong> (nested) buffers create rings at several distances, such as 1, 2, and 3 kilometers, for questions about distance bands.</li>
+<li><strong>Variable-distance buffers</strong> take each feature’s distance from a field, so that larger rivers or busier roads get wider buffers (<a href="#fig-line-buffers" class="quarto-xref">Figure&nbsp;<span>13.6</span></a>, right).</li>
+</ul>
+<div id="fig-buffer-types" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Three panels with the same four red points. Fixed buffers: four separate translucent circles, two pairs of which overlap, with the overlaps darker. Dissolved buffers: the overlapping circles are merged into two blob-shaped polygons with no internal lines. Nested buffers: three rings around the points at increasing distances, each ring merged with its neighbors.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-buffer-types-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/spatial-analysis/buffer-types.png" class="img-fluid figure-img" alt="Three panels with the same four red points. Fixed buffers: four separate translucent circles, two pairs of which overlap, with the overlaps darker. Dissolved buffers: the overlapping circles are merged into two blob-shaped polygons with no internal lines. Nested buffers: three rings around the points at increasing distances, each ring merged with its neighbors.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-buffer-types-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;13.5: Fixed, dissolved, and nested buffers around the same four points. The nested buffers are 1, 2, and 3 km.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="line-and-polygon-buffers" class="level3" data-number="13.4.2">
+<h3 data-number="13.4.2" class="anchored" data-anchor-id="line-and-polygon-buffers"><span class="header-section-number">13.4.2</span> Line and polygon buffers</h3>
+<p>A line buffer extends the same distance on both sides of the line. Where lines loop back or run close together, their buffers merge, and the merged buffer can surround an area that is farther than the buffer distance from every line (<a href="#fig-line-buffers" class="quarto-xref">Figure&nbsp;<span>13.6</span></a>, left). This hole is <em>not</em> in the buffer. Polygons can also be buffered outward or inward (a negative distance). Check the output for holes and islands before using it in the next step.</p>
+<div id="fig-line-buffers" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Left: a stream splits into two curving branches that rejoin; their blue buffer forms a ring around a yellow lens-shaped area labeled Enclosed area: not in the buffer. Right: three joined rivers with buffers of different widths: Big River 100 meters, Middle Creek 60 meters, and Small Branch 30 meters.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-line-buffers-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/spatial-analysis/line-buffers.png" class="img-fluid figure-img" alt="Left: a stream splits into two curving branches that rejoin; their blue buffer forms a ring around a yellow lens-shaped area labeled Enclosed area: not in the buffer. Right: three joined rivers with buffers of different widths: Big River 100 meters, Middle Creek 60 meters, and Small Branch 30 meters.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-line-buffers-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;13.6: Left: two branches of a stream whose buffers enclose an area that is not in the buffer. Right: variable-distance buffers, with each river’s distance read from a field.
+</figcaption>
+</figure>
+</div>
+<p>Buffers must be built in a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-projected-coordinate-system" data-term="projected coordinate system">projected coordinate system</span></strong>, or with a <em><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geodesic-distance" data-term="geodesic distance">geodesic</span></em> option, so that the distance is in real meters or feet (Chapters 4 and 7).</p>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Think about it
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A city requires a 30-meter vegetated buffer along every stream, and 60 meters along rivers. A developer’s <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-parcel" data-term="parcel">parcel</span> has a stream on two sides. How would you find the buildable area of the parcel? Which buffer type, and which <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-overlay-analysis" data-term="overlay analysis">overlay</span> operation, would you use?</p>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-overlay" class="level2" data-number="13.5">
+<h2 data-number="13.5" class="anchored" data-anchor-id="sec-overlay"><span class="header-section-number">13.5</span> Overlay</h2>
+<section id="combining-layers-by-location" class="level3" data-number="13.5.1">
+<h3 data-number="13.5.1" class="anchored" data-anchor-id="combining-layers-by-location"><span class="header-section-number">13.5.1</span> Combining layers by location</h3>
+<p><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-overlay-analysis" data-term="overlay analysis">Overlay</span></strong> combines two or more <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layers</span> at the same locations. Boundaries from each layer are stacked, and wherever they cross, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-polygon" data-term="polygon">polygons</span> are split. Each output polygon carries the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-attribute" data-term="attribute">attributes</span> of every input polygon it came from (<a href="#fig-polygon-overlay" class="quarto-xref">Figure&nbsp;<span>13.7</span></a>). So overlay changes both the geometry and the table.</p>
+<div id="fig-polygon-overlay" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Three panels. Layer 1: a square split horizontally into Class A at the bottom and Class B at the top. Layer 2: the same square split by a slanted line into Cost 10 on the left and Cost 25 on the right. Output: the square split into four polygons, numbered 1 to 4: 1 is A, 10; 2 is A, 25; 3 is B, 10; 4 is B, 25.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-polygon-overlay-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/spatial-analysis/polygon-overlay.png" class="img-fluid figure-img" alt="Three panels. Layer 1: a square split horizontally into Class A at the bottom and Class B at the top. Layer 2: the same square split by a slanted line into Cost 10 on the left and Cost 25 on the right. Output: the square split into four polygons, numbered 1 to 4: 1 is A, 10; 2 is A, 25; 3 is B, 10; 4 is B, 25.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-polygon-overlay-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;13.7: Polygon overlay. Two layers with two polygons each produce four output polygons, each with a Class from layer 1 and a Cost from layer 2.
+</figcaption>
+</figure>
+</div>
+<p>The layers <strong>must share a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">coordinate system</span></strong>, or their features won’t line up. (<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span> will project on the fly for display, but the tools may still give unexpected results; <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-reproject" data-term="reproject">reproject</span> first.)</p>
+<p>The type of the output decides what can be kept. In a <strong>point-in-polygon</strong> overlay, each point inherits the attributes of the polygon it falls in, such as each crime point gaining the name and type of its county (<a href="#fig-point-in-polygon" class="quarto-xref">Figure&nbsp;<span>13.8</span></a>). There is no conflict, because each point is in one county. Going the other way, from points to a polygon, the polygon can hold only one value per field, so you need a rule: a count, a sum, the majority, or the first.</p>
+<div id="fig-point-in-polygon" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A county polygon labeled Greene County, Rural, containing three red points: A, theft; B, burglary; C, theft.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-point-in-polygon-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/spatial-analysis/point-in-polygon.png" class="img-fluid figure-img" style="width:55.0%" alt="A county polygon labeled Greene County, Rural, containing three red points: A, theft; B, burglary; C, theft.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-point-in-polygon-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;13.8: Point-in-polygon overlay. Each crime point keeps its own type and gains the county’s name and type.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="clip-intersect-and-union" class="level3" data-number="13.5.2">
+<h3 data-number="13.5.2" class="anchored" data-anchor-id="clip-intersect-and-union"><span class="header-section-number">13.5.2</span> Clip, intersect, and union</h3>
+<p>Three overlay operations are used most (<a href="#fig-clip-intersect-union" class="quarto-xref">Figure&nbsp;<span>13.9</span></a>):</p>
+<ul>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-clip" data-term="clip">Clip</span></strong> keeps only the parts of the data layer that fall inside the bounding layer, like a cookie cutter. The output has only the data layer’s attributes. Use it to cut statewide data down to a county or study area.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-intersect" data-term="intersect">Intersect</span></strong> keeps only the areas covered by <em>both</em> layers, and the output has attributes from both. Swapping the inputs gives the same areas. Intersect is the overlay version of a Boolean <code>AND</code>. For example, intersecting road <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-street-centerline" data-term="street centerline">centerlines</span> with the 100-year floodplain gives the road segments at risk of flooding, with the road’s name and the flood zone in each record.</li>
+<li><strong>Union</strong> keeps <em>all</em> areas from both layers, split where they overlap, with attributes from both. Where one layer is absent, its fields are blank. Union is the overlay version of <code>OR</code>. In ArcGIS Pro, both inputs must be polygons.</li>
+</ul>
+<div id="fig-clip-intersect-union" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Four panels. Inputs: a blue rectangle, the data layer, overlapping an orange circle, the bounding layer. Clip: only the half-circle of the rectangle inside the circle remains, in blue. Intersect: the same half-circle, in green, meaning it carries both layers' attributes. Union: the whole rectangle and the whole circle, split into three pieces: the rectangle only, the overlap, and the circle only.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-clip-intersect-union-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/spatial-analysis/clip-intersect-union.png" class="img-fluid figure-img" alt="Four panels. Inputs: a blue rectangle, the data layer, overlapping an orange circle, the bounding layer. Clip: only the half-circle of the rectangle inside the circle remains, in blue. Intersect: the same half-circle, in green, meaning it carries both layers' attributes. Union: the whole rectangle and the whole circle, split into three pieces: the rectangle only, the overlap, and the circle only.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-clip-intersect-union-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;13.9: Clip, intersect, and union of the same data layer (blue) and bounding layer (orange).
+</figcaption>
+</figure>
+</div>
+<div id="tbl-overlay" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-overlay-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;13.1: Clip, intersect, and union.
+</figcaption>
+<div aria-describedby="tbl-overlay-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Operation</th>
+<th>Keeps</th>
+<th>Attributes from</th>
+<th>Like</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Clip</td>
+<td>The data layer inside the bounding layer</td>
+<td>The data layer only</td>
+<td>A cookie cutter</td>
+</tr>
+<tr class="even">
+<td>Intersect</td>
+<td>Areas in both layers</td>
+<td>Both layers</td>
+<td><code>AND</code></td>
+</tr>
+<tr class="odd">
+<td>Union</td>
+<td>All areas in either layer</td>
+<td>Both layers (blank where absent)</td>
+<td><code>OR</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Other overlay tools include <strong>Erase</strong> (keep the parts of the data layer <em>outside</em> the other layer) and <strong>Identity</strong> (keep all of the input layer, with the attributes of the other layer where they overlap).</p>
+</section>
+<section id="slivers" class="level3" data-number="13.5.3">
+<h3 data-number="13.5.3" class="anchored" data-anchor-id="slivers"><span class="header-section-number">13.5.3</span> Slivers</h3>
+<p><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-vector" data-term="vector">Vector</span> overlay has a well-known problem. When two layers contain the same boundary, such as a county line, digitized at different times or scales, the two versions never match exactly. Overlay splits polygons wherever they cross, so the result is full of <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-sliver" data-term="sliver">slivers</span></strong>: thin, tiny polygons along the shared boundary that represent nothing real (<a href="#fig-slivers" class="quarto-xref">Figure&nbsp;<span>13.10</span></a>).</p>
+<div id="fig-slivers" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Left: a smooth blue line and a jagged red line that follow the same boundary but cross each other many times. Right: the red sliver polygons created between them after overlay, a chain of tiny slivers along the boundary.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-slivers-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/spatial-analysis/slivers.png" class="img-fluid figure-img" alt="Left: a smooth blue line and a jagged red line that follow the same boundary but cross each other many times. Right: the red sliver polygons created between them after overlay, a chain of tiny slivers along the boundary.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-slivers-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;13.10: Slivers. The same boundary, digitized twice (left), produces many thin polygons after overlay (right).
+</figcaption>
+</figure>
+</div>
+<p>Fixes include:</p>
+<ul>
+<li>setting a <strong>snapping</strong> or <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cluster-tolerance" data-term="cluster tolerance">cluster tolerance</span></strong> when you run the overlay, so that <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-vertex" data-term="vertex">vertices</span> closer than the tolerance are treated as the same;</li>
+<li>using the <strong>same source</strong> for shared boundaries in every layer;</li>
+<li>removing polygons below a minimum area afterward, for example with ArcGIS Pro’s <strong>Eliminate</strong> tool, which merges each sliver into its neighbor.</li>
+</ul>
+</section>
+</section>
+<section id="sec-map-algebra" class="level2" data-number="13.6">
+<h2 data-number="13.6" class="anchored" data-anchor-id="sec-map-algebra"><span class="header-section-number">13.6</span> Raster overlay: map algebra</h2>
+<p><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">Rasters</span> can be overlaid too, and more simply. Because every input uses the same grid of cells, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-overlay-analysis" data-term="overlay analysis">overlay</span> is done <strong>cell by cell</strong>, with <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-map-algebra" data-term="map algebra">map algebra</span></strong>, a framework also developed by Tomlin <span class="citation" data-cites="tomlin1990">(Tomlin 1990)</span>. Its functions follow the same scopes as <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-vector" data-term="vector">vector</span> operations (<a href="#fig-map-algebra" class="quarto-xref">Figure&nbsp;<span>13.11</span></a>):</p>
+<ul>
+<li><strong>Local</strong> functions use the same cell in each input, such as adding a slope score and a soil score.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-focal-function" data-term="focal function">Focal</span></strong> functions use a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-moving-window" data-term="moving window">moving window</span> around each cell, such as the mean of a 3×3 window.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-zonal-function" data-term="zonal function">Zonal</span></strong> functions summarize the cells within each zone, such as the mean elevation of each watershed.</li>
+<li><strong>Global</strong> functions use every cell, such as the distance from each cell to the nearest road.</li>
+</ul>
+<div id="fig-map-algebra" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Small grids of numbers. Local: raster A plus raster B equals raster A plus B, cell by cell. Focal: a 3 by 3 window outlined in red on raster A, with its mean, 5.6. Zonal: raster A colored into three zones, with the mean of each zone: 2.2, 4.4, and 5.8.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-map-algebra-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/spatial-analysis/map-algebra.png" class="img-fluid figure-img" alt="Small grids of numbers. Local: raster A plus raster B equals raster A plus B, cell by cell. Focal: a 3 by 3 window outlined in red on raster A, with its mean, 5.6. Zonal: raster A colored into three zones, with the mean of each zone: 2.2, 4.4, and 5.8.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-map-algebra-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;13.11: Map algebra on a made-up 4×4 raster: local, focal, and zonal functions.
+</figcaption>
+</figure>
+</div>
+<p>Raster overlay produces <strong>no <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-sliver" data-term="sliver">slivers</span></strong>, since every <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layer</span> shares one grid. The price is precision: no boundary can be more precise than the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cell-size" data-term="cell size">cell size</span>. Chapter 14 covers raster analysis in detail.</p>
+</section>
+<section id="sec-other-analysis" class="level2" data-number="13.7">
+<h2 data-number="13.7" class="anchored" data-anchor-id="sec-other-analysis"><span class="header-section-number">13.7</span> Other kinds of spatial analysis</h2>
+<p><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-overlay-analysis" data-term="overlay analysis">Overlay</span> and proximity are only part of the toolkit. Other families of methods include:</p>
+<ul>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-network-analysis" data-term="network analysis">Network analysis</span></strong>: shortest routes, closest facilities, and service areas along roads or utility lines.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-interpolation" data-term="spatial interpolation">Interpolation</span></strong>: estimating values between sample points, such as temperatures from weather stations (Chapters 15 and 16).</li>
+<li><strong>Spatial statistics</strong>: testing whether patterns, such as clusters of disease, are more concentrated than chance would produce, with measures such as Moran’s I and Getis-Ord Gi*.</li>
+<li><strong>Terrain analysis</strong>: deriving slope, aspect, and viewsheds from elevation data (Chapter 14).</li>
+</ul>
+</section>
+<section id="check-your-understanding" class="level2" data-number="13.8">
+<h2 data-number="13.8" class="anchored" data-anchor-id="check-your-understanding"><span class="header-section-number">13.8</span> Check your understanding</h2>
+<ol type="1">
+<li><p>Ranking every state by population is an example of which spatial scope? <select class="webex-select"><option value="blank"></option><option value="">Local</option><option value="">Neighborhood</option><option value="answer">Global</option><option value="">Zonal</option></select></p></li>
+<li><p>Computing each state’s population density from its own population and area is: <select class="webex-select"><option value="blank"></option><option value="answer">Local</option><option value="">Neighborhood</option><option value="">Global</option><option value="">Focal</option></select></p></li>
+<li><p>Which operation merges features that share a value in a field? <select class="webex-select"><option value="blank"></option><option value="">Buffer</option><option value="answer">Dissolve</option><option value="">Clip</option><option value="">Intersect</option></select></p></li>
+<li><p>Which buffer type merges overlapping buffers into one region? <select class="webex-select"><option value="blank"></option><option value="">Fixed</option><option value="answer">Dissolved</option><option value="">Variable-distance</option><option value="">Nested</option></select></p></li>
+<li><p>Which overlay keeps only the areas in both layers, with attributes from both? <select class="webex-select"><option value="blank"></option><option value="">Clip</option><option value="answer">Intersect</option><option value="">Union</option><option value="">Erase</option></select></p></li>
+<li><p>Clip output carries attributes from both layers. <select class="webex-select"><option value="blank"></option><option value="">TRUE</option><option value="answer">FALSE</option></select></p></li>
+<li><p>Two layers of two polygons each are overlaid, and every boundary crosses every other once, as in <a href="#fig-polygon-overlay" class="quarto-xref">Figure&nbsp;<span>13.7</span></a>. How many output polygons are there? <input class="webex-solveme nospaces" size="2" data-answer="[&quot;4&quot;]"></p></li>
+<li><p>Thin polygons created where two versions of the same boundary don’t match are called: <select class="webex-select"><option value="blank"></option><option value="">Buffers</option><option value="answer">Slivers</option><option value="">Zones</option><option value="">Holes</option></select></p></li>
+</ol>
+</section>
+<section id="summary" class="level2" data-number="13.9">
+<h2 data-number="13.9" class="anchored" data-anchor-id="summary"><span class="header-section-number">13.9</span> Summary</h2>
+<ul>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-analysis" data-term="spatial analysis">Spatial analysis</span></strong> applies operations to geometry and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-attribute" data-term="attribute">attributes</span> to solve a problem. Each <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-operation" data-term="spatial operation">spatial operation</span></strong> turns inputs into an output; a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cartographic-modeling" data-term="cartographic modeling">cartographic model</span></strong> chains them, and tools such as <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-modelbuilder" data-term="ModelBuilder">ModelBuilder</span> make it repeatable.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-scope" data-term="spatial scope">Spatial scope</span></strong> is <strong>local</strong> (the same location), <strong>neighborhood</strong> (the location and nearby ones), or <strong>global</strong> (every location).</li>
+<li><strong>Selection</strong>, <strong>joins</strong>, <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-reclassification" data-term="reclassification">reclassification</span></strong>, and <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-dissolve" data-term="dissolve">dissolve</span></strong> prepare <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layers</span> for analysis. Dissolve merges features with a shared value, and can carry summary statistics.</li>
+<li>A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-buffer" data-term="buffer">buffer</span></strong> is the area within a distance of a feature. Buffers can be <strong>fixed</strong>, <strong>dissolved</strong>, <strong>multiple-ring</strong>, or <strong>variable-distance</strong>; line buffers can enclose areas outside the buffer.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-overlay-analysis" data-term="overlay analysis">Overlay</span></strong> splits <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-polygon" data-term="polygon">polygons</span> where layers cross and combines their attributes. <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-clip" data-term="clip">Clip</span></strong> cuts like a cookie cutter, <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-intersect" data-term="intersect">intersect</span></strong> keeps what is in both (<code>AND</code>), and <strong>union</strong> keeps everything (<code>OR</code>). Layers must share a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">coordinate system</span>.</li>
+<li>Inconsistent shared boundaries produce <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-sliver" data-term="sliver">slivers</span></strong>; snapping tolerances, common sources, and Eliminate fix them.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-map-algebra" data-term="map algebra">Map algebra</span></strong> overlays <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">rasters</span> cell by cell with <strong>local</strong>, <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-focal-function" data-term="focal function">focal</span></strong>, <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-zonal-function" data-term="zonal function">zonal</span></strong>, and <strong>global</strong> functions, with no slivers, but no more precision than the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cell-size" data-term="cell size">cell size</span>.</li>
+</ul>
+</section>
+<section id="exercises" class="level2" data-number="13.10">
+<h2 data-number="13.10" class="anchored" data-anchor-id="exercises"><span class="header-section-number">13.10</span> Exercises</h2>
+<ol type="1">
+<li><strong>Draw a model.</strong> Sketch a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cartographic-modeling" data-term="cartographic modeling">cartographic model</span> for this problem: find the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-parcel" data-term="parcel">parcels</span> in Orange County, NC, that are larger than 5 acres, within 1 mile of a major road, and outside the 100-year floodplain. Name the data <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layers</span>, each operation, and each intermediate layer.</li>
+<li><strong>Scope.</strong> Classify each operation as local, neighborhood, or global: (a) converting elevation from feet to meters; (b) finding each county’s highest-population neighbor; (c) computing each county’s share of the state’s population; (d) the average slope in a 3×3 window.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-buffer" data-term="buffer">Buffers</span>.</strong> In <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span> or <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span>, buffer the schools in a county by 1 mile, once without dissolving and once with. Compare the number of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-polygon" data-term="polygon">polygons</span> and the total area. Which would you use to find the share of the county within a mile of a school, and why?</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-clip" data-term="clip">Clip</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-intersect" data-term="intersect">intersect</span>, union.</strong> Download a county boundary and the FEMA flood zones (from the FEMA Flood Map Service Center or NC Flood Risk Information System) for part of it. Clip, intersect, and union them, and compare the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-attribute" data-term="attribute">attribute tables</span> of the three outputs.</li>
+<li><strong>Roads at risk.</strong> Intersect a road layer with the 100-year floodplain. What is the total length of road in the floodplain? Which road segments are longest?</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-sliver" data-term="sliver">Slivers</span>.</strong> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-overlay-analysis" data-term="overlay analysis">Overlay</span> two versions of a county boundary from different sources (for example, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tiger-line" data-term="TIGER/Line">TIGER/Line</span> and NC OneMap). How many slivers do you get? Try again with a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cluster-tolerance" data-term="cluster tolerance">cluster tolerance</span> of 5 meters.</li>
+</ol>
+</section>
+<section id="further-reading-and-online-resources" class="level2" data-number="13.11">
+<h2 data-number="13.11" class="anchored" data-anchor-id="further-reading-and-online-resources"><span class="header-section-number">13.11</span> Further reading and online resources</h2>
+<section id="books" class="level3" data-number="13.11.1">
+<h3 data-number="13.11.1" class="anchored" data-anchor-id="books"><span class="header-section-number">13.11.1</span> Books</h3>
+<ul>
+<li><em><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> Fundamentals: A First Text on Geographic Information Systems</em>, by Paul Bolstad <span class="citation" data-cites="bolstad2022">(Bolstad 2022)</span>. The chapter on basic <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-analysis" data-term="spatial analysis">spatial analysis</span> covers selection, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-dissolve" data-term="dissolve">dissolve</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-buffer" data-term="buffer">buffers</span>, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-overlay-analysis" data-term="overlay analysis">overlay</span>.</li>
+<li><em>Geographic Information Systems and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cartographic-modeling" data-term="cartographic modeling">Cartographic Modeling</span></em>, by C. Dana Tomlin <span class="citation" data-cites="tomlin1990">(Tomlin 1990)</span>, the original account of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-map-algebra" data-term="map algebra">map algebra</span>.</li>
+<li><em>The <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-esri" data-term="Esri">Esri</span> Guide to GIS Analysis, Volume 1: Geographic Patterns and Relationships</em>, by Andy Mitchell <span class="citation" data-cites="mitchell2020">(Mitchell 2020)</span>, a clear, practical guide to overlay and proximity.</li>
+<li><em><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geospatial" data-term="geospatial">Geospatial</span> Analysis: A Comprehensive Guide</em>, by Michael de Smith, Michael Goodchild, and Paul Longley, free online: <a href="https://www.spatialanalysisonline.com" class="uri">https://www.spatialanalysisonline.com</a>.</li>
+<li><em>Intro to GIS and Spatial Analysis</em>, by Manuel Gimond, free online: <a href="https://mgimond.github.io/Spatial/" class="uri">https://mgimond.github.io/Spatial/</a>.</li>
+</ul>
+</section>
+<section id="arcgis-pro" class="level3" data-number="13.11.2">
+<h3 data-number="13.11.2" class="anchored" data-anchor-id="arcgis-pro"><span class="header-section-number">13.11.2</span> ArcGIS Pro</h3>
+<ul>
+<li>Esri, “An overview of the Overlay toolset”: <a href="https://pro.arcgis.com/en/pro-app/latest/tool-reference/analysis/an-overview-of-the-overlay-toolset.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/tool-reference/analysis/an-overview-of-the-overlay-toolset.htm</a>.</li>
+<li>Esri, “Buffer” tool reference: <a href="https://pro.arcgis.com/en/pro-app/latest/tool-reference/analysis/buffer.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/tool-reference/analysis/buffer.htm</a>.</li>
+<li>Esri, “Multiple Ring Buffer” tool reference: <a href="https://pro.arcgis.com/en/pro-app/latest/tool-reference/analysis/multiple-ring-buffer.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/tool-reference/analysis/multiple-ring-buffer.htm</a>.</li>
+<li>Esri, “Dissolve” tool reference: <a href="https://pro.arcgis.com/en/pro-app/latest/tool-reference/data-management/dissolve.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/tool-reference/data-management/dissolve.htm</a>.</li>
+<li>Esri, “What is <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-modelbuilder" data-term="ModelBuilder">ModelBuilder</span>?”: <a href="https://pro.arcgis.com/en/pro-app/latest/help/analysis/geoprocessing/modelbuilder/what-is-modelbuilder-.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/help/analysis/geoprocessing/modelbuilder/what-is-modelbuilder-.htm</a>.</li>
+</ul>
+</section>
+<section id="qgis" class="level3" data-number="13.11.3">
+<h3 data-number="13.11.3" class="anchored" data-anchor-id="qgis"><span class="header-section-number">13.11.3</span> QGIS</h3>
+<ul>
+<li><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span> User Guide, “<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-vector" data-term="vector">Vector</span> overlay” algorithms (<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-clip" data-term="clip">Clip</span>, Intersection, Union, Difference): <a href="https://docs.qgis.org/latest/en/docs/user_manual/processing_algs/qgis/vectoroverlay.html" class="uri">https://docs.qgis.org/latest/en/docs/user_manual/processing_algs/qgis/vectoroverlay.html</a>.</li>
+<li>QGIS User Guide, “Vector geometry” algorithms (Buffer, Dissolve, Multi-ring buffer): <a href="https://docs.qgis.org/latest/en/docs/user_manual/processing_algs/qgis/vectorgeometry.html" class="uri">https://docs.qgis.org/latest/en/docs/user_manual/processing_algs/qgis/vectorgeometry.html</a>.</li>
+<li>QGIS User Guide, “The graphical modeler”: <a href="https://docs.qgis.org/latest/en/docs/user_manual/processing/modeler.html" class="uri">https://docs.qgis.org/latest/en/docs/user_manual/processing/modeler.html</a>.</li>
+<li>QGIS Tutorials, “Performing Spatial Queries” and other analysis tutorials: <a href="https://www.qgistutorials.com/en/" class="uri">https://www.qgistutorials.com/en/</a>.</li>
+</ul>
+</section>
+<section id="other-resources" class="level3" data-number="13.11.4">
+<h3 data-number="13.11.4" class="anchored" data-anchor-id="other-resources"><span class="header-section-number">13.11.4</span> Other resources</h3>
+<ul>
+<li>The <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-gis-t-body-of-knowledge" data-term="GIS&amp;T Body of Knowledge">GIS&amp;T Body of Knowledge</span>, “Overlay &amp; Combination Operations,” “Buffers,” and “Cartographic Modeling”: <a href="https://www.ucgis.org/site/gis-t-body-of-knowledge" class="uri">https://www.ucgis.org/site/gis-t-body-of-knowledge</a>.</li>
+<li>Bat Conservation International: <a href="https://www.batcon.org" class="uri">https://www.batcon.org</a>.</li>
+</ul>
+
+
+<div class="glossary-defs" hidden="">
+<span id="gloss-spatial-analysis">Methods that use the locations of things, and the relationships among
+them, to find patterns, explain them, or make predictions.</span>
+<span id="gloss-spatial-operation">A GIS function that takes one or more input layers and produces an
+output layer, such as a buffer, dissolve, or overlay.</span>
+<span id="gloss-cartographic-modeling">Planning and running a chain of spatial operations to solve a problem,
+where each operation’s output becomes the next one’s input. The term is
+Dana Tomlin’s.</span>
+<span id="gloss-spatial-scope">The input locations used to compute the value at an output location:
+local (the same location), neighborhood (nearby locations), or global
+(every location).</span>
+<span id="gloss-reclassification">Grouping the values of a layer into fewer, more meaningful classes, such
+as elevations into low, medium, and high.</span>
+<span id="gloss-dissolve">An operation that merges features sharing a value in a field, removing
+the boundaries between them.</span>
+<span id="gloss-layer">A set of spatial data about one theme, such as roads, soils, or
+elevation. Layers for the same area stack on top of each other to make a
+map.</span>
+<span id="gloss-buffer">The region within a specified distance of a point, line, or polygon.</span>
+<span id="gloss-overlay-analysis">Stacking layers of data for the same area to find places that meet
+several conditions at once, such as flat land near a road and outside a
+floodplain.</span>
+<span id="gloss-attribute">A non-spatial fact about a feature, such as a building’s name or the
+year it was built. Attributes are stored in a table with one row per
+feature.</span>
+<span id="gloss-clip">An overlay that keeps only the parts of a data layer inside a bounding
+layer, keeping only the data layer’s attributes.</span>
+<span id="gloss-intersect">An overlay that keeps only the areas covered by both input layers, with
+attributes from both. The overlay version of AND.</span>
+<span id="gloss-sliver">A thin, tiny polygon created by overlay where two versions of the same
+boundary don’t match exactly.</span>
+<span id="gloss-map-algebra">Math on rasters, cell by cell, such as adding two grids or finding every
+cell where slope is under 10 percent.</span>
+<span id="gloss-raster">A data model that stores the world as a regular grid of equal-sized
+cells, each holding one value. Best for continuous data and imagery.</span>
+<span id="gloss-geographic-information-system-gis">“A computer-based system to aid in the collection, maintenance, storage,
+analysis, output, and distribution of spatial data and information”
+(Bolstad). Its five components are data, hardware, software, people, and
+procedures.</span>
+<span id="gloss-gis-question">A question whose answer depends on location, such as where something
+clusters, how places differ, what factors explain a pattern, how a place
+has changed, or how accessible a service is.</span>
+<span id="gloss-spatial-join">A join that matches the features of two layers by location instead of by
+a shared key, then appends attributes from one to the other.</span>
+<span id="gloss-arcgis-pro">Esri’s commercial desktop GIS, for Windows.</span>
+<span id="gloss-modelbuilder">ArcGIS Pro’s visual tool for drawing and running a cartographic model as
+a flowchart. QGIS’s equivalent is the Model Designer.</span>
+<span id="gloss-qgis">A free and open-source desktop GIS that runs on Windows, Mac, and Linux.</span>
+<span id="gloss-population-density">The number of people per unit of area, such as people per square mile.</span>
+<span id="gloss-moving-window">A window of cells, usually 3 × 3, that slides across a raster one cell
+at a time while a neighborhood function runs.</span>
+<span id="gloss-rook-s-case">Contiguity in which polygons are neighbors only if they share an edge.</span>
+<span id="gloss-focal-function">A map algebra function that computes each cell’s output from a moving
+window of nearby cells, such as a 3×3 mean.</span>
+<span id="gloss-polygon">A vector feature that encloses an area: a closed line whose first and
+last points are the same, such as a lake, a park, or a county.</span>
+<span id="gloss-parcel">A polygon for one piece of property, usually with its owner and address.</span>
+<span id="gloss-projected-coordinate-system">A coordinate system that gives positions as <em>x, y</em> in meters or
+feet, on a map projection built on a datum, such as UTM or State Plane.</span>
+<span id="gloss-geodesic-distance">Distance measured along the curved surface of the ellipsoid, rather than
+on a flat projected map.</span>
+<span id="gloss-coordinate-system">A system of numbers, such as latitude and longitude, that gives every
+location a unique position so layers line up with each other.</span>
+<span id="gloss-reproject">To convert a layer’s coordinates from one CRS to another and save the
+result. Defining a projection, by contrast, only labels what the
+coordinates already are.</span>
+<span id="gloss-street-centerline">A line along the middle of a street. Centerline files used for geocoding
+store the address range on each side of each segment.</span>
+<span id="gloss-vector">A data model that stores the world as points, lines, and polygons, each
+defined by x, y coordinates and linked to its attributes. Best for
+discrete objects.</span>
+<span id="gloss-cluster-tolerance">A distance within which vertices are treated as the same point during
+overlay, to prevent slivers.</span>
+<span id="gloss-vertex">An intermediate point where a line or polygon boundary changes
+direction.</span>
+<span id="gloss-zonal-function">A map algebra function that summarizes the cells within each zone, such
+as the mean elevation of each watershed.</span>
+<span id="gloss-cell-size">The real-world length of one side of a raster cell, such as 30 meters.
+Smaller cells give finer resolution and larger files.</span>
+<span id="gloss-network-analysis">Analysis of movement along a network, such as roads, to find routes and
+measure travel distance or time.</span>
+<span id="gloss-spatial-interpolation">Estimating the value of an attribute at unsampled locations from
+observations at sampled ones.</span>
+<span id="gloss-tiger-line">The Census Bureau’s boundary files for states, counties, tracts, roads,
+and other features.</span>
+<span id="gloss-esri">The company that makes ArcGIS, founded in 1969 by Jack and Laura
+Dangermond in Redlands, California.</span>
+<span id="gloss-geospatial">A common synonym for <em>geographic</em>, used especially in industry,
+the military, and government.</span>
+<span id="gloss-gis-t-body-of-knowledge">A free collection of short, peer-reviewed articles on geographic
+information science and technology topics, from the University
+Consortium for Geographic Information Science (UCGIS).</span>
+</div>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script>
+
+/* update total correct if #webex-total_correct exists */
+update_total_correct = function() {
+  console.log("webex: update total_correct");
+
+  var t = document.getElementsByClassName("webex-total_correct");
+  for (var i = 0; i < t.length; i++) {
+    p = t[i].parentElement;
+    var correct = p.getElementsByClassName("webex-correct").length;
+    var solvemes = p.getElementsByClassName("webex-solveme").length;
+    var radiogroups = p.getElementsByClassName("webex-radiogroup").length;
+    var selects = p.getElementsByClassName("webex-select").length;
+
+    t[i].innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  }
+}
+
+/* webex-solution button toggling function */
+b_func = function() {
+  console.log("webex: toggle hide");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('open')) {
+    cl.remove("open");
+  } else {
+    cl.add("open");
+  }
+}
+
+/* check answers */
+check_func = function() {
+  console.log("webex: check answers");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('unchecked')) {
+    cl.remove("unchecked");
+    this.innerHTML = "Hide Answers";
+  } else {
+    cl.add("unchecked");
+    this.innerHTML = "Show Answers";
+  }
+}
+
+/* function for checking solveme answers */
+solveme_func = function(e) {
+  console.log("webex: check solveme");
+
+  var real_answers = JSON.parse(this.dataset.answer);
+  var my_answer = this.value;
+  var cl = this.classList;
+  if (cl.contains("ignorecase")) {
+    my_answer = my_answer.toLowerCase();
+  }
+  if (cl.contains("nospaces")) {
+    my_answer = my_answer.replace(/ /g, "")
+  }
+
+  if (my_answer == "") {
+    cl.remove("webex-correct");
+    cl.remove("webex-incorrect");
+  } else if (real_answers.includes(my_answer)) {
+    cl.add("webex-correct");
+    cl.remove("webex-incorrect");
+  } else {
+    cl.add("webex-incorrect");
+    cl.remove("webex-correct");
+  }
+
+  // match numeric answers within a specified tolerance
+  if(this.dataset.tol > 0){
+    var tol = JSON.parse(this.dataset.tol);
+    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+    if (matches.reduce((a, b) => a + b, 0) > 0) {
+      cl.add("webex-correct");
+    } else {
+      cl.remove("webex-correct");
+    }
+  }
+
+  // added regex bit
+  if (cl.contains("regex")){
+    answer_regex = RegExp(real_answers.join("|"))
+    if (answer_regex.test(my_answer)) {
+      cl.add("webex-correct");
+    }
+  }
+
+  update_total_correct();
+}
+
+/* function for checking select answers */
+select_func = function(e) {
+  console.log("webex: check select");
+
+  var cl = this.classList
+
+  /* add style */
+  cl.remove("webex-incorrect");
+  cl.remove("webex-correct");
+  if (this.value == "answer") {
+    cl.add("webex-correct");
+  } else if (this.value != "blank") {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+/* function for checking radiogroups answers */
+radiogroups_func = function(e) {
+  console.log("webex: check radiogroups");
+
+  var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
+  var cl = checked_button.parentElement.classList;
+  var labels = checked_button.parentElement.parentElement.children;
+
+  /* get rid of styles */
+  for (i = 0; i < labels.length; i++) {
+    labels[i].classList.remove("webex-incorrect");
+    labels[i].classList.remove("webex-correct");
+  }
+
+  /* add style */
+  if (checked_button.value == "answer") {
+    cl.add("webex-correct");
+  } else {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+window.onload = function() {
+  console.log("webex onload");
+  /* set up solution buttons */
+  var buttons = document.getElementsByTagName("button");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].parentElement.classList.contains('webex-solution')) {
+      buttons[i].onclick = b_func;
+    }
+  }
+
+  var check_sections = document.getElementsByClassName("webex-check");
+  console.log("check:", check_sections.length);
+  for (var i = 0; i < check_sections.length; i++) {
+    check_sections[i].classList.add("unchecked");
+
+    let btn = document.createElement("button");
+    btn.innerHTML = "Show Answers";
+    btn.classList.add("webex-check-button");
+    btn.onclick = check_func;
+    check_sections[i].appendChild(btn);
+
+    let spn = document.createElement("span");
+    spn.classList.add("webex-total_correct");
+    check_sections[i].appendChild(spn);
+  }
+
+  /* set up webex-solveme inputs */
+  var solveme = document.getElementsByClassName("webex-solveme");
+
+  for (var i = 0; i < solveme.length; i++) {
+    /* make sure input boxes don't auto-anything */
+    solveme[i].setAttribute("autocomplete","off");
+    solveme[i].setAttribute("autocorrect", "off");
+    solveme[i].setAttribute("autocapitalize", "off");
+    solveme[i].setAttribute("spellcheck", "false");
+    solveme[i].value = "";
+
+    /* adjust answer for ignorecase or nospaces */
+    var cl = solveme[i].classList;
+    var real_answer = solveme[i].dataset.answer;
+    if (cl.contains("ignorecase")) {
+      real_answer = real_answer.toLowerCase();
+    }
+    if (cl.contains("nospaces")) {
+      real_answer = real_answer.replace(/ /g, "");
+    }
+    solveme[i].dataset.answer = real_answer;
+
+    /* attach checking function */
+    solveme[i].onkeyup = solveme_func;
+    solveme[i].onchange = solveme_func;
+
+    solveme[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  /* set up radiogroups */
+  var radiogroups = document.getElementsByClassName("webex-radiogroup");
+  for (var i = 0; i < radiogroups.length; i++) {
+    radiogroups[i].onchange = radiogroups_func;
+  }
+
+  /* set up selects */
+  var selects = document.getElementsByClassName("webex-select");
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].onchange = select_func;
+    selects[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  update_total_correct();
+}
+
+</script>
+<!--
+  Highlights the right item in the top menu. Quarto's book layout marks
+  "Welcome" as active on every page, so this sets it from the page address:
+  the course pages match their own item, and every other page (chapters,
+  quizzes, glossary) is part of the Textbook. Pages with no menu item of
+  their own (the AI policy and privacy policy) highlight nothing.
+-->
+<script>
+(function () {
+  "use strict";
+  const COURSE_PAGES = ["index", "syllabus", "materials", "about"];
+  const NO_ITEM_PAGES = ["privacy", "ai-policy"];
+  const file = (location.pathname.split("/").pop() || "index").replace(/\.html$/, "");
+  const inRoot = !/\/chapters\//.test(location.pathname);
+  const target = inRoot && NO_ITEM_PAGES.includes(file) ? null
+    : inRoot && COURSE_PAGES.includes(file) ? file : "preface";
+  document.querySelectorAll("#navbarCollapse a.nav-link").forEach((a) => {
+    const page = (a.getAttribute("href") || "").split("/").pop().replace(/\.html$/, "");
+    const on = page === target;
+    a.classList.toggle("active", on);
+    if (on) a.setAttribute("aria-current", "page");
+    else a.removeAttribute("aria-current");
+  });
+})();
+</script>
+<!--
+  Reading settings, part 2 of 2: the "Aa" menu next to search, where readers
+  pick a font and text size. Choices are kept in this browser (localStorage)
+  and applied on every page by assets/reader-settings-head.html.
+-->
+<script>
+(function () {
+  var FONTS = [
+    { id: "", label: "Atkinson Hyperlegible (default)", css: '"Atkinson Hyperlegible Next", sans-serif' },
+    { id: "lexend", label: "Lexend", css: '"Lexend", sans-serif', href: "https://fonts.googleapis.com/css2?family=Lexend:wght@300..700&display=swap" },
+    { id: "cardo", label: "Cardo (serif)", css: '"Cardo", Georgia, serif', href: "https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&display=swap" },
+    { id: "sans", label: "Standard sans-serif", css: 'system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif' },
+    { id: "serif", label: "Serif", css: 'Georgia, Cambria, "Times New Roman", serif' },
+    { id: "dyslexic", label: "OpenDyslexic", css: '"OpenDyslexic", sans-serif' }
+  ];
+  var SIZES = { "-1": "Small", "0": "Default", "1": "Large", "2": "Larger", "3": "Largest" };
+  var MIN = -1, MAX = 3;
+  var root = document.documentElement;
+
+  function save(key, value) {
+    try {
+      if (value === "" || value === "0") localStorage.removeItem(key);
+      else localStorage.setItem(key, value);
+    } catch (e) { /* storage blocked: setting lasts for this page only */ }
+  }
+  function currentFont() { return root.getAttribute("data-reader-font") || ""; }
+  function currentSize() { return parseInt(root.getAttribute("data-reader-size") || "0", 10) || 0; }
+
+  // Add a Google Fonts stylesheet once (Lexend, Cardo). Fonts download only
+  // when text actually uses them.
+  function loadWebFont(f) {
+    if (!f.href || document.getElementById("sds-reader-webfont-" + f.id)) return;
+    var link = document.createElement("link");
+    link.rel = "stylesheet"; link.href = f.href; link.id = "sds-reader-webfont-" + f.id;
+    document.head.appendChild(link);
+  }
+
+  function setFont(id) {
+    FONTS.forEach(function (f) { if (f.id === id) loadWebFont(f); });
+    if (id) root.setAttribute("data-reader-font", id); else root.removeAttribute("data-reader-font");
+    save("sds-reader-font", id);
+  }
+  function setSize(n) {
+    n = Math.max(MIN, Math.min(MAX, n));
+    if (n) root.setAttribute("data-reader-size", String(n)); else root.removeAttribute("data-reader-size");
+    save("sds-reader-size", String(n));
+    refreshSize();
+  }
+
+  var wrap = document.createElement("div");
+  wrap.className = "sds-reader";
+  var fontOptions = FONTS.map(function (f) {
+    return '<label style=\'font-family:' + f.css.replace(/'/g, "&#39;") + '\'>' +
+      '<input class="form-check-input" type="radio" name="sds-reader-font" value="' + f.id + '"> ' + f.label + '</label>';
+  }).join("");
+  wrap.innerHTML =
+    '<button type="button" class="sds-reader-toggle" aria-expanded="false" aria-controls="sds-reader-panel" ' +
+      'title="Reading settings: font and text size">' +
+      '<span aria-hidden="true">Aa</span><span class="visually-hidden">Reading settings</span></button>' +
+    '<div class="sds-reader-panel" id="sds-reader-panel" role="dialog" aria-label="Reading settings" hidden>' +
+      '<h2>Reading settings</h2>' +
+      '<fieldset class="sds-reader-font"><legend>Font</legend>' + fontOptions + '</fieldset>' +
+      '<fieldset><legend>Text size</legend><div class="sds-reader-size-row">' +
+        '<button type="button" data-step="-1" aria-label="Smaller text">A&minus;</button>' +
+        '<output aria-live="polite"></output>' +
+        '<button type="button" data-step="1" aria-label="Larger text">A+</button>' +
+      '</div></fieldset>' +
+      '<button type="button" class="sds-reader-reset">Reset to defaults</button>' +
+    '</div>';
+
+  var toggle = wrap.querySelector(".sds-reader-toggle");
+  var panel = wrap.querySelector(".sds-reader-panel");
+  var output = wrap.querySelector("output");
+  var minus = wrap.querySelector('[data-step="-1"]');
+  var plus = wrap.querySelector('[data-step="1"]');
+
+  function refreshFont() {
+    var id = currentFont();
+    wrap.querySelectorAll('input[name="sds-reader-font"]').forEach(function (r) { r.checked = r.value === id; });
+  }
+  function refreshSize() {
+    var n = currentSize();
+    output.textContent = SIZES[String(n)] || "Default";
+    minus.disabled = n <= MIN;
+    plus.disabled = n >= MAX;
+  }
+  function open(show) {
+    panel.hidden = !show;
+    toggle.setAttribute("aria-expanded", show ? "true" : "false");
+    if (show) { FONTS.forEach(loadWebFont); refreshFont(); refreshSize(); var c = panel.querySelector("input:checked"); if (c) c.focus(); }
+  }
+
+  toggle.addEventListener("click", function (e) { e.stopPropagation(); open(panel.hidden); });
+  panel.addEventListener("click", function (e) { e.stopPropagation(); });
+  panel.addEventListener("change", function (e) { if (e.target.name === "sds-reader-font") setFont(e.target.value); });
+  minus.addEventListener("click", function () { setSize(currentSize() - 1); });
+  plus.addEventListener("click", function () { setSize(currentSize() + 1); });
+  wrap.querySelector(".sds-reader-reset").addEventListener("click", function () { setFont(""); setSize(0); refreshFont(); });
+  document.addEventListener("click", function () { if (!panel.hidden) open(false); });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !panel.hidden) { open(false); toggle.focus(); }
+  });
+
+  // Put the button by search: in the top menu on
+  // geog370.org, or by the sidebar search in the textbook-only build.
+  var navSearch = document.querySelector("#quarto-header #quarto-search");
+  if (navSearch) navSearch.parentNode.insertBefore(wrap, navSearch);
+  else {
+    var search = document.querySelector("#quarto-sidebar .sidebar-search, #quarto-sidebar #quarto-search, .sidebar-tools-main");
+    if (search && search.parentNode) search.parentNode.insertBefore(wrap, search.nextSibling);
+    else return;
+  }
+  refreshFont();
+  refreshSize();
+})();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/density.html" class="pagination-link" aria-label="Density and Neighborhoods">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Density and Neighborhoods</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../chapters/raster.html" class="pagination-link" aria-label="Raster Analysis">
+        <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Raster Analysis</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

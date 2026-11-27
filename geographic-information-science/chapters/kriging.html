@@ -1,0 +1,1721 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>16&nbsp; Kriging – Geographic Information Science</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../glossary.html" rel="next">
+<link href="../chapters/interpolation.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ebb58cfc2c0cc903b00b246007c1be77.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-58aeb932f9769ef5b136914697361c15.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-contrib/glossary-1.0.0/glossary.js"></script>
+<link href="../site_libs/quarto-contrib/glossary-1.0.0/glossary.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<!--
+  Reading settings, part 1 of 2: applies the reader's saved font and text size
+  before the page draws, so it doesn't flash in the default font first.
+  The menu itself is in assets/reader-settings.html; styles are in
+  assets/reader-settings.css.
+-->
+<script>
+  (function () {
+    try {
+      var font = localStorage.getItem("sds-reader-font");
+      var size = localStorage.getItem("sds-reader-size");
+      if (font) document.documentElement.setAttribute("data-reader-font", font);
+      // Lexend and Cardo come from Google Fonts, loaded only for readers who pick them.
+      var webFonts = {
+        lexend: "https://fonts.googleapis.com/css2?family=Lexend:wght@300..700&display=swap",
+        cardo: "https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&display=swap"
+      };
+      if (webFonts[font]) {
+        var link = document.createElement("link");
+        link.rel = "stylesheet"; link.href = webFonts[font]; link.id = "sds-reader-webfont-" + font;
+        document.head.appendChild(link);
+      }
+      if (size) document.documentElement.setAttribute("data-reader-size", size);
+    } catch (e) { /* storage blocked: keep the defaults */ }
+  })();
+</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../include/webex.css">
+<link rel="stylesheet" href="../assets/sidebar.css">
+<link rel="stylesheet" href="../assets/grade-table.css">
+<link rel="stylesheet" href="../assets/reader-settings.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../units/unit-3.html">Unit 3: Spatial Analysis</a></li><li class="breadcrumb-item"><a href="../chapters/kriging.html"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Kriging</span></a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Site">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Geographic Information Science</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../units/unit-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-1-label">Unit 1: Data Models and Projections</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section: Unit 1: Data Models and Projections">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/what-is-gis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">What Is GIS?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/what-is-geographic-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">What Is Geographic Data?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/location-and-coordinates.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Location and Coordinate Systems</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/map-projections.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Map Projections</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/attribute-queries.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Attribute Data and Queries</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/database-joins.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Databases and Table Joins</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/spatial-joins.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Spatial Joins</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../units/unit-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-2-label">Unit 2: Spatial Data Quality</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section: Unit 2: Spatial Data Quality">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/census-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Census Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/geocoding-georeferencing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Geocoding and Georeferencing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/osm-data-quality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">OpenStreetMap and Data Quality</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../units/unit-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Unit 3: Spatial Analysis</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section: Unit 3: Spatial Analysis">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/data-classing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Data Classing and Choropleth Maps</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/density.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Density and Neighborhoods</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/spatial-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Spatial Analysis: Selection, Buffers, and Overlay</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/raster.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Raster Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/interpolation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Spatial Interpolation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/kriging.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Kriging</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-4-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Glossary</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../about.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About the author</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-semivariance" id="toc-sec-semivariance" class="nav-link active" data-scroll-target="#sec-semivariance"><span class="header-section-number">16.1</span> Semivariance</a>
+  <ul class="collapse">
+  <li><a href="#measuring-dissimilarity-with-distance" id="toc-measuring-dissimilarity-with-distance" class="nav-link" data-scroll-target="#measuring-dissimilarity-with-distance"><span class="header-section-number">16.1.1</span> Measuring dissimilarity with distance</a></li>
+  <li><a href="#direction-matters" id="toc-direction-matters" class="nav-link" data-scroll-target="#direction-matters"><span class="header-section-number">16.1.2</span> Direction matters</a></li>
+  </ul></li>
+  <li><a href="#sec-semivariogram" id="toc-sec-semivariogram" class="nav-link" data-scroll-target="#sec-semivariogram"><span class="header-section-number">16.2</span> The semivariogram</a>
+  <ul class="collapse">
+  <li><a href="#semivariogram-models" id="toc-semivariogram-models" class="nav-link" data-scroll-target="#semivariogram-models"><span class="header-section-number">16.2.1</span> Semivariogram models</a></li>
+  </ul></li>
+  <li><a href="#sec-kriging" id="toc-sec-kriging" class="nav-link" data-scroll-target="#sec-kriging"><span class="header-section-number">16.3</span> Kriging</a>
+  <ul class="collapse">
+  <li><a href="#a-surface-in-three-parts" id="toc-a-surface-in-three-parts" class="nav-link" data-scroll-target="#a-surface-in-three-parts"><span class="header-section-number">16.3.1</span> A surface in three parts</a></li>
+  <li><a href="#weights-from-the-semivariogram" id="toc-weights-from-the-semivariogram" class="nav-link" data-scroll-target="#weights-from-the-semivariogram"><span class="header-section-number">16.3.2</span> Weights from the semivariogram</a></li>
+  <li><a href="#sec-anisotropy" id="toc-sec-anisotropy" class="nav-link" data-scroll-target="#sec-anisotropy"><span class="header-section-number">16.3.3</span> Anisotropy</a></li>
+  <li><a href="#sec-trend" id="toc-sec-trend" class="nav-link" data-scroll-target="#sec-trend"><span class="header-section-number">16.3.4</span> Trends</a></li>
+  <li><a href="#types-of-kriging" id="toc-types-of-kriging" class="nav-link" data-scroll-target="#types-of-kriging"><span class="header-section-number">16.3.5</span> Types of kriging</a></li>
+  </ul></li>
+  <li><a href="#sec-kriging-errors" id="toc-sec-kriging-errors" class="nav-link" data-scroll-target="#sec-kriging-errors"><span class="header-section-number">16.4</span> Judging the result</a>
+  <ul class="collapse">
+  <li><a href="#cross-validation-statistics" id="toc-cross-validation-statistics" class="nav-link" data-scroll-target="#cross-validation-statistics"><span class="header-section-number">16.4.1</span> Cross-validation statistics</a></li>
+  <li><a href="#the-kriging-workflow" id="toc-the-kriging-workflow" class="nav-link" data-scroll-target="#the-kriging-workflow"><span class="header-section-number">16.4.2</span> The kriging workflow</a></li>
+  </ul></li>
+  <li><a href="#sec-kriging-software" id="toc-sec-kriging-software" class="nav-link" data-scroll-target="#sec-kriging-software"><span class="header-section-number">16.5</span> Kriging in ArcGIS Pro and QGIS</a></li>
+  <li><a href="#check-your-understanding" id="toc-check-your-understanding" class="nav-link" data-scroll-target="#check-your-understanding"><span class="header-section-number">16.6</span> Check your understanding</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">16.7</span> Summary</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">16.8</span> Exercises</a></li>
+  <li><a href="#further-reading-and-online-resources" id="toc-further-reading-and-online-resources" class="nav-link" data-scroll-target="#further-reading-and-online-resources"><span class="header-section-number">16.9</span> Further reading and online resources</a>
+  <ul class="collapse">
+  <li><a href="#books-and-papers" id="toc-books-and-papers" class="nav-link" data-scroll-target="#books-and-papers"><span class="header-section-number">16.9.1</span> Books and papers</a></li>
+  <li><a href="#arcgis-pro" id="toc-arcgis-pro" class="nav-link" data-scroll-target="#arcgis-pro"><span class="header-section-number">16.9.2</span> ArcGIS Pro</a></li>
+  <li><a href="#qgis-and-other-tools" id="toc-qgis-and-other-tools" class="nav-link" data-scroll-target="#qgis-and-other-tools"><span class="header-section-number">16.9.3</span> QGIS and other tools</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../units/unit-3.html">Unit 3: Spatial Analysis</a></li><li class="breadcrumb-item"><a href="../chapters/kriging.html"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Kriging</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Kriging</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Learning objectives
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>By the end of this chapter you should be able to:</p>
+<ol type="1">
+<li>Compute <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-semivariance" data-term="semivariance">semivariance</span> for a pair of observations and for a distance bin.</li>
+<li>Read a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-semivariogram" data-term="semivariogram">semivariogram</span>, and explain its <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-nugget" data-term="nugget">nugget</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-sill" data-term="sill">sill</span>, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-range" data-term="range">range</span>.</li>
+<li>Explain how <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-kriging" data-term="kriging">kriging</span> sets its weights, and how that differs from <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-inverse-distance-weighted" data-term="inverse distance weighted">IDW</span>.</li>
+<li>Recognize <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-anisotropy" data-term="anisotropy">anisotropy</span> and trends, and model them.</li>
+<li>Tell ordinary, simple, universal, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cokriging" data-term="cokriging">cokriging</span> apart.</li>
+<li>Judge a kriged surface with <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cross-validation" data-term="cross validation">cross-validation</span> statistics and a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-prediction-standard-error" data-term="prediction standard error">prediction standard error</span> map.</li>
+</ol>
+</div>
+</div>
+<p>The <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-interpolation" data-term="spatial interpolation">interpolation</span> methods in Chapter 15 are <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-deterministic-interpolation" data-term="deterministic interpolation">deterministic</span>: you choose a formula and its settings, and the surface follows. IDW, for example, weights observations by distance raised to a power you pick, whatever the data look like. <strong>Kriging</strong> takes a different approach. It first <em>measures</em> how values in your data are related at different distances, then uses that measurement to set the weights. Because it is built on a statistical model, it can also estimate how uncertain each prediction is.</p>
+<section id="sec-semivariance" class="level2" data-number="16.1">
+<h2 data-number="16.1" class="anchored" data-anchor-id="sec-semivariance"><span class="header-section-number">16.1</span> Semivariance</h2>
+<section id="measuring-dissimilarity-with-distance" class="level3" data-number="16.1.1">
+<h3 data-number="16.1.1" class="anchored" data-anchor-id="measuring-dissimilarity-with-distance"><span class="header-section-number">16.1.1</span> Measuring dissimilarity with distance</h3>
+<p><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tobler-s-first-law-of-geography" data-term="Tobler’s first law of geography">Tobler’s first law</span> says near things are more related than distant things <span class="citation" data-cites="tobler1970">(Tobler 1970)</span>. Chapter 12 called that tendency <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-autocorrelation" data-term="spatial autocorrelation">spatial autocorrelation</span></strong>. <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-semivariance" data-term="semivariance">Semivariance</span></strong> turns it into a number. For two observations <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span>, it is half the squared difference between their values:</p>
+<p><span class="math display">\[
+\gamma = \tfrac{1}{2} (z_i - z_j)^2
+\]</span></p>
+<p>Similar values give low semivariance; different values give high semivariance. If the first law holds, pairs close together should have low semivariance, and pairs far apart high semivariance.</p>
+<p>For many pairs, we group them into <strong>bins</strong> (also called lags) by the distance between them, and average within each bin. The semivariance of a bin <span class="math inline">\(h\)</span> with <span class="math inline">\(n\)</span> pairs is:</p>
+<p><span class="math display">\[
+\gamma(h) = \frac{1}{2n} \sum (z_i - z_j)^2
+\]</span></p>
+<p>In <a href="#fig-semivariance-example" class="quarto-xref">Figure&nbsp;<span>16.1</span></a>, the pair of values 4 and 3 has a semivariance of ½ × 1² = 0.5. Four pairs are exactly 10 apart, with squared differences of 1, 1, 0, and 0, so <span class="math inline">\(\gamma(10)\)</span> = ½ × 2 ÷ 4 = 0.25. (The two diagonal pairs, 14.1 apart, belong to another bin.)</p>
+<div id="fig-semivariance-example" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Four points in a square, with values 4 and 3 on top and 4 and 3 on the bottom. Left: the bottom pair is highlighted, with one half times 4 minus 3 squared equals 0.5. Right: all four sides of the square are highlighted, with gamma of 10 equals one half times 1 plus 1 plus 0 plus 0, divided by 4, equals 0.25.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-semivariance-example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/kriging/semivariance-example.png" class="img-fluid figure-img" alt="Four points in a square, with values 4 and 3 on top and 4 and 3 on the bottom. Left: the bottom pair is highlighted, with one half times 4 minus 3 squared equals 0.5. Right: all four sides of the square are highlighted, with gamma of 10 equals one half times 1 plus 1 plus 0 plus 0, divided by 4, equals 0.25.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-semivariance-example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;16.1: Semivariance for one pair (left) and for the bin of pairs 10 apart (right).
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="direction-matters" class="level3" data-number="16.1.2">
+<h3 data-number="16.1.2" class="anchored" data-anchor-id="direction-matters"><span class="header-section-number">16.1.2</span> Direction matters</h3>
+<p>Consider a made-up surface where values rise steadily from west to east, from 0 to 100, and don’t change at all from north to south (<a href="#fig-linear-cloud" class="quarto-xref">Figure&nbsp;<span>16.2</span></a>). Plotting the semivariance of every pair against its distance gives a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-semivariogram" data-term="semivariogram">semivariogram cloud</span></strong>. West–east pairs have semivariance that grows quickly with distance, because the farther apart they are, the more their values differ. North–south pairs have low semivariance at <em>any</em> distance, because values don’t change in that direction.</p>
+<div id="fig-linear-cloud" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Left: 200 points colored from purple in the west to yellow in the east. Right: a scatter of semivariance against distance for all pairs in gray. West–east pairs, in red, form the upper edge of the cloud, rising steeply in a curve. North–south pairs, in green, stay near zero at every distance.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-linear-cloud-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/kriging/linear-cloud.png" class="img-fluid figure-img" alt="Left: 200 points colored from purple in the west to yellow in the east. Right: a scatter of semivariance against distance for all pairs in gray. West–east pairs, in red, form the upper edge of the cloud, rising steeply in a curve. North–south pairs, in green, stay near zero at every distance.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-linear-cloud-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;16.2: A made-up surface rising from west to east (left), and its semivariogram cloud (right). West–east pairs grow more different with distance; north–south pairs do not.
+</figcaption>
+</figure>
+</div>
+<p>So distance alone doesn’t determine semivariance; direction can matter too. We return to this as <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-anisotropy" data-term="anisotropy">anisotropy</span></strong> (<a href="#sec-anisotropy" class="quarto-xref"><span>Section 16.3.3</span></a>).</p>
+</section>
+</section>
+<section id="sec-semivariogram" class="level2" data-number="16.2">
+<h2 data-number="16.2" class="anchored" data-anchor-id="sec-semivariogram"><span class="header-section-number">16.2</span> The semivariogram</h2>
+<p>A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-semivariogram" data-term="semivariogram">semivariogram</span></strong> (often just <strong>variogram</strong>) summarizes the cloud: it plots the average <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-semivariance" data-term="semivariance">semivariance</span> of each distance bin against the bin’s average distance. <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-kriging" data-term="kriging">Kriging</span> then fits a smooth mathematical model through those points. Three parameters describe the model (<a href="#fig-semivariogram" class="quarto-xref">Figure&nbsp;<span>16.3</span></a>):</p>
+<ul>
+<li>The <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-sill" data-term="sill">sill</span></strong> is the semivariance where the curve levels off. Pairs farther apart than this are as different as two random observations.</li>
+<li>The <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-range" data-term="range">range</span></strong> is the distance at which the sill is reached. Within the range, observations are autocorrelated; beyond it, they are effectively independent, and distance adds no information.</li>
+<li>The <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-nugget" data-term="nugget">nugget</span></strong> is the semivariance at a distance of (nearly) zero. In theory, two measurements at the same place should be identical, so the nugget should be 0. In practice it reflects measurement error, and variation at scales smaller than the spacing of the samples. The sill minus the nugget is the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-partial-sill" data-term="partial sill">partial sill</span></strong>.</li>
+</ul>
+<div id="fig-semivariogram" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A semivariogram. Dots rise from about 2.7 at short distances and level off near 10 beyond a distance of about 450. A blue spherical model curve starts at 2 at distance 0, labeled nugget, rises, and flattens at 10, labeled sill, at distance 450, labeled range. The vertical gap from the nugget to the sill is labeled partial sill. Distances below the range are labeled autocorrelated; above it, not autocorrelated.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-semivariogram-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/kriging/semivariogram.png" class="img-fluid figure-img" alt="A semivariogram. Dots rise from about 2.7 at short distances and level off near 10 beyond a distance of about 450. A blue spherical model curve starts at 2 at distance 0, labeled nugget, rises, and flattens at 10, labeled sill, at distance 450, labeled range. The vertical gap from the nugget to the sill is labeled partial sill. Distances below the range are labeled autocorrelated; above it, not autocorrelated.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-semivariogram-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;16.3: The parts of a semivariogram. Dots are bin averages from the data; the line is a fitted spherical model.
+</figcaption>
+</figure>
+</div>
+<div class="did-you-know callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Did you know..?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Kriging is named for Danie Krige, a South African mining engineer. In the early 1950s, he was estimating how much gold lay between boreholes in the Witwatersrand gold fields, and found that ore grades in nearby samples were related in a way he could use <span class="citation" data-cites="krige1951">(Krige 1951)</span>. The French mathematician Georges Matheron formalized his ideas as <em><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geostatistics" data-term="geostatistics">geostatistics</span></em> in the 1960s, and coined the term <em>krigeage</em> in Krige’s honor <span class="citation" data-cites="matheron1963">(Matheron 1963)</span>. The “nugget” in the semivariogram is a mining term too: a gold nugget in one sample makes it very different from a sample taken right beside it.</p>
+</div>
+</div>
+<section id="semivariogram-models" class="level3" data-number="16.2.1">
+<h3 data-number="16.2.1" class="anchored" data-anchor-id="semivariogram-models"><span class="header-section-number">16.2.1</span> Semivariogram models</h3>
+<p>The fitted model must be one of a few allowed shapes, which guarantee that kriging gives sensible answers. Four are common (<a href="#fig-models" class="quarto-xref">Figure&nbsp;<span>16.4</span></a>):</p>
+<ul>
+<li><strong>Spherical</strong>: rises almost linearly and reaches the sill exactly at the range. The most widely used.</li>
+<li><strong>Exponential</strong>: rises quickly and approaches the sill gradually.</li>
+<li><strong>Gaussian</strong>: flat near the origin, then rises; suits very smooth surfaces.</li>
+<li><strong>Linear</strong>: never levels off. A semivariogram with no sill usually signals a <strong>trend</strong> in the data (<a href="#sec-trend" class="quarto-xref"><span>Section 16.3.4</span></a>).</li>
+</ul>
+<div id="fig-models" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Four curves of semivariance against distance. Spherical, solid blue, rises and flattens at 10 exactly at the range, 450. Exponential, dashed red, rises fastest and approaches 10 gradually. Gaussian, dash-dot green, starts flat, rises in an S shape, and approaches 10. Linear, dotted purple, rises in a straight line with no sill.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-models-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/kriging/models.png" class="img-fluid figure-img" alt="Four curves of semivariance against distance. Spherical, solid blue, rises and flattens at 10 exactly at the range, 450. Exponential, dashed red, rises fastest and approaches 10 gradually. Gaussian, dash-dot green, starts flat, rises in an S shape, and approaches 10. Linear, dotted purple, rises in a straight line with no sill.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-models-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;16.4: Four semivariogram models with the same range and sill.
+</figcaption>
+</figure>
+</div>
+<p>Choose the model whose shape best matches the empirical semivariogram, especially at short distances, which matter most for prediction. Then check the choice with <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cross-validation" data-term="cross validation">cross validation</span>.</p>
+</section>
+</section>
+<section id="sec-kriging" class="level2" data-number="16.3">
+<h2 data-number="16.3" class="anchored" data-anchor-id="sec-kriging"><span class="header-section-number">16.3</span> Kriging</h2>
+<section id="a-surface-in-three-parts" class="level3" data-number="16.3.1">
+<h3 data-number="16.3.1" class="anchored" data-anchor-id="a-surface-in-three-parts"><span class="header-section-number">16.3.1</span> A surface in three parts</h3>
+<p><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-kriging" data-term="kriging">Kriging</span> treats each value as the sum of three parts (<a href="#fig-components" class="quarto-xref">Figure&nbsp;<span>16.5</span></a>):</p>
+<ol type="1">
+<li>A <strong>trend</strong>: the broad, large-scale change across the study area.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-autocorrelation" data-term="spatial autocorrelation">Spatial autocorrelation</span></strong>: local, distance-related variation around the trend. This is what the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-semivariogram" data-term="semivariogram">semivariogram</span> describes.</li>
+<li><strong>Random error</strong>: what’s left, which can’t be predicted from location.</li>
+</ol>
+<div id="fig-components" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A: a rising red trend line, a blue wavy curve around it, and observations scattered close to the wavy curve. B: random noise around zero.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-components-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/kriging/components.png" class="img-fluid figure-img" alt="A: a rising red trend line, a blue wavy curve around it, and observations scattered close to the wavy curve. B: random noise around zero.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-components-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;16.5: Kriging’s view of a surface: a trend, autocorrelated variation around it (A), and random error (B).
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="weights-from-the-semivariogram" class="level3" data-number="16.3.2">
+<h3 data-number="16.3.2" class="anchored" data-anchor-id="weights-from-the-semivariogram"><span class="header-section-number">16.3.2</span> Weights from the semivariogram</h3>
+<p>Like <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-inverse-distance-weighted" data-term="inverse distance weighted">IDW</span>, kriging predicts a value at location <span class="math inline">\(s_0\)</span> as a weighted sum of nearby observations:</p>
+<p><span class="math display">\[
+\hat{Z}(s_0) = \sum \lambda_i \, Z(s_i)
+\]</span></p>
+<p>The difference is where the weights <span class="math inline">\(\lambda_i\)</span> come from. IDW sets them from distance and a power you choose. Kriging <em>solves</em> for them, using the fitted semivariogram, so that the predictions are <strong>unbiased</strong> and have the <strong>smallest possible error variance</strong>. In <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-ordinary-kriging" data-term="ordinary kriging">ordinary kriging</span></strong>, the weights sum to 1.</p>
+<p>Because kriging accounts for how the observations relate to <em>each other</em>, not only to the prediction location, a cluster of nearby observations <strong>shares</strong> weight instead of each counting fully (<a href="#fig-weights" class="quarto-xref">Figure&nbsp;<span>16.6</span></a>). Four clustered observations tell us little more than one of them would. IDW gives the cluster more than half the weight; kriging gives it a third, and gives more to the isolated observations that bring new information. Kriging weights can even be slightly negative, for observations “screened” behind others.</p>
+<div id="fig-weights" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Two panels with the same six observations around a red X: one to the left, one below, and a cluster of four to the upper right. IDW: the cluster's weights are 0.23, 0.13, 0.11, and 0.07, together 55 percent. Kriging: one cluster point gets 0.39 and the others 0.05, minus 0.02, and minus 0.08, together 33 percent; the left and lower points get 0.39 and 0.28.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-weights-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/kriging/weights.png" class="img-fluid figure-img" alt="Two panels with the same six observations around a red X: one to the left, one below, and a cluster of four to the upper right. IDW: the cluster's weights are 0.23, 0.13, 0.11, and 0.07, together 55 percent. Kriging: one cluster point gets 0.39 and the others 0.05, minus 0.02, and minus 0.08, together 33 percent; the left and lower points get 0.39 and 0.28.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-weights-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;16.6: Weights for the same prediction (red X) from IDW and from ordinary kriging. Circle size shows weight; red circles are negative weights.
+</figcaption>
+</figure>
+</div>
+<p>Kriging also gives a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-prediction-standard-error" data-term="prediction standard error">prediction standard error</span></strong> at every location: an estimate of how far off the prediction might be. It is smallest near observations, and largest where they are sparse (<a href="#fig-prediction-error" class="quarto-xref">Figure&nbsp;<span>16.9</span></a>, right). No <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-deterministic-interpolation" data-term="deterministic interpolation">deterministic</span> method offers this.</p>
+</section>
+<section id="sec-anisotropy" class="level3" data-number="16.3.3">
+<h3 data-number="16.3.3" class="anchored" data-anchor-id="sec-anisotropy"><span class="header-section-number">16.3.3</span> Anisotropy</h3>
+<p>A surface is <strong>isotropic</strong> when spatial dependence is the same in every direction, and <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-anisotropy" data-term="anisotropy">anisotropic</span></strong> when it changes with direction. Consider a made-up surface that varies in a sine wave from west to east, with a wavelength of 400, and doesn’t change from north to south (<a href="#fig-sine-variograms" class="quarto-xref">Figure&nbsp;<span>16.7</span></a>). A semivariogram that pools every direction blurs the pattern. One that uses only west–east pairs shows it clearly: pairs half a wavelength apart (200, 600) are most different, and pairs a full wavelength apart (400, 800) are alike again.</p>
+<div id="fig-sine-variograms" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Left: 200 points in alternating north-south bands of red and blue. Middle: an all-direction semivariogram with low, blurred peaks near 250 and 650. Right: a west-east semivariogram with tall peaks at 200 and 600, marked half wavelength, most different, and lows near 400 and 800, marked one wavelength, alike again.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sine-variograms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/kriging/sine-variograms.png" class="img-fluid figure-img" alt="Left: 200 points in alternating north-south bands of red and blue. Middle: an all-direction semivariogram with low, blurred peaks near 250 and 650. Right: a west-east semivariogram with tall peaks at 200 and 600, marked half wavelength, most different, and lows near 400 and 800, marked one wavelength, alike again.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sine-variograms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;16.7: Made-up sine-wave samples (left), and their semivariograms for all directions (middle) and for west–east pairs only (right).
+</figcaption>
+</figure>
+</div>
+<p>An <strong>anisotropic</strong> model fits a longer <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-range" data-term="range">range</span> in one direction (the <strong>major range</strong>) and a shorter one in the perpendicular direction (the <strong>minor range</strong>). Its <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-search-neighborhood" data-term="search neighborhood">search neighborhood</span> becomes an ellipse stretched along the direction where values stay similar. On the sine surface, the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cross-validation" data-term="cross validation">cross-validation</span> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-root-mean-square-error-rmse" data-term="root mean square error (RMSE)">RMSE</span> falls from 2.62 for IDW to 1.61 for isotropic kriging, and to 0.38 for anisotropic kriging, which keeps the bands continuous (<a href="#fig-sine-kriging" class="quarto-xref">Figure&nbsp;<span>16.8</span></a>).</p>
+<div id="fig-sine-kriging" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Three maps of alternating red and blue north-south bands. IDW, RMSE 2.62: the bands are wobbly, with bull's-eyes around points. Isotropic kriging, RMSE 1.61, with a circle drawn in one corner: smoother bands with some patches. Anisotropic kriging, RMSE 0.38, with a tall narrow ellipse drawn: clean, straight, continuous bands.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sine-kriging-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/kriging/sine-kriging.png" class="img-fluid figure-img" alt="Three maps of alternating red and blue north-south bands. IDW, RMSE 2.62: the bands are wobbly, with bull's-eyes around points. Isotropic kriging, RMSE 1.61, with a circle drawn in one corner: smoother bands with some patches. Anisotropic kriging, RMSE 0.38, with a tall narrow ellipse drawn: clean, straight, continuous bands.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sine-kriging-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;16.8: The sine samples <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-interpolation" data-term="spatial interpolation">interpolated</span> with IDW, isotropic kriging (circular search), and anisotropic kriging (elliptical search), with cross-validation RMSE.
+</figcaption>
+</figure>
+</div>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Think about it
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Name a variable that you would expect to be anisotropic. Which direction would have the longer range? (Think of a river valley, a mountain front, the prevailing wind, or a coastline.)</p>
+</div>
+</div>
+</section>
+<section id="sec-trend" class="level3" data-number="16.3.4">
+<h3 data-number="16.3.4" class="anchored" data-anchor-id="sec-trend"><span class="header-section-number">16.3.4</span> Trends</h3>
+<p>Kriging assumes that the mean is stable across the study area. When the data have a strong trend, such as temperature falling steadily from south to north, the semivariogram keeps rising without a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-sill" data-term="sill">sill</span>, like the linear model in <a href="#fig-models" class="quarto-xref">Figure&nbsp;<span>16.4</span></a>. The fix is to <strong>remove the trend</strong> first: fit a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-trend-surface" data-term="trend surface">trend surface</span> (Chapter 15), krige the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-residual" data-term="residual">residuals</span></strong> (observed minus trend), and add the trend back to the predictions.</p>
+<p><a href="#fig-prediction-error" class="quarto-xref">Figure&nbsp;<span>16.9</span></a> does this for the 40 made-up samples from Chapter 15. The raw semivariogram has no sill; after a first-order trend is removed, the residuals’ semivariogram levels off and fits a spherical model. The kriged surface has a cross-validation RMSE of 5.2, better than IDW (8.2) but not as good as the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-radial-basis-function" data-term="radial basis function">radial basis function</span> (4.2) on this surface. Kriging is not guaranteed to win. Its standard error map shows where the prediction is least certain: the corners and the empty lower right.</p>
+<div id="fig-prediction-error" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Left: hollow dots for the raw values rise steadily to over 800 without leveling off; solid dots for the residuals rise and level off near 110, matched by a blue spherical curve. Middle: a smooth predicted surface with two peaks at the top and a basin at the bottom. Right: a standard error map, near zero at each sample point and darkest in the corners and the empty lower right.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-prediction-error-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/kriging/prediction-error.png" class="img-fluid figure-img" alt="Left: hollow dots for the raw values rise steadily to over 800 without leveling off; solid dots for the residuals rise and level off near 110, matched by a blue spherical curve. Middle: a smooth predicted surface with two peaks at the top and a basin at the bottom. Right: a standard error map, near zero at each sample point and darkest in the corners and the empty lower right.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-prediction-error-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;16.9: Kriging the 40 samples from Chapter 15: semivariograms of the raw values and of the residuals after removing a trend (left), the prediction (middle), and its standard error (right).
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="types-of-kriging" class="level3" data-number="16.3.5">
+<h3 data-number="16.3.5" class="anchored" data-anchor-id="types-of-kriging"><span class="header-section-number">16.3.5</span> Types of kriging</h3>
+<p>The main types differ in how they treat the trend:</p>
+<div id="tbl-kriging-types" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-kriging-types-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;16.1: Types of kriging.
+</figcaption>
+<div aria-describedby="tbl-kriging-types-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>The trend (mean) is</th>
+<th>Use when</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Ordinary kriging</strong></td>
+<td>An unknown constant</td>
+<td>The most common choice; no strong trend</td>
+</tr>
+<tr class="even">
+<td><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-simple-kriging" data-term="simple kriging">Simple kriging</span></strong></td>
+<td>A known constant</td>
+<td>The mean is known, for example from a long record</td>
+</tr>
+<tr class="odd">
+<td><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-universal-kriging" data-term="universal kriging">Universal kriging</span></strong></td>
+<td>A function of location, such as a polynomial</td>
+<td>There is a clear trend, such as a west–east gradient</td>
+</tr>
+<tr class="even">
+<td><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cokriging" data-term="cokriging">Cokriging</span></strong></td>
+<td>Any of the above, plus a correlated secondary variable</td>
+<td>A second, densely sampled variable helps, such as elevation for temperature</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Universal kriging is the version of <a href="#fig-prediction-error" class="quarto-xref">Figure&nbsp;<span>16.9</span></a>: the trend is modeled as a polynomial and the residuals are kriged. It suits variables like U.S. precipitation, which changes steadily from the dry West to the wet Southeast.</p>
+</section>
+</section>
+<section id="sec-kriging-errors" class="level2" data-number="16.4">
+<h2 data-number="16.4" class="anchored" data-anchor-id="sec-kriging-errors"><span class="header-section-number">16.4</span> Judging the result</h2>
+<section id="cross-validation-statistics" class="level3" data-number="16.4.1">
+<h3 data-number="16.4.1" class="anchored" data-anchor-id="cross-validation-statistics"><span class="header-section-number">16.4.1</span> Cross-validation statistics</h3>
+<p>As in Chapter 15, <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cross-validation" data-term="cross validation">cross validation</span></strong> removes each observation in turn, predicts it from the rest, and compares. Because <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-kriging" data-term="kriging">kriging</span> also predicts its own standard errors, it adds two statistics that test whether its uncertainty is realistic (<a href="#tbl-kriging-cv" class="quarto-xref">Table&nbsp;<span>16.2</span></a>). <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span>’s <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geostatistics" data-term="geostatistics">Geostatistical</span> Wizard reports all four.</p>
+<div id="tbl-kriging-cv" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-kriging-cv-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;16.2: Kriging cross-validation statistics.
+</figcaption>
+<div aria-describedby="tbl-kriging-cv-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Statistic</th>
+<th>Target</th>
+<th>What it tells you</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-mean-error" data-term="mean error">Mean error</span></td>
+<td>Close to 0</td>
+<td>Predictions are unbiased</td>
+</tr>
+<tr class="even">
+<td><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-root-mean-square-error-rmse" data-term="root mean square error (RMSE)">Root mean square error</span> (RMSE)</td>
+<td>As small as possible</td>
+<td>How close predictions are to the observed values</td>
+</tr>
+<tr class="odd">
+<td>Average standard error</td>
+<td>Close to the RMSE</td>
+<td>Whether the model’s uncertainty is realistic</td>
+</tr>
+<tr class="even">
+<td>Root mean square standardized error</td>
+<td>Close to 1</td>
+<td>Above 1: uncertainty is underestimated; below 1: overestimated</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+<section id="the-kriging-workflow" class="level3" data-number="16.4.2">
+<h3 data-number="16.4.2" class="anchored" data-anchor-id="the-kriging-workflow"><span class="header-section-number">16.4.2</span> The kriging workflow</h3>
+<p>Putting it together, a typical kriging analysis, as in ArcGIS Pro’s Geostatistical Wizard:</p>
+<ol type="1">
+<li><strong>Explore the data.</strong> Map it; check the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-histogram" data-term="histogram">histogram</span>; look for outliers and trends.</li>
+<li><strong>Remove any trend</strong>, and choose the type of kriging.</li>
+<li><strong>Compute the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-semivariogram" data-term="semivariogram">semivariogram</span></strong>, in several directions to check for <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-anisotropy" data-term="anisotropy">anisotropy</span>.</li>
+<li><strong>Fit a model</strong>: choose its shape, and set the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-nugget" data-term="nugget">nugget</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-sill" data-term="sill">sill</span>, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-range" data-term="range">range</span> (and major and minor ranges, if anisotropic).</li>
+<li><strong>Set the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-search-neighborhood" data-term="search neighborhood">search neighborhood</span></strong>: the number of neighbors, sectors, and shape.</li>
+<li><strong>Cross-validate</strong>, and compare the statistics with other models and methods.</li>
+<li><strong>Map the prediction and its standard error</strong>.</li>
+</ol>
+<p>Use cross-validation statistics, not appearance, to choose among models and methods. Every surface looks plausible.</p>
+</section>
+</section>
+<section id="sec-kriging-software" class="level2" data-number="16.5">
+<h2 data-number="16.5" class="anchored" data-anchor-id="sec-kriging-software"><span class="header-section-number">16.5</span> Kriging in ArcGIS Pro and QGIS</h2>
+<ul>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span>.</strong> The <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geostatistics" data-term="geostatistics">Geostatistical</span> Wizard</strong> (Geostatistical Analyst extension) runs ordinary, simple, universal, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cokriging" data-term="cokriging">cokriging</span>, with full control of the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-semivariogram" data-term="semivariogram">semivariogram</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-anisotropy" data-term="anisotropy">anisotropy</span>, trend removal, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-search-neighborhood" data-term="search neighborhood">search neighborhood</span>, and reports <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cross-validation" data-term="cross validation">cross-validation</span> statistics. <strong>Empirical Bayesian <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-kriging" data-term="kriging">Kriging</span></strong> automates semivariogram fitting by simulating many semivariograms. The Spatial Analyst <em>Kriging</em> tool offers a simpler interface.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span>.</strong> The Processing Toolbox includes SAGA’s kriging tools (ordinary and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-universal-kriging" data-term="universal kriging">universal kriging</span>) and GRASS’s <em>v.surf.rst</em> for <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-radial-basis-function" data-term="radial basis function">splines</span>. The <strong>Smart-Map</strong> plugin provides kriging with semivariogram fitting and cross validation.</li>
+</ul>
+</section>
+<section id="check-your-understanding" class="level2" data-number="16.6">
+<h2 data-number="16.6" class="anchored" data-anchor-id="check-your-understanding"><span class="header-section-number">16.6</span> Check your understanding</h2>
+<ol type="1">
+<li><p>What is the semivariance of a pair of observations with values 7 and 3? <input class="webex-solveme nospaces" size="3" data-answer="[&quot;8&quot;]"></p></li>
+<li><p>The distance at which a semivariogram levels off is the: <select class="webex-select"><option value="blank"></option><option value="">Sill</option><option value="answer">Range</option><option value="">Nugget</option><option value="">Lag</option></select></p></li>
+<li><p>Semivariance at (nearly) zero distance, from measurement error or small-scale variation, is the: <select class="webex-select"><option value="blank"></option><option value="">Sill</option><option value="">Range</option><option value="answer">Nugget</option><option value="">Trend</option></select></p></li>
+<li><p>A semivariogram that rises without ever leveling off suggests: <select class="webex-select"><option value="blank"></option><option value="">No autocorrelation</option><option value="answer">A trend in the data</option><option value="">A large nugget</option><option value="">Isotropy</option></select></p></li>
+<li><p>Compared with IDW, kriging gives a cluster of nearby observations: <select class="webex-select"><option value="blank"></option><option value="">More weight</option><option value="answer">Less weight, shared among the cluster</option><option value="">Zero weight</option><option value="">The same weight</option></select></p></li>
+<li><p>Spatial dependence that changes with direction is: <select class="webex-select"><option value="blank"></option><option value="">Isotropy</option><option value="answer">Anisotropy</option><option value="">Stationarity</option><option value="">A nugget effect</option></select></p></li>
+<li><p>Which type of kriging models the trend as a function of location? <select class="webex-select"><option value="blank"></option><option value="">Ordinary</option><option value="">Simple</option><option value="answer">Universal</option><option value="">Indicator</option></select></p></li>
+<li><p>A root mean square standardized error well above 1 means the model underestimates its uncertainty. <select class="webex-select"><option value="blank"></option><option value="answer">TRUE</option><option value="">FALSE</option></select></p></li>
+</ol>
+</section>
+<section id="summary" class="level2" data-number="16.7">
+<h2 data-number="16.7" class="anchored" data-anchor-id="summary"><span class="header-section-number">16.7</span> Summary</h2>
+<ul>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-semivariance" data-term="semivariance">Semivariance</span></strong> is half the squared difference between two values. Averaged by distance <strong>bin</strong>, it shows how dissimilarity grows with distance.</li>
+<li>A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-semivariogram" data-term="semivariogram">semivariogram</span></strong> plots semivariance against distance. Its <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-nugget" data-term="nugget">nugget</span></strong>, <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-sill" data-term="sill">sill</span></strong>, and <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-range" data-term="range">range</span></strong> describe spatial dependence. Models include <strong>spherical</strong>, <strong>exponential</strong>, <strong>Gaussian</strong>, and <strong>linear</strong>.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-kriging" data-term="kriging">Kriging</span></strong> predicts a weighted sum of observations, with weights solved from the fitted semivariogram so predictions are <strong>unbiased</strong> with <strong>minimum error variance</strong>. Clustered observations share weight, and every prediction has a <strong>standard error</strong>.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-anisotropy" data-term="anisotropy">Anisotropy</span></strong> (dependence that changes with direction) is modeled with major and minor ranges and an elliptical search. <strong>Trends</strong> are removed before modeling, and added back.</li>
+<li><strong>Ordinary</strong>, <strong>simple</strong>, <strong>universal</strong>, and <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cokriging" data-term="cokriging">cokriging</span></strong> differ in how they treat the trend, and whether they use a secondary variable.</li>
+<li>Judge a kriged surface with <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cross-validation" data-term="cross validation">cross validation</span>: <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-mean-error" data-term="mean error">mean error</span> near 0, small <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-root-mean-square-error-rmse" data-term="root mean square error (RMSE)">RMSE</span>, average standard error near the RMSE, and RMS standardized error near 1.</li>
+</ul>
+</section>
+<section id="exercises" class="level2" data-number="16.8">
+<h2 data-number="16.8" class="anchored" data-anchor-id="exercises"><span class="header-section-number">16.8</span> Exercises</h2>
+<ol type="1">
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-semivariance" data-term="semivariance">Semivariance</span> by hand.</strong> Five wells along a road, 100 m apart, have water-table depths of 12, 14, 13, 17, and 18 m. Compute <span class="math inline">\(\gamma(100)\)</span> and <span class="math inline">\(\gamma(200)\)</span>.</li>
+<li><strong>Read a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-semivariogram" data-term="semivariogram">semivariogram</span>.</strong> For the semivariogram in <a href="#fig-semivariogram" class="quarto-xref">Figure&nbsp;<span>16.3</span></a>, estimate the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-nugget" data-term="nugget">nugget</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-sill" data-term="sill">sill</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-partial-sill" data-term="partial sill">partial sill</span>, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-range" data-term="range">range</span>. Beyond what distance would you stop using observations to predict a location?</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-kriging" data-term="kriging">Kriging</span> vs.&nbsp;IDW.</strong> Using a month of North Carolina rainfall totals from NOAA’s Climate Data Online, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-interpolation" data-term="spatial interpolation">interpolate</span> with <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-inverse-distance-weighted" data-term="inverse distance weighted">IDW</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-ordinary-kriging" data-term="ordinary kriging">ordinary kriging</span> in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span>’s <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geostatistics" data-term="geostatistics">Geostatistical</span> Wizard. Compare the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cross-validation" data-term="cross validation">cross-validation</span> statistics. Which method wins?</li>
+<li><strong>Trend.</strong> Interpolate average annual temperature for the lower 48 states with ordinary kriging and with <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-universal-kriging" data-term="universal kriging">universal kriging</span> (first-order trend). Compare the semivariograms. Which levels off?</li>
+<li><strong>Standard error.</strong> Map the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-prediction-standard-error" data-term="prediction standard error">prediction standard error</span> from Exercise 3. Where would you add new rain gauges, and why?</li>
+</ol>
+</section>
+<section id="further-reading-and-online-resources" class="level2" data-number="16.9">
+<h2 data-number="16.9" class="anchored" data-anchor-id="further-reading-and-online-resources"><span class="header-section-number">16.9</span> Further reading and online resources</h2>
+<section id="books-and-papers" class="level3" data-number="16.9.1">
+<h3 data-number="16.9.1" class="anchored" data-anchor-id="books-and-papers"><span class="header-section-number">16.9.1</span> Books and papers</h3>
+<ul>
+<li><em><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> Fundamentals</em>, by Paul Bolstad <span class="citation" data-cites="bolstad2022">(Bolstad 2022)</span>. The chapter on spatial estimation introduces the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-semivariogram" data-term="semivariogram">semivariogram</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-kriging" data-term="kriging">kriging</span>.</li>
+<li><em><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-data" data-term="spatial data">Geographic Information</span> Analysis</em>, by David O’Sullivan and David Unwin <span class="citation" data-cites="osullivan2010">(O’Sullivan and Unwin 2010)</span>, explains semivariograms and kriging clearly, with worked examples.</li>
+<li><em>An Introduction to Applied <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geostatistics" data-term="geostatistics">Geostatistics</span></em>, by Edward Isaaks and R. Mohan Srivastava (Oxford University Press, 1989), a classic, readable introduction.</li>
+<li>Krige’s original paper <span class="citation" data-cites="krige1951">(Krige 1951)</span> and Matheron’s “Principles of Geostatistics” <span class="citation" data-cites="matheron1963">(Matheron 1963)</span>.</li>
+<li><em>Intro to GIS and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-analysis" data-term="spatial analysis">Spatial Analysis</span></em>, by Manuel Gimond, free online, includes kriging in its chapter on <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-interpolation" data-term="spatial interpolation">spatial interpolation</span>: <a href="https://mgimond.github.io/Spatial/spatial-interpolation.html" class="uri">https://mgimond.github.io/Spatial/spatial-interpolation.html</a>.</li>
+</ul>
+</section>
+<section id="arcgis-pro" class="level3" data-number="16.9.2">
+<h3 data-number="16.9.2" class="anchored" data-anchor-id="arcgis-pro"><span class="header-section-number">16.9.2</span> ArcGIS Pro</h3>
+<ul>
+<li><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-esri" data-term="Esri">Esri</span>, “How Kriging works”: <a href="https://pro.arcgis.com/en/pro-app/latest/tool-reference/3d-analyst/how-kriging-works.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/tool-reference/3d-analyst/how-kriging-works.htm</a>.</li>
+<li>Esri, “Understanding a semivariogram: The <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-range" data-term="range">range</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-sill" data-term="sill">sill</span>, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-nugget" data-term="nugget">nugget</span>”: <a href="https://pro.arcgis.com/en/pro-app/latest/help/analysis/geostatistical-analyst/understanding-a-semivariogram-the-range-sill-and-nugget.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/help/analysis/geostatistical-analyst/understanding-a-semivariogram-the-range-sill-and-nugget.htm</a>.</li>
+<li>Esri, “What is Empirical Bayesian Kriging?”: <a href="https://pro.arcgis.com/en/pro-app/latest/help/analysis/geostatistical-analyst/what-is-empirical-bayesian-kriging-.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/help/analysis/geostatistical-analyst/what-is-empirical-bayesian-kriging-.htm</a>.</li>
+<li>Esri, “Performing <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cross-validation" data-term="cross validation">cross validation</span> and validation”: <a href="https://pro.arcgis.com/en/pro-app/latest/help/analysis/geostatistical-analyst/performing-cross-validation-and-validation.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/help/analysis/geostatistical-analyst/performing-cross-validation-and-validation.htm</a>.</li>
+<li>Esri, “Kriging in Geostatistical Analyst”: <a href="https://pro.arcgis.com/en/pro-app/latest/help/analysis/geostatistical-analyst/kriging-in-geostatistical-analyst.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/help/analysis/geostatistical-analyst/kriging-in-geostatistical-analyst.htm</a>.</li>
+</ul>
+</section>
+<section id="qgis-and-other-tools" class="level3" data-number="16.9.3">
+<h3 data-number="16.9.3" class="anchored" data-anchor-id="qgis-and-other-tools"><span class="header-section-number">16.9.3</span> QGIS and other tools</h3>
+<ul>
+<li>Smart-Map <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span> plugin: <a href="https://plugins.qgis.org/plugins/Smart_Map/" class="uri">https://plugins.qgis.org/plugins/Smart_Map/</a>.</li>
+<li>The <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-gis-t-body-of-knowledge" data-term="GIS&amp;T Body of Knowledge">GIS&amp;T Body of Knowledge</span>, “Kriging Interpolation” and “Semivariograms”: <a href="https://www.ucgis.org/site/gis-t-body-of-knowledge" class="uri">https://www.ucgis.org/site/gis-t-body-of-knowledge</a>.</li>
+</ul>
+
+
+<div class="glossary-defs" hidden="">
+<span id="gloss-semivariance">Half the squared difference between two observed values. Averaged over
+pairs in a distance bin, it measures dissimilarity at that distance.</span>
+<span id="gloss-semivariogram">A plot of semivariance against the distance between pairs of
+observations, described by its nugget, sill, and range.</span>
+<span id="gloss-nugget">The semivariance at (nearly) zero distance, from measurement error or
+variation smaller than the sample spacing.</span>
+<span id="gloss-sill">The semivariance at which a semivariogram levels off.</span>
+<span id="gloss-range">In a semivariogram, the distance at which the sill is reached. Beyond
+it, observations are not autocorrelated.</span>
+<span id="gloss-kriging">A geostatistical interpolation method that weights observations using a
+model of spatial autocorrelation (the semivariogram), and estimates the
+uncertainty of each prediction.</span>
+<span id="gloss-inverse-distance-weighted">An interpolation method that estimates each location as a weighted
+average of nearby observations, with weights of 1 / distance raised to a
+power.</span>
+<span id="gloss-anisotropy">Spatial dependence that changes with direction. Its opposite is
+isotropy, the same dependence in every direction.</span>
+<span id="gloss-cokriging">Kriging that also uses one or more correlated secondary variables, such
+as elevation when predicting temperature.</span>
+<span id="gloss-cross-validation">Testing an interpolation by removing each observation in turn,
+estimating it from the rest, and recording the error.</span>
+<span id="gloss-prediction-standard-error">Kriging’s estimate of how far off each prediction might be. It is
+largest where observations are sparse.</span>
+<span id="gloss-spatial-interpolation">Estimating the value of an attribute at unsampled locations from
+observations at sampled ones.</span>
+<span id="gloss-deterministic-interpolation">Interpolation in which the surface is fully determined by a formula and
+the chosen parameters, with no statistical model of error.</span>
+<span id="gloss-tobler-s-first-law-of-geography">“Everything is related to everything else, but near things are more
+related than distant things” (Tobler 1970).</span>
+<span id="gloss-spatial-autocorrelation">The degree to which values at nearby locations are more alike (positive)
+or more different (negative) than chance would predict.</span>
+<span id="gloss-partial-sill">The sill minus the nugget: the part of the variation that is spatially
+autocorrelated.</span>
+<span id="gloss-geostatistics">Statistics for spatially continuous data, which model spatial
+autocorrelation to predict values and their uncertainty. Kriging is its
+best-known method.</span>
+<span id="gloss-ordinary-kriging">Kriging that assumes an unknown but constant mean. The most common type.</span>
+<span id="gloss-search-neighborhood">The area around an unknown location, set by a radius, sectors, and a
+shape, from which observations are taken to estimate it.</span>
+<span id="gloss-root-mean-square-error-rmse">The square root of the average squared residual: one number that sums up
+how well a model fits.</span>
+<span id="gloss-trend-surface">A smooth polynomial surface fit to all the observations, usually by
+least squares. Its order sets how many bends it can have.</span>
+<span id="gloss-residual">The difference between an observed value and the value a model predicts;
+in georeferencing, the distance between a GCP’s true and transformed
+positions.</span>
+<span id="gloss-radial-basis-function">An exact interpolation method that fits a smooth, minimum-curvature
+surface through every observation, like a flexible sheet pinned at each
+point.</span>
+<span id="gloss-simple-kriging">Kriging that assumes a known, constant mean.</span>
+<span id="gloss-universal-kriging">Kriging that models the trend as a function of location, such as a
+polynomial, and krigs the residuals.</span>
+<span id="gloss-arcgis-pro">Esri’s commercial desktop GIS, for Windows.</span>
+<span id="gloss-mean-error">The average of the cross-validation errors. Near 0 means the surface is
+unbiased.</span>
+<span id="gloss-histogram">A bar chart of how many values fall in each range, used to see the shape
+of a distribution.</span>
+<span id="gloss-qgis">A free and open-source desktop GIS that runs on Windows, Mac, and Linux.</span>
+<span id="gloss-geographic-information-system-gis">“A computer-based system to aid in the collection, maintenance, storage,
+analysis, output, and distribution of spatial data and information”
+(Bolstad). Its five components are data, hardware, software, people, and
+procedures.</span>
+<span id="gloss-spatial-data">Data tied to a location on or near Earth, such as the address of a
+house, the outline of a county, or the elevation at a point.</span>
+<span id="gloss-spatial-analysis">Methods that use the locations of things, and the relationships among
+them, to find patterns, explain them, or make predictions.</span>
+<span id="gloss-esri">The company that makes ArcGIS, founded in 1969 by Jack and Laura
+Dangermond in Redlands, California.</span>
+<span id="gloss-gis-t-body-of-knowledge">A free collection of short, peer-reviewed articles on geographic
+information science and technology topics, from the University
+Consortium for Geographic Information Science (UCGIS).</span>
+</div>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script>
+
+/* update total correct if #webex-total_correct exists */
+update_total_correct = function() {
+  console.log("webex: update total_correct");
+
+  var t = document.getElementsByClassName("webex-total_correct");
+  for (var i = 0; i < t.length; i++) {
+    p = t[i].parentElement;
+    var correct = p.getElementsByClassName("webex-correct").length;
+    var solvemes = p.getElementsByClassName("webex-solveme").length;
+    var radiogroups = p.getElementsByClassName("webex-radiogroup").length;
+    var selects = p.getElementsByClassName("webex-select").length;
+
+    t[i].innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  }
+}
+
+/* webex-solution button toggling function */
+b_func = function() {
+  console.log("webex: toggle hide");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('open')) {
+    cl.remove("open");
+  } else {
+    cl.add("open");
+  }
+}
+
+/* check answers */
+check_func = function() {
+  console.log("webex: check answers");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('unchecked')) {
+    cl.remove("unchecked");
+    this.innerHTML = "Hide Answers";
+  } else {
+    cl.add("unchecked");
+    this.innerHTML = "Show Answers";
+  }
+}
+
+/* function for checking solveme answers */
+solveme_func = function(e) {
+  console.log("webex: check solveme");
+
+  var real_answers = JSON.parse(this.dataset.answer);
+  var my_answer = this.value;
+  var cl = this.classList;
+  if (cl.contains("ignorecase")) {
+    my_answer = my_answer.toLowerCase();
+  }
+  if (cl.contains("nospaces")) {
+    my_answer = my_answer.replace(/ /g, "")
+  }
+
+  if (my_answer == "") {
+    cl.remove("webex-correct");
+    cl.remove("webex-incorrect");
+  } else if (real_answers.includes(my_answer)) {
+    cl.add("webex-correct");
+    cl.remove("webex-incorrect");
+  } else {
+    cl.add("webex-incorrect");
+    cl.remove("webex-correct");
+  }
+
+  // match numeric answers within a specified tolerance
+  if(this.dataset.tol > 0){
+    var tol = JSON.parse(this.dataset.tol);
+    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+    if (matches.reduce((a, b) => a + b, 0) > 0) {
+      cl.add("webex-correct");
+    } else {
+      cl.remove("webex-correct");
+    }
+  }
+
+  // added regex bit
+  if (cl.contains("regex")){
+    answer_regex = RegExp(real_answers.join("|"))
+    if (answer_regex.test(my_answer)) {
+      cl.add("webex-correct");
+    }
+  }
+
+  update_total_correct();
+}
+
+/* function for checking select answers */
+select_func = function(e) {
+  console.log("webex: check select");
+
+  var cl = this.classList
+
+  /* add style */
+  cl.remove("webex-incorrect");
+  cl.remove("webex-correct");
+  if (this.value == "answer") {
+    cl.add("webex-correct");
+  } else if (this.value != "blank") {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+/* function for checking radiogroups answers */
+radiogroups_func = function(e) {
+  console.log("webex: check radiogroups");
+
+  var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
+  var cl = checked_button.parentElement.classList;
+  var labels = checked_button.parentElement.parentElement.children;
+
+  /* get rid of styles */
+  for (i = 0; i < labels.length; i++) {
+    labels[i].classList.remove("webex-incorrect");
+    labels[i].classList.remove("webex-correct");
+  }
+
+  /* add style */
+  if (checked_button.value == "answer") {
+    cl.add("webex-correct");
+  } else {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+window.onload = function() {
+  console.log("webex onload");
+  /* set up solution buttons */
+  var buttons = document.getElementsByTagName("button");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].parentElement.classList.contains('webex-solution')) {
+      buttons[i].onclick = b_func;
+    }
+  }
+
+  var check_sections = document.getElementsByClassName("webex-check");
+  console.log("check:", check_sections.length);
+  for (var i = 0; i < check_sections.length; i++) {
+    check_sections[i].classList.add("unchecked");
+
+    let btn = document.createElement("button");
+    btn.innerHTML = "Show Answers";
+    btn.classList.add("webex-check-button");
+    btn.onclick = check_func;
+    check_sections[i].appendChild(btn);
+
+    let spn = document.createElement("span");
+    spn.classList.add("webex-total_correct");
+    check_sections[i].appendChild(spn);
+  }
+
+  /* set up webex-solveme inputs */
+  var solveme = document.getElementsByClassName("webex-solveme");
+
+  for (var i = 0; i < solveme.length; i++) {
+    /* make sure input boxes don't auto-anything */
+    solveme[i].setAttribute("autocomplete","off");
+    solveme[i].setAttribute("autocorrect", "off");
+    solveme[i].setAttribute("autocapitalize", "off");
+    solveme[i].setAttribute("spellcheck", "false");
+    solveme[i].value = "";
+
+    /* adjust answer for ignorecase or nospaces */
+    var cl = solveme[i].classList;
+    var real_answer = solveme[i].dataset.answer;
+    if (cl.contains("ignorecase")) {
+      real_answer = real_answer.toLowerCase();
+    }
+    if (cl.contains("nospaces")) {
+      real_answer = real_answer.replace(/ /g, "");
+    }
+    solveme[i].dataset.answer = real_answer;
+
+    /* attach checking function */
+    solveme[i].onkeyup = solveme_func;
+    solveme[i].onchange = solveme_func;
+
+    solveme[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  /* set up radiogroups */
+  var radiogroups = document.getElementsByClassName("webex-radiogroup");
+  for (var i = 0; i < radiogroups.length; i++) {
+    radiogroups[i].onchange = radiogroups_func;
+  }
+
+  /* set up selects */
+  var selects = document.getElementsByClassName("webex-select");
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].onchange = select_func;
+    selects[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  update_total_correct();
+}
+
+</script>
+<!--
+  Highlights the right item in the top menu. Quarto's book layout marks
+  "Welcome" as active on every page, so this sets it from the page address:
+  the course pages match their own item, and every other page (chapters,
+  quizzes, glossary) is part of the Textbook. Pages with no menu item of
+  their own (the AI policy and privacy policy) highlight nothing.
+-->
+<script>
+(function () {
+  "use strict";
+  const COURSE_PAGES = ["index", "syllabus", "materials", "about"];
+  const NO_ITEM_PAGES = ["privacy", "ai-policy"];
+  const file = (location.pathname.split("/").pop() || "index").replace(/\.html$/, "");
+  const inRoot = !/\/chapters\//.test(location.pathname);
+  const target = inRoot && NO_ITEM_PAGES.includes(file) ? null
+    : inRoot && COURSE_PAGES.includes(file) ? file : "preface";
+  document.querySelectorAll("#navbarCollapse a.nav-link").forEach((a) => {
+    const page = (a.getAttribute("href") || "").split("/").pop().replace(/\.html$/, "");
+    const on = page === target;
+    a.classList.toggle("active", on);
+    if (on) a.setAttribute("aria-current", "page");
+    else a.removeAttribute("aria-current");
+  });
+})();
+</script>
+<!--
+  Reading settings, part 2 of 2: the "Aa" menu next to search, where readers
+  pick a font and text size. Choices are kept in this browser (localStorage)
+  and applied on every page by assets/reader-settings-head.html.
+-->
+<script>
+(function () {
+  var FONTS = [
+    { id: "", label: "Atkinson Hyperlegible (default)", css: '"Atkinson Hyperlegible Next", sans-serif' },
+    { id: "lexend", label: "Lexend", css: '"Lexend", sans-serif', href: "https://fonts.googleapis.com/css2?family=Lexend:wght@300..700&display=swap" },
+    { id: "cardo", label: "Cardo (serif)", css: '"Cardo", Georgia, serif', href: "https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&display=swap" },
+    { id: "sans", label: "Standard sans-serif", css: 'system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif' },
+    { id: "serif", label: "Serif", css: 'Georgia, Cambria, "Times New Roman", serif' },
+    { id: "dyslexic", label: "OpenDyslexic", css: '"OpenDyslexic", sans-serif' }
+  ];
+  var SIZES = { "-1": "Small", "0": "Default", "1": "Large", "2": "Larger", "3": "Largest" };
+  var MIN = -1, MAX = 3;
+  var root = document.documentElement;
+
+  function save(key, value) {
+    try {
+      if (value === "" || value === "0") localStorage.removeItem(key);
+      else localStorage.setItem(key, value);
+    } catch (e) { /* storage blocked: setting lasts for this page only */ }
+  }
+  function currentFont() { return root.getAttribute("data-reader-font") || ""; }
+  function currentSize() { return parseInt(root.getAttribute("data-reader-size") || "0", 10) || 0; }
+
+  // Add a Google Fonts stylesheet once (Lexend, Cardo). Fonts download only
+  // when text actually uses them.
+  function loadWebFont(f) {
+    if (!f.href || document.getElementById("sds-reader-webfont-" + f.id)) return;
+    var link = document.createElement("link");
+    link.rel = "stylesheet"; link.href = f.href; link.id = "sds-reader-webfont-" + f.id;
+    document.head.appendChild(link);
+  }
+
+  function setFont(id) {
+    FONTS.forEach(function (f) { if (f.id === id) loadWebFont(f); });
+    if (id) root.setAttribute("data-reader-font", id); else root.removeAttribute("data-reader-font");
+    save("sds-reader-font", id);
+  }
+  function setSize(n) {
+    n = Math.max(MIN, Math.min(MAX, n));
+    if (n) root.setAttribute("data-reader-size", String(n)); else root.removeAttribute("data-reader-size");
+    save("sds-reader-size", String(n));
+    refreshSize();
+  }
+
+  var wrap = document.createElement("div");
+  wrap.className = "sds-reader";
+  var fontOptions = FONTS.map(function (f) {
+    return '<label style=\'font-family:' + f.css.replace(/'/g, "&#39;") + '\'>' +
+      '<input class="form-check-input" type="radio" name="sds-reader-font" value="' + f.id + '"> ' + f.label + '</label>';
+  }).join("");
+  wrap.innerHTML =
+    '<button type="button" class="sds-reader-toggle" aria-expanded="false" aria-controls="sds-reader-panel" ' +
+      'title="Reading settings: font and text size">' +
+      '<span aria-hidden="true">Aa</span><span class="visually-hidden">Reading settings</span></button>' +
+    '<div class="sds-reader-panel" id="sds-reader-panel" role="dialog" aria-label="Reading settings" hidden>' +
+      '<h2>Reading settings</h2>' +
+      '<fieldset class="sds-reader-font"><legend>Font</legend>' + fontOptions + '</fieldset>' +
+      '<fieldset><legend>Text size</legend><div class="sds-reader-size-row">' +
+        '<button type="button" data-step="-1" aria-label="Smaller text">A&minus;</button>' +
+        '<output aria-live="polite"></output>' +
+        '<button type="button" data-step="1" aria-label="Larger text">A+</button>' +
+      '</div></fieldset>' +
+      '<button type="button" class="sds-reader-reset">Reset to defaults</button>' +
+    '</div>';
+
+  var toggle = wrap.querySelector(".sds-reader-toggle");
+  var panel = wrap.querySelector(".sds-reader-panel");
+  var output = wrap.querySelector("output");
+  var minus = wrap.querySelector('[data-step="-1"]');
+  var plus = wrap.querySelector('[data-step="1"]');
+
+  function refreshFont() {
+    var id = currentFont();
+    wrap.querySelectorAll('input[name="sds-reader-font"]').forEach(function (r) { r.checked = r.value === id; });
+  }
+  function refreshSize() {
+    var n = currentSize();
+    output.textContent = SIZES[String(n)] || "Default";
+    minus.disabled = n <= MIN;
+    plus.disabled = n >= MAX;
+  }
+  function open(show) {
+    panel.hidden = !show;
+    toggle.setAttribute("aria-expanded", show ? "true" : "false");
+    if (show) { FONTS.forEach(loadWebFont); refreshFont(); refreshSize(); var c = panel.querySelector("input:checked"); if (c) c.focus(); }
+  }
+
+  toggle.addEventListener("click", function (e) { e.stopPropagation(); open(panel.hidden); });
+  panel.addEventListener("click", function (e) { e.stopPropagation(); });
+  panel.addEventListener("change", function (e) { if (e.target.name === "sds-reader-font") setFont(e.target.value); });
+  minus.addEventListener("click", function () { setSize(currentSize() - 1); });
+  plus.addEventListener("click", function () { setSize(currentSize() + 1); });
+  wrap.querySelector(".sds-reader-reset").addEventListener("click", function () { setFont(""); setSize(0); refreshFont(); });
+  document.addEventListener("click", function () { if (!panel.hidden) open(false); });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !panel.hidden) { open(false); toggle.focus(); }
+  });
+
+  // Put the button by search: in the top menu on
+  // geog370.org, or by the sidebar search in the textbook-only build.
+  var navSearch = document.querySelector("#quarto-header #quarto-search");
+  if (navSearch) navSearch.parentNode.insertBefore(wrap, navSearch);
+  else {
+    var search = document.querySelector("#quarto-sidebar .sidebar-search, #quarto-sidebar #quarto-search, .sidebar-tools-main");
+    if (search && search.parentNode) search.parentNode.insertBefore(wrap, search.nextSibling);
+    else return;
+  }
+  refreshFont();
+  refreshSize();
+})();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/interpolation.html" class="pagination-link" aria-label="Spatial Interpolation">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Spatial Interpolation</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../glossary.html" class="pagination-link" aria-label="Glossary">
+        <span class="nav-page-text">Glossary</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

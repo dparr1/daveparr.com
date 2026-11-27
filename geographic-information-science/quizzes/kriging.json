@@ -1,0 +1,793 @@
+{
+  "id": "kriging",
+  "title": "Kriging",
+  "perSession": 10,
+  "minR": 0,
+  "questions": [
+    {
+      "id": "kriging-def",
+      "type": "choice",
+      "prompt": "Kriging is:",
+      "choices": [
+        "A geostatistical interpolation method that weights observations using a semivariogram",
+        "A deterministic method with a fixed power",
+        "A way to draw Thiessen polygons",
+        "A raster reclassification"
+      ],
+      "answer": 0,
+      "explain": "It models spatial dependence."
+    },
+    {
+      "id": "vs-idw",
+      "type": "choice",
+      "prompt": "The key difference between kriging and IDW is that kriging:",
+      "choices": [
+        "Solves for its weights from a model of spatial dependence",
+        "Uses no weights",
+        "Uses only the nearest point",
+        "Cannot be cross-validated"
+      ],
+      "answer": 0,
+      "explain": "IDW uses distance and a chosen power."
+    },
+    {
+      "id": "semivar-def",
+      "type": "choice",
+      "prompt": "Semivariance between two observations is:",
+      "choices": [
+        "Half the squared difference between their values",
+        "The distance between them",
+        "The mean of their values",
+        "The product of their values"
+      ],
+      "answer": 0,
+      "explain": "γ = ½ (zi − zj)²."
+    },
+    {
+      "id": "semivar-pair",
+      "type": "fill",
+      "prompt": "What is the semivariance of values 4 and 3?",
+      "answers": [
+        "0.5"
+      ],
+      "explain": "½ × 1².",
+      "numeric": true,
+      "tolerance": 0.001
+    },
+    {
+      "id": "semivar-pair2",
+      "type": "fill",
+      "prompt": "What is the semivariance of values 7 and 3?",
+      "answers": [
+        "8"
+      ],
+      "explain": "½ × 4² = 8.",
+      "numeric": true,
+      "tolerance": 0
+    },
+    {
+      "id": "semivar-bin",
+      "type": "fill",
+      "prompt": "Four pairs in a bin have squared differences 1, 1, 0, and 0. What is the bin's semivariance?",
+      "answers": [
+        "0.25"
+      ],
+      "explain": "½ × 2 ÷ 4.",
+      "numeric": true,
+      "tolerance": 0.001
+    },
+    {
+      "id": "bin",
+      "type": "choice",
+      "prompt": "A bin (lag) is:",
+      "choices": [
+        "A group of point pairs within a range of distances",
+        "A single observation",
+        "The sill",
+        "A kriging type"
+      ],
+      "answer": 0,
+      "explain": "Semivariance is averaged within each bin."
+    },
+    {
+      "id": "first-law",
+      "type": "choice",
+      "prompt": "By Tobler's first law, semivariance should:",
+      "choices": [
+        "Increase with distance",
+        "Decrease with distance",
+        "Stay constant",
+        "Be negative"
+      ],
+      "answer": 0,
+      "explain": "Distant pairs are less alike."
+    },
+    {
+      "id": "cloud",
+      "type": "choice",
+      "prompt": "A plot of the semivariance of every pair against its distance is a:",
+      "choices": [
+        "Semivariogram cloud",
+        "Histogram",
+        "Trend surface",
+        "Thiessen diagram"
+      ],
+      "answer": 0,
+      "explain": "The semivariogram averages it by bin."
+    },
+    {
+      "id": "ns-pairs",
+      "type": "choice",
+      "prompt": "On a surface that rises west to east but not north to south, north–south pairs have:",
+      "choices": [
+        "Low semivariance at any distance",
+        "High semivariance at long distances",
+        "Negative semivariance",
+        "No pairs"
+      ],
+      "answer": 0,
+      "explain": "Values don't change in that direction."
+    },
+    {
+      "id": "sill",
+      "type": "choice",
+      "prompt": "The semivariance where the semivariogram levels off is the:",
+      "choices": [
+        "Sill",
+        "Range",
+        "Nugget",
+        "Lag"
+      ],
+      "answer": 0,
+      "explain": "The maximum."
+    },
+    {
+      "id": "range",
+      "type": "choice",
+      "prompt": "The distance at which the sill is reached is the:",
+      "choices": [
+        "Range",
+        "Sill",
+        "Nugget",
+        "Bin"
+      ],
+      "answer": 0,
+      "explain": "Beyond it, no autocorrelation."
+    },
+    {
+      "id": "nugget",
+      "type": "choice",
+      "prompt": "The semivariance at (nearly) zero distance is the:",
+      "choices": [
+        "Nugget",
+        "Sill",
+        "Range",
+        "Trend"
+      ],
+      "answer": 0,
+      "explain": "Measurement error or small-scale variation."
+    },
+    {
+      "id": "nugget-cause",
+      "type": "choice",
+      "prompt": "A nonzero nugget can come from:",
+      "choices": [
+        "Measurement error or variation smaller than the sample spacing",
+        "A perfect model",
+        "Too many samples",
+        "Isotropy"
+      ],
+      "answer": 0,
+      "explain": "In theory it would be 0."
+    },
+    {
+      "id": "partial",
+      "type": "choice",
+      "prompt": "The sill minus the nugget is the:",
+      "choices": [
+        "Partial sill",
+        "Range",
+        "Major range",
+        "Lag"
+      ],
+      "answer": 0,
+      "explain": "The autocorrelated part of the variation."
+    },
+    {
+      "id": "beyond-range",
+      "type": "choice",
+      "prompt": "Observations farther apart than the range are:",
+      "choices": [
+        "Effectively independent",
+        "Perfectly correlated",
+        "Identical",
+        "Always NoData"
+      ],
+      "answer": 0,
+      "explain": "Distance adds no information."
+    },
+    {
+      "id": "read-sill",
+      "type": "fill",
+      "prompt": "A semivariogram starts at 2 at zero distance and levels off at 10 at a distance of 450. What is the nugget?",
+      "answers": [
+        "2"
+      ],
+      "explain": "The value at zero distance.",
+      "numeric": true,
+      "tolerance": 0
+    },
+    {
+      "id": "read-psill",
+      "type": "fill",
+      "prompt": "Same semivariogram: what is the partial sill?",
+      "answers": [
+        "8"
+      ],
+      "explain": "10 − 2.",
+      "numeric": true,
+      "tolerance": 0
+    },
+    {
+      "id": "read-range",
+      "type": "fill",
+      "prompt": "Same semivariogram: what is the range?",
+      "answers": [
+        "450"
+      ],
+      "explain": "Where it reaches the sill.",
+      "numeric": true,
+      "tolerance": 0
+    },
+    {
+      "id": "spherical",
+      "type": "choice",
+      "prompt": "Which model reaches the sill exactly at the range?",
+      "choices": [
+        "Spherical",
+        "Exponential",
+        "Gaussian",
+        "Linear"
+      ],
+      "answer": 0,
+      "explain": "The most widely used."
+    },
+    {
+      "id": "gaussian",
+      "type": "choice",
+      "prompt": "Which model is flat near the origin and suits very smooth surfaces?",
+      "choices": [
+        "Gaussian",
+        "Spherical",
+        "Exponential",
+        "Linear"
+      ],
+      "answer": 0,
+      "explain": "S-shaped."
+    },
+    {
+      "id": "exponential",
+      "type": "choice",
+      "prompt": "Which model approaches the sill gradually?",
+      "choices": [
+        "Exponential",
+        "Spherical",
+        "Linear",
+        "None"
+      ],
+      "answer": 0,
+      "explain": "It never quite reaches it."
+    },
+    {
+      "id": "linear-model",
+      "type": "choice",
+      "prompt": "A semivariogram with no sill usually signals:",
+      "choices": [
+        "A trend in the data",
+        "No spatial structure",
+        "A perfect fit",
+        "Anisotropy only"
+      ],
+      "answer": 0,
+      "explain": "Remove the trend first."
+    },
+    {
+      "id": "which-model",
+      "type": "choice",
+      "prompt": "Which part of the semivariogram matters most for choosing a model?",
+      "choices": [
+        "Short distances",
+        "Very long distances",
+        "The title",
+        "The number of bins"
+      ],
+      "answer": 0,
+      "explain": "They matter most for prediction."
+    },
+    {
+      "id": "three-parts",
+      "type": "choice",
+      "prompt": "Which is NOT one of the three parts kriging sees in a surface?",
+      "choices": [
+        "A projection error",
+        "A trend",
+        "Spatial autocorrelation",
+        "Random error"
+      ],
+      "answer": 0,
+      "explain": "Trend, autocorrelation, and random error."
+    },
+    {
+      "id": "unbiased",
+      "type": "choice",
+      "prompt": "Kriging weights are chosen so that predictions are:",
+      "choices": [
+        "Unbiased, with minimum error variance",
+        "Always above the mean",
+        "Equal to IDW",
+        "Integers"
+      ],
+      "answer": 0,
+      "explain": "The 'best linear unbiased predictor'."
+    },
+    {
+      "id": "sum1",
+      "type": "choice",
+      "prompt": "In ordinary kriging, the weights:",
+      "choices": [
+        "Sum to 1",
+        "Sum to 0",
+        "Are all equal",
+        "Are all positive"
+      ],
+      "answer": 0,
+      "explain": "So predictions are unbiased."
+    },
+    {
+      "id": "cluster",
+      "type": "choice",
+      "prompt": "Kriging treats a tight cluster of observations by:",
+      "choices": [
+        "Sharing weight among them",
+        "Giving each full weight",
+        "Ignoring them",
+        "Giving them all the weight"
+      ],
+      "answer": 0,
+      "explain": "They carry redundant information."
+    },
+    {
+      "id": "cluster-idw",
+      "type": "fill",
+      "prompt": "In the chapter's example, what percent of the weight did IDW give the cluster of 4?",
+      "answers": [
+        "55"
+      ],
+      "explain": "0.23 + 0.13 + 0.11 + 0.07.",
+      "numeric": true,
+      "tolerance": 1
+    },
+    {
+      "id": "cluster-krig",
+      "type": "fill",
+      "prompt": "And what percent did kriging give it?",
+      "answers": [
+        "33"
+      ],
+      "explain": "About a third.",
+      "numeric": true,
+      "tolerance": 1
+    },
+    {
+      "id": "negative",
+      "type": "truefalse",
+      "prompt": "Kriging weights can be slightly negative.",
+      "answer": true,
+      "explain": "For observations screened behind others."
+    },
+    {
+      "id": "se",
+      "type": "choice",
+      "prompt": "Which method gives a prediction standard error at every location?",
+      "choices": [
+        "Kriging",
+        "IDW",
+        "Nearest neighbor",
+        "Global polynomial"
+      ],
+      "answer": 0,
+      "explain": "It is built on a statistical model."
+    },
+    {
+      "id": "se-where",
+      "type": "choice",
+      "prompt": "The prediction standard error is largest:",
+      "choices": [
+        "Where observations are sparse",
+        "At the observations",
+        "Where values are highest",
+        "In the center always"
+      ],
+      "answer": 0,
+      "explain": "Far from data."
+    },
+    {
+      "id": "aniso-def",
+      "type": "choice",
+      "prompt": "Anisotropy is:",
+      "choices": [
+        "Spatial dependence that changes with direction",
+        "No spatial dependence",
+        "A type of trend",
+        "A semivariogram model"
+      ],
+      "answer": 0,
+      "explain": "Isotropy is the same in every direction."
+    },
+    {
+      "id": "aniso-ranges",
+      "type": "choice",
+      "prompt": "An anisotropic model fits:",
+      "choices": [
+        "A major and a minor range in perpendicular directions",
+        "Two sills",
+        "Two nuggets",
+        "No range"
+      ],
+      "answer": 0,
+      "explain": "Plus a direction."
+    },
+    {
+      "id": "aniso-search",
+      "type": "choice",
+      "prompt": "With anisotropy, the search neighborhood becomes:",
+      "choices": [
+        "An ellipse along the direction where values stay similar",
+        "A larger circle",
+        "A square",
+        "A single point"
+      ],
+      "answer": 0,
+      "explain": "Neighbors with similar values carry more weight."
+    },
+    {
+      "id": "sine-ew",
+      "type": "choice",
+      "prompt": "For a sine wave with wavelength 400 running west to east, west–east pairs are most different at a distance of about:",
+      "choices": [
+        "200",
+        "400",
+        "800",
+        "0"
+      ],
+      "answer": 0,
+      "explain": "Half a wavelength."
+    },
+    {
+      "id": "sine-alike",
+      "type": "choice",
+      "prompt": "Those pairs are alike again at a distance of about:",
+      "choices": [
+        "400",
+        "200",
+        "100",
+        "600"
+      ],
+      "answer": 0,
+      "explain": "A full wavelength."
+    },
+    {
+      "id": "sine-best",
+      "type": "choice",
+      "prompt": "On the sine surface, which had the lowest cross-validation RMSE?",
+      "choices": [
+        "Anisotropic kriging",
+        "Isotropic kriging",
+        "IDW",
+        "All were equal"
+      ],
+      "answer": 0,
+      "explain": "0.38, versus 1.61 and 2.62."
+    },
+    {
+      "id": "aniso-example",
+      "type": "choice",
+      "prompt": "Which is most likely anisotropic?",
+      "choices": [
+        "Rainfall across a mountain front",
+        "A perfectly flat lake surface",
+        "Random noise",
+        "A constant value"
+      ],
+      "answer": 0,
+      "explain": "Values change faster across the front."
+    },
+    {
+      "id": "trend-fix",
+      "type": "choice",
+      "prompt": "When data have a strong trend, kriging should:",
+      "choices": [
+        "Remove the trend, krige the residuals, and add the trend back",
+        "Ignore it",
+        "Use a larger nugget",
+        "Use nearest neighbor"
+      ],
+      "answer": 0,
+      "explain": "Kriging assumes a stable mean."
+    },
+    {
+      "id": "residuals",
+      "type": "choice",
+      "prompt": "Residuals are:",
+      "choices": [
+        "Observed values minus the trend",
+        "The trend itself",
+        "The nugget",
+        "The weights"
+      ],
+      "answer": 0,
+      "explain": "What is left after removing the trend."
+    },
+    {
+      "id": "ok",
+      "type": "choice",
+      "prompt": "Ordinary kriging assumes the mean is:",
+      "choices": [
+        "Constant but unknown",
+        "Known",
+        "A polynomial",
+        "Zero"
+      ],
+      "answer": 0,
+      "explain": "The most common type."
+    },
+    {
+      "id": "sk",
+      "type": "choice",
+      "prompt": "Simple kriging assumes the mean is:",
+      "choices": [
+        "Known and constant",
+        "Unknown",
+        "A polynomial",
+        "Changing"
+      ],
+      "answer": 0,
+      "explain": "For example, from a long record."
+    },
+    {
+      "id": "uk",
+      "type": "choice",
+      "prompt": "Universal kriging models the trend as:",
+      "choices": [
+        "A function of location, such as a polynomial",
+        "A constant",
+        "Zero",
+        "A second variable"
+      ],
+      "answer": 0,
+      "explain": "Then krigs the residuals."
+    },
+    {
+      "id": "ck",
+      "type": "choice",
+      "prompt": "Cokriging adds:",
+      "choices": [
+        "A correlated secondary variable",
+        "A trend",
+        "A larger nugget",
+        "Thiessen polygons"
+      ],
+      "answer": 0,
+      "explain": "Such as elevation for temperature."
+    },
+    {
+      "id": "precip",
+      "type": "choice",
+      "prompt": "U.S. precipitation, changing steadily from the dry West to the wet Southeast, suits:",
+      "choices": [
+        "Universal kriging",
+        "Simple kriging",
+        "Nearest neighbor",
+        "No interpolation"
+      ],
+      "answer": 0,
+      "explain": "A clear trend."
+    },
+    {
+      "id": "ch15",
+      "type": "choice",
+      "prompt": "On the made-up surface from Chapter 15, kriging with trend removal had an RMSE of 5.2. Which was lower?",
+      "choices": [
+        "The radial basis function, 4.2",
+        "IDW, 8.2",
+        "Nearest neighbor, 8.6",
+        "None"
+      ],
+      "answer": 0,
+      "explain": "Kriging isn't guaranteed to win."
+    },
+    {
+      "id": "me",
+      "type": "choice",
+      "prompt": "In kriging cross validation, the mean error should be:",
+      "choices": [
+        "Close to 0",
+        "As large as possible",
+        "Close to 1",
+        "Equal to the sill"
+      ],
+      "answer": 0,
+      "explain": "Unbiased predictions."
+    },
+    {
+      "id": "rmse",
+      "type": "choice",
+      "prompt": "The RMSE should be:",
+      "choices": [
+        "As small as possible",
+        "Close to 1",
+        "Equal to the nugget",
+        "Negative"
+      ],
+      "answer": 0,
+      "explain": "Predictions close to observations."
+    },
+    {
+      "id": "ase",
+      "type": "choice",
+      "prompt": "The average standard error should be:",
+      "choices": [
+        "Close to the RMSE",
+        "Close to 0",
+        "Twice the RMSE",
+        "Equal to the range"
+      ],
+      "answer": 0,
+      "explain": "Realistic uncertainty."
+    },
+    {
+      "id": "rmsse",
+      "type": "choice",
+      "prompt": "The root mean square standardized error should be close to:",
+      "choices": [
+        "1",
+        "0",
+        "The sill",
+        "100"
+      ],
+      "answer": 0,
+      "explain": "Above 1: uncertainty underestimated."
+    },
+    {
+      "id": "rmsse-high",
+      "type": "choice",
+      "prompt": "An RMS standardized error well above 1 means the model:",
+      "choices": [
+        "Underestimates its uncertainty",
+        "Overestimates its uncertainty",
+        "Is perfect",
+        "Has no nugget"
+      ],
+      "answer": 0,
+      "explain": "Errors are larger than it predicts."
+    },
+    {
+      "id": "choose",
+      "type": "choice",
+      "prompt": "To choose among kriging models and other methods, rely on:",
+      "choices": [
+        "Cross-validation statistics",
+        "Which map looks best",
+        "The number of colors",
+        "The file size"
+      ],
+      "answer": 0,
+      "explain": "Every surface looks plausible."
+    },
+    {
+      "id": "workflow",
+      "type": "order",
+      "prompt": "Put these kriging steps in order.",
+      "answer": [
+        "Explore the data and remove any trend",
+        "Compute the semivariogram",
+        "Fit a model",
+        "Set the search neighborhood",
+        "Cross-validate",
+        "Map the prediction and standard error"
+      ],
+      "explain": "Following the Geostatistical Wizard."
+    },
+    {
+      "id": "krige",
+      "type": "choice",
+      "prompt": "Kriging is named for:",
+      "choices": [
+        "Danie Krige, a South African mining engineer",
+        "A German mathematician",
+        "A U.S. weather bureau",
+        "A Greek word for 'map'"
+      ],
+      "answer": 0,
+      "explain": "He estimated gold grades."
+    },
+    {
+      "id": "krige-what",
+      "type": "choice",
+      "prompt": "Krige was estimating:",
+      "choices": [
+        "Gold ore grades between boreholes",
+        "Rainfall",
+        "Population",
+        "Elevation"
+      ],
+      "answer": 0,
+      "explain": "In the Witwatersrand gold fields."
+    },
+    {
+      "id": "matheron",
+      "type": "choice",
+      "prompt": "Who formalized geostatistics and coined 'krigeage'?",
+      "choices": [
+        "Georges Matheron",
+        "Waldo Tobler",
+        "Alfred Thiessen",
+        "Danie Krige"
+      ],
+      "answer": 0,
+      "explain": "In the 1960s."
+    },
+    {
+      "id": "nugget-name",
+      "type": "choice",
+      "prompt": "The term 'nugget' comes from:",
+      "choices": [
+        "Mining: a gold nugget makes one sample very different from its neighbor",
+        "Cooking",
+        "Statistics textbooks",
+        "Weather forecasting"
+      ],
+      "answer": 0,
+      "explain": "Variation at very short distances."
+    },
+    {
+      "id": "ebk",
+      "type": "choice",
+      "prompt": "Which ArcGIS Pro method automates semivariogram fitting by simulating many semivariograms?",
+      "choices": [
+        "Empirical Bayesian Kriging",
+        "Simple kriging",
+        "IDW",
+        "Natural Neighbor"
+      ],
+      "answer": 0,
+      "explain": "In Geostatistical Analyst."
+    },
+    {
+      "id": "wizard",
+      "type": "choice",
+      "prompt": "Which ArcGIS Pro tool walks through trend removal, semivariogram modeling, search, and cross validation?",
+      "choices": [
+        "Geostatistical Wizard",
+        "ModelBuilder",
+        "Raster Calculator",
+        "Create Thiessen Polygons"
+      ],
+      "answer": 0,
+      "explain": "Geostatistical Analyst extension."
+    },
+    {
+      "id": "qgis",
+      "type": "choice",
+      "prompt": "In QGIS, kriging is available through:",
+      "choices": [
+        "SAGA tools or the Smart-Map plugin",
+        "The Georeferencer",
+        "The Field Calculator",
+        "Print layouts"
+      ],
+      "answer": 0,
+      "explain": "Processing Toolbox."
+    }
+  ]
+}
