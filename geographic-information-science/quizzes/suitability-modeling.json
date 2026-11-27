@@ -1,0 +1,596 @@
+{
+  "id": "suitability-modeling",
+  "title": "Suitability Modeling",
+  "perSession": 10,
+  "minR": 0,
+  "questions": [
+    {
+      "id": "def",
+      "type": "choice",
+      "prompt": "Suitability modeling is:",
+      "choices": [
+        "Ranking every location by how well it meets a set of criteria",
+        "Converting addresses to coordinates",
+        "Estimating values between sample points",
+        "Aligning a scanned map to coordinates"
+      ],
+      "answer": 0,
+      "explain": "It scores every location against several criteria at once."
+    },
+    {
+      "id": "criteria",
+      "type": "choice",
+      "prompt": "In a suitability model, criteria are:",
+      "choices": [
+        "The conditions a site must meet, such as slope under 30°",
+        "The weights given to each layer",
+        "The final suitability map",
+        "The cells in a raster"
+      ],
+      "answer": 0,
+      "explain": "Criteria start in plain language and become measurable thresholds."
+    },
+    {
+      "id": "ranking-def",
+      "type": "choice",
+      "prompt": "Rankings are:",
+      "choices": [
+        "Scores given to the values within one criterion",
+        "Weights between criteria",
+        "Operations in a flowchart",
+        "Map projections"
+      ],
+      "answer": 0,
+      "explain": "Rankings put each criterion's values on a common scale."
+    },
+    {
+      "id": "suit-layer",
+      "type": "choice",
+      "prompt": "A suitability layer scores each cell for one criterion from:",
+      "choices": [
+        "0 (unsuitable) to 1 (ideal)",
+        "1 to 100",
+        "−1 to 1",
+        "0 to 360"
+      ],
+      "answer": 0,
+      "explain": "A common 0 to 1 scale lets different criteria be combined."
+    },
+    {
+      "id": "weights-def",
+      "type": "choice",
+      "prompt": "Weightings are:",
+      "choices": [
+        "Multipliers that set how much each criterion counts",
+        "Thresholds for each criterion",
+        "Cell sizes",
+        "The order of operations"
+      ],
+      "answer": 0,
+      "explain": "Higher weights make a criterion count more in the index."
+    },
+    {
+      "id": "flowchart-def",
+      "type": "choice",
+      "prompt": "A flowchart in GIS modeling is:",
+      "choices": [
+        "A diagram of the input data, the operations, and their order",
+        "A chart of river discharge",
+        "A table of weights",
+        "A legend for a map"
+      ],
+      "answer": 0,
+      "explain": "It documents the model so others can repeat it."
+    },
+    {
+      "id": "flow-rect",
+      "type": "choice",
+      "prompt": "In the usual flowchart convention, data layers are drawn as:",
+      "choices": [
+        "Rectangles",
+        "Ovals",
+        "Arrows",
+        "Diamonds"
+      ],
+      "answer": 0,
+      "explain": "Rectangles are data, ovals are operations, and arrows show order."
+    },
+    {
+      "id": "flow-oval",
+      "type": "choice",
+      "prompt": "In the usual flowchart convention, operations are drawn as:",
+      "choices": [
+        "Ovals",
+        "Rectangles",
+        "Arrows",
+        "Stars"
+      ],
+      "answer": 0,
+      "explain": "Ovals are operations such as buffer and reclassify."
+    },
+    {
+      "id": "carto-parts",
+      "type": "choice",
+      "prompt": "The three parts of a cartographic model are:",
+      "choices": [
+        "Spatial data, operations, and output",
+        "Hazard, exposure, and vulnerability",
+        "Nugget, sill, and range",
+        "Lineage, completeness, and accuracy"
+      ],
+      "answer": 0,
+      "explain": "Inputs go through operations to produce an output."
+    },
+    {
+      "id": "sketch-first",
+      "type": "truefalse",
+      "prompt": "You should sketch the flowchart before opening the software.",
+      "answer": true,
+      "explain": "It forces you to name every input and step, and documents the model."
+    },
+    {
+      "id": "five-steps",
+      "type": "order",
+      "prompt": "Put the five steps of suitability analysis in order.",
+      "answer": [
+        "Define criteria",
+        "Find data",
+        "Rank each criterion from 0 to 1",
+        "Weight each layer",
+        "Combine the layers"
+      ],
+      "explain": "Define, find, rank, weight, combine.",
+      "extra": [
+        "Georeference the map"
+      ]
+    },
+    {
+      "id": "refine-slope",
+      "type": "choice",
+      "prompt": "\"Slopes not too steep\" refined into a threshold for the home site is:",
+      "choices": [
+        "Slope < 30°",
+        "Slope > 30°",
+        "Aspect < 30°",
+        "Elevation < 30 m"
+      ],
+      "answer": 0,
+      "explain": "Every criterion needs a measurable threshold."
+    },
+    {
+      "id": "aspect-def",
+      "type": "choice",
+      "prompt": "Aspect is:",
+      "choices": [
+        "The compass direction a slope faces, in degrees clockwise from north",
+        "The steepness of a slope",
+        "The height above sea level",
+        "The distance to a road"
+      ],
+      "answer": 0,
+      "explain": "Aspect and slope are both derived from elevation."
+    },
+    {
+      "id": "aspect-south",
+      "type": "choice",
+      "prompt": "An aspect between 90° and 270° covers slopes facing:",
+      "choices": [
+        "East, south, and west, centered on south",
+        "North only",
+        "East only",
+        "West, north, and east"
+      ],
+      "answer": 0,
+      "explain": "South is 180°."
+    },
+    {
+      "id": "aspect-fill",
+      "type": "fill",
+      "prompt": "Aspect is measured in degrees clockwise from which direction?",
+      "answers": [
+        "north",
+        "North",
+        "N"
+      ],
+      "explain": "0° is north, 90° east, 180° south.",
+      "ignoreCase": true
+    },
+    {
+      "id": "road-refine",
+      "type": "choice",
+      "prompt": "The refined road criterion for the home site is:",
+      "choices": [
+        "300 m < distance to road < 2,000 m",
+        "Distance to road < 300 m",
+        "Distance to road > 2,000 m",
+        "On a road"
+      ],
+      "answer": 0,
+      "explain": "Far enough for privacy, but not isolated."
+    },
+    {
+      "id": "thresholds-choices",
+      "type": "truefalse",
+      "prompt": "Thresholds such as slope < 30° are choices, and changing them changes the result.",
+      "answer": true,
+      "explain": "Write down why you chose each one."
+    },
+    {
+      "id": "no-data",
+      "type": "choice",
+      "prompt": "If a criterion can't be measured with available data, you should:",
+      "choices": [
+        "Change it or drop it",
+        "Ignore the problem",
+        "Give it the highest weight",
+        "Use a random layer"
+      ],
+      "answer": 0,
+      "explain": "Step 2 checks that data exist for each criterion."
+    },
+    {
+      "id": "discrete",
+      "type": "choice",
+      "prompt": "A ranking where each value passes (1) or fails (0) is:",
+      "choices": [
+        "Discrete",
+        "Continuous",
+        "Weighted",
+        "Global"
+      ],
+      "answer": 0,
+      "explain": "Slope < 30° is a discrete ranking."
+    },
+    {
+      "id": "continuous",
+      "type": "choice",
+      "prompt": "A ranking where values scale smoothly from worst to best is:",
+      "choices": [
+        "Continuous",
+        "Discrete",
+        "Binary",
+        "Nominal"
+      ],
+      "answer": 0,
+      "explain": "Continuous rankings keep more information."
+    },
+    {
+      "id": "cont-advantage",
+      "type": "choice",
+      "prompt": "The advantage of a continuous ranking over a discrete one is that it:",
+      "choices": [
+        "Keeps more information, such as a near miss vs. a terrible value",
+        "Is always faster",
+        "Needs no data",
+        "Removes the need for weights"
+      ],
+      "answer": 0,
+      "explain": "A 31° slope is not as bad as a 60° one."
+    },
+    {
+      "id": "scale10",
+      "type": "fill",
+      "prompt": "A criterion ranked 7 on a 0 to 10 scale scores what on a 0 to 1 scale?",
+      "answers": [
+        "0.7",
+        ".7"
+      ],
+      "explain": "Divide by 10.",
+      "numeric": true
+    },
+    {
+      "id": "derive-roads",
+      "type": "choice",
+      "prompt": "To rank the road criterion, you first:",
+      "choices": [
+        "Calculate distance to the nearest road",
+        "Reclassify the roads by name",
+        "Compute slope",
+        "Multiply roads by soils"
+      ],
+      "answer": 0,
+      "explain": "A roads layer has lines, not distances."
+    },
+    {
+      "id": "road-curve",
+      "type": "choice",
+      "prompt": "In the road ranking, suitability is highest:",
+      "choices": [
+        "Between 300 and 2,000 m, peaking near 1,100 m",
+        "Right next to the road",
+        "Farthest from any road",
+        "At exactly 300 m"
+      ],
+      "answer": 0,
+      "explain": "Too close is noisy; too far is isolated."
+    },
+    {
+      "id": "reclass",
+      "type": "choice",
+      "prompt": "Replacing raw values with suitability scores using a rule or lookup table is:",
+      "choices": [
+        "Reclassification",
+        "Georeferencing",
+        "Kriging",
+        "Geocoding"
+      ],
+      "answer": 0,
+      "explain": "Reclassification is the workhorse of suitability modeling."
+    },
+    {
+      "id": "rescale",
+      "type": "choice",
+      "prompt": "Which ArcGIS Pro tool applies a continuous curve to rank values?",
+      "choices": [
+        "Rescale by Function",
+        "Dissolve",
+        "Clip",
+        "Geocode Addresses"
+      ],
+      "answer": 0,
+      "explain": "It handles linear, Gaussian, logistic, and other curves."
+    },
+    {
+      "id": "index-calc",
+      "type": "fill",
+      "prompt": "Weights: roads 3, slope 1, aspect 4, soils 2. A cell passes slope, aspect, and soils but fails roads. Its suitability index is:",
+      "answers": [
+        "7"
+      ],
+      "explain": "1 + 4 + 2 = 7.",
+      "numeric": true
+    },
+    {
+      "id": "index-max",
+      "type": "fill",
+      "prompt": "Weights: roads 3, slope 1, aspect 4, soils 2. The maximum suitability index is:",
+      "answers": [
+        "10"
+      ],
+      "explain": "3 + 1 + 4 + 2 = 10.",
+      "numeric": true
+    },
+    {
+      "id": "index-calc2",
+      "type": "fill",
+      "prompt": "Weights: roads 3, slope 1, aspect 4, soils 2. A cell passes only roads and soils. Its index is:",
+      "answers": [
+        "5"
+      ],
+      "explain": "3 + 2 = 5.",
+      "numeric": true
+    },
+    {
+      "id": "multiply",
+      "type": "choice",
+      "prompt": "Multiplying 0/1 suitability layers gives:",
+      "choices": [
+        "A pass/fail map: 1 only where every criterion passes",
+        "A count of criteria met",
+        "A weighted rating",
+        "A distance surface"
+      ],
+      "answer": 0,
+      "explain": "Any 0 makes the product 0."
+    },
+    {
+      "id": "add",
+      "type": "choice",
+      "prompt": "Adding 0/1 suitability layers gives:",
+      "choices": [
+        "How many criteria each cell meets",
+        "A pass/fail map",
+        "A slope map",
+        "The weights"
+      ],
+      "answer": 0,
+      "explain": "This is the ranking model, or linear combination."
+    },
+    {
+      "id": "wlc",
+      "type": "choice",
+      "prompt": "Weighting each layer and then adding is called:",
+      "choices": [
+        "Weighted linear combination",
+        "Pass/fail overlay",
+        "Kriging",
+        "Dissolve"
+      ],
+      "answer": 0,
+      "explain": "It is also called the rating model."
+    },
+    {
+      "id": "pf-calc",
+      "type": "fill",
+      "prompt": "Under the pass/fail model, a cell with scores 1, 1, and 0 gets:",
+      "answers": [
+        "0"
+      ],
+      "explain": "1 × 1 × 0 = 0.",
+      "numeric": true
+    },
+    {
+      "id": "rank-calc",
+      "type": "fill",
+      "prompt": "Under the ranking (addition) model, a cell with scores 1, 0, and 1 gets:",
+      "answers": [
+        "2"
+      ],
+      "explain": "1 + 0 + 1 = 2.",
+      "numeric": true
+    },
+    {
+      "id": "wlc-avg",
+      "type": "fill",
+      "prompt": "With equal weights, ratings of 9, 7, and 1 average to (to two decimals):",
+      "answers": [
+        "5.67"
+      ],
+      "explain": "(9 + 7 + 1) ÷ 3 = 5.67.",
+      "numeric": true
+    },
+    {
+      "id": "pf-weak",
+      "type": "choice",
+      "prompt": "The main weakness of the pass/fail model is that it:",
+      "choices": [
+        "Can't tell a near miss from a terrible site",
+        "Counts every criterion",
+        "Needs weights",
+        "Is too slow"
+      ],
+      "answer": 0,
+      "explain": "One failure rules a cell out."
+    },
+    {
+      "id": "rank-weak",
+      "type": "choice",
+      "prompt": "The main weakness of the ranking (addition) model is that:",
+      "choices": [
+        "Every criterion counts equally",
+        "It rules out near misses",
+        "It can't use 0/1 layers",
+        "It needs AHP"
+      ],
+      "answer": 0,
+      "explain": "Weighting fixes this."
+    },
+    {
+      "id": "pf-use",
+      "type": "choice",
+      "prompt": "The pass/fail model suits criteria that are:",
+      "choices": [
+        "Truly non-negotiable, such as not in a floodway",
+        "Matters of preference",
+        "Continuous",
+        "Unmeasurable"
+      ],
+      "answer": 0,
+      "explain": "Strict criteria call for a strict model."
+    },
+    {
+      "id": "sensitivity",
+      "type": "choice",
+      "prompt": "Changing one weight at a time to see whether the best sites move is:",
+      "choices": [
+        "A sensitivity analysis",
+        "Cross validation",
+        "Georeferencing",
+        "A spatial join"
+      ],
+      "answer": 0,
+      "explain": "If small changes move the best sites, the answer is fragile."
+    },
+    {
+      "id": "ahp",
+      "type": "choice",
+      "prompt": "A structured method that sets weights by comparing criteria two at a time is:",
+      "choices": [
+        "The Analytic Hierarchy Process (AHP)",
+        "Inverse distance weighting",
+        "Natural breaks",
+        "Map algebra"
+      ],
+      "answer": 0,
+      "explain": "Chapter 18 works through AHP."
+    },
+    {
+      "id": "cell-size",
+      "type": "truefalse",
+      "prompt": "A 30 m cell can reliably answer a question about a single house footprint.",
+      "answer": false,
+      "explain": "Cell size sets how precise the answer can be."
+    },
+    {
+      "id": "mcharg",
+      "type": "choice",
+      "prompt": "Who used transparent overlays on a light table in Design with Nature (1969)?",
+      "choices": [
+        "Ian McHarg",
+        "Danie Krige",
+        "John Snow",
+        "Waldo Tobler"
+      ],
+      "answer": 0,
+      "explain": "His overlays are the ancestor of GIS overlay."
+    },
+    {
+      "id": "tool-weighted",
+      "type": "choice",
+      "prompt": "Which ArcGIS Pro tools combine weighted suitability layers?",
+      "choices": [
+        "Weighted Overlay and Weighted Sum",
+        "Geocode Addresses and Georeference",
+        "Kriging and IDW",
+        "Dissolve and Merge"
+      ],
+      "answer": 0,
+      "explain": "Both are Spatial Analyst tools."
+    },
+    {
+      "id": "tool-qgis-model",
+      "type": "choice",
+      "prompt": "Which QGIS tool lets you draw a model as a flowchart and run it?",
+      "choices": [
+        "Model Designer",
+        "Layout Manager",
+        "Georeferencer",
+        "Topology Checker"
+      ],
+      "answer": 0,
+      "explain": "ArcGIS Pro's equivalent is ModelBuilder."
+    },
+    {
+      "id": "tool-qgis-dist",
+      "type": "choice",
+      "prompt": "Which QGIS tool computes raster distance to the nearest road?",
+      "choices": [
+        "Proximity (raster distance)",
+        "Dissolve",
+        "Clip",
+        "Reproject"
+      ],
+      "answer": 0,
+      "explain": "In ArcGIS Pro, Euclidean Distance or Distance Accumulation."
+    },
+    {
+      "id": "park",
+      "type": "choice",
+      "prompt": "In the park siting example, population density counted for 60% and distance to existing parks for:",
+      "choices": [
+        "40%",
+        "60%",
+        "10%",
+        "100%"
+      ],
+      "answer": 0,
+      "explain": "The weights sum to 100%."
+    },
+    {
+      "id": "normalize-weights",
+      "type": "choice",
+      "prompt": "Dividing weights 4, 3, 2, and 1 by their total gives:",
+      "choices": [
+        "0.4, 0.3, 0.2, 0.1",
+        "4, 3, 2, 1",
+        "0.25 each",
+        "1, 0.75, 0.5, 0.25"
+      ],
+      "answer": 0,
+      "explain": "The ranking doesn't change; the weights now sum to 1."
+    },
+    {
+      "id": "mcda",
+      "type": "choice",
+      "prompt": "Methods that weigh many criteria to support a decision are called:",
+      "choices": [
+        "Multi-criteria decision analysis (MCDA)",
+        "Spatial interpolation",
+        "Geocoding",
+        "Volunteered geographic information"
+      ],
+      "answer": 0,
+      "explain": "Suitability modeling is a kind of MCDA."
+    }
+  ]
+}

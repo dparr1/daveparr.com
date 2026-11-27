@@ -36,7 +36,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../chapters/qgis.html" rel="next">
+<link href="../chapters/suitability-modeling.html" rel="next">
 <link href="../chapters/interpolation.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -311,6 +311,24 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Kriging</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/suitability-modeling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Suitability Modeling</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/risk-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Risk Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/uncertainty.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Uncertainty in Geospatial Data</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -322,13 +340,13 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/qgis.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Getting to Know QGIS</span></span></a>
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Getting to Know QGIS</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/arcgis-pro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Getting to Know ArcGIS Pro</span></span></a>
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Getting to Know ArcGIS Pro</span></span></a>
   </div>
 </li>
       </ul>
@@ -342,7 +360,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/whats-next.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">What’s Next in GIS</span></span></a>
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">What’s Next in GIS</span></span></a>
   </div>
 </li>
       </ul>
@@ -705,7 +723,7 @@ Table&nbsp;16.1: Types of kriging.
 <h2 data-number="16.4" class="anchored" data-anchor-id="sec-kriging-errors"><span class="header-section-number">16.4</span> Judging the result</h2>
 <section id="cross-validation-statistics" class="level3" data-number="16.4.1">
 <h3 data-number="16.4.1" class="anchored" data-anchor-id="cross-validation-statistics"><span class="header-section-number">16.4.1</span> Cross-validation statistics</h3>
-<p>As in Chapter 15, <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cross-validation" data-term="cross validation">cross validation</span></strong> removes each observation in turn, predicts it from the rest, and compares. Because <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-kriging" data-term="kriging">kriging</span> also predicts its own standard errors, it adds two statistics that test whether its uncertainty is realistic (<a href="#tbl-kriging-cv" class="quarto-xref">Table&nbsp;<span>16.2</span></a>). <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span>’s <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geostatistics" data-term="geostatistics">Geostatistical</span> Wizard reports all four.</p>
+<p>As in Chapter 15, <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cross-validation" data-term="cross validation">cross validation</span></strong> removes each observation in turn, predicts it from the rest, and compares. Because <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-kriging" data-term="kriging">kriging</span> also predicts its own standard errors, it adds two statistics that test whether its <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-uncertainty" data-term="uncertainty">uncertainty</span> is realistic (<a href="#tbl-kriging-cv" class="quarto-xref">Table&nbsp;<span>16.2</span></a>). <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span>’s <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geostatistics" data-term="geostatistics">Geostatistical</span> Wizard reports all four.</p>
 <div id="tbl-kriging-cv" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-kriging-cv-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -891,6 +909,8 @@ point.</span>
 <span id="gloss-simple-kriging">Kriging that assumes a known, constant mean.</span>
 <span id="gloss-universal-kriging">Kriging that models the trend as a function of location, such as a
 polynomial, and krigs the residuals.</span>
+<span id="gloss-uncertainty">The degree to which we aren’t sure of something: the cloud of possible
+values around a recorded value.</span>
 <span id="gloss-arcgis-pro">Esri’s commercial desktop GIS, for Windows.</span>
 <span id="gloss-mean-error">The average of the cross-validation errors. Near 0 means the surface is
 unbiased.</span>
@@ -1745,8 +1765,8 @@ window.onload = function() {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../chapters/qgis.html" class="pagination-link" aria-label="Getting to Know QGIS">
-        <span class="nav-page-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Getting to Know QGIS</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../chapters/suitability-modeling.html" class="pagination-link" aria-label="Suitability Modeling">
+        <span class="nav-page-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Suitability Modeling</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

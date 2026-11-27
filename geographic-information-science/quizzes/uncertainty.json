@@ -1,0 +1,625 @@
+{
+  "id": "uncertainty",
+  "title": "Uncertainty in Geospatial Data",
+  "perSession": 10,
+  "minR": 0,
+  "questions": [
+    {
+      "id": "unc-def",
+      "type": "choice",
+      "prompt": "Uncertainty is:",
+      "choices": [
+        "The degree to which we aren't sure of something",
+        "The exact difference from the truth",
+        "A map projection",
+        "A data type"
+      ],
+      "answer": 0,
+      "explain": "Picture a cloud of possible values."
+    },
+    {
+      "id": "error-def",
+      "type": "choice",
+      "prompt": "Error is:",
+      "choices": [
+        "The gap between a recorded value and the true value",
+        "How unsure we are",
+        "A missing record",
+        "A symbol"
+      ],
+      "answer": 0,
+      "explain": "We usually can't know it exactly."
+    },
+    {
+      "id": "err-vs-unc",
+      "type": "choice",
+      "prompt": "Why can we usually not know the error at a particular mapped well?",
+      "choices": [
+        "If we knew its true location, we'd have mapped it there",
+        "Wells have no location",
+        "Error is always zero",
+        "GIS can't store wells"
+      ],
+      "answer": 0,
+      "explain": "We can only describe how large errors tend to be."
+    },
+    {
+      "id": "all-maps",
+      "type": "truefalse",
+      "prompt": "Every map carries some uncertainty.",
+      "answer": true,
+      "explain": "Every map is a model of the world."
+    },
+    {
+      "id": "lineage",
+      "type": "choice",
+      "prompt": "Sources, methods, and processing history describe:",
+      "choices": [
+        "Lineage",
+        "Completeness",
+        "Positional accuracy",
+        "Temporal quality"
+      ],
+      "answer": 0,
+      "explain": "Where did the data come from?"
+    },
+    {
+      "id": "posacc",
+      "type": "choice",
+      "prompt": "How close coordinates are to true positions is:",
+      "choices": [
+        "Positional accuracy",
+        "Attribute accuracy",
+        "Lineage",
+        "Logical consistency"
+      ],
+      "answer": 0,
+      "explain": "Is the feature where the map says it is?"
+    },
+    {
+      "id": "attracc",
+      "type": "choice",
+      "prompt": "How correct names, classes, and values are is:",
+      "choices": [
+        "Attribute accuracy",
+        "Positional accuracy",
+        "Completeness",
+        "Lineage"
+      ],
+      "answer": 0,
+      "explain": "The what, not the where."
+    },
+    {
+      "id": "logcon",
+      "type": "choice",
+      "prompt": "Whether the data follow their own rules is:",
+      "choices": [
+        "Logical consistency",
+        "Completeness",
+        "Temporal quality",
+        "Lineage"
+      ],
+      "answer": 0,
+      "explain": "Same thing recorded the same way, right geometry type."
+    },
+    {
+      "id": "complete",
+      "type": "choice",
+      "prompt": "Missing data and excess data describe:",
+      "choices": [
+        "Completeness",
+        "Lineage",
+        "Positional accuracy",
+        "Usage"
+      ],
+      "answer": 0,
+      "explain": "Errors of omission and commission."
+    },
+    {
+      "id": "temporal",
+      "type": "choice",
+      "prompt": "Whether data are correct for the time the map represents is:",
+      "choices": [
+        "Temporal quality",
+        "Lineage",
+        "Attribute accuracy",
+        "Logical consistency"
+      ],
+      "answer": 0,
+      "explain": "Ask when the data were collected."
+    },
+    {
+      "id": "usage",
+      "type": "choice",
+      "prompt": "What the data were made for, and their limits, is:",
+      "choices": [
+        "Usage, purpose, and constraints",
+        "Positional accuracy",
+        "Completeness",
+        "Logical consistency"
+      ],
+      "answer": 0,
+      "explain": "It tells users what not to use the data for."
+    },
+    {
+      "id": "vegas",
+      "type": "choice",
+      "prompt": "The New York-New York Hotel in Las Vegas is a joke about which element?",
+      "choices": [
+        "Positional accuracy",
+        "Attribute accuracy",
+        "Lineage",
+        "Completeness"
+      ],
+      "answer": 0,
+      "explain": "Right features, wrong place."
+    },
+    {
+      "id": "boulder",
+      "type": "choice",
+      "prompt": "A 1920 map labels the University of Colorado as Colorado State University. This is an error of:",
+      "choices": [
+        "Attribute accuracy",
+        "Positional accuracy",
+        "Temporal stability",
+        "Topology"
+      ],
+      "answer": 0,
+      "explain": "The geometry is fine; the label is wrong."
+    },
+    {
+      "id": "starbucks-poly",
+      "type": "choice",
+      "prompt": "A coffee shop stored as a polygon in a layer of points violates:",
+      "choices": [
+        "Logical consistency",
+        "Positional accuracy",
+        "Lineage",
+        "Temporal quality"
+      ],
+      "answer": 0,
+      "explain": "Stores should be points."
+    },
+    {
+      "id": "starbucks-query",
+      "type": "choice",
+      "prompt": "Name variants such as STARBUCKS, Starbux, and star bucks mainly cause:",
+      "choices": [
+        "Queries, counts, and joins to miss records",
+        "Projection errors",
+        "Wrong elevations",
+        "Topology overlaps"
+      ],
+      "answer": 0,
+      "explain": "A query for 'Starbucks' misses several stores."
+    },
+    {
+      "id": "road-class",
+      "type": "choice",
+      "prompt": "A road whose class switches from interstate to ramp and back along one route is a problem of:",
+      "choices": [
+        "Logical consistency",
+        "Positional accuracy",
+        "Completeness",
+        "Lineage"
+      ],
+      "answer": 0,
+      "explain": "Each road should keep one class."
+    },
+    {
+      "id": "undershoot",
+      "type": "choice",
+      "prompt": "A line that stops just short of the line it should meet is:",
+      "choices": [
+        "An undershoot",
+        "An overshoot",
+        "A sliver",
+        "A gap"
+      ],
+      "answer": 0,
+      "explain": "Lines that meet must connect."
+    },
+    {
+      "id": "overshoot",
+      "type": "choice",
+      "prompt": "A line that runs past the line it should meet is:",
+      "choices": [
+        "An overshoot",
+        "An undershoot",
+        "A gap",
+        "A centroid"
+      ],
+      "answer": 0,
+      "explain": "Topology rules can find these automatically."
+    },
+    {
+      "id": "demolished",
+      "type": "choice",
+      "prompt": "A map that still shows a building torn down years ago has a problem with:",
+      "choices": [
+        "Completeness and temporal quality",
+        "Positional accuracy only",
+        "Lineage only",
+        "Projection"
+      ],
+      "answer": 0,
+      "explain": "Excess data, out of date."
+    },
+    {
+      "id": "stability",
+      "type": "choice",
+      "prompt": "How long a feature stays the same is:",
+      "choices": [
+        "Temporal stability",
+        "Positional accuracy",
+        "Lineage",
+        "Saturation"
+      ],
+      "answer": 0,
+      "explain": "Mountains last millions of years; storefronts change in months."
+    },
+    {
+      "id": "stable-update",
+      "type": "choice",
+      "prompt": "Which needs updating most often?",
+      "choices": [
+        "A layer of restaurants",
+        "An elevation model of mountains",
+        "A layer of state boundaries",
+        "A geologic map"
+      ],
+      "answer": 0,
+      "explain": "Less stable features need more frequent updates."
+    },
+    {
+      "id": "rmse-def",
+      "type": "choice",
+      "prompt": "Positional accuracy is usually summarized with:",
+      "choices": [
+        "Root mean square error (RMSE)",
+        "The mode",
+        "The consistency ratio",
+        "Natural breaks"
+      ],
+      "answer": 0,
+      "explain": "RMSE = √(Σd²/n)."
+    },
+    {
+      "id": "rmse-calc",
+      "type": "fill",
+      "prompt": "Four test points are off by 3, 4, 0, and 0 m. The RMSE is (m):",
+      "answers": [
+        "2.5"
+      ],
+      "explain": "√((9 + 16 + 0 + 0) / 4) = √6.25 = 2.5.",
+      "numeric": true
+    },
+    {
+      "id": "rmse-calc2",
+      "type": "fill",
+      "prompt": "Two test points are off by 3 m and 4 m. The RMSE is (m, two decimals):",
+      "answers": [
+        "3.54"
+      ],
+      "explain": "√((9 + 16) / 2) = √12.5 = 3.54.",
+      "numeric": true,
+      "tolerance": 0.01
+    },
+    {
+      "id": "rmse-square",
+      "type": "choice",
+      "prompt": "Squaring offsets in RMSE means:",
+      "choices": [
+        "Large offsets count more than small ones",
+        "All offsets count equally",
+        "Negative offsets cancel positive ones",
+        "Small offsets count more"
+      ],
+      "answer": 0,
+      "explain": "A few badly placed points raise RMSE sharply."
+    },
+    {
+      "id": "nmas",
+      "type": "choice",
+      "prompt": "Under the 1947 National Map Accuracy Standards at 1:24,000, 90% of tested points must be within:",
+      "choices": [
+        "40 feet",
+        "4 feet",
+        "400 feet",
+        "1 mile"
+      ],
+      "answer": 0,
+      "explain": "1/50 inch at 1:24,000 is 40 feet."
+    },
+    {
+      "id": "confusion",
+      "type": "choice",
+      "prompt": "A table that cross-tabulates mapped classes against true classes is a:",
+      "choices": [
+        "Confusion (error) matrix",
+        "Pairwise comparison matrix",
+        "Spatial weights matrix",
+        "Attribute table"
+      ],
+      "answer": 0,
+      "explain": "Used for categorical attribute accuracy."
+    },
+    {
+      "id": "agloe",
+      "type": "choice",
+      "prompt": "Agloe, New York, was invented by mapmakers as a:",
+      "choices": [
+        "Copyright trap",
+        "Survey benchmark",
+        "Census tract",
+        "Datum origin"
+      ],
+      "answer": 0,
+      "explain": "It would reveal copying."
+    },
+    {
+      "id": "lifecycle",
+      "type": "order",
+      "prompt": "Put the stages of the data lifecycle in order.",
+      "answer": [
+        "Collection",
+        "Processing",
+        "Storage",
+        "Display",
+        "Use"
+      ],
+      "explain": "Uncertainty can enter at every stage.",
+      "extra": [
+        "Kriging"
+      ]
+    },
+    {
+      "id": "collect",
+      "type": "choice",
+      "prompt": "Instrument limits and malfunctions add uncertainty at which stage?",
+      "choices": [
+        "Collection",
+        "Display",
+        "Use",
+        "Storage"
+      ],
+      "answer": 0,
+      "explain": "A big issue in remote sensing."
+    },
+    {
+      "id": "process",
+      "type": "choice",
+      "prompt": "Projection, generalization, and prediction add uncertainty at which stage?",
+      "choices": [
+        "Processing",
+        "Collection",
+        "Use",
+        "Storage"
+      ],
+      "answer": 0,
+      "explain": "Almost every computation adds some uncertainty."
+    },
+    {
+      "id": "storage",
+      "type": "choice",
+      "prompt": "Misclassified attributes and broken data links are problems at which stage?",
+      "choices": [
+        "Storage",
+        "Collection",
+        "Display",
+        "Use"
+      ],
+      "answer": 0,
+      "explain": "Links between tables can break."
+    },
+    {
+      "id": "display",
+      "type": "choice",
+      "prompt": "Abstraction and symbolization add uncertainty at which stage?",
+      "choices": [
+        "Display",
+        "Collection",
+        "Storage",
+        "Processing"
+      ],
+      "answer": 0,
+      "explain": "They trade detail for clarity."
+    },
+    {
+      "id": "abstraction",
+      "type": "choice",
+      "prompt": "As a city block is abstracted from a photo to a point symbol:",
+      "choices": [
+        "Clarity goes up and certainty goes down",
+        "Clarity and certainty both go up",
+        "Clarity goes down and certainty goes up",
+        "Nothing changes"
+      ],
+      "answer": 0,
+      "explain": "Map design is a compromise."
+    },
+    {
+      "id": "propagate",
+      "type": "truefalse",
+      "prompt": "Errors in input layers carry into the output of a suitability or risk model.",
+      "answer": true,
+      "explain": "Uncertainty propagates."
+    },
+    {
+      "id": "type1",
+      "type": "choice",
+      "prompt": "Concluding a pattern exists where none exists is a:",
+      "choices": [
+        "Type 1 error (seeing wrong)",
+        "Type 2 error (not seeing)",
+        "Topology error",
+        "Positional error"
+      ],
+      "answer": 0,
+      "explain": "Like a false positive."
+    },
+    {
+      "id": "type2",
+      "type": "choice",
+      "prompt": "Missing a pattern that does exist is a:",
+      "choices": [
+        "Type 2 error (not seeing)",
+        "Type 1 error (seeing wrong)",
+        "Lineage error",
+        "Logical error"
+      ],
+      "answer": 0,
+      "explain": "Like a false negative."
+    },
+    {
+      "id": "type2-worse",
+      "type": "choice",
+      "prompt": "Type 2 errors are more problematic because:",
+      "choices": [
+        "A pattern nobody notices is never investigated",
+        "They are more common in data",
+        "They change coordinates",
+        "They can't happen on maps"
+      ],
+      "answer": 0,
+      "explain": "A claimed pattern can be checked and challenged."
+    },
+    {
+      "id": "why-show",
+      "type": "choice",
+      "prompt": "Why should uncertainty be shown on the map itself rather than in a footnote?",
+      "choices": [
+        "Most readers never see footnotes or metadata",
+        "It makes maps smaller",
+        "It hides errors",
+        "Footnotes are not allowed"
+      ],
+      "answer": 0,
+      "explain": "Uncertainty is part of the data."
+    },
+    {
+      "id": "phone",
+      "type": "choice",
+      "prompt": "On a phone map, the shaded circle around the blue dot shows:",
+      "choices": [
+        "Uncertainty in your location",
+        "Your speed",
+        "The battery level",
+        "A geofence"
+      ],
+      "answer": 0,
+      "explain": "A bigger circle means less certainty."
+    },
+    {
+      "id": "android",
+      "type": "choice",
+      "prompt": "On Android, the accuracy radius is a confidence circle of about:",
+      "choices": [
+        "68%",
+        "10%",
+        "50%",
+        "99.9%"
+      ],
+      "answer": 0,
+      "explain": "About a two-in-three chance you are inside."
+    },
+    {
+      "id": "crisp",
+      "type": "choice",
+      "prompt": "Sharp edges for known boundaries and blurred edges for uncertain ones uses:",
+      "choices": [
+        "Crispness",
+        "Saturation",
+        "Size",
+        "Orientation"
+      ],
+      "answer": 0,
+      "explain": "Suits fuzzy boundaries such as soil types."
+    },
+    {
+      "id": "transp",
+      "type": "choice",
+      "prompt": "Fading a symbol to show it is less reliable uses:",
+      "choices": [
+        "Transparency",
+        "Crispness",
+        "Shape",
+        "Texture"
+      ],
+      "answer": 0,
+      "explain": "As in the phone's location circle."
+    },
+    {
+      "id": "sat",
+      "type": "choice",
+      "prompt": "Washed-out color for doubtful values uses:",
+      "choices": [
+        "Saturation",
+        "Hue",
+        "Size",
+        "Crispness"
+      ],
+      "answer": 0,
+      "explain": "Keep the hue the same."
+    },
+    {
+      "id": "intrinsic",
+      "type": "choice",
+      "prompt": "Crispness, transparency, and saturation are intrinsic visual variables because they:",
+      "choices": [
+        "Change the symbol itself",
+        "Add a new symbol",
+        "Change the projection",
+        "Change the data"
+      ],
+      "answer": 0,
+      "explain": "Added symbols are extrinsic."
+    },
+    {
+      "id": "extrinsic",
+      "type": "choice",
+      "prompt": "Error bars, glyphs, and question marks are:",
+      "choices": [
+        "Extrinsic: added symbols",
+        "Intrinsic variables",
+        "Topology rules",
+        "Metadata elements"
+      ],
+      "answer": 0,
+      "explain": "Explicit, but they add clutter."
+    },
+    {
+      "id": "reliability",
+      "type": "choice",
+      "prompt": "A reliability diagram on an old topographic map shows:",
+      "choices": [
+        "How and when each part of the sheet was mapped",
+        "The map's projection",
+        "The legend for roads",
+        "The magnetic declination"
+      ],
+      "answer": 0,
+      "explain": "It describes compilation, not fitness for use."
+    },
+    {
+      "id": "bus",
+      "type": "choice",
+      "prompt": "The 2008 Seattle bus crash shows that when map data are incomplete and nobody says so:",
+      "choices": [
+        "Responsibility gets spread thin",
+        "Nobody is ever harmed",
+        "GPS is always right",
+        "Height limits don't matter"
+      ],
+      "answer": 0,
+      "explain": "The navigation map didn't record height limits."
+    },
+    {
+      "id": "goal",
+      "type": "truefalse",
+      "prompt": "The goal of a cartographer is to eliminate all uncertainty from maps.",
+      "answer": false,
+      "explain": "The goal is to communicate it so readers can judge fitness for use."
+    }
+  ]
+}

@@ -1,0 +1,1968 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>18&nbsp; Risk Analysis – Geographic Information Science</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/uncertainty.html" rel="next">
+<link href="../chapters/suitability-modeling.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ebb58cfc2c0cc903b00b246007c1be77.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-58aeb932f9769ef5b136914697361c15.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-contrib/glossary-1.0.0/glossary.js"></script>
+<link href="../site_libs/quarto-contrib/glossary-1.0.0/glossary.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<!--
+  Reading settings, part 1 of 2: applies the reader's saved font and text size
+  before the page draws, so it doesn't flash in the default font first.
+  The menu itself is in assets/reader-settings.html; styles are in
+  assets/reader-settings.css.
+-->
+<script>
+  (function () {
+    try {
+      var font = localStorage.getItem("sds-reader-font");
+      var size = localStorage.getItem("sds-reader-size");
+      if (font) document.documentElement.setAttribute("data-reader-font", font);
+      // Lexend and Cardo come from Google Fonts, loaded only for readers who pick them.
+      var webFonts = {
+        lexend: "https://fonts.googleapis.com/css2?family=Lexend:wght@300..700&display=swap",
+        cardo: "https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&display=swap"
+      };
+      if (webFonts[font]) {
+        var link = document.createElement("link");
+        link.rel = "stylesheet"; link.href = webFonts[font]; link.id = "sds-reader-webfont-" + font;
+        document.head.appendChild(link);
+      }
+      if (size) document.documentElement.setAttribute("data-reader-size", size);
+    } catch (e) { /* storage blocked: keep the defaults */ }
+  })();
+</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../include/webex.css">
+<link rel="stylesheet" href="../assets/sidebar.css">
+<link rel="stylesheet" href="../assets/grade-table.css">
+<link rel="stylesheet" href="../assets/reader-settings.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../units/unit-3.html">Unit 3: Spatial Analysis</a></li><li class="breadcrumb-item"><a href="../chapters/risk-analysis.html"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Risk Analysis</span></a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Site">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Geographic Information Science</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/dparr1/geog-370-geographic-information-science/releases/download/textbook-pdf/Geographic-Information-Science.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../units/unit-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-1-label">Unit 1: Data Models and Projections</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section: Unit 1: Data Models and Projections">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/what-is-gis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">What Is GIS?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/what-is-geographic-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">What Is Geographic Data?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/location-and-coordinates.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Location and Coordinate Systems</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/map-projections.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Map Projections</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/attribute-queries.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Attribute Data and Queries</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/database-joins.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Databases and Table Joins</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/spatial-joins.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Spatial Joins</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../units/unit-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-2-label">Unit 2: Spatial Data Quality</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section: Unit 2: Spatial Data Quality">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/census-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Census Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/geocoding-georeferencing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Geocoding and Georeferencing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/osm-data-quality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">OpenStreetMap and Data Quality</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../units/unit-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Unit 3: Spatial Analysis</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section: Unit 3: Spatial Analysis">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/data-classing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Data Classing and Choropleth Maps</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/density.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Density and Neighborhoods</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/spatial-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Spatial Analysis: Selection, Buffers, and Overlay</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/raster.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Raster Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/interpolation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Spatial Interpolation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/kriging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Kriging</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/suitability-modeling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Suitability Modeling</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/risk-analysis.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Risk Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/uncertainty.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Uncertainty in Geospatial Data</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-4-label">GIS Software</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/qgis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Getting to Know QGIS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/arcgis-pro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Getting to Know ArcGIS Pro</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-controls="quarto-sidebar-section-5" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-5-label">Looking Ahead</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-5" aria-labelledby="quarto-sidebar-section-5-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/whats-next.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">What’s Next in GIS</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-controls="quarto-sidebar-section-6" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-6-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-6" aria-labelledby="quarto-sidebar-section-6-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Glossary</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../about.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About the author</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-what-is-risk" id="toc-sec-what-is-risk" class="nav-link active" data-scroll-target="#sec-what-is-risk"><span class="header-section-number">18.1</span> What is risk?</a>
+  <ul class="collapse">
+  <li><a href="#hazard" id="toc-hazard" class="nav-link" data-scroll-target="#hazard"><span class="header-section-number">18.1.1</span> Hazard</a></li>
+  <li><a href="#exposure" id="toc-exposure" class="nav-link" data-scroll-target="#exposure"><span class="header-section-number">18.1.2</span> Exposure</a></li>
+  <li><a href="#vulnerability" id="toc-vulnerability" class="nav-link" data-scroll-target="#vulnerability"><span class="header-section-number">18.1.3</span> Vulnerability</a></li>
+  <li><a href="#calculating-risk" id="toc-calculating-risk" class="nav-link" data-scroll-target="#calculating-risk"><span class="header-section-number">18.1.4</span> Calculating risk</a></li>
+  </ul></li>
+  <li><a href="#sec-resilience" id="toc-sec-resilience" class="nav-link" data-scroll-target="#sec-resilience"><span class="header-section-number">18.2</span> Resilience and coping capacity</a></li>
+  <li><a href="#sec-dhaka" id="toc-sec-dhaka" class="nav-link" data-scroll-target="#sec-dhaka"><span class="header-section-number">18.3</span> Case study: flood risk in Dhaka</a>
+  <ul class="collapse">
+  <li><a href="#floods-in-a-megacity" id="toc-floods-in-a-megacity" class="nav-link" data-scroll-target="#floods-in-a-megacity"><span class="header-section-number">18.3.1</span> Floods in a megacity</a></li>
+  <li><a href="#step-1-flood-hazard" id="toc-step-1-flood-hazard" class="nav-link" data-scroll-target="#step-1-flood-hazard"><span class="header-section-number">18.3.2</span> Step 1: flood hazard</a></li>
+  <li><a href="#who-lives-there" id="toc-who-lives-there" class="nav-link" data-scroll-target="#who-lives-there"><span class="header-section-number">18.3.3</span> Who lives there?</a></li>
+  <li><a href="#step-2-vulnerability" id="toc-step-2-vulnerability" class="nav-link" data-scroll-target="#step-2-vulnerability"><span class="header-section-number">18.3.4</span> Step 2: vulnerability</a></li>
+  </ul></li>
+  <li><a href="#sec-ahp" id="toc-sec-ahp" class="nav-link" data-scroll-target="#sec-ahp"><span class="header-section-number">18.4</span> Setting the weights: AHP and WLC</a>
+  <ul class="collapse">
+  <li><a href="#weighted-linear-combination" id="toc-weighted-linear-combination" class="nav-link" data-scroll-target="#weighted-linear-combination"><span class="header-section-number">18.4.1</span> Weighted Linear Combination</a></li>
+  <li><a href="#the-analytic-hierarchy-process" id="toc-the-analytic-hierarchy-process" class="nav-link" data-scroll-target="#the-analytic-hierarchy-process"><span class="header-section-number">18.4.2</span> The Analytic Hierarchy Process</a></li>
+  </ul></li>
+  <li><a href="#sec-calculating-risk" id="toc-sec-calculating-risk" class="nav-link" data-scroll-target="#sec-calculating-risk"><span class="header-section-number">18.5</span> Step 3: calculating risk</a>
+  <ul class="collapse">
+  <li><a href="#limitations" id="toc-limitations" class="nav-link" data-scroll-target="#limitations"><span class="header-section-number">18.5.1</span> Limitations</a></li>
+  </ul></li>
+  <li><a href="#sec-risk-software" id="toc-sec-risk-software" class="nav-link" data-scroll-target="#sec-risk-software"><span class="header-section-number">18.6</span> Risk analysis in ArcGIS Pro and QGIS</a></li>
+  <li><a href="#check-your-understanding" id="toc-check-your-understanding" class="nav-link" data-scroll-target="#check-your-understanding"><span class="header-section-number">18.7</span> Check your understanding</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">18.8</span> Summary</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">18.9</span> Exercises</a></li>
+  <li><a href="#further-reading-and-online-resources" id="toc-further-reading-and-online-resources" class="nav-link" data-scroll-target="#further-reading-and-online-resources"><span class="header-section-number">18.10</span> Further reading and online resources</a>
+  <ul class="collapse">
+  <li><a href="#books-and-papers" id="toc-books-and-papers" class="nav-link" data-scroll-target="#books-and-papers"><span class="header-section-number">18.10.1</span> Books and papers</a></li>
+  <li><a href="#risk-data-and-maps-for-the-united-states" id="toc-risk-data-and-maps-for-the-united-states" class="nav-link" data-scroll-target="#risk-data-and-maps-for-the-united-states"><span class="header-section-number">18.10.2</span> Risk data and maps for the United States</a></li>
+  <li><a href="#global-risk-and-disaster-data" id="toc-global-risk-and-disaster-data" class="nav-link" data-scroll-target="#global-risk-and-disaster-data"><span class="header-section-number">18.10.3</span> Global risk and disaster data</a></li>
+  <li><a href="#tools" id="toc-tools" class="nav-link" data-scroll-target="#tools"><span class="header-section-number">18.10.4</span> Tools</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../units/unit-3.html">Unit 3: Spatial Analysis</a></li><li class="breadcrumb-item"><a href="../chapters/risk-analysis.html"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Risk Analysis</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Risk Analysis</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Learning objectives
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>By the end of this chapter you should be able to:</p>
+<ol type="1">
+<li>Define <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-hazard" data-term="hazard">hazard</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-exposure" data-term="exposure">exposure</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-vulnerability" data-term="vulnerability">vulnerability</span>, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-risk" data-term="risk">risk</span>, and explain how they combine.</li>
+<li>Explain how <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-resilience" data-term="resilience">resilience</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coping-capacity" data-term="coping capacity">coping capacity</span> reduce risk.</li>
+<li>Describe how a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> study maps flood hazard from flood frequency and depth.</li>
+<li>Describe how physical, social, and coping-capacity indicators are combined into a vulnerability index.</li>
+<li>Derive <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-weighting" data-term="weighting">weights</span> from a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-pairwise-comparison" data-term="pairwise comparison">pairwise comparison matrix</span> with the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-analytic-hierarchy-process-ahp" data-term="Analytic Hierarchy Process (AHP)">Analytic Hierarchy Process</span>, and check them with the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-consistency-ratio-cr" data-term="consistency ratio (CR)">consistency ratio</span>.</li>
+<li>Calculate risk as hazard times vulnerability, and name the limitations of a risk index.</li>
+</ol>
+</div>
+</div>
+<p>Hurricanes, floods, wildfires, and earthquakes are natural events. Disasters are what happen when those events meet people, homes, and roads that can’t withstand them. Two towns can face the same storm and suffer very different losses, because of where people live, how their homes are built, and what resources they have. <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-risk-analysis" data-term="risk analysis">Risk analysis</span></strong> maps those differences, so that money for levees, shelters, and warnings goes where it will prevent the most harm. This chapter defines the vocabulary of risk, then follows a published study of flood risk in Dhaka, Bangladesh, that puts the suitability methods of Chapter 17 to work.</p>
+<section id="sec-what-is-risk" class="level2" data-number="18.1">
+<h2 data-number="18.1" class="anchored" data-anchor-id="sec-what-is-risk"><span class="header-section-number">18.1</span> What is risk?</h2>
+<p><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-risk" data-term="risk">Risk</span></strong> is the estimated impact that a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-hazard" data-term="hazard">hazard</span> would have on people, services, facilities, and structures in a community. It depends on three factors:</p>
+<ul>
+<li><strong>Hazard</strong>: what could cause harm, and how likely and severe it is.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-exposure" data-term="exposure">Exposure</span></strong>: who and what is in its path.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-vulnerability" data-term="vulnerability">Vulnerability</span></strong>: how easily the exposed people and things are harmed.</li>
+</ul>
+<p>In its simplest form:</p>
+<p><span class="math display">\[
+\text{Risk} = \text{Hazard} \times \text{Vulnerability} \times \text{Exposure}
+\]</span></p>
+<p>The multiplication matters. If any one factor is zero, there is no risk. A hurricane over the open ocean is a hazard, but nothing is exposed to it. A flood over empty land harms no one. Disaster researchers often summarize this idea as “disasters are not natural”: the event is natural, but the losses depend on people’s choices about where and how to live, and on who has the resources to protect themselves <span class="citation" data-cites="wisner2004">(Wisner et al. 2004)</span>.</p>
+<p>To keep the vocabulary concrete, we use a familiar story: the Three Little Pigs (<a href="#fig-three-pigs" class="quarto-xref">Figure&nbsp;<span>18.1</span></a>).</p>
+<div id="fig-three-pigs" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A diagram. A gray wolf symbol, labeled wolf, hazard, sits in the middle of a large dashed red circle labeled hazard footprint, the wolf's huff-and-puff reach. Inside the circle are three houses: a yellow straw house labeled most vulnerable, with a red arrow from the wolf pointing at it; a brown stick house labeled moderate; and a red brick house labeled least vulnerable. Outside the circle, to the right, is another yellow straw house labeled outside the reach, not exposed.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-three-pigs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/risk-analysis/three-pigs.png" class="img-fluid figure-img" alt="A diagram. A gray wolf symbol, labeled wolf, hazard, sits in the middle of a large dashed red circle labeled hazard footprint, the wolf's huff-and-puff reach. Inside the circle are three houses: a yellow straw house labeled most vulnerable, with a red arrow from the wolf pointing at it; a brown stick house labeled moderate; and a red brick house labeled least vulnerable. Outside the circle, to the right, is another yellow straw house labeled outside the reach, not exposed.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-three-pigs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;18.1: Risk in the Three Little Pigs. The wolf is the hazard, the dashed circle is the area he can reach, and building material sets each house’s vulnerability.
+</figcaption>
+</figure>
+</div>
+<section id="hazard" class="level3" data-number="18.1.1">
+<h3 data-number="18.1.1" class="anchored" data-anchor-id="hazard"><span class="header-section-number">18.1.1</span> Hazard</h3>
+<p>A <strong>hazard</strong> is an act or phenomenon that has the potential to produce harm: a wildfire, hurricane, flood, earthquake, or disease outbreak. In the story, the wolf is the hazard. On his own he is only a <em>potential</em> source of harm. Whether he causes damage depends on who is in his path, and how well they are protected.</p>
+<p>In a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span>, a hazard is usually mapped as a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-hazard-footprint" data-term="hazard footprint">hazard footprint</span></strong>, the area it can reach, with its likelihood and severity: a 100-year floodplain, a wildfire perimeter, a zone of strong earthquake shaking.</p>
+</section>
+<section id="exposure" class="level3" data-number="18.1.2">
+<h3 data-number="18.1.2" class="anchored" data-anchor-id="exposure"><span class="header-section-number">18.1.2</span> Exposure</h3>
+<p><strong>Exposure</strong> is the people, property, systems, or functions that could be lost because of a hazard: people, buildings, roads, power lines, crops. In <a href="#fig-three-pigs" class="quarto-xref">Figure&nbsp;<span>18.1</span></a>, the dashed circle is the wolf’s huff-and-puff reach. All three pigs’ houses are inside it, so all three are exposed. A straw house a mile away is just as weak, but it is not exposed, so its risk is low.</p>
+<p>Exposure is usually measured by <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-overlay-analysis" data-term="overlay analysis">overlay</span></strong> (Chapter 13): the hazard footprint is intersected with population, buildings, and infrastructure. How many people live in the floodplain? Which hospitals are inside the evacuation zone?</p>
+</section>
+<section id="vulnerability" class="level3" data-number="18.1.3">
+<h3 data-number="18.1.3" class="anchored" data-anchor-id="vulnerability"><span class="header-section-number">18.1.3</span> Vulnerability</h3>
+<p><strong>Vulnerability</strong> is the susceptibility to physical injury, harm, damage, or economic loss. All three pigs face the same wolf, but the brick house holds while the straw house blows away. The difference is not the hazard; it is the vulnerability of each household.</p>
+<p>In real places, vulnerability comes from building quality, income, age, health, literacy, and access to warnings and services. Two kinds are often separated:</p>
+<ul>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-physical-vulnerability" data-term="physical vulnerability">Physical vulnerability</span></strong>: properties of the land and buildings, such as low elevation, weak construction, or closeness to a river.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-social-vulnerability" data-term="social vulnerability">Social vulnerability</span></strong>: properties of the people, such as poverty, age, disability, language, or lack of a car, that make it harder to prepare, evacuate, and recover <span class="citation" data-cites="cutter2003">(Cutter et al. 2003)</span>.</li>
+</ul>
+</section>
+<section id="calculating-risk" class="level3" data-number="18.1.4">
+<h3 data-number="18.1.4" class="anchored" data-anchor-id="calculating-risk"><span class="header-section-number">18.1.4</span> Calculating risk</h3>
+<p>Now put the pieces together. All three houses face the same wolf, and all three are inside his reach, so hazard and exposure are equal. Only vulnerability differs. The straw house is the most vulnerable, so it carries the greatest risk.</p>
+<div id="tbl-pigs" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-pigs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;18.1: Risk in the Three Little Pigs.
+</figcaption>
+<div aria-describedby="tbl-pigs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>House</th>
+<th style="text-align: center;">Hazard</th>
+<th style="text-align: center;">Exposure</th>
+<th style="text-align: center;">Vulnerability</th>
+<th>Risk</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Straw (inside the circle)</td>
+<td style="text-align: center;">Wolf</td>
+<td style="text-align: center;">Yes</td>
+<td style="text-align: center;">High</td>
+<td>Greatest</td>
+</tr>
+<tr class="even">
+<td>Sticks</td>
+<td style="text-align: center;">Wolf</td>
+<td style="text-align: center;">Yes</td>
+<td style="text-align: center;">Moderate</td>
+<td>Moderate</td>
+</tr>
+<tr class="odd">
+<td>Brick</td>
+<td style="text-align: center;">Wolf</td>
+<td style="text-align: center;">Yes</td>
+<td style="text-align: center;">Low</td>
+<td>Least</td>
+</tr>
+<tr class="even">
+<td>Straw (outside the circle)</td>
+<td style="text-align: center;">Wolf</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;">High</td>
+<td>None</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Because risk is a product, lowering <em>any</em> factor lowers it. We usually can’t stop a hurricane, but zoning can keep homes out of the floodplain (exposure), and building codes can make them stronger (vulnerability).</p>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Think about it
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Pick a hazard that affects your hometown. What is its footprint? Who and what is exposed? Which neighborhoods or groups are most vulnerable, and why?</p>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-resilience" class="level2" data-number="18.2">
+<h2 data-number="18.2" class="anchored" data-anchor-id="sec-resilience"><span class="header-section-number">18.2</span> Resilience and coping capacity</h2>
+<p><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-hazard" data-term="hazard">Hazard</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-exposure" data-term="exposure">exposure</span>, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-vulnerability" data-term="vulnerability">vulnerability</span> push <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-risk" data-term="risk">risk</span> up. Other factors pull it down (<a href="#fig-risk-framework" class="quarto-xref">Figure&nbsp;<span>18.2</span></a>). In a framework developed for earthquake risk <span class="citation" data-cites="davidson1997">(Davidson 1997)</span> and adapted for floods by Dewan <span class="citation" data-cites="dewan2013">(2013)</span>, <strong>capacity and measures</strong> reduce risk: physical planning such as levees and land-use rules, social capacity such as community organizations, economic capacity such as savings and insurance, and management such as warning systems and emergency response.</p>
+<div id="fig-risk-framework" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Four large arrows. Three point up: red, hazard, how likely and how severe; orange, exposure, who and what is in harm's way; and purple, vulnerability, how easily they are harmed. Above them: push risk up. Separated by a line, a green arrow points down: capacity and measures, planning, social and economic capacity, management. Above it: pulls risk down.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-risk-framework-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/risk-analysis/risk-framework.png" class="img-fluid figure-img" alt="Four large arrows. Three point up: red, hazard, how likely and how severe; orange, exposure, who and what is in harm's way; and purple, vulnerability, how easily they are harmed. Above them: push risk up. Separated by a line, a green arrow points down: capacity and measures, planning, social and economic capacity, management. Above it: pulls risk down.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-risk-framework-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;18.2: A framework for disaster risk. Hazard, exposure, and vulnerability push risk up; capacity and measures pull it down. After Davidson <span class="citation" data-cites="davidson1997">(1997)</span> and Dewan <span class="citation" data-cites="dewan2013">(2013)</span>.
+</figcaption>
+</figure>
+</div>
+<p>The United Nations Office for Disaster Risk Reduction defines two related terms <span class="citation" data-cites="undrr2017">(United Nations Office for Disaster Risk Reduction 2017)</span>:</p>
+<ul>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-resilience" data-term="resilience">Resilience</span></strong> is “the ability of a system, community or society exposed to hazards to resist, absorb, accommodate, adapt to, transform and recover from the effects of a hazard in a timely and efficient manner.”</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coping-capacity" data-term="coping capacity">Coping capacity</span></strong> is “the ability of people, organizations and systems, using available skills and resources, to manage adverse conditions, risk or disasters.”</li>
+</ul>
+<p>Coping capacity acts during and right after an event: reaching a shelter, reading a warning, drawing on savings. Resilience is broader, and includes learning and adapting afterward, for example by raising homes or changing land-use rules.</p>
+<div class="did-you-know callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Did you know..?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In the United States, you can look up risk for every county and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-census-tract" data-term="census tract">census tract</span>. FEMA’s <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-national-risk-index" data-term="National Risk Index">National Risk Index</span></strong> estimates the expected annual loss from 18 natural hazards, from tornadoes to tsunamis, and adjusts it for each community’s <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-social-vulnerability" data-term="social vulnerability">social vulnerability</span> and resilience <span class="citation" data-cites="fema2023nri">(Federal Emergency Management Agency 2023)</span>. The CDC’s <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-social-vulnerability-index-svi" data-term="Social Vulnerability Index (SVI)">Social Vulnerability Index</span></strong> ranks every census tract on 16 census variables, such as poverty, age, disability, and lack of a vehicle, to help emergency planners find the people who will need the most help <span class="citation" data-cites="flanagan2011">(Flanagan et al. 2011)</span>. Both are built from the same <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-american-community-survey-acs" data-term="American Community Survey (ACS)">ACS</span> data you met in Chapter 8.</p>
+</div>
+</div>
+</section>
+<section id="sec-dhaka" class="level2" data-number="18.3">
+<h2 data-number="18.3" class="anchored" data-anchor-id="sec-dhaka"><span class="header-section-number">18.3</span> Case study: flood risk in Dhaka</h2>
+<section id="floods-in-a-megacity" class="level3" data-number="18.3.1">
+<h3 data-number="18.3.1" class="anchored" data-anchor-id="floods-in-a-megacity"><span class="header-section-number">18.3.1</span> Floods in a megacity</h3>
+<p>Bangladesh sits on the delta of three great rivers: the Ganges (called the Padma in Bangladesh), the Brahmaputra (Jamuna), and the Meghna (<a href="#fig-dhaka-locator" class="quarto-xref">Figure&nbsp;<span>18.3</span></a>). Much of the country is only a few meters above sea level, and flooding during the summer monsoon is a regular part of life. Dhaka, the capital, is surrounded by rivers, and major floods struck the city in 1988, 1998, 2004, and 2007. In July 2020, about a quarter of the country was under water.</p>
+<div id="fig-dhaka-locator" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A map of Bangladesh in green, surrounded by India, with Myanmar in the southeast and the Bay of Bengal to the south. Blue rivers cross it: the Brahmaputra, or Jamuna, flows south from the north; the Ganges, or Padma, flows southeast from the west; they join and flow into the Meghna, which reaches the bay. A red dot marks Dhaka in the center of the country, just east of where the rivers meet.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dhaka-locator-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/risk-analysis/dhaka-locator.png" class="img-fluid figure-img" alt="A map of Bangladesh in green, surrounded by India, with Myanmar in the southeast and the Bay of Bengal to the south. Blue rivers cross it: the Brahmaputra, or Jamuna, flows south from the north; the Ganges, or Padma, flows southeast from the west; they join and flow into the Meghna, which reaches the bay. A red dot marks Dhaka in the center of the country, just east of where the rivers meet.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dhaka-locator-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;18.3: Bangladesh and its three great rivers. Dhaka sits near where the Ganges (Padma) and Brahmaputra (Jamuna) meet, upstream of the Meghna. Data: Natural Earth.
+</figcaption>
+</figure>
+</div>
+<p>Our case study is Ashraf Dewan’s book <em>Floods in a Megacity</em> <span class="citation" data-cites="dewan2013">(Dewan 2013)</span>, which uses <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-remote-sensing" data-term="remote sensing">remote sensing</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> to map flood <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-hazard" data-term="hazard">hazard</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-vulnerability" data-term="vulnerability">vulnerability</span>, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-risk" data-term="risk">risk</span> across Dhaka. It follows three steps (<a href="#fig-dhaka-workflow" class="quarto-xref">Figure&nbsp;<span>18.4</span></a>):</p>
+<ol type="1">
+<li><strong>Determine the hazard</strong>: how often, and how deeply, each part of the city floods.</li>
+<li><strong>Measure vulnerability</strong>: the physical, social, and economic conditions that make some places suffer more, minus their <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coping-capacity" data-term="coping capacity">coping capacity</span>.</li>
+<li><strong>Calculate risk</strong>: hazard times vulnerability.</li>
+</ol>
+<div id="fig-dhaka-workflow" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A flowchart in three columns. Step 1, hazard: flood frequency 1988 to 2007 and floodwater depth are overlaid to make flood hazard in 4 classes. Step 2, vulnerability: physical (elevation, land use, channel, geology) and social (demographic, economic, infrastructure) layers combine, with AHP weights and WLC, into composite vulnerability; coping capacity (awareness, literacy, wealth, services) is subtracted. Step 3, risk: flood hazard and composite vulnerability both feed flood risk by community, with the label risk equals hazard times vulnerability.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dhaka-workflow-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/risk-analysis/dhaka-workflow.png" class="img-fluid figure-img" alt="A flowchart in three columns. Step 1, hazard: flood frequency 1988 to 2007 and floodwater depth are overlaid to make flood hazard in 4 classes. Step 2, vulnerability: physical (elevation, land use, channel, geology) and social (demographic, economic, infrastructure) layers combine, with AHP weights and WLC, into composite vulnerability; coping capacity (awareness, literacy, wealth, services) is subtracted. Step 3, risk: flood hazard and composite vulnerability both feed flood risk by community, with the label risk equals hazard times vulnerability.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dhaka-workflow-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;18.4: The Dhaka flood risk workflow, after Dewan <span class="citation" data-cites="dewan2013">(2013)</span>.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="step-1-flood-hazard" class="level3" data-number="18.3.2">
+<h3 data-number="18.3.2" class="anchored" data-anchor-id="step-1-flood-hazard"><span class="header-section-number">18.3.2</span> Step 1: flood hazard</h3>
+<p>The hazard map is built from two <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layers</span>, both derived from satellite images of past floods:</p>
+<ul>
+<li><strong>Flood frequency</strong>: how many of the four observed floods reached each location, classed as no flood, low, medium, and high.</li>
+<li><strong>Floodwater depth</strong>: the deepest water each location reached, classed from no water to deep.</li>
+</ul>
+<p>Damage to buildings, roads, and health rises sharply as water gets deeper, and a place that floods every few years has little time to recover. Overlaying the two classed layers gives a <strong>flood hazard</strong> map with four classes, from no hazard to high hazard. A place that floods often and deeply has the highest hazard. The high-hazard areas are the low-lying fringes of the city; the higher ground in the center and north shows little or no hazard.</p>
+</section>
+<section id="who-lives-there" class="level3" data-number="18.3.3">
+<h3 data-number="18.3.3" class="anchored" data-anchor-id="who-lives-there"><span class="header-section-number">18.3.3</span> Who lives there?</h3>
+<p>Dhaka has grown extraordinarily fast (<a href="#tbl-dhaka" class="quarto-xref">Table&nbsp;<span>18.2</span></a>). Its population rose about twentyfold in 50 years, from 0.7 million in 1961 to 14.5 million in 2011. Much of that growth happened through unplanned settlement on low, flood-prone land.</p>
+<div id="tbl-dhaka" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-dhaka-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;18.2: Demographics of Dhaka. A dash means no data. The 1991 drop in density reflects a larger census boundary. Source: Bangladesh Bureau of Statistics censuses, in Dewan <span class="citation" data-cites="dewan2013">(2013, Table 3.1)</span>.
+</figcaption>
+<div aria-describedby="tbl-dhaka-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 17%">
+<col style="width: 17%">
+<col style="width: 17%">
+<col style="width: 17%">
+<col style="width: 17%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Year</th>
+<th style="text-align: right;">Households</th>
+<th style="text-align: right;">Population</th>
+<th style="text-align: right;">Density (per km²)</th>
+<th style="text-align: right;">Literacy (%)</th>
+<th style="text-align: right;">Household size</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1961</td>
+<td style="text-align: right;">127,710</td>
+<td style="text-align: right;">718,766</td>
+<td style="text-align: right;">5,796</td>
+<td style="text-align: right;">–</td>
+<td style="text-align: right;">5.6</td>
+</tr>
+<tr class="even">
+<td>1974</td>
+<td style="text-align: right;">341,167</td>
+<td style="text-align: right;">2,068,353</td>
+<td style="text-align: right;">6,156</td>
+<td style="text-align: right;">–</td>
+<td style="text-align: right;">6.1</td>
+</tr>
+<tr class="odd">
+<td>1981</td>
+<td style="text-align: right;">527,311</td>
+<td style="text-align: right;">3,440,147</td>
+<td style="text-align: right;">8,547</td>
+<td style="text-align: right;">57.0</td>
+<td style="text-align: right;">6.0</td>
+</tr>
+<tr class="even">
+<td>1991</td>
+<td style="text-align: right;">1,088,378</td>
+<td style="text-align: right;">6,487,459</td>
+<td style="text-align: right;">4,795</td>
+<td style="text-align: right;">62.3</td>
+<td style="text-align: right;">5.4</td>
+</tr>
+<tr class="odd">
+<td>2001</td>
+<td style="text-align: right;">1,920,682</td>
+<td style="text-align: right;">9,672,763</td>
+<td style="text-align: right;">7,055</td>
+<td style="text-align: right;">65.1</td>
+<td style="text-align: right;">4.6</td>
+</tr>
+<tr class="even">
+<td>2011</td>
+<td style="text-align: right;">3,232,683</td>
+<td style="text-align: right;">14,509,100</td>
+<td style="text-align: right;">10,484</td>
+<td style="text-align: right;">67.3</td>
+<td style="text-align: right;">4.1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Dewan names ten causes of Dhaka’s flood vulnerability. Some are physical: low elevation, unplanned urbanization, dilapidated drainage, and poor flood control. Others are social: high <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-population-density" data-term="population density">population density</span>, extreme poverty, low flood preparedness, weak governance, and no tools for communicating risk. Climate change makes several of them worse. Waste dumped in canals and ponds blocks drainage, and new building on the floodplain fills the low land that once stored floodwater.</p>
+</section>
+<section id="step-2-vulnerability" class="level3" data-number="18.3.4">
+<h3 data-number="18.3.4" class="anchored" data-anchor-id="step-2-vulnerability"><span class="header-section-number">18.3.4</span> Step 2: vulnerability</h3>
+<p>Vulnerability is mapped as three indices, each a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-weighted-linear-combination-wlc" data-term="weighted linear combination (WLC)">weighted linear combination</span> of indicator layers (Chapter 17), with <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-weighting" data-term="weighting">weights</span> set by the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-analytic-hierarchy-process-ahp" data-term="Analytic Hierarchy Process (AHP)">Analytic Hierarchy Process</span> (<a href="#sec-ahp" class="quarto-xref"><span>Section 18.4</span></a>). <a href="#fig-dhaka-weights" class="quarto-xref">Figure&nbsp;<span>18.5</span></a> charts the top-level weights.</p>
+<div id="fig-dhaka-weights" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Three bar charts of weights that sum to 1. Physical vulnerability: elevation 0.483, land use 0.316, distance to channel 0.145, geology 0.056. Social vulnerability: demographic 0.557, economic 0.320, infrastructure and lifelines 0.123. Coping capacity: flood awareness 0.464, literacy 0.267, housing price 0.160, shelters 0.069, hospitals 0.040.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dhaka-weights-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/risk-analysis/weights.png" class="img-fluid figure-img" alt="Three bar charts of weights that sum to 1. Physical vulnerability: elevation 0.483, land use 0.316, distance to channel 0.145, geology 0.056. Social vulnerability: demographic 0.557, economic 0.320, infrastructure and lifelines 0.123. Coping capacity: flood awareness 0.464, literacy 0.267, housing price 0.160, shelters 0.069, hospitals 0.040.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dhaka-weights-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;18.5: The AHP weights of the three indices in the Dhaka study. Data: Dewan <span class="citation" data-cites="dewan2013">(2013)</span>, Tables 6.4–6.6.
+</figcaption>
+</figure>
+</div>
+<p><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-physical-vulnerability" data-term="physical vulnerability">Physical vulnerability</span></strong> uses four biophysical layers: elevation, land use, distance to the nearest active river channel, and geology. Elevation carries almost half the weight (0.483), which makes sense in a city where a meter or two decides whether a street floods. Within each <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-criterion" data-term="criterion">criterion</span>, the classes are weighted too. Built-up land and land below 4 m get the highest class weights, so low, dense neighborhoods near rivers come out as most vulnerable.</p>
+<p><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-social-vulnerability" data-term="social vulnerability">Social vulnerability</span></strong> describes the people who live in flood-prone areas, using census indicators for each <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-census-tract" data-term="census tract">tract</span> in three groups:</p>
+<ul>
+<li><strong>Demographic</strong> (weight 0.557): population density, the very young and the old, and women, who in Dhaka often have less access to resources during floods.</li>
+<li><strong>Economic</strong> (0.320): illiteracy, housing type, and poverty. A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-katcha-house" data-term="katcha house">katcha house</span></strong>, a makeshift dwelling of mud, bamboo, or recycled and found materials, gets the highest weight within housing type (0.690), because it is the most likely to be destroyed.</li>
+<li><strong>Infrastructure and lifelines</strong> (0.123): road density, drinking water sources, and sanitation. Within this group, water sources (0.458) and sanitation (0.416) far outweigh road density (0.126), because contaminated water and poor sanitation drive the disease outbreaks that follow floods.</li>
+</ul>
+<p><strong>Coping capacity</strong> measures <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-resilience" data-term="resilience">resilience</span> with five indicators. Flood frequency is used as a measure of <em>awareness</em>, since people who flood often tend to be better prepared, and it gets nearly half the weight (0.464). Literacy comes next (0.267), because it affects whether people understand and act on warnings. Housing price stands in for wealth (0.160), and shelters (0.069) and hospitals (0.040) measure access to services.</p>
+<p>The three indices are combined into one <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-composite-vulnerability-index" data-term="composite vulnerability index">composite vulnerability index</span></strong>: physical plus social vulnerability, <em>minus</em> coping capacity. More capacity means lower overall vulnerability. Places that are physically exposed, socially disadvantaged, and short on coping resources come out as the most vulnerable.</p>
+</section>
+</section>
+<section id="sec-ahp" class="level2" data-number="18.4">
+<h2 data-number="18.4" class="anchored" data-anchor-id="sec-ahp"><span class="header-section-number">18.4</span> Setting the weights: AHP and WLC</h2>
+<p>Two methods do the heavy lifting in the Dhaka study, and in many suitability and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-risk" data-term="risk">risk</span> models.</p>
+<section id="weighted-linear-combination" class="level3" data-number="18.4.1">
+<h3 data-number="18.4.1" class="anchored" data-anchor-id="weighted-linear-combination"><span class="header-section-number">18.4.1</span> Weighted Linear Combination</h3>
+<p><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-weighted-linear-combination-wlc" data-term="weighted linear combination (WLC)">Weighted linear combination</span> (WLC)</strong>, from Chapter 17, multiplies each standardized <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layer</span> by its weight and adds them, cell by cell or <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-census-tract" data-term="census tract">tract</span> by tract:</p>
+<p><span class="math display">\[
+S = \sum_i w_i \, x_i
+\]</span></p>
+<p>For example, a built-up cell below 4 m picks up 0.316 × 0.484 from land use (the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-criterion" data-term="criterion">criterion</span> weight times the class weight) and 0.483 × 0.482 from elevation: about 0.39 from those two criteria alone, before distance and geology are added. A wetland on high ground would score far lower.</p>
+</section>
+<section id="the-analytic-hierarchy-process" class="level3" data-number="18.4.2">
+<h3 data-number="18.4.2" class="anchored" data-anchor-id="the-analytic-hierarchy-process"><span class="header-section-number">18.4.2</span> The Analytic Hierarchy Process</h3>
+<p>WLC needs <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-weighting" data-term="weighting">weights</span>. Asking someone to rank ten factors at once is hard. The <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-analytic-hierarchy-process-ahp" data-term="Analytic Hierarchy Process (AHP)">Analytic Hierarchy Process</span> (AHP)</strong>, developed by Thomas Saaty <span class="citation" data-cites="saaty1977 saaty1980">(1977, 1980)</span>, asks a series of easier questions instead: comparing <em>two</em> criteria at a time, how much more important is one than the other? Answers use a scale from 1 to 9:</p>
+<div id="tbl-saaty" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-saaty-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;18.3: Saaty’s scale for <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-pairwise-comparison" data-term="pairwise comparison">pairwise comparison</span>. 2, 4, 6, and 8 fall in between.
+</figcaption>
+<div aria-describedby="tbl-saaty-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td>Equally important</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">3</td>
+<td>Moderately more important</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">5</td>
+<td>Strongly more important</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">7</td>
+<td>Very strongly more important</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">9</td>
+<td>Extremely more important</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>The answers fill a <strong>pairwise comparison matrix</strong>. Each cell answers: how much more important is the <em>row</em> criterion than the <em>column</em> criterion? The diagonal is 1, and the lower half holds the reciprocals of the upper half. <a href="#tbl-ahp" class="quarto-xref">Table&nbsp;<span>18.4</span></a> is a small example with three of the Dhaka criteria. (The judgments are made up for teaching; they are not Dewan’s.)</p>
+<div id="tbl-ahp" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ahp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;18.4: A pairwise comparison matrix for three criteria, and the weights it gives. Illustrative values.
+</figcaption>
+<div aria-describedby="tbl-ahp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Criterion</th>
+<th style="text-align: center;">Land use</th>
+<th style="text-align: center;">Elevation</th>
+<th style="text-align: center;">Distance to river</th>
+<th style="text-align: center;">Weight</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Land use</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">0.65</td>
+</tr>
+<tr class="even">
+<td>Elevation</td>
+<td style="text-align: center;">1/3</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">0.23</td>
+</tr>
+<tr class="odd">
+<td>Distance to river</td>
+<td style="text-align: center;">1/5</td>
+<td style="text-align: center;">1/2</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.12</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Read across each row: land use is 3 times as important as elevation, and 5 times as important as distance to the river. To get the weights:</p>
+<ol type="1">
+<li>Take the <strong>geometric mean</strong> of each row: for land use, <span class="math inline">\(\sqrt[3]{1 \times 3 \times 5} = 2.47\)</span>; for elevation, <span class="math inline">\(\sqrt[3]{1/3 \times 1 \times 2} = 0.87\)</span>; for distance, <span class="math inline">\(\sqrt[3]{1/5 \times 1/2 \times 1} = 0.46\)</span>.</li>
+<li><strong>Normalize</strong>: divide each by their total (3.80), so the weights sum to 1. This gives 0.65, 0.23, and 0.12.</li>
+</ol>
+<p>(Saaty’s original method uses the matrix’s principal eigenvector, which gives nearly the same weights.)</p>
+<p>People are not always consistent. Someone might say A beats B, B beats C, and C beats A. AHP’s <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-consistency-ratio-cr" data-term="consistency ratio (CR)">consistency ratio</span> (CR)</strong> measures how far the judgments are from perfectly consistent. Saaty’s rule of thumb is that a CR below 0.10 is acceptable; above that, the judgments should be revisited. The example’s CR is 0.003, well below the limit.</p>
+<p>Finally, WLC applies the weights:</p>
+<p><span class="math display">\[
+S = 0.65 \times \text{land use} + 0.23 \times \text{elevation} + 0.12 \times \text{distance}
+\]</span></p>
+<p>In a real study, several experts or stakeholders make the comparisons, and their judgments are combined. AHP is used far beyond <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span>, in business and government decisions of all kinds. Free calculators, such as AHP-OS, do the arithmetic for you.</p>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Think about it
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Fill in a pairwise comparison matrix for three criteria for choosing an apartment: rent, distance to campus, and size. Compute the weights. Would a roommate’s matrix give the same answer?</p>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-calculating-risk" class="level2" data-number="18.5">
+<h2 data-number="18.5" class="anchored" data-anchor-id="sec-calculating-risk"><span class="header-section-number">18.5</span> Step 3: calculating risk</h2>
+<p>With a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-hazard" data-term="hazard">hazard</span> map and a composite <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-vulnerability" data-term="vulnerability">vulnerability</span> map, the final step multiplies them, community by community:</p>
+<p><span class="math display">\[
+\text{Risk} = \text{Hazard} \times \text{Vulnerability}
+\]</span></p>
+<p>The highest <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-risk" data-term="risk">risk</span> falls where high hazard meets high vulnerability. Risk is <em>not</em> the same as hazard. Some high-hazard areas have moderate risk, because their residents are less vulnerable; some moderate-hazard areas rank high, because vulnerability there is severe. <a href="#fig-town-risk" class="quarto-xref">Figure&nbsp;<span>18.6</span></a> shows the same effect in a made-up town of 36 communities.</p>
+<div id="fig-town-risk" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Three 6 by 6 grids of numbers. Hazard, in reds from 0 to 3, is highest, 3, along the left column and bottom row. Vulnerability, in purples from 0 to 3, is scattered. Risk, hazard times vulnerability, ranges from 0 to 9 in greens and blues. Community A, outlined in yellow on the left side, has hazard 3, vulnerability 0, and risk 0. Community B, outlined in yellow on the right, has hazard 2, vulnerability 3, and risk 6, dark blue.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-town-risk-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/risk-analysis/town-risk.png" class="img-fluid figure-img" alt="Three 6 by 6 grids of numbers. Hazard, in reds from 0 to 3, is highest, 3, along the left column and bottom row. Vulnerability, in purples from 0 to 3, is scattered. Risk, hazard times vulnerability, ranges from 0 to 9 in greens and blues. Community A, outlined in yellow on the left side, has hazard 3, vulnerability 0, and risk 0. Community B, outlined in yellow on the right, has hazard 2, vulnerability 3, and risk 6, dark blue.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-town-risk-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;18.6: Risk in a made-up town. Community A has the highest hazard but no vulnerability, so its risk is 0. Community B has only moderate hazard but high vulnerability, so its risk is 6, among the highest.
+</figcaption>
+</figure>
+</div>
+<p>In Dhaka, the resulting flood risk map, by community, answers a planner’s practical question: where would an investment in flood control, shelters, or early warning reduce the most harm?</p>
+<section id="limitations" class="level3" data-number="18.5.1">
+<h3 data-number="18.5.1" class="anchored" data-anchor-id="limitations"><span class="header-section-number">18.5.1</span> Limitations</h3>
+<p>Every model simplifies, and a risk index has limits worth naming before anyone uses it for decisions:</p>
+<ul>
+<li><strong>Expert judgment.</strong> The <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-analytic-hierarchy-process-ahp" data-term="Analytic Hierarchy Process (AHP)">AHP</span> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-weighting" data-term="weighting">weights</span> reflect the analysts’ comparisons. A different panel could produce a different map. A <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-sensitivity-analysis" data-term="sensitivity analysis">sensitivity analysis</span> that varies the weights (Chapter 17) shows how stable the result is.</li>
+<li><strong>Aggregation.</strong> Indicators are averaged over <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-census-tract" data-term="census tract">tracts</span> and communities, which hides differences between neighboring households. Assuming every household shares its tract’s average is the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-ecological-fallacy" data-term="ecological fallacy">ecological fallacy</span> (Chapter 11).</li>
+<li><strong>Past floods only.</strong> The hazard <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layer</span> is built from the 1988–2007 floods. It does not model climate change, or new embankments built since.</li>
+<li><strong>Data age.</strong> The census inputs date to 2011, in a city that grew twentyfold in 50 years.</li>
+<li><strong>Relative, not absolute.</strong> The index ranks places from low to high risk. It does not estimate losses in money or lives.</li>
+</ul>
+<p>Each of these is a kind of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-uncertainty" data-term="uncertainty">uncertainty</span>, the subject of Chapter 19.</p>
+</section>
+</section>
+<section id="sec-risk-software" class="level2" data-number="18.6">
+<h2 data-number="18.6" class="anchored" data-anchor-id="sec-risk-software"><span class="header-section-number">18.6</span> Risk analysis in ArcGIS Pro and QGIS</h2>
+<p>A <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-risk" data-term="risk">risk</span> model uses the same tools as a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-suitability-modeling" data-term="suitability modeling">suitability model</span> (<a href="suitability-modeling.html#tbl-suitability-tools" class="quarto-xref">Table&nbsp;<span>17.4</span></a> in Chapter 17):</p>
+<ul>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-exposure" data-term="exposure">Exposure</span></strong>: <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-overlay-analysis" data-term="overlay analysis">overlay</span> the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-hazard-footprint" data-term="hazard footprint">hazard footprint</span> with population or buildings using Intersect, a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-join" data-term="spatial join">spatial join</span> (Chapter 7), or <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-zonal-statistics" data-term="zonal statistics">Zonal Statistics</span> (Chapters 13 and 14).</li>
+<li><strong>Standardize indicators</strong>: <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-reclassification" data-term="reclassification">Reclassify</span> or Rescale by Function, or the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-field-calculator" data-term="field calculator">Field Calculator</span> for tables.</li>
+<li><strong>Weight and combine</strong>: <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-weighted-overlay" data-term="weighted overlay">Weighted Overlay</span>, Weighted Sum, or the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">Raster</span> Calculator in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span>; the Raster Calculator or Field Calculator in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span>. Compute <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-analytic-hierarchy-process-ahp" data-term="Analytic Hierarchy Process (AHP)">AHP</span> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-weighting" data-term="weighting">weights</span> in a spreadsheet or an online calculator.</li>
+<li><strong>Risk</strong>: multiply <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-hazard" data-term="hazard">hazard</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-vulnerability" data-term="vulnerability">vulnerability</span> with the Raster Calculator or Field Calculator, and map the result with careful classing (Chapter 11).</li>
+</ul>
+</section>
+<section id="check-your-understanding" class="level2" data-number="18.7">
+<h2 data-number="18.7" class="anchored" data-anchor-id="check-your-understanding"><span class="header-section-number">18.7</span> Check your understanding</h2>
+<ol type="1">
+<li><p>An act or phenomenon that has the potential to produce harm is a: <select class="webex-select"><option value="blank"></option><option value="answer">Hazard</option><option value="">Risk</option><option value="">Vulnerability</option><option value="">Resilience</option></select></p></li>
+<li><p>In the Three Little Pigs, the building material of each house sets its: <select class="webex-select"><option value="blank"></option><option value="">Hazard</option><option value="">Exposure</option><option value="answer">Vulnerability</option><option value="">Coping capacity</option></select></p></li>
+<li><p>A very weak house far outside a flood zone has low risk because it is not: <select class="webex-select"><option value="blank"></option><option value="">Vulnerable</option><option value="answer">Exposed</option><option value="">Resilient</option><option value="">Weighted</option></select></p></li>
+<li><p>If any one of hazard, exposure, or vulnerability is zero, risk is zero. <select class="webex-select"><option value="blank"></option><option value="answer">TRUE</option><option value="">FALSE</option></select></p></li>
+<li><p>In the Dhaka study, which physical criterion has the largest weight? <select class="webex-select"><option value="blank"></option><option value="answer">Elevation</option><option value="">Land use</option><option value="">Geology</option><option value="">Distance to channel</option></select></p></li>
+<li><p>In AHP, a 5 in the pairwise comparison matrix means the row criterion is: <select class="webex-select"><option value="blank"></option><option value="">Equally important</option><option value="">Moderately more important</option><option value="answer">Strongly more important</option><option value="">Extremely more important</option></select></p></li>
+<li><p>An AHP consistency ratio is usually considered acceptable below: <input class="webex-solveme nospaces" size="5" data-answer="[&quot;0.1&quot;,&quot;0.10&quot;,&quot;.1&quot;,&quot;.10&quot;]"></p></li>
+<li><p>A community with hazard 2 and vulnerability 3 has a risk of: <input class="webex-solveme nospaces" size="3" data-answer="[&quot;6&quot;]"></p></li>
+</ol>
+</section>
+<section id="summary" class="level2" data-number="18.8">
+<h2 data-number="18.8" class="anchored" data-anchor-id="summary"><span class="header-section-number">18.8</span> Summary</h2>
+<ul>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-risk" data-term="risk">Risk</span></strong> is the estimated impact of a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-hazard" data-term="hazard">hazard</span> on a community: <strong>hazard</strong> × <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-vulnerability" data-term="vulnerability">vulnerability</span></strong> × <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-exposure" data-term="exposure">exposure</span></strong>. If any factor is zero, there is no risk, so lowering any factor lowers risk.</li>
+<li>A <strong>hazard</strong> has the potential to cause harm. <strong>Exposure</strong> is who and what is in its path, usually found by overlaying the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-hazard-footprint" data-term="hazard footprint">hazard footprint</span> with people and assets. <strong>Vulnerability</strong> is how easily they are harmed, from physical and social causes.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-resilience" data-term="resilience">Resilience</span></strong> and <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coping-capacity" data-term="coping capacity">coping capacity</span></strong> pull risk down. In Dhaka, flood awareness and literacy carried most of the coping-capacity weight.</li>
+<li>The Dhaka study mapped <strong>hazard</strong> from flood frequency and depth, built <strong>physical</strong>, <strong>social</strong>, and <strong>coping capacity</strong> indices into a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-composite-vulnerability-index" data-term="composite vulnerability index">composite vulnerability index</span></strong>, and multiplied hazard by vulnerability to map <strong>flood risk</strong> by community.</li>
+<li>The <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-analytic-hierarchy-process-ahp" data-term="Analytic Hierarchy Process (AHP)">Analytic Hierarchy Process</span></strong> turns <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-pairwise-comparison" data-term="pairwise comparison">pairwise comparisons</span> on a 1–9 scale into <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-weighting" data-term="weighting">weights</span>, and checks them with the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-consistency-ratio-cr" data-term="consistency ratio (CR)">consistency ratio</span></strong> (acceptable below 0.10). <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-weighted-linear-combination-wlc" data-term="weighted linear combination (WLC)">Weighted linear combination</span></strong> adds the weighted <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layers</span> into one index.</li>
+<li>Risk indices depend on expert judgment, aggregation, past events, and the age of their data, and they rank places relative to one another rather than estimating losses.</li>
+</ul>
+</section>
+<section id="exercises" class="level2" data-number="18.9">
+<h2 data-number="18.9" class="anchored" data-anchor-id="exercises"><span class="header-section-number">18.9</span> Exercises</h2>
+<ol type="1">
+<li><strong>Vocabulary.</strong> For a wildfire near a town in the western United States, name the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-hazard" data-term="hazard">hazard</span>, two kinds of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-exposure" data-term="exposure">exposure</span>, and three factors that would raise <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-vulnerability" data-term="vulnerability">vulnerability</span>. Name one form of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coping-capacity" data-term="coping capacity">coping capacity</span>.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-analytic-hierarchy-process-ahp" data-term="Analytic Hierarchy Process (AHP)">AHP</span> by hand.</strong> Three <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-criterion" data-term="criterion">criteria</span> have the comparisons A vs.&nbsp;B = 2, A vs.&nbsp;C = 4, and B vs.&nbsp;C = 2. Fill in the full matrix, and compute the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-weighting" data-term="weighting">weights</span> with row geometric means. Is this matrix perfectly consistent? (Hint: does A vs.&nbsp;C equal A vs.&nbsp;B times B vs.&nbsp;C?)</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-national-risk-index" data-term="National Risk Index">National Risk Index</span>.</strong> Look up Orange County, North Carolina, and a coastal county such as Dare County in FEMA’s National Risk Index. Which hazards drive each county’s <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-risk" data-term="risk">risk</span>? How do the two counties’ <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-social-vulnerability" data-term="social vulnerability">social vulnerability</span> and community <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-resilience" data-term="resilience">resilience</span> ratings compare?</li>
+<li><strong>Social vulnerability.</strong> Download the CDC/ATSDR <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-social-vulnerability-index-svi" data-term="Social Vulnerability Index (SVI)">Social Vulnerability Index</span> for North Carolina <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-census-tract" data-term="census tract">census tracts</span>, and join it to tract boundaries (Chapter 6). <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-overlay-analysis" data-term="overlay analysis">Overlay</span> the FEMA 1% annual chance floodplain from NC’s Flood Risk Information System. Which tracts are both highly vulnerable and flood-prone?</li>
+<li><strong>Sensitivity.</strong> In the Dhaka <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-physical-vulnerability" data-term="physical vulnerability">physical vulnerability</span> weights, swap the weights of elevation and land use. Recalculate the score for built-up land below 4 m (class weights 0.484 and 0.482). Does it change? Why might this matter less than it seems?</li>
+<li><strong>Limitations.</strong> You are a planner in Dhaka with money for ten new flood shelters. Which limitation of the risk model would worry you most, and what additional data would you collect?</li>
+</ol>
+</section>
+<section id="further-reading-and-online-resources" class="level2" data-number="18.10">
+<h2 data-number="18.10" class="anchored" data-anchor-id="further-reading-and-online-resources"><span class="header-section-number">18.10</span> Further reading and online resources</h2>
+<section id="books-and-papers" class="level3" data-number="18.10.1">
+<h3 data-number="18.10.1" class="anchored" data-anchor-id="books-and-papers"><span class="header-section-number">18.10.1</span> Books and papers</h3>
+<ul>
+<li><em>Floods in a Megacity: <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geospatial" data-term="geospatial">Geospatial</span> Techniques in Assessing <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-hazard" data-term="hazard">Hazards</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-risk" data-term="risk">Risk</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-vulnerability" data-term="vulnerability">Vulnerability</span></em>, by Ashraf Dewan <span class="citation" data-cites="dewan2013">(Dewan 2013)</span>, the case study in this chapter: <a href="https://link.springer.com/978-94-007-5874-2" class="uri">https://link.springer.com/978-94-007-5874-2</a>.</li>
+<li><em>At Risk: Natural Hazards, People’s Vulnerability and Disasters</em>, by Ben Wisner, Piers Blaikie, Terry Cannon, and Ian Davis <span class="citation" data-cites="wisner2004">(Wisner et al. 2004)</span>, the classic account of why disasters are not natural.</li>
+<li>Susan Cutter and colleagues, “<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-social-vulnerability" data-term="social vulnerability">Social vulnerability</span> to environmental hazards” <span class="citation" data-cites="cutter2003">(Cutter et al. 2003)</span>, which introduced the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-social-vulnerability-index-svi" data-term="Social Vulnerability Index (SVI)">Social Vulnerability Index</span> (SoVI).</li>
+<li>Barry Flanagan and colleagues, “A social vulnerability index for disaster management” <span class="citation" data-cites="flanagan2011">(Flanagan et al. 2011)</span>, the paper behind the CDC/ATSDR SVI.</li>
+<li>Thomas Saaty, “A scaling method for priorities in hierarchical structures” <span class="citation" data-cites="saaty1977">(Saaty 1977)</span>, and <em>The <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-analytic-hierarchy-process-ahp" data-term="Analytic Hierarchy Process (AHP)">Analytic Hierarchy Process</span></em> <span class="citation" data-cites="saaty1980">(Saaty 1980)</span>.</li>
+<li>Jacek Malczewski, “GIS-based <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-multi-criteria-decision-analysis-mcda" data-term="multi-criteria decision analysis (MCDA)">multicriteria decision analysis</span>: A survey of the literature” <span class="citation" data-cites="malczewski2006">(Malczewski 2006)</span>.</li>
+<li><em><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> Fundamentals</em>, by Paul Bolstad <span class="citation" data-cites="bolstad2022">(Bolstad 2022)</span>.</li>
+</ul>
+</section>
+<section id="risk-data-and-maps-for-the-united-states" class="level3" data-number="18.10.2">
+<h3 data-number="18.10.2" class="anchored" data-anchor-id="risk-data-and-maps-for-the-united-states"><span class="header-section-number">18.10.2</span> Risk data and maps for the United States</h3>
+<ul>
+<li>FEMA, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-national-risk-index" data-term="National Risk Index">National Risk Index</span>: <a href="https://hazards.fema.gov/nri" class="uri">https://hazards.fema.gov/nri</a>, “Learn More”: <a href="https://hazards.fema.gov/nri/learn-more" class="uri">https://hazards.fema.gov/nri/learn-more</a>, and its technical documentation <span class="citation" data-cites="fema2023nri">(Federal Emergency Management Agency 2023)</span>: <a href="https://www.fema.gov/sites/default/files/documents/fema_national-risk-index_technical-documentation.pdf" class="uri">https://www.fema.gov/sites/default/files/documents/fema_national-risk-index_technical-documentation.pdf</a>.</li>
+<li>CDC/ATSDR Social Vulnerability Index: <a href="https://atsdr.cdc.gov/place-health/php/svi/" class="uri">https://atsdr.cdc.gov/place-health/php/svi/</a>, and its data download: <a href="https://www.atsdr.cdc.gov/place-health/php/svi/svi-data-documentation-download.html" class="uri">https://www.atsdr.cdc.gov/place-health/php/svi/svi-data-documentation-download.html</a>.</li>
+<li>University of South Carolina Hazards and Vulnerability Research Institute, SoVI: <a href="https://sc.edu/study/colleges_schools/artsandsciences/centers_and_institutes/hvri/data_and_resources/sovi/index.php" class="uri">https://sc.edu/study/colleges_schools/artsandsciences/centers_and_institutes/hvri/data_and_resources/sovi/index.php</a>.</li>
+<li>FEMA Flood Map Service Center: <a href="https://msc.fema.gov/portal/home" class="uri">https://msc.fema.gov/portal/home</a>.</li>
+<li>NC Flood Risk Information System (FRIS): <a href="https://fris.nc.gov/fris/" class="uri">https://fris.nc.gov/fris/</a>.</li>
+<li>NOAA Sea Level Rise Viewer: <a href="https://coast.noaa.gov/slr/" class="uri">https://coast.noaa.gov/slr/</a>.</li>
+<li>NOAA NCEI, Billion-Dollar Weather and Climate Disasters: <a href="https://www.ncei.noaa.gov/access/billions/" class="uri">https://www.ncei.noaa.gov/access/billions/</a>.</li>
+<li>U.S. Climate <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-resilience" data-term="resilience">Resilience</span> Toolkit: <a href="https://toolkit.climate.gov/" class="uri">https://toolkit.climate.gov/</a>.</li>
+<li>NC Emergency Management: <a href="https://www.ncdps.gov/our-organization/emergency-management" class="uri">https://www.ncdps.gov/our-organization/emergency-management</a>, and ReadyNC: <a href="https://www.readync.gov/" class="uri">https://www.readync.gov/</a>.</li>
+</ul>
+</section>
+<section id="global-risk-and-disaster-data" class="level3" data-number="18.10.3">
+<h3 data-number="18.10.3" class="anchored" data-anchor-id="global-risk-and-disaster-data"><span class="header-section-number">18.10.3</span> Global risk and disaster data</h3>
+<ul>
+<li>UNDRR, Terminology on Disaster Risk Reduction <span class="citation" data-cites="undrr2017">(United Nations Office for Disaster Risk Reduction 2017)</span>: <a href="https://www.undrr.org/terminology" class="uri">https://www.undrr.org/terminology</a>.</li>
+<li>PreventionWeb, the global knowledge platform for disaster risk reduction: <a href="https://www.preventionweb.net/" class="uri">https://www.preventionweb.net/</a>.</li>
+<li>INFORM Risk Index, a global, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-open-source" data-term="open source">open-source</span> risk assessment for humanitarian crises: <a href="https://drmkc.jrc.ec.europa.eu/inform-index" class="uri">https://drmkc.jrc.ec.europa.eu/inform-index</a>.</li>
+<li>Copernicus Emergency Management Service (rapid mapping of disasters): <a href="https://emergency.copernicus.eu/" class="uri">https://emergency.copernicus.eu/</a>.</li>
+<li>Dartmouth Flood Observatory, a global archive of large floods: <a href="https://floodobservatory.colorado.edu/" class="uri">https://floodobservatory.colorado.edu/</a>.</li>
+<li>Bangladesh Flood Forecasting and Warning Centre: <a href="http://www.ffwc.gov.bd/" class="uri">http://www.ffwc.gov.bd/</a>.</li>
+</ul>
+</section>
+<section id="tools" class="level3" data-number="18.10.4">
+<h3 data-number="18.10.4" class="anchored" data-anchor-id="tools"><span class="header-section-number">18.10.4</span> Tools</h3>
+<ul>
+<li>AHP Online System (AHP-OS): <a href="https://bpmsg.com/ahp/" class="uri">https://bpmsg.com/ahp/</a>.</li>
+<li><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-esri" data-term="Esri">Esri</span>, “How <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-weighted-overlay" data-term="weighted overlay">Weighted Overlay</span> works”: <a href="https://pro.arcgis.com/en/pro-app/latest/tool-reference/spatial-analyst/how-weighted-overlay-works.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/tool-reference/spatial-analyst/how-weighted-overlay-works.htm</a>.</li>
+<li>Esri, “Weighted Sum”: <a href="https://pro.arcgis.com/en/pro-app/latest/tool-reference/spatial-analyst/weighted-sum.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/tool-reference/spatial-analyst/weighted-sum.htm</a>.</li>
+<li><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span> Tutorials and Tips, “Multi <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-criterion" data-term="criterion">Criteria</span> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-overlay-analysis" data-term="overlay analysis">Overlay Analysis</span> (QGIS3)”: <a href="https://www.qgistutorials.com/en/docs/3/multi_criteria_overlay.html" class="uri">https://www.qgistutorials.com/en/docs/3/multi_criteria_overlay.html</a>.</li>
+</ul>
+
+
+<div class="glossary-defs" hidden="">
+<span id="gloss-hazard">An act or phenomenon that has the potential to produce harm, such as a
+flood, wildfire, hurricane, or earthquake.</span>
+<span id="gloss-exposure">The people, property, systems, or functions that could be lost because
+of a hazard; who and what is in harm’s way.</span>
+<span id="gloss-vulnerability">The susceptibility to physical injury, harm, damage, or economic loss
+when a hazard strikes.</span>
+<span id="gloss-risk">The estimated impact a hazard would have on people, services,
+facilities, and structures in a community: hazard × vulnerability ×
+exposure.</span>
+<span id="gloss-resilience">The ability of a community exposed to a hazard to resist, absorb, adapt
+to, and recover from it in a timely and efficient way (UNDRR).</span>
+<span id="gloss-coping-capacity">The ability of people and organizations to manage a hazard event using
+the skills and resources they already have (UNDRR).</span>
+<span id="gloss-geographic-information-system-gis">“A computer-based system to aid in the collection, maintenance, storage,
+analysis, output, and distribution of spatial data and information”
+(Bolstad). Its five components are data, hardware, software, people, and
+procedures.</span>
+<span id="gloss-weighting">A multiplier that sets how much a criterion counts when suitability or
+vulnerability layers are combined.</span>
+<span id="gloss-pairwise-comparison">Judging two criteria at a time: which matters more, and by how much. In
+AHP the answers fill a matrix whose diagonal is 1 and whose lower half
+holds reciprocals.</span>
+<span id="gloss-analytic-hierarchy-process-ahp">A method, developed by Thomas Saaty, that derives weights by comparing
+criteria two at a time on a scale of 1 to 9.</span>
+<span id="gloss-consistency-ratio-cr">An AHP measure of how far pairwise judgments are from perfectly
+consistent. Below 0.10 is usually acceptable.</span>
+<span id="gloss-risk-analysis">Mapping and measuring the likely impact of hazards on people and places,
+so that resources go where they prevent the most harm.</span>
+<span id="gloss-hazard-footprint">The area a hazard can reach, such as a floodplain or wildfire perimeter,
+often mapped with its likelihood and severity.</span>
+<span id="gloss-overlay-analysis">Stacking layers of data for the same area to find places that meet
+several conditions at once, such as flat land near a road and outside a
+floodplain.</span>
+<span id="gloss-physical-vulnerability">Vulnerability that comes from the land and buildings, such as low
+elevation, weak construction, or closeness to a river.</span>
+<span id="gloss-social-vulnerability">Vulnerability that comes from people’s circumstances, such as poverty,
+age, disability, language, or lack of a car, that make it harder to
+prepare, evacuate, and recover.</span>
+<span id="gloss-census-tract">A relatively permanent subdivision of a county with 1,200 to 8,000
+people, about 4,000 on average.</span>
+<span id="gloss-national-risk-index">FEMA’s map of risk for every U.S. county and census tract, combining
+expected annual losses from 18 natural hazards with social vulnerability
+and community resilience.</span>
+<span id="gloss-social-vulnerability-index-svi">An index that ranks places by social vulnerability from census
+variables; the CDC/ATSDR SVI ranks every U.S. census tract.</span>
+<span id="gloss-american-community-survey-acs">The Census Bureau’s yearly sample survey of about 3.5 million addresses,
+the main source of social, economic, and housing data.</span>
+<span id="gloss-remote-sensing">Collecting information about Earth without touching it, from sensors on
+satellites, aircraft, or drones.</span>
+<span id="gloss-layer">A set of spatial data about one theme, such as roads, soils, or
+elevation. Layers for the same area stack on top of each other to make a
+map.</span>
+<span id="gloss-population-density">The number of people per unit of area, such as people per square mile.</span>
+<span id="gloss-weighted-linear-combination-wlc">Multiplying each standardized layer by its weight and adding them, cell
+by cell: S = Σ wᵢxᵢ. Also called the rating model.</span>
+<span id="gloss-criterion">A condition a site must meet in a suitability model, first written in
+plain language and then as a measurable threshold, such as slope &lt;
+30°.</span>
+<span id="gloss-katcha-house">In Bangladesh, a makeshift dwelling of mud, bamboo, or recycled and
+found materials, the type most likely to be destroyed by floods.</span>
+<span id="gloss-composite-vulnerability-index">One index that combines several vulnerability indices; in the Dhaka
+study, physical plus social vulnerability minus coping capacity.</span>
+<span id="gloss-sensitivity-analysis">Changing one input, such as a weight or threshold, at a time to see
+whether a model’s results change. If small changes move the answer, it
+is fragile.</span>
+<span id="gloss-ecological-fallacy">Assuming that every person or place in an area shares the area’s average
+value.</span>
+<span id="gloss-uncertainty">The degree to which we aren’t sure of something: the cloud of possible
+values around a recorded value.</span>
+<span id="gloss-suitability-modeling">Ranking every location in a study area by how well it meets a set of
+criteria, such as choosing sites for a house, a school, or a wind farm.</span>
+<span id="gloss-spatial-join">A join that matches the features of two layers by location instead of by
+a shared key, then appends attributes from one to the other.</span>
+<span id="gloss-zonal-statistics">A statistic, such as the mean or sum, computed for all the raster cells
+within each zone of a zone layer.</span>
+<span id="gloss-reclassification">Grouping the values of a layer into fewer, more meaningful classes, such
+as elevations into low, medium, and high.</span>
+<span id="gloss-field-calculator">A tool that computes values and writes them into a field, for every
+record or for the selected records only.</span>
+<span id="gloss-weighted-overlay">Combining raster layers on a common scale by multiplying each by its
+weight and adding them; also the name of an ArcGIS Pro tool.</span>
+<span id="gloss-raster">A data model that stores the world as a regular grid of equal-sized
+cells, each holding one value. Best for continuous data and imagery.</span>
+<span id="gloss-arcgis-pro">Esri’s commercial desktop GIS, for Windows.</span>
+<span id="gloss-qgis">A free and open-source desktop GIS that runs on Windows, Mac, and Linux.</span>
+<span id="gloss-geospatial">A common synonym for <em>geographic</em>, used especially in industry,
+the military, and government.</span>
+<span id="gloss-multi-criteria-decision-analysis-mcda">Methods that weigh many criteria to support a decision, including GIS
+suitability modeling.</span>
+<span id="gloss-open-source">Software whose source code anyone may read, change, and share, often
+free of charge. QGIS and GRASS GIS are open source.</span>
+<span id="gloss-esri">The company that makes ArcGIS, founded in 1969 by Jack and Laura
+Dangermond in Redlands, California.</span>
+</div>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script>
+
+/* update total correct if #webex-total_correct exists */
+update_total_correct = function() {
+  console.log("webex: update total_correct");
+
+  var t = document.getElementsByClassName("webex-total_correct");
+  for (var i = 0; i < t.length; i++) {
+    p = t[i].parentElement;
+    var correct = p.getElementsByClassName("webex-correct").length;
+    var solvemes = p.getElementsByClassName("webex-solveme").length;
+    var radiogroups = p.getElementsByClassName("webex-radiogroup").length;
+    var selects = p.getElementsByClassName("webex-select").length;
+
+    t[i].innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  }
+}
+
+/* webex-solution button toggling function */
+b_func = function() {
+  console.log("webex: toggle hide");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('open')) {
+    cl.remove("open");
+  } else {
+    cl.add("open");
+  }
+}
+
+/* check answers */
+check_func = function() {
+  console.log("webex: check answers");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('unchecked')) {
+    cl.remove("unchecked");
+    this.innerHTML = "Hide Answers";
+  } else {
+    cl.add("unchecked");
+    this.innerHTML = "Show Answers";
+  }
+}
+
+/* function for checking solveme answers */
+solveme_func = function(e) {
+  console.log("webex: check solveme");
+
+  var real_answers = JSON.parse(this.dataset.answer);
+  var my_answer = this.value;
+  var cl = this.classList;
+  if (cl.contains("ignorecase")) {
+    my_answer = my_answer.toLowerCase();
+  }
+  if (cl.contains("nospaces")) {
+    my_answer = my_answer.replace(/ /g, "")
+  }
+
+  if (my_answer == "") {
+    cl.remove("webex-correct");
+    cl.remove("webex-incorrect");
+  } else if (real_answers.includes(my_answer)) {
+    cl.add("webex-correct");
+    cl.remove("webex-incorrect");
+  } else {
+    cl.add("webex-incorrect");
+    cl.remove("webex-correct");
+  }
+
+  // match numeric answers within a specified tolerance
+  if(this.dataset.tol > 0){
+    var tol = JSON.parse(this.dataset.tol);
+    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+    if (matches.reduce((a, b) => a + b, 0) > 0) {
+      cl.add("webex-correct");
+    } else {
+      cl.remove("webex-correct");
+    }
+  }
+
+  // added regex bit
+  if (cl.contains("regex")){
+    answer_regex = RegExp(real_answers.join("|"))
+    if (answer_regex.test(my_answer)) {
+      cl.add("webex-correct");
+    }
+  }
+
+  update_total_correct();
+}
+
+/* function for checking select answers */
+select_func = function(e) {
+  console.log("webex: check select");
+
+  var cl = this.classList
+
+  /* add style */
+  cl.remove("webex-incorrect");
+  cl.remove("webex-correct");
+  if (this.value == "answer") {
+    cl.add("webex-correct");
+  } else if (this.value != "blank") {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+/* function for checking radiogroups answers */
+radiogroups_func = function(e) {
+  console.log("webex: check radiogroups");
+
+  var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
+  var cl = checked_button.parentElement.classList;
+  var labels = checked_button.parentElement.parentElement.children;
+
+  /* get rid of styles */
+  for (i = 0; i < labels.length; i++) {
+    labels[i].classList.remove("webex-incorrect");
+    labels[i].classList.remove("webex-correct");
+  }
+
+  /* add style */
+  if (checked_button.value == "answer") {
+    cl.add("webex-correct");
+  } else {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+window.onload = function() {
+  console.log("webex onload");
+  /* set up solution buttons */
+  var buttons = document.getElementsByTagName("button");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].parentElement.classList.contains('webex-solution')) {
+      buttons[i].onclick = b_func;
+    }
+  }
+
+  var check_sections = document.getElementsByClassName("webex-check");
+  console.log("check:", check_sections.length);
+  for (var i = 0; i < check_sections.length; i++) {
+    check_sections[i].classList.add("unchecked");
+
+    let btn = document.createElement("button");
+    btn.innerHTML = "Show Answers";
+    btn.classList.add("webex-check-button");
+    btn.onclick = check_func;
+    check_sections[i].appendChild(btn);
+
+    let spn = document.createElement("span");
+    spn.classList.add("webex-total_correct");
+    check_sections[i].appendChild(spn);
+  }
+
+  /* set up webex-solveme inputs */
+  var solveme = document.getElementsByClassName("webex-solveme");
+
+  for (var i = 0; i < solveme.length; i++) {
+    /* make sure input boxes don't auto-anything */
+    solveme[i].setAttribute("autocomplete","off");
+    solveme[i].setAttribute("autocorrect", "off");
+    solveme[i].setAttribute("autocapitalize", "off");
+    solveme[i].setAttribute("spellcheck", "false");
+    solveme[i].value = "";
+
+    /* adjust answer for ignorecase or nospaces */
+    var cl = solveme[i].classList;
+    var real_answer = solveme[i].dataset.answer;
+    if (cl.contains("ignorecase")) {
+      real_answer = real_answer.toLowerCase();
+    }
+    if (cl.contains("nospaces")) {
+      real_answer = real_answer.replace(/ /g, "");
+    }
+    solveme[i].dataset.answer = real_answer;
+
+    /* attach checking function */
+    solveme[i].onkeyup = solveme_func;
+    solveme[i].onchange = solveme_func;
+
+    solveme[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  /* set up radiogroups */
+  var radiogroups = document.getElementsByClassName("webex-radiogroup");
+  for (var i = 0; i < radiogroups.length; i++) {
+    radiogroups[i].onchange = radiogroups_func;
+  }
+
+  /* set up selects */
+  var selects = document.getElementsByClassName("webex-select");
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].onchange = select_func;
+    selects[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  update_total_correct();
+}
+
+</script>
+<!--
+  Highlights the right item in the top menu. Quarto's book layout marks
+  "Welcome" as active on every page, so this sets it from the page address:
+  the course pages match their own item, and every other page (chapters,
+  quizzes, glossary) is part of the Textbook. Pages with no menu item of
+  their own (the AI policy and privacy policy) highlight nothing.
+-->
+<script>
+(function () {
+  "use strict";
+  const COURSE_PAGES = ["index", "syllabus", "materials", "about"];
+  const NO_ITEM_PAGES = ["privacy", "ai-policy"];
+  const file = (location.pathname.split("/").pop() || "index").replace(/\.html$/, "");
+  const inRoot = !/\/chapters\//.test(location.pathname);
+  const target = inRoot && NO_ITEM_PAGES.includes(file) ? null
+    : inRoot && COURSE_PAGES.includes(file) ? file : "preface";
+  document.querySelectorAll("#navbarCollapse a.nav-link").forEach((a) => {
+    const page = (a.getAttribute("href") || "").split("/").pop().replace(/\.html$/, "");
+    const on = page === target;
+    a.classList.toggle("active", on);
+    if (on) a.setAttribute("aria-current", "page");
+    else a.removeAttribute("aria-current");
+  });
+})();
+</script>
+<!--
+  Reading settings, part 2 of 2: the "Aa" menu next to search, where readers
+  pick a font and text size. Choices are kept in this browser (localStorage)
+  and applied on every page by assets/reader-settings-head.html.
+-->
+<script>
+(function () {
+  var FONTS = [
+    { id: "", label: "Atkinson Hyperlegible (default)", css: '"Atkinson Hyperlegible Next", sans-serif' },
+    { id: "lexend", label: "Lexend", css: '"Lexend", sans-serif', href: "https://fonts.googleapis.com/css2?family=Lexend:wght@300..700&display=swap" },
+    { id: "cardo", label: "Cardo (serif)", css: '"Cardo", Georgia, serif', href: "https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&display=swap" },
+    { id: "sans", label: "Standard sans-serif", css: 'system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif' },
+    { id: "serif", label: "Serif", css: 'Georgia, Cambria, "Times New Roman", serif' },
+    { id: "dyslexic", label: "OpenDyslexic", css: '"OpenDyslexic", sans-serif' }
+  ];
+  var SIZES = { "-1": "Small", "0": "Default", "1": "Large", "2": "Larger", "3": "Largest" };
+  var MIN = -1, MAX = 3;
+  var root = document.documentElement;
+
+  function save(key, value) {
+    try {
+      if (value === "" || value === "0") localStorage.removeItem(key);
+      else localStorage.setItem(key, value);
+    } catch (e) { /* storage blocked: setting lasts for this page only */ }
+  }
+  function currentFont() { return root.getAttribute("data-reader-font") || ""; }
+  function currentSize() { return parseInt(root.getAttribute("data-reader-size") || "0", 10) || 0; }
+
+  // Add a Google Fonts stylesheet once (Lexend, Cardo). Fonts download only
+  // when text actually uses them.
+  function loadWebFont(f) {
+    if (!f.href || document.getElementById("sds-reader-webfont-" + f.id)) return;
+    var link = document.createElement("link");
+    link.rel = "stylesheet"; link.href = f.href; link.id = "sds-reader-webfont-" + f.id;
+    document.head.appendChild(link);
+  }
+
+  function setFont(id) {
+    FONTS.forEach(function (f) { if (f.id === id) loadWebFont(f); });
+    if (id) root.setAttribute("data-reader-font", id); else root.removeAttribute("data-reader-font");
+    save("sds-reader-font", id);
+  }
+  function setSize(n) {
+    n = Math.max(MIN, Math.min(MAX, n));
+    if (n) root.setAttribute("data-reader-size", String(n)); else root.removeAttribute("data-reader-size");
+    save("sds-reader-size", String(n));
+    refreshSize();
+  }
+
+  var wrap = document.createElement("div");
+  wrap.className = "sds-reader";
+  var fontOptions = FONTS.map(function (f) {
+    return '<label style=\'font-family:' + f.css.replace(/'/g, "&#39;") + '\'>' +
+      '<input class="form-check-input" type="radio" name="sds-reader-font" value="' + f.id + '"> ' + f.label + '</label>';
+  }).join("");
+  wrap.innerHTML =
+    '<button type="button" class="sds-reader-toggle" aria-expanded="false" aria-controls="sds-reader-panel" ' +
+      'title="Reading settings: font and text size">' +
+      '<span aria-hidden="true">Aa</span><span class="visually-hidden">Reading settings</span></button>' +
+    '<div class="sds-reader-panel" id="sds-reader-panel" role="dialog" aria-label="Reading settings" hidden>' +
+      '<h2>Reading settings</h2>' +
+      '<fieldset class="sds-reader-font"><legend>Font</legend>' + fontOptions + '</fieldset>' +
+      '<fieldset><legend>Text size</legend><div class="sds-reader-size-row">' +
+        '<button type="button" data-step="-1" aria-label="Smaller text">A&minus;</button>' +
+        '<output aria-live="polite"></output>' +
+        '<button type="button" data-step="1" aria-label="Larger text">A+</button>' +
+      '</div></fieldset>' +
+      '<button type="button" class="sds-reader-reset">Reset to defaults</button>' +
+    '</div>';
+
+  var toggle = wrap.querySelector(".sds-reader-toggle");
+  var panel = wrap.querySelector(".sds-reader-panel");
+  var output = wrap.querySelector("output");
+  var minus = wrap.querySelector('[data-step="-1"]');
+  var plus = wrap.querySelector('[data-step="1"]');
+
+  function refreshFont() {
+    var id = currentFont();
+    wrap.querySelectorAll('input[name="sds-reader-font"]').forEach(function (r) { r.checked = r.value === id; });
+  }
+  function refreshSize() {
+    var n = currentSize();
+    output.textContent = SIZES[String(n)] || "Default";
+    minus.disabled = n <= MIN;
+    plus.disabled = n >= MAX;
+  }
+  function open(show) {
+    panel.hidden = !show;
+    toggle.setAttribute("aria-expanded", show ? "true" : "false");
+    if (show) { FONTS.forEach(loadWebFont); refreshFont(); refreshSize(); var c = panel.querySelector("input:checked"); if (c) c.focus(); }
+  }
+
+  toggle.addEventListener("click", function (e) { e.stopPropagation(); open(panel.hidden); });
+  panel.addEventListener("click", function (e) { e.stopPropagation(); });
+  panel.addEventListener("change", function (e) { if (e.target.name === "sds-reader-font") setFont(e.target.value); });
+  minus.addEventListener("click", function () { setSize(currentSize() - 1); });
+  plus.addEventListener("click", function () { setSize(currentSize() + 1); });
+  wrap.querySelector(".sds-reader-reset").addEventListener("click", function () { setFont(""); setSize(0); refreshFont(); });
+  document.addEventListener("click", function () { if (!panel.hidden) open(false); });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !panel.hidden) { open(false); toggle.focus(); }
+  });
+
+  // Put the button by search: in the top menu on
+  // geog370.org, or by the sidebar search in the textbook-only build.
+  var navSearch = document.querySelector("#quarto-header #quarto-search");
+  if (navSearch) navSearch.parentNode.insertBefore(wrap, navSearch);
+  else {
+    var search = document.querySelector("#quarto-sidebar .sidebar-search, #quarto-sidebar #quarto-search, .sidebar-tools-main");
+    if (search && search.parentNode) search.parentNode.insertBefore(wrap, search.nextSibling);
+    else return;
+  }
+  refreshFont();
+  refreshSize();
+})();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/suitability-modeling.html" class="pagination-link" aria-label="Suitability Modeling">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Suitability Modeling</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../chapters/uncertainty.html" class="pagination-link" aria-label="Uncertainty in Geospatial Data">
+        <span class="nav-page-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Uncertainty in Geospatial Data</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

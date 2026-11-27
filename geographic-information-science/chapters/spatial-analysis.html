@@ -282,6 +282,24 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Kriging</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/suitability-modeling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Suitability Modeling</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/risk-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Risk Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/uncertainty.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Uncertainty in Geospatial Data</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -293,13 +311,13 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/qgis.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Getting to Know QGIS</span></span></a>
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Getting to Know QGIS</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/arcgis-pro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Getting to Know ArcGIS Pro</span></span></a>
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Getting to Know ArcGIS Pro</span></span></a>
   </div>
 </li>
       </ul>
@@ -313,7 +331,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/whats-next.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">What’s Next in GIS</span></span></a>
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">What’s Next in GIS</span></span></a>
   </div>
 </li>
       </ul>
@@ -491,7 +509,7 @@ Figure&nbsp;13.2: The Batcave problem in a made-up city: soils (left), crimes by
 <section id="spatial-operations-and-cartographic-models" class="level3" data-number="13.1.2">
 <h3 data-number="13.1.2" class="anchored" data-anchor-id="spatial-operations-and-cartographic-models"><span class="header-section-number">13.1.2</span> Spatial operations and cartographic models</h3>
 <p>Bolstad defines <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-analysis" data-term="spatial analysis">spatial analysis</span></strong> as the “application of operations to coordinate data and related <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-attribute" data-term="attribute">attribute data</span>, often to solve a problem” <span class="citation" data-cites="bolstad2022">(Bolstad 2022)</span>. Two things stand out in that definition. Operations work on both the geometry (<em>coordinate data</em>) and the table (<em>attribute data</em>), and they usually change both. And analysis is driven by a <em>problem</em>, not by the tools.</p>
-<p>A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-operation" data-term="spatial operation">spatial operation</span></strong>, also called a spatial function, takes one or more input layers and produces an output layer. Real problems are solved by chaining operations, each output becoming the next input. Planning such a chain is called <strong>cartographic modeling</strong>, a term introduced by Dana Tomlin <span class="citation" data-cites="tomlin1990">(Tomlin 1990)</span>. A flowchart like <a href="#fig-batcave-model" class="quarto-xref">Figure&nbsp;<span>13.1</span></a> is the plan: the inputs, the operations, the intermediate layers, and the final output.</p>
+<p>A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-operation" data-term="spatial operation">spatial operation</span></strong>, also called a spatial function, takes one or more input layers and produces an output layer. Real problems are solved by chaining operations, each output becoming the next input. Planning such a chain is called <strong>cartographic modeling</strong>, a term introduced by Dana Tomlin <span class="citation" data-cites="tomlin1990">(Tomlin 1990)</span>. A <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-flowchart" data-term="flowchart">flowchart</span> like <a href="#fig-batcave-model" class="quarto-xref">Figure&nbsp;<span>13.1</span></a> is the plan: the inputs, the operations, the intermediate layers, and the final output.</p>
 <p><strong>Sketch the model before you open the software.</strong> Then build it in a tool such as <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span>’s <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-modelbuilder" data-term="ModelBuilder">ModelBuilder</span></strong> or <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span>’s <strong>Model Designer</strong>, which let you draw the flowchart and run it. A model documents every step, and can be rerun when the data change.</p>
 </section>
 </section>
@@ -527,7 +545,7 @@ Figure&nbsp;13.3: Spatial scope, with Utah as the example location. Shaded state
 </section>
 <section id="reclassification" class="level3" data-number="13.3.3">
 <h3 data-number="13.3.3" class="anchored" data-anchor-id="reclassification"><span class="header-section-number">13.3.3</span> Reclassification</h3>
-<p><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-reclassification" data-term="reclassification">Reclassification</span></strong> groups values into fewer, more meaningful classes, such as elevation into <em>low</em> (below 500 m), <em>medium</em>, and <em>high</em> (above 1,500 m). It is a local operation: each feature’s new class depends only on its own value. In suitability models, each input layer is usually reclassified onto a common scale, such as 1 (poor) to 5 (good), before the layers are combined.</p>
+<p><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-reclassification" data-term="reclassification">Reclassification</span></strong> groups values into fewer, more meaningful classes, such as elevation into <em>low</em> (below 500 m), <em>medium</em>, and <em>high</em> (above 1,500 m). It is a local operation: each feature’s new class depends only on its own value. In <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-suitability-modeling" data-term="suitability modeling">suitability models</span>, each input layer is usually reclassified onto a common scale, such as 1 (poor) to 5 (good), before the layers are combined.</p>
 </section>
 <section id="dissolve" class="level3" data-number="13.3.4">
 <h3 data-number="13.3.4" class="anchored" data-anchor-id="dissolve"><span class="header-section-number">13.3.4</span> Dissolve</h3>
@@ -861,6 +879,8 @@ clusters, how places differ, what factors explain a pattern, how a place
 has changed, or how accessible a service is.</span>
 <span id="gloss-spatial-join">A join that matches the features of two layers by location instead of by
 a shared key, then appends attributes from one to the other.</span>
+<span id="gloss-flowchart">A diagram of a model’s input data (rectangles), operations (ovals), and
+their order (arrows), used to plan and document the model.</span>
 <span id="gloss-arcgis-pro">Esri’s commercial desktop GIS, for Windows.</span>
 <span id="gloss-modelbuilder">ArcGIS Pro’s visual tool for drawing and running a cartographic model as
 a flowchart. QGIS’s equivalent is the Model Designer.</span>
@@ -871,6 +891,8 @@ at a time while a neighborhood function runs.</span>
 <span id="gloss-rook-s-case">Contiguity in which polygons are neighbors only if they share an edge.</span>
 <span id="gloss-focal-function">A map algebra function that computes each cell’s output from a moving
 window of nearby cells, such as a 3×3 mean.</span>
+<span id="gloss-suitability-modeling">Ranking every location in a study area by how well it meets a set of
+criteria, such as choosing sites for a house, a school, or a wind farm.</span>
 <span id="gloss-polygon">A vector feature that encloses an area: a closed line whose first and
 last points are the same, such as a lake, a park, or a county.</span>
 <span id="gloss-parcel">A polygon for one piece of property, usually with its owner and address.</span>

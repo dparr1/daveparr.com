@@ -311,6 +311,24 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Kriging</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/suitability-modeling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Suitability Modeling</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/risk-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Risk Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/uncertainty.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Uncertainty in Geospatial Data</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -322,13 +340,13 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/qgis.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Getting to Know QGIS</span></span></a>
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Getting to Know QGIS</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/arcgis-pro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Getting to Know ArcGIS Pro</span></span></a>
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Getting to Know ArcGIS Pro</span></span></a>
   </div>
 </li>
       </ul>
@@ -342,7 +360,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/whats-next.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">What’s Next in GIS</span></span></a>
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">What’s Next in GIS</span></span></a>
   </div>
 </li>
       </ul>
@@ -505,7 +523,7 @@ Figure&nbsp;15.2: An exact interpolator passes through every observation; an ine
 </figcaption>
 </figure>
 </div>
-<p>The methods in this chapter are <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-deterministic-interpolation" data-term="deterministic interpolation">deterministic</span></strong>: the surface is fully determined by a formula and the parameters you choose. <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-kriging" data-term="kriging">Kriging</span> (Chapter 16) is <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geostatistics" data-term="geostatistics">geostatistical</span></strong>: it models the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-autocorrelation" data-term="spatial autocorrelation">spatial autocorrelation</span> in the data, and also estimates the uncertainty of each prediction.</p>
+<p>The methods in this chapter are <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-deterministic-interpolation" data-term="deterministic interpolation">deterministic</span></strong>: the surface is fully determined by a formula and the parameters you choose. <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-kriging" data-term="kriging">Kriging</span> (Chapter 16) is <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geostatistics" data-term="geostatistics">geostatistical</span></strong>: it models the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-autocorrelation" data-term="spatial autocorrelation">spatial autocorrelation</span> in the data, and also estimates the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-uncertainty" data-term="uncertainty">uncertainty</span> of each prediction.</p>
 </section>
 </section>
 <section id="sec-methods" class="level2" data-number="15.2">
@@ -638,7 +656,7 @@ Figure&nbsp;15.8: Polynomials of order 1, 2, and 3 fit to the same observations 
 </section>
 <section id="radial-basis-functions-splines" class="level3" data-number="15.2.5">
 <h3 data-number="15.2.5" class="anchored" data-anchor-id="radial-basis-functions-splines"><span class="header-section-number">15.2.5</span> Radial basis functions (splines)</h3>
-<p><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-radial-basis-function" data-term="radial basis function">Radial basis function</span></strong> (RBF) interpolation, often called a <strong>spline</strong>, fits a smooth surface that passes exactly through every observation while bending as little as possible. Think of a thin, flexible sheet pinned at every data point. RBFs are exact, smooth, and can extrapolate: between observations, the surface can rise above or dip below the observed values (<a href="#fig-profiles" class="quarto-xref">Figure&nbsp;<span>15.9</span></a>, bottom right). Their weakness is surfaces with abrupt changes, such as cliffs or faults, where a smooth sheet overshoots.</p>
+<p><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-radial-basis-function" data-term="radial basis function">Radial basis function</span></strong> (RBF) interpolation, often called a <strong>spline</strong>, fits a smooth surface that passes exactly through every observation while bending as little as possible. Think of a thin, flexible sheet pinned at every data point. RBFs are exact, smooth, and can extrapolate: between observations, the surface can rise above or dip below the observed values (<a href="#fig-profiles" class="quarto-xref">Figure&nbsp;<span>15.9</span></a>, bottom right). Their weakness is surfaces with abrupt changes, such as cliffs or faults, where a smooth sheet <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-overshoot" data-term="overshoot">overshoots</span>.</p>
 <div id="fig-profiles" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Four profile plots of the same eight observations. Nearest neighbor: a staircase with jumps between points. Average neighbor: a gentler staircase that misses the points. IDW with powers 1 and 3: curves through every point, flattening near each one, with power 3 flatter. Radial basis function: a smooth curve through every point that overshoots slightly between some.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-profiles-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -812,7 +830,7 @@ Figure&nbsp;15.13: One step of cross validation.
 <ol type="1">
 <li><strong>What type of data is it?</strong> Categorical data call for <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-nearest-neighbor" data-term="nearest neighbor">nearest neighbor</span>; continuous data allow the other methods.</li>
 <li><strong>What is the error at the observations?</strong> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-exact-interpolator" data-term="exact interpolator">Exact interpolators</span> have none there, but that doesn’t make them right elsewhere.</li>
-<li><strong>How does the surface behave between observations?</strong> Look for overshoot, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-bull-s-eye" data-term="bull’s-eye">bull’s-eyes</span>, and flat spots.</li>
+<li><strong>How does the surface behave between observations?</strong> Look for <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-overshoot" data-term="overshoot">overshoot</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-bull-s-eye" data-term="bull’s-eye">bull’s-eyes</span>, and flat spots.</li>
 <li><strong>What does the error look like?</strong> Errors should look random. If they are consistently large in one region, the method or its settings are wrong there.</li>
 </ol>
 </section>
@@ -842,7 +860,7 @@ Figure&nbsp;15.13: One step of cross validation.
 <ul>
 <li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-interpolation" data-term="spatial interpolation">Spatial interpolation</span></strong> estimates values at unsampled locations from <strong>observations</strong>, relying on <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tobler-s-first-law-of-geography" data-term="Tobler’s first law of geography">Tobler’s first law</span>. <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-extrapolation" data-term="extrapolation">Extrapolation</span></strong> goes beyond the observations.</li>
 <li>Every interpolation has five steps: choose a function, define the neighborhood, find the points, evaluate the function, and estimate the error.</li>
-<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-exact-interpolator" data-term="exact interpolator">Exact</span></strong> interpolators pass through every observation; <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-inexact-interpolator" data-term="inexact interpolator">inexact</span></strong> ones smooth. <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-deterministic-interpolation" data-term="deterministic interpolation">Deterministic</span></strong> methods use a formula; <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geostatistics" data-term="geostatistics">geostatistical</span></strong> methods (<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-kriging" data-term="kriging">kriging</span>) model autocorrelation and uncertainty.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-exact-interpolator" data-term="exact interpolator">Exact</span></strong> interpolators pass through every observation; <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-inexact-interpolator" data-term="inexact interpolator">inexact</span></strong> ones smooth. <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-deterministic-interpolation" data-term="deterministic interpolation">Deterministic</span></strong> methods use a formula; <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geostatistics" data-term="geostatistics">geostatistical</span></strong> methods (<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-kriging" data-term="kriging">kriging</span>) model autocorrelation and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-uncertainty" data-term="uncertainty">uncertainty</span>.</li>
 <li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-nearest-neighbor" data-term="nearest neighbor">Nearest neighbor</span></strong> (<strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-thiessen-polygons" data-term="Thiessen polygons">Thiessen polygons</span></strong>) suits categories but gives a stepped surface. <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-average-neighbor" data-term="average neighbor">Average neighbor</span></strong> smooths but is inexact. <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-inverse-distance-weighted" data-term="inverse distance weighted">IDW</span></strong> weights by distance raised to a <strong>power</strong>; it is exact but forms <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-bull-s-eye" data-term="bull’s-eye">bull’s-eyes</span></strong> and can’t exceed the observed range.</li>
 <li><strong>Polynomial</strong> interpolation fits a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-trend-surface" data-term="trend surface">trend surface</span></strong> whose <strong>order</strong> sets its bends; global polynomials show broad trends, local ones follow detail. <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-radial-basis-function" data-term="radial basis function">Radial basis functions</span></strong> (splines) are exact, smooth, and can extrapolate.</li>
 <li>The <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-search-neighborhood" data-term="search neighborhood">search neighborhood</span></strong> (radius, sectors, shape) and the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-sampling-design" data-term="sampling design">sampling design</span></strong> (systematic, random, clustered, adaptive) shape every result.</li>
@@ -943,6 +961,8 @@ or above or below the observed range.</span>
 cells, each holding one value. Best for continuous data and imagery.</span>
 <span id="gloss-spatial-autocorrelation">The degree to which values at nearby locations are more alike (positive)
 or more different (negative) than chance would predict.</span>
+<span id="gloss-uncertainty">The degree to which we aren’t sure of something: the cloud of possible
+values around a recorded value.</span>
 <span id="gloss-thiessen-polygons">Polygons that surround each point with all the area closer to it than to
 any other point.</span>
 <span id="gloss-polygon">A vector feature that encloses an area: a closed line whose first and
@@ -954,6 +974,7 @@ squared errors as small as possible.</span>
 <span id="gloss-residual">The difference between an observed value and the value a model predicts;
 in georeferencing, the distance between a GCP’s true and transformed
 positions.</span>
+<span id="gloss-overshoot">A line that runs past the line it should meet: a topology error.</span>
 <span id="gloss-mean-error">The average of the cross-validation errors. Near 0 means the surface is
 unbiased.</span>
 <span id="gloss-arcgis-pro">Esri’s commercial desktop GIS, for Windows.</span>

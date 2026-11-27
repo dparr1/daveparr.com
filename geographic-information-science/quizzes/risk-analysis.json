@@ -1,0 +1,608 @@
+{
+  "id": "risk-analysis",
+  "title": "Risk Analysis",
+  "perSession": 10,
+  "minR": 0,
+  "questions": [
+    {
+      "id": "risk-def",
+      "type": "choice",
+      "prompt": "Risk is:",
+      "choices": [
+        "The estimated impact a hazard would have on people, services, facilities, and structures in a community",
+        "Any natural event",
+        "The area a hazard can reach",
+        "The ability to recover from a disaster"
+      ],
+      "answer": 0,
+      "explain": "Risk depends on hazard, exposure, and vulnerability."
+    },
+    {
+      "id": "hazard-def",
+      "type": "choice",
+      "prompt": "A hazard is:",
+      "choices": [
+        "An act or phenomenon that has the potential to produce harm",
+        "The people in harm's way",
+        "How easily people are harmed",
+        "The ability to recover"
+      ],
+      "answer": 0,
+      "explain": "Wildfires, floods, earthquakes, and disease outbreaks are hazards."
+    },
+    {
+      "id": "exposure-def",
+      "type": "choice",
+      "prompt": "Exposure is:",
+      "choices": [
+        "The people, property, systems, or functions that could be lost due to a hazard",
+        "The likelihood of a flood",
+        "Building quality",
+        "Community savings"
+      ],
+      "answer": 0,
+      "explain": "Exposure is who and what is in harm's way."
+    },
+    {
+      "id": "vuln-def",
+      "type": "choice",
+      "prompt": "Vulnerability is:",
+      "choices": [
+        "The susceptibility to physical injury, harm, damage, or economic loss",
+        "The area a hazard can reach",
+        "The return period of a flood",
+        "A map projection"
+      ],
+      "answer": 0,
+      "explain": "Two exposed houses can differ greatly in vulnerability."
+    },
+    {
+      "id": "formula",
+      "type": "choice",
+      "prompt": "Risk is often written as:",
+      "choices": [
+        "Hazard × vulnerability × exposure",
+        "Hazard + capacity",
+        "Exposure ÷ hazard",
+        "Vulnerability − hazard"
+      ],
+      "answer": 0,
+      "explain": "If any factor is zero, risk is zero."
+    },
+    {
+      "id": "zero",
+      "type": "truefalse",
+      "prompt": "If any one of hazard, exposure, or vulnerability is zero, there is no risk.",
+      "answer": true,
+      "explain": "A flood over empty land harms no one."
+    },
+    {
+      "id": "pigs-wolf",
+      "type": "choice",
+      "prompt": "In the Three Little Pigs, the wolf is the:",
+      "choices": [
+        "Hazard",
+        "Exposure",
+        "Vulnerability",
+        "Resilience"
+      ],
+      "answer": 0,
+      "explain": "He is a potential source of harm."
+    },
+    {
+      "id": "pigs-material",
+      "type": "choice",
+      "prompt": "In the Three Little Pigs, each pig's building material sets its:",
+      "choices": [
+        "Vulnerability",
+        "Hazard",
+        "Exposure",
+        "Capacity"
+      ],
+      "answer": 0,
+      "explain": "Same wolf, different damage."
+    },
+    {
+      "id": "pigs-circle",
+      "type": "choice",
+      "prompt": "The wolf's huff-and-puff reach is, in GIS terms, a:",
+      "choices": [
+        "Hazard footprint",
+        "Census tract",
+        "Buffer of roads",
+        "Contour"
+      ],
+      "answer": 0,
+      "explain": "Like a floodplain or wildfire perimeter."
+    },
+    {
+      "id": "pigs-most",
+      "type": "choice",
+      "prompt": "All three houses are exposed to the same wolf. Which carries the greatest risk?",
+      "choices": [
+        "Straw",
+        "Sticks",
+        "Brick",
+        "They are equal"
+      ],
+      "answer": 0,
+      "explain": "Highest vulnerability, same hazard and exposure."
+    },
+    {
+      "id": "pigs-outside",
+      "type": "choice",
+      "prompt": "A straw house a mile outside the wolf's reach has low risk because it is not:",
+      "choices": [
+        "Exposed",
+        "Vulnerable",
+        "A hazard",
+        "Resilient"
+      ],
+      "answer": 0,
+      "explain": "However weak it is, the wolf can't reach it."
+    },
+    {
+      "id": "exposure-method",
+      "type": "choice",
+      "prompt": "Exposure is usually measured in GIS by:",
+      "choices": [
+        "Overlaying the hazard footprint with population and assets",
+        "Kriging elevation",
+        "Geocoding addresses",
+        "Classing with natural breaks"
+      ],
+      "answer": 0,
+      "explain": "Who lives in the floodplain is an overlay question."
+    },
+    {
+      "id": "social-vuln",
+      "type": "choice",
+      "prompt": "Poverty, age, disability, and lack of a car are examples of:",
+      "choices": [
+        "Social vulnerability",
+        "Physical vulnerability",
+        "Hazard",
+        "Exposure"
+      ],
+      "answer": 0,
+      "explain": "They make it harder to prepare, evacuate, and recover."
+    },
+    {
+      "id": "phys-vuln",
+      "type": "choice",
+      "prompt": "Low elevation and weak construction are examples of:",
+      "choices": [
+        "Physical vulnerability",
+        "Social vulnerability",
+        "Coping capacity",
+        "Hazard"
+      ],
+      "answer": 0,
+      "explain": "Properties of the land and buildings."
+    },
+    {
+      "id": "resilience",
+      "type": "choice",
+      "prompt": "The ability of an exposed community to resist, absorb, adapt to, and recover from a hazard is:",
+      "choices": [
+        "Resilience",
+        "Exposure",
+        "Hazard",
+        "Vulnerability"
+      ],
+      "answer": 0,
+      "explain": "Following the UNDRR definition."
+    },
+    {
+      "id": "coping",
+      "type": "choice",
+      "prompt": "The ability of people and organizations to manage a hazard event using the skills and resources they already have is:",
+      "choices": [
+        "Coping capacity",
+        "Exposure",
+        "Hazard",
+        "Lineage"
+      ],
+      "answer": 0,
+      "explain": "It acts during and right after an event."
+    },
+    {
+      "id": "pull-down",
+      "type": "choice",
+      "prompt": "Which pulls risk down?",
+      "choices": [
+        "Capacity and measures, such as warning systems",
+        "Hazard",
+        "Exposure",
+        "Vulnerability"
+      ],
+      "answer": 0,
+      "explain": "Planning, social and economic capacity, and management."
+    },
+    {
+      "id": "lower-risk",
+      "type": "choice",
+      "prompt": "Building codes lower risk mainly by reducing:",
+      "choices": [
+        "Vulnerability",
+        "The hazard",
+        "The size of the storm",
+        "The flood frequency"
+      ],
+      "answer": 0,
+      "explain": "Stronger buildings are harmed less."
+    },
+    {
+      "id": "zoning",
+      "type": "choice",
+      "prompt": "Zoning that keeps homes out of the floodplain lowers risk mainly by reducing:",
+      "choices": [
+        "Exposure",
+        "The hazard",
+        "Coping capacity",
+        "Resilience"
+      ],
+      "answer": 0,
+      "explain": "Fewer people and buildings in harm's way."
+    },
+    {
+      "id": "delta",
+      "type": "choice",
+      "prompt": "Bangladesh lies on the delta of which three rivers?",
+      "choices": [
+        "Ganges, Brahmaputra, and Meghna",
+        "Nile, Congo, and Niger",
+        "Indus, Tigris, and Euphrates",
+        "Mekong, Yangtze, and Irrawaddy"
+      ],
+      "answer": 0,
+      "explain": "Dhaka is surrounded by rivers."
+    },
+    {
+      "id": "dhaka-steps",
+      "type": "order",
+      "prompt": "Put the Dhaka study's three steps in order.",
+      "answer": [
+        "Determine hazard",
+        "Measure vulnerability",
+        "Calculate risk"
+      ],
+      "explain": "Hazard, then vulnerability, then risk = hazard × vulnerability.",
+      "extra": [
+        "Georeference the city"
+      ]
+    },
+    {
+      "id": "hazard-inputs",
+      "type": "choice",
+      "prompt": "The Dhaka flood hazard map combines:",
+      "choices": [
+        "Flood frequency and floodwater depth",
+        "Literacy and housing price",
+        "Elevation and geology only",
+        "Road density and sanitation"
+      ],
+      "answer": 0,
+      "explain": "Both from satellite images of past floods."
+    },
+    {
+      "id": "hazard-highest",
+      "type": "choice",
+      "prompt": "In Dhaka, the highest hazard is where floods are:",
+      "choices": [
+        "Frequent and deep",
+        "Rare and shallow",
+        "Frequent but shallow only",
+        "Never observed"
+      ],
+      "answer": 0,
+      "explain": "Frequency and depth are overlaid."
+    },
+    {
+      "id": "dhaka-growth",
+      "type": "choice",
+      "prompt": "Dhaka's population grew from 0.7 million in 1961 to about:",
+      "choices": [
+        "14.5 million in 2011",
+        "2 million in 2011",
+        "50 million in 2011",
+        "1 million in 2011"
+      ],
+      "answer": 0,
+      "explain": "About twentyfold in 50 years."
+    },
+    {
+      "id": "phys-top",
+      "type": "choice",
+      "prompt": "Which criterion carries the most weight in Dhaka's physical vulnerability index?",
+      "choices": [
+        "Elevation (0.483)",
+        "Land use (0.316)",
+        "Distance to channel (0.145)",
+        "Geology (0.056)"
+      ],
+      "answer": 0,
+      "explain": "A meter or two decides whether a street floods."
+    },
+    {
+      "id": "social-top",
+      "type": "choice",
+      "prompt": "Which group carries the most weight in Dhaka's social vulnerability index?",
+      "choices": [
+        "Demographic (0.557)",
+        "Economic (0.320)",
+        "Infrastructure and lifelines (0.123)",
+        "Geology"
+      ],
+      "answer": 0,
+      "explain": "Density, age, and gender."
+    },
+    {
+      "id": "katcha",
+      "type": "choice",
+      "prompt": "A katcha house is:",
+      "choices": [
+        "A makeshift dwelling, often of mud, bamboo, or found materials",
+        "A brick apartment block",
+        "A flood shelter",
+        "A hospital"
+      ],
+      "answer": 0,
+      "explain": "It gets the highest weight within housing type."
+    },
+    {
+      "id": "water-san",
+      "type": "choice",
+      "prompt": "Within infrastructure and lifelines, water sources and sanitation outweigh road density because:",
+      "choices": [
+        "Contaminated water and poor sanitation drive disease after floods",
+        "Roads never flood",
+        "They are easier to measure",
+        "They have more data"
+      ],
+      "answer": 0,
+      "explain": "Together they account for almost 90% of the group's weight."
+    },
+    {
+      "id": "coping-top",
+      "type": "choice",
+      "prompt": "Which indicator carries the most weight in Dhaka's coping capacity index?",
+      "choices": [
+        "Flood awareness (0.464)",
+        "Hospitals (0.040)",
+        "Shelters (0.069)",
+        "Housing price (0.160)"
+      ],
+      "answer": 0,
+      "explain": "People who flood often tend to be better prepared."
+    },
+    {
+      "id": "composite",
+      "type": "choice",
+      "prompt": "In the composite vulnerability index, coping capacity is:",
+      "choices": [
+        "Subtracted",
+        "Added",
+        "Multiplied",
+        "Ignored"
+      ],
+      "answer": 0,
+      "explain": "More capacity means lower overall vulnerability."
+    },
+    {
+      "id": "ahp-def",
+      "type": "choice",
+      "prompt": "The Analytic Hierarchy Process (AHP) derives weights by:",
+      "choices": [
+        "Comparing criteria two at a time on a 1 to 9 scale",
+        "Measuring distance",
+        "Averaging cell values",
+        "Counting points"
+      ],
+      "answer": 0,
+      "explain": "Developed by Thomas Saaty."
+    },
+    {
+      "id": "ahp-3",
+      "type": "choice",
+      "prompt": "In AHP, a 3 means the row criterion is:",
+      "choices": [
+        "Moderately more important than the column criterion",
+        "Equally important",
+        "Extremely more important",
+        "Less important"
+      ],
+      "answer": 0,
+      "explain": "1 equal, 3 moderate, 5 strong, 7 very strong, 9 extreme."
+    },
+    {
+      "id": "ahp-9",
+      "type": "choice",
+      "prompt": "In AHP, a 9 means:",
+      "choices": [
+        "Extremely more important",
+        "Equally important",
+        "Moderately more important",
+        "Slightly less important"
+      ],
+      "answer": 0,
+      "explain": "9 is the top of Saaty's scale."
+    },
+    {
+      "id": "ahp-recip",
+      "type": "fill",
+      "prompt": "In an AHP matrix, if land use vs. distance is 5, then distance vs. land use is:",
+      "answers": [
+        "1/5",
+        "0.2",
+        ".2"
+      ],
+      "explain": "The lower half holds reciprocals."
+    },
+    {
+      "id": "ahp-diag",
+      "type": "fill",
+      "prompt": "Every cell on the diagonal of a pairwise comparison matrix equals:",
+      "answers": [
+        "1"
+      ],
+      "explain": "A criterion is equally important as itself.",
+      "numeric": true
+    },
+    {
+      "id": "ahp-weights",
+      "type": "choice",
+      "prompt": "AHP weights can be found by taking each row's geometric mean and:",
+      "choices": [
+        "Dividing each by their total",
+        "Squaring them",
+        "Adding 1",
+        "Taking the median"
+      ],
+      "answer": 0,
+      "explain": "Normalizing makes the weights sum to 1."
+    },
+    {
+      "id": "cr",
+      "type": "fill",
+      "prompt": "Saaty's rule of thumb: a consistency ratio is acceptable below:",
+      "answers": [
+        "0.1",
+        "0.10",
+        ".1",
+        ".10"
+      ],
+      "explain": "Above that, revisit the judgments.",
+      "numeric": true
+    },
+    {
+      "id": "cr-purpose",
+      "type": "choice",
+      "prompt": "The consistency ratio checks whether:",
+      "choices": [
+        "The pairwise judgments contradict each other",
+        "The data are projected",
+        "The map is complete",
+        "The weights are all equal"
+      ],
+      "answer": 0,
+      "explain": "For example, A beats B, B beats C, but C beats A."
+    },
+    {
+      "id": "wlc-def",
+      "type": "choice",
+      "prompt": "Weighted linear combination (WLC):",
+      "choices": [
+        "Multiplies each standardized layer by its weight and adds them",
+        "Multiplies all layers together",
+        "Averages the nearest neighbors",
+        "Picks the maximum value"
+      ],
+      "answer": 0,
+      "explain": "score = Σ wᵢ xᵢ."
+    },
+    {
+      "id": "wlc-calc",
+      "type": "fill",
+      "prompt": "Weights 0.65, 0.23, 0.12; a cell scores 1, 1, and 0. Its WLC score is:",
+      "answers": [
+        "0.88",
+        ".88"
+      ],
+      "explain": "0.65 + 0.23 = 0.88.",
+      "numeric": true
+    },
+    {
+      "id": "risk-calc",
+      "type": "fill",
+      "prompt": "A community with hazard 3 and vulnerability 2 has risk:",
+      "answers": [
+        "6"
+      ],
+      "explain": "Risk = hazard × vulnerability.",
+      "numeric": true
+    },
+    {
+      "id": "risk-calc0",
+      "type": "fill",
+      "prompt": "A community with hazard 3 and vulnerability 0 has risk:",
+      "answers": [
+        "0"
+      ],
+      "explain": "Any zero factor gives zero risk.",
+      "numeric": true
+    },
+    {
+      "id": "risk-not-hazard",
+      "type": "truefalse",
+      "prompt": "The highest-hazard areas always have the highest risk.",
+      "answer": false,
+      "explain": "Risk also depends on vulnerability."
+    },
+    {
+      "id": "limit-ahp",
+      "type": "choice",
+      "prompt": "A limitation of AHP weights is that they:",
+      "choices": [
+        "Reflect expert judgment, so a different panel could give a different map",
+        "Always sum to more than 1",
+        "Can't be computed",
+        "Ignore criteria"
+      ],
+      "answer": 0,
+      "explain": "Test them with a sensitivity analysis."
+    },
+    {
+      "id": "limit-agg",
+      "type": "choice",
+      "prompt": "Averaging indicators over census tracts:",
+      "choices": [
+        "Hides differences between neighboring households",
+        "Improves accuracy for every household",
+        "Removes all uncertainty",
+        "Is never done"
+      ],
+      "answer": 0,
+      "explain": "Assuming every household matches its tract average is the ecological fallacy."
+    },
+    {
+      "id": "limit-relative",
+      "type": "choice",
+      "prompt": "A risk index like Dhaka's ranks places but does not:",
+      "choices": [
+        "Estimate losses in money or lives",
+        "Use any data",
+        "Map hazard",
+        "Use weights"
+      ],
+      "answer": 0,
+      "explain": "It is relative, not absolute."
+    },
+    {
+      "id": "nri",
+      "type": "choice",
+      "prompt": "FEMA's National Risk Index combines expected annual loss from natural hazards with:",
+      "choices": [
+        "Social vulnerability and community resilience",
+        "Map projections",
+        "Traffic counts",
+        "Soil types only"
+      ],
+      "answer": 0,
+      "explain": "For every U.S. county and census tract."
+    },
+    {
+      "id": "svi",
+      "type": "choice",
+      "prompt": "The CDC/ATSDR Social Vulnerability Index ranks:",
+      "choices": [
+        "Census tracts on census variables such as poverty and lack of a vehicle",
+        "Rivers by discharge",
+        "Hospitals by size",
+        "Roads by class"
+      ],
+      "answer": 0,
+      "explain": "It helps emergency planners find people who will need help."
+    }
+  ]
+}

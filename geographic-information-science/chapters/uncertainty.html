@@ -1,0 +1,1976 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>19&nbsp; Uncertainty in Geospatial Data – Geographic Information Science</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/qgis.html" rel="next">
+<link href="../chapters/risk-analysis.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ebb58cfc2c0cc903b00b246007c1be77.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-58aeb932f9769ef5b136914697361c15.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-contrib/glossary-1.0.0/glossary.js"></script>
+<link href="../site_libs/quarto-contrib/glossary-1.0.0/glossary.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<!--
+  Reading settings, part 1 of 2: applies the reader's saved font and text size
+  before the page draws, so it doesn't flash in the default font first.
+  The menu itself is in assets/reader-settings.html; styles are in
+  assets/reader-settings.css.
+-->
+<script>
+  (function () {
+    try {
+      var font = localStorage.getItem("sds-reader-font");
+      var size = localStorage.getItem("sds-reader-size");
+      if (font) document.documentElement.setAttribute("data-reader-font", font);
+      // Lexend and Cardo come from Google Fonts, loaded only for readers who pick them.
+      var webFonts = {
+        lexend: "https://fonts.googleapis.com/css2?family=Lexend:wght@300..700&display=swap",
+        cardo: "https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&display=swap"
+      };
+      if (webFonts[font]) {
+        var link = document.createElement("link");
+        link.rel = "stylesheet"; link.href = webFonts[font]; link.id = "sds-reader-webfont-" + font;
+        document.head.appendChild(link);
+      }
+      if (size) document.documentElement.setAttribute("data-reader-size", size);
+    } catch (e) { /* storage blocked: keep the defaults */ }
+  })();
+</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../include/webex.css">
+<link rel="stylesheet" href="../assets/sidebar.css">
+<link rel="stylesheet" href="../assets/grade-table.css">
+<link rel="stylesheet" href="../assets/reader-settings.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../units/unit-3.html">Unit 3: Spatial Analysis</a></li><li class="breadcrumb-item"><a href="../chapters/uncertainty.html"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Uncertainty in Geospatial Data</span></a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Site">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Geographic Information Science</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/dparr1/geog-370-geographic-information-science/releases/download/textbook-pdf/Geographic-Information-Science.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../units/unit-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-1-label">Unit 1: Data Models and Projections</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section: Unit 1: Data Models and Projections">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/what-is-gis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">What Is GIS?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/what-is-geographic-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">What Is Geographic Data?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/location-and-coordinates.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Location and Coordinate Systems</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/map-projections.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Map Projections</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/attribute-queries.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Attribute Data and Queries</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/database-joins.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Databases and Table Joins</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/spatial-joins.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Spatial Joins</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../units/unit-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-2-label">Unit 2: Spatial Data Quality</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section: Unit 2: Spatial Data Quality">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/census-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Census Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/geocoding-georeferencing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Geocoding and Georeferencing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/osm-data-quality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">OpenStreetMap and Data Quality</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../units/unit-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Unit 3: Spatial Analysis</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section: Unit 3: Spatial Analysis">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/data-classing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Data Classing and Choropleth Maps</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/density.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Density and Neighborhoods</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/spatial-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Spatial Analysis: Selection, Buffers, and Overlay</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/raster.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Raster Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/interpolation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Spatial Interpolation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/kriging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Kriging</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/suitability-modeling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Suitability Modeling</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/risk-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Risk Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/uncertainty.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Uncertainty in Geospatial Data</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-4-label">GIS Software</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/qgis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Getting to Know QGIS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/arcgis-pro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Getting to Know ArcGIS Pro</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-controls="quarto-sidebar-section-5" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-5-label">Looking Ahead</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-5" aria-labelledby="quarto-sidebar-section-5-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/whats-next.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">What’s Next in GIS</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-controls="quarto-sidebar-section-6" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-6-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-6" aria-labelledby="quarto-sidebar-section-6-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Glossary</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../about.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About the author</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-what-is-uncertainty" id="toc-sec-what-is-uncertainty" class="nav-link active" data-scroll-target="#sec-what-is-uncertainty"><span class="header-section-number">19.1</span> What is uncertainty?</a></li>
+  <li><a href="#sec-data-quality-elements" id="toc-sec-data-quality-elements" class="nav-link" data-scroll-target="#sec-data-quality-elements"><span class="header-section-number">19.2</span> Geospatial data quality</a>
+  <ul class="collapse">
+  <li><a href="#positional-accuracy" id="toc-positional-accuracy" class="nav-link" data-scroll-target="#positional-accuracy"><span class="header-section-number">19.2.1</span> Positional accuracy</a></li>
+  <li><a href="#attribute-accuracy" id="toc-attribute-accuracy" class="nav-link" data-scroll-target="#attribute-accuracy"><span class="header-section-number">19.2.2</span> Attribute accuracy</a></li>
+  <li><a href="#logical-consistency" id="toc-logical-consistency" class="nav-link" data-scroll-target="#logical-consistency"><span class="header-section-number">19.2.3</span> Logical consistency</a></li>
+  <li><a href="#completeness" id="toc-completeness" class="nav-link" data-scroll-target="#completeness"><span class="header-section-number">19.2.4</span> Completeness</a></li>
+  <li><a href="#temporal-quality" id="toc-temporal-quality" class="nav-link" data-scroll-target="#temporal-quality"><span class="header-section-number">19.2.5</span> Temporal quality</a></li>
+  </ul></li>
+  <li><a href="#sec-sources" id="toc-sec-sources" class="nav-link" data-scroll-target="#sec-sources"><span class="header-section-number">19.3</span> Sources of uncertainty</a>
+  <ul class="collapse">
+  <li><a href="#the-data-lifecycle" id="toc-the-data-lifecycle" class="nav-link" data-scroll-target="#the-data-lifecycle"><span class="header-section-number">19.3.1</span> The data lifecycle</a></li>
+  <li><a href="#from-errors-to-uncertainty" id="toc-from-errors-to-uncertainty" class="nav-link" data-scroll-target="#from-errors-to-uncertainty"><span class="header-section-number">19.3.2</span> From errors to uncertainty</a></li>
+  <li><a href="#uncertainty-in-abstraction" id="toc-uncertainty-in-abstraction" class="nav-link" data-scroll-target="#uncertainty-in-abstraction"><span class="header-section-number">19.3.3</span> Uncertainty in abstraction</a></li>
+  <li><a href="#sec-type-errors" id="toc-sec-type-errors" class="nav-link" data-scroll-target="#sec-type-errors"><span class="header-section-number">19.3.4</span> Uncertainty in use: Type 1 and Type 2 errors</a></li>
+  </ul></li>
+  <li><a href="#sec-visualizing-uncertainty" id="toc-sec-visualizing-uncertainty" class="nav-link" data-scroll-target="#sec-visualizing-uncertainty"><span class="header-section-number">19.4</span> Visualizing uncertainty</a>
+  <ul class="collapse">
+  <li><a href="#why-show-it" id="toc-why-show-it" class="nav-link" data-scroll-target="#why-show-it"><span class="header-section-number">19.4.1</span> Why show it?</a></li>
+  <li><a href="#an-everyday-example" id="toc-an-everyday-example" class="nav-link" data-scroll-target="#an-everyday-example"><span class="header-section-number">19.4.2</span> An everyday example</a></li>
+  <li><a href="#visual-variables-for-uncertainty" id="toc-visual-variables-for-uncertainty" class="nav-link" data-scroll-target="#visual-variables-for-uncertainty"><span class="header-section-number">19.4.3</span> Visual variables for uncertainty</a></li>
+  <li><a href="#historical-displays-of-uncertainty" id="toc-historical-displays-of-uncertainty" class="nav-link" data-scroll-target="#historical-displays-of-uncertainty"><span class="header-section-number">19.4.4</span> Historical displays of uncertainty</a></li>
+  </ul></li>
+  <li><a href="#sec-why-care" id="toc-sec-why-care" class="nav-link" data-scroll-target="#sec-why-care"><span class="header-section-number">19.5</span> Why do we care?</a>
+  <ul class="collapse">
+  <li><a href="#whose-fault" id="toc-whose-fault" class="nav-link" data-scroll-target="#whose-fault"><span class="header-section-number">19.5.1</span> Whose fault?</a></li>
+  <li><a href="#living-with-uncertainty" id="toc-living-with-uncertainty" class="nav-link" data-scroll-target="#living-with-uncertainty"><span class="header-section-number">19.5.2</span> Living with uncertainty</a></li>
+  </ul></li>
+  <li><a href="#sec-uncertainty-software" id="toc-sec-uncertainty-software" class="nav-link" data-scroll-target="#sec-uncertainty-software"><span class="header-section-number">19.6</span> Uncertainty in ArcGIS Pro and QGIS</a></li>
+  <li><a href="#check-your-understanding" id="toc-check-your-understanding" class="nav-link" data-scroll-target="#check-your-understanding"><span class="header-section-number">19.7</span> Check your understanding</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">19.8</span> Summary</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">19.9</span> Exercises</a></li>
+  <li><a href="#further-reading-and-online-resources" id="toc-further-reading-and-online-resources" class="nav-link" data-scroll-target="#further-reading-and-online-resources"><span class="header-section-number">19.10</span> Further reading and online resources</a>
+  <ul class="collapse">
+  <li><a href="#books-and-papers" id="toc-books-and-papers" class="nav-link" data-scroll-target="#books-and-papers"><span class="header-section-number">19.10.1</span> Books and papers</a></li>
+  <li><a href="#accuracy-standards" id="toc-accuracy-standards" class="nav-link" data-scroll-target="#accuracy-standards"><span class="header-section-number">19.10.2</span> Accuracy standards</a></li>
+  <li><a href="#checking-data-in-arcgis-pro-and-qgis" id="toc-checking-data-in-arcgis-pro-and-qgis" class="nav-link" data-scroll-target="#checking-data-in-arcgis-pro-and-qgis"><span class="header-section-number">19.10.3</span> Checking data in ArcGIS Pro and QGIS</a></li>
+  <li><a href="#uncertainty-on-maps" id="toc-uncertainty-on-maps" class="nav-link" data-scroll-target="#uncertainty-on-maps"><span class="header-section-number">19.10.4</span> Uncertainty on maps</a></li>
+  <li><a href="#map-errors-and-traps" id="toc-map-errors-and-traps" class="nav-link" data-scroll-target="#map-errors-and-traps"><span class="header-section-number">19.10.5</span> Map errors and traps</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../units/unit-3.html">Unit 3: Spatial Analysis</a></li><li class="breadcrumb-item"><a href="../chapters/uncertainty.html"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Uncertainty in Geospatial Data</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Uncertainty in Geospatial Data</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Learning objectives
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>By the end of this chapter you should be able to:</p>
+<ol type="1">
+<li>Define <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-uncertainty" data-term="uncertainty">uncertainty</span>, and tell it apart from <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-error" data-term="error">error</span>.</li>
+<li>Name the elements of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-data" data-term="spatial data">geospatial data</span> quality, and give an example of a problem with each.</li>
+<li>Calculate <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-positional-accuracy" data-term="positional accuracy">positional accuracy</span> as a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-root-mean-square-error-rmse" data-term="root mean square error (RMSE)">root mean square error</span>, and explain a map accuracy standard.</li>
+<li>Trace how uncertainty enters at each stage of the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-lifecycle" data-term="data lifecycle">data lifecycle</span>, from collection to use.</li>
+<li>Choose <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-visual-variable" data-term="visual variable">visual variables</span> to show uncertainty on a map.</li>
+<li>Explain Type 1 and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-type-2-error" data-term="Type 2 error">Type 2 errors</span> in map reading, and why uncertainty matters to the people who use maps.</li>
+</ol>
+</div>
+</div>
+<p>Every chapter in this book has produced numbers that look exact: a coordinate to six decimal places, a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-population-density" data-term="population density">population density</span> for every county, a suitability score for every cell, a flood risk class for every community. None of them is exact. <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">Coordinates</span> come from instruments with limits. Census figures are estimates with <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-margin-of-error-moe" data-term="margin of error (MOE)">margins of error</span> (Chapter 8). <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-interpolation" data-term="spatial interpolation">Interpolated</span> surfaces are predictions (Chapters 15 and 16). Suitability and risk scores rest on thresholds and weights that someone chose (Chapters 17 and 18). This chapter is about the gap between what a map shows and what is true, and about how to be honest about it.</p>
+<section id="sec-what-is-uncertainty" class="level2" data-number="19.1">
+<h2 data-number="19.1" class="anchored" data-anchor-id="sec-what-is-uncertainty"><span class="header-section-number">19.1</span> What is uncertainty?</h2>
+<p><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-uncertainty" data-term="uncertainty">Uncertainty</span></strong> is the degree to which we aren’t sure of something. Picture it as a cloud of all the values a measurement could plausibly take (<a href="#fig-cloud" class="quarto-xref">Figure&nbsp;<span>19.1</span></a>). The value we record is our best estimate, near the middle of the cloud. The true value is in there somewhere, but we can’t see it.</p>
+<div id="fig-cloud" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A cloud of blue dots, densest in the center and fading outward, with two dashed ellipses around the middle. A red dot at the center is labeled recorded value, our best estimate. A small yellow star, off-center, is labeled the true value is in here somewhere, but we can't see it; the gap is the error. A dotted arrow runs from the red dot to the star. Blue text reads uncertainty describes the whole cloud: how wide it is and how it is spread.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-cloud-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/uncertainty/cloud.png" class="img-fluid figure-img" alt="A cloud of blue dots, densest in the center and fading outward, with two dashed ellipses around the middle. A red dot at the center is labeled recorded value, our best estimate. A small yellow star, off-center, is labeled the true value is in here somewhere, but we can't see it; the gap is the error. A dotted arrow runs from the red dot to the star. Blue text reads uncertainty describes the whole cloud: how wide it is and how it is spread.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cloud-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;19.1: Uncertainty as a cloud of possible true values around a recorded value. <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-error" data-term="error">Error</span> is the gap between the recorded value and the true value, which we usually can’t know.
+</figcaption>
+</figure>
+</div>
+<p>Two words are easy to confuse:</p>
+<ul>
+<li><strong>Error</strong> is the difference between a recorded value and the true value. A well that the map puts 12 m north of where it really is has a positional error of 12 m.</li>
+<li><strong>Uncertainty</strong> is how much we <em>don’t know</em> about that error. Usually we can’t know the error at any particular well, because if we knew the true location, we’d have mapped it there. We can only describe how large errors tend to be.</li>
+</ul>
+<p>Every map is a model of the world, so every map carries some uncertainty <span class="citation" data-cites="zhang2002">(Zhang and Goodchild 2002)</span>. The question is not whether a map is uncertain, but how uncertain it is, whether that matters for the job at hand, and whether the map says so.</p>
+</section>
+<section id="sec-data-quality-elements" class="level2" data-number="19.2">
+<h2 data-number="19.2" class="anchored" data-anchor-id="sec-data-quality-elements"><span class="header-section-number">19.2</span> Geospatial data quality</h2>
+<p><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-data-quality" data-term="spatial data quality">Data quality</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-uncertainty" data-term="uncertainty">uncertainty</span> are two sides of the same coin. Chapter 10 introduced the seven elements of spatial data quality, which van Oort <span class="citation" data-cites="vanoort2006">(2006)</span> found shared by mapping standards around the world, and which are now written into <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-iso-19157" data-term="ISO 19157">ISO 19157</span> (<a href="#tbl-quality-elements" class="quarto-xref">Table&nbsp;<span>19.1</span></a>). Each element names a place where uncertainty can enter the data.</p>
+<div id="tbl-quality-elements" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-quality-elements-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;19.1: The seven elements of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-data" data-term="spatial data">geospatial data</span> quality. Source: van Oort <span class="citation" data-cites="vanoort2006">(2006)</span>.
+</figcaption>
+<div aria-describedby="tbl-quality-elements-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Element</th>
+<th>What it describes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Lineage</td>
+<td>Sources, methods, and processing history</td>
+</tr>
+<tr class="even">
+<td><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-positional-accuracy" data-term="positional accuracy">Positional accuracy</span></td>
+<td>How close <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">coordinates</span> are to true positions</td>
+</tr>
+<tr class="odd">
+<td><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-attribute-accuracy" data-term="attribute accuracy">Attribute accuracy</span></td>
+<td>How correct the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-non-spatial-data" data-term="non-spatial data">non-spatial</span>, non-temporal values are</td>
+</tr>
+<tr class="even">
+<td><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-logical-consistency" data-term="logical consistency">Logical consistency</span></td>
+<td>Whether the relationships within the data agree with each other</td>
+</tr>
+<tr class="odd">
+<td>Completeness</td>
+<td>Missing data and excess data</td>
+</tr>
+<tr class="even">
+<td>Usage, purpose, and constraints</td>
+<td>What the data were made for, and their limits</td>
+</tr>
+<tr class="odd">
+<td><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-temporal-quality" data-term="temporal quality">Temporal quality</span></td>
+<td>How valid and accurate the time measurements are</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>The rest of this section looks at several of them more closely.</p>
+<section id="positional-accuracy" class="level3" data-number="19.2.1">
+<h3 data-number="19.2.1" class="anchored" data-anchor-id="positional-accuracy"><span class="header-section-number">19.2.1</span> Positional accuracy</h3>
+<p><strong>Positional accuracy</strong> is how close a position on the map is to its true position on the ground. A famous joke makes the point: the New York-New York Hotel in Las Vegas has a skyline and a Statue of Liberty that are correct as <em>features</em>, but they are about 2,200 miles from where they belong. Every feature can be right in kind and still wrong in position.</p>
+<p>Positional accuracy is tested by comparing the map with a more accurate reference, such as a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-gps" data-term="GPS">GPS</span> survey, at a set of <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-test-point" data-term="test point">test points</span></strong> (or <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-check-point" data-term="check point">check points</span>, as in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-georeferencing" data-term="georeferencing">georeferencing</span> in Chapter 9). For each test point <span class="math inline">\(i\)</span>, measure the distance <span class="math inline">\(d_i\)</span> between its mapped position and its true position. The usual summary is the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-root-mean-square-error-rmse" data-term="root mean square error (RMSE)">root mean square error</span> (RMSE)</strong>:</p>
+<p><span class="math display">\[
+\text{RMSE} = \sqrt{\frac{\sum d_i^2}{n}}
+\]</span></p>
+<p>where <span class="math inline">\(n\)</span> is the number of test points. Square each offset, average the squares, then take the square root of the whole average (<a href="#fig-rmse" class="quarto-xref">Figure&nbsp;<span>19.2</span></a>).</p>
+<div id="fig-rmse" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Left: a gray map with eight numbered pairs of symbols, a green triangle for the true position and a red dot for the position on the map, joined by a short red arrow in a different direction for each pair. Right: a table of offsets for points 1 to 8: 3, 4, 5, 2, 4, 3, 5, and 2 meters, with squares 9, 16, 25, 4, 16, 9, 25, and 4. Below: sum of d squared equals 108, n equals 8; RMSE equals the square root of 108 over 8, which is the square root of 13.5, or 3.7 meters.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-rmse-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/uncertainty/rmse.png" class="img-fluid figure-img" alt="Left: a gray map with eight numbered pairs of symbols, a green triangle for the true position and a red dot for the position on the map, joined by a short red arrow in a different direction for each pair. Right: a table of offsets for points 1 to 8: 3, 4, 5, 2, 4, 3, 5, and 2 meters, with squares 9, 16, 25, 4, 16, 9, 25, and 4. Below: sum of d squared equals 108, n equals 8; RMSE equals the square root of 108 over 8, which is the square root of 13.5, or 3.7 meters.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rmse-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;19.2: Testing positional accuracy at eight test points. Each arrow runs from the true position to the mapped position.
+</figcaption>
+</figure>
+</div>
+<p>Squaring makes large offsets count more than small ones, so a few badly placed points raise the RMSE sharply. RMSE is the same statistic you met for georeferencing (Chapter 9) and for <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cross-validation" data-term="cross validation">cross validation</span> in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-interpolation" data-term="spatial interpolation">interpolation</span> (Chapter 15).</p>
+<p><strong>Accuracy standards</strong> turn RMSE into a pass or fail. The <strong>U.S. <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-national-map-accuracy-standards-nmas" data-term="National Map Accuracy Standards (NMAS)">National Map Accuracy Standards</span></strong> of 1947 <span class="citation" data-cites="usbb1947">(U.S. Bureau of the Budget 1947)</span> said that for maps at a scale of 1:20,000 or smaller, no more than 10% of tested points may be off by more than 1/50 inch <em>on the map</em>. At 1:24,000, the scale of USGS topographic quadrangles, 1/50 inch is 40 feet on the ground. So 90% of tested points must fall within 40 feet of their true positions. Today the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-national-standard-for-spatial-data-accuracy-nssda" data-term="National Standard for Spatial Data Accuracy (NSSDA)">National Standard for Spatial Data Accuracy</span></strong> <span class="citation" data-cites="fgdc1998">(Federal Geographic Data Committee 1998)</span> reports accuracy in ground units at 95% confidence (about 1.73 times the RMSE for horizontal positions), whatever the map scale.</p>
+</section>
+<section id="attribute-accuracy" class="level3" data-number="19.2.2">
+<h3 data-number="19.2.2" class="anchored" data-anchor-id="attribute-accuracy"><span class="header-section-number">19.2.2</span> Attribute accuracy</h3>
+<p><strong>Attribute accuracy</strong> is how faithfully names, classes, and values describe each feature. A feature can be in the right place with the wrong label. A 1920 road guide, the <em>Automobile Blue Book</em>, labeled the campus in Boulder “Colorado State University.” It is the University of Colorado. The geometry was fine; the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-attribute" data-term="attribute">attribute</span> was wrong. In the same way, a land-cover map could put a desert pixel in exactly the right place, and still call it forest.</p>
+<p>Attribute errors can be <strong>categorical</strong> (a wrong name or class, such as a misclassified land-cover pixel) or <strong>numeric</strong> (a wrong value, such as a wrong elevation or population count). For categorical data, accuracy is often summarized with a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-confusion-matrix" data-term="confusion matrix">confusion matrix</span></strong> (or error matrix), which cross-tabulates the classes on the map against the true classes at a sample of test sites. The diagonal holds the sites classed correctly; the cells off the diagonal show which classes are confused with which.</p>
+<div class="did-you-know callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Did you know..?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Some map errors are on purpose. Around 1930, two mapmakers at the General Drafting Company, Otto G. Lindberg and Ernest Alpers, invented a town called Agloe (an anagram of their initials) and put it on their map of New York State. If Agloe showed up on someone else’s map, they would know their work had been copied. Agloe later did appear on a Rand McNally map, but by then a lodge and, by some accounts, a general store near the spot had taken the name, so the made-up town had arguably become real. Such <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-copyright-trap" data-term="copyright trap">copyright traps</span></strong>, also called paper towns or trap streets, are deliberate attribute errors.</p>
+</div>
+</div>
+</section>
+<section id="logical-consistency" class="level3" data-number="19.2.3">
+<h3 data-number="19.2.3" class="anchored" data-anchor-id="logical-consistency"><span class="header-section-number">19.2.3</span> Logical consistency</h3>
+<p><strong>Logical consistency</strong> is the internal consistency of the data: whether the same thing is always recorded the same way, features have the right geometry type, and relationships are valid. <a href="#tbl-starbucks" class="quarto-xref">Table&nbsp;<span>19.2</span></a> shows one coffee chain, nine records, and seven different problems.</p>
+<div id="tbl-starbucks" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-starbucks-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;19.2: Logical consistency problems in a made-up table of coffee shops.
+</figcaption>
+<div aria-describedby="tbl-starbucks-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Address</th>
+<th>Type</th>
+<th>Problem</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Starbucks</td>
+<td>100 Main St.</td>
+<td>Point</td>
+<td>None</td>
+</tr>
+<tr class="even">
+<td>Starbucks</td>
+<td>110 Main St.</td>
+<td>Point</td>
+<td>None</td>
+</tr>
+<tr class="odd">
+<td>$tarbuck$</td>
+<td>111 Main St.</td>
+<td>Point</td>
+<td>Symbols in name</td>
+</tr>
+<tr class="even">
+<td>STARBUCKS</td>
+<td>112 Main St.</td>
+<td>Point</td>
+<td>Inconsistent case</td>
+</tr>
+<tr class="odd">
+<td>Café Starbucks</td>
+<td>200 Main St.</td>
+<td>Point</td>
+<td>Name variant</td>
+</tr>
+<tr class="even">
+<td>Starbuck</td>
+<td>201 Main St.</td>
+<td>Line</td>
+<td>Wrong geometry type</td>
+</tr>
+<tr class="odd">
+<td>Starbucks</td>
+<td>201b Main St.</td>
+<td>Point</td>
+<td>Address format</td>
+</tr>
+<tr class="even">
+<td>star bucks</td>
+<td>400 Main St.</td>
+<td>Point</td>
+<td>Spelling and case</td>
+</tr>
+<tr class="odd">
+<td>Starbux</td>
+<td>1 Mainz St.</td>
+<td><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-polygon" data-term="polygon">Polygon</span></td>
+<td>Name, street, and geometry</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>None of these records is wrong about location by itself. Together, they break counts, joins, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geocoding" data-term="geocoding">geocoding</span>. A query for <code>Name = 'Starbucks'</code> (Chapter 5) finds only three stores, and an address-matching tool (Chapter 9) may fail on “201b” and “Mainz St.” Data cleaning, and validation rules such as a list of allowed names, catch these.</p>
+<p>Consistency rules apply to geometry and <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-topology" data-term="topology">topology</span></strong> too (<a href="#fig-road-consistency" class="quarto-xref">Figure&nbsp;<span>19.3</span></a>, <a href="#fig-topology-errors" class="quarto-xref">Figure&nbsp;<span>19.4</span></a>). A road should keep one class from end to end, or a reader sees an interstate turn into a ramp and back again. Lines that should meet must actually connect, with no <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-undershoot" data-term="undershoot">undershoots</span></strong> or <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-overshoot" data-term="overshoot">overshoots</span></strong>; polygons must close; and neighboring polygons must not overlap or leave gaps. <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> software can test these rules automatically: <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span> with <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geodatabase" data-term="geodatabase">geodatabase</span> topology, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span> with the Topology Checker and Geometry Checker plugins.</p>
+<div id="fig-road-consistency" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Two maps of the same interchange: a horizontal road, a vertical road crossing it, and a ramp arching over the crossing. Left, inconsistent: the horizontal road switches from thick red interstate to orange ramp to red interstate to thin gray local road and back to interstate; the vertical road switches from local road to ramp to local road; one half of the arch is a ramp and the other half interstate. Right, consistent: the horizontal road is interstate throughout, the vertical road is a local road throughout, and the whole arch is a ramp.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-road-consistency-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/uncertainty/road-consistency.png" class="img-fluid figure-img" alt="Two maps of the same interchange: a horizontal road, a vertical road crossing it, and a ramp arching over the crossing. Left, inconsistent: the horizontal road switches from thick red interstate to orange ramp to red interstate to thin gray local road and back to interstate; the vertical road switches from local road to ramp to local road; one half of the arch is a ramp and the other half interstate. Right, consistent: the horizontal road is interstate throughout, the vertical road is a local road throughout, and the whole arch is a ramp.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-road-consistency-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;19.3: Logical consistency in road classes. The same interchange with classes that change along one road (left), and with each road keeping one class (right).
+</figcaption>
+</figure>
+</div>
+<div id="fig-topology-errors" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Four small diagrams. Undershoot: a vertical line stops just short of a horizontal line, circled in red. Overshoot: a vertical line crosses a horizontal line and runs a little past it, circled. Gap: two neighboring polygons with a thin empty wedge between them, circled. Overlap: two neighboring polygons whose edges overlap in a red strip.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-topology-errors-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/uncertainty/topology-errors.png" class="img-fluid figure-img" alt="Four small diagrams. Undershoot: a vertical line stops just short of a horizontal line, circled in red. Overshoot: a vertical line crosses a horizontal line and runs a little past it, circled. Gap: two neighboring polygons with a thin empty wedge between them, circled. Overlap: two neighboring polygons whose edges overlap in a red strip.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-topology-errors-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;19.4: Common topology errors that GIS software can find automatically.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="completeness" class="level3" data-number="19.2.4">
+<h3 data-number="19.2.4" class="anchored" data-anchor-id="completeness"><span class="header-section-number">19.2.4</span> Completeness</h3>
+<p><strong>Completeness</strong> is “a measure of the absence of data and the presence of excess data” <span class="citation" data-cites="vanoort2006">(Oort 2006, 23)</span>. A building <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layer</span> may miss new houses (errors of omission) and still include ones that were torn down (errors of commission). Chapter 10 showed how completeness varies across <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-openstreetmap" data-term="OpenStreetMap">OpenStreetMap</span>, from place to place and from feature type to feature type.</p>
+</section>
+<section id="temporal-quality" class="level3" data-number="19.2.5">
+<h3 data-number="19.2.5" class="anchored" data-anchor-id="temporal-quality"><span class="header-section-number">19.2.5</span> Temporal quality</h3>
+<p><strong>Temporal quality</strong> (or temporal accuracy) asks whether the data are correct for the time the map represents. Every dataset has a date stamp, even if no one wrote it down, so ask when the data were <em>collected</em>, not just when the map was published. Are roads up to date? Some maps show planned roads that were never built. Have demolished buildings been removed?</p>
+<p><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-temporal-stability" data-term="temporal stability">Temporal stability</span></strong> is how long a feature stays the same. A mountain range changes over millions of years, a shoreline over decades, and a storefront over months. Less stable features need more frequent updates. A five-year-old elevation model is probably fine; a five-year-old layer of restaurants is not.</p>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Think about it
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Open a map app and look at your street or campus. Find one example of a problem with positional accuracy, attribute accuracy, completeness, or temporal quality. Which element was it, and how would you report it?</p>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-sources" class="level2" data-number="19.3">
+<h2 data-number="19.3" class="anchored" data-anchor-id="sec-sources"><span class="header-section-number">19.3</span> Sources of uncertainty</h2>
+<section id="the-data-lifecycle" class="level3" data-number="19.3.1">
+<h3 data-number="19.3.1" class="anchored" data-anchor-id="the-data-lifecycle"><span class="header-section-number">19.3.1</span> The data lifecycle</h3>
+<p><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-uncertainty" data-term="uncertainty">Uncertainty</span> is not one problem at one step. It can enter at every stage of the life of a dataset (<a href="#fig-lifecycle" class="quarto-xref">Figure&nbsp;<span>19.5</span></a>):</p>
+<ul>
+<li><strong>Collection.</strong> Instruments have limits, and can malfunction, which is a big issue in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-remote-sensing" data-term="remote sensing">remote sensing</span>. <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-gps" data-term="GPS">GPS</span> positions drift. Surveys have non-response, so social data have gaps.</li>
+<li><strong>Processing.</strong> Almost every computation adds uncertainty. <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-map-projection" data-term="map projection">Projection</span> distorts (Chapter 4), <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-map-generalization" data-term="map generalization">generalization</span> simplifies, and estimation and prediction fill in values that were never measured (Chapters 15 and 16).</li>
+<li><strong>Storage.</strong> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-attribute" data-term="attribute">Attributes</span> get misclassified, fields get truncated, and links between tables break (Chapter 6).</li>
+<li><strong>Display.</strong> Abstraction and symbolization trade detail for clarity, and classing (Chapter 11) can create or hide patterns.</li>
+<li><strong>Use.</strong> Readers misread maps: they see patterns that aren’t there, or miss ones that are (<a href="#sec-type-errors" class="quarto-xref"><span>Section 19.3.4</span></a>).</li>
+</ul>
+<div id="fig-lifecycle" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Five colored boxes in a row joined by arrows: Collection (instrument limits and malfunctions, missing data), Processing (projection, generalization, estimation, prediction), Storage (misclassified attributes, broken data links), Display (abstraction, symbolization, classing), and Use (misreading patterns: Type 1 and Type 2 errors).">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-lifecycle-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/uncertainty/lifecycle.png" class="img-fluid figure-img" alt="Five colored boxes in a row joined by arrows: Collection (instrument limits and malfunctions, missing data), Processing (projection, generalization, estimation, prediction), Storage (misclassified attributes, broken data links), Display (abstraction, symbolization, classing), and Use (misreading patterns: Type 1 and Type 2 errors).">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-lifecycle-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;19.5: Uncertainty can enter at every stage of the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-lifecycle" data-term="data lifecycle">data lifecycle</span>.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="from-errors-to-uncertainty" class="level3" data-number="19.3.2">
+<h3 data-number="19.3.2" class="anchored" data-anchor-id="from-errors-to-uncertainty"><span class="header-section-number">19.3.2</span> From errors to uncertainty</h3>
+<p>Each source of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-error" data-term="error">error</span> nudges the recorded value away from the truth by an unknown amount. Since we can’t know the exact error, we have to accept that a range of true values is possible. Uncertainty is our description of that range: how wide the cloud in <a href="#fig-cloud" class="quarto-xref">Figure&nbsp;<span>19.1</span></a> is, and how the possibilities are spread out. A census <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-margin-of-error-moe" data-term="margin of error (MOE)">margin of error</span> (Chapter 8), a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-kriging" data-term="kriging">kriging</span> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-prediction-standard-error" data-term="prediction standard error">prediction standard error</span> (Chapter 16), and an <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-root-mean-square-error-rmse" data-term="root mean square error (RMSE)">RMSE</span> are all descriptions of the cloud.</p>
+<p>Uncertainty also <strong>propagates</strong>. When <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layers</span> are combined in a suitability or risk model (Chapters 17 and 18), the errors in each input carry into the output, and can compound. A slope layer computed from an elevation model inherits the elevation model’s errors, and so does every suitability score built on that slope.</p>
+</section>
+<section id="uncertainty-in-abstraction" class="level3" data-number="19.3.3">
+<h3 data-number="19.3.3" class="anchored" data-anchor-id="uncertainty-in-abstraction"><span class="header-section-number">19.3.3</span> Uncertainty in abstraction</h3>
+<p>Abstraction makes <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-data" data-term="spatial data">geographic information</span> readable and usable. The price is uncertainty: every simplification hides some detail (<a href="#fig-abstraction" class="quarto-xref">Figure&nbsp;<span>19.6</span></a>). A city block with buildings, trees, and a pond can be drawn as building footprints, or as a single point symbol. The symbol is much easier to read and compare across a whole map, but the reader can no longer see what is actually there. Map design is a deliberate compromise between clarity and certainty. Good cartographers make that trade on purpose, and tell the reader when it matters.</p>
+<div id="fig-abstraction" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Three panels of the same square city block. Left, what is there: gray rooftops of six buildings, green trees, and a blue pond on tan ground. Middle, building footprints: six plain gray rectangles in an outlined block. Right, one point symbol: a single red star in an empty dashed square. Below: clarity goes up, certainty about what is really there goes down.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-abstraction-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/uncertainty/abstraction.png" class="img-fluid figure-img" alt="Three panels of the same square city block. Left, what is there: gray rooftops of six buildings, green trees, and a blue pond on tan ground. Middle, building footprints: six plain gray rectangles in an outlined block. Right, one point symbol: a single red star in an empty dashed square. Below: clarity goes up, certainty about what is really there goes down.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-abstraction-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;19.6: Abstraction. As a city block is drawn more simply, clarity goes up, and certainty about what is really there goes down.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="sec-type-errors" class="level3" data-number="19.3.4">
+<h3 data-number="19.3.4" class="anchored" data-anchor-id="sec-type-errors"><span class="header-section-number">19.3.4</span> Uncertainty in use: Type 1 and Type 2 errors</h3>
+<p>The last stage is the reader. Even perfect data can be misread, in two ways that parallel errors in statistics (<a href="#tbl-type-errors" class="quarto-xref">Table&nbsp;<span>19.3</span></a>).</p>
+<div id="tbl-type-errors" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-type-errors-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;19.3: Type 1 and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-type-2-error" data-term="Type 2 error">Type 2 errors</span> in reading maps.
+</figcaption>
+<div aria-describedby="tbl-type-errors-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Error</th>
+<th>Map reading</th>
+<th>In statistics</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Type 1</strong>: “seeing wrong”</td>
+<td>Concluding that a pattern exists where none exists, such as a cluster that is only an artifact of how classes were drawn</td>
+<td>A false positive</td>
+</tr>
+<tr class="even">
+<td><strong>Type 2</strong>: “not seeing”</td>
+<td>Missing a pattern that does exist, perhaps because the symbolization hid it</td>
+<td>A false negative</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Type 2 errors are the more problematic. A pattern someone claims to see can be checked and challenged. A pattern that nobody notices is never investigated at all.</p>
+</section>
+</section>
+<section id="sec-visualizing-uncertainty" class="level2" data-number="19.4">
+<h2 data-number="19.4" class="anchored" data-anchor-id="sec-visualizing-uncertainty"><span class="header-section-number">19.4</span> Visualizing uncertainty</h2>
+<section id="why-show-it" class="level3" data-number="19.4.1">
+<h3 data-number="19.4.1" class="anchored" data-anchor-id="why-show-it"><span class="header-section-number">19.4.1</span> Why show it?</h3>
+<p>In science, a number without an <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-error" data-term="error">error</span> estimate is incomplete, and scientific datasets are not considered complete without measures of error, accuracy, completeness, or confidence. The same standard now applies to maps. If <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-uncertainty" data-term="uncertainty">uncertainty</span> is part of the data, hiding it misrepresents the data, and putting it in a footnote or a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-metadata" data-term="metadata">metadata</span> file means most readers never see it. MacEachren and colleagues <span class="citation" data-cites="maceachren2005">(2005)</span> argue that uncertainty belongs in the main display, and that doing this well takes people who understand both <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-data" data-term="spatial data">geographic data</span> and how readers perceive graphics, which is what cartographers are trained to do.</p>
+</section>
+<section id="an-everyday-example" class="level3" data-number="19.4.2">
+<h3 data-number="19.4.2" class="anchored" data-anchor-id="an-everyday-example"><span class="header-section-number">19.4.2</span> An everyday example</h3>
+<p>Most people read an uncertainty display every day without thinking about it: the shaded circle around the blue dot on a phone’s map (<a href="#fig-location-circle" class="quarto-xref">Figure&nbsp;<span>19.7</span></a>). The dot is the phone’s best estimate of your position, and the circle is where you probably are. On Android, the accuracy radius is a 68% confidence circle: there is about a two-in-three chance you are inside it. When the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-gps" data-term="GPS">GPS</span> signal is weak, indoors or between tall buildings, the circle grows. <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-transparency" data-term="transparency">Transparency</span> lets it show uncertainty without hiding the map underneath. If the app showed only the dot, people would trust it more than they should.</p>
+<div id="fig-location-circle" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Two stylized street maps with a blue dot at the same place. Left, outdoors, strong GPS signal: a small pale blue circle around the dot, barely bigger than a building. Right, indoors or between tall buildings: a large pale blue circle covering several blocks, labeled accuracy radius: about a 2-in-3 chance you are inside.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-location-circle-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/uncertainty/location-circle.png" class="img-fluid figure-img" alt="Two stylized street maps with a blue dot at the same place. Left, outdoors, strong GPS signal: a small pale blue circle around the dot, barely bigger than a building. Right, indoors or between tall buildings: a large pale blue circle covering several blocks, labeled accuracy radius: about a 2-in-3 chance you are inside.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-location-circle-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;19.7: The location accuracy circle on a phone map, with a strong signal (left) and a weak one (right).
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="visual-variables-for-uncertainty" class="level3" data-number="19.4.3">
+<h3 data-number="19.4.3" class="anchored" data-anchor-id="visual-variables-for-uncertainty"><span class="header-section-number">19.4.3</span> Visual variables for uncertainty</h3>
+<p>Cartographers describe symbols with <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-visual-variable" data-term="visual variable">visual variables</span></strong>: size, shape, color hue, color value, and so on. MacEachren <span class="citation" data-cites="maceachren1992">(1992)</span> suggested adding variables that read naturally as “less certain” (<a href="#fig-visual-variables" class="quarto-xref">Figure&nbsp;<span>19.8</span></a>):</p>
+<ul>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-crispness" data-term="crispness">Crispness</span></strong>: sharp edges where boundaries are known, and blurred edges where they are not. This suits fuzzy boundaries such as soil types or the edge of a wildfire.</li>
+<li><strong>Transparency</strong>: a faded symbol tells readers to trust it less, as in the phone’s location circle.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-saturation" data-term="saturation">Saturation</span></strong>: rich color for reliable values, washed-out color for doubtful ones. Keep the hue the same, so that the data category doesn’t seem to change.</li>
+<li><strong>Added symbols</strong>: glyphs, error bars, question marks, or labels placed on top of the data.</li>
+</ul>
+<p>The first three are <strong>intrinsic</strong>: they change the symbol itself. Added symbols are <strong>extrinsic</strong>: they add a new symbol. Extrinsic symbols are explicit, but they add clutter.</p>
+<div id="fig-visual-variables" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Four pairs of dark green circles, each labeled certain on the left and uncertain on the right. Crispness: a sharp-edged circle and a blurred one. Transparency: a solid circle and a pale, faded one. Saturation: a rich green circle and a grayish, washed-out green one. Added symbols: a plain circle and one with a white question mark and a horizontal error bar across it.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-visual-variables-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/uncertainty/visual-variables.png" class="img-fluid figure-img" alt="Four pairs of dark green circles, each labeled certain on the left and uncertain on the right. Crispness: a sharp-edged circle and a blurred one. Transparency: a solid circle and a pale, faded one. Saturation: a rich green circle and a grayish, washed-out green one. Added symbols: a plain circle and one with a white question mark and a horizontal error bar across it.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-visual-variables-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;19.8: Four visual variables for showing uncertainty, after MacEachren <span class="citation" data-cites="maceachren1992">(1992)</span>.
+</figcaption>
+</figure>
+</div>
+<p><a href="#fig-estimate-map" class="quarto-xref">Figure&nbsp;<span>19.9</span></a> applies transparency and added symbols to a map of estimates, such as the percent of people in poverty from the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-american-community-survey-acs" data-term="American Community Survey (ACS)">ACS</span>. <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-census-tract" data-term="census tract">Tracts</span> with large <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-margin-of-error-moe" data-term="margin of error (MOE)">margins of error</span> (Chapter 8) are faded, so readers’ eyes go first to the values they can trust.</p>
+<div id="fig-estimate-map" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Two 7 by 7 grids of squares colored from pale yellow to dark blue, with a color bar for estimated percent from 5 to 45. The left grid shows every square at full color. The right grid shows the same colors, but about half the squares are faded toward white, and the palest ones have a gray question mark; a dark blue cluster in the lower right stays mostly solid.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-estimate-map-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/uncertainty/estimate-map.png" class="img-fluid figure-img" alt="Two 7 by 7 grids of squares colored from pale yellow to dark blue, with a color bar for estimated percent from 5 to 45. The left grid shows every square at full color. The right grid shows the same colors, but about half the squares are faded toward white, and the palest ones have a gray question mark; a dark blue cluster in the lower right stays mostly solid.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-estimate-map-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;19.9: The same made-up estimates mapped without (left) and with (right) their uncertainty. On the right, estimates with a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coefficient-of-variation-cv" data-term="coefficient of variation (CV)">coefficient of variation</span> from 15% to 30% are faded, and those over 30% are very faded and marked with a question mark.
+</figcaption>
+</figure>
+</div>
+<p>Two more tips. Never rely on color alone: pair these effects with a legend that explains them in words. And test the design. A review of user studies found that people can use uncertainty displays well, but that which design works best depends on the task <span class="citation" data-cites="kinkeldey2014">(Kinkeldey et al. 2014)</span>.</p>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Think about it
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The National Hurricane Center’s “cone of uncertainty” shows where the <em>center</em> of a storm will probably go, not how big the storm is. Many people read it as the area that will be hit. Is that a Type 1 or a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-type-2-error" data-term="Type 2 error">Type 2 error</span>? How would you redesign the map?</p>
+</div>
+</div>
+</section>
+<section id="historical-displays-of-uncertainty" class="level3" data-number="19.4.4">
+<h3 data-number="19.4.4" class="anchored" data-anchor-id="historical-displays-of-uncertainty"><span class="header-section-number">19.4.4</span> Historical displays of uncertainty</h3>
+<p>Showing uncertainty is not new. Printed topographic maps often carried a small <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-reliability-diagram" data-term="reliability diagram">reliability diagram</span></strong> in the margin, dividing the sheet into zones by survey method and date, such as a 1925 ground survey and 1948 aerial photographs (<a href="#fig-reliability" class="quarto-xref">Figure&nbsp;<span>19.10</span></a>). Contour legends split lines into reliable and approximate.</p>
+<div id="fig-reliability" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Left: a rectangle labeled reliability diagram, divided into three zones: diagonal hatching in the lower left, dots in the lower right, and plain white across the top. Right: a legend. Diagonal hatching, plane-table ground survey, 1925. Dots, aerial photographs, 1948. Plain, compiled from older maps, date unknown. Below, contours: a solid brown line, reliable, and a dashed brown line, approximate.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-reliability-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/uncertainty/reliability-diagram.png" class="img-fluid figure-img" alt="Left: a rectangle labeled reliability diagram, divided into three zones: diagonal hatching in the lower left, dots in the lower right, and plain white across the top. Right: a legend. Diagonal hatching, plane-table ground survey, 1925. Dots, aerial photographs, 1948. Plain, compiled from older maps, date unknown. Below, contours: a solid brown line, reliable, and a dashed brown line, approximate.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-reliability-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;19.10: A schematic reliability diagram and contour legend, like those printed in the margins of older topographic maps.
+</figcaption>
+</figure>
+</div>
+<p>These displays are a good start, but minimalist. They describe how the map was <em>compiled</em>. They don’t say whether the map is good enough for <em>your</em> purpose, such as siting a well or planning a hike. That gap between compilation information and <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-fitness-for-use" data-term="fitness for use">fitness for use</span></strong> is still a challenge today.</p>
+</section>
+</section>
+<section id="sec-why-care" class="level2" data-number="19.5">
+<h2 data-number="19.5" class="anchored" data-anchor-id="sec-why-care"><span class="header-section-number">19.5</span> Why do we care?</h2>
+<section id="whose-fault" class="level3" data-number="19.5.1">
+<h3 data-number="19.5.1" class="anchored" data-anchor-id="whose-fault"><span class="header-section-number">19.5.1</span> Whose fault?</h3>
+<p><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-uncertainty" data-term="uncertainty">Uncertainty</span> has real consequences. In April 2008, a charter bus carrying a Seattle high school softball team hit the Arboretum Sewer Trestle, a low bridge in the Washington Park Arboretum, shearing off the bus’s roof and injuring several students. According to news reports, the bus company said the driver had been following a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-gps" data-term="GPS">GPS</span> unit set up for cars.</p>
+<p>Who was at fault? The bus company chose the device. The driver passed the clearance signs. The navigation map did not record height limits for vehicles. The data provider may never have collected them. When map data are incomplete or uncertain, and nobody communicates that, responsibility gets spread thin. Some communities now post road signs warning drivers not to trust their sat nav.</p>
+</section>
+<section id="living-with-uncertainty" class="level3" data-number="19.5.2">
+<h3 data-number="19.5.2" class="anchored" data-anchor-id="living-with-uncertainty"><span class="header-section-number">19.5.2</span> Living with uncertainty</h3>
+<p>The Buddhist teacher Pema Chödrön writes that “uncertainty is all we truly have,” and that much suffering comes from resisting that fact <span class="citation" data-cites="chodron2002">(Chödrön 2002)</span>. Her point applies to maps too. Pretending data are certain feels safer, but it sets readers up to be misled. Accepting and showing uncertainty is more honest and, in the end, more useful. What would have changed if the bus’s navigation map had said “height limits unknown on this route”?</p>
+<p>Our job as <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> analysts and cartographers is not to eliminate uncertainty, which is impossible, but to measure it, document it in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-metadata" data-term="metadata">metadata</span>, and show it, so that readers can decide whether a map is fit for their purpose.</p>
+</section>
+</section>
+<section id="sec-uncertainty-software" class="level2" data-number="19.6">
+<h2 data-number="19.6" class="anchored" data-anchor-id="sec-uncertainty-software"><span class="header-section-number">19.6</span> Uncertainty in ArcGIS Pro and QGIS</h2>
+<ul>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-positional-accuracy" data-term="positional accuracy">Positional accuracy</span>.</strong> Compute <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-root-mean-square-error-rmse" data-term="root mean square error (RMSE)">RMSE</span> from <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-test-point" data-term="test point">test points</span> in a table with the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-field-calculator" data-term="field calculator">Field Calculator</span>, or use the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-residual" data-term="residual">residuals</span> reported by the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-georeferencing" data-term="georeferencing">georeferencing</span> tools (Chapter 9).</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-logical-consistency" data-term="logical consistency">Logical consistency</span>.</strong> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span>: <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geodatabase" data-term="geodatabase">geodatabase</span> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-topology" data-term="topology">topology</span> rules and the Validate Topology tool, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-attribute" data-term="attribute">attribute</span> rules. <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span>: the Topology Checker and Geometry Checker plugins, and the Check Validity and Fix Geometries tools.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-metadata" data-term="metadata">Metadata</span>.</strong> ArcGIS Pro and QGIS both have metadata editors, under a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layer</span>’s Properties, for recording lineage, accuracy, and constraints.</li>
+<li><strong>Showing <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-uncertainty" data-term="uncertainty">uncertainty</span>.</strong> Use <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-transparency" data-term="transparency">transparency</span> or <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-saturation" data-term="saturation">saturation</span> driven by a field (in ArcGIS Pro, “Vary <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-symbology" data-term="symbology">symbology</span> by attribute”; in QGIS, data-defined overrides), or a bivariate color scheme of estimate and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-margin-of-error-moe" data-term="margin of error (MOE)">margin of error</span>. Map <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-kriging" data-term="kriging">kriging</span>’s <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-prediction-standard-error" data-term="prediction standard error">prediction standard error</span> beside the prediction (Chapter 16).</li>
+</ul>
+</section>
+<section id="check-your-understanding" class="level2" data-number="19.7">
+<h2 data-number="19.7" class="anchored" data-anchor-id="check-your-understanding"><span class="header-section-number">19.7</span> Check your understanding</h2>
+<ol type="1">
+<li><p>The difference between a recorded value and the true value is: <select class="webex-select"><option value="blank"></option><option value="answer">Error</option><option value="">Uncertainty</option><option value="">Lineage</option><option value="">Precision</option></select></p></li>
+<li><p>The sources, methods, and processing history of a dataset are its: <select class="webex-select"><option value="blank"></option><option value="">Completeness</option><option value="answer">Lineage</option><option value="">Temporal quality</option><option value="">Logical consistency</option></select></p></li>
+<li><p>Four test points are off by 3, 4, 0, and 0 m. What is the RMSE, in meters? <input class="webex-solveme nospaces" size="4" data-answer="[&quot;2.5&quot;]"></p></li>
+<li><p>A coffee shop stored as a polygon in a layer of points is a problem of: <select class="webex-select"><option value="blank"></option><option value="">Positional accuracy</option><option value="answer">Logical consistency</option><option value="">Temporal quality</option><option value="">Lineage</option></select></p></li>
+<li><p>A map still shows a building that was torn down five years ago. Which elements of quality does this affect? <select class="webex-select"><option value="blank"></option><option value="answer">Completeness and temporal quality</option><option value="">Positional accuracy only</option><option value="">Lineage only</option><option value="">None</option></select></p></li>
+<li><p>Blurring the edges of a symbol to show uncertainty uses the visual variable of: <select class="webex-select"><option value="blank"></option><option value="">Saturation</option><option value="answer">Crispness</option><option value="">Size</option><option value="">Shape</option></select></p></li>
+<li><p>Missing a pattern that really exists on a map is a: <select class="webex-select"><option value="blank"></option><option value="">Type 1 error</option><option value="answer">Type 2 error</option><option value="">Positional error</option><option value="">Topology error</option></select></p></li>
+<li><p>Under the 1947 National Map Accuracy Standards, at 1:24,000, 90% of tested points must fall within 40 feet of their true positions. <select class="webex-select"><option value="blank"></option><option value="answer">TRUE</option><option value="">FALSE</option></select></p></li>
+</ol>
+</section>
+<section id="summary" class="level2" data-number="19.8">
+<h2 data-number="19.8" class="anchored" data-anchor-id="summary"><span class="header-section-number">19.8</span> Summary</h2>
+<ul>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-uncertainty" data-term="uncertainty">Uncertainty</span></strong> is the degree to which we aren’t sure of something: the cloud of possible values around what we record. <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-error" data-term="error">Error</span></strong> is the gap between a recorded value and the truth, which we usually can’t know. Every map carries uncertainty.</li>
+<li>Seven elements of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-data-quality" data-term="spatial data quality">data quality</span> describe where it comes from: <strong>lineage</strong>, <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-positional-accuracy" data-term="positional accuracy">positional accuracy</span></strong>, <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-attribute-accuracy" data-term="attribute accuracy">attribute accuracy</span></strong>, <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-logical-consistency" data-term="logical consistency">logical consistency</span></strong>, <strong>completeness</strong>, <strong>usage, purpose, and constraints</strong>, and <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-temporal-quality" data-term="temporal quality">temporal quality</span></strong>.</li>
+<li><strong>Positional accuracy</strong> is summarized by the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-root-mean-square-error-rmse" data-term="root mean square error (RMSE)">RMSE</span></strong> of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-test-point" data-term="test point">test points</span>, and judged against standards such as the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-national-map-accuracy-standards-nmas" data-term="National Map Accuracy Standards (NMAS)">National Map Accuracy Standards</span></strong> (at 1:24,000, 90% of points within 40 feet).</li>
+<li>Uncertainty can enter at every stage of the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-lifecycle" data-term="data lifecycle">data lifecycle</span></strong>: collection, processing, storage, display, and use. It propagates when <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layers</span> are combined, and <strong>abstraction</strong> trades certainty for clarity.</li>
+<li>Readers make <strong>Type 1</strong> (“seeing wrong”) and <strong>Type 2</strong> (“not seeing”) errors. <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-type-2-error" data-term="Type 2 error">Type 2 errors</span> are the more problematic, because nobody investigates a pattern they never noticed.</li>
+<li>Uncertainty belongs on the map, not in a footnote. <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-crispness" data-term="crispness">Crispness</span></strong>, <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-transparency" data-term="transparency">transparency</span></strong>, and <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-saturation" data-term="saturation">saturation</span></strong> (intrinsic) and <strong>added symbols</strong> (extrinsic) show it, with a legend that explains them in words.</li>
+<li>The goal is not to eliminate uncertainty but to communicate it, so readers can judge <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-fitness-for-use" data-term="fitness for use">fitness for use</span></strong>.</li>
+</ul>
+</section>
+<section id="exercises" class="level2" data-number="19.9">
+<h2 data-number="19.9" class="anchored" data-anchor-id="exercises"><span class="header-section-number">19.9</span> Exercises</h2>
+<ol type="1">
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-root-mean-square-error-rmse" data-term="root mean square error (RMSE)">RMSE</span>.</strong> Six <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-test-point" data-term="test point">test points</span> on a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-parcel" data-term="parcel">parcel</span> map are off by 1.2, 0.8, 2.5, 1.0, 0.6, and 3.1 m. Compute the RMSE. Which point contributes most, and why does squaring make it count so much?</li>
+<li><strong>Accuracy standard.</strong> Under the 1947 <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-national-map-accuracy-standards-nmas" data-term="National Map Accuracy Standards (NMAS)">National Map Accuracy Standards</span>, what is the allowable <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-error" data-term="error">error</span> on the ground for a map at 1:100,000? (Hint: 1/50 inch on the map.)</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-logical-consistency" data-term="logical consistency">Logical consistency</span>.</strong> Download the points of interest for Chapel Hill from <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-openstreetmap" data-term="OpenStreetMap">OpenStreetMap</span> (Chapter 10), and find every record for one chain store or restaurant. How many ways is its name written? What would a query for the exact name miss?</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-metadata" data-term="metadata">Metadata</span>.</strong> Find a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layer</span> on NC OneMap, and read its metadata. Which of the seven quality elements does it report? Which are missing?</li>
+<li><strong>Map the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-margin-of-error-moe" data-term="margin of error (MOE)">margin of error</span>.</strong> Map an <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-american-community-survey-acs" data-term="American Community Survey (ACS)">ACS</span> estimate, such as median household income, for North Carolina <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-census-tract" data-term="census tract">census tracts</span> (Chapter 8). Make a second map that fades tracts whose <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coefficient-of-variation-cv" data-term="coefficient of variation (CV)">coefficient of variation</span> is over 30%. Which tracts’ values should a reader trust least?</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-uncertainty" data-term="uncertainty">Uncertainty</span> in your project.</strong> For a suitability or risk model you have built (Chapters 17 and 18), list one source of uncertainty at each stage of the lifecycle. Which one do you think affects the result most?</li>
+</ol>
+</section>
+<section id="further-reading-and-online-resources" class="level2" data-number="19.10">
+<h2 data-number="19.10" class="anchored" data-anchor-id="further-reading-and-online-resources"><span class="header-section-number">19.10</span> Further reading and online resources</h2>
+<section id="books-and-papers" class="level3" data-number="19.10.1">
+<h3 data-number="19.10.1" class="anchored" data-anchor-id="books-and-papers"><span class="header-section-number">19.10.1</span> Books and papers</h3>
+<ul>
+<li><em><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-uncertainty" data-term="uncertainty">Uncertainty</span> in Geographical Information</em>, by Jingxiong Zhang and Michael Goodchild <span class="citation" data-cites="zhang2002">(Zhang and Goodchild 2002)</span>.</li>
+<li>P. A. J. van Oort, <em><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-data-quality" data-term="spatial data quality">Spatial Data Quality</span>: From Description to Application</em> <span class="citation" data-cites="vanoort2006">(Oort 2006)</span>, the source of the seven elements of quality.</li>
+<li>Alan MacEachren, “Visualizing uncertain information” <span class="citation" data-cites="maceachren1992">(MacEachren 1992)</span>, which proposed the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-visual-variable" data-term="visual variable">visual variables</span> for uncertainty.</li>
+<li>Alan MacEachren and colleagues, “Visualizing <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geospatial" data-term="geospatial">geospatial</span> information uncertainty: What we know and what we need to know” <span class="citation" data-cites="maceachren2005">(MacEachren et al. 2005)</span>.</li>
+<li>Christoph Kinkeldey, Alan MacEachren, and Jochen Schiewe, “How to assess visual communication of uncertainty?” <span class="citation" data-cites="kinkeldey2014">(Kinkeldey et al. 2014)</span>: <a href="https://repos.hcu-hamburg.de/handle/hcu/758" class="uri">https://repos.hcu-hamburg.de/handle/hcu/758</a>.</li>
+<li><em>How to Lie with Maps</em>, by Mark Monmonier <span class="citation" data-cites="monmonier2018">(Monmonier 2018)</span>.</li>
+<li>Claus Wilke, <em>Fundamentals of Data Visualization</em>, chapter 16, “Visualizing uncertainty” <span class="citation" data-cites="wilke2019">(Wilke 2019)</span>, free online: <a href="https://clauswilke.com/dataviz/visualizing-uncertainty.html" class="uri">https://clauswilke.com/dataviz/visualizing-uncertainty.html</a>.</li>
+<li><em><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> Fundamentals</em>, by Paul Bolstad <span class="citation" data-cites="bolstad2022">(Bolstad 2022)</span>. The chapter on data standards and data quality covers accuracy testing and standards.</li>
+<li><em>Comfortable with Uncertainty</em>, by Pema Chödrön <span class="citation" data-cites="chodron2002">(Chödrön 2002)</span>.</li>
+</ul>
+</section>
+<section id="accuracy-standards" class="level3" data-number="19.10.2">
+<h3 data-number="19.10.2" class="anchored" data-anchor-id="accuracy-standards"><span class="header-section-number">19.10.2</span> Accuracy standards</h3>
+<ul>
+<li>U.S. Geological Survey, “Map Accuracy Standards” (Fact Sheet 171-99), describing the 1947 <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-national-map-accuracy-standards-nmas" data-term="National Map Accuracy Standards (NMAS)">National Map Accuracy Standards</span>: <a href="https://pubs.usgs.gov/fs/1999/0171/report.pdf" class="uri">https://pubs.usgs.gov/fs/1999/0171/report.pdf</a>.</li>
+<li>Federal <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-data" data-term="spatial data">Geographic Data</span> Committee, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-national-standard-for-spatial-data-accuracy-nssda" data-term="National Standard for Spatial Data Accuracy (NSSDA)">National Standard for Spatial Data Accuracy</span> <span class="citation" data-cites="fgdc1998">(Federal Geographic Data Committee 1998)</span>: <a href="https://fgdc.gov/standards/projects/accuracy/part3" class="uri">https://fgdc.gov/standards/projects/accuracy/part3</a>.</li>
+<li>ASPRS <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-positional-accuracy" data-term="positional accuracy">Positional Accuracy</span> Standards for Digital Geospatial Data: <a href="https://www.asprs.org/news-resources/asprs-positional-accuracy-standards-for-digital-geospatial-data" class="uri">https://www.asprs.org/news-resources/asprs-positional-accuracy-standards-for-digital-geospatial-data</a>.</li>
+<li>ISO 19157-1:2023, <em>Geographic information: Data quality</em>: <a href="https://www.iso.org/standard/78900.html" class="uri">https://www.iso.org/standard/78900.html</a>.</li>
+<li>GPS.gov, “<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-gps" data-term="GPS">GPS</span> Accuracy”: <a href="https://www.gps.gov/systems/gps/performance/accuracy/" class="uri">https://www.gps.gov/systems/gps/performance/accuracy/</a>.</li>
+</ul>
+</section>
+<section id="checking-data-in-arcgis-pro-and-qgis" class="level3" data-number="19.10.3">
+<h3 data-number="19.10.3" class="anchored" data-anchor-id="checking-data-in-arcgis-pro-and-qgis"><span class="header-section-number">19.10.3</span> Checking data in ArcGIS Pro and QGIS</h3>
+<ul>
+<li><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-esri" data-term="Esri">Esri</span>, “<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-topology" data-term="topology">Topology</span> in ArcGIS”: <a href="https://pro.arcgis.com/en/pro-app/latest/help/data/topologies/topology-in-arcgis.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/help/data/topologies/topology-in-arcgis.htm</a>.</li>
+<li><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span> User Guide, “Topology Checker Plugin”: <a href="https://docs.qgis.org/latest/en/docs/user_manual/plugins/core_plugins/plugins_topology_checker.html" class="uri">https://docs.qgis.org/latest/en/docs/user_manual/plugins/core_plugins/plugins_topology_checker.html</a>.</li>
+<li>QGIS User Guide, “Geometry Checker Plugin”: <a href="https://docs.qgis.org/latest/en/docs/user_manual/plugins/core_plugins/plugins_geometry_checker.html" class="uri">https://docs.qgis.org/latest/en/docs/user_manual/plugins/core_plugins/plugins_geometry_checker.html</a>.</li>
+</ul>
+</section>
+<section id="uncertainty-on-maps" class="level3" data-number="19.10.4">
+<h3 data-number="19.10.4" class="anchored" data-anchor-id="uncertainty-on-maps"><span class="header-section-number">19.10.4</span> Uncertainty on maps</h3>
+<ul>
+<li>National Hurricane Center, “Definition of the NHC Track Forecast Cone”: <a href="https://www.nhc.noaa.gov/aboutcone.shtml" class="uri">https://www.nhc.noaa.gov/aboutcone.shtml</a>.</li>
+<li>Android Developers, <code>Location.getAccuracy()</code>, which defines the accuracy radius: <a href="https://developer.android.com/reference/android/location/Location#getAccuracy()" class="uri">https://developer.android.com/reference/android/location/Location#getAccuracy()</a>.</li>
+<li>Penn State, GEOG 486: <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cartography" data-term="cartography">Cartography</span> and Visualization: <a href="https://www.e-education.psu.edu/geog486/" class="uri">https://www.e-education.psu.edu/geog486/</a>.</li>
+<li>The <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-gis-t-body-of-knowledge" data-term="GIS&amp;T Body of Knowledge">GIS&amp;T Body of Knowledge</span>: <a href="https://www.ucgis.org/site/gis-t-body-of-knowledge" class="uri">https://www.ucgis.org/site/gis-t-body-of-knowledge</a>.</li>
+</ul>
+</section>
+<section id="map-errors-and-traps" class="level3" data-number="19.10.5">
+<h3 data-number="19.10.5" class="anchored" data-anchor-id="map-errors-and-traps"><span class="header-section-number">19.10.5</span> Map errors and traps</h3>
+<ul>
+<li>NPR, “An Imaginary Town Becomes Real, Then Not. True Story” (Agloe, New York): <a href="https://www.npr.org/blogs/krulwich/2014/03/18/290236647/an-imaginary-town-becomes-real-then-not-true-story" class="uri">https://www.npr.org/blogs/krulwich/2014/03/18/290236647/an-imaginary-town-becomes-real-then-not-true-story</a>.</li>
+<li>UC Berkeley Library, “Map Traps”: <a href="https://guides.lib.berkeley.edu/mapsandmore/maptraps" class="uri">https://guides.lib.berkeley.edu/mapsandmore/maptraps</a>.</li>
+<li>Cascade PBS, “Attack of the giant ‘Sewer Trestle’” (the 2008 bus crash): <a href="https://www.cascadepbs.org/2008/04/attack-giant-sewer-trestle" class="uri">https://www.cascadepbs.org/2008/04/attack-giant-sewer-trestle</a>.</li>
+</ul>
+
+
+<div class="glossary-defs" hidden="">
+<span id="gloss-uncertainty">The degree to which we aren’t sure of something: the cloud of possible
+values around a recorded value.</span>
+<span id="gloss-error">The difference between a recorded value and the true value, which we
+usually can’t know exactly.</span>
+<span id="gloss-spatial-data">Data tied to a location on or near Earth, such as the address of a
+house, the outline of a county, or the elevation at a point.</span>
+<span id="gloss-positional-accuracy">How close the coordinates in a dataset are to the true positions of the
+features.</span>
+<span id="gloss-root-mean-square-error-rmse">The square root of the average squared residual: one number that sums up
+how well a model fits.</span>
+<span id="gloss-data-lifecycle">The stages a dataset passes through: collection, processing, storage,
+display, and use. Uncertainty can enter at each one.</span>
+<span id="gloss-visual-variable">A property of a map symbol that can change to show data, such as size,
+shape, hue, value, crispness, transparency, or saturation.</span>
+<span id="gloss-type-2-error">“Not seeing”: missing a pattern that does exist, like a false negative
+in statistics.</span>
+<span id="gloss-population-density">The number of people per unit of area, such as people per square mile.</span>
+<span id="gloss-coordinate-system">A system of numbers, such as latitude and longitude, that gives every
+location a unique position so layers line up with each other.</span>
+<span id="gloss-margin-of-error-moe">The likely range of sampling error around an estimate. Census Bureau
+margins of error use a 90 percent confidence level.</span>
+<span id="gloss-spatial-interpolation">Estimating the value of an attribute at unsampled locations from
+observations at sampled ones.</span>
+<span id="gloss-spatial-data-quality">How well a geographic dataset fits its intended use, described by
+elements such as lineage, accuracy, consistency, and completeness.</span>
+<span id="gloss-iso-19157">The international standard for describing and measuring the quality of
+geographic data.</span>
+<span id="gloss-attribute-accuracy">How correct the non-spatial values in a dataset are, such as a feature’s
+type or name.</span>
+<span id="gloss-non-spatial-data">Data with no location of their own, such as a list of grades. When
+non-spatial data describe a spatial feature, they are its attributes.</span>
+<span id="gloss-logical-consistency">Whether data agree with their own rules, for example polygons that close
+and roads that meet at intersections.</span>
+<span id="gloss-temporal-quality">How current a dataset is, and how accurate its dates are.</span>
+<span id="gloss-gps">The Global Positioning System: U.S. satellites that let a receiver, such
+as your phone, work out its location. GNSS is the general name for GPS
+and similar systems from other countries.</span>
+<span id="gloss-test-point">A location whose true position is known from a more accurate source,
+used to measure a map’s positional accuracy.</span>
+<span id="gloss-check-point">A point with known coordinates that is not used to fit a transformation,
+kept back to test its accuracy.</span>
+<span id="gloss-georeferencing">Transforming a raster, such as a scanned map or image, from file
+coordinates to map coordinates.</span>
+<span id="gloss-cross-validation">Testing an interpolation by removing each observation in turn,
+estimating it from the rest, and recording the error.</span>
+<span id="gloss-national-map-accuracy-standards-nmas">The 1947 U.S. standard: at scales of 1:20,000 or smaller, 90% of tested
+points must be within 1/50 inch on the map (40 feet at 1:24,000).</span>
+<span id="gloss-national-standard-for-spatial-data-accuracy-nssda">The 1998 U.S. standard that reports positional accuracy in ground units
+at 95% confidence, whatever the map scale.</span>
+<span id="gloss-attribute">A non-spatial fact about a feature, such as a building’s name or the
+year it was built. Attributes are stored in a table with one row per
+feature.</span>
+<span id="gloss-confusion-matrix">A table that cross-tabulates mapped classes against true classes at test
+sites; the diagonal holds the correctly classed sites.</span>
+<span id="gloss-copyright-trap">A deliberate error, such as a made-up town or street, put on a map to
+reveal copying.</span>
+<span id="gloss-polygon">A vector feature that encloses an area: a closed line whose first and
+last points are the same, such as a lake, a park, or a county.</span>
+<span id="gloss-geocoding">Turning an address or place name into coordinates, so it can be put on a
+map.</span>
+<span id="gloss-topology">The recorded connections between features, such as which polygons share
+an edge and which lines meet at a node. It keeps neighbors from having
+gaps or overlaps.</span>
+<span id="gloss-undershoot">A line that stops just short of the line it should meet: a topology
+error.</span>
+<span id="gloss-overshoot">A line that runs past the line it should meet: a topology error.</span>
+<span id="gloss-geographic-information-system-gis">“A computer-based system to aid in the collection, maintenance, storage,
+analysis, output, and distribution of spatial data and information”
+(Bolstad). Its five components are data, hardware, software, people, and
+procedures.</span>
+<span id="gloss-arcgis-pro">Esri’s commercial desktop GIS, for Windows.</span>
+<span id="gloss-geodatabase">Esri’s format for storing feature classes, tables, and rasters together.
+A file geodatabase is a folder ending in .gdb.</span>
+<span id="gloss-qgis">A free and open-source desktop GIS that runs on Windows, Mac, and Linux.</span>
+<span id="gloss-layer">A set of spatial data about one theme, such as roads, soils, or
+elevation. Layers for the same area stack on top of each other to make a
+map.</span>
+<span id="gloss-openstreetmap">A free, editable map of the world built by volunteers, founded in 2004.</span>
+<span id="gloss-temporal-stability">How long a feature stays the same, from millions of years for mountains
+to months for storefronts.</span>
+<span id="gloss-remote-sensing">Collecting information about Earth without touching it, from sensors on
+satellites, aircraft, or drones.</span>
+<span id="gloss-map-projection">A mathematical method for flattening the round Earth onto a flat map.
+Every projection distorts area, shape, distance, or direction in some
+way.</span>
+<span id="gloss-map-generalization">Deciding what detail to keep on a map, by simplifying, classifying, and
+enhancing.</span>
+<span id="gloss-kriging">A geostatistical interpolation method that weights observations using a
+model of spatial autocorrelation (the semivariogram), and estimates the
+uncertainty of each prediction.</span>
+<span id="gloss-prediction-standard-error">Kriging’s estimate of how far off each prediction might be. It is
+largest where observations are sparse.</span>
+<span id="gloss-metadata">Data about data: who made a dataset, when, how, in what coordinate
+system, and how accurate it is.</span>
+<span id="gloss-transparency">A visual variable for uncertainty: a faded, see-through symbol tells
+readers to trust it less.</span>
+<span id="gloss-crispness">A visual variable for uncertainty: sharp edges for known boundaries and
+blurred edges for uncertain ones.</span>
+<span id="gloss-saturation">The purity of a color. As a visual variable for uncertainty, rich color
+marks reliable values and washed-out color doubtful ones.</span>
+<span id="gloss-american-community-survey-acs">The Census Bureau’s yearly sample survey of about 3.5 million addresses,
+the main source of social, economic, and housing data.</span>
+<span id="gloss-census-tract">A relatively permanent subdivision of a county with 1,200 to 8,000
+people, about 4,000 on average.</span>
+<span id="gloss-coefficient-of-variation-cv">The standard error as a percentage of the estimate. Over about 40
+percent, an ACS estimate is usually treated as unreliable.</span>
+<span id="gloss-reliability-diagram">A small diagram in the margin of an older topographic map showing how
+and when each part of the sheet was mapped.</span>
+<span id="gloss-fitness-for-use">Whether a dataset or map is good enough for a particular purpose, which
+depends on the use as much as on the data.</span>
+<span id="gloss-field-calculator">A tool that computes values and writes them into a field, for every
+record or for the selected records only.</span>
+<span id="gloss-residual">The difference between an observed value and the value a model predicts;
+in georeferencing, the distance between a GCP’s true and transformed
+positions.</span>
+<span id="gloss-symbology">The rules that control how a layer is drawn: its symbols, colors, sizes,
+and classes.</span>
+<span id="gloss-parcel">A polygon for one piece of property, usually with its owner and address.</span>
+<span id="gloss-geospatial">A common synonym for <em>geographic</em>, used especially in industry,
+the military, and government.</span>
+<span id="gloss-esri">The company that makes ArcGIS, founded in 1969 by Jack and Laura
+Dangermond in Redlands, California.</span>
+<span id="gloss-cartography">The art and science of making maps.</span>
+<span id="gloss-gis-t-body-of-knowledge">A free collection of short, peer-reviewed articles on geographic
+information science and technology topics, from the University
+Consortium for Geographic Information Science (UCGIS).</span>
+</div>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script>
+
+/* update total correct if #webex-total_correct exists */
+update_total_correct = function() {
+  console.log("webex: update total_correct");
+
+  var t = document.getElementsByClassName("webex-total_correct");
+  for (var i = 0; i < t.length; i++) {
+    p = t[i].parentElement;
+    var correct = p.getElementsByClassName("webex-correct").length;
+    var solvemes = p.getElementsByClassName("webex-solveme").length;
+    var radiogroups = p.getElementsByClassName("webex-radiogroup").length;
+    var selects = p.getElementsByClassName("webex-select").length;
+
+    t[i].innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  }
+}
+
+/* webex-solution button toggling function */
+b_func = function() {
+  console.log("webex: toggle hide");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('open')) {
+    cl.remove("open");
+  } else {
+    cl.add("open");
+  }
+}
+
+/* check answers */
+check_func = function() {
+  console.log("webex: check answers");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('unchecked')) {
+    cl.remove("unchecked");
+    this.innerHTML = "Hide Answers";
+  } else {
+    cl.add("unchecked");
+    this.innerHTML = "Show Answers";
+  }
+}
+
+/* function for checking solveme answers */
+solveme_func = function(e) {
+  console.log("webex: check solveme");
+
+  var real_answers = JSON.parse(this.dataset.answer);
+  var my_answer = this.value;
+  var cl = this.classList;
+  if (cl.contains("ignorecase")) {
+    my_answer = my_answer.toLowerCase();
+  }
+  if (cl.contains("nospaces")) {
+    my_answer = my_answer.replace(/ /g, "")
+  }
+
+  if (my_answer == "") {
+    cl.remove("webex-correct");
+    cl.remove("webex-incorrect");
+  } else if (real_answers.includes(my_answer)) {
+    cl.add("webex-correct");
+    cl.remove("webex-incorrect");
+  } else {
+    cl.add("webex-incorrect");
+    cl.remove("webex-correct");
+  }
+
+  // match numeric answers within a specified tolerance
+  if(this.dataset.tol > 0){
+    var tol = JSON.parse(this.dataset.tol);
+    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+    if (matches.reduce((a, b) => a + b, 0) > 0) {
+      cl.add("webex-correct");
+    } else {
+      cl.remove("webex-correct");
+    }
+  }
+
+  // added regex bit
+  if (cl.contains("regex")){
+    answer_regex = RegExp(real_answers.join("|"))
+    if (answer_regex.test(my_answer)) {
+      cl.add("webex-correct");
+    }
+  }
+
+  update_total_correct();
+}
+
+/* function for checking select answers */
+select_func = function(e) {
+  console.log("webex: check select");
+
+  var cl = this.classList
+
+  /* add style */
+  cl.remove("webex-incorrect");
+  cl.remove("webex-correct");
+  if (this.value == "answer") {
+    cl.add("webex-correct");
+  } else if (this.value != "blank") {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+/* function for checking radiogroups answers */
+radiogroups_func = function(e) {
+  console.log("webex: check radiogroups");
+
+  var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
+  var cl = checked_button.parentElement.classList;
+  var labels = checked_button.parentElement.parentElement.children;
+
+  /* get rid of styles */
+  for (i = 0; i < labels.length; i++) {
+    labels[i].classList.remove("webex-incorrect");
+    labels[i].classList.remove("webex-correct");
+  }
+
+  /* add style */
+  if (checked_button.value == "answer") {
+    cl.add("webex-correct");
+  } else {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+window.onload = function() {
+  console.log("webex onload");
+  /* set up solution buttons */
+  var buttons = document.getElementsByTagName("button");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].parentElement.classList.contains('webex-solution')) {
+      buttons[i].onclick = b_func;
+    }
+  }
+
+  var check_sections = document.getElementsByClassName("webex-check");
+  console.log("check:", check_sections.length);
+  for (var i = 0; i < check_sections.length; i++) {
+    check_sections[i].classList.add("unchecked");
+
+    let btn = document.createElement("button");
+    btn.innerHTML = "Show Answers";
+    btn.classList.add("webex-check-button");
+    btn.onclick = check_func;
+    check_sections[i].appendChild(btn);
+
+    let spn = document.createElement("span");
+    spn.classList.add("webex-total_correct");
+    check_sections[i].appendChild(spn);
+  }
+
+  /* set up webex-solveme inputs */
+  var solveme = document.getElementsByClassName("webex-solveme");
+
+  for (var i = 0; i < solveme.length; i++) {
+    /* make sure input boxes don't auto-anything */
+    solveme[i].setAttribute("autocomplete","off");
+    solveme[i].setAttribute("autocorrect", "off");
+    solveme[i].setAttribute("autocapitalize", "off");
+    solveme[i].setAttribute("spellcheck", "false");
+    solveme[i].value = "";
+
+    /* adjust answer for ignorecase or nospaces */
+    var cl = solveme[i].classList;
+    var real_answer = solveme[i].dataset.answer;
+    if (cl.contains("ignorecase")) {
+      real_answer = real_answer.toLowerCase();
+    }
+    if (cl.contains("nospaces")) {
+      real_answer = real_answer.replace(/ /g, "");
+    }
+    solveme[i].dataset.answer = real_answer;
+
+    /* attach checking function */
+    solveme[i].onkeyup = solveme_func;
+    solveme[i].onchange = solveme_func;
+
+    solveme[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  /* set up radiogroups */
+  var radiogroups = document.getElementsByClassName("webex-radiogroup");
+  for (var i = 0; i < radiogroups.length; i++) {
+    radiogroups[i].onchange = radiogroups_func;
+  }
+
+  /* set up selects */
+  var selects = document.getElementsByClassName("webex-select");
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].onchange = select_func;
+    selects[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  update_total_correct();
+}
+
+</script>
+<!--
+  Highlights the right item in the top menu. Quarto's book layout marks
+  "Welcome" as active on every page, so this sets it from the page address:
+  the course pages match their own item, and every other page (chapters,
+  quizzes, glossary) is part of the Textbook. Pages with no menu item of
+  their own (the AI policy and privacy policy) highlight nothing.
+-->
+<script>
+(function () {
+  "use strict";
+  const COURSE_PAGES = ["index", "syllabus", "materials", "about"];
+  const NO_ITEM_PAGES = ["privacy", "ai-policy"];
+  const file = (location.pathname.split("/").pop() || "index").replace(/\.html$/, "");
+  const inRoot = !/\/chapters\//.test(location.pathname);
+  const target = inRoot && NO_ITEM_PAGES.includes(file) ? null
+    : inRoot && COURSE_PAGES.includes(file) ? file : "preface";
+  document.querySelectorAll("#navbarCollapse a.nav-link").forEach((a) => {
+    const page = (a.getAttribute("href") || "").split("/").pop().replace(/\.html$/, "");
+    const on = page === target;
+    a.classList.toggle("active", on);
+    if (on) a.setAttribute("aria-current", "page");
+    else a.removeAttribute("aria-current");
+  });
+})();
+</script>
+<!--
+  Reading settings, part 2 of 2: the "Aa" menu next to search, where readers
+  pick a font and text size. Choices are kept in this browser (localStorage)
+  and applied on every page by assets/reader-settings-head.html.
+-->
+<script>
+(function () {
+  var FONTS = [
+    { id: "", label: "Atkinson Hyperlegible (default)", css: '"Atkinson Hyperlegible Next", sans-serif' },
+    { id: "lexend", label: "Lexend", css: '"Lexend", sans-serif', href: "https://fonts.googleapis.com/css2?family=Lexend:wght@300..700&display=swap" },
+    { id: "cardo", label: "Cardo (serif)", css: '"Cardo", Georgia, serif', href: "https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&display=swap" },
+    { id: "sans", label: "Standard sans-serif", css: 'system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif' },
+    { id: "serif", label: "Serif", css: 'Georgia, Cambria, "Times New Roman", serif' },
+    { id: "dyslexic", label: "OpenDyslexic", css: '"OpenDyslexic", sans-serif' }
+  ];
+  var SIZES = { "-1": "Small", "0": "Default", "1": "Large", "2": "Larger", "3": "Largest" };
+  var MIN = -1, MAX = 3;
+  var root = document.documentElement;
+
+  function save(key, value) {
+    try {
+      if (value === "" || value === "0") localStorage.removeItem(key);
+      else localStorage.setItem(key, value);
+    } catch (e) { /* storage blocked: setting lasts for this page only */ }
+  }
+  function currentFont() { return root.getAttribute("data-reader-font") || ""; }
+  function currentSize() { return parseInt(root.getAttribute("data-reader-size") || "0", 10) || 0; }
+
+  // Add a Google Fonts stylesheet once (Lexend, Cardo). Fonts download only
+  // when text actually uses them.
+  function loadWebFont(f) {
+    if (!f.href || document.getElementById("sds-reader-webfont-" + f.id)) return;
+    var link = document.createElement("link");
+    link.rel = "stylesheet"; link.href = f.href; link.id = "sds-reader-webfont-" + f.id;
+    document.head.appendChild(link);
+  }
+
+  function setFont(id) {
+    FONTS.forEach(function (f) { if (f.id === id) loadWebFont(f); });
+    if (id) root.setAttribute("data-reader-font", id); else root.removeAttribute("data-reader-font");
+    save("sds-reader-font", id);
+  }
+  function setSize(n) {
+    n = Math.max(MIN, Math.min(MAX, n));
+    if (n) root.setAttribute("data-reader-size", String(n)); else root.removeAttribute("data-reader-size");
+    save("sds-reader-size", String(n));
+    refreshSize();
+  }
+
+  var wrap = document.createElement("div");
+  wrap.className = "sds-reader";
+  var fontOptions = FONTS.map(function (f) {
+    return '<label style=\'font-family:' + f.css.replace(/'/g, "&#39;") + '\'>' +
+      '<input class="form-check-input" type="radio" name="sds-reader-font" value="' + f.id + '"> ' + f.label + '</label>';
+  }).join("");
+  wrap.innerHTML =
+    '<button type="button" class="sds-reader-toggle" aria-expanded="false" aria-controls="sds-reader-panel" ' +
+      'title="Reading settings: font and text size">' +
+      '<span aria-hidden="true">Aa</span><span class="visually-hidden">Reading settings</span></button>' +
+    '<div class="sds-reader-panel" id="sds-reader-panel" role="dialog" aria-label="Reading settings" hidden>' +
+      '<h2>Reading settings</h2>' +
+      '<fieldset class="sds-reader-font"><legend>Font</legend>' + fontOptions + '</fieldset>' +
+      '<fieldset><legend>Text size</legend><div class="sds-reader-size-row">' +
+        '<button type="button" data-step="-1" aria-label="Smaller text">A&minus;</button>' +
+        '<output aria-live="polite"></output>' +
+        '<button type="button" data-step="1" aria-label="Larger text">A+</button>' +
+      '</div></fieldset>' +
+      '<button type="button" class="sds-reader-reset">Reset to defaults</button>' +
+    '</div>';
+
+  var toggle = wrap.querySelector(".sds-reader-toggle");
+  var panel = wrap.querySelector(".sds-reader-panel");
+  var output = wrap.querySelector("output");
+  var minus = wrap.querySelector('[data-step="-1"]');
+  var plus = wrap.querySelector('[data-step="1"]');
+
+  function refreshFont() {
+    var id = currentFont();
+    wrap.querySelectorAll('input[name="sds-reader-font"]').forEach(function (r) { r.checked = r.value === id; });
+  }
+  function refreshSize() {
+    var n = currentSize();
+    output.textContent = SIZES[String(n)] || "Default";
+    minus.disabled = n <= MIN;
+    plus.disabled = n >= MAX;
+  }
+  function open(show) {
+    panel.hidden = !show;
+    toggle.setAttribute("aria-expanded", show ? "true" : "false");
+    if (show) { FONTS.forEach(loadWebFont); refreshFont(); refreshSize(); var c = panel.querySelector("input:checked"); if (c) c.focus(); }
+  }
+
+  toggle.addEventListener("click", function (e) { e.stopPropagation(); open(panel.hidden); });
+  panel.addEventListener("click", function (e) { e.stopPropagation(); });
+  panel.addEventListener("change", function (e) { if (e.target.name === "sds-reader-font") setFont(e.target.value); });
+  minus.addEventListener("click", function () { setSize(currentSize() - 1); });
+  plus.addEventListener("click", function () { setSize(currentSize() + 1); });
+  wrap.querySelector(".sds-reader-reset").addEventListener("click", function () { setFont(""); setSize(0); refreshFont(); });
+  document.addEventListener("click", function () { if (!panel.hidden) open(false); });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !panel.hidden) { open(false); toggle.focus(); }
+  });
+
+  // Put the button by search: in the top menu on
+  // geog370.org, or by the sidebar search in the textbook-only build.
+  var navSearch = document.querySelector("#quarto-header #quarto-search");
+  if (navSearch) navSearch.parentNode.insertBefore(wrap, navSearch);
+  else {
+    var search = document.querySelector("#quarto-sidebar .sidebar-search, #quarto-sidebar #quarto-search, .sidebar-tools-main");
+    if (search && search.parentNode) search.parentNode.insertBefore(wrap, search.nextSibling);
+    else return;
+  }
+  refreshFont();
+  refreshSize();
+})();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/risk-analysis.html" class="pagination-link" aria-label="Risk Analysis">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Risk Analysis</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../chapters/qgis.html" class="pagination-link" aria-label="Getting to Know QGIS">
+        <span class="nav-page-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Getting to Know QGIS</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

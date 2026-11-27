@@ -1,0 +1,1960 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>17&nbsp; Suitability Modeling – Geographic Information Science</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/risk-analysis.html" rel="next">
+<link href="../chapters/kriging.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ebb58cfc2c0cc903b00b246007c1be77.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-58aeb932f9769ef5b136914697361c15.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-contrib/glossary-1.0.0/glossary.js"></script>
+<link href="../site_libs/quarto-contrib/glossary-1.0.0/glossary.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<!--
+  Reading settings, part 1 of 2: applies the reader's saved font and text size
+  before the page draws, so it doesn't flash in the default font first.
+  The menu itself is in assets/reader-settings.html; styles are in
+  assets/reader-settings.css.
+-->
+<script>
+  (function () {
+    try {
+      var font = localStorage.getItem("sds-reader-font");
+      var size = localStorage.getItem("sds-reader-size");
+      if (font) document.documentElement.setAttribute("data-reader-font", font);
+      // Lexend and Cardo come from Google Fonts, loaded only for readers who pick them.
+      var webFonts = {
+        lexend: "https://fonts.googleapis.com/css2?family=Lexend:wght@300..700&display=swap",
+        cardo: "https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&display=swap"
+      };
+      if (webFonts[font]) {
+        var link = document.createElement("link");
+        link.rel = "stylesheet"; link.href = webFonts[font]; link.id = "sds-reader-webfont-" + font;
+        document.head.appendChild(link);
+      }
+      if (size) document.documentElement.setAttribute("data-reader-size", size);
+    } catch (e) { /* storage blocked: keep the defaults */ }
+  })();
+</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../include/webex.css">
+<link rel="stylesheet" href="../assets/sidebar.css">
+<link rel="stylesheet" href="../assets/grade-table.css">
+<link rel="stylesheet" href="../assets/reader-settings.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../units/unit-3.html">Unit 3: Spatial Analysis</a></li><li class="breadcrumb-item"><a href="../chapters/suitability-modeling.html"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Suitability Modeling</span></a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Site">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Geographic Information Science</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/dparr1/geog-370-geographic-information-science/releases/download/textbook-pdf/Geographic-Information-Science.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../units/unit-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-1-label">Unit 1: Data Models and Projections</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section: Unit 1: Data Models and Projections">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/what-is-gis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">What Is GIS?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/what-is-geographic-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">What Is Geographic Data?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/location-and-coordinates.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Location and Coordinate Systems</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/map-projections.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Map Projections</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/attribute-queries.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Attribute Data and Queries</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/database-joins.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Databases and Table Joins</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/spatial-joins.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Spatial Joins</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../units/unit-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-2-label">Unit 2: Spatial Data Quality</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section: Unit 2: Spatial Data Quality">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/census-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Census Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/geocoding-georeferencing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Geocoding and Georeferencing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/osm-data-quality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">OpenStreetMap and Data Quality</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../units/unit-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Unit 3: Spatial Analysis</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section: Unit 3: Spatial Analysis">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/data-classing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Data Classing and Choropleth Maps</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/density.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Density and Neighborhoods</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/spatial-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Spatial Analysis: Selection, Buffers, and Overlay</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/raster.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Raster Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/interpolation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Spatial Interpolation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/kriging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Kriging</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/suitability-modeling.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Suitability Modeling</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/risk-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Risk Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/uncertainty.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Uncertainty in Geospatial Data</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-4-label">GIS Software</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/qgis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Getting to Know QGIS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/arcgis-pro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Getting to Know ArcGIS Pro</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-controls="quarto-sidebar-section-5" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-5-label">Looking Ahead</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-5" aria-labelledby="quarto-sidebar-section-5-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/whats-next.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">What’s Next in GIS</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-controls="quarto-sidebar-section-6" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-6-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-6" aria-labelledby="quarto-sidebar-section-6-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Glossary</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../about.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About the author</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-suitability-models" id="toc-sec-suitability-models" class="nav-link active" data-scroll-target="#sec-suitability-models"><span class="header-section-number">17.1</span> Models and flowcharts</a>
+  <ul class="collapse">
+  <li><a href="#cartographic-models" id="toc-cartographic-models" class="nav-link" data-scroll-target="#cartographic-models"><span class="header-section-number">17.1.1</span> Cartographic models</a></li>
+  <li><a href="#flowcharts" id="toc-flowcharts" class="nav-link" data-scroll-target="#flowcharts"><span class="header-section-number">17.1.2</span> Flowcharts</a></li>
+  <li><a href="#a-first-example-siting-a-park" id="toc-a-first-example-siting-a-park" class="nav-link" data-scroll-target="#a-first-example-siting-a-park"><span class="header-section-number">17.1.3</span> A first example: siting a park</a></li>
+  </ul></li>
+  <li><a href="#sec-five-steps" id="toc-sec-five-steps" class="nav-link" data-scroll-target="#sec-five-steps"><span class="header-section-number">17.2</span> The five steps</a></li>
+  <li><a href="#sec-criteria" id="toc-sec-criteria" class="nav-link" data-scroll-target="#sec-criteria"><span class="header-section-number">17.3</span> Steps 1 and 2: criteria and data</a>
+  <ul class="collapse">
+  <li><a href="#criteria-in-plain-language" id="toc-criteria-in-plain-language" class="nav-link" data-scroll-target="#criteria-in-plain-language"><span class="header-section-number">17.3.1</span> Criteria in plain language</a></li>
+  <li><a href="#before-you-build" id="toc-before-you-build" class="nav-link" data-scroll-target="#before-you-build"><span class="header-section-number">17.3.2</span> Before you build</a></li>
+  <li><a href="#refining-criteria-into-thresholds" id="toc-refining-criteria-into-thresholds" class="nav-link" data-scroll-target="#refining-criteria-into-thresholds"><span class="header-section-number">17.3.3</span> Refining criteria into thresholds</a></li>
+  </ul></li>
+  <li><a href="#sec-ranking" id="toc-sec-ranking" class="nav-link" data-scroll-target="#sec-ranking"><span class="header-section-number">17.4</span> Step 3: rank each criterion</a>
+  <ul class="collapse">
+  <li><a href="#suitability-layers" id="toc-suitability-layers" class="nav-link" data-scroll-target="#suitability-layers"><span class="header-section-number">17.4.1</span> Suitability layers</a></li>
+  <li><a href="#ranking-examples-roads-and-slope" id="toc-ranking-examples-roads-and-slope" class="nav-link" data-scroll-target="#ranking-examples-roads-and-slope"><span class="header-section-number">17.4.2</span> Ranking examples: roads and slope</a></li>
+  <li><a href="#reclassification" id="toc-reclassification" class="nav-link" data-scroll-target="#reclassification"><span class="header-section-number">17.4.3</span> Reclassification</a></li>
+  </ul></li>
+  <li><a href="#sec-weighting" id="toc-sec-weighting" class="nav-link" data-scroll-target="#sec-weighting"><span class="header-section-number">17.5</span> Step 4: weight each layer</a></li>
+  <li><a href="#sec-combining" id="toc-sec-combining" class="nav-link" data-scroll-target="#sec-combining"><span class="header-section-number">17.6</span> Step 5: combine the layers</a>
+  <ul class="collapse">
+  <li><a href="#three-ways-to-combine" id="toc-three-ways-to-combine" class="nav-link" data-scroll-target="#three-ways-to-combine"><span class="header-section-number">17.6.1</span> Three ways to combine</a></li>
+  <li><a href="#passfail" id="toc-passfail" class="nav-link" data-scroll-target="#passfail"><span class="header-section-number">17.6.2</span> Pass/fail</a></li>
+  <li><a href="#ranking" id="toc-ranking" class="nav-link" data-scroll-target="#ranking"><span class="header-section-number">17.6.3</span> Ranking</a></li>
+  <li><a href="#rating-weighted-linear-combination" id="toc-rating-weighted-linear-combination" class="nav-link" data-scroll-target="#rating-weighted-linear-combination"><span class="header-section-number">17.6.4</span> Rating: weighted linear combination</a></li>
+  </ul></li>
+  <li><a href="#sec-checking" id="toc-sec-checking" class="nav-link" data-scroll-target="#sec-checking"><span class="header-section-number">17.7</span> Choosing weights and checking results</a></li>
+  <li><a href="#sec-complete-model" id="toc-sec-complete-model" class="nav-link" data-scroll-target="#sec-complete-model"><span class="header-section-number">17.8</span> The complete model</a></li>
+  <li><a href="#sec-suitability-software" id="toc-sec-suitability-software" class="nav-link" data-scroll-target="#sec-suitability-software"><span class="header-section-number">17.9</span> Suitability modeling in ArcGIS Pro and QGIS</a></li>
+  <li><a href="#check-your-understanding" id="toc-check-your-understanding" class="nav-link" data-scroll-target="#check-your-understanding"><span class="header-section-number">17.10</span> Check your understanding</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">17.11</span> Summary</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">17.12</span> Exercises</a></li>
+  <li><a href="#further-reading-and-online-resources" id="toc-further-reading-and-online-resources" class="nav-link" data-scroll-target="#further-reading-and-online-resources"><span class="header-section-number">17.13</span> Further reading and online resources</a>
+  <ul class="collapse">
+  <li><a href="#books-and-papers" id="toc-books-and-papers" class="nav-link" data-scroll-target="#books-and-papers"><span class="header-section-number">17.13.1</span> Books and papers</a></li>
+  <li><a href="#arcgis-pro" id="toc-arcgis-pro" class="nav-link" data-scroll-target="#arcgis-pro"><span class="header-section-number">17.13.2</span> ArcGIS Pro</a></li>
+  <li><a href="#qgis" id="toc-qgis" class="nav-link" data-scroll-target="#qgis"><span class="header-section-number">17.13.3</span> QGIS</a></li>
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data"><span class="header-section-number">17.13.4</span> Data</a></li>
+  <li><a href="#other-tools-and-courses" id="toc-other-tools-and-courses" class="nav-link" data-scroll-target="#other-tools-and-courses"><span class="header-section-number">17.13.5</span> Other tools and courses</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../units/unit-3.html">Unit 3: Spatial Analysis</a></li><li class="breadcrumb-item"><a href="../chapters/suitability-modeling.html"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Suitability Modeling</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Suitability Modeling</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Learning objectives
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>By the end of this chapter you should be able to:</p>
+<ol type="1">
+<li>Explain what a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-suitability-modeling" data-term="suitability modeling">suitability model</span> is, and describe it as a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cartographic-modeling" data-term="cartographic modeling">cartographic model</span> and a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-flowchart" data-term="flowchart">flowchart</span>.</li>
+<li>Turn plain-language <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-criterion" data-term="criterion">criteria</span> into measurable <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-threshold" data-term="threshold">thresholds</span>, and check that data exist for each one.</li>
+<li>Rank the values within a criterion from 0 to 1, with discrete and continuous <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-ranking" data-term="ranking">rankings</span>.</li>
+<li>Weight <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-suitability-layer" data-term="suitability layer">suitability layers</span>, and calculate a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-suitability-index" data-term="suitability index">suitability index</span>.</li>
+<li>Tell the pass/fail, ranking, and rating (<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-weighted-linear-combination-wlc" data-term="weighted linear combination (WLC)">weighted linear combination</span>) methods of combining <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layers</span> apart, and choose between them.</li>
+<li>Justify <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-weighting" data-term="weighting">weights</span>, test a model’s sensitivity, and name the tools for each step in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span>.</li>
+</ol>
+</div>
+</div>
+<p>Where should the new school go? Which farms are best for a solar array? Where is the habitat for a rare salamander? Where should you build a house? Each of these questions asks <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> to look at <em>every</em> location in a study area, judge it against several criteria at once, and say which places are best. That is <strong>suitability modeling</strong>: ranking every location by how well it meets a set of criteria. It brings together almost everything in Unit 3, from <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-reclassification" data-term="reclassification">reclassification</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-buffer" data-term="buffer">buffers</span> (Chapter 13) to <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-map-algebra" data-term="map algebra">map algebra</span> and distance on <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">rasters</span> (Chapter 14).</p>
+<section id="sec-suitability-models" class="level2" data-number="17.1">
+<h2 data-number="17.1" class="anchored" data-anchor-id="sec-suitability-models"><span class="header-section-number">17.1</span> Models and flowcharts</h2>
+<section id="cartographic-models" class="level3" data-number="17.1.1">
+<h3 data-number="17.1.1" class="anchored" data-anchor-id="cartographic-models"><span class="header-section-number">17.1.1</span> Cartographic models</h3>
+<p>Chapter 13 introduced the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cartographic-modeling" data-term="cartographic modeling">cartographic model</span></strong>: a chain of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-operation" data-term="spatial operation">spatial operations</span>, in which each output becomes the next input <span class="citation" data-cites="tomlin1990">(Tomlin 1990)</span>. Every cartographic model has three parts:</p>
+<ul>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-data" data-term="spatial data">Spatial data</span></strong>: the input <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layers</span>, such as elevation, soils, and roads.</li>
+<li><strong>Operations</strong>: what is done to them, such as <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-slope" data-term="slope">slope</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-buffer" data-term="buffer">buffer</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-reclassification" data-term="reclassification">reclassify</span>, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-overlay-analysis" data-term="overlay analysis">overlay</span>.</li>
+<li><strong>Output</strong>: the result, such as a map that ranks every location.</li>
+</ul>
+<p>A <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-suitability-modeling" data-term="suitability modeling">suitability model</span> is a cartographic model whose output is a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-ranking" data-term="ranking">ranking</span> of locations.</p>
+</section>
+<section id="flowcharts" class="level3" data-number="17.1.2">
+<h3 data-number="17.1.2" class="anchored" data-anchor-id="flowcharts"><span class="header-section-number">17.1.2</span> Flowcharts</h3>
+<p>A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-flowchart" data-term="flowchart">flowchart</span></strong> is a diagram of a model’s input data, its operations, and their order. In the usual convention, rectangles are data layers, ovals are operations, and arrows show the order of operations (<a href="#fig-home-flowchart" class="quarto-xref">Figure&nbsp;<span>17.1</span></a>). Sketch the flowchart <em>before</em> you open the software. Drawing it forces you to name every input and every step, and it documents the model so that someone else can check it and run it again.</p>
+<div id="fig-home-flowchart" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A flowchart. Elevation feeds two operations, Slope and Aspect, which produce slope and aspect layers. Soils feeds Select septic-suitable soils. Roads feeds Euclidean distance, which produces distance to road in meters. Each layer is then reclassified: slope under 30 degrees to 1, aspect 90 to 270 degrees to 1, suitable soils to 1, and 300 to 2,000 meters from a road to 1, producing four green suitability layers. They are multiplied by weights of 1, 4, 2, and 3 and go into a weighted sum, which produces a suitability index from 0 to 10.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-home-flowchart-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/suitability-modeling/home-site-flowchart.png" class="img-fluid figure-img" alt="A flowchart. Elevation feeds two operations, Slope and Aspect, which produce slope and aspect layers. Soils feeds Select septic-suitable soils. Roads feeds Euclidean distance, which produces distance to road in meters. Each layer is then reclassified: slope under 30 degrees to 1, aspect 90 to 270 degrees to 1, suitable soils to 1, and 300 to 2,000 meters from a road to 1, producing four green suitability layers. They are multiplied by weights of 1, 4, 2, and 3 and go into a weighted sum, which produces a suitability index from 0 to 10.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-home-flowchart-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;17.1: A suitability model for a home site, drawn as a flowchart. Rectangles are data and ovals are operations. The <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-weighting" data-term="weighting">weights</span> (× 1 to × 4) set how much each layer counts in the final index.
+</figcaption>
+</figure>
+</div>
+<p><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span>’s <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-modelbuilder" data-term="ModelBuilder">ModelBuilder</span></strong> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span>’s <strong>Model Designer</strong> let you draw this flowchart on screen and run it. The diagram and the analysis are then the same thing, so the documentation can never fall out of date.</p>
+</section>
+<section id="a-first-example-siting-a-park" class="level3" data-number="17.1.3">
+<h3 data-number="17.1.3" class="anchored" data-anchor-id="a-first-example-siting-a-park"><span class="header-section-number">17.1.3</span> A first example: siting a park</h3>
+<p>Here is a model with only two inputs. A city wants the best place for a new park. Parks should serve many people, so <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-population-density" data-term="population density">population density</span></strong> counts for 60% of the score. New parks should fill gaps, so <strong>distance to existing parks</strong> counts for 40%. Each input is converted to a common scale, multiplied by its percentage, and added, cell by cell. The cells with the highest totals are the best candidate sites. This is a <em><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-weighted-overlay" data-term="weighted overlay">weighted overlay</span></em>, and the rest of this chapter takes it apart step by step.</p>
+<div class="did-you-know callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Did you know..?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Suitability modeling is older than <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span>. In <em>Design with Nature</em> <span class="citation" data-cites="mcharg1969">(McHarg 1969)</span>, the landscape architect Ian McHarg mapped each factor, such as slope, soil drainage, historic value, and forest, on its own sheet of transparent film, shading the least suitable land darkest. Stacked on a light table, the overlays showed the lightest areas, where a highway, for example, would do the least harm. Planners had used hand-drawn overlays earlier in the 20th century, but McHarg’s book made the method famous <span class="citation" data-cites="collins2001">(Collins et al. 2001)</span>, and his light table became the GIS overlay.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-five-steps" class="level2" data-number="17.2">
+<h2 data-number="17.2" class="anchored" data-anchor-id="sec-five-steps"><span class="header-section-number">17.2</span> The five steps</h2>
+<p>Every <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-suitability-modeling" data-term="suitability modeling">suitability model</span>, whether for a house, a habitat, or a hospital, follows the same five steps:</p>
+<ol type="1">
+<li><strong>Define <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-criterion" data-term="criterion">criteria</span>.</strong></li>
+<li><strong>Find data</strong> to measure each criterion.</li>
+<li><strong>Rank each criterion</strong>: create a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-suitability-layer" data-term="suitability layer">suitability layer</span> ranked from 0 to 1.</li>
+<li><strong>Weight each <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layer</span></strong> by the importance of its criterion (1, 2, 3, 4, …).</li>
+<li><strong>Combine the layers</strong>, to find the locations with the highest (or lowest) suitability.</li>
+</ol>
+<p>The rest of this chapter works through them with one running example: choosing a site for a house in the country.</p>
+</section>
+<section id="sec-criteria" class="level2" data-number="17.3">
+<h2 data-number="17.3" class="anchored" data-anchor-id="sec-criteria"><span class="header-section-number">17.3</span> Steps 1 and 2: criteria and data</h2>
+<section id="criteria-in-plain-language" class="level3" data-number="17.3.1">
+<h3 data-number="17.3.1" class="anchored" data-anchor-id="criteria-in-plain-language"><span class="header-section-number">17.3.1</span> Criteria in plain language</h3>
+<p><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-criterion" data-term="criterion">Criteria</span></strong> are the conditions a site must meet. Start by writing them in plain language. For our house:</p>
+<ul>
+<li><strong>Slopes should not be steep.</strong> Steep ground is harder and costlier to build on.</li>
+<li><strong>The land should face south.</strong> In the Northern Hemisphere, south-facing slopes get more sun for light, heat, and solar panels.</li>
+<li><strong>Soils must suit a septic system</strong>, because there is no sewer connection.</li>
+<li><strong>Far enough from a road for privacy, but not so far as to be isolated.</strong></li>
+</ul>
+</section>
+<section id="before-you-build" class="level3" data-number="17.3.2">
+<h3 data-number="17.3.2" class="anchored" data-anchor-id="before-you-build"><span class="header-section-number">17.3.2</span> Before you build</h3>
+<p>Four questions come before any analysis:</p>
+<ul>
+<li><strong>Can I get the data?</strong> Elevation, soils, and roads, at a usable resolution and date. In the United States, elevation comes from the USGS 3D Elevation Program, soils from the NRCS’s SSURGO <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-database" data-term="database">database</span>, and roads from <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tiger-line" data-term="TIGER/Line">TIGER/Line</span> files or a state’s road <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layer</span>.</li>
+<li><strong>What exactly does each criterion mean?</strong> “Too steep” means nothing to software until it is a number of degrees.</li>
+<li><strong>How much does each criterion matter?</strong> That will set the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-weighting" data-term="weighting">weights</span>.</li>
+<li><strong>How accurate are the data?</strong> Errors in any input carry straight through to the result (Chapter 19).</li>
+</ul>
+<p>If a criterion can’t be measured with the data you have, change it or drop it.</p>
+</section>
+<section id="refining-criteria-into-thresholds" class="level3" data-number="17.3.3">
+<h3 data-number="17.3.3" class="anchored" data-anchor-id="refining-criteria-into-thresholds"><span class="header-section-number">17.3.3</span> Refining criteria into thresholds</h3>
+<p>Next, turn each criterion into a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-threshold" data-term="threshold">threshold</span></strong> the software can test (<a href="#tbl-refined-criteria" class="quarto-xref">Table&nbsp;<span>17.1</span></a>).</p>
+<div id="tbl-refined-criteria" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-refined-criteria-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;17.1: Refining the home-site criteria into thresholds.
+</figcaption>
+<div aria-describedby="tbl-refined-criteria-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>General criterion</th>
+<th>Refined criterion</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Slopes not too steep</td>
+<td><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-slope" data-term="slope">Slope</span> &lt; 30°</td>
+</tr>
+<tr class="even">
+<td>Southern <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-aspect" data-term="aspect">aspect</span> preferred</td>
+<td>90° &lt; aspect &lt; 270°</td>
+</tr>
+<tr class="odd">
+<td>Soils suitable for a septic system</td>
+<td>Soil types on the septic-suitable list</td>
+</tr>
+<tr class="even">
+<td>Far enough from a road for privacy, but not isolated</td>
+<td>300 m &lt; distance to road &lt; 2,000 m</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p><strong>Slope</strong> is the steepness of the ground, and <strong>aspect</strong> is the compass direction a slope faces, measured in degrees clockwise from north. Both are calculated from an elevation <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">raster</span>. An aspect between 90° and 270° covers slopes facing east, south, and west, centered on south. A soil survey rates each soil type for septic systems, so the soils criterion becomes a list of acceptable types.</p>
+<p>These numbers are <em>choices</em>. A builder might accept 35° slopes; a family who wants a garden might want under 10°. Change a threshold and the answer changes, so write down why you chose each one.</p>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Think about it
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Write refined criteria for a new community garden on your campus or in your town. Which criteria need a distance? Which need a list of categories? Which do you have no data for?</p>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-ranking" class="level2" data-number="17.4">
+<h2 data-number="17.4" class="anchored" data-anchor-id="sec-ranking"><span class="header-section-number">17.4</span> Step 3: rank each criterion</h2>
+<section id="suitability-layers" class="level3" data-number="17.4.1">
+<h3 data-number="17.4.1" class="anchored" data-anchor-id="suitability-layers"><span class="header-section-number">17.4.1</span> Suitability layers</h3>
+<p><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-slope" data-term="slope">Slope</span> is measured in degrees, distance in meters, and soils by name. To combine them, each must first be put on a common scale. A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-suitability-layer" data-term="suitability layer">suitability layer</span></strong> scores every cell for one <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-criterion" data-term="criterion">criterion</span>, from 0 (completely unsuitable) to 1 (ideal). Because all suitability layers share the same scale, they can be added and compared.</p>
+<p>The scores given to values within one criterion are <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-ranking" data-term="ranking">rankings</span></strong>. There are two kinds (<a href="#fig-ranking-curves" class="quarto-xref">Figure&nbsp;<span>17.2</span></a>):</p>
+<ul>
+<li>A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-discrete-ranking" data-term="discrete ranking">discrete ranking</span></strong> is a yes-or-no rule: each value passes (1) or fails (0). “Slope &lt; 30°” is discrete: 29° scores 1, and 31° scores 0.</li>
+<li>A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-continuous-ranking" data-term="continuous ranking">continuous ranking</span></strong> scales values smoothly from worst to best. Flat ground might score 1, 10° score 0.5, and 40° score close to 0. A continuous ranking keeps more information: a 31° slope is not as bad as a 60° one.</li>
+</ul>
+<p>Some textbooks and tools rank on a scale of 0 to 10, or 1 to 9. Dividing by 10 gives the same idea on our 0 to 1 scale.</p>
+<div id="fig-ranking-curves" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Three line graphs of suitability from 0 to 1. Left: a red step, 1 for slopes from 0 to 30 degrees and 0 above 30. Middle: a green curve that starts at 1 for flat ground and falls steadily, to about 0.15 at 30 degrees and near 0 by 50 degrees. Right: a blue tent shape, 0 from 0 to 300 meters, rising to 1 at 1,100 meters, and falling to 0 at 2,000 meters and beyond; the zones below 300 and above 2,000 meters are shaded gray and labeled too close and too far.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ranking-curves-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/suitability-modeling/ranking-curves.png" class="img-fluid figure-img" alt="Three line graphs of suitability from 0 to 1. Left: a red step, 1 for slopes from 0 to 30 degrees and 0 above 30. Middle: a green curve that starts at 1 for flat ground and falls steadily, to about 0.15 at 30 degrees and near 0 by 50 degrees. Right: a blue tent shape, 0 from 0 to 300 meters, rising to 1 at 1,100 meters, and falling to 0 at 2,000 meters and beyond; the zones below 300 and above 2,000 meters are shaded gray and labeled too close and too far.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ranking-curves-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;17.2: Three ranking functions. A discrete ranking of slope (left), a continuous ranking of slope (middle), and a continuous ranking of distance to the nearest road (right) that is 0 under 300 m and over 2,000 m, and peaks at 1,100 m.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="ranking-examples-roads-and-slope" class="level3" data-number="17.4.2">
+<h3 data-number="17.4.2" class="anchored" data-anchor-id="ranking-examples-roads-and-slope"><span class="header-section-number">17.4.2</span> Ranking examples: roads and slope</h3>
+<p>Some criteria can’t be ranked directly from the input <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layer</span>. A roads layer has lines, not distances. So we first <strong>derive</strong> a layer that measures the criterion, then rank it (<a href="#fig-derive-rank" class="quarto-xref">Figure&nbsp;<span>17.3</span></a>):</p>
+<ul>
+<li><strong>Roads.</strong> Calculate the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-euclidean-distance" data-term="Euclidean distance">Euclidean distance</span> from every cell to the nearest road (Chapter 14), then rank the distances with the tent-shaped function in <a href="#fig-ranking-curves" class="quarto-xref">Figure&nbsp;<span>17.2</span></a>. Too close is noisy, too far is isolated, so the score is 0 below 300 m and above 2,000 m, and highest near 1,100 m.</li>
+<li><strong>Slope.</strong> Calculate slope from the elevation <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">raster</span>, then rank it with a curve that falls as slope rises: flat ground scores near 1, and steep ground near 0.</li>
+</ul>
+<div id="fig-derive-rank" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Six maps of the same square area. Top row: a few dark road lines crossing the area; a blue distance surface, darkest along the roads and palest, about 2,500 meters, in the far corners; and a road suitability map, palest on the roads and in the far corners, with dark green bands running parallel to each road about a kilometer away. Bottom row: an elevation map with several round hills up to about 1,250 meters; a slope map in orange, steepest in rings around each hill; and a slope suitability map, dark green on the flat lowlands between hills and on hilltops, and pale on the steep hillsides.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-derive-rank-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/suitability-modeling/derive-and-rank.png" class="img-fluid figure-img" alt="Six maps of the same square area. Top row: a few dark road lines crossing the area; a blue distance surface, darkest along the roads and palest, about 2,500 meters, in the far corners; and a road suitability map, palest on the roads and in the far corners, with dark green bands running parallel to each road about a kilometer away. Bottom row: an elevation map with several round hills up to about 1,250 meters; a slope map in orange, steepest in rings around each hill; and a slope suitability map, dark green on the flat lowlands between hills and on hilltops, and pale on the steep hillsides.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-derive-rank-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;17.3: Deriving and ranking two criteria in a made-up 6 km by 6 km landscape. Top: roads, distance to the nearest road, and road suitability. Bottom: elevation, slope, and slope suitability.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="reclassification" class="level3" data-number="17.4.3">
+<h3 data-number="17.4.3" class="anchored" data-anchor-id="reclassification"><span class="header-section-number">17.4.3</span> Reclassification</h3>
+<p><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-reclassification" data-term="reclassification">Reclassification</span></strong> (Chapter 14) is the workhorse of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-suitability-modeling" data-term="suitability modeling">suitability modeling</span>. It replaces each raw value with a score, using a rule or a lookup table. For our discrete criteria:</p>
+<ul>
+<li>Slope: under 30° → 1; otherwise → 0.</li>
+<li><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-aspect" data-term="aspect">Aspect</span>: 90° to 270° → 1; otherwise → 0.</li>
+<li>Soils: types on the septic-suitable list → 1; all others → 0.</li>
+<li>Distance to road: 300 to 2,000 m → 1; otherwise → 0.</li>
+</ul>
+<p>Record each rule in a table, or in the model itself, so the model can be rerun with new data or new <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-threshold" data-term="threshold">thresholds</span>. For continuous rankings, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span>’s <strong>Rescale by Function</strong> tool applies a curve (linear, Gaussian, logistic, and others) instead of a table.</p>
+</section>
+</section>
+<section id="sec-weighting" class="level2" data-number="17.5">
+<h2 data-number="17.5" class="anchored" data-anchor-id="sec-weighting"><span class="header-section-number">17.5</span> Step 4: weight each layer</h2>
+<p>Not every <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-criterion" data-term="criterion">criterion</span> matters equally. <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-weighting" data-term="weighting">Weightings</span></strong> (or weights) are multipliers that set how much each criterion counts. Suppose the buyer cares most about a sunny, south-facing site, then about access, then about soils, and least about <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-slope" data-term="slope">slope</span>. We might weight <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-aspect" data-term="aspect">aspect</span> 4, roads 3, soils 2, and slope 1.</p>
+<p>Each cell’s <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-suitability-index" data-term="suitability index">suitability index</span></strong> is the sum of its weighted scores. With discrete (0 or 1) <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layers</span>, a cell that passes a criterion earns that criterion’s weight, and a cell that fails earns 0 (<a href="#tbl-suitability-index" class="quarto-xref">Table&nbsp;<span>17.2</span></a>).</p>
+<div id="tbl-suitability-index" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-suitability-index-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;17.2: A suitability index for five example cells. Each entry is the cell’s rank (0 or 1) times the criterion’s weight.
+</figcaption>
+<div aria-describedby="tbl-suitability-index-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Roads (weight 3)</th>
+<th style="text-align: center;">Slope (weight 1)</th>
+<th style="text-align: center;">Aspect (weight 4)</th>
+<th style="text-align: center;">Soils (weight 2)</th>
+<th style="text-align: center;">Suitability index</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">6</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">10</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>The maximum is 3 + 1 + 4 + 2 = 10, for a cell that meets every criterion. Because aspect carries the most weight, a south-facing cell scores 6 even with no good road access, while a cell that meets every criterion <em>except</em> aspect can score no more than 6.</p>
+<p>Weights are a judgment call. That doesn’t make them arbitrary, but it does mean you must explain them (<a href="#sec-checking" class="quarto-xref"><span>Section 17.7</span></a>).</p>
+</section>
+<section id="sec-combining" class="level2" data-number="17.6">
+<h2 data-number="17.6" class="anchored" data-anchor-id="sec-combining"><span class="header-section-number">17.6</span> Step 5: combine the layers</h2>
+<section id="three-ways-to-combine" class="level3" data-number="17.6.1">
+<h3 data-number="17.6.1" class="anchored" data-anchor-id="three-ways-to-combine"><span class="header-section-number">17.6.1</span> Three ways to combine</h3>
+<p>Once every <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-criterion" data-term="criterion">criterion</span> is a ranked <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layer</span>, there are three common ways to combine them (<a href="#tbl-combine-methods" class="quarto-xref">Table&nbsp;<span>17.3</span></a>, <a href="#fig-combine" class="quarto-xref">Figure&nbsp;<span>17.4</span></a>).</p>
+<div id="tbl-combine-methods" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-combine-methods-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;17.3: Three ways to combine <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-suitability-layer" data-term="suitability layer">suitability layers</span>.
+</figcaption>
+<div aria-describedby="tbl-combine-methods-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Method</th>
+<th>How layers combine</th>
+<th>What the output shows</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Pass/fail</strong> (binary)</td>
+<td>Multiply all the ranked, reclassified layers</td>
+<td>1 only where every criterion passes</td>
+</tr>
+<tr class="even">
+<td><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-ranking" data-term="ranking">Ranking</span></strong> (<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-linear-combination" data-term="linear combination">linear combination</span>)</td>
+<td>Add all the ranked, reclassified layers</td>
+<td>How many criteria each cell meets</td>
+</tr>
+<tr class="odd">
+<td><strong>Rating</strong> (<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-weighted-linear-combination-wlc" data-term="weighted linear combination (WLC)">weighted linear combination</span>)</td>
+<td>Weight each layer, then add</td>
+<td>A score that reflects each criterion’s importance</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<div id="fig-combine" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Top row: three 4 by 4 grids of 1s and 0s for A, slope, weight 1; B, aspect, weight 4; and C, soils, weight 2. One cell in the third row, second column, is outlined in red; it is 1 for slope, 1 for aspect, and 0 for soils. Bottom row: pass/fail, A times B times C, shows mostly 0s, with the outlined cell 0. Ranking, A plus B plus C, shows values from 1 to 3, with the outlined cell 2. Rating, 1A plus 4B plus 2C, shows values from 1 to 7, with the outlined cell 5.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-combine-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/suitability-modeling/combine-methods.png" class="img-fluid figure-img" alt="Top row: three 4 by 4 grids of 1s and 0s for A, slope, weight 1; B, aspect, weight 4; and C, soils, weight 2. One cell in the third row, second column, is outlined in red; it is 1 for slope, 1 for aspect, and 0 for soils. Bottom row: pass/fail, A times B times C, shows mostly 0s, with the outlined cell 0. Ranking, A plus B plus C, shows values from 1 to 3, with the outlined cell 2. Rating, 1A plus 4B plus 2C, shows values from 1 to 7, with the outlined cell 5.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-combine-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;17.4: Three criteria for 16 cells (top), combined three ways (bottom). The outlined cell passes <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-slope" data-term="slope">slope</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-aspect" data-term="aspect">aspect</span> but fails soils.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="passfail" class="level3" data-number="17.6.2">
+<h3 data-number="17.6.2" class="anchored" data-anchor-id="passfail"><span class="header-section-number">17.6.2</span> Pass/fail</h3>
+<p>The <strong>pass/fail</strong> (binary) model reclassifies every criterion to 1 for good and 0 for bad, and multiplies the layers. Any 0 makes the product 0, so only cells that meet <em>every</em> criterion survive: 1 × 1 × 0 = 0. The outlined cell in <a href="#fig-combine" class="quarto-xref">Figure&nbsp;<span>17.4</span></a> passes slope and aspect, but fails soils, so it is ruled out.</p>
+<p>Pass/fail is simple and strict. It matches criteria that are truly non-negotiable, such as “not in a floodway” or “not on protected land.” But it can’t tell a near miss from a terrible site, and with many criteria it often leaves nothing at all. It is the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">raster</span> version of McHarg’s overlays, and of the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-vector" data-term="vector">vector</span> approach in Chapter 13: select, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-buffer" data-term="buffer">buffer</span>, and intersect until only the qualifying areas are left.</p>
+</section>
+<section id="ranking" class="level3" data-number="17.6.3">
+<h3 data-number="17.6.3" class="anchored" data-anchor-id="ranking"><span class="header-section-number">17.6.3</span> Ranking</h3>
+<p>The <strong>ranking</strong> model adds the same 0 and 1 layers instead of multiplying them. The result counts how many criteria each cell meets. The outlined cell now scores 1 + 1 + 0 = 2, “better” instead of ruled out, and the map separates the best, better, marginal, and bad cells. This is a <strong>linear combination</strong>. Its weakness is that every criterion counts equally.</p>
+</section>
+<section id="rating-weighted-linear-combination" class="level3" data-number="17.6.4">
+<h3 data-number="17.6.4" class="anchored" data-anchor-id="rating-weighted-linear-combination"><span class="header-section-number">17.6.4</span> Rating: weighted linear combination</h3>
+<p>The <strong>rating</strong> model, or <strong>weighted linear combination (WLC)</strong>, multiplies each layer by its weight before adding:</p>
+<p><span class="math display">\[
+S = \sum_{i} w_i \, x_i
+\]</span></p>
+<p>where <span class="math inline">\(x_i\)</span> is a cell’s score on criterion <span class="math inline">\(i\)</span>, and <span class="math inline">\(w_i\)</span> is that criterion’s weight <span class="citation" data-cites="eastman1995 malczewski2004">(Eastman et al. 1995; Malczewski 2004)</span>. With <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-weighting" data-term="weighting">weights</span> 1, 4, and 2, the outlined cell scores 1(1) + 4(1) + 2(0) = 5 of a possible 7. WLC keeps the most information, and it is the method behind <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span>’s <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-weighted-overlay" data-term="weighted overlay">Weighted Overlay</span></strong> and <strong>Weighted Sum</strong> tools.</p>
+<p>WLC works with continuous rankings too. If three criteria are rated on a scale of 1 (bad) to 9 (best), and a cell rates 9, 7, and 1 with equal weights, its rating is (9 + 7 + 1) ÷ 3 = 5.67, “OK to better.” With equal weights, WLC is simply the average. Change the weights, and the same cell can rise or fall in the ranking.</p>
+<p>Weights are often written as fractions that sum to 1, such as 0.4, 0.3, 0.2, and 0.1 instead of 4, 3, 2, and 1. Dividing every weight by their total does this without changing the ranking, and keeps the index on the same scale as the inputs.</p>
+</section>
+</section>
+<section id="sec-checking" class="level2" data-number="17.7">
+<h2 data-number="17.7" class="anchored" data-anchor-id="sec-checking"><span class="header-section-number">17.7</span> Choosing weights and checking results</h2>
+<p>A model’s output looks precise, with a score for every cell. That can hide how many choices went into it. Before trusting a result:</p>
+<ul>
+<li><strong>Set <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-weighting" data-term="weighting">weights</span> openly.</strong> Use expert judgment, input from the people affected (<strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-stakeholder" data-term="stakeholder">stakeholders</span></strong>), or a structured method of <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-pairwise-comparison" data-term="pairwise comparison">pairwise comparison</span></strong> such as the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-analytic-hierarchy-process-ahp" data-term="Analytic Hierarchy Process (AHP)">Analytic Hierarchy Process</span> (AHP)</strong>, which asks which of two <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-criterion" data-term="criterion">criteria</span> matters more, and by how much <span class="citation" data-cites="saaty1980">(Saaty 1980)</span>. Chapter 18 works through AHP step by step.</li>
+<li><strong>Test sensitivity.</strong> A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-sensitivity-analysis" data-term="sensitivity analysis">sensitivity analysis</span></strong> changes one weight or <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-threshold" data-term="threshold">threshold</span> at a time, and watches whether the best sites move. If a small change moves them, the answer is fragile.</li>
+<li><strong>Check against reality.</strong> Compare the results with sites you already know are good or bad.</li>
+<li><strong>Respect the data’s limits.</strong> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cell-size" data-term="cell size">Cell size</span>, data age, and errors set how precise the answer can be. A 30 m cell can’t answer a question about one house’s footprint.</li>
+</ul>
+<p><a href="#fig-home-result" class="quarto-xref">Figure&nbsp;<span>17.5</span></a> runs the whole home-site model on our made-up landscape, then swaps the weights of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-aspect" data-term="aspect">aspect</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-slope" data-term="slope">slope</span>. Cells that meet all four criteria score 10 either way. But the cells that score 8 or more grow from 36% of the area to 48% when slope counts most, and the second-best sites move. Which answer is “right” depends on what the buyer values, which is exactly why the weights must be written down.</p>
+<div id="fig-home-result" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Top row: four small maps in pale green and gray. Slope under 30 degrees passes almost everywhere except rings around two hills. Aspect 90 to 270 degrees passes in irregular bands. Septic-suitable soil passes in large blobs. 300 to 2,000 meters from a road fails along the roads and passes in between. Bottom row: two larger maps of the suitability index from 0, pale, to 10, dark navy. Both have the same red-outlined patches that score 10, covering 23 percent of cells. With weights 1, 4, 2, 3, 36 percent of cells score 8 or more. With weights 4, 1, 2, 3, 48 percent score 8 or more, and several mid-scoring patches turn darker.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-home-result-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/suitability-modeling/home-site-result.png" class="img-fluid figure-img" alt="Top row: four small maps in pale green and gray. Slope under 30 degrees passes almost everywhere except rings around two hills. Aspect 90 to 270 degrees passes in irregular bands. Septic-suitable soil passes in large blobs. 300 to 2,000 meters from a road fails along the roads and passes in between. Bottom row: two larger maps of the suitability index from 0, pale, to 10, dark navy. Both have the same red-outlined patches that score 10, covering 23 percent of cells. With weights 1, 4, 2, 3, 36 percent of cells score 8 or more. With weights 4, 1, 2, 3, 48 percent score 8 or more, and several mid-scoring patches turn darker.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-home-result-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;17.5: The home-site model on a made-up landscape. Top: the four criteria, each reclassified to pass (green) or fail (gray). Bottom: the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-suitability-index" data-term="suitability index">suitability index</span> with two sets of weights. Red outlines are cells that meet every criterion.
+</figcaption>
+</figure>
+</div>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Think about it
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A county uses a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-weighted-linear-combination-wlc" data-term="weighted linear combination (WLC)">WLC</span> model to site a new landfill, and the top-ranked site is next to a low-income neighborhood. Which parts of the model would you question first: the criteria, the data, the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-ranking" data-term="ranking">rankings</span>, or the weights? Who should have had a say in the weights?</p>
+</div>
+</div>
+</section>
+<section id="sec-complete-model" class="level2" data-number="17.8">
+<h2 data-number="17.8" class="anchored" data-anchor-id="sec-complete-model"><span class="header-section-number">17.8</span> The complete model</h2>
+<p><a href="#fig-home-flowchart" class="quarto-xref">Figure&nbsp;<span>17.1</span></a> is the whole home-site model in one picture. Read each column from top to bottom: elevation gives <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-slope" data-term="slope">slope</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-aspect" data-term="aspect">aspect</span>, soils are selected for septic suitability, and roads become distance bands. Each branch ends in a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-suitability-layer" data-term="suitability layer">suitability layer</span>, and the weighted sum at the bottom combines them into one index. Every step in this chapter appears somewhere on the chart.</p>
+<p>The same five steps, with different <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-criterion" data-term="criterion">criteria</span> and data, site wind farms, schools, retail stores, conservation reserves, and wildlife corridors. More advanced <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-multi-criteria-decision-analysis-mcda" data-term="multi-criteria decision analysis (MCDA)">multi-criteria decision analysis</span> (MCDA)</strong> methods add fuzzy (gradual) memberships, trade-offs between criteria, and ways to measure the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-uncertainty" data-term="uncertainty">uncertainty</span> of the result <span class="citation" data-cites="malczewski2006">(Malczewski 2006)</span>, but they all start here.</p>
+</section>
+<section id="sec-suitability-software" class="level2" data-number="17.9">
+<h2 data-number="17.9" class="anchored" data-anchor-id="sec-suitability-software"><span class="header-section-number">17.9</span> Suitability modeling in ArcGIS Pro and QGIS</h2>
+<div id="tbl-suitability-tools" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-suitability-tools-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;17.4: Tools for each step of a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-suitability-modeling" data-term="suitability modeling">suitability model</span>.
+</figcaption>
+<div aria-describedby="tbl-suitability-tools-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Step</th>
+<th><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span></th>
+<th><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Derive input <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layers</span></td>
+<td><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-slope" data-term="slope">Slope</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-aspect" data-term="aspect">Aspect</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-euclidean-distance" data-term="Euclidean distance">Euclidean Distance</span> (Distance Accumulation)</td>
+<td>Slope, Aspect, Proximity (<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">raster</span> distance)</td>
+</tr>
+<tr class="even">
+<td>Rank each <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-criterion" data-term="criterion">criterion</span></td>
+<td><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-reclassification" data-term="reclassification">Reclassify</span>, Rescale by Function</td>
+<td>Reclassify by table, Raster Calculator</td>
+</tr>
+<tr class="odd">
+<td>Weight and combine</td>
+<td><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-weighted-overlay" data-term="weighted overlay">Weighted Overlay</span>, Weighted Sum, Raster Calculator</td>
+<td>Raster Calculator</td>
+</tr>
+<tr class="even">
+<td>Document the model</td>
+<td><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-modelbuilder" data-term="ModelBuilder">ModelBuilder</span>, Suitability Modeler</td>
+<td>Model Designer</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>In ArcGIS Pro these are Spatial Analyst tools. The <strong>Suitability Modeler</strong> walks you through the steps in one pane: add criteria, transform them to a common scale, weight them, and see the suitability map update as you go. In QGIS most of the tools are in the Processing Toolbox; build the whole chain in the <strong>Model Designer</strong> so the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-flowchart" data-term="flowchart">flowchart</span> and the analysis are the same thing.</p>
+</section>
+<section id="check-your-understanding" class="level2" data-number="17.10">
+<h2 data-number="17.10" class="anchored" data-anchor-id="check-your-understanding"><span class="header-section-number">17.10</span> Check your understanding</h2>
+<ol type="1">
+<li><p>Ranking every location by how well it meets a set of criteria is: <select class="webex-select"><option value="blank"></option><option value="">Geocoding</option><option value="answer">Suitability modeling</option><option value="">Interpolation</option><option value="">Georeferencing</option></select></p></li>
+<li><p>In a flowchart, operations such as buffer and reclassify are usually drawn as: <select class="webex-select"><option value="blank"></option><option value="">Rectangles</option><option value="answer">Ovals</option><option value="">Arrows</option><option value="">Triangles</option></select></p></li>
+<li><p>On a 0 to 1 suitability layer, a cell that is completely unsuitable scores: <input class="webex-solveme nospaces" size="3" data-answer="[&quot;0&quot;]"></p></li>
+<li><p>Aspect between 90° and 270° describes slopes that face, broadly: <select class="webex-select"><option value="blank"></option><option value="">North</option><option value="answer">South</option><option value="">Only east</option><option value="">Only west</option></select></p></li>
+<li><p>A ranking that scores each value 1 (pass) or 0 (fail) is: <select class="webex-select"><option value="blank"></option><option value="answer">Discrete</option><option value="">Continuous</option><option value="">Weighted</option><option value="">Global</option></select></p></li>
+<li><p>With weights roads 3, slope 1, aspect 4, and soils 2, a cell that passes slope, aspect, and soils but fails roads has a suitability index of: <input class="webex-solveme nospaces" size="3" data-answer="[&quot;7&quot;]"></p></li>
+<li><p>Multiplying 0/1 suitability layers gives: <select class="webex-select"><option value="blank"></option><option value="answer">A pass/fail map</option><option value="">A count of criteria met</option><option value="">A weighted rating</option><option value="">A distance surface</option></select></p></li>
+<li><p>Changing one weight at a time to see whether the best sites move is a sensitivity analysis. <select class="webex-select"><option value="blank"></option><option value="answer">TRUE</option><option value="">FALSE</option></select></p></li>
+</ol>
+</section>
+<section id="summary" class="level2" data-number="17.11">
+<h2 data-number="17.11" class="anchored" data-anchor-id="summary"><span class="header-section-number">17.11</span> Summary</h2>
+<ul>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-suitability-modeling" data-term="suitability modeling">Suitability modeling</span></strong> ranks every location by how well it meets a set of <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-criterion" data-term="criterion">criteria</span></strong>. It is a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cartographic-modeling" data-term="cartographic modeling">cartographic model</span>, best planned and documented as a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-flowchart" data-term="flowchart">flowchart</span></strong> of data (rectangles), operations (ovals), and their order (arrows).</li>
+<li>The five steps are: define criteria, find data, rank each criterion from 0 to 1, weight the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layers</span>, and combine them.</li>
+<li>Plain-language criteria must become measurable <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-threshold" data-term="threshold">thresholds</span></strong>, such as <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-slope" data-term="slope">slope</span> &lt; 30°. Thresholds are choices, and should be recorded.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-ranking" data-term="ranking">Rankings</span></strong> turn the values within one criterion into scores on a common scale, either <strong>discretely</strong> (pass or fail) or <strong>continuously</strong>. Derived layers, such as slope, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-aspect" data-term="aspect">aspect</span>, and distance, often come first, and <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-reclassification" data-term="reclassification">reclassification</span></strong> does the ranking.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-weighting" data-term="weighting">Weightings</span></strong> set how much each criterion counts. The <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-suitability-index" data-term="suitability index">suitability index</span></strong> is the sum of the weighted scores.</li>
+<li>Layers can be combined by <strong>multiplying</strong> (pass/fail), <strong>adding</strong> (ranking), or <strong>weighting and adding</strong> (rating, or <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-weighted-linear-combination-wlc" data-term="weighted linear combination (WLC)">weighted linear combination</span></strong>).</li>
+<li>Set weights openly (expert judgment, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-stakeholder" data-term="stakeholder">stakeholders</span>, or <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-analytic-hierarchy-process-ahp" data-term="Analytic Hierarchy Process (AHP)">AHP</span></strong>), run a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-sensitivity-analysis" data-term="sensitivity analysis">sensitivity analysis</span></strong>, check results against known sites, and respect the data’s limits.</li>
+</ul>
+</section>
+<section id="exercises" class="level2" data-number="17.12">
+<h2 data-number="17.12" class="anchored" data-anchor-id="exercises"><span class="header-section-number">17.12</span> Exercises</h2>
+<ol type="1">
+<li><strong>Refine the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-criterion" data-term="criterion">criteria</span>.</strong> Write refined criteria, with <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-threshold" data-term="threshold">thresholds</span>, for siting a new elementary school in Orange County, North Carolina. For each one, name a data source.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-suitability-index" data-term="suitability index">Suitability index</span> by hand.</strong> With <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-weighting" data-term="weighting">weights</span> roads 3, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-slope" data-term="slope">slope</span> 1, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-aspect" data-term="aspect">aspect</span> 4, and soils 2, compute the suitability index for a cell that passes roads and soils only, and for one that passes slope and aspect only. Which is the better site, and why?</li>
+<li><strong>Pass/fail vs.&nbsp;rating.</strong> For the 16 cells in <a href="#fig-combine" class="quarto-xref">Figure&nbsp;<span>17.4</span></a>, how many pass under the pass/fail model? How many score 5 or more under the rating model? Which would you show a client, and why?</li>
+<li><strong>Build it.</strong> Download a 1/3 arc-second (about 10 m) <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-digital-elevation-model" data-term="digital elevation model">DEM</span> from the USGS National Map and soils from the Web Soil Survey for a rural area of North Carolina. Build the home-site model in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span>’s <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-modelbuilder" data-term="ModelBuilder">ModelBuilder</span> or the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span> Model Designer, and map the suitability index.</li>
+<li><strong>Sensitivity.</strong> In your model from Exercise 4, swap the weights of aspect and slope. What fraction of the area scores 8 or more before and after? Did the best sites move?</li>
+<li><strong>Plan your own.</strong> Working with a partner, pick a real siting problem: a wind farm, a community garden, a dog park, or habitat for a species you care about. Draw its <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-flowchart" data-term="flowchart">flowchart</span>, list the data for each criterion, say how you would rank and weight them, and name what could go wrong.</li>
+</ol>
+</section>
+<section id="further-reading-and-online-resources" class="level2" data-number="17.13">
+<h2 data-number="17.13" class="anchored" data-anchor-id="further-reading-and-online-resources"><span class="header-section-number">17.13</span> Further reading and online resources</h2>
+<section id="books-and-papers" class="level3" data-number="17.13.1">
+<h3 data-number="17.13.1" class="anchored" data-anchor-id="books-and-papers"><span class="header-section-number">17.13.1</span> Books and papers</h3>
+<ul>
+<li><em><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> Fundamentals</em>, by Paul Bolstad <span class="citation" data-cites="bolstad2022">(Bolstad 2022)</span>. The chapter on <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-analysis" data-term="spatial analysis">spatial analysis</span> covers cartographic models and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-suitability-modeling" data-term="suitability modeling">suitability analysis</span>, including the home-site example.</li>
+<li><em>Geographic Information Systems and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cartographic-modeling" data-term="cartographic modeling">Cartographic Modeling</span></em>, by C. Dana Tomlin <span class="citation" data-cites="tomlin1990">(Tomlin 1990)</span>, which introduced <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-map-algebra" data-term="map algebra">map algebra</span> and the cartographic model.</li>
+<li><em>Design with Nature</em>, by Ian McHarg <span class="citation" data-cites="mcharg1969">(McHarg 1969)</span>, the classic of overlay-based planning.</li>
+<li>Jacek Malczewski, “GIS-based land-use suitability analysis: A critical overview” <span class="citation" data-cites="malczewski2004">(Malczewski 2004)</span>, and “GIS-based <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-multi-criteria-decision-analysis-mcda" data-term="multi-criteria decision analysis (MCDA)">multicriteria decision analysis</span>: A survey of the literature” <span class="citation" data-cites="malczewski2006">(Malczewski 2006)</span>.</li>
+<li>Collins, Steiner, and Rushman, “Land-use suitability analysis in the United States” <span class="citation" data-cites="collins2001">(Collins et al. 2001)</span>, a short history of the method.</li>
+<li>Eastman and colleagues, “<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">Raster</span> procedures for multi-criteria/multi-objective decisions” <span class="citation" data-cites="eastman1995">(Eastman et al. 1995)</span>, the paper behind the decision-support tools in IDRISI (now TerrSet).</li>
+<li><em>Intro to GIS and Spatial Analysis</em>, by Manuel Gimond, free online: <a href="https://mgimond.github.io/Spatial/" class="uri">https://mgimond.github.io/Spatial/</a>.</li>
+</ul>
+</section>
+<section id="arcgis-pro" class="level3" data-number="17.13.2">
+<h3 data-number="17.13.2" class="anchored" data-anchor-id="arcgis-pro"><span class="header-section-number">17.13.2</span> ArcGIS Pro</h3>
+<ul>
+<li><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-esri" data-term="Esri">Esri</span>, “Introduction to the Suitability Modeler”: <a href="https://doc.esri.com/en/arcgis-pro/latest/help/analysis/spatial-analyst/suitability-modeler/what-is-the-suitability-modeler.html" class="uri">https://doc.esri.com/en/arcgis-pro/latest/help/analysis/spatial-analyst/suitability-modeler/what-is-the-suitability-modeler.html</a>.</li>
+<li>Esri, “Implement the suitability modeling workflow”: <a href="https://pro.arcgis.com/en/pro-app/3.3/help/analysis/spatial-analyst/suitability-modeler/implement-the-suitability-modeling-workflow-using-the-suitability-modeler.htm" class="uri">https://pro.arcgis.com/en/pro-app/3.3/help/analysis/spatial-analyst/suitability-modeler/implement-the-suitability-modeling-workflow-using-the-suitability-modeler.htm</a>.</li>
+<li>Esri, “How <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-weighted-overlay" data-term="weighted overlay">Weighted Overlay</span> works”: <a href="https://pro.arcgis.com/en/pro-app/latest/tool-reference/spatial-analyst/how-weighted-overlay-works.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/tool-reference/spatial-analyst/how-weighted-overlay-works.htm</a>.</li>
+<li>Esri, “Weighted Sum”: <a href="https://pro.arcgis.com/en/pro-app/latest/tool-reference/spatial-analyst/weighted-sum.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/tool-reference/spatial-analyst/weighted-sum.htm</a>.</li>
+<li>Esri, “How Rescale by Function works”: <a href="https://pro.arcgis.com/en/pro-app/latest/tool-reference/spatial-analyst/how-rescale-by-function-works.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/tool-reference/spatial-analyst/how-rescale-by-function-works.htm</a>.</li>
+<li>Esri, “<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-reclassification" data-term="reclassification">Reclassify</span>”: <a href="https://pro.arcgis.com/en/pro-app/latest/tool-reference/spatial-analyst/reclassify.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/tool-reference/spatial-analyst/reclassify.htm</a>.</li>
+<li>Esri, “<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-slope" data-term="slope">Slope</span>”: <a href="https://pro.arcgis.com/en/pro-app/latest/tool-reference/spatial-analyst/slope.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/tool-reference/spatial-analyst/slope.htm</a>, and “<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-aspect" data-term="aspect">Aspect</span>”: <a href="https://pro.arcgis.com/en/pro-app/latest/tool-reference/spatial-analyst/aspect.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/tool-reference/spatial-analyst/aspect.htm</a>.</li>
+<li>Esri, “What is <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-modelbuilder" data-term="ModelBuilder">ModelBuilder</span>?”: <a href="https://pro.arcgis.com/en/pro-app/latest/help/analysis/geoprocessing/modelbuilder/what-is-modelbuilder-.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/help/analysis/geoprocessing/modelbuilder/what-is-modelbuilder-.htm</a>.</li>
+<li>Esri, “Suitability modeling workflow using <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span>”, a three-lesson case study: <a href="https://desktop.arcgis.com/en/analytics/case-studies/suit-lesson1-pro-exploring-and-deriving-data.htm" class="uri">https://desktop.arcgis.com/en/analytics/case-studies/suit-lesson1-pro-exploring-and-deriving-data.htm</a>.</li>
+<li>Esri, “Site suitability analysis” (imagery workflows): <a href="https://doc.arcgis.com/en/imagery/workflows/resources/site-suitability-analysis.htm" class="uri">https://doc.arcgis.com/en/imagery/workflows/resources/site-suitability-analysis.htm</a>.</li>
+<li><em>ArcUser</em>, “Modeling Suitability”: <a href="https://www.esri.com/about/newsroom/arcuser/modeling-suitability" class="uri">https://www.esri.com/about/newsroom/arcuser/modeling-suitability</a>.</li>
+<li>Learn ArcGIS, “Site a sustainable shrimp farm”: <a href="https://learn.arcgis.com/en/projects/site-a-sustainable-shrimp-farm/" class="uri">https://learn.arcgis.com/en/projects/site-a-sustainable-shrimp-farm/</a>.</li>
+<li>Learn ArcGIS, “Identify groundwater vulnerable areas”: <a href="https://learn.arcgis.com/en/projects/identify-groundwater-vulnerable-areas/" class="uri">https://learn.arcgis.com/en/projects/identify-groundwater-vulnerable-areas/</a>.</li>
+<li>Utah State University, “Suitability Modeler in ArcGIS Pro” tutorial: <a href="https://www.usu.edu/geospatial/tutorials/advanced/suitability-modeler" class="uri">https://www.usu.edu/geospatial/tutorials/advanced/suitability-modeler</a>.</li>
+</ul>
+</section>
+<section id="qgis" class="level3" data-number="17.13.3">
+<h3 data-number="17.13.3" class="anchored" data-anchor-id="qgis"><span class="header-section-number">17.13.3</span> QGIS</h3>
+<ul>
+<li><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span> Tutorials and Tips, “Multi <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-criterion" data-term="criterion">Criteria</span> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-overlay-analysis" data-term="overlay analysis">Overlay Analysis</span> (QGIS3)”: <a href="https://www.qgistutorials.com/en/docs/3/multi_criteria_overlay.html" class="uri">https://www.qgistutorials.com/en/docs/3/multi_criteria_overlay.html</a>.</li>
+<li>Spatial Thoughts, “Weighted Multi-Criteria Overlay Analysis using <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-gdal" data-term="GDAL">GDAL</span> Tools”: <a href="https://spatialthoughts.com/2022/01/31/multi-criteria-overlay-gdal/" class="uri">https://spatialthoughts.com/2022/01/31/multi-criteria-overlay-gdal/</a>.</li>
+<li>QGIS User Guide, “Raster Analysis” (Raster Calculator): <a href="https://docs.qgis.org/latest/en/docs/user_manual/working_with_raster/raster_analysis.html" class="uri">https://docs.qgis.org/latest/en/docs/user_manual/working_with_raster/raster_analysis.html</a>.</li>
+<li>QGIS User Guide, Processing algorithms for raster analysis: <a href="https://docs.qgis.org/latest/en/docs/user_manual/processing_algs/qgis/rasteranalysis.html" class="uri">https://docs.qgis.org/latest/en/docs/user_manual/processing_algs/qgis/rasteranalysis.html</a>, raster terrain analysis: <a href="https://docs.qgis.org/latest/en/docs/user_manual/processing_algs/qgis/rasterterrainanalysis.html" class="uri">https://docs.qgis.org/latest/en/docs/user_manual/processing_algs/qgis/rasterterrainanalysis.html</a>, and GDAL raster analysis (Proximity): <a href="https://docs.qgis.org/latest/en/docs/user_manual/processing_algs/gdal/rasteranalysis.html" class="uri">https://docs.qgis.org/latest/en/docs/user_manual/processing_algs/gdal/rasteranalysis.html</a>.</li>
+<li>QGIS User Guide, “The model designer”: <a href="https://docs.qgis.org/latest/en/docs/user_manual/processing/modeler.html" class="uri">https://docs.qgis.org/latest/en/docs/user_manual/processing/modeler.html</a>.</li>
+<li>QGIS Training Manual, “Lesson: Terrain Analysis”: <a href="https://docs.qgis.org/latest/en/docs/training_manual/rasters/terrain_analysis.html" class="uri">https://docs.qgis.org/latest/en/docs/training_manual/rasters/terrain_analysis.html</a>, and “Module: Completing the Analysis”, a full site-selection problem: <a href="https://docs.qgis.org/latest/en/docs/training_manual/complete_analysis/index.html" class="uri">https://docs.qgis.org/latest/en/docs/training_manual/complete_analysis/index.html</a>.</li>
+</ul>
+</section>
+<section id="data" class="level3" data-number="17.13.4">
+<h3 data-number="17.13.4" class="anchored" data-anchor-id="data"><span class="header-section-number">17.13.4</span> Data</h3>
+<ul>
+<li>USGS 3D Elevation Program (3DEP): <a href="https://www.usgs.gov/3d-elevation-program" class="uri">https://www.usgs.gov/3d-elevation-program</a>.</li>
+<li>NRCS Web Soil Survey: <a href="https://websoilsurvey.nrcs.usda.gov/" class="uri">https://websoilsurvey.nrcs.usda.gov/</a>, and the SSURGO <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-database" data-term="database">database</span>: <a href="https://www.nrcs.usda.gov/resources/data-and-reports/soil-survey-geographic-database-ssurgo" class="uri">https://www.nrcs.usda.gov/resources/data-and-reports/soil-survey-geographic-database-ssurgo</a>.</li>
+<li>U.S. Census Bureau <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tiger-line" data-term="TIGER/Line">TIGER/Line Shapefiles</span> (roads): <a href="https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html" class="uri">https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html</a>.</li>
+<li>Multi-Resolution Land Characteristics Consortium (National Land Cover Database): <a href="https://www.mrlc.gov/" class="uri">https://www.mrlc.gov/</a>.</li>
+<li>NC OneMap, North Carolina’s statewide GIS data: <a href="https://www.nconemap.gov/" class="uri">https://www.nconemap.gov/</a>.</li>
+</ul>
+</section>
+<section id="other-tools-and-courses" class="level3" data-number="17.13.5">
+<h3 data-number="17.13.5" class="anchored" data-anchor-id="other-tools-and-courses"><span class="header-section-number">17.13.5</span> Other tools and courses</h3>
+<ul>
+<li>TerrSet (formerly IDRISI), Clark University, with multi-criteria evaluation tools: <a href="https://www.clarku.edu/geospatial-analytics/terrset/" class="uri">https://www.clarku.edu/geospatial-analytics/terrset/</a>.</li>
+<li><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-analytic-hierarchy-process-ahp" data-term="Analytic Hierarchy Process (AHP)">AHP</span> Online System (AHP-OS), a free <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-pairwise-comparison" data-term="pairwise comparison">pairwise comparison</span> calculator: <a href="https://bpmsg.com/ahp/" class="uri">https://bpmsg.com/ahp/</a>.</li>
+<li>Penn State, GEOG 586: <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-data" data-term="spatial data">Geographic Information</span> Analysis: <a href="https://courses.ems.psu.edu/geog586/node/699" class="uri">https://courses.ems.psu.edu/geog586/node/699</a>.</li>
+<li>The <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-gis-t-body-of-knowledge" data-term="GIS&amp;T Body of Knowledge">GIS&amp;T Body of Knowledge</span>: <a href="https://www.ucgis.org/site/gis-t-body-of-knowledge" class="uri">https://www.ucgis.org/site/gis-t-body-of-knowledge</a>.</li>
+</ul>
+
+
+<div class="glossary-defs" hidden="">
+<span id="gloss-suitability-modeling">Ranking every location in a study area by how well it meets a set of
+criteria, such as choosing sites for a house, a school, or a wind farm.</span>
+<span id="gloss-cartographic-modeling">Planning and running a chain of spatial operations to solve a problem,
+where each operation’s output becomes the next one’s input. The term is
+Dana Tomlin’s.</span>
+<span id="gloss-flowchart">A diagram of a model’s input data (rectangles), operations (ovals), and
+their order (arrows), used to plan and document the model.</span>
+<span id="gloss-criterion">A condition a site must meet in a suitability model, first written in
+plain language and then as a measurable threshold, such as slope &lt;
+30°.</span>
+<span id="gloss-threshold">The number or rule that turns a criterion into something software can
+test, such as 300 m &lt; distance to road &lt; 2,000 m.</span>
+<span id="gloss-ranking">The scores given to the values within one criterion, putting them on a
+common scale, usually 0 (unsuitable) to 1 (ideal).</span>
+<span id="gloss-suitability-layer">A layer that scores every cell for one criterion, from 0 (completely
+unsuitable) to 1 (ideal).</span>
+<span id="gloss-suitability-index">A cell’s total score in a suitability model: the sum of its weighted
+scores on every criterion.</span>
+<span id="gloss-weighted-linear-combination-wlc">Multiplying each standardized layer by its weight and adding them, cell
+by cell: S = Σ wᵢxᵢ. Also called the rating model.</span>
+<span id="gloss-layer">A set of spatial data about one theme, such as roads, soils, or
+elevation. Layers for the same area stack on top of each other to make a
+map.</span>
+<span id="gloss-weighting">A multiplier that sets how much a criterion counts when suitability or
+vulnerability layers are combined.</span>
+<span id="gloss-arcgis-pro">Esri’s commercial desktop GIS, for Windows.</span>
+<span id="gloss-qgis">A free and open-source desktop GIS that runs on Windows, Mac, and Linux.</span>
+<span id="gloss-geographic-information-system-gis">“A computer-based system to aid in the collection, maintenance, storage,
+analysis, output, and distribution of spatial data and information”
+(Bolstad). Its five components are data, hardware, software, people, and
+procedures.</span>
+<span id="gloss-reclassification">Grouping the values of a layer into fewer, more meaningful classes, such
+as elevations into low, medium, and high.</span>
+<span id="gloss-buffer">The region within a specified distance of a point, line, or polygon.</span>
+<span id="gloss-map-algebra">Math on rasters, cell by cell, such as adding two grids or finding every
+cell where slope is under 10 percent.</span>
+<span id="gloss-raster">A data model that stores the world as a regular grid of equal-sized
+cells, each holding one value. Best for continuous data and imagery.</span>
+<span id="gloss-spatial-operation">A GIS function that takes one or more input layers and produces an
+output layer, such as a buffer, dissolve, or overlay.</span>
+<span id="gloss-spatial-data">Data tied to a location on or near Earth, such as the address of a
+house, the outline of a county, or the elevation at a point.</span>
+<span id="gloss-slope">The steepness of the ground, in degrees or percent, calculated from an
+elevation raster.</span>
+<span id="gloss-overlay-analysis">Stacking layers of data for the same area to find places that meet
+several conditions at once, such as flat land near a road and outside a
+floodplain.</span>
+<span id="gloss-modelbuilder">ArcGIS Pro’s visual tool for drawing and running a cartographic model as
+a flowchart. QGIS’s equivalent is the Model Designer.</span>
+<span id="gloss-population-density">The number of people per unit of area, such as people per square mile.</span>
+<span id="gloss-weighted-overlay">Combining raster layers on a common scale by multiplying each by its
+weight and adding them; also the name of an ArcGIS Pro tool.</span>
+<span id="gloss-database">An organized collection of tables, usually stored and managed by a
+database management system.</span>
+<span id="gloss-tiger-line">The Census Bureau’s boundary files for states, counties, tracts, roads,
+and other features.</span>
+<span id="gloss-aspect">The compass direction a slope faces, in degrees clockwise from north (0°
+north, 90° east, 180° south, 270° west).</span>
+<span id="gloss-discrete-ranking">A ranking in which each value either passes (1) or fails (0) a
+criterion.</span>
+<span id="gloss-continuous-ranking">A ranking in which values are scaled smoothly from worst to best, so a
+near miss scores higher than a poor value.</span>
+<span id="gloss-euclidean-distance">Straight-line distance. As a raster function, each cell’s distance to
+the nearest source cell.</span>
+<span id="gloss-linear-combination">Adding suitability layers with equal weights; with 0/1 layers, the
+result counts how many criteria each cell meets.</span>
+<span id="gloss-vector">A data model that stores the world as points, lines, and polygons, each
+defined by x, y coordinates and linked to its attributes. Best for
+discrete objects.</span>
+<span id="gloss-stakeholder">A person or group affected by a decision, whose views may be used to set
+a model’s criteria and weights.</span>
+<span id="gloss-pairwise-comparison">Judging two criteria at a time: which matters more, and by how much. In
+AHP the answers fill a matrix whose diagonal is 1 and whose lower half
+holds reciprocals.</span>
+<span id="gloss-analytic-hierarchy-process-ahp">A method, developed by Thomas Saaty, that derives weights by comparing
+criteria two at a time on a scale of 1 to 9.</span>
+<span id="gloss-sensitivity-analysis">Changing one input, such as a weight or threshold, at a time to see
+whether a model’s results change. If small changes move the answer, it
+is fragile.</span>
+<span id="gloss-cell-size">The real-world length of one side of a raster cell, such as 30 meters.
+Smaller cells give finer resolution and larger files.</span>
+<span id="gloss-multi-criteria-decision-analysis-mcda">Methods that weigh many criteria to support a decision, including GIS
+suitability modeling.</span>
+<span id="gloss-uncertainty">The degree to which we aren’t sure of something: the cloud of possible
+values around a recorded value.</span>
+<span id="gloss-digital-elevation-model">A raster whose cell values are elevations of the ground surface.</span>
+<span id="gloss-spatial-analysis">Methods that use the locations of things, and the relationships among
+them, to find patterns, explain them, or make predictions.</span>
+<span id="gloss-esri">The company that makes ArcGIS, founded in 1969 by Jack and Laura
+Dangermond in Redlands, California.</span>
+<span id="gloss-gdal">The Geospatial Data Abstraction Library, open-source software that reads
+and writes hundreds of raster and vector formats. QGIS, ArcGIS Pro, and
+many other programs use it.</span>
+<span id="gloss-gis-t-body-of-knowledge">A free collection of short, peer-reviewed articles on geographic
+information science and technology topics, from the University
+Consortium for Geographic Information Science (UCGIS).</span>
+</div>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script>
+
+/* update total correct if #webex-total_correct exists */
+update_total_correct = function() {
+  console.log("webex: update total_correct");
+
+  var t = document.getElementsByClassName("webex-total_correct");
+  for (var i = 0; i < t.length; i++) {
+    p = t[i].parentElement;
+    var correct = p.getElementsByClassName("webex-correct").length;
+    var solvemes = p.getElementsByClassName("webex-solveme").length;
+    var radiogroups = p.getElementsByClassName("webex-radiogroup").length;
+    var selects = p.getElementsByClassName("webex-select").length;
+
+    t[i].innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  }
+}
+
+/* webex-solution button toggling function */
+b_func = function() {
+  console.log("webex: toggle hide");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('open')) {
+    cl.remove("open");
+  } else {
+    cl.add("open");
+  }
+}
+
+/* check answers */
+check_func = function() {
+  console.log("webex: check answers");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('unchecked')) {
+    cl.remove("unchecked");
+    this.innerHTML = "Hide Answers";
+  } else {
+    cl.add("unchecked");
+    this.innerHTML = "Show Answers";
+  }
+}
+
+/* function for checking solveme answers */
+solveme_func = function(e) {
+  console.log("webex: check solveme");
+
+  var real_answers = JSON.parse(this.dataset.answer);
+  var my_answer = this.value;
+  var cl = this.classList;
+  if (cl.contains("ignorecase")) {
+    my_answer = my_answer.toLowerCase();
+  }
+  if (cl.contains("nospaces")) {
+    my_answer = my_answer.replace(/ /g, "")
+  }
+
+  if (my_answer == "") {
+    cl.remove("webex-correct");
+    cl.remove("webex-incorrect");
+  } else if (real_answers.includes(my_answer)) {
+    cl.add("webex-correct");
+    cl.remove("webex-incorrect");
+  } else {
+    cl.add("webex-incorrect");
+    cl.remove("webex-correct");
+  }
+
+  // match numeric answers within a specified tolerance
+  if(this.dataset.tol > 0){
+    var tol = JSON.parse(this.dataset.tol);
+    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+    if (matches.reduce((a, b) => a + b, 0) > 0) {
+      cl.add("webex-correct");
+    } else {
+      cl.remove("webex-correct");
+    }
+  }
+
+  // added regex bit
+  if (cl.contains("regex")){
+    answer_regex = RegExp(real_answers.join("|"))
+    if (answer_regex.test(my_answer)) {
+      cl.add("webex-correct");
+    }
+  }
+
+  update_total_correct();
+}
+
+/* function for checking select answers */
+select_func = function(e) {
+  console.log("webex: check select");
+
+  var cl = this.classList
+
+  /* add style */
+  cl.remove("webex-incorrect");
+  cl.remove("webex-correct");
+  if (this.value == "answer") {
+    cl.add("webex-correct");
+  } else if (this.value != "blank") {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+/* function for checking radiogroups answers */
+radiogroups_func = function(e) {
+  console.log("webex: check radiogroups");
+
+  var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
+  var cl = checked_button.parentElement.classList;
+  var labels = checked_button.parentElement.parentElement.children;
+
+  /* get rid of styles */
+  for (i = 0; i < labels.length; i++) {
+    labels[i].classList.remove("webex-incorrect");
+    labels[i].classList.remove("webex-correct");
+  }
+
+  /* add style */
+  if (checked_button.value == "answer") {
+    cl.add("webex-correct");
+  } else {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+window.onload = function() {
+  console.log("webex onload");
+  /* set up solution buttons */
+  var buttons = document.getElementsByTagName("button");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].parentElement.classList.contains('webex-solution')) {
+      buttons[i].onclick = b_func;
+    }
+  }
+
+  var check_sections = document.getElementsByClassName("webex-check");
+  console.log("check:", check_sections.length);
+  for (var i = 0; i < check_sections.length; i++) {
+    check_sections[i].classList.add("unchecked");
+
+    let btn = document.createElement("button");
+    btn.innerHTML = "Show Answers";
+    btn.classList.add("webex-check-button");
+    btn.onclick = check_func;
+    check_sections[i].appendChild(btn);
+
+    let spn = document.createElement("span");
+    spn.classList.add("webex-total_correct");
+    check_sections[i].appendChild(spn);
+  }
+
+  /* set up webex-solveme inputs */
+  var solveme = document.getElementsByClassName("webex-solveme");
+
+  for (var i = 0; i < solveme.length; i++) {
+    /* make sure input boxes don't auto-anything */
+    solveme[i].setAttribute("autocomplete","off");
+    solveme[i].setAttribute("autocorrect", "off");
+    solveme[i].setAttribute("autocapitalize", "off");
+    solveme[i].setAttribute("spellcheck", "false");
+    solveme[i].value = "";
+
+    /* adjust answer for ignorecase or nospaces */
+    var cl = solveme[i].classList;
+    var real_answer = solveme[i].dataset.answer;
+    if (cl.contains("ignorecase")) {
+      real_answer = real_answer.toLowerCase();
+    }
+    if (cl.contains("nospaces")) {
+      real_answer = real_answer.replace(/ /g, "");
+    }
+    solveme[i].dataset.answer = real_answer;
+
+    /* attach checking function */
+    solveme[i].onkeyup = solveme_func;
+    solveme[i].onchange = solveme_func;
+
+    solveme[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  /* set up radiogroups */
+  var radiogroups = document.getElementsByClassName("webex-radiogroup");
+  for (var i = 0; i < radiogroups.length; i++) {
+    radiogroups[i].onchange = radiogroups_func;
+  }
+
+  /* set up selects */
+  var selects = document.getElementsByClassName("webex-select");
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].onchange = select_func;
+    selects[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  update_total_correct();
+}
+
+</script>
+<!--
+  Highlights the right item in the top menu. Quarto's book layout marks
+  "Welcome" as active on every page, so this sets it from the page address:
+  the course pages match their own item, and every other page (chapters,
+  quizzes, glossary) is part of the Textbook. Pages with no menu item of
+  their own (the AI policy and privacy policy) highlight nothing.
+-->
+<script>
+(function () {
+  "use strict";
+  const COURSE_PAGES = ["index", "syllabus", "materials", "about"];
+  const NO_ITEM_PAGES = ["privacy", "ai-policy"];
+  const file = (location.pathname.split("/").pop() || "index").replace(/\.html$/, "");
+  const inRoot = !/\/chapters\//.test(location.pathname);
+  const target = inRoot && NO_ITEM_PAGES.includes(file) ? null
+    : inRoot && COURSE_PAGES.includes(file) ? file : "preface";
+  document.querySelectorAll("#navbarCollapse a.nav-link").forEach((a) => {
+    const page = (a.getAttribute("href") || "").split("/").pop().replace(/\.html$/, "");
+    const on = page === target;
+    a.classList.toggle("active", on);
+    if (on) a.setAttribute("aria-current", "page");
+    else a.removeAttribute("aria-current");
+  });
+})();
+</script>
+<!--
+  Reading settings, part 2 of 2: the "Aa" menu next to search, where readers
+  pick a font and text size. Choices are kept in this browser (localStorage)
+  and applied on every page by assets/reader-settings-head.html.
+-->
+<script>
+(function () {
+  var FONTS = [
+    { id: "", label: "Atkinson Hyperlegible (default)", css: '"Atkinson Hyperlegible Next", sans-serif' },
+    { id: "lexend", label: "Lexend", css: '"Lexend", sans-serif', href: "https://fonts.googleapis.com/css2?family=Lexend:wght@300..700&display=swap" },
+    { id: "cardo", label: "Cardo (serif)", css: '"Cardo", Georgia, serif', href: "https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&display=swap" },
+    { id: "sans", label: "Standard sans-serif", css: 'system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif' },
+    { id: "serif", label: "Serif", css: 'Georgia, Cambria, "Times New Roman", serif' },
+    { id: "dyslexic", label: "OpenDyslexic", css: '"OpenDyslexic", sans-serif' }
+  ];
+  var SIZES = { "-1": "Small", "0": "Default", "1": "Large", "2": "Larger", "3": "Largest" };
+  var MIN = -1, MAX = 3;
+  var root = document.documentElement;
+
+  function save(key, value) {
+    try {
+      if (value === "" || value === "0") localStorage.removeItem(key);
+      else localStorage.setItem(key, value);
+    } catch (e) { /* storage blocked: setting lasts for this page only */ }
+  }
+  function currentFont() { return root.getAttribute("data-reader-font") || ""; }
+  function currentSize() { return parseInt(root.getAttribute("data-reader-size") || "0", 10) || 0; }
+
+  // Add a Google Fonts stylesheet once (Lexend, Cardo). Fonts download only
+  // when text actually uses them.
+  function loadWebFont(f) {
+    if (!f.href || document.getElementById("sds-reader-webfont-" + f.id)) return;
+    var link = document.createElement("link");
+    link.rel = "stylesheet"; link.href = f.href; link.id = "sds-reader-webfont-" + f.id;
+    document.head.appendChild(link);
+  }
+
+  function setFont(id) {
+    FONTS.forEach(function (f) { if (f.id === id) loadWebFont(f); });
+    if (id) root.setAttribute("data-reader-font", id); else root.removeAttribute("data-reader-font");
+    save("sds-reader-font", id);
+  }
+  function setSize(n) {
+    n = Math.max(MIN, Math.min(MAX, n));
+    if (n) root.setAttribute("data-reader-size", String(n)); else root.removeAttribute("data-reader-size");
+    save("sds-reader-size", String(n));
+    refreshSize();
+  }
+
+  var wrap = document.createElement("div");
+  wrap.className = "sds-reader";
+  var fontOptions = FONTS.map(function (f) {
+    return '<label style=\'font-family:' + f.css.replace(/'/g, "&#39;") + '\'>' +
+      '<input class="form-check-input" type="radio" name="sds-reader-font" value="' + f.id + '"> ' + f.label + '</label>';
+  }).join("");
+  wrap.innerHTML =
+    '<button type="button" class="sds-reader-toggle" aria-expanded="false" aria-controls="sds-reader-panel" ' +
+      'title="Reading settings: font and text size">' +
+      '<span aria-hidden="true">Aa</span><span class="visually-hidden">Reading settings</span></button>' +
+    '<div class="sds-reader-panel" id="sds-reader-panel" role="dialog" aria-label="Reading settings" hidden>' +
+      '<h2>Reading settings</h2>' +
+      '<fieldset class="sds-reader-font"><legend>Font</legend>' + fontOptions + '</fieldset>' +
+      '<fieldset><legend>Text size</legend><div class="sds-reader-size-row">' +
+        '<button type="button" data-step="-1" aria-label="Smaller text">A&minus;</button>' +
+        '<output aria-live="polite"></output>' +
+        '<button type="button" data-step="1" aria-label="Larger text">A+</button>' +
+      '</div></fieldset>' +
+      '<button type="button" class="sds-reader-reset">Reset to defaults</button>' +
+    '</div>';
+
+  var toggle = wrap.querySelector(".sds-reader-toggle");
+  var panel = wrap.querySelector(".sds-reader-panel");
+  var output = wrap.querySelector("output");
+  var minus = wrap.querySelector('[data-step="-1"]');
+  var plus = wrap.querySelector('[data-step="1"]');
+
+  function refreshFont() {
+    var id = currentFont();
+    wrap.querySelectorAll('input[name="sds-reader-font"]').forEach(function (r) { r.checked = r.value === id; });
+  }
+  function refreshSize() {
+    var n = currentSize();
+    output.textContent = SIZES[String(n)] || "Default";
+    minus.disabled = n <= MIN;
+    plus.disabled = n >= MAX;
+  }
+  function open(show) {
+    panel.hidden = !show;
+    toggle.setAttribute("aria-expanded", show ? "true" : "false");
+    if (show) { FONTS.forEach(loadWebFont); refreshFont(); refreshSize(); var c = panel.querySelector("input:checked"); if (c) c.focus(); }
+  }
+
+  toggle.addEventListener("click", function (e) { e.stopPropagation(); open(panel.hidden); });
+  panel.addEventListener("click", function (e) { e.stopPropagation(); });
+  panel.addEventListener("change", function (e) { if (e.target.name === "sds-reader-font") setFont(e.target.value); });
+  minus.addEventListener("click", function () { setSize(currentSize() - 1); });
+  plus.addEventListener("click", function () { setSize(currentSize() + 1); });
+  wrap.querySelector(".sds-reader-reset").addEventListener("click", function () { setFont(""); setSize(0); refreshFont(); });
+  document.addEventListener("click", function () { if (!panel.hidden) open(false); });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !panel.hidden) { open(false); toggle.focus(); }
+  });
+
+  // Put the button by search: in the top menu on
+  // geog370.org, or by the sidebar search in the textbook-only build.
+  var navSearch = document.querySelector("#quarto-header #quarto-search");
+  if (navSearch) navSearch.parentNode.insertBefore(wrap, navSearch);
+  else {
+    var search = document.querySelector("#quarto-sidebar .sidebar-search, #quarto-sidebar #quarto-search, .sidebar-tools-main");
+    if (search && search.parentNode) search.parentNode.insertBefore(wrap, search.nextSibling);
+    else return;
+  }
+  refreshFont();
+  refreshSize();
+})();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/kriging.html" class="pagination-link" aria-label="Kriging">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Kriging</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../chapters/risk-analysis.html" class="pagination-link" aria-label="Risk Analysis">
+        <span class="nav-page-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Risk Analysis</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

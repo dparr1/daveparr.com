@@ -8,6 +8,9 @@
     "spatial-analysis",
     "raster",
     "interpolation",
-    "kriging"
+    "kriging",
+    "suitability-modeling",
+    "risk-analysis",
+    "uncertainty"
   ]
 }
