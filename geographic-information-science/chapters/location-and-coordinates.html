@@ -220,14 +220,55 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Attribute Data and Queries</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/database-joins.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Databases and Table Joins</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/spatial-joins.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Spatial Joins</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-2-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+            <a href="../units/unit-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-2-label">Unit 2: Spatial Data Quality</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section: Unit 2: Spatial Data Quality">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
       </div>
       <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/census-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Census Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/geocoding-georeferencing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Geocoding and Georeferencing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/osm-data-quality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">OpenStreetMap and Data Quality</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../glossary.html" class="sidebar-item-text sidebar-link">
@@ -538,7 +579,7 @@ Show the answer
 <h3 data-number="3.3.3" class="anchored" data-anchor-id="nad83"><span class="header-section-number">3.3.3</span> NAD83</h3>
 <p>The <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-nad83" data-term="NAD83">North American Datum of 1983</span> (NAD83)</strong> uses the GRS 80 ellipsoid and is <em>earth-centered</em>: the center of its ellipsoid is at the Earth’s center of mass. That made it compatible with satellite positioning. NAD83 is fixed to the North American tectonic plate, so the coordinates of a benchmark stay the same as the continent drifts.</p>
 <p>NAD83 has been readjusted several times as measurements improved. Each version is a <em>realization</em>, written with its year in parentheses: NAD83(HARN), NAD83(2007), and <strong>NAD83(2011)</strong>, the current one. A nationwide network of <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-continuously-operating-reference-stations-cors" data-term="Continuously Operating Reference Stations (CORS)">Continuously Operating Reference Stations</span> (CORS)</strong>, GPS receivers bolted to buildings and concrete piers that run around the clock, keeps it accurate.</p>
-<p>NAD83 is the datum of most U.S. federal and state <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> data, including the U.S. Census Bureau’s TIGER/Line files and North Carolina’s NC OneMap.</p>
+<p>NAD83 is the datum of most U.S. federal and state <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> data, including the U.S. Census Bureau’s <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tiger-line" data-term="TIGER/Line">TIGER/Line</span> files and North Carolina’s NC OneMap.</p>
 </section>
 <section id="wgs84" class="level3" data-number="3.3.4">
 <h3 data-number="3.3.4" class="anchored" data-anchor-id="wgs84"><span class="header-section-number">3.3.4</span> WGS84</h3>
@@ -559,7 +600,7 @@ Figure&nbsp;3.4: A datum shift. Two datums use different ellipsoids in different
 </figure>
 </div>
 <p>Between NAD27 and NAD83, the shift is anywhere from a few meters to over 100 meters across the United States. In one well-known USGS example from the Hayward, California, quadrangle, a single coordinate pair plotted in NAD27 and in NAD83 lands nearly 100 meters apart. That is a city block, plenty to put a well on the wrong side of a property line or a fire hydrant in the middle of a street.</p>
-<p>This is one of the most common errors in GIS. Two <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layers</span> that should line up, such as roads and parcels, are offset by a constant amount, because one is in NAD27 and the other in NAD83. The fix is a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-datum-transformation" data-term="datum transformation">datum transformation</span></strong>: a set of equations, or a grid of measured shifts, that converts coordinates from one datum to another. <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span> apply datum transformations when you project or import data, and they will sometimes ask you to choose one. Before you combine layers, <strong>check each layer’s datum</strong>.</p>
+<p>This is one of the most common errors in GIS. Two <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layers</span> that should line up, such as roads and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-parcel" data-term="parcel">parcels</span>, are offset by a constant amount, because one is in NAD27 and the other in NAD83. The fix is a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-datum-transformation" data-term="datum transformation">datum transformation</span></strong>: a set of equations, or a grid of measured shifts, that converts coordinates from one datum to another. <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span> apply datum transformations when you project or import data, and they will sometimes ask you to choose one. Before you combine layers, <strong>check each layer’s datum</strong>.</p>
 <div class="did-you-know callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -949,7 +990,7 @@ Show hint for question 4
 <li>NGS, “What is the geoid?”: <a href="https://geodesy.noaa.gov/GEOID/geoid_def.html" class="uri">https://geodesy.noaa.gov/GEOID/geoid_def.html</a>.</li>
 <li>National Geospatial-Intelligence Agency (NGA), Earth Gravitational Model 2008 (EGM2008): <a href="https://earth-info.nga.mil/" class="uri">https://earth-info.nga.mil/</a>.</li>
 <li><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-esri" data-term="Esri">Esri</span>, “Earth’s shape and the geoid,” in the ArcGIS Pro help on vertical coordinate systems: <a href="https://pro.arcgis.com/en/pro-app/latest/help/mapping/properties/vertical-coordinate-systems.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/help/mapping/properties/vertical-coordinate-systems.htm</a>.</li>
-<li>The <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-gis-t-body-of-knowledge" data-term="GIS&amp;T Body of Knowledge">GIS&amp;T Body of Knowledge</span> has articles on “Geodesy,” “Earth Geometry,” “Datums,” “Plane Coordinate Systems,” and “Georeferencing Systems”: <a href="https://gistbok.ucgis.org" class="uri">https://gistbok.ucgis.org</a>.</li>
+<li>The <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-gis-t-body-of-knowledge" data-term="GIS&amp;T Body of Knowledge">GIS&amp;T Body of Knowledge</span> has articles on “Geodesy,” “Earth Geometry,” “Datums,” “Plane Coordinate Systems,” and “<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-georeferencing" data-term="georeferencing">Georeferencing</span> Systems”: <a href="https://www.ucgis.org/site/gis-t-body-of-knowledge" class="uri">https://www.ucgis.org/site/gis-t-body-of-knowledge</a>.</li>
 </ul>
 </section>
 <section id="datums" class="level3" data-number="3.11.3">
@@ -1074,6 +1115,9 @@ the Earth.</span>
 between stations to work out their positions across a large area.</span>
 <span id="gloss-continuously-operating-reference-stations-cors">A network of permanent GPS receivers, run by the National Geodetic
 Survey and its partners, that keeps NAD83 up to date.</span>
+<span id="gloss-tiger-line">The Census Bureau’s boundary files for states, counties, tracts, roads,
+and other features.</span>
+<span id="gloss-parcel">A polygon for one piece of property, usually with its owner and address.</span>
 <span id="gloss-datum-transformation">Equations or a grid of measured shifts that convert coordinates from one
 datum to another.</span>
 <span id="gloss-qgis">A free and open-source desktop GIS that runs on Windows, Mac, and Linux.</span>
@@ -1099,6 +1143,8 @@ Dangermond in Redlands, California.</span>
 <span id="gloss-gis-t-body-of-knowledge">A free collection of short, peer-reviewed articles on geographic
 information science and technology topics, from the University
 Consortium for Geographic Information Science (UCGIS).</span>
+<span id="gloss-georeferencing">Transforming a raster, such as a scanned map or image, from file
+coordinates to map coordinates.</span>
 <span id="gloss-vector">A data model that stores the world as points, lines, and polygons, each
 defined by x, y coordinates and linked to its attributes. Best for
 discrete objects.</span>

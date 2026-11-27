@@ -1,0 +1,540 @@
+{
+  "id": "database-joins",
+  "title": "Databases and Table Joins",
+  "perSession": 10,
+  "minR": 0,
+  "questions": [
+    {
+      "id": "dbms-def",
+      "type": "choice",
+      "prompt": "A database management system (DBMS) is:",
+      "choices": [
+        "Software that stores data once and lets many programs and people query it",
+        "A single spreadsheet",
+        "A file format for rasters",
+        "A type of map projection"
+      ],
+      "answer": 0,
+      "explain": "A DBMS stores the data and controls who can read and change it."
+    },
+    {
+      "id": "dbms-example",
+      "type": "choice",
+      "prompt": "Which of these is NOT a database management system?",
+      "choices": [
+        "GeoTIFF",
+        "PostgreSQL",
+        "SQLite",
+        "Oracle"
+      ],
+      "answer": 0,
+      "explain": "GeoTIFF is a raster file format. The others are DBMSs."
+    },
+    {
+      "id": "postgis",
+      "type": "choice",
+      "prompt": "PostGIS is:",
+      "choices": [
+        "An extension that adds spatial types and functions to PostgreSQL",
+        "A web browser",
+        "A census product",
+        "A map projection"
+      ],
+      "answer": 0,
+      "explain": "PostGIS turns PostgreSQL into a spatial database."
+    },
+    {
+      "id": "geopackage-db",
+      "type": "choice",
+      "prompt": "A GeoPackage is built on which database?",
+      "choices": [
+        "SQLite",
+        "Oracle",
+        "Microsoft SQL Server",
+        "MySQL"
+      ],
+      "answer": 0,
+      "explain": "A GeoPackage is a SQLite database laid out to an OGC standard."
+    },
+    {
+      "id": "no-direct-write",
+      "type": "choice",
+      "prompt": "In a DBMS, users change data:",
+      "choices": [
+        "Only through the DBMS, which checks their permissions",
+        "By editing the files on disk directly",
+        "Only by emailing the administrator",
+        "Never"
+      ],
+      "answer": 0,
+      "explain": "No direct write access: the DBMS stands between users and the stored data."
+    },
+    {
+      "id": "concurrency",
+      "type": "choice",
+      "prompt": "Concurrency in a DBMS means:",
+      "choices": [
+        "Many users can read and edit at the same time",
+        "Data is stored in several copies",
+        "Tables are joined automatically",
+        "Every user has a private copy"
+      ],
+      "answer": 0,
+      "explain": "The DBMS keeps simultaneous edits from overwriting each other."
+    },
+    {
+      "id": "three-tier",
+      "type": "order",
+      "prompt": "Put the three tiers of a database system in order, from the user down.",
+      "answer": [
+        "Client (a browser or QGIS)",
+        "Application (a web or map server)",
+        "Database (the DBMS)"
+      ],
+      "explain": "The client talks to the application tier, which talks to the database."
+    },
+    {
+      "id": "relational-def",
+      "type": "choice",
+      "prompt": "A relational database:",
+      "choices": [
+        "Stores data in tables linked by fields with shared values",
+        "Stores data only as rasters",
+        "Has exactly one table",
+        "Stores maps as images"
+      ],
+      "answer": 0,
+      "explain": "Tables are related through key fields."
+    },
+    {
+      "id": "primary-key",
+      "type": "choice",
+      "prompt": "A primary key is a field whose values:",
+      "choices": [
+        "Identify each row uniquely, with no repeats",
+        "Can repeat freely",
+        "Are always names",
+        "Are always NULL"
+      ],
+      "answer": 0,
+      "explain": "Forest_ID is the primary key of the Forests table."
+    },
+    {
+      "id": "foreign-key",
+      "type": "choice",
+      "prompt": "A foreign key is:",
+      "choices": [
+        "A field in one table that holds values of another table's primary key",
+        "A key from another country",
+        "The first field of every table",
+        "A field that must be unique"
+      ],
+      "answer": 0,
+      "explain": "Forest_ID in the Trails table points back to the Forests table."
+    },
+    {
+      "id": "foreign-repeat",
+      "type": "truefalse",
+      "prompt": "Values in a foreign key field can repeat.",
+      "answer": true,
+      "explain": "Many trails can share the same Forest_ID."
+    },
+    {
+      "id": "key-names",
+      "type": "truefalse",
+      "prompt": "For a join to work, the two key fields must have the same name.",
+      "answer": false,
+      "explain": "Name in People matched Owner in Cars. The values and types must match, not the names."
+    },
+    {
+      "id": "key-types",
+      "type": "truefalse",
+      "prompt": "For a join to work, the two key fields should have the same data type.",
+      "answer": true,
+      "explain": "Text to text, integer to integer. A text key never matches a number key."
+    },
+    {
+      "id": "good-key",
+      "type": "choice",
+      "prompt": "Which makes the best key for U.S. counties?",
+      "choices": [
+        "The county FIPS code",
+        "The county name",
+        "The county seat",
+        "The county's area"
+      ],
+      "answer": 0,
+      "explain": "Names repeat (about 30 states have a Washington County) and are spelled different ways. Codes don't."
+    },
+    {
+      "id": "destination-def",
+      "type": "choice",
+      "prompt": "In a table join, the destination table is the one that:",
+      "choices": [
+        "Receives the new fields and keeps all its rows",
+        "Supplies the fields",
+        "Is deleted after the join",
+        "Must have no geometry"
+      ],
+      "answer": 0,
+      "explain": "In GIS the destination is usually the layer with the geometry."
+    },
+    {
+      "id": "source-def",
+      "type": "choice",
+      "prompt": "In a table join, the source table:",
+      "choices": [
+        "Supplies the fields that are appended",
+        "Receives the new fields",
+        "Must be a shapefile",
+        "Is changed permanently"
+      ],
+      "answer": 0,
+      "explain": "ArcGIS also calls it the join table."
+    },
+    {
+      "id": "join-order",
+      "type": "truefalse",
+      "prompt": "A join only works if both tables are sorted in the same order.",
+      "answer": false,
+      "explain": "A join matches on key values, not on row positions."
+    },
+    {
+      "id": "join-temporary",
+      "type": "truefalse",
+      "prompt": "In QGIS and ArcGIS Pro, a join is temporary until you export the layer.",
+      "answer": true,
+      "explain": "The join is a live link. Export to keep the fields."
+    },
+    {
+      "id": "bag-def",
+      "type": "choice",
+      "prompt": "A collection that can contain duplicates is called a:",
+      "choices": [
+        "Bag",
+        "Set",
+        "Key",
+        "Join"
+      ],
+      "answer": 0,
+      "explain": "Tables are bags unless a primary key forbids repeated rows."
+    },
+    {
+      "id": "inner-def",
+      "type": "choice",
+      "prompt": "An inner join keeps:",
+      "choices": [
+        "Only rows that match in both tables",
+        "Every row of the left table",
+        "Every row of the right table",
+        "Every row of both tables"
+      ],
+      "answer": 0,
+      "explain": "Unmatched rows on either side are dropped."
+    },
+    {
+      "id": "left-def",
+      "type": "choice",
+      "prompt": "A left join keeps:",
+      "choices": [
+        "Every row of the left (destination) table, with NULL where nothing matched",
+        "Only matched rows",
+        "Every row of the right table",
+        "Only unmatched rows"
+      ],
+      "answer": 0,
+      "explain": "This is the default join in QGIS and ArcGIS Pro."
+    },
+    {
+      "id": "full-def",
+      "type": "choice",
+      "prompt": "A full outer join keeps:",
+      "choices": [
+        "Every row of both tables",
+        "Only matched rows",
+        "Only the left table",
+        "Only the right table"
+      ],
+      "answer": 0,
+      "explain": "Unmatched rows from both sides are kept, with NULLs."
+    },
+    {
+      "id": "inner-count",
+      "type": "fill",
+      "prompt": "STUDENT has Zhang, Shankar, Parr, and McKeon. TAKES has two enrollments for Zhang, one for Shankar, and one for a student not in STUDENT. How many rows does the inner join return?",
+      "answers": [
+        "3",
+        "three"
+      ],
+      "explain": "Zhang's two enrollments and Shankar's one.",
+      "ignoreCase": true
+    },
+    {
+      "id": "left-count",
+      "type": "fill",
+      "prompt": "Using the same STUDENT and TAKES tables, how many rows does the left join of STUDENT to TAKES return?",
+      "answers": [
+        "5",
+        "five"
+      ],
+      "explain": "Zhang twice, Shankar once, and Parr and McKeon once each with NULL courses.",
+      "ignoreCase": true
+    },
+    {
+      "id": "lola",
+      "type": "choice",
+      "prompt": "In the People and Cars left join, Lola owns no car. Her row:",
+      "choices": [
+        "Is kept, with NULL in the Car and Year fields",
+        "Is deleted",
+        "Gets Dave's car",
+        "Causes the join to fail"
+      ],
+      "answer": 0,
+      "explain": "A left join keeps every destination row."
+    },
+    {
+      "id": "arcgis-inner",
+      "type": "choice",
+      "prompt": "In ArcGIS Pro's Add Join tool, how do you get an inner join?",
+      "choices": [
+        "Uncheck Keep All Target Features",
+        "Check Keep All Target Features",
+        "Swap the tables",
+        "Use a definition query first"
+      ],
+      "answer": 0,
+      "explain": "Keep All Target Features is the left-join setting."
+    },
+    {
+      "id": "qgis-inner",
+      "type": "choice",
+      "prompt": "In QGIS's Join Attributes by Field Value tool, how do you get an inner join?",
+      "choices": [
+        "Check Discard records which could not be joined",
+        "Uncheck Detect field types",
+        "Use the Joins tab",
+        "Add a .csvt file"
+      ],
+      "answer": 0,
+      "explain": "That option drops destination records with no match."
+    },
+    {
+      "id": "cardinality-def",
+      "type": "choice",
+      "prompt": "Cardinality describes:",
+      "choices": [
+        "How many records in one table match each record in the other",
+        "The number of columns",
+        "The data type of a key",
+        "The size of a database"
+      ],
+      "answer": 0,
+      "explain": "One-to-one, many-to-one, one-to-many, or many-to-many."
+    },
+    {
+      "id": "counties-states",
+      "type": "choice",
+      "prompt": "Joining counties (destination) to states (source) is:",
+      "choices": [
+        "Many-to-one",
+        "One-to-many",
+        "One-to-one",
+        "Many-to-many"
+      ],
+      "answer": 0,
+      "explain": "Many counties share a state; each county is in one state."
+    },
+    {
+      "id": "states-counties",
+      "type": "choice",
+      "prompt": "Joining states (destination) to counties (source) is:",
+      "choices": [
+        "One-to-many",
+        "Many-to-one",
+        "One-to-one",
+        "Many-to-many"
+      ],
+      "answer": 0,
+      "explain": "Each state matches many counties."
+    },
+    {
+      "id": "students-classes",
+      "type": "choice",
+      "prompt": "Students and classes are related:",
+      "choices": [
+        "Many-to-many",
+        "One-to-one",
+        "One-to-many",
+        "Many-to-one"
+      ],
+      "answer": 0,
+      "explain": "Each student takes many classes, and each class has many students."
+    },
+    {
+      "id": "simple-ok",
+      "type": "choice",
+      "prompt": "Which cardinalities can be joined directly, with one value per field per feature?",
+      "choices": [
+        "One-to-one and many-to-one",
+        "One-to-many and many-to-many",
+        "Only many-to-many",
+        "None"
+      ],
+      "answer": 0,
+      "explain": "Each destination record finds at most one match."
+    },
+    {
+      "id": "qgis-one-many",
+      "type": "choice",
+      "prompt": "In a one-to-many join through the Joins tab, QGIS:",
+      "choices": [
+        "Copies the first match and ignores the rest, with no warning",
+        "Refuses to join",
+        "Adds every match as a new field",
+        "Averages the matches"
+      ],
+      "answer": 0,
+      "explain": "That silently drops data. Summarize the source first."
+    },
+    {
+      "id": "fix-one-many",
+      "type": "choice",
+      "prompt": "You want the total county population in each state. The best approach is to:",
+      "choices": [
+        "Summarize the county table by state, then join",
+        "Join the county table to the states directly",
+        "Use an inner join",
+        "Delete the duplicate counties"
+      ],
+      "answer": 0,
+      "explain": "Summarizing gives one row per state, and the join becomes one-to-one."
+    },
+    {
+      "id": "relate-def",
+      "type": "choice",
+      "prompt": "A relate (or relation in QGIS) differs from a join because it:",
+      "choices": [
+        "Links the tables without copying fields into the layer",
+        "Changes the source data",
+        "Only works for rasters",
+        "Deletes unmatched records"
+      ],
+      "answer": 0,
+      "explain": "Relates handle one-to-many relationships without breaking one row per feature."
+    },
+    {
+      "id": "linking-table",
+      "type": "choice",
+      "prompt": "A many-to-many relationship is usually handled with:",
+      "choices": [
+        "A linking (junction) table",
+        "A right join",
+        "A single key field",
+        "A .csvt file"
+      ],
+      "answer": 0,
+      "explain": "TAKES links STUDENT to COURSES."
+    },
+    {
+      "id": "geoid-length",
+      "type": "fill",
+      "prompt": "How many characters long is a census tract GEOID?",
+      "answers": [
+        "11",
+        "eleven"
+      ],
+      "explain": "2 for the state, 3 for the county, 6 for the tract.",
+      "ignoreCase": true
+    },
+    {
+      "id": "geoid-parts",
+      "type": "order",
+      "prompt": "Put the parts of a tract GEOID in order.",
+      "answer": [
+        "State FIPS code (2 digits)",
+        "County FIPS code (3 digits)",
+        "Tract code (6 digits)"
+      ],
+      "explain": "State, then county, then tract: 37 135 010701."
+    },
+    {
+      "id": "geoid-type",
+      "type": "choice",
+      "prompt": "A census GEOID should be stored as:",
+      "choices": [
+        "Text",
+        "An integer",
+        "A double",
+        "A date"
+      ],
+      "answer": 0,
+      "explain": "As a number it loses its leading zeros, like California's 06."
+    },
+    {
+      "id": "all-null",
+      "type": "choice",
+      "prompt": "After a census join, every tract in California has NULL population. The most likely cause is:",
+      "choices": [
+        "The CSV's GEOID was read as a number and lost its leading zero",
+        "The join is many-to-one",
+        "The layer has too many tracts",
+        "The tracts are in a projected CRS"
+      ],
+      "answer": 0,
+      "explain": "06001400100 became 6001400100, which matches nothing."
+    },
+    {
+      "id": "csvt",
+      "type": "choice",
+      "prompt": "A .csvt file:",
+      "choices": [
+        "Sets the data type of each column in a CSV",
+        "Holds the geometry of a CSV",
+        "Is a compressed CSV",
+        "Holds a layer's style"
+      ],
+      "answer": 0,
+      "explain": "For example \"String\",\"Integer\"."
+    },
+    {
+      "id": "some-null",
+      "type": "choice",
+      "prompt": "After a join, a handful of records are NULL while the rest worked. Which is a likely cause?",
+      "choices": [
+        "Stray spaces or different capitalization in some keys",
+        "The key fields have different data types",
+        "The source table has no geometry",
+        "The join is many-to-one"
+      ],
+      "answer": 0,
+      "explain": "Trim spaces and standardize case before joining."
+    },
+    {
+      "id": "census-steps",
+      "type": "order",
+      "prompt": "Put the steps of a census join in QGIS in order.",
+      "answer": [
+        "Load the tract layer and find GEOID",
+        "Add the CSV as a delimited text table with no geometry",
+        "Join on the Joins tab, GEOID to GEOID",
+        "Open the attribute table and look for NULLs",
+        "Export the joined layer"
+      ],
+      "explain": "Load, add, join, check, then make it permanent."
+    },
+    {
+      "id": "attr-vs-spatial",
+      "type": "choice",
+      "prompt": "Which question needs a spatial join rather than an attribute join?",
+      "choices": [
+        "How many EMS calls fell in each neighborhood, when the calls have only coordinates",
+        "Attach census population to tracts by GEOID",
+        "Attach state names to counties by state FIPS code",
+        "Attach owner names to parcels by parcel ID"
+      ],
+      "answer": 0,
+      "explain": "With no shared key, location has to do the matching."
+    }
+  ]
+}

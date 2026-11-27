@@ -194,14 +194,55 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Attribute Data and Queries</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/database-joins.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Databases and Table Joins</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/spatial-joins.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Spatial Joins</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-2-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+            <a href="../units/unit-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-2-label">Unit 2: Spatial Data Quality</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section: Unit 2: Spatial Data Quality">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
       </div>
       <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/census-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Census Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/geocoding-georeferencing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Geocoding and Georeferencing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/osm-data-quality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">OpenStreetMap and Data Quality</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../glossary.html" class="sidebar-item-text sidebar-link">
@@ -531,7 +572,7 @@ Table&nbsp;1.2: Five kinds of questions a GIS can answer.
 <tr class="odd">
 <td style="text-align: left;">Location</td>
 <td style="text-align: left;"><em>What is at</em> this place?</td>
-<td style="text-align: left;">Who owns the parcel at 123 Main Street?</td>
+<td style="text-align: left;">Who owns the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-parcel" data-term="parcel">parcel</span> at 123 Main Street?</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Condition</td>
@@ -890,7 +931,7 @@ Table&nbsp;1.5: Some of the sectors that use GIS.
 <p>Maps are powerful, and they can do harm as well as good. <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-science-giscience" data-term="geographic information science (GIScience)">GIScience</span> takes this seriously, and so should anyone who makes maps.</p>
 <ul>
 <li><strong>Privacy.</strong> Your phone records where you go, and that data is bought and sold. A few location points are often enough to identify a person, find where they live and work, and reveal visits to a clinic, a place of worship, or a protest. Mapping individuals’ data, even with names removed, can expose them.</li>
-<li><strong>Equity and representation.</strong> Data describe some places and people better than others. Rural areas, poorer neighborhoods, and countries with fewer resources are often mapped in less detail, so they are easier to overlook in decisions. Volunteer projects such as the Humanitarian <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-openstreetmap" data-term="OpenStreetMap">OpenStreetMap</span> Team map buildings and roads in places that commercial maps miss.</li>
+<li><strong>Equity and representation.</strong> Data describe some places and people better than others. Rural areas, poorer neighborhoods, and countries with fewer resources are often mapped in less detail, so they are easier to overlook in decisions. Volunteer projects such as the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-humanitarian-openstreetmap-team" data-term="Humanitarian OpenStreetMap Team">Humanitarian OpenStreetMap Team</span> map buildings and roads in places that commercial maps miss.</li>
 <li><strong>Maps can be used to discriminate.</strong> In the 1930s, the federal Home Owners’ Loan Corporation drew maps grading city neighborhoods for lending risk, outlining many Black and immigrant neighborhoods in red. This practice, now called <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-redlining" data-term="redlining">redlining</span></strong>, shaped where banks lent money for decades, and its effects can still be seen in home values, health, and tree cover in the same neighborhoods today.</li>
 <li><strong>Maps can mislead.</strong> Choices about color, classes, scale, and what to leave out can make the same data tell very different stories. A good analyst makes those choices honestly and explains them.</li>
 </ul>
@@ -982,8 +1023,8 @@ Table&nbsp;1.7: The three units of the course.
 <td style="text-align: left;">Editing and querying spatial data</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">2. Spatial Data Quality</td>
-<td style="text-align: left;">Census data; georeferencing</td>
+<td style="text-align: left;">2. <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-data-quality" data-term="spatial data quality">Spatial Data Quality</span></td>
+<td style="text-align: left;">Census data; <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-georeferencing" data-term="georeferencing">georeferencing</span></td>
 <td style="text-align: left;">Mapping Census data</td>
 </tr>
 <tr class="odd">
@@ -1136,7 +1177,7 @@ Show hint for question 4
 <li>National Geographic Education, “GIS (Geographic Information System)”: <a href="https://education.nationalgeographic.org/resource/geographic-information-system-gis/" class="uri">https://education.nationalgeographic.org/resource/geographic-information-system-gis/</a>.</li>
 <li>U.S. Geological Survey, “What is a geographic information system (GIS)?”: <a href="https://www.usgs.gov/faqs/what-geographic-information-system-gis" class="uri">https://www.usgs.gov/faqs/what-geographic-information-system-gis</a>.</li>
 <li><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span>, <em>A Gentle Introduction to GIS</em>: <a href="https://docs.qgis.org/latest/en/docs/gentle_gis_introduction/" class="uri">https://docs.qgis.org/latest/en/docs/gentle_gis_introduction/</a>.</li>
-<li>The <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-gis-t-body-of-knowledge" data-term="GIS&amp;T Body of Knowledge">GIS&amp;T Body of Knowledge</span></strong>, from the University Consortium for <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-science-giscience" data-term="geographic information science (GIScience)">Geographic Information Science</span> (UCGIS): short, peer-reviewed articles on hundreds of GIS topics, written for students. <a href="https://gistbok.ucgis.org" class="uri">https://gistbok.ucgis.org</a>.</li>
+<li>The <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-gis-t-body-of-knowledge" data-term="GIS&amp;T Body of Knowledge">GIS&amp;T Body of Knowledge</span></strong>, from the University Consortium for <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-science-giscience" data-term="geographic information science (GIScience)">Geographic Information Science</span> (UCGIS): short, peer-reviewed articles on hundreds of GIS topics, written for students. <a href="https://www.ucgis.org/site/gis-t-body-of-knowledge" class="uri">https://www.ucgis.org/site/gis-t-body-of-knowledge</a>.</li>
 <li>Michael Goodchild’s paper that named the field, “Geographical information science” <span class="citation" data-cites="goodchild1992">(Goodchild 1992)</span>.</li>
 </ul>
 </section>
@@ -1171,7 +1212,7 @@ Show hint for question 4
 <h3 data-number="1.15.6" class="anchored" data-anchor-id="where-to-find-geographic-data"><span class="header-section-number">1.15.6</span> Where to find geographic data</h3>
 <ul>
 <li>NC OneMap, North Carolina’s geospatial data portal: <a href="https://www.nconemap.gov" class="uri">https://www.nconemap.gov</a>.</li>
-<li>U.S. Census Bureau, TIGER/Line <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-shapefile" data-term="shapefile">shapefiles</span> and other mapping files: <a href="https://www.census.gov/geographies/mapping-files.html" class="uri">https://www.census.gov/geographies/mapping-files.html</a>.</li>
+<li>U.S. Census Bureau, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tiger-line" data-term="TIGER/Line">TIGER/Line shapefiles</span> and other mapping files: <a href="https://www.census.gov/geographies/mapping-files.html" class="uri">https://www.census.gov/geographies/mapping-files.html</a>.</li>
 <li>USGS EarthExplorer, for <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-landsat" data-term="Landsat">Landsat</span> and other satellite imagery: <a href="https://earthexplorer.usgs.gov" class="uri">https://earthexplorer.usgs.gov</a>.</li>
 <li>NASA Earthdata: <a href="https://www.earthdata.nasa.gov" class="uri">https://www.earthdata.nasa.gov</a>.</li>
 <li>FEMA Flood Map Service Center: <a href="https://msc.fema.gov" class="uri">https://msc.fema.gov</a>.</li>
@@ -1183,7 +1224,7 @@ Show hint for question 4
 <h3 data-number="1.15.7" class="anchored" data-anchor-id="gis-and-society"><span class="header-section-number">1.15.7</span> GIS and society</h3>
 <ul>
 <li><em>Mapping Inequality: <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-redlining" data-term="redlining">Redlining</span> in New Deal America</em>, from the University of Richmond’s Digital Scholarship Lab: <a href="https://dsl.richmond.edu/panorama/redlining/" class="uri">https://dsl.richmond.edu/panorama/redlining/</a>.</li>
-<li>Humanitarian OpenStreetMap Team, which maps places in need for disaster response and development: <a href="https://www.hotosm.org" class="uri">https://www.hotosm.org</a>. Anyone can volunteer to map.</li>
+<li><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-humanitarian-openstreetmap-team" data-term="Humanitarian OpenStreetMap Team">Humanitarian OpenStreetMap Team</span>, which maps places in need for disaster response and development: <a href="https://www.hotosm.org" class="uri">https://www.hotosm.org</a>. Anyone can volunteer to map.</li>
 <li>GIS Certification Institute, Code of Ethics: <a href="https://www.gisci.org/Portals/0/Ethics/CodeOfEthics_PR.pdf" class="uri">https://www.gisci.org/Portals/0/Ethics/CodeOfEthics_PR.pdf</a>.</li>
 </ul>
 </section>
@@ -1234,6 +1275,7 @@ and similar systems from other countries.</span>
 measure travel distance or time.</span>
 <span id="gloss-site-selection">Using GIS to choose the best location for something, such as a new
 store, clinic, or fire station.</span>
+<span id="gloss-parcel">A polygon for one piece of property, usually with its owner and address.</span>
 <span id="gloss-cluster">A group of events or features that are closer together than you would
 expect by chance, such as cases of a disease around one place.</span>
 <span id="gloss-data-structure">How a data model is laid out in a computer’s memory or files, for
@@ -1277,6 +1319,8 @@ free of charge. QGIS and GRASS GIS are open source.</span>
 buildings or roads in satellite images automatically.</span>
 <span id="gloss-gisp">Geographic Information Systems Professional: a certification from the
 GIS Certification Institute for experienced GIS practitioners.</span>
+<span id="gloss-humanitarian-openstreetmap-team">An organization that coordinates volunteer OpenStreetMap mapping for
+disaster response and development.</span>
 <span id="gloss-redlining">Grading neighborhoods as risky for lending, as the federal Home Owners’
 Loan Corporation did on maps in the 1930s, which outlined many Black and
 immigrant neighborhoods in red and denied them credit.</span>
@@ -1287,6 +1331,10 @@ clipping, or overlaying layers.</span>
 lines, and polygons (vector) or as a grid of cells (raster).</span>
 <span id="gloss-data-type">How a field is stored, such as text, integer, double, or date. It limits
 what the field can hold.</span>
+<span id="gloss-spatial-data-quality">How well a geographic dataset fits its intended use, described by
+elements such as lineage, accuracy, consistency, and completeness.</span>
+<span id="gloss-georeferencing">Transforming a raster, such as a scanned map or image, from file
+coordinates to map coordinates.</span>
 <span id="gloss-accessibility">How easily people can reach a place or service, often measured as
 distance or travel time.</span>
 <span id="gloss-spatial-thinking">Using ideas of space, such as location, distance, pattern, and scale, to
@@ -1294,9 +1342,8 @@ understand and solve problems.</span>
 <span id="gloss-gis-t-body-of-knowledge">A free collection of short, peer-reviewed articles on geographic
 information science and technology topics, from the University
 Consortium for Geographic Information Science (UCGIS).</span>
-<span id="gloss-shapefile">A common vector format from Esri that stores one layer in several files
-with the same name: .shp (geometry), .shx (index), and .dbf (attributes)
-are required, and .prj holds the coordinate system.</span>
+<span id="gloss-tiger-line">The Census Bureau’s boundary files for states, counties, tracts, roads,
+and other features.</span>
 </div>
 </section>
 </section>

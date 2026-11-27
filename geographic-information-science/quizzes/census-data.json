@@ -1,0 +1,566 @@
+{
+  "id": "census-data",
+  "title": "Census Data",
+  "perSession": 10,
+  "minR": 0,
+  "questions": [
+    {
+      "id": "authoritative",
+      "type": "choice",
+      "prompt": "Authoritative data:",
+      "choices": [
+        "Come from official agencies, follow documented standards, and have metadata",
+        "Are contributed by the public",
+        "Have no metadata",
+        "Are always more current than asserted data"
+      ],
+      "answer": 0,
+      "explain": "The Census Bureau and USGS publish authoritative data."
+    },
+    {
+      "id": "asserted",
+      "type": "choice",
+      "prompt": "Which is an example of asserted (volunteered) data?",
+      "choices": [
+        "OpenStreetMap",
+        "The 2020 Census",
+        "USGS topographic maps",
+        "TIGER/Line shapefiles"
+      ],
+      "answer": 0,
+      "explain": "OpenStreetMap is contributed by volunteers."
+    },
+    {
+      "id": "asserted-worse",
+      "type": "truefalse",
+      "prompt": "Asserted data are always less accurate than authoritative data.",
+      "answer": false,
+      "explain": "Where contributors are active, asserted data can be more current and even more accurate."
+    },
+    {
+      "id": "socioeconomic",
+      "type": "choice",
+      "prompt": "Income, education, and poverty are examples of:",
+      "choices": [
+        "Socioeconomic data",
+        "Demographic data",
+        "Environmental data",
+        "Vital statistics"
+      ],
+      "answer": 0,
+      "explain": "They describe economic and social conditions, mostly from the ACS."
+    },
+    {
+      "id": "denominator",
+      "type": "choice",
+      "prompt": "In public health, census counts often serve as:",
+      "choices": [
+        "Denominators that turn counts into rates",
+        "Numerators",
+        "Metadata",
+        "Boundaries only"
+      ],
+      "answer": 0,
+      "explain": "For example, deaths per 100,000 residents."
+    },
+    {
+      "id": "finer-rule",
+      "type": "choice",
+      "prompt": "As census geography gets finer:",
+      "choices": [
+        "Fewer variables are published, and estimates are less precise",
+        "More variables are published",
+        "Estimates get more precise",
+        "Margins of error disappear"
+      ],
+      "answer": 0,
+      "explain": "A block has a handful of counts; a state has thousands of tables."
+    },
+    {
+      "id": "constitution",
+      "type": "choice",
+      "prompt": "The decennial census is required by:",
+      "choices": [
+        "The U.S. Constitution",
+        "An executive order",
+        "The Census Bureau's own rules",
+        "State law"
+      ],
+      "answer": 0,
+      "explain": "Article I, Section 2."
+    },
+    {
+      "id": "first-census",
+      "type": "fill",
+      "prompt": "In what year was the first U.S. census taken?",
+      "answers": [
+        "1790"
+      ],
+      "explain": "The 2020 Census was the 24th.",
+      "numeric": true
+    },
+    {
+      "id": "short-form",
+      "type": "choice",
+      "prompt": "Which question is on the 2020 decennial census?",
+      "choices": [
+        "Whether the home is owned or rented",
+        "Household income",
+        "Educational attainment",
+        "Commute time"
+      ],
+      "answer": 0,
+      "explain": "Income, education, and commuting come from the ACS."
+    },
+    {
+      "id": "acs-def",
+      "type": "choice",
+      "prompt": "The American Community Survey:",
+      "choices": [
+        "Samples about 3.5 million addresses a year for social, economic, and housing data",
+        "Counts every resident every 10 years",
+        "Profiles businesses every 5 years",
+        "Only covers states"
+      ],
+      "answer": 0,
+      "explain": "Most socioeconomic variables come from the ACS."
+    },
+    {
+      "id": "economic-census",
+      "type": "choice",
+      "prompt": "The Economic Census is taken:",
+      "choices": [
+        "Every 5 years, in years ending in 2 and 7",
+        "Every year",
+        "Every 10 years",
+        "Every month"
+      ],
+      "answer": 0,
+      "explain": "It profiles businesses."
+    },
+    {
+      "id": "apportionment",
+      "type": "choice",
+      "prompt": "Decennial census counts are used to:",
+      "choices": [
+        "Divide the 435 House seats among the states",
+        "Set the price of stamps",
+        "Draw ZIP Codes",
+        "Set time zones"
+      ],
+      "answer": 0,
+      "explain": "That is apportionment."
+    },
+    {
+      "id": "funds",
+      "type": "choice",
+      "prompt": "In fiscal year 2021, census data guided the distribution of about how much federal money?",
+      "choices": [
+        "More than $2.8 trillion",
+        "About $2.8 million",
+        "About $28 billion",
+        "Nothing"
+      ],
+      "answer": 0,
+      "explain": "Through 353 federal programs."
+    },
+    {
+      "id": "pes",
+      "type": "choice",
+      "prompt": "The Post-Enumeration Survey measures:",
+      "choices": [
+        "How many people the census missed or counted twice",
+        "Business sales",
+        "Housing costs",
+        "Commute times"
+      ],
+      "answer": 0,
+      "explain": "For 2020 it found undercounts of Hispanic and Black residents."
+    },
+    {
+      "id": "dp",
+      "type": "choice",
+      "prompt": "Differential privacy in the 2020 Census:",
+      "choices": [
+        "Adds calibrated noise so individuals can't be identified",
+        "Removes all small areas",
+        "Makes block counts exact",
+        "Encrypts the boundary files"
+      ],
+      "answer": 0,
+      "explain": "Small-area counts can look odd as a result."
+    },
+    {
+      "id": "72-year",
+      "type": "fill",
+      "prompt": "Individual census records are released after how many years?",
+      "answers": [
+        "72",
+        "seventy-two"
+      ],
+      "explain": "The 1950 records were released in 2022.",
+      "ignoreCase": true
+    },
+    {
+      "id": "spine",
+      "type": "order",
+      "prompt": "Put these census geographies in order, from largest to smallest.",
+      "answer": [
+        "State",
+        "County",
+        "Census tract",
+        "Block group",
+        "Block"
+      ],
+      "explain": "Each level nests inside the one above."
+    },
+    {
+      "id": "off-spine",
+      "type": "choice",
+      "prompt": "Which is off the census spine?",
+      "choices": [
+        "ZIP Code Tabulation Area",
+        "County",
+        "Block group",
+        "Census tract"
+      ],
+      "answer": 0,
+      "explain": "ZCTAs are built from blocks but cross tract boundaries."
+    },
+    {
+      "id": "spine-nests",
+      "type": "truefalse",
+      "prompt": "Every block group lies completely inside one census tract.",
+      "answer": true,
+      "explain": "Spine levels nest completely."
+    },
+    {
+      "id": "zcta-sum",
+      "type": "truefalse",
+      "prompt": "You can get a ZCTA's population by adding up whole census tracts.",
+      "answer": false,
+      "explain": "ZCTAs are off the spine and cross tract boundaries."
+    },
+    {
+      "id": "zcta-why",
+      "type": "choice",
+      "prompt": "A ZCTA never matches a ZIP Code exactly because:",
+      "choices": [
+        "ZIP Codes are mail routes, not areas",
+        "ZCTAs are made from counties",
+        "ZIP Codes change every year",
+        "ZCTAs are made up"
+      ],
+      "answer": 0,
+      "explain": "ZCTAs approximate them with blocks."
+    },
+    {
+      "id": "tract-size",
+      "type": "choice",
+      "prompt": "A census tract typically has:",
+      "choices": [
+        "1,200 to 8,000 people, about 4,000 on average",
+        "About 100 people",
+        "About 100,000 people",
+        "Exactly 1,000 people"
+      ],
+      "answer": 0,
+      "explain": "Tracts are the usual unit for neighborhood studies."
+    },
+    {
+      "id": "bg-size",
+      "type": "choice",
+      "prompt": "A block group typically has:",
+      "choices": [
+        "600 to 3,000 people",
+        "10 to 50 people",
+        "20,000 people",
+        "Exactly 4,000 people"
+      ],
+      "answer": 0,
+      "explain": "They are clusters of blocks within a tract."
+    },
+    {
+      "id": "smallest-acs",
+      "type": "choice",
+      "prompt": "What is the smallest geography with ACS estimates?",
+      "choices": [
+        "Block group",
+        "Block",
+        "Census tract",
+        "County"
+      ],
+      "answer": 0,
+      "explain": "Blocks get decennial counts only."
+    },
+    {
+      "id": "blocks",
+      "type": "choice",
+      "prompt": "Census blocks are bounded by:",
+      "choices": [
+        "Streets, streams, rail lines, and other visible features",
+        "ZIP Codes",
+        "Straight lines of latitude",
+        "Property lines only"
+      ],
+      "answer": 0,
+      "explain": "There were more than 8 million blocks in 2020."
+    },
+    {
+      "id": "county-geoid",
+      "type": "fill",
+      "prompt": "How many digits are in a county GEOID?",
+      "answers": [
+        "5",
+        "five"
+      ],
+      "explain": "2 for the state + 3 for the county.",
+      "ignoreCase": true
+    },
+    {
+      "id": "bg-geoid",
+      "type": "fill",
+      "prompt": "How many digits are in a block group GEOID?",
+      "answers": [
+        "12",
+        "twelve"
+      ],
+      "explain": "11 for the tract + 1 for the block group.",
+      "ignoreCase": true
+    },
+    {
+      "id": "block-geoid",
+      "type": "fill",
+      "prompt": "How many digits are in a block GEOID?",
+      "answers": [
+        "15",
+        "fifteen"
+      ],
+      "explain": "11 for the tract + 4 for the block.",
+      "ignoreCase": true
+    },
+    {
+      "id": "geoid-37135",
+      "type": "choice",
+      "prompt": "The county GEOID 37135 is made of:",
+      "choices": [
+        "State 37 (North Carolina) + county 135 (Orange)",
+        "Tract 37 + block 135",
+        "ZIP Code 37135",
+        "State 371 + county 35"
+      ],
+      "answer": 0,
+      "explain": "State FIPS + county FIPS."
+    },
+    {
+      "id": "block-bg",
+      "type": "choice",
+      "prompt": "In a block GEOID, the block group is:",
+      "choices": [
+        "The first digit of the four-digit block number",
+        "The last digit",
+        "A separate code at the end",
+        "Not included"
+      ],
+      "answer": 0,
+      "explain": "Block 1003 is in block group 1."
+    },
+    {
+      "id": "acs1-threshold",
+      "type": "choice",
+      "prompt": "ACS 1-year estimates are published only for areas with at least:",
+      "choices": [
+        "65,000 people",
+        "5,000 people",
+        "1 million people",
+        "500 people"
+      ],
+      "answer": 0,
+      "explain": "No tract or block group has 1-year estimates."
+    },
+    {
+      "id": "acs5",
+      "type": "choice",
+      "prompt": "ACS 5-year estimates are:",
+      "choices": [
+        "Available down to block groups and the most reliable, but the least current",
+        "Only for areas over 65,000",
+        "The most current",
+        "Full counts"
+      ],
+      "answer": 0,
+      "explain": "They pool 60 months of data."
+    },
+    {
+      "id": "which-product-tract",
+      "type": "choice",
+      "prompt": "You need median rent for every tract in Wake County. Use:",
+      "choices": [
+        "ACS 5-year estimates",
+        "ACS 1-year estimates",
+        "The decennial census",
+        "The Economic Census"
+      ],
+      "answer": 0,
+      "explain": "Tracts have only 5-year estimates, and rent isn't on the decennial census."
+    },
+    {
+      "id": "which-product-block",
+      "type": "choice",
+      "prompt": "You need the number of children under 5 in each block. Use:",
+      "choices": [
+        "The decennial census",
+        "ACS 5-year estimates",
+        "ACS 1-year estimates",
+        "The Economic Census"
+      ],
+      "answer": 0,
+      "explain": "Blocks get decennial counts only, and age is on the decennial form."
+    },
+    {
+      "id": "compare-1-5",
+      "type": "truefalse",
+      "prompt": "It is fine to compare an ACS 1-year estimate with an ACS 5-year estimate.",
+      "answer": false,
+      "explain": "Compare like with like."
+    },
+    {
+      "id": "moe-def",
+      "type": "choice",
+      "prompt": "A margin of error tells you:",
+      "choices": [
+        "The likely range of sampling error around an estimate",
+        "The exact value",
+        "The number of people surveyed",
+        "The year of the data"
+      ],
+      "answer": 0,
+      "explain": "Every ACS estimate has one."
+    },
+    {
+      "id": "moe-level",
+      "type": "choice",
+      "prompt": "Census Bureau margins of error use what confidence level?",
+      "choices": [
+        "90 percent",
+        "95 percent",
+        "99 percent",
+        "50 percent"
+      ],
+      "answer": 0,
+      "explain": "About 90 of 100 repeated samples would give a range containing the true value."
+    },
+    {
+      "id": "poll",
+      "type": "choice",
+      "prompt": "A poll finds 55% prefer Coffee A, with a margin of error of ±3 points. The true share is likely:",
+      "choices": [
+        "52% to 58%",
+        "Exactly 55%",
+        "50% to 60%",
+        "Over 58%"
+      ],
+      "answer": 0,
+      "explain": "55 − 3 to 55 + 3."
+    },
+    {
+      "id": "moe-sum",
+      "type": "fill",
+      "prompt": "Two tracts have margins of error of 300 and 400 people. What is the margin of error of their sum?",
+      "answers": [
+        "500"
+      ],
+      "explain": "√(300² + 400²) = 500.",
+      "numeric": true
+    },
+    {
+      "id": "cv",
+      "type": "fill",
+      "prompt": "An estimate of 10,000 has a margin of error of 1,645. What is its coefficient of variation, in percent?",
+      "answers": [
+        "10"
+      ],
+      "explain": "(1,645 ÷ 1.645) ÷ 10,000 × 100 = 10%.",
+      "numeric": true,
+      "tolerance": 0.5
+    },
+    {
+      "id": "cv-unreliable",
+      "type": "choice",
+      "prompt": "A common rule of thumb treats an ACS estimate as unreliable when its CV is over:",
+      "choices": [
+        "40 percent",
+        "1 percent",
+        "5 percent",
+        "100 percent"
+      ],
+      "answer": 0,
+      "explain": "Under 12% reliable; 12–40% use with caution."
+    },
+    {
+      "id": "fix-moe",
+      "type": "choice",
+      "prompt": "Many block-group estimates have huge margins of error. A good fix is to:",
+      "choices": [
+        "Use larger areas, such as tracts, or broader categories",
+        "Ignore the margins of error",
+        "Use ACS 1-year estimates instead",
+        "Round the estimates"
+      ],
+      "answer": 0,
+      "explain": "Combining reduces the relative error."
+    },
+    {
+      "id": "nhgis",
+      "type": "choice",
+      "prompt": "Which source offers census tables back to 1790 with matching boundaries?",
+      "choices": [
+        "IPUMS NHGIS",
+        "TIGER/Line",
+        "data.census.gov only",
+        "OpenStreetMap"
+      ],
+      "answer": 0,
+      "explain": "NHGIS also offers tables on consistent boundaries over time."
+    },
+    {
+      "id": "tiger",
+      "type": "choice",
+      "prompt": "TIGER/Line shapefiles provide:",
+      "choices": [
+        "Official boundaries for census geographies, with GEOIDs",
+        "ACS estimates",
+        "Margins of error",
+        "Business sales"
+      ],
+      "answer": 0,
+      "explain": "Join census tables to them on the GEOID."
+    },
+    {
+      "id": "arcgis-type",
+      "type": "choice",
+      "prompt": "In the ArcGIS Pro tutorial, why add a Long field, fips5, to the county layer?",
+      "choices": [
+        "So both key fields have the same data type",
+        "To make the join one-to-many",
+        "To remove leading zeros from the map",
+        "Because CSVs can't be joined"
+      ],
+      "answer": 0,
+      "explain": "The CSV's ID was read as a number, and a CSV is read-only, so the layer gets a matching numeric field."
+    },
+    {
+      "id": "validate",
+      "type": "choice",
+      "prompt": "In ArcGIS Pro's Add Join, Validate Join tells you:",
+      "choices": [
+        "How many records match before you run the join",
+        "The margin of error",
+        "The CRS of the layer",
+        "The cardinality of the census"
+      ],
+      "answer": 0,
+      "explain": "For North Carolina's counties, all 100 should match."
+    }
+  ]
+}

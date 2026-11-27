@@ -1,0 +1,795 @@
+{
+  "id": "osm-data-quality",
+  "title": "OpenStreetMap and Data Quality",
+  "perSession": 10,
+  "minR": 0,
+  "questions": [
+    {
+      "id": "quality-def",
+      "type": "choice",
+      "prompt": "Spatial data quality is best defined as:",
+      "choices": [
+        "How well a dataset fits its intended use",
+        "How large a dataset is",
+        "Whether a dataset is free",
+        "Whether a dataset came from a government"
+      ],
+      "answer": 0,
+      "explain": "Quality is always relative to purpose."
+    },
+    {
+      "id": "lineage",
+      "type": "choice",
+      "prompt": "Which element describes where a dataset came from and what has been done to it?",
+      "choices": [
+        "Lineage",
+        "Completeness",
+        "Positional accuracy",
+        "Temporal quality"
+      ],
+      "answer": 0,
+      "explain": "Lineage is the dataset's history."
+    },
+    {
+      "id": "positional",
+      "type": "choice",
+      "prompt": "A hydrant is mapped across the street from where it really is. Which element is the problem?",
+      "choices": [
+        "Positional accuracy",
+        "Attribute accuracy",
+        "Lineage",
+        "Completeness"
+      ],
+      "answer": 0,
+      "explain": "The coordinates are wrong."
+    },
+    {
+      "id": "attribute",
+      "type": "choice",
+      "prompt": "A closed school is still labeled as a school. Which elements are involved?",
+      "choices": [
+        "Attribute accuracy and temporal quality",
+        "Positional accuracy and lineage",
+        "Logical consistency only",
+        "Completeness only"
+      ],
+      "answer": 0,
+      "explain": "The label is wrong because the data are out of date."
+    },
+    {
+      "id": "logical",
+      "type": "choice",
+      "prompt": "Roads cross each other without meeting at intersections. Which element is the problem?",
+      "choices": [
+        "Logical consistency",
+        "Completeness",
+        "Positional accuracy",
+        "Lineage"
+      ],
+      "answer": 0,
+      "explain": "The data break their own rules."
+    },
+    {
+      "id": "completeness",
+      "type": "choice",
+      "prompt": "Van Oort defines completeness as:",
+      "choices": [
+        "The absence of data and the presence of excess data",
+        "How close coordinates are to the truth",
+        "How current the data are",
+        "Who made the data"
+      ],
+      "answer": 0,
+      "explain": "Missing features and extra ones both count."
+    },
+    {
+      "id": "seven",
+      "type": "fill",
+      "prompt": "How many elements of spatial data quality did van Oort identify?",
+      "answers": [
+        "7",
+        "seven"
+      ],
+      "explain": "Lineage, positional, attribute, logical consistency, completeness, temporal, and usage."
+    },
+    {
+      "id": "iso",
+      "type": "choice",
+      "prompt": "Which international standard covers geographic data quality?",
+      "choices": [
+        "ISO 19157",
+        "ISO 9001",
+        "ISO 8601",
+        "ISO 3166"
+      ],
+      "answer": 0,
+      "explain": "ISO 19157, Geographic information: Data quality."
+    },
+    {
+      "id": "metadata-quality",
+      "type": "truefalse",
+      "prompt": "A dataset with poor positional accuracy can still be useful if its metadata say how poor it is.",
+      "answer": true,
+      "explain": "Then you can judge whether it fits your purpose."
+    },
+    {
+      "id": "vgi-def",
+      "type": "choice",
+      "prompt": "Volunteered geographic information is:",
+      "choices": [
+        "Geographic data created by individuals, often non-experts, and shared online",
+        "Data from a national mapping agency",
+        "Data from satellites only",
+        "Census data"
+      ],
+      "answer": 0,
+      "explain": "Goodchild coined the term in 2007."
+    },
+    {
+      "id": "goodchild",
+      "type": "choice",
+      "prompt": "Who coined the term volunteered geographic information?",
+      "choices": [
+        "Michael Goodchild",
+        "Steve Coast",
+        "Mordechai Haklay",
+        "Tim O'Reilly"
+      ],
+      "answer": 0,
+      "explain": "In 'Citizens as Sensors' (2007)."
+    },
+    {
+      "id": "citizens-sensors",
+      "type": "choice",
+      "prompt": "Goodchild described VGI contributors as:",
+      "choices": [
+        "Citizens as sensors",
+        "Map consumers",
+        "Data brokers",
+        "Authoritative sources"
+      ],
+      "answer": 0,
+      "explain": "Billions of people observing the places around them."
+    },
+    {
+      "id": "vgi-drivers",
+      "type": "choice",
+      "prompt": "Which was NOT one of the developments that produced VGI?",
+      "choices": [
+        "Paper maps from national agencies",
+        "Web 2.0 user-generated content",
+        "Cheap GPS",
+        "Mobile internet access"
+      ],
+      "answer": 0,
+      "explain": "VGI came from the web, GPS, and mobile computing."
+    },
+    {
+      "id": "vgi-types-social",
+      "type": "choice",
+      "prompt": "Geotagged posts and check-ins are which type of VGI?",
+      "choices": [
+        "Location-based social media",
+        "Collaborative mapping",
+        "Citizen science",
+        "Authoritative data"
+      ],
+      "answer": 0,
+      "explain": "Location is a by-product."
+    },
+    {
+      "id": "vgi-types-collab",
+      "type": "choice",
+      "prompt": "OpenStreetMap is which type of VGI?",
+      "choices": [
+        "Collaborative mapping",
+        "Location-based social media",
+        "Citizen science",
+        "Authoritative data"
+      ],
+      "answer": 0,
+      "explain": "Mapping is the goal."
+    },
+    {
+      "id": "vgi-types-cs",
+      "type": "choice",
+      "prompt": "eBird is which type of VGI?",
+      "choices": [
+        "Citizen science",
+        "Collaborative mapping",
+        "Location-based social media",
+        "Authoritative data"
+      ],
+      "answer": 0,
+      "explain": "Volunteers follow a scientific protocol."
+    },
+    {
+      "id": "vgi-quality",
+      "type": "choice",
+      "prompt": "Which type of VGI has quality control built into how data are collected?",
+      "choices": [
+        "Citizen science",
+        "Location-based social media",
+        "Collaborative mapping",
+        "None of them"
+      ],
+      "answer": 0,
+      "explain": "Protocols set by scientists."
+    },
+    {
+      "id": "vgi-assumed",
+      "type": "truefalse",
+      "prompt": "With VGI, quality can be assumed from who produced the data.",
+      "answer": false,
+      "explain": "It has to be measured."
+    },
+    {
+      "id": "bias",
+      "type": "choice",
+      "prompt": "OSM contributors have historically been mostly:",
+      "choices": [
+        "Young, male, urban, and from Europe and North America",
+        "Retired government surveyors",
+        "Evenly spread across the world",
+        "Paid employees of map companies"
+      ],
+      "answer": 0,
+      "explain": "Who maps shapes what gets mapped."
+    },
+    {
+      "id": "three-vs",
+      "type": "order",
+      "prompt": "Name Big Data's three Vs, in the usual order.",
+      "answer": [
+        "Volume",
+        "Velocity",
+        "Variety"
+      ],
+      "explain": "Volume, velocity, and variety."
+    },
+    {
+      "id": "velocity",
+      "type": "choice",
+      "prompt": "Data that arrive continuously and must be handled in near real time describe which V?",
+      "choices": [
+        "Velocity",
+        "Volume",
+        "Variety",
+        "Veracity"
+      ],
+      "answer": 0,
+      "explain": "Speed of arrival."
+    },
+    {
+      "id": "veracity",
+      "type": "choice",
+      "prompt": "The fourth V, veracity, asks:",
+      "choices": [
+        "Can the data be trusted?",
+        "How large are the data?",
+        "How fast do they arrive?",
+        "How many formats are there?"
+      ],
+      "answer": 0,
+      "explain": "That is the data-quality question."
+    },
+    {
+      "id": "more-data",
+      "type": "truefalse",
+      "prompt": "More data means better data.",
+      "answer": false,
+      "explain": "Quality checks must scale too."
+    },
+    {
+      "id": "fair",
+      "type": "choice",
+      "prompt": "FAIR stands for:",
+      "choices": [
+        "Findable, Accessible, Interoperable, Reusable",
+        "Free, Accurate, Integrated, Reliable",
+        "Fast, Available, Indexed, Ranked",
+        "Formatted, Archived, Indexed, Released"
+      ],
+      "answer": 0,
+      "explain": "Wilkinson and others, 2016."
+    },
+    {
+      "id": "fair-accuracy",
+      "type": "truefalse",
+      "prompt": "FAIR data are guaranteed to be accurate.",
+      "answer": false,
+      "explain": "FAIR is about access and description; good metadata let users judge accuracy."
+    },
+    {
+      "id": "osm-year",
+      "type": "fill",
+      "prompt": "In what year was OpenStreetMap founded?",
+      "answers": [
+        "2004"
+      ],
+      "explain": "By Steve Coast, in London."
+    },
+    {
+      "id": "osm-founder",
+      "type": "choice",
+      "prompt": "Who founded OpenStreetMap?",
+      "choices": [
+        "Steve Coast",
+        "Michael Goodchild",
+        "Linus Torvalds",
+        "Serge Wroclawski"
+      ],
+      "answer": 0,
+      "explain": "In 2004."
+    },
+    {
+      "id": "odbl",
+      "type": "choice",
+      "prompt": "OSM data are published under:",
+      "choices": [
+        "The Open Database License (ODbL)",
+        "Public domain",
+        "A commercial license",
+        "CC BY-NC"
+      ],
+      "answer": 0,
+      "explain": "Credit '© OpenStreetMap contributors' and share alike."
+    },
+    {
+      "id": "attribution",
+      "type": "choice",
+      "prompt": "When you use OSM data, you must credit:",
+      "choices": [
+        "© OpenStreetMap contributors",
+        "Steve Coast",
+        "The Ordnance Survey",
+        "Nobody"
+      ],
+      "answer": 0,
+      "explain": "Required by the ODbL."
+    },
+    {
+      "id": "overture",
+      "type": "choice",
+      "prompt": "The Overture Maps Foundation was founded by:",
+      "choices": [
+        "Amazon, Meta, Microsoft, and TomTom",
+        "The U.S. Census Bureau",
+        "HOT and the Red Cross",
+        "Google"
+      ],
+      "answer": 0,
+      "explain": "In 2022."
+    },
+    {
+      "id": "node",
+      "type": "choice",
+      "prompt": "In OSM, a single point with a latitude and longitude is a:",
+      "choices": [
+        "Node",
+        "Way",
+        "Relation",
+        "Tag"
+      ],
+      "answer": 0,
+      "explain": "Nodes also form the vertices of ways."
+    },
+    {
+      "id": "way",
+      "type": "choice",
+      "prompt": "In OSM, an ordered list of nodes is a:",
+      "choices": [
+        "Way",
+        "Relation",
+        "Tag",
+        "Changeset"
+      ],
+      "answer": 0,
+      "explain": "It forms a line, or an area if closed."
+    },
+    {
+      "id": "closed-way",
+      "type": "choice",
+      "prompt": "A way whose first and last nodes are the same forms:",
+      "choices": [
+        "An area",
+        "A point",
+        "A relation",
+        "A tag"
+      ],
+      "answer": 0,
+      "explain": "Such as a building or park."
+    },
+    {
+      "id": "relation",
+      "type": "choice",
+      "prompt": "A bus route made of many roads is stored in OSM as a:",
+      "choices": [
+        "Relation",
+        "Node",
+        "Tag",
+        "Closed way"
+      ],
+      "answer": 0,
+      "explain": "Relations group elements."
+    },
+    {
+      "id": "tag",
+      "type": "choice",
+      "prompt": "highway=residential is an example of a:",
+      "choices": [
+        "Tag",
+        "Node",
+        "Relation",
+        "Changeset"
+      ],
+      "answer": 0,
+      "explain": "Tags are key=value pairs."
+    },
+    {
+      "id": "fixed-tags",
+      "type": "truefalse",
+      "prompt": "OSM has a fixed list of allowed tags.",
+      "answer": false,
+      "explain": "Anyone can invent a tag; conventions are documented on the OSM Wiki."
+    },
+    {
+      "id": "tag-inconsistency",
+      "type": "choice",
+      "prompt": "Mappers tagging the same kind of path in three different ways is a problem of:",
+      "choices": [
+        "Logical consistency",
+        "Positional accuracy",
+        "Lineage",
+        "Temporal quality"
+      ],
+      "answer": 0,
+      "explain": "Inconsistent tagging."
+    },
+    {
+      "id": "changeset",
+      "type": "choice",
+      "prompt": "A set of edits saved together in OSM, with a username and comment, is a:",
+      "choices": [
+        "Changeset",
+        "Relation",
+        "Tile",
+        "Tag"
+      ],
+      "answer": 0,
+      "explain": "OSMCha reviews changesets."
+    },
+    {
+      "id": "extrinsic",
+      "type": "choice",
+      "prompt": "Comparing OSM roads with TIGER/Line roads is an example of:",
+      "choices": [
+        "Extrinsic quality assessment",
+        "Intrinsic quality assessment",
+        "Validation in the Tasking Manager",
+        "Geocoding"
+      ],
+      "answer": 0,
+      "explain": "Extrinsic measures use a reference dataset."
+    },
+    {
+      "id": "intrinsic",
+      "type": "choice",
+      "prompt": "Counting the number of editors in an area is an example of:",
+      "choices": [
+        "Intrinsic quality assessment",
+        "Extrinsic quality assessment",
+        "Georeferencing",
+        "Metadata"
+      ],
+      "answer": 0,
+      "explain": "Intrinsic measures use OSM's own history."
+    },
+    {
+      "id": "extrinsic-limit",
+      "type": "choice",
+      "prompt": "A limit of extrinsic measures is that:",
+      "choices": [
+        "A trusted reference often doesn't exist where OSM matters most",
+        "They can't measure positional accuracy",
+        "They only work in Britain",
+        "They need the OSM history"
+      ],
+      "answer": 0,
+      "explain": "Which is why intrinsic measures are useful."
+    },
+    {
+      "id": "haklay",
+      "type": "choice",
+      "prompt": "Haklay (2010) found OSM roads in England were:",
+      "choices": [
+        "Fairly accurate, but unevenly complete",
+        "Useless",
+        "More complete than the Ordnance Survey everywhere",
+        "Only accurate in rural areas"
+      ],
+      "answer": 0,
+      "explain": "About 6 meters from Ordnance Survey roads on average."
+    },
+    {
+      "id": "linus",
+      "type": "choice",
+      "prompt": "Linus's Law, applied to OSM, predicts that:",
+      "choices": [
+        "Areas with more contributors are mapped more accurately",
+        "Newer edits are always worse",
+        "Remote mapping beats field mapping",
+        "Tags should be fixed"
+      ],
+      "answer": 0,
+      "explain": "Given enough eyeballs, all bugs are shallow."
+    },
+    {
+      "id": "linus-15",
+      "type": "fill",
+      "prompt": "Haklay and colleagues found roads were reliably accurate once about how many contributors had mapped a square kilometer?",
+      "answers": [
+        "15"
+      ],
+      "explain": "About 15.",
+      "numeric": true,
+      "tolerance": 0
+    },
+    {
+      "id": "osmose",
+      "type": "choice",
+      "prompt": "Which tool runs automated checks for errors such as roads that don't connect?",
+      "choices": [
+        "Osmose",
+        "MapRoulette",
+        "Geofabrik",
+        "iD"
+      ],
+      "answer": 0,
+      "explain": "KeepRight does the same."
+    },
+    {
+      "id": "osmcha",
+      "type": "choice",
+      "prompt": "Which tool lets experienced mappers review recent changesets?",
+      "choices": [
+        "OSMCha",
+        "MapRoulette",
+        "ohsome",
+        "JOSM"
+      ],
+      "answer": 0,
+      "explain": "OSM Changeset Analyzer."
+    },
+    {
+      "id": "maproulette",
+      "type": "choice",
+      "prompt": "MapRoulette:",
+      "choices": [
+        "Turns detected errors into small fix-it tasks",
+        "Downloads OSM extracts",
+        "Validates census data",
+        "Draws maps of edit history"
+      ],
+      "answer": 0,
+      "explain": "Anyone can fix one in a few minutes."
+    },
+    {
+      "id": "ohsome",
+      "type": "choice",
+      "prompt": "The ohsome dashboard, from HeiGIT, shows:",
+      "choices": [
+        "How much was mapped in an area over time",
+        "Satellite imagery",
+        "Census tracts",
+        "Changesets to review"
+      ],
+      "answer": 0,
+      "explain": "An intrinsic quality signal."
+    },
+    {
+      "id": "haiti",
+      "type": "choice",
+      "prompt": "The first large test of crisis mapping in OSM was the earthquake in:",
+      "choices": [
+        "Haiti, 2010",
+        "Nepal, 2015",
+        "Japan, 2011",
+        "Turkey, 2023"
+      ],
+      "answer": 0,
+      "explain": "Port-au-Prince was nearly blank before it."
+    },
+    {
+      "id": "hot",
+      "type": "choice",
+      "prompt": "HOT stands for:",
+      "choices": [
+        "Humanitarian OpenStreetMap Team",
+        "Humanitarian Open Tasking",
+        "Hazard Observation Team",
+        "Heidelberg OSM Tools"
+      ],
+      "answer": 0,
+      "explain": "Formalized in 2010."
+    },
+    {
+      "id": "hot-steps",
+      "type": "order",
+      "prompt": "Put HOT's workflow in order.",
+      "answer": [
+        "Remote mapping",
+        "Field mapping",
+        "Response"
+      ],
+      "explain": "Trace from imagery, add local detail, then use the map."
+    },
+    {
+      "id": "remote-limit",
+      "type": "choice",
+      "prompt": "What can remote mappers NOT see from satellite imagery?",
+      "choices": [
+        "Street names and building uses",
+        "Roads",
+        "Building outlines",
+        "Rivers"
+      ],
+      "answer": 0,
+      "explain": "Field mappers add them."
+    },
+    {
+      "id": "tasking-manager",
+      "type": "choice",
+      "prompt": "The HOT Tasking Manager:",
+      "choices": [
+        "Divides a project into small squares so mappers don't overlap",
+        "Downloads OSM data",
+        "Hosts the OSM Wiki",
+        "Renders the OSM map"
+      ],
+      "answer": 0,
+      "explain": "Each square is then validated."
+    },
+    {
+      "id": "nepal-date",
+      "type": "choice",
+      "prompt": "The Nepal earthquake struck on:",
+      "choices": [
+        "25 April 2015",
+        "12 January 2010",
+        "11 March 2011",
+        "6 May 2015"
+      ],
+      "answer": 0,
+      "explain": "Magnitude 7.8."
+    },
+    {
+      "id": "kll",
+      "type": "choice",
+      "prompt": "Which local group became the hub of the Nepal OSM response?",
+      "choices": [
+        "Kathmandu Living Labs",
+        "Missing Maps",
+        "Overture",
+        "Geofabrik"
+      ],
+      "answer": 0,
+      "explain": "A civic technology group in Kathmandu."
+    },
+    {
+      "id": "nepal-new",
+      "type": "fill",
+      "prompt": "How many people joined and mapped in Nepal in the 12 days after the earthquake?",
+      "answers": [
+        "9989",
+        "9,989"
+      ],
+      "explain": "More than all who had mapped there in the ten years before.",
+      "numeric": true,
+      "tolerance": 0
+    },
+    {
+      "id": "nepal-old",
+      "type": "fill",
+      "prompt": "How many people had mapped in Nepal in the ten years before the earthquake?",
+      "answers": [
+        "8725",
+        "8,725"
+      ],
+      "explain": "Newcomers outnumbered them.",
+      "numeric": true,
+      "tolerance": 0
+    },
+    {
+      "id": "nepal-edits",
+      "type": "choice",
+      "prompt": "Compared with earlier contributors, the Nepal newcomers:",
+      "choices": [
+        "Edited fewer features and changed far fewer existing ones",
+        "Edited twice as many features",
+        "Did most of the corrections",
+        "Mostly deleted features"
+      ],
+      "answer": 0,
+      "explain": "14.1 against 63.1 existing features changed per contributor."
+    },
+    {
+      "id": "nepal-solution",
+      "type": "choice",
+      "prompt": "How did HOT protect quality during the Nepal response?",
+      "choices": [
+        "Better training plus a validation step by experienced mappers",
+        "Closing OSM to new accounts",
+        "Deleting all newcomers' edits",
+        "Using only authoritative data"
+      ],
+      "answer": 0,
+      "explain": "A social and technical solution."
+    },
+    {
+      "id": "validator",
+      "type": "choice",
+      "prompt": "In the Tasking Manager, a validator is:",
+      "choices": [
+        "An experienced mapper who checks a finished square",
+        "Software that renders tiles",
+        "The first mapper to trace a square",
+        "A satellite company"
+      ],
+      "answer": 0,
+      "explain": "A square is done only after validation."
+    },
+    {
+      "id": "missing-maps",
+      "type": "choice",
+      "prompt": "Missing Maps maps vulnerable places:",
+      "choices": [
+        "Before disasters happen",
+        "Only after earthquakes",
+        "Only in Europe",
+        "For commercial use only"
+      ],
+      "answer": 0,
+      "explain": "Founded in 2014 by HOT, the Red Cross, and MSF."
+    },
+    {
+      "id": "id-editor",
+      "type": "choice",
+      "prompt": "Which OSM editor runs in your web browser with no installation?",
+      "choices": [
+        "iD",
+        "JOSM",
+        "QGIS",
+        "ArcGIS Pro"
+      ],
+      "answer": 0,
+      "explain": "JOSM is a desktop editor."
+    },
+    {
+      "id": "geofabrik",
+      "type": "choice",
+      "prompt": "Where can you download free OSM extracts as shapefiles?",
+      "choices": [
+        "Geofabrik",
+        "data.census.gov",
+        "OSMCha",
+        "MapRoulette"
+      ],
+      "answer": 0,
+      "explain": "download.geofabrik.de"
+    },
+    {
+      "id": "quickosm",
+      "type": "choice",
+      "prompt": "In QGIS, which plugin downloads OSM features by tag?",
+      "choices": [
+        "QuickOSM",
+        "Georeferencer",
+        "Topology Checker",
+        "MMQGIS"
+      ],
+      "answer": 0,
+      "explain": "Such as every amenity=hospital in a county."
+    }
+  ]
+}

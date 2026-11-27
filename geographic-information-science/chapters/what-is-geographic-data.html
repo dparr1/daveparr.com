@@ -220,14 +220,55 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Attribute Data and Queries</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/database-joins.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Databases and Table Joins</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/spatial-joins.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Spatial Joins</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-2-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+            <a href="../units/unit-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-2-label">Unit 2: Spatial Data Quality</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section: Unit 2: Spatial Data Quality">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
       </div>
       <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/census-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Census Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/geocoding-georeferencing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Geocoding and Georeferencing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/osm-data-quality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">OpenStreetMap and Data Quality</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../glossary.html" class="sidebar-item-text sidebar-link">
@@ -390,7 +431,7 @@ Figure&nbsp;2.2: Data abstraction. Each step to the right looks less like the wo
 </section>
 <section id="geographic-data-models" class="level3" data-number="2.1.3">
 <h3 data-number="2.1.3" class="anchored" data-anchor-id="geographic-data-models"><span class="header-section-number">2.1.3</span> Geographic data models</h3>
-<p>A <strong>data model</strong> sits where human understanding and computer understanding overlap. People think about roads, rivers, and parcels; computers handle numbers and coordinates. The data model is the meeting point. Paul Bolstad, in <em>GIS Fundamentals</em>, describes a data model as the objects in a spatial database plus the relationships among them, and says its purpose is “to provide a formal means of representing and manipulating spatially-referenced information” <span class="citation" data-cites="bolstad2022">(Bolstad 2022)</span>. <em>Formal</em> here means mathematical: a data model has exact rules, so a computer can follow them without guessing.</p>
+<p>A <strong>data model</strong> sits where human understanding and computer understanding overlap. People think about roads, rivers, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-parcel" data-term="parcel">parcels</span>; computers handle numbers and coordinates. The data model is the meeting point. Paul Bolstad, in <em>GIS Fundamentals</em>, describes a data model as the objects in a spatial <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-database" data-term="database">database</span> plus the relationships among them, and says its purpose is “to provide a formal means of representing and manipulating spatially-referenced information” <span class="citation" data-cites="bolstad2022">(Bolstad 2022)</span>. <em>Formal</em> here means mathematical: a data model has exact rules, so a computer can follow them without guessing.</p>
 <p>GIS uses four main data models (<a href="#fig-four-models" class="quarto-xref">Figure&nbsp;<span>2.3</span></a>):</p>
 <ul>
 <li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-vector" data-term="vector">Vector</span></strong>: points, lines, and polygons, each stored as coordinates.</li>
@@ -498,7 +539,7 @@ Figure&nbsp;2.6: Fire hydrants as spatial data (left) and attribute data (right)
 </section>
 <section id="thematic-layers" class="level3" data-number="2.2.6">
 <h3 data-number="2.2.6" class="anchored" data-anchor-id="thematic-layers"><span class="header-section-number">2.2.6</span> Thematic layers</h3>
-<p>A <strong>layer</strong> groups similar features, such as all the roads, all the parcels, or all the hydrants. Stacking layers that cover the same area lets us compare themes and find where they meet (<a href="#fig-layers" class="quarto-xref">Figure&nbsp;<span>2.7</span></a>). This is the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-overlay-analysis" data-term="overlay analysis">overlay</span> idea from Chapter 1, put into practice.</p>
+<p>A <strong>layer</strong> groups similar features, such as all the roads, all the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-parcel" data-term="parcel">parcels</span>, or all the hydrants. Stacking layers that cover the same area lets us compare themes and find where they meet (<a href="#fig-layers" class="quarto-xref">Figure&nbsp;<span>2.7</span></a>). This is the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-overlay-analysis" data-term="overlay analysis">overlay</span> idea from Chapter 1, put into practice.</p>
 <div id="fig-layers" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Six flat, tilted sheets stacked one above the other like transparent maps, each labeled on the right. From the bottom: Earth's surface, a gray-brown sheet with small specks; Elevation, with brown contour rings around a hill; Land cover, green with a dark green forest patch and a yellow field; Soils, divided into three brown soil areas; Roads, white with two red roads crossing; and Boundaries, white with dashed purple boundary lines.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-layers-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -514,7 +555,7 @@ Figure&nbsp;2.7: Thematic layers stacked over the same area, from the Earth’s 
 <li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span></strong>: the layers you display together make up a <em>map</em>. A project (an <code>.aprx</code> file) can hold several maps, along with layouts and other items. (Older ArcMap called a map a <em>data frame</em>, and saved its work as a <em>map document</em>, an <code>.mxd</code> file.)</li>
 <li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span></strong>: layers belong to a <em>project</em> (a <code>.qgz</code> file), and are drawn in the <em>map canvas</em>. The Layers panel lists them, top to bottom, in the order they are drawn.</li>
 </ul>
-<p>In both programs, a layer <em>points to</em> data stored somewhere else, in a file or a database. It does not hold the data itself. Deleting a layer from your map does not delete the data, and moving the data can break the layer. Keep that in mind when you move a project to another computer.</p>
+<p>In both programs, a layer <em>points to</em> data stored somewhere else, in a file or a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-database" data-term="database">database</span>. It does not hold the data itself. Deleting a layer from your map does not delete the data, and moving the data can break the layer. Keep that in mind when you move a project to another computer.</p>
 <div class="callout callout-style-simple callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -594,7 +635,7 @@ Table&nbsp;2.1: The vector and raster data models compared.
 </tr>
 <tr class="even">
 <td style="text-align: left;">Examples</td>
-<td style="text-align: left;">Roads, parcels, wells, county boundaries</td>
+<td style="text-align: left;">Roads, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-parcel" data-term="parcel">parcels</span>, wells, county boundaries</td>
 <td style="text-align: left;">Elevation, satellite imagery, land cover, temperature</td>
 </tr>
 </tbody>
@@ -812,7 +853,7 @@ Table&nbsp;2.2: The files that make up a shapefile named roads.
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The shapefile is over thirty years old, and it shows its age. Its attribute table is a <code>.dbf</code> file from dBASE, a database program from the early 1980s, so field names can be no more than <strong>10 characters</strong> long (<code>POPULATION_2020</code> becomes <code>POPULATION</code>), a table can have at most 255 fields, and the <code>.shp</code> and <code>.dbf</code> files can each be no larger than <strong>2 GB</strong>. Each shapefile can also hold only one kind of geometry. Some <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> users run a website, <em>Switch from Shapefile</em>, that lists these limits and urges everyone to move to newer formats. The most popular replacement is the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geopackage" data-term="GeoPackage">GeoPackage</span></strong> (<code>.gpkg</code>), an open standard from the Open Geospatial Consortium that stores many layers, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">rasters</span> as well as vectors, in a single file. It has been QGIS’s default format since 2018. Yet the shapefile is still everywhere, because nearly every GIS program ever written can read it.</p>
+<p>The shapefile is over thirty years old, and it shows its age. Its attribute table is a <code>.dbf</code> file from dBASE, a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-database" data-term="database">database</span> program from the early 1980s, so field names can be no more than <strong>10 characters</strong> long (<code>POPULATION_2020</code> becomes <code>POPULATION</code>), a table can have at most 255 fields, and the <code>.shp</code> and <code>.dbf</code> files can each be no larger than <strong>2 GB</strong>. Each shapefile can also hold only one kind of geometry. Some <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> users run a website, <em>Switch from Shapefile</em>, that lists these limits and urges everyone to move to newer formats. The most popular replacement is the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geopackage" data-term="GeoPackage">GeoPackage</span></strong> (<code>.gpkg</code>), an open standard from the Open Geospatial Consortium that stores many layers, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">rasters</span> as well as vectors, in a single file. It has been QGIS’s default format since 2018. Yet the shapefile is still everywhere, because nearly every GIS program ever written can read it.</p>
 </div>
 </div>
 </section>
@@ -917,7 +958,7 @@ Table&nbsp;2.3: Advantages and disadvantages of the <span class="glossary-term" 
 </blockquote>
 <p>Vector keeps exact <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">coordinates</span>, so shapes and boundaries are more correct. Raster’s simple grid makes overlay and analysis faster. Here are a few choices to try:</p>
 <ul>
-<li><strong>Property parcel boundaries</strong>: vector. A parcel’s boundary is a legal line, and it needs to be exact.</li>
+<li><strong>Property <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-parcel" data-term="parcel">parcel</span> boundaries</strong>: vector. A parcel’s boundary is a legal line, and it needs to be exact.</li>
 <li><strong>A snow-depth map</strong>: raster. Snow depth is continuous; there is a value everywhere.</li>
 <li><strong>A city’s bus routes and stops</strong>: vector. Lines and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-point" data-term="point">points</span>, with schedules and route numbers as attributes.</li>
 <li><strong>A satellite image of a wildfire</strong>: raster. Imagery is collected as a grid of pixels.</li>
@@ -980,7 +1021,7 @@ Show hint for question 6
 <li><strong>Scale changes everything.</strong> Describe how a river, an airport, and a university could each be represented as a point, a line, or a polygon, depending on the scale of the map.</li>
 <li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cell" data-term="cell">Cell</span> arithmetic.</strong> A raster’s lower-left cell is at E 650,000 m, N 3,950,000 m, and its cells are 30 m. Find the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-easting" data-term="easting">easting</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-northing" data-term="northing">northing</span> of the cell in row 4, column 7. How many cells would it take to cover a 3 km by 3 km square? How many with 10 m cells?</li>
 <li><strong>Read the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-metadata" data-term="metadata">metadata</span>.</strong> Download a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layer</span> from NC OneMap (<a href="https://www.nconemap.gov" class="uri">https://www.nconemap.gov</a>) and open its metadata. Who made it, when, and how? What <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">coordinate system</span> does it use? Would you trust it for an ambulance routing system? For a state overview map?</li>
-<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-shapefile" data-term="shapefile">Shapefile</span> detective.</strong> Download a shapefile from the U.S. Census Bureau’s TIGER/Line page, unzip it, and list every file in the folder. What does each one hold? Then open the layer in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span> or <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span> and look at its attribute table. Which field names look cut short to 10 characters?</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-shapefile" data-term="shapefile">Shapefile</span> detective.</strong> Download a shapefile from the U.S. Census Bureau’s <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tiger-line" data-term="TIGER/Line">TIGER/Line</span> page, unzip it, and list every file in the folder. What does each one hold? Then open the layer in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span> or <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span> and look at its attribute table. Which field names look cut short to 10 characters?</li>
 <li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-vector" data-term="vector">Vector</span> or raster?</strong> For each of these, choose vector or raster and explain why: hiking trails, wildfire burn severity, voting precincts, nighttime lights seen from space, the locations of cell towers, and annual rainfall.</li>
 </ol>
 </section>
@@ -1001,7 +1042,7 @@ Show hint for question 6
 <section id="data-models-vector-raster-and-tin" class="level3" data-number="2.9.2">
 <h3 data-number="2.9.2" class="anchored" data-anchor-id="data-models-vector-raster-and-tin"><span class="header-section-number">2.9.2</span> Data models: vector, raster, and TIN</h3>
 <ul>
-<li>The <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-gis-t-body-of-knowledge" data-term="GIS&amp;T Body of Knowledge">GIS&amp;T Body of Knowledge</span>, from UCGIS, has short articles on this chapter’s ideas. Search it for “Vector Data Models,” “Raster Data Models,” “The Triangulated Irregular Network (TIN),” “Conceptual Models of Space,” and “Topology”: <a href="https://gistbok.ucgis.org" class="uri">https://gistbok.ucgis.org</a>.</li>
+<li>The <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-gis-t-body-of-knowledge" data-term="GIS&amp;T Body of Knowledge">GIS&amp;T Body of Knowledge</span>, from UCGIS, has short articles on this chapter’s ideas. Search it for “Vector Data Models,” “Raster Data Models,” “The Triangulated Irregular Network (TIN),” “Conceptual Models of Space,” and “Topology”: <a href="https://www.ucgis.org/site/gis-t-body-of-knowledge" class="uri">https://www.ucgis.org/site/gis-t-body-of-knowledge</a>.</li>
 <li><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span>, <em>A Gentle Introduction to GIS</em>, the chapters “Vector Data,” “Vector <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-attribute" data-term="attribute">Attribute Data</span>,” and “Raster Data”: <a href="https://docs.qgis.org/latest/en/docs/gentle_gis_introduction/" class="uri">https://docs.qgis.org/latest/en/docs/gentle_gis_introduction/</a>.</li>
 <li><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-esri" data-term="Esri">Esri</span>, “Introduction to image and raster data,” in the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span> help: <a href="https://pro.arcgis.com/en/pro-app/latest/help/data/imagery/introduction-to-raster-data.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/help/data/imagery/introduction-to-raster-data.htm</a>.</li>
 <li>Esri, “TIN in ArcGIS Pro”: <a href="https://pro.arcgis.com/en/pro-app/latest/help/data/tin/tin-in-arcgis-pro.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/help/data/tin/tin-in-arcgis-pro.htm</a>.</li>
@@ -1039,7 +1080,7 @@ Show hint for question 6
 <li>USGS, “<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-landsat" data-term="Landsat">Landsat</span> Satellite Missions,” the history of every Landsat satellite and its sensors: <a href="https://www.usgs.gov/landsat-missions/landsat-satellite-missions" class="uri">https://www.usgs.gov/landsat-missions/landsat-satellite-missions</a>.</li>
 <li>NASA Earth Observatory, “How to Interpret a Satellite Image: Five Tips and Strategies”: <a href="https://science.nasa.gov/earth/earth-observatory/how-to-interpret-a-satellite-image/" class="uri">https://science.nasa.gov/earth/earth-observatory/how-to-interpret-a-satellite-image/</a>.</li>
 <li>USGS 3D Elevation Program (3DEP), elevation rasters for the whole country at several resolutions: <a href="https://www.usgs.gov/3d-elevation-program" class="uri">https://www.usgs.gov/3d-elevation-program</a>.</li>
-<li>Multi-Resolution Land Characteristics Consortium, the National Land Cover Database (NLCD), a 30-meter land cover raster of the United States: <a href="https://www.mrlc.gov" class="uri">https://www.mrlc.gov</a>.</li>
+<li>Multi-Resolution Land Characteristics Consortium, the National Land Cover <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-database" data-term="database">Database</span> (NLCD), a 30-meter land cover raster of the United States: <a href="https://www.mrlc.gov" class="uri">https://www.mrlc.gov</a>.</li>
 </ul>
 </section>
 <section id="software-and-tutorials" class="level3" data-number="2.9.6">
@@ -1054,7 +1095,7 @@ Show hint for question 6
 <h3 data-number="2.9.7" class="anchored" data-anchor-id="where-to-find-geographic-data"><span class="header-section-number">2.9.7</span> Where to find geographic data</h3>
 <ul>
 <li>NC OneMap, North Carolina’s geospatial data portal: <a href="https://www.nconemap.gov" class="uri">https://www.nconemap.gov</a>.</li>
-<li>U.S. Census Bureau, TIGER/Line shapefiles: <a href="https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html" class="uri">https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html</a>.</li>
+<li>U.S. Census Bureau, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tiger-line" data-term="TIGER/Line">TIGER/Line shapefiles</span>: <a href="https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html" class="uri">https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html</a>.</li>
 <li>USGS EarthExplorer, for Landsat imagery and elevation rasters: <a href="https://earthexplorer.usgs.gov" class="uri">https://earthexplorer.usgs.gov</a>.</li>
 <li>USGS National Map Downloader, for elevation, hydrography, and other national layers: <a href="https://apps.nationalmap.gov/downloader/" class="uri">https://apps.nationalmap.gov/downloader/</a>.</li>
 <li>Natural Earth, free vector and raster world data: <a href="https://www.naturalearthdata.com" class="uri">https://www.naturalearthdata.com</a>.</li>
@@ -1115,6 +1156,9 @@ coordinates, such as a road or a stream.</span>
 last points are the same, such as a lake, a park, or a county.</span>
 <span id="gloss-qgis">A free and open-source desktop GIS that runs on Windows, Mac, and Linux.</span>
 <span id="gloss-arcgis-pro">Esri’s commercial desktop GIS, for Windows.</span>
+<span id="gloss-parcel">A polygon for one piece of property, usually with its owner and address.</span>
+<span id="gloss-database">An organized collection of tables, usually stored and managed by a
+database management system.</span>
 <span id="gloss-tin">Triangulated irregular network: a surface model that joins sampled
 elevation points into triangles, using more triangles where the ground
 is rough.</span>
@@ -1134,7 +1178,9 @@ map.</span>
 <span id="gloss-overlay-analysis">Stacking layers of data for the same area to find places that meet
 several conditions at once, such as flat land near a road and outside a
 floodplain.</span>
-<span id="gloss-node">The start or end point of a line. In a network, lines meet at nodes.</span>
+<span id="gloss-node">The start or end point of a line. In a network, lines meet at nodes. In
+OpenStreetMap, a node is any single point with a latitude and longitude,
+standing alone or as a vertex of a way.</span>
 <span id="gloss-vertex">An intermediate point where a line or polygon boundary changes
 direction.</span>
 <span id="gloss-line-segment">The straight piece of a line between two vertices or nodes.</span>
@@ -1166,6 +1212,8 @@ default format.</span>
 cell where slope is under 10 percent.</span>
 <span id="gloss-rasterize">To convert vector data into a raster.</span>
 <span id="gloss-vectorize">To convert a raster into vector features.</span>
+<span id="gloss-tiger-line">The Census Bureau’s boundary files for states, counties, tracts, roads,
+and other features.</span>
 <span id="gloss-spatial-analysis">Methods that use the locations of things, and the relationships among
 them, to find patterns, explain them, or make predictions.</span>
 <span id="gloss-gis-t-body-of-knowledge">A free collection of short, peer-reviewed articles on geographic

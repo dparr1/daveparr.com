@@ -191,14 +191,55 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Attribute Data and Queries</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/database-joins.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Databases and Table Joins</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/spatial-joins.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Spatial Joins</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-2-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+            <a href="../units/unit-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-2-label">Unit 2: Spatial Data Quality</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section: Unit 2: Spatial Data Quality">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
       </div>
       <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/census-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Census Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/geocoding-georeferencing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Geocoding and Georeferencing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/osm-data-quality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">OpenStreetMap and Data Quality</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../glossary.html" class="sidebar-item-text sidebar-link">
@@ -647,7 +688,7 @@ For Dare County alone, UTM zone 18N or NC State Plane both work well; zone 17N w
 <li>A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-coordinate-system-gcs" data-term="geographic coordinate system (GCS)">geographic coordinate system</span></strong> gives positions in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-latitude" data-term="latitude">latitude</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-longitude" data-term="longitude">longitude</span>, in <strong>degrees</strong>, on a datum (Chapter 3).</li>
 <li>A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-projected-coordinate-system" data-term="projected coordinate system">projected coordinate system</span></strong> gives positions in <em>x</em> and <em>y</em>, in <strong>linear units</strong> such as meters or feet, on a projection built on a datum.</li>
 </ul>
-<p>Since there are thousands of coordinate reference systems, each is given a short numeric code. The <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-epsg-code" data-term="EPSG code">EPSG</span></strong> registry, started by the European Petroleum Survey Group and now maintained by the International Association of Oil and Gas Producers (IOGP), lists them all, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span>, PostGIS, and most web tools use its codes (<a href="#tbl-epsg" class="quarto-xref">Table&nbsp;<span>4.2</span></a>).</p>
+<p>Since there are thousands of coordinate reference systems, each is given a short numeric code. The <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-epsg-code" data-term="EPSG code">EPSG</span></strong> registry, started by the European Petroleum Survey Group and now maintained by the International Association of Oil and Gas Producers (IOGP), lists them all, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-postgis" data-term="PostGIS">PostGIS</span>, and most web tools use its codes (<a href="#tbl-epsg" class="quarto-xref">Table&nbsp;<span>4.2</span></a>).</p>
 <div id="tbl-epsg" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-epsg-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -825,7 +866,7 @@ Show hint for question 4
 <h3 data-number="4.11.2" class="anchored" data-anchor-id="understanding-map-projections"><span class="header-section-number">4.11.2</span> Understanding map projections</h3>
 <ul>
 <li>USGS, <em>Map Projections</em>, a poster comparing the properties and uses of common projections: <a href="https://pubs.usgs.gov/publication/70047422" class="uri">https://pubs.usgs.gov/publication/70047422</a>.</li>
-<li>The <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-gis-t-body-of-knowledge" data-term="GIS&amp;T Body of Knowledge">GIS&amp;T Body of Knowledge</span>, “Map Projections,” “Map Projection Properties,” “Map Projection Classes,” and “Plane Coordinate Systems”: <a href="https://gistbok.ucgis.org" class="uri">https://gistbok.ucgis.org</a>.</li>
+<li>The <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-gis-t-body-of-knowledge" data-term="GIS&amp;T Body of Knowledge">GIS&amp;T Body of Knowledge</span>, “Map Projections,” “Map Projection Properties,” “Map Projection Classes,” and “Plane Coordinate Systems”: <a href="https://www.ucgis.org/site/gis-t-body-of-knowledge" class="uri">https://www.ucgis.org/site/gis-t-body-of-knowledge</a>.</li>
 <li>Axis Maps, “<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cartography" data-term="cartography">Cartography</span> Guide: Map Projections”: <a href="https://www.axismaps.com/guide/map-projections" class="uri">https://www.axismaps.com/guide/map-projections</a>.</li>
 <li>PROJ, the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-open-source" data-term="open source">open-source</span> library behind QGIS’s projections, with an illustrated list of every projection it supports: <a href="https://proj.org/en/stable/operations/projections/index.html" class="uri">https://proj.org/en/stable/operations/projections/index.html</a>.</li>
 <li>Wolfram MathWorld, “Map Projection,” with the equations for common projections: <a href="https://mathworld.wolfram.com/MapProjection.html" class="uri">https://mathworld.wolfram.com/MapProjection.html</a>.</li>
@@ -979,6 +1020,8 @@ plus a projection with its parameters, plus units.</span>
 feet, on a map projection built on a datum, such as UTM or State Plane.</span>
 <span id="gloss-qgis">A free and open-source desktop GIS that runs on Windows, Mac, and Linux.</span>
 <span id="gloss-arcgis-pro">Esri’s commercial desktop GIS, for Windows.</span>
+<span id="gloss-postgis">A free extension that adds geometry types and spatial functions to the
+PostgreSQL database.</span>
 <span id="gloss-gps">The Global Positioning System: U.S. satellites that let a receiver, such
 as your phone, work out its location. GNSS is the general name for GPS
 and similar systems from other countries.</span>

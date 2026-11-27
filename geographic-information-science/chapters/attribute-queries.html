@@ -71,7 +71,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../glossary.html" rel="next">
+<link href="../chapters/database-joins.html" rel="next">
 <link href="../chapters/map-projections.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -226,14 +226,55 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Attribute Data and Queries</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/database-joins.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Databases and Table Joins</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/spatial-joins.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Spatial Joins</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-2-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+            <a href="../units/unit-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-2-label">Unit 2: Spatial Data Quality</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section: Unit 2: Spatial Data Quality">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
       </div>
       <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/census-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Census Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/geocoding-georeferencing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Geocoding and Georeferencing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/osm-data-quality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">OpenStreetMap and Data Quality</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../glossary.html" class="sidebar-item-text sidebar-link">
@@ -348,7 +389,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ol>
 </div>
 </div>
-<p>Chapters 2 to 4 were about <em>where</em>: how a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> stores geometry, and how <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">coordinates</span> pin it to the Earth. This chapter is about the other half of GIS data, the half that says <em>what</em>. A <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-polygon" data-term="polygon">polygon</span> tells you where a county is. Its attributes tell you its name, how many people live there, how old they are, and how many homes stand empty. Most of the questions people bring to a GIS start with attributes: <em>Which counties lost population? Which parcels are zoned commercial and larger than five acres? Which schools have no address?</em></p>
+<p>Chapters 2 to 4 were about <em>where</em>: how a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> stores geometry, and how <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">coordinates</span> pin it to the Earth. This chapter is about the other half of GIS data, the half that says <em>what</em>. A <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-polygon" data-term="polygon">polygon</span> tells you where a county is. Its attributes tell you its name, how many people live there, how old they are, and how many homes stand empty. Most of the questions people bring to a GIS start with attributes: <em>Which counties lost population? Which <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-parcel" data-term="parcel">parcels</span> are zoned commercial and larger than five acres? Which schools have no address?</em></p>
 <p>To answer them, you need to know how attributes are stored, what kinds of values they hold, and how to write a <strong>query</strong>, a precise question the software can test against every record. We will finish with a way to check your own queries using sets, and with the trap of missing values.</p>
 <p>Five terms carry the whole chapter:</p>
 <ul>
@@ -364,7 +405,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 data-number="5.1.1" class="anchored" data-anchor-id="attribute-tables"><span class="header-section-number">5.1.1</span> Attribute tables</h3>
 <p>In Chapter 2, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-abstraction" data-term="data abstraction">data abstraction</span> turned a wetland into a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-model" data-term="data model">data model</span>: <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-polygon" data-term="polygon">polygons</span> for the geometry, and a table for everything else. That table is the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-attribute" data-term="attribute">attribute table</span></strong>, the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-non-spatial-data" data-term="non-spatial data">non-spatial</span> half of a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-vector" data-term="vector">vector</span> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layer</span>. It follows three rules (<a href="#fig-record-attribute" class="quarto-xref">Figure&nbsp;<span>5.1</span></a>):</p>
 <ul>
-<li><strong>One row per feature.</strong> Every parcel on the map has exactly one <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-record" data-term="record">record</span> in the table, and every record has a parcel.</li>
+<li><strong>One row per feature.</strong> Every <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-parcel" data-term="parcel">parcel</span> on the map has exactly one <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-record" data-term="record">record</span> in the table, and every record has a parcel.</li>
 <li><strong>One column per attribute.</strong> Each column holds one kind of measurement, such as area or land use, for every feature.</li>
 <li><strong>The table and the map are linked.</strong> Select a record, and its feature lights up on the map; select a feature, and its record lights up in the table. The table is where you ask the question; the map is where the answer is drawn.</li>
 </ul>
@@ -396,7 +437,7 @@ Figure&nbsp;5.1: Seven parcels and their attribute table. A record is a row: eve
 <div id="tbl-types" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-types-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;5.1: Common field data types. Which types are available also depends on the format: a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-shapefile" data-term="shapefile">shapefile</span>, a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geopackage" data-term="GeoPackage">GeoPackage</span>, a file geodatabase, or a database such as PostGIS. ArcGIS Pro’s <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-integer" data-term="integer">Big Integer</span>, Date Only, and Time Only types need version 3.2 or later.
+Table&nbsp;5.1: Common field data types. Which types are available also depends on the format: a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-shapefile" data-term="shapefile">shapefile</span>, a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geopackage" data-term="GeoPackage">GeoPackage</span>, a file geodatabase, or a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-database" data-term="database">database</span> such as <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-postgis" data-term="PostGIS">PostGIS</span>. ArcGIS Pro’s <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-integer" data-term="integer">Big Integer</span>, Date Only, and Time Only types need version 3.2 or later.
 </figcaption>
 <div aria-describedby="tbl-types-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
@@ -488,7 +529,7 @@ Table&nbsp;5.1: Common field data types. Which types are available also depends 
 <p>A field with a precision of 6 and a scale of 2 can hold numbers up to 9,999.99. In ArcGIS Pro, you choose the type, and for some formats the precision and scale, when you create a field, and <strong>they can’t be changed later</strong>. To change a field’s type, you add a new field of the right type and calculate the values into it.</p>
 <p>Some rules of thumb for choosing a type:</p>
 <ul>
-<li>Store <strong>identifiers that are never used in arithmetic as text</strong>, even if they look like numbers. ZIP codes, FIPS codes, phone numbers, and parcel IDs all belong in text fields. Stored as a number, the ZIP code of Boston’s City Hall, 02201, becomes 2201, and Orange County’s FIPS code, 37135, can no longer be matched to another table that stores it as text.</li>
+<li>Store <strong>identifiers that are never used in arithmetic as text</strong>, even if they look like numbers. ZIP codes, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-fips-code" data-term="FIPS code">FIPS codes</span>, phone numbers, and parcel IDs all belong in text fields. Stored as a number, the ZIP code of Boston’s City Hall, 02201, becomes 2201, and Orange County’s FIPS code, 37135, can no longer be matched to another table that stores it as text.</li>
 <li>Use an <strong>integer</strong> type for counts, such as population or number of rooms.</li>
 <li>Use <strong>Double</strong> for measurements that need decimals, such as area or density. Float saves a little space, but it keeps only about 7 significant digits, so it can round large numbers.</li>
 </ul>
@@ -609,7 +650,7 @@ Table&nbsp;5.2: The four levels of measurement. Each level supports everything t
 <h2 data-number="5.2" class="anchored" data-anchor-id="sec-querying"><span class="header-section-number">5.2</span> Querying a table</h2>
 <section id="what-is-a-query" class="level3" data-number="5.2.1">
 <h3 data-number="5.2.1" class="anchored" data-anchor-id="what-is-a-query"><span class="header-section-number">5.2.1</span> What is a query?</h3>
-<p>A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-query" data-term="query">query</span></strong> is a written condition, not a click. It asks the table a question, such as <em>which parcels are larger than 20 acres?</em>, and four ideas follow from that:</p>
+<p>A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-query" data-term="query">query</span></strong> is a written condition, not a click. It asks the table a question, such as <em>which <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-parcel" data-term="parcel">parcels</span> are larger than 20 acres?</em>, and four ideas follow from that:</p>
 <ul>
 <li>The software tests <strong>every <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-record" data-term="record">record</span> separately, one at a time</strong>, against the condition.</li>
 <li>The answer is a <strong>set of records</strong>, and therefore a set of features on the map.</li>
@@ -619,7 +660,7 @@ Table&nbsp;5.2: The four levels of measurement. Each level supports everything t
 </section>
 <section id="sql" class="level3" data-number="5.2.2">
 <h3 data-number="5.2.2" class="anchored" data-anchor-id="sql"><span class="header-section-number">5.2.2</span> SQL</h3>
-<p><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-sql" data-term="SQL">SQL</span></strong>, Structured Query Language, is the standard language for asking a database a question. A full SQL statement reads:</p>
+<p><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-sql" data-term="SQL">SQL</span></strong>, Structured Query Language, is the standard language for asking a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-database" data-term="database">database</span> a question. A full SQL statement reads:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> parcels <span class="kw">WHERE</span> <span class="ot">"Area"</span> <span class="op">&gt;</span> <span class="dv">20</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>In words: <em>select all the columns (<code>*</code>) from the table named parcels, for the records where Area is greater than 20.</em></p>
 <p>In a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> you rarely type the whole statement. The <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layer</span> you are working on supplies the <code>FROM</code> part, and the selection tool supplies the <code>SELECT</code> part, so <strong>you write only the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-where-clause" data-term="WHERE clause">WHERE clause</span></strong>, the condition:</p>
@@ -962,7 +1003,7 @@ Table&nbsp;5.6: Two classic mistakes.
 <tbody>
 <tr class="odd">
 <td style="text-align: left;"><code>"Landuse" = 'Urban' AND "Landuse" = 'Farm'</code></td>
-<td style="text-align: left;">No single parcel is both urban and farm, so <strong>nothing</strong> is selected.</td>
+<td style="text-align: left;">No single <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-parcel" data-term="parcel">parcel</span> is both urban and farm, so <strong>nothing</strong> is selected.</td>
 <td style="text-align: left;"><code>"Landuse" = 'Urban' OR "Landuse" = 'Farm'</code>, or <code>"Landuse" IN ('Urban', 'Farm')</code></td>
 </tr>
 <tr class="even">
@@ -994,7 +1035,7 @@ Table&nbsp;5.6: Two classic mistakes.
 <img src="../images/attribute-queries/null-values.png" class="img-fluid figure-img" alt="A table with columns ID, Area, Landuse, and Municip for parcels 1 to 7. The Landuse values of parcels 3 and 6 read NULL in gray italics. Beside it: NOT Landuse equals Urban selects 2 and 4 only; parcels 3 and 6 are dropped, NULL fails every test. Then: OR Landuse IS NULL adds them back: 2, 3, 4 and 6.">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-null-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;5.10: Parcels 3 and 6 have no recorded land use. NOT (“Landuse” = ‘Urban’) selects only parcels 2 and 4; adding OR “Landuse” IS NULL brings back 3 and 6.
+Figure&nbsp;5.10: <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-parcel" data-term="parcel">Parcels</span> 3 and 6 have no recorded land use. NOT (“Landuse” = ‘Urban’) selects only parcels 2 and 4; adding OR “Landuse” IS NULL brings back 3 and 6.
 </figcaption>
 </figure>
 </div>
@@ -1043,7 +1084,7 @@ Show hint for question 6
 <h2 data-number="5.6" class="anchored" data-anchor-id="summary"><span class="header-section-number">5.6</span> Summary</h2>
 <ul>
 <li>An <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-attribute" data-term="attribute">attribute table</span></strong> stores one <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-record" data-term="record">record</span></strong> (row) per feature and one <strong>attribute</strong> (<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-field" data-term="field">field</span>, column) per variable. Selecting a record selects its feature on the map.</li>
-<li>A field’s <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-type" data-term="data type">data type</span></strong> limits what it can store. <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-integer" data-term="integer">Integer</span> types are only as wide as the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-bit" data-term="bit">bits</span></strong> behind them: a 32-bit integer tops out at 2,147,483,647. Store identifiers like ZIP codes and FIPS codes as <strong>text</strong>.</li>
+<li>A field’s <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-type" data-term="data type">data type</span></strong> limits what it can store. <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-integer" data-term="integer">Integer</span> types are only as wide as the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-bit" data-term="bit">bits</span></strong> behind them: a 32-bit integer tops out at 2,147,483,647. Store identifiers like ZIP codes and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-fips-code" data-term="FIPS code">FIPS codes</span> as <strong>text</strong>.</li>
 <li>The <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-level-of-measurement" data-term="level of measurement">level of measurement</span></strong> limits what you may ask: <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-nominal" data-term="nominal">nominal</span></strong> (categories), <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-ordinal" data-term="ordinal">ordinal</span></strong> (ranks), <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-interval" data-term="interval">interval</span></strong> (equal steps, arbitrary zero), and <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-ratio" data-term="ratio">ratio</span></strong> (a true zero).</li>
 <li>A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-query" data-term="query">query</span></strong> is a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-where-clause" data-term="WHERE clause">WHERE clause</span> the software tests against every record, one at a time. In <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-sql" data-term="SQL">SQL</span></strong>, field names take double quotes, text values single quotes, and numbers none.</li>
 <li><strong>AND</strong> narrows (the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-intersection" data-term="intersection">intersection</span></strong>), <strong>OR</strong> widens (the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-union" data-term="union">union</span></strong>), and <strong>NOT</strong> takes the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-complement" data-term="complement">complement</span></strong>. Brackets and the placement of NOT change the answer, so write them out.</li>
@@ -1057,9 +1098,9 @@ Show hint for question 6
 <h2 data-number="5.7" class="anchored" data-anchor-id="exercises"><span class="header-section-number">5.7</span> Exercises</h2>
 <ol type="1">
 <li><strong>Explore a table.</strong> Download Natural Earth’s populated places <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layer</span> (<a href="https://www.naturalearthdata.com" class="uri">https://www.naturalearthdata.com</a>) and open its <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-attribute" data-term="attribute">attribute table</span>. How many <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-record" data-term="record">records</span> does it have? Sort it by <code>pop_max</code>. What are the ten largest cities? Find a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-field" data-term="field">field</span> with NULL values.</li>
-<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-type" data-term="data type">Data types</span>.</strong> For each of these fields, choose a data type and explain why: a county FIPS code, the number of students in a school, a stream’s length in kilometers, whether a road is paved, a building’s construction date, and a phone number.</li>
+<li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-type" data-term="data type">Data types</span>.</strong> For each of these fields, choose a data type and explain why: a county <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-fips-code" data-term="FIPS code">FIPS code</span>, the number of students in a school, a stream’s length in kilometers, whether a road is paved, a building’s construction date, and a phone number.</li>
 <li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-level-of-measurement" data-term="level of measurement">Levels of measurement</span>.</strong> For each field in exercise 2, name its level of measurement. Which could you average?</li>
-<li><strong>Write the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-query" data-term="query">query</span>.</strong> Using the seven parcels, write a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-where-clause" data-term="WHERE clause">WHERE clause</span> for each, and list the parcels it selects: (a) farm parcels larger than 50 acres; (b) parcels in a township or a county; (c) urban parcels with a density over 1,000 or a mill rate of A; (d) every parcel that is not suburban.</li>
+<li><strong>Write the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-query" data-term="query">query</span>.</strong> Using the seven <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-parcel" data-term="parcel">parcels</span>, write a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-where-clause" data-term="WHERE clause">WHERE clause</span> for each, and list the parcels it selects: (a) farm parcels larger than 50 acres; (b) parcels in a township or a county; (c) urban parcels with a density over 1,000 or a mill rate of A; (d) every parcel that is not suburban.</li>
 <li><strong>Predict, then run.</strong> In <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span> or <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span>, with the populated places layer, write one query with AND, one with OR, and one with IS NULL. Predict the count before you run each one. How close were you?</li>
 <li><strong>Find the mistake.</strong> Explain what’s wrong with each query, and fix it: (a) <code>"STATE" = 'NC' AND "STATE" = 'SC'</code>; (b) <code>"POP" &gt; 1000 OR "POP" &lt; 5000</code>; (c) <code>"NAME" = Durham</code>; (d) <code>"INCOME" = NULL</code>.</li>
 <li><strong>De Morgan.</strong> Rewrite <code>NOT ("Landuse" = 'Urban' OR "Municip" = 'City')</code> without a bracket after the NOT. Which parcels does it select?</li>
@@ -1077,7 +1118,7 @@ Show hint for question 6
 <li><em>The Nature of Geographic Information</em>, by David DiBiase and colleagues at Penn State. Chapter 3, “Census Data and Thematic Maps,” discusses <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-level-of-measurement" data-term="level of measurement">levels of measurement</span>: <a href="https://www.e-education.psu.edu/natureofgeoinfo/c3.html" class="uri">https://www.e-education.psu.edu/natureofgeoinfo/c3.html</a>.</li>
 <li><em>Intro to GIS and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-analysis" data-term="spatial analysis">Spatial Analysis</span></em>, by Manuel Gimond. The chapter “GIS Data Formats” covers attribute tables and data types: <a href="https://mgimond.github.io/Spatial/" class="uri">https://mgimond.github.io/Spatial/</a>.</li>
 <li><em>Getting Started with SQL</em>, by Thomas Nield (O’Reilly, 2016), a short, friendly introduction to SQL.</li>
-<li><em>PostGIS in Action</em>, by Regina Obe and Leo Hsu (3rd ed., Manning, 2021), for when you are ready to query spatial databases directly.</li>
+<li><em><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-postgis" data-term="PostGIS">PostGIS</span> in Action</em>, by Regina Obe and Leo Hsu (3rd ed., Manning, 2021), for when you are ready to query spatial <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-database" data-term="database">databases</span> directly.</li>
 </ul>
 </section>
 <section id="attribute-data-data-types-and-measurement" class="level3" data-number="5.8.2">
@@ -1088,7 +1129,7 @@ Show hint for question 6
 <li>ArcGIS Pro, “ArcGIS <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-field" data-term="field">field</span> data types”: <a href="https://pro.arcgis.com/en/pro-app/latest/help/data/geodatabases/overview/arcgis-field-data-types.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/help/data/geodatabases/overview/arcgis-field-data-types.htm</a>.</li>
 <li>ArcGIS Pro, “Add Field” tool, including <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-precision" data-term="precision">precision</span> and scale: <a href="https://pro.arcgis.com/en/pro-app/latest/tool-reference/data-management/add-field.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/tool-reference/data-management/add-field.htm</a>.</li>
 <li>Stevens, S. S., “On the Theory of Scales of Measurement,” <em>Science</em> <span class="citation" data-cites="stevens1946">(Stevens 1946)</span>, the original paper on levels of measurement: <a href="https://doi.org/10.1126/science.103.2684.677" class="uri">https://doi.org/10.1126/science.103.2684.677</a>.</li>
-<li>The <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-gis-t-body-of-knowledge" data-term="GIS&amp;T Body of Knowledge">GIS&amp;T Body of Knowledge</span>, “Scales of Measurement,” “Database Management Systems,” and “Structured Query Language (SQL) and Attribute Queries”: <a href="https://gistbok.ucgis.org" class="uri">https://gistbok.ucgis.org</a>.</li>
+<li>The <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-gis-t-body-of-knowledge" data-term="GIS&amp;T Body of Knowledge">GIS&amp;T Body of Knowledge</span>, “Scales of Measurement,” “<span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-database-management-system-dbms" data-term="database management system (DBMS)">Database Management Systems</span>,” and “Structured Query Language (SQL) and Attribute Queries”: <a href="https://www.ucgis.org/site/gis-t-body-of-knowledge" class="uri">https://www.ucgis.org/site/gis-t-body-of-knowledge</a>.</li>
 </ul>
 </section>
 <section id="queries-and-sql" class="level3" data-number="5.8.3">
@@ -1103,8 +1144,8 @@ Show hint for question 6
 <li>SQLBolt, free interactive SQL lessons in your browser: <a href="https://sqlbolt.com" class="uri">https://sqlbolt.com</a>.</li>
 <li>W3Schools SQL Tutorial, with a try-it-yourself editor for every operator in this chapter: <a href="https://www.w3schools.com/sql/" class="uri">https://www.w3schools.com/sql/</a>.</li>
 <li>Khan Academy, “Intro to SQL: Querying and managing data”: <a href="https://www.khanacademy.org/computing/computer-programming/sql" class="uri">https://www.khanacademy.org/computing/computer-programming/sql</a>.</li>
-<li>SQLite Tutorial, “SQLite NULL,” on how NULL behaves: <a href="https://www.sqlitetutorial.net/sqlite-is-null/" class="uri">https://www.sqlitetutorial.net/sqlite-is-null/</a>.</li>
-<li>Codd, E. F., “A Relational Model of Data for Large Shared Data Banks” <span class="citation" data-cites="codd1970">(Codd 1970)</span>, the paper that started relational databases: <a href="https://doi.org/10.1145/362384.362685" class="uri">https://doi.org/10.1145/362384.362685</a>.</li>
+<li><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-sqlite" data-term="SQLite">SQLite</span> Tutorial, “SQLite NULL,” on how NULL behaves: <a href="https://www.sqlitetutorial.net/sqlite-is-null/" class="uri">https://www.sqlitetutorial.net/sqlite-is-null/</a>.</li>
+<li>Codd, E. F., “A Relational Model of Data for Large Shared Data Banks” <span class="citation" data-cites="codd1970">(Codd 1970)</span>, the paper that started <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-relational-database" data-term="relational database">relational databases</span>: <a href="https://doi.org/10.1145/362384.362685" class="uri">https://doi.org/10.1145/362384.362685</a>.</li>
 </ul>
 </section>
 <section id="sets-and-logic" class="level3" data-number="5.8.4">
@@ -1122,7 +1163,7 @@ Show hint for question 6
 <li>Learn ArcGIS, lessons on querying and selecting data, such as “Get started with ArcGIS Pro”: <a href="https://learn.arcgis.com" class="uri">https://learn.arcgis.com</a>.</li>
 <li>Natural Earth, free world data with rich attribute tables to practice on: <a href="https://www.naturalearthdata.com" class="uri">https://www.naturalearthdata.com</a>.</li>
 <li>NC OneMap, North Carolina’s data portal: <a href="https://www.nconemap.gov" class="uri">https://www.nconemap.gov</a>.</li>
-<li>U.S. Census Bureau, TIGER/Line <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-shapefile" data-term="shapefile">shapefiles</span>, whose attribute tables are a good place to practice queries on FIPS codes and names: <a href="https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html" class="uri">https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html</a>.</li>
+<li>U.S. Census Bureau, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tiger-line" data-term="TIGER/Line">TIGER/Line shapefiles</span>, whose attribute tables are a good place to practice queries on <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-fips-code" data-term="FIPS code">FIPS codes</span> and names: <a href="https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html" class="uri">https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html</a>.</li>
 </ul>
 
 
@@ -1168,6 +1209,7 @@ procedures.</span>
 location a unique position so layers line up with each other.</span>
 <span id="gloss-polygon">A vector feature that encloses an area: a closed line whose first and
 last points are the same, such as a lake, a park, or a county.</span>
+<span id="gloss-parcel">A polygon for one piece of property, usually with its owner and address.</span>
 <span id="gloss-layer">A set of spatial data about one theme, such as roads, soils, or
 elevation. Layers for the same area stack on top of each other to make a
 map.</span>
@@ -1188,10 +1230,16 @@ are required, and .prj holds the coordinate system.</span>
 <span id="gloss-geopackage">An open file format (.gpkg) from the Open Geospatial Consortium that
 stores many vector and raster layers in a single file. It is QGIS’s
 default format.</span>
+<span id="gloss-database">An organized collection of tables, usually stored and managed by a
+database management system.</span>
+<span id="gloss-postgis">A free extension that adds geometry types and spatial functions to the
+PostgreSQL database.</span>
 <span id="gloss-double">A 64-bit data type for decimal numbers, with about 15 significant
 digits. Float is the 32-bit version, with about 7.</span>
 <span id="gloss-precision">For a numeric field, the total number of digits it can hold. Scale is
 how many of them fall after the decimal point.</span>
+<span id="gloss-fips-code">A numeric code the U.S. government assigns to each state, county, and
+other area, such as 37 for North Carolina and 37135 for Orange County.</span>
 <span id="gloss-binary">Base-2 numbers, written with only 0 and 1, in which each column is worth
 twice the one to its right. Computers store all data in binary.</span>
 <span id="gloss-complement">Every record outside a set. NOT selects the complement.</span>
@@ -1212,6 +1260,14 @@ them, to find patterns, explain them, or make predictions.</span>
 <span id="gloss-gis-t-body-of-knowledge">A free collection of short, peer-reviewed articles on geographic
 information science and technology topics, from the University
 Consortium for Geographic Information Science (UCGIS).</span>
+<span id="gloss-database-management-system-dbms">Software that stores data once and lets many programs and people query
+and edit it, while it controls who may change what.</span>
+<span id="gloss-sqlite">A small database that lives in a single file. GeoPackages are SQLite
+databases.</span>
+<span id="gloss-relational-database">A database that stores data in tables and links them through key fields
+that hold the same values.</span>
+<span id="gloss-tiger-line">The Census Bureau’s boundary files for states, counties, tracts, roads,
+and other features.</span>
 </div>
 </section>
 </section>
@@ -2047,8 +2103,8 @@ window.onload = function() {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../glossary.html" class="pagination-link" aria-label="Glossary">
-        <span class="nav-page-text">Glossary</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../chapters/database-joins.html" class="pagination-link" aria-label="Databases and Table Joins">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Databases and Table Joins</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

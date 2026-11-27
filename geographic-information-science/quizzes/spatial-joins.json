@@ -1,0 +1,582 @@
+{
+  "id": "spatial-joins",
+  "title": "Spatial Joins",
+  "perSession": 10,
+  "minR": 0,
+  "questions": [
+    {
+      "id": "sj-def",
+      "type": "choice",
+      "prompt": "A spatial join matches records by:",
+      "choices": [
+        "The location of the features",
+        "A shared key field",
+        "The order of the rows",
+        "The layer names"
+      ],
+      "answer": 0,
+      "explain": "Location takes the place of the key."
+    },
+    {
+      "id": "sj-when",
+      "type": "choice",
+      "prompt": "When do you need a spatial join instead of an attribute join?",
+      "choices": [
+        "When the two layers share no key field, only a location",
+        "When both tables have a FIPS code",
+        "When the tables are sorted differently",
+        "When one table is a CSV"
+      ],
+      "answer": 0,
+      "explain": "EMS calls and neighborhoods share no ID, so location must do the matching."
+    },
+    {
+      "id": "sj-new-layer",
+      "type": "truefalse",
+      "prompt": "A spatial join tool usually writes a new output layer and leaves the input layers unchanged.",
+      "answer": true,
+      "explain": "Both QGIS and ArcGIS Pro write the result to a new layer."
+    },
+    {
+      "id": "inside-def",
+      "type": "choice",
+      "prompt": "An inside join matches features that:",
+      "choices": [
+        "Contain, lie within, or intersect each other",
+        "Are closest to each other",
+        "Have the same name",
+        "Have the same key"
+      ],
+      "answer": 0,
+      "explain": "For example, a point inside a polygon."
+    },
+    {
+      "id": "distance-def",
+      "type": "choice",
+      "prompt": "A distance join matches each feature to:",
+      "choices": [
+        "The closest feature, or features within a set distance",
+        "The feature that contains it",
+        "The feature with the same key",
+        "Every feature in the layer"
+      ],
+      "answer": 0,
+      "explain": "It can also record the distance."
+    },
+    {
+      "id": "predicate-def",
+      "type": "choice",
+      "prompt": "QGIS calls the rules that decide whether two features match:",
+      "choices": [
+        "Geometric predicates",
+        "Merge rules",
+        "Primary keys",
+        "Field maps"
+      ],
+      "answer": 0,
+      "explain": "ArcGIS Pro calls them match options."
+    },
+    {
+      "id": "intersects-def",
+      "type": "choice",
+      "prompt": "The intersects predicate is true when two geometries:",
+      "choices": [
+        "Share any point at all",
+        "Have identical shapes",
+        "Share no point",
+        "Are within 1 km"
+      ],
+      "answer": 0,
+      "explain": "It is the most general test."
+    },
+    {
+      "id": "touches-def",
+      "type": "choice",
+      "prompt": "The touches predicate is true when two geometries:",
+      "choices": [
+        "Share a boundary but their interiors don't overlap",
+        "Overlap in area",
+        "Are identical",
+        "Are far apart"
+      ],
+      "answer": 0,
+      "explain": "Two neighboring counties touch."
+    },
+    {
+      "id": "disjoint-def",
+      "type": "choice",
+      "prompt": "Disjoint geometries:",
+      "choices": [
+        "Share no point at all",
+        "Share a boundary",
+        "Overlap",
+        "Are identical"
+      ],
+      "answer": 0,
+      "explain": "Disjoint is the opposite of intersects."
+    },
+    {
+      "id": "within-vs-intersects",
+      "type": "choice",
+      "prompt": "For points and polygons, intersects and within differ only for:",
+      "choices": [
+        "Points exactly on a polygon's boundary",
+        "Points far outside",
+        "Points near the center",
+        "Polygons with holes"
+      ],
+      "answer": 0,
+      "explain": "Intersects counts a boundary point; within does not."
+    },
+    {
+      "id": "k-school-county",
+      "type": "choice",
+      "prompt": "Which county is each school in? This is a:",
+      "choices": [
+        "Simple inside join",
+        "Summarized inside join",
+        "Simple distance join",
+        "Summarized distance join"
+      ],
+      "answer": 0,
+      "explain": "Each school lies in one county."
+    },
+    {
+      "id": "k-count-schools",
+      "type": "choice",
+      "prompt": "How many schools are in each county? This is a:",
+      "choices": [
+        "Summarized inside join",
+        "Simple inside join",
+        "Simple distance join",
+        "Summarized distance join"
+      ],
+      "answer": 0,
+      "explain": "Each county contains many schools."
+    },
+    {
+      "id": "k-hotel-attr",
+      "type": "choice",
+      "prompt": "Which attraction is closest to each hotel, and how far? This is a:",
+      "choices": [
+        "Simple distance join",
+        "Summarized distance join",
+        "Simple inside join",
+        "Summarized inside join"
+      ],
+      "answer": 0,
+      "explain": "Each hotel has one nearest attraction."
+    },
+    {
+      "id": "k-count-nearest",
+      "type": "choice",
+      "prompt": "How many attractions are closer to each hotel than to any other hotel? This is a:",
+      "choices": [
+        "Summarized distance join",
+        "Simple distance join",
+        "Simple inside join",
+        "Summarized inside join"
+      ],
+      "answer": 0,
+      "explain": "Each hotel collects many attractions."
+    },
+    {
+      "id": "dest-count-schools",
+      "type": "choice",
+      "prompt": "To count the schools in each county, the destination layer is:",
+      "choices": [
+        "Counties",
+        "Schools",
+        "Either one",
+        "A new empty layer"
+      ],
+      "answer": 0,
+      "explain": "One row of the answer is a county."
+    },
+    {
+      "id": "dest-rule",
+      "type": "choice",
+      "prompt": "The surest way to choose the destination layer is to ask:",
+      "choices": [
+        "What should one row of the output represent?",
+        "Which layer is bigger?",
+        "Which layer was loaded first?",
+        "Which layer has more fields?"
+      ],
+      "answer": 0,
+      "explain": "That row is a feature of the destination layer."
+    },
+    {
+      "id": "simple-card",
+      "type": "choice",
+      "prompt": "A simple spatial join suits which cardinalities?",
+      "choices": [
+        "One-to-one and many-to-one",
+        "One-to-many and many-to-many",
+        "Only many-to-many",
+        "All of them"
+      ],
+      "answer": 0,
+      "explain": "Each destination feature matches at most one source feature."
+    },
+    {
+      "id": "summ-card",
+      "type": "choice",
+      "prompt": "A summarized spatial join is needed when the cardinality is:",
+      "choices": [
+        "One-to-many or many-to-many",
+        "One-to-one",
+        "Many-to-one",
+        "Zero"
+      ],
+      "answer": 0,
+      "explain": "Several matches have to be collapsed into statistics."
+    },
+    {
+      "id": "septic-card",
+      "type": "choice",
+      "prompt": "Each septic system lies in exactly one geology polygon; many septic systems share a polygon. Joining geology to the septic systems is:",
+      "choices": [
+        "Many-to-one: a simple join",
+        "One-to-many: a summarized join",
+        "Many-to-many",
+        "Impossible"
+      ],
+      "answer": 0,
+      "explain": "Each septic point gets one rock type."
+    },
+    {
+      "id": "city-airport-card",
+      "type": "choice",
+      "prompt": "Each city has one nearest airport, and many cities can share it. Cities to nearest airport is:",
+      "choices": [
+        "Many-to-one",
+        "One-to-many",
+        "Many-to-many",
+        "One-to-one only"
+      ],
+      "answer": 0,
+      "explain": "A simple distance join works."
+    },
+    {
+      "id": "summ-count",
+      "type": "choice",
+      "prompt": "Every summarized join adds:",
+      "choices": [
+        "A count of the matching features",
+        "The geometry of every match",
+        "A primary key",
+        "A distance field"
+      ],
+      "answer": 0,
+      "explain": "ArcGIS Pro calls it Join_Count. Sum, mean, min, and max are optional."
+    },
+    {
+      "id": "students-district",
+      "type": "choice",
+      "prompt": "Schools have an enrollment field. To get the number of students in each district, use a summarized join with:",
+      "choices": [
+        "The sum of enrollment",
+        "The mean of enrollment",
+        "The count only",
+        "The first match"
+      ],
+      "answer": 0,
+      "explain": "Sum adds up the enrollments of all the schools in each district."
+    },
+    {
+      "id": "wrong-simple",
+      "type": "choice",
+      "prompt": "You run a simple join where each county contains many schools. What happens?",
+      "choices": [
+        "The software keeps one match (usually the first) and drops the rest",
+        "It refuses to run",
+        "It sums the schools automatically",
+        "It deletes the counties"
+      ],
+      "answer": 0,
+      "explain": "That silently loses data. Use a summarized join."
+    },
+    {
+      "id": "units-gcs",
+      "type": "choice",
+      "prompt": "A distance join on layers stored in WGS84 (EPSG:4326) reports distances in:",
+      "choices": [
+        "Decimal degrees",
+        "Meters",
+        "Miles",
+        "Feet"
+      ],
+      "answer": 0,
+      "explain": "Distances come out in the stored units of the data."
+    },
+    {
+      "id": "deg-lat",
+      "type": "choice",
+      "prompt": "About how long is one degree of latitude, anywhere on Earth?",
+      "choices": [
+        "111 km (69 miles)",
+        "79 km",
+        "1 km",
+        "1,000 km"
+      ],
+      "answer": 0,
+      "explain": "It varies only slightly, from about 110.6 to 111.7 km."
+    },
+    {
+      "id": "deg-lon-45",
+      "type": "fill",
+      "prompt": "About how many kilometers long is one degree of longitude at 45° N?",
+      "answers": [
+        "79",
+        "78",
+        "80"
+      ],
+      "explain": "It shrinks with the cosine of the latitude: about 111 × cos 45° ≈ 79 km.",
+      "numeric": true,
+      "tolerance": 2
+    },
+    {
+      "id": "deg-lon-equator",
+      "type": "choice",
+      "prompt": "Where is a degree of longitude longest?",
+      "choices": [
+        "At the equator",
+        "At 45° N",
+        "At the poles",
+        "It is the same everywhere"
+      ],
+      "answer": 0,
+      "explain": "Meridians converge toward the poles."
+    },
+    {
+      "id": "wrong-nearest",
+      "type": "choice",
+      "prompt": "At 45° N, attraction A is 0.9° east of a hotel and B is 0.8° north. Which is closer on the ground?",
+      "choices": [
+        "A, about 71 km away",
+        "B, about 89 km away",
+        "They are the same distance",
+        "It can't be known"
+      ],
+      "answer": 0,
+      "explain": "0.9 × 79 km ≈ 71 km; 0.8 × 111 km ≈ 89 km. In degrees, B looks closer."
+    },
+    {
+      "id": "on-the-fly",
+      "type": "truefalse",
+      "prompt": "Setting the map's coordinate system to UTM fixes a distance join on data stored in degrees.",
+      "answer": false,
+      "explain": "The tools read the stored coordinates. Project the data with Reproject Layer or Project."
+    },
+    {
+      "id": "fix-gcs",
+      "type": "choice",
+      "prompt": "How do you fix a distance join on data stored in a GCS?",
+      "choices": [
+        "Project both layers into a suitable projected CRS, then rerun the join",
+        "Change the map's CRS",
+        "Multiply the distances by 69",
+        "Use an inner join"
+      ],
+      "answer": 0,
+      "explain": "In QGIS use Reproject Layer; in ArcGIS Pro use Project."
+    },
+    {
+      "id": "qgis-nearest",
+      "type": "choice",
+      "prompt": "Which QGIS tool runs a simple distance join?",
+      "choices": [
+        "Join Attributes by Nearest",
+        "Join Attributes by Location (Summary)",
+        "Count Points in Polygon",
+        "Add Delimited Text Layer"
+      ],
+      "answer": 0,
+      "explain": "Set 1 neighbor for the closest feature."
+    },
+    {
+      "id": "qgis-summary",
+      "type": "choice",
+      "prompt": "Which QGIS tool runs a summarized inside join with sums and means?",
+      "choices": [
+        "Join Attributes by Location (Summary)",
+        "Join Attributes by Nearest",
+        "Reproject Layer",
+        "The Joins tab"
+      ],
+      "answer": 0,
+      "explain": "Choose the fields and the statistics to calculate."
+    },
+    {
+      "id": "qgis-count",
+      "type": "choice",
+      "prompt": "Which QGIS tool is a shortcut for counting points in each polygon?",
+      "choices": [
+        "Count Points in Polygon",
+        "Join Attributes by Nearest",
+        "Buffer",
+        "Dissolve"
+      ],
+      "answer": 0,
+      "explain": "It adds a count field to each polygon."
+    },
+    {
+      "id": "arcgis-target",
+      "type": "choice",
+      "prompt": "In ArcGIS Pro's Spatial Join tool, the destination layer is called the:",
+      "choices": [
+        "Target features",
+        "Join features",
+        "Field map",
+        "Search radius"
+      ],
+      "answer": 0,
+      "explain": "The join features are the source."
+    },
+    {
+      "id": "arcgis-keep",
+      "type": "choice",
+      "prompt": "In ArcGIS Pro's Spatial Join, checking Keep all target features gives:",
+      "choices": [
+        "A left join that keeps unmatched targets",
+        "An inner join",
+        "A many-to-many join",
+        "A distance join"
+      ],
+      "answer": 0,
+      "explain": "Unchecked, unmatched targets are dropped."
+    },
+    {
+      "id": "arcgis-closest",
+      "type": "choice",
+      "prompt": "In ArcGIS Pro's Spatial Join, which match option gives a simple distance join?",
+      "choices": [
+        "Closest",
+        "Intersect",
+        "Completely contains",
+        "Within"
+      ],
+      "answer": 0,
+      "explain": "Set a distance field name to record the distance."
+    },
+    {
+      "id": "within-distance",
+      "type": "choice",
+      "prompt": "To count crashes within 30 feet of each road in ArcGIS Pro, use:",
+      "choices": [
+        "Within a distance, with a 30-foot search radius",
+        "Closest, with no radius",
+        "Completely contains",
+        "Join one to many"
+      ],
+      "answer": 0,
+      "explain": "Join_Count gives the number of crashes near each road."
+    },
+    {
+      "id": "qgis-radius",
+      "type": "choice",
+      "prompt": "In QGIS, a count of points within a radius of each feature is done by:",
+      "choices": [
+        "Buffering the features, then Join Attributes by Location (Summary)",
+        "Join Attributes by Nearest with 0 neighbors",
+        "The Joins tab",
+        "Reproject Layer"
+      ],
+      "answer": 0,
+      "explain": "The buffer is the search distance."
+    },
+    {
+      "id": "row-count",
+      "type": "choice",
+      "prompt": "A simple join that keeps all destination features has more rows than the destination layer. Why?",
+      "choices": [
+        "A one-to-many join repeated some features",
+        "Unmatched features were dropped",
+        "The layers were projected",
+        "The distance field was added"
+      ],
+      "answer": 0,
+      "explain": "Check the join type: one-to-many creates a row for each match."
+    },
+    {
+      "id": "tiny-distances",
+      "type": "choice",
+      "prompt": "A distance field shows values like 0.12 for cities that are many kilometers apart. What happened?",
+      "choices": [
+        "The data were in a geographic CRS, so the distances are in degrees",
+        "The cities are very close together",
+        "The join was summarized",
+        "The join failed"
+      ],
+      "answer": 0,
+      "explain": "Project first, then rerun."
+    },
+    {
+      "id": "ex-earthquake",
+      "type": "choice",
+      "prompt": "Find districts with more than 10 earthquake deaths. The best plan is:",
+      "choices": [
+        "Districts as destination, a summarized inside join with the sum of deaths, then a query",
+        "Earthquakes as destination, a simple inside join",
+        "A simple distance join from districts to earthquakes",
+        "An attribute join on district name"
+      ],
+      "answer": 0,
+      "explain": "Each district can contain many earthquakes."
+    },
+    {
+      "id": "ex-river",
+      "type": "choice",
+      "prompt": "Score rivers by the population of the counties they flow through. The relationship is:",
+      "choices": [
+        "Inside (intersects), one-to-many, summarized with a sum",
+        "Distance, many-to-one, simple",
+        "Inside, one-to-one, simple",
+        "An attribute join"
+      ],
+      "answer": 0,
+      "explain": "Each river crosses many counties."
+    },
+    {
+      "id": "ex-volcano",
+      "type": "choice",
+      "prompt": "The closest volcano to each U.S. city is a:",
+      "choices": [
+        "Simple distance join, cities as destination",
+        "Summarized inside join, volcanoes as destination",
+        "Simple inside join",
+        "Summarized distance join, cities as destination"
+      ],
+      "answer": 0,
+      "explain": "Many cities can share a nearest volcano: many-to-one."
+    },
+    {
+      "id": "sj-plan",
+      "type": "order",
+      "prompt": "Put the planning questions for a spatial join in order.",
+      "answer": [
+        "Sketch the layers",
+        "Decide what one row of the output represents",
+        "Name the destination layer",
+        "Choose inside or distance",
+        "Find the cardinality",
+        "Choose simple or summarized"
+      ],
+      "explain": "Start from the output, then work out the join."
+    },
+    {
+      "id": "asheville",
+      "type": "choice",
+      "prompt": "A distance join matches Asheville to Knoxville's airport, because the source layer leaves out Asheville's own airport. This shows that:",
+      "choices": [
+        "A join is only as good as the source layer",
+        "Distance joins ignore projections",
+        "Distance joins never cross state lines",
+        "Inside joins are better"
+      ],
+      "answer": 0,
+      "explain": "Always ask whether the source contains every feature that could be the answer."
+    }
+  ]
+}

@@ -37,7 +37,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./about.html" rel="next">
-<link href="./chapters/attribute-queries.html" rel="prev">
+<link href="./chapters/osm-data-quality.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
@@ -189,14 +189,55 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Attribute Data and Queries</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapters/database-joins.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Databases and Table Joins</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapters/spatial-joins.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Spatial Joins</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-2-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+            <a href="./units/unit-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-2-label">Unit 2: Spatial Data Quality</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section: Unit 2: Spatial Data Quality">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
       </div>
       <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapters/census-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Census Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapters/geocoding-georeferencing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Geocoding and Georeferencing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapters/osm-data-quality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">OpenStreetMap and Data Quality</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./glossary.html" class="sidebar-item-text sidebar-link active">
@@ -254,6 +295,10 @@ ul.task-list li input[type="checkbox"] {
 <dd>
 A missing value: nothing was recorded. NULL fails every comparison, so test for it with IS NULL.
 </dd>
+<dt><span id="term-csvt-file">.csvt file</span></dt>
+<dd>
+A one-line file next to a CSV that sets the data type of each column for QGIS and GDAL, such as “String”,“Integer”.
+</dd>
 <dt><span id="term-absolute-location">absolute location</span></dt>
 <dd>
 A location given in a coordinate system that means the same thing to everyone, such as 38° 53′ 52″ N, 77° 02′ 11″ W.
@@ -262,13 +307,45 @@ A location given in a coordinate system that means the same thing to everyone, s
 <dd>
 How easily people can reach a place or service, often measured as distance or travel time.
 </dd>
+<dt><span id="term-acs-1-year-estimates">ACS 1-year estimates</span></dt>
+<dd>
+ACS estimates from 12 months of data, published only for areas with 65,000 or more people.
+</dd>
+<dt><span id="term-acs-5-year-estimates">ACS 5-year estimates</span></dt>
+<dd>
+ACS estimates from 60 months of data, published for every area down to block groups.
+</dd>
+<dt><span id="term-address-matching">address matching</span></dt>
+<dd>
+Geocoding an address by comparing it with a reference file whose features already carry address information.
+</dd>
+<dt><span id="term-address-point">address point</span></dt>
+<dd>
+A point for one address, often placed on the rooftop or the building entrance.
+</dd>
+<dt><span id="term-address-range">address range</span></dt>
+<dd>
+The lowest and highest house numbers on one side of a street segment.
+</dd>
+<dt><span id="term-affine-transformation">affine transformation</span></dt>
+<dd>
+A six-coefficient transformation that corrects translation, scale, skew, and rotation. Needs at least 3 GCPs.
+</dd>
 <dt><span id="term-albers-equal-area-conic">Albers Equal-Area Conic</span></dt>
 <dd>
 An equal-area conic projection, the standard for measuring areas across the contiguous United States (EPSG:5070).
 </dd>
+<dt><span id="term-american-community-survey-acs">American Community Survey (ACS)</span></dt>
+<dd>
+The Census Bureau’s yearly sample survey of about 3.5 million addresses, the main source of social, economic, and housing data.
+</dd>
 <dt><span id="term-annotation">annotation</span></dt>
 <dd>
 Text placed on a map, such as place names, street names, and labels.
+</dd>
+<dt><span id="term-apportionment">apportionment</span></dt>
+<dd>
+Dividing the 435 seats in the U.S. House of Representatives among the states, by population.
 </dd>
 <dt><span id="term-arc">arc</span></dt>
 <dd>
@@ -282,13 +359,41 @@ Esri’s system for making and sharing maps and layers on the web.
 <dd>
 Esri’s commercial desktop GIS, for Windows.
 </dd>
+<dt><span id="term-asserted-data">asserted data</span></dt>
+<dd>
+Data contributed by the public, such as OpenStreetMap. Their accuracy is undocumented and uneven.
+</dd>
 <dt><span id="term-attribute">attribute</span></dt>
 <dd>
 A non-spatial fact about a feature, such as a building’s name or the year it was built. Attributes are stored in a table with one row per feature.
 </dd>
+<dt><span id="term-attribute-accuracy">attribute accuracy</span></dt>
+<dd>
+How correct the non-spatial values in a dataset are, such as a feature’s type or name.
+</dd>
+<dt><span id="term-authoritative-data">authoritative data</span></dt>
+<dd>
+Data from official agencies, collected under documented standards and published with metadata.
+</dd>
 <dt><span id="term-azimuthal">azimuthal</span></dt>
 <dd>
 A projection onto a plane that keeps true directions from its center point.
+</dd>
+<dt><span id="term-bag">bag</span></dt>
+<dd>
+A collection that can contain duplicates. A table is a bag unless a primary key forbids repeated rows.
+</dd>
+<dt><span id="term-batch-geocoding">batch geocoding</span></dt>
+<dd>
+Geocoding a whole table of addresses in one run.
+</dd>
+<dt><span id="term-big-data">Big Data</span></dt>
+<dd>
+Datasets too large, too fast, or too varied for traditional tools, often described by three Vs: volume, velocity, and variety.
+</dd>
+<dt><span id="term-bilinear-interpolation">bilinear interpolation</span></dt>
+<dd>
+Resampling that averages the four nearest input cells, weighted by distance.
 </dd>
 <dt><span id="term-binary">binary</span></dt>
 <dd>
@@ -298,6 +403,10 @@ Base-2 numbers, written with only 0 and 1, in which each column is worth twice t
 <dd>
 A binary digit, 0 or 1. With <em>n</em> bits you can write 2ⁿ different values.
 </dd>
+<dt><span id="term-block-group">block group</span></dt>
+<dd>
+A cluster of census blocks within a tract, usually with 600 to 3,000 people. The smallest area with ACS estimates.
+</dd>
 <dt><span id="term-cad">CAD</span></dt>
 <dd>
 Computer-aided design: software for drawing buildings, parts, and other objects. It is spatial but not geographic, because its drawings aren’t tied to places on Earth.
@@ -305,6 +414,14 @@ Computer-aided design: software for drawing buildings, parts, and other objects.
 <dt><span id="term-canada-geographic-information-system-cgis">Canada Geographic Information System (CGIS)</span></dt>
 <dd>
 The first large GIS, built in the 1960s under Roger Tomlinson to inventory land across Canada.
+</dd>
+<dt><span id="term-cardinality">cardinality</span></dt>
+<dd>
+How many records in one table match each record in another: one-to-one, many-to-one, one-to-many, or many-to-many.
+</dd>
+<dt><span id="term-cartographic-boundary-files">cartographic boundary files</span></dt>
+<dd>
+Simplified census boundaries clipped to the shoreline, for small-scale maps.
 </dd>
 <dt><span id="term-cartography">cartography</span></dt>
 <dd>
@@ -318,25 +435,77 @@ One square in a raster grid. Each cell holds one value. In an image, a cell is c
 <dd>
 The real-world length of one side of a raster cell, such as 30 meters. Smaller cells give finer resolution and larger files.
 </dd>
+<dt><span id="term-census-block">census block</span></dt>
+<dd>
+The smallest census area, bounded by streets, streams, and other visible features. Decennial counts only.
+</dd>
+<dt><span id="term-census-geography">census geography</span></dt>
+<dd>
+The hierarchy of areas for which census data are published, from the nation down to the block.
+</dd>
+<dt><span id="term-census-tract">census tract</span></dt>
+<dd>
+A relatively permanent subdivision of a county with 1,200 to 8,000 people, about 4,000 on average.
+</dd>
+<dt><span id="term-census-designated-place">census-designated place</span></dt>
+<dd>
+An unincorporated community that the Census Bureau defines so that it can publish statistics for it.
+</dd>
 <dt><span id="term-central-meridian">central meridian</span></dt>
 <dd>
 The meridian at the center of a projection or zone, such as the line along which a Transverse Mercator cylinder touches the Earth.
+</dd>
+<dt><span id="term-centroid">centroid</span></dt>
+<dd>
+The center point of a polygon.
 </dd>
 <dt><span id="term-change-detection">change detection</span></dt>
 <dd>
 Comparing images or maps of the same place from different dates to find what changed.
 </dd>
+<dt><span id="term-changeset">changeset</span></dt>
+<dd>
+A group of edits to OpenStreetMap saved together, with the editor’s username and a comment.
+</dd>
+<dt><span id="term-check-point">check point</span></dt>
+<dd>
+A point with known coordinates that is not used to fit a transformation, kept back to test its accuracy.
+</dd>
+<dt><span id="term-client-server">client/server</span></dt>
+<dd>
+A design in which client programs send requests to a server, which does the work and sends back the answer.
+</dd>
+<dt><span id="term-closed-way">closed way</span></dt>
+<dd>
+In OpenStreetMap, a way (an ordered list of nodes) whose first and last nodes are the same, forming an area such as a building.
+</dd>
 <dt><span id="term-cluster">cluster</span></dt>
 <dd>
 A group of events or features that are closer together than you would expect by chance, such as cases of a disease around one place.
+</dd>
+<dt><span id="term-coefficient-of-variation-cv">coefficient of variation (CV)</span></dt>
+<dd>
+The standard error as a percentage of the estimate. Over about 40 percent, an ACS estimate is usually treated as unreliable.
 </dd>
 <dt><span id="term-complement">complement</span></dt>
 <dd>
 Every record outside a set. NOT selects the complement.
 </dd>
+<dt><span id="term-completeness">completeness</span></dt>
+<dd>
+An element of data quality: what is missing from a dataset, and what is there that shouldn’t be.
+</dd>
 <dt><span id="term-compromise-projection">compromise projection</span></dt>
 <dd>
 A projection that preserves no property exactly but keeps every distortion moderate, such as Robinson or Winkel Tripel.
+</dd>
+<dt><span id="term-concurrency">concurrency</span></dt>
+<dd>
+Many users reading and editing a database at the same time, without overwriting each other’s changes.
+</dd>
+<dt><span id="term-confidence-level">confidence level</span></dt>
+<dd>
+How often a range built the same way would contain the true value, if the survey were repeated many times.
 </dd>
 <dt><span id="term-conformal">conformal</span></dt>
 <dd>
@@ -362,6 +531,18 @@ The full description of how coordinates relate to the Earth: a datum, plus a pro
 <dd>
 A system of numbers, such as latitude and longitude, that gives every location a unique position so layers line up with each other.
 </dd>
+<dt><span id="term-crisis-mapping">crisis mapping</span></dt>
+<dd>
+Mapping by volunteers to support the response to a disaster or other crisis.
+</dd>
+<dt><span id="term-csv">CSV</span></dt>
+<dd>
+A plain-text table in which values are separated by commas, one record per line.
+</dd>
+<dt><span id="term-cubic-convolution">cubic convolution</span></dt>
+<dd>
+Resampling that uses the 16 nearest input cells.
+</dd>
 <dt><span id="term-data-abstraction">data abstraction</span></dt>
 <dd>
 The chain of steps that turns the real world into something a computer can store: real world, data model, data structure, and machine code.
@@ -378,6 +559,14 @@ How a data model is laid out in a computer’s memory or files, for example as l
 <dd>
 How a field is stored, such as text, integer, double, or date. It limits what the field can hold.
 </dd>
+<dt><span id="term-database">database</span></dt>
+<dd>
+An organized collection of tables, usually stored and managed by a database management system.
+</dd>
+<dt><span id="term-database-management-system-dbms">database management system (DBMS)</span></dt>
+<dd>
+Software that stores data once and lets many programs and people query and edit it, while it controls who may change what.
+</dd>
 <dt><span id="term-datum-shift">datum shift</span></dt>
 <dd>
 The difference in where the same latitude and longitude land on the ground in two different datums. Between NAD27 and NAD83 it can exceed 100 m.
@@ -389,6 +578,10 @@ Equations or a grid of measured shifts that convert coordinates from one datum t
 <dt><span id="term-de-morgan-s-law">De Morgan’s law</span></dt>
 <dd>
 NOT (A AND B) equals (NOT A) OR (NOT B), and NOT (A OR B) equals (NOT A) AND (NOT B).
+</dd>
+<dt><span id="term-decennial-census">decennial census</span></dt>
+<dd>
+The full count of every U.S. resident, taken every ten years as the Constitution requires.
 </dd>
 <dt><span id="term-decimal-degrees-dd">decimal degrees (DD)</span></dt>
 <dd>
@@ -402,13 +595,33 @@ In ArcGIS Pro, a WHERE clause that hides the features that fail it, until you re
 <dd>
 Latitude or longitude written in degrees, minutes (1/60 of a degree), and seconds (1/3,600 of a degree), with a hemisphere letter, such as 79° 03′ 21″ W.
 </dd>
+<dt><span id="term-demographic-data">demographic data</span></dt>
+<dd>
+Data on who lives in a place: counts of people and households, and their age, sex, race and ethnicity, and household type.
+</dd>
+<dt><span id="term-deprivation-index">deprivation index</span></dt>
+<dd>
+A single score that combines several socioeconomic variables to measure how disadvantaged an area is.
+</dd>
+<dt><span id="term-destination-table">destination table</span></dt>
+<dd>
+In a join, the table that receives the new fields. All of its records are kept.
+</dd>
 <dt><span id="term-developable-surface">developable surface</span></dt>
 <dd>
 A shape that can be unrolled flat without stretching: a plane, a cylinder, or a cone.
 </dd>
+<dt><span id="term-differential-privacy">differential privacy</span></dt>
+<dd>
+A method that adds calibrated statistical noise to published tables, so that individuals cannot be identified.
+</dd>
 <dt><span id="term-discrete-object">discrete object</span></dt>
 <dd>
 Something with clear boundaries that is either present or absent at a location, such as a road, a house, or a state.
+</dd>
+<dt><span id="term-distance-join">distance join</span></dt>
+<dd>
+A spatial join that matches each feature to the closest feature, or to every feature within a set distance, and can record the distance.
 </dd>
 <dt><span id="term-double">Double</span></dt>
 <dd>
@@ -417,6 +630,10 @@ A 64-bit data type for decimal numbers, with about 15 significant digits. Float 
 <dt><span id="term-easting">easting</span></dt>
 <dd>
 A distance east from a starting line: the x coordinate in a projected coordinate system.
+</dd>
+<dt><span id="term-economic-census">Economic Census</span></dt>
+<dd>
+The Census Bureau’s survey of businesses, taken every five years in years ending in 2 and 7.
 </dd>
 <dt><span id="term-ellipsoid">ellipsoid</span></dt>
 <dd>
@@ -458,6 +675,14 @@ The company that makes ArcGIS, founded in 1969 by Jack and Laura Dangermond in R
 <dd>
 How far something reaches: its size, boundary, and dimensions. A layer’s extent is the rectangle that just encloses all its features.
 </dd>
+<dt><span id="term-extrinsic-quality-assessment">extrinsic quality assessment</span></dt>
+<dd>
+Measuring the quality of a dataset by comparing it with an authoritative reference dataset.
+</dd>
+<dt><span id="term-fair-principles">FAIR principles</span></dt>
+<dd>
+Guidelines saying that good data should be Findable, Accessible, Interoperable, and Reusable (Wilkinson et al. 2016).
+</dd>
 <dt><span id="term-false-easting">false easting</span></dt>
 <dd>
 A value added to every <em>x</em> coordinate so that none are negative, such as 500,000 m in UTM.
@@ -474,9 +699,25 @@ A column in an attribute table: one attribute, measured the same way for every f
 <dd>
 A tool that computes values and writes them into a field, for every record or for the selected records only.
 </dd>
+<dt><span id="term-file-coordinates">file coordinates</span></dt>
+<dd>
+Positions in a raster given as pixel columns and rows.
+</dd>
+<dt><span id="term-fips-code">FIPS code</span></dt>
+<dd>
+A numeric code the U.S. government assigns to each state, county, and other area, such as 37 for North Carolina and 37135 for Orange County.
+</dd>
 <dt><span id="term-flattening">flattening</span></dt>
 <dd>
 How squashed an ellipsoid is: <em>f</em> = (<em>a</em> − <em>b</em>) / <em>a</em>. For the Earth, about 1/298.
+</dd>
+<dt><span id="term-foreign-key">foreign key</span></dt>
+<dd>
+A field that holds values of another table’s primary key. Its values can repeat.
+</dd>
+<dt><span id="term-full-outer-join">full outer join</span></dt>
+<dd>
+A join that keeps every record of both tables.
 </dd>
 <dt><span id="term-geoai">GeoAI</span></dt>
 <dd>
@@ -485,6 +726,10 @@ Artificial intelligence applied to geographic data, for example to find building
 <dt><span id="term-geocoding">geocoding</span></dt>
 <dd>
 Turning an address or place name into coordinates, so it can be put on a map.
+</dd>
+<dt><span id="term-geodesic-distance">geodesic distance</span></dt>
+<dd>
+Distance measured along the curved surface of the ellipsoid, rather than on a flat projected map.
 </dd>
 <dt><span id="term-geodesy">geodesy</span></dt>
 <dd>
@@ -510,6 +755,10 @@ The theory and methods behind GIS: research on analysis, data representation, vi
 <dd>
 A problem that happens in specific places at specific times. It can be described by its scale, time, space, and purpose.
 </dd>
+<dt><span id="term-geoid">GEOID</span></dt>
+<dd>
+The Census Bureau’s identifier for a geographic area, made by stringing FIPS codes together. A tract GEOID has 11 characters.
+</dd>
 <dt><span id="term-geoid">geoid</span></dt>
 <dd>
 The surface of equal gravity that best matches global mean sea level. It is lumpy, up to about 100 m above or below the ellipsoid, and elevations are measured from it.
@@ -517,6 +766,10 @@ The surface of equal gravity that best matches global mean sea level. It is lump
 <dt><span id="term-geoid-height">geoid height</span></dt>
 <dd>
 The distance from the ellipsoid to the geoid at a place, written <em>N</em>. In the lower 48 United States it is negative, about −30 m.
+</dd>
+<dt><span id="term-geomasking">geomasking</span></dt>
+<dd>
+Moving geocoded points by a small random amount to protect the privacy of the people they represent.
 </dd>
 <dt><span id="term-geometry">geometry</span></dt>
 <dd>
@@ -529,6 +782,10 @@ An open file format (.gpkg) from the Open Geospatial Consortium that stores many
 <dt><span id="term-geoprocessing">geoprocessing</span></dt>
 <dd>
 Running a GIS tool on spatial data to make new data, such as buffering, clipping, or overlaying layers.
+</dd>
+<dt><span id="term-georeferencing">georeferencing</span></dt>
+<dd>
+Transforming a raster, such as a scanned map or image, from file coordinates to map coordinates.
 </dd>
 <dt><span id="term-geospatial">geospatial</span></dt>
 <dd>
@@ -562,6 +819,30 @@ The network of parallels and meridians drawn on a map.
 <dd>
 A circle on a sphere whose plane passes through the center. The shortest route between two points follows a great circle.
 </dd>
+<dt><span id="term-ground-control-point-gcp">ground control point (GCP)</span></dt>
+<dd>
+A feature that can be found on both an image and a reference layer, used to work out the transformation between them.
+</dd>
+<dt><span id="term-humanitarian-openstreetmap-team">Humanitarian OpenStreetMap Team</span></dt>
+<dd>
+An organization that coordinates volunteer OpenStreetMap mapping for disaster response and development.
+</dd>
+<dt><span id="term-id">iD</span></dt>
+<dd>
+OpenStreetMap’s web-based editor, which runs in a browser with no installation.
+</dd>
+<dt><span id="term-image-rectification">image rectification</span></dt>
+<dd>
+Correcting an image’s geometry so that it fits a map coordinate system.
+</dd>
+<dt><span id="term-inner-join">inner join</span></dt>
+<dd>
+A join that keeps only the records that match in both tables.
+</dd>
+<dt><span id="term-inside-join">inside join</span></dt>
+<dd>
+A spatial join that matches features that contain, lie within, or intersect each other, such as points inside polygons.
+</dd>
 <dt><span id="term-integer">integer</span></dt>
 <dd>
 A data type for whole numbers. Its range depends on its bits: up to 32,767 for 16 bits, about 2.1 billion for 32 bits.
@@ -573,6 +854,26 @@ The records in both of two sets. AND selects the intersection.
 <dt><span id="term-interval">interval</span></dt>
 <dd>
 Values with equal steps but an arbitrary zero, such as temperature in °C or a calendar year. Differences make sense; ratios don’t.
+</dd>
+<dt><span id="term-intrinsic-quality-assessment">intrinsic quality assessment</span></dt>
+<dd>
+Measuring the quality of OpenStreetMap from its own editing history, such as the number of editors and versions in an area.
+</dd>
+<dt><span id="term-iso-19157">ISO 19157</span></dt>
+<dd>
+The international standard for describing and measuring the quality of geographic data.
+</dd>
+<dt><span id="term-join-count">Join_Count</span></dt>
+<dd>
+The field ArcGIS Pro’s Spatial Join adds to hold the number of join features that matched each target feature.
+</dd>
+<dt><span id="term-josm">JOSM</span></dt>
+<dd>
+The Java OpenStreetMap editor, a desktop editor for advanced work.
+</dd>
+<dt><span id="term-key">key</span></dt>
+<dd>
+A field whose values link the records of one table to the records of another.
 </dd>
 <dt><span id="term-lambert-conformal-conic">Lambert Conformal Conic</span></dt>
 <dd>
@@ -590,6 +891,14 @@ The angle north or south of the equator, from 0° at the equator to 90° at the 
 <dd>
 A set of spatial data about one theme, such as roads, soils, or elevation. Layers for the same area stack on top of each other to make a map.
 </dd>
+<dt><span id="term-least-squares">least squares</span></dt>
+<dd>
+Fitting a model by choosing the coefficients that make the sum of the squared errors as small as possible.
+</dd>
+<dt><span id="term-left-join">left join</span></dt>
+<dd>
+A join that keeps every record of the left (destination) table, with NULL where nothing matched. The default in QGIS and ArcGIS Pro.
+</dd>
 <dt><span id="term-level-of-measurement">level of measurement</span></dt>
 <dd>
 What kind of values an attribute holds, which decides what questions make sense: nominal, ordinal, interval, or ratio.
@@ -602,9 +911,37 @@ A vector feature with length but no area, stored as an ordered list of coordinat
 <dd>
 The straight piece of a line between two vertices or nodes.
 </dd>
+<dt><span id="term-lineage">lineage</span></dt>
+<dd>
+The history of a dataset: where the data came from, and how they have been collected, processed, and edited since.
+</dd>
+<dt><span id="term-linear-interpolation">linear interpolation</span></dt>
+<dd>
+Estimating a position between two known points in proportion to a value between their values, such as a house number within a range.
+</dd>
+<dt><span id="term-linking-table">linking table</span></dt>
+<dd>
+A table with one row for each pair of related records, used to handle a many-to-many relationship.
+</dd>
+<dt><span id="term-linus-s-law">Linus’s Law</span></dt>
+<dd>
+“Given enough eyeballs, all bugs are shallow.” Applied to maps, areas edited by more contributors tend to be more accurate.
+</dd>
+<dt><span id="term-logical-consistency">logical consistency</span></dt>
+<dd>
+Whether data agree with their own rules, for example polygons that close and roads that meet at intersections.
+</dd>
 <dt><span id="term-longitude">longitude</span></dt>
 <dd>
 The angle east or west of the prime meridian, from 0° at Greenwich to 180° east or west.
+</dd>
+<dt><span id="term-many-to-many">many-to-many</span></dt>
+<dd>
+Records on each side match many records on the other. Needs a linking table.
+</dd>
+<dt><span id="term-many-to-one">many-to-one</span></dt>
+<dd>
+Many destination records match the same source record, but each matches only one. A simple join works.
 </dd>
 <dt><span id="term-map-algebra">map algebra</span></dt>
 <dd>
@@ -614,6 +951,26 @@ Math on rasters, cell by cell, such as adding two grids or finding every cell wh
 <dd>
 A mathematical method for flattening the round Earth onto a flat map. Every projection distorts area, shape, distance, or direction in some way.
 </dd>
+<dt><span id="term-mapathon">mapathon</span></dt>
+<dd>
+An event where volunteers map together for a few hours, often for a humanitarian project.
+</dd>
+<dt><span id="term-maproulette">MapRoulette</span></dt>
+<dd>
+A tool that turns detected OpenStreetMap errors into small tasks that volunteers can fix.
+</dd>
+<dt><span id="term-margin-of-error-moe">margin of error (MOE)</span></dt>
+<dd>
+The likely range of sampling error around an estimate. Census Bureau margins of error use a 90 percent confidence level.
+</dd>
+<dt><span id="term-match-rate">match rate</span></dt>
+<dd>
+The share of addresses in a table that were successfully geocoded.
+</dd>
+<dt><span id="term-match-score">match score</span></dt>
+<dd>
+How closely an address agrees with a candidate in the reference file, often on a scale from 0 to 100.
+</dd>
 <dt><span id="term-mean-sea-level">mean sea level</span></dt>
 <dd>
 The average height of the sea surface over many years, which the geoid approximates.
@@ -622,6 +979,10 @@ The average height of the sea surface over many years, which the geoid approxima
 <dd>
 A conformal cylindrical projection from 1569, made for navigation: lines of constant compass bearing are straight. It greatly enlarges areas toward the poles.
 </dd>
+<dt><span id="term-merge-rule">merge rule</span></dt>
+<dd>
+In ArcGIS Pro, how the values of several matching features are combined into one, such as first, sum, or mean.
+</dd>
 <dt><span id="term-meridian">meridian</span></dt>
 <dd>
 A line of equal longitude. Meridians run from pole to pole and meet at the poles.
@@ -629,6 +990,10 @@ A line of equal longitude. Meridians run from pole to pole and meet at the poles
 <dt><span id="term-metadata">metadata</span></dt>
 <dd>
 Data about data: who made a dataset, when, how, in what coordinate system, and how accurate it is.
+</dd>
+<dt><span id="term-missing-maps">Missing Maps</span></dt>
+<dd>
+A project founded in 2014 that maps vulnerable places before disasters happen.
 </dd>
 <dt><span id="term-nad27">NAD27</span></dt>
 <dd>
@@ -642,6 +1007,10 @@ The North American Datum of 1983, an earth-centered datum on the GRS 80 ellipsoi
 <dd>
 The North American Terrestrial Reference Frame of 2022, the new datum that will replace NAD83 in the United States.
 </dd>
+<dt><span id="term-nearest-neighbor">nearest neighbor</span></dt>
+<dd>
+The feature closest to a given feature.
+</dd>
 <dt><span id="term-network">network</span></dt>
 <dd>
 Connected lines and intersections, such as roads, rails, rivers, or pipes, with a cost such as length or travel time on each segment.
@@ -652,7 +1021,7 @@ Analysis of movement along a network, such as roads, to find routes and measure 
 </dd>
 <dt><span id="term-node">node</span></dt>
 <dd>
-The start or end point of a line. In a network, lines meet at nodes.
+The start or end point of a line. In a network, lines meet at nodes. In OpenStreetMap, a node is any single point with a latitude and longitude, standing alone or as a vertex of a way.
 </dd>
 <dt><span id="term-nominal">nominal</span></dt>
 <dd>
@@ -670,6 +1039,18 @@ A distance north from a starting line: the y coordinate in a projected coordinat
 <dd>
 Reprojecting layers as they are drawn, so layers in different CRSs line up on the map without changing their stored coordinates.
 </dd>
+<dt><span id="term-one-to-many">one-to-many</span></dt>
+<dd>
+One destination record matches many source records. Summarize the source first, or use a relate.
+</dd>
+<dt><span id="term-one-to-one">one-to-one</span></dt>
+<dd>
+Each destination record matches exactly one source record, and the other way around.
+</dd>
+<dt><span id="term-open-database-license">Open Database License</span></dt>
+<dd>
+The license for OpenStreetMap data. Anyone may use and share the data if they credit OpenStreetMap contributors and share derived databases under the same license.
+</dd>
 <dt><span id="term-open-source">open source</span></dt>
 <dd>
 Software whose source code anyone may read, change, and share, often free of charge. QGIS and GRASS GIS are open source.
@@ -686,13 +1067,29 @@ Ranked categories whose steps are of unknown size, such as A, B, C, D or a hurri
 <dd>
 Height above the geoid, written <em>H</em>: the elevation, or “height above sea level,” printed on maps. <em>h</em> = <em>H</em> + <em>N</em>.
 </dd>
+<dt><span id="term-osmcha">OSMCha</span></dt>
+<dd>
+OSM Changeset Analyzer, a tool for reviewing recent OpenStreetMap edits to catch mistakes and vandalism.
+</dd>
+<dt><span id="term-osmose">Osmose</span></dt>
+<dd>
+A tool that runs automated quality checks on OpenStreetMap data.
+</dd>
 <dt><span id="term-overlay-analysis">overlay analysis</span></dt>
 <dd>
 Stacking layers of data for the same area to find places that meet several conditions at once, such as flat land near a road and outside a floodplain.
 </dd>
+<dt><span id="term-overture-maps-foundation">Overture Maps Foundation</span></dt>
+<dd>
+A group founded in 2022 by Amazon, Meta, Microsoft, and TomTom to build open map data, partly from OpenStreetMap.
+</dd>
 <dt><span id="term-parallel">parallel</span></dt>
 <dd>
 A line of equal latitude. Parallels run east and west and get shorter toward the poles.
+</dd>
+<dt><span id="term-parcel">parcel</span></dt>
+<dd>
+A polygon for one piece of property, usually with its owner and address.
 </dd>
 <dt><span id="term-plate-carr-e">Plate Carrée</span></dt>
 <dd>
@@ -710,13 +1107,33 @@ In a data structure, a stored address that tells the computer where the next pie
 <dd>
 A vector feature that encloses an area: a closed line whose first and last points are the same, such as a lake, a park, or a county.
 </dd>
+<dt><span id="term-polynomial-transformation">polynomial transformation</span></dt>
+<dd>
+A transformation that can bend an image. Second order needs at least 6 GCPs; third order needs 10.
+</dd>
 <dt><span id="term-population-density">population density</span></dt>
 <dd>
 The number of people per unit of area, such as people per square mile.
 </dd>
+<dt><span id="term-positional-accuracy">positional accuracy</span></dt>
+<dd>
+How close the coordinates in a dataset are to the true positions of the features.
+</dd>
+<dt><span id="term-post-enumeration-survey">Post-Enumeration Survey</span></dt>
+<dd>
+A survey taken after the census to measure how many people it missed or counted twice.
+</dd>
+<dt><span id="term-postgis">PostGIS</span></dt>
+<dd>
+A free extension that adds geometry types and spatial functions to the PostgreSQL database.
+</dd>
 <dt><span id="term-precision">precision</span></dt>
 <dd>
 For a numeric field, the total number of digits it can hold. Scale is how many of them fall after the decimal point.
+</dd>
+<dt><span id="term-primary-key">primary key</span></dt>
+<dd>
+A field whose values identify each row of a table uniquely. No value may repeat or be missing.
 </dd>
 <dt><span id="term-prime-meridian">prime meridian</span></dt>
 <dd>
@@ -750,13 +1167,33 @@ To convert vector data into a raster.
 <dd>
 Values with equal steps and a true zero, such as population or area. Every arithmetic operation makes sense.
 </dd>
+<dt><span id="term-ray-casting">ray casting</span></dt>
+<dd>
+A point-in-polygon test that counts how often a line from the point crosses the polygon’s edge. An odd count means inside.
+</dd>
 <dt><span id="term-record">record</span></dt>
 <dd>
 A row in an attribute table: everything known about one feature.
 </dd>
+<dt><span id="term-redistricting">redistricting</span></dt>
+<dd>
+Redrawing the boundaries of congressional and legislative districts after each census.
+</dd>
 <dt><span id="term-redlining">redlining</span></dt>
 <dd>
 Grading neighborhoods as risky for lending, as the federal Home Owners’ Loan Corporation did on maps in the 1930s, which outlined many Black and immigrant neighborhoods in red and denied them credit.
+</dd>
+<dt><span id="term-reference-file">reference file</span></dt>
+<dd>
+In geocoding, the layer that addresses are matched against, such as parcels, street centerlines, or ZIP Code areas.
+</dd>
+<dt><span id="term-relate">relate</span></dt>
+<dd>
+A link between two tables that lets you see the matching records without copying fields into the layer. QGIS calls it a relation.
+</dd>
+<dt><span id="term-relational-database">relational database</span></dt>
+<dd>
+A database that stores data in tables and links them through key fields that hold the same values.
 </dd>
 <dt><span id="term-relative-location">relative location</span></dt>
 <dd>
@@ -770,6 +1207,14 @@ Collecting information about Earth without touching it, from sensors on satellit
 <dd>
 To convert a layer’s coordinates from one CRS to another and save the result. Defining a projection, by contrast, only labels what the coordinates already are.
 </dd>
+<dt><span id="term-resampling">resampling</span></dt>
+<dd>
+Giving each cell of a transformed raster a value from the input cells: nearest neighbor, bilinear, or cubic convolution.
+</dd>
+<dt><span id="term-residual">residual</span></dt>
+<dd>
+The difference between an observed value and the value a model predicts; in georeferencing, the distance between a GCP’s true and transformed positions.
+</dd>
 <dt><span id="term-resolution">resolution</span></dt>
 <dd>
 The level of detail in data. For a raster, it is set by the cell size: the smaller the cells, the finer the resolution.
@@ -777,6 +1222,14 @@ The level of detail in data. For a raster, it is set by the cell size: the small
 <dt><span id="term-rhumb-line">rhumb line</span></dt>
 <dd>
 A line of constant compass bearing. It is straight on a Mercator map.
+</dd>
+<dt><span id="term-right-join">right join</span></dt>
+<dd>
+A join that keeps every record of the right (source) table.
+</dd>
+<dt><span id="term-root-mean-square-error-rmse">root mean square error (RMSE)</span></dt>
+<dd>
+The square root of the average squared residual: one number that sums up how well a model fits.
 </dd>
 <dt><span id="term-route-optimization">route optimization</span></dt>
 <dd>
@@ -806,9 +1259,21 @@ The polar radius of an ellipsoid, written <em>b</em>. For the Earth, about 6,357
 <dd>
 A common vector format from Esri that stores one layer in several files with the same name: .shp (geometry), .shx (index), and .dbf (attributes) are required, and .prj holds the coordinate system.
 </dd>
+<dt><span id="term-simple-join">simple join</span></dt>
+<dd>
+A join that copies the attributes of one source feature to each destination feature. Works for one-to-one and many-to-one relationships.
+</dd>
 <dt><span id="term-site-selection">site selection</span></dt>
 <dd>
 Using GIS to choose the best location for something, such as a new store, clinic, or fire station.
+</dd>
+<dt><span id="term-socioeconomic-data">socioeconomic data</span></dt>
+<dd>
+Data on economic and social conditions, such as income, education, employment, poverty, and housing costs.
+</dd>
+<dt><span id="term-source-table">source table</span></dt>
+<dd>
+In a join, the table whose fields are appended to the destination.
 </dd>
 <dt><span id="term-spatial-analysis">spatial analysis</span></dt>
 <dd>
@@ -818,13 +1283,33 @@ Methods that use the locations of things, and the relationships among them, to f
 <dd>
 Data tied to a location on or near Earth, such as the address of a house, the outline of a county, or the elevation at a point.
 </dd>
+<dt><span id="term-spatial-data-quality">spatial data quality</span></dt>
+<dd>
+How well a geographic dataset fits its intended use, described by elements such as lineage, accuracy, consistency, and completeness.
+</dd>
+<dt><span id="term-spatial-join">spatial join</span></dt>
+<dd>
+A join that matches the features of two layers by location instead of by a shared key, then appends attributes from one to the other.
+</dd>
+<dt><span id="term-spatial-predicate">spatial predicate</span></dt>
+<dd>
+A rule that tests a spatial relationship between two geometries, such as intersects, contains, within, or touches.
+</dd>
 <dt><span id="term-spatial-thinking">spatial thinking</span></dt>
 <dd>
 Using ideas of space, such as location, distance, pattern, and scale, to understand and solve problems.
 </dd>
+<dt><span id="term-spine">spine</span></dt>
+<dd>
+The main line of census geography (nation, regions, divisions, states, counties, tracts, block groups, blocks), in which each level nests in the one above.
+</dd>
 <dt><span id="term-sql">SQL</span></dt>
 <dd>
 Structured Query Language, the standard language for asking databases questions. In a GIS you usually write only its WHERE clause.
+</dd>
+<dt><span id="term-sqlite">SQLite</span></dt>
+<dd>
+A small database that lives in a single file. GeoPackages are SQLite databases.
 </dd>
 <dt><span id="term-standard-line">standard line</span></dt>
 <dd>
@@ -834,13 +1319,45 @@ A line where the projection surface meets the Earth, so the scale is exact. Stan
 <dd>
 A U.S. system of about 120 zones following state and county lines, built for surveyors, with error held to 1 part in 10,000. North Carolina has one zone (EPSG:32119 in meters, 2264 in feet).
 </dd>
+<dt><span id="term-street-centerline">street centerline</span></dt>
+<dd>
+A line along the middle of a street. Centerline files used for geocoding store the address range on each side of each segment.
+</dd>
+<dt><span id="term-summarized-join">summarized join</span></dt>
+<dd>
+A join that counts and summarizes all the source features matching each destination feature (count, sum, mean, minimum, maximum).
+</dd>
+<dt><span id="term-table-join">table join</span></dt>
+<dd>
+Appending the fields of a source table to a destination table by matching the values of a key field.
+</dd>
 <dt><span id="term-tabular-data">tabular data</span></dt>
 <dd>
 Data stored in tables of rows and columns, such as the attributes of features.
 </dd>
+<dt><span id="term-tag">tag</span></dt>
+<dd>
+In OpenStreetMap, a key=value pair that describes an element, such as highway=residential.
+</dd>
 <dt><span id="term-tangent">tangent</span></dt>
 <dd>
 A projection surface that touches the Earth along one line or at one point.
+</dd>
+<dt><span id="term-tasking-manager">Tasking Manager</span></dt>
+<dd>
+HOT’s tool that divides a mapping project into small squares, so that volunteers don’t overlap and each square can be validated.
+</dd>
+<dt><span id="term-temporal-quality">temporal quality</span></dt>
+<dd>
+How current a dataset is, and how accurate its dates are.
+</dd>
+<dt><span id="term-thiessen-polygons">Thiessen polygons</span></dt>
+<dd>
+Polygons that surround each point with all the area closer to it than to any other point.
+</dd>
+<dt><span id="term-tiger-line">TIGER/Line</span></dt>
+<dd>
+The Census Bureau’s boundary files for states, counties, tracts, roads, and other features.
 </dd>
 <dt><span id="term-tin">TIN</span></dt>
 <dd>
@@ -853,6 +1370,10 @@ Identical small circles drawn on the globe and then projected. Their size and sh
 <dt><span id="term-topology">topology</span></dt>
 <dd>
 The recorded connections between features, such as which polygons share an edge and which lines meet at a node. It keeps neighbors from having gaps or overlaps.
+</dd>
+<dt><span id="term-transformation">transformation</span></dt>
+<dd>
+Equations that convert image coordinates into map coordinates, with coefficients solved from ground control points.
 </dd>
 <dt><span id="term-transverse-mercator">Transverse Mercator</span></dt>
 <dd>
@@ -870,6 +1391,10 @@ The records in either of two sets. OR selects the union.
 <dd>
 A system of 60 zones, each 6° of longitude wide, each a secant Transverse Mercator projection in meters. North Carolina spans zones 17N and 18N.
 </dd>
+<dt><span id="term-validation">validation</span></dt>
+<dd>
+In the HOT Tasking Manager, a check of a finished square by a second, experienced mapper.
+</dd>
 <dt><span id="term-vector">vector</span></dt>
 <dd>
 A data model that stores the world as points, lines, and polygons, each defined by x, y coordinates and linked to its attributes. Best for discrete objects.
@@ -882,9 +1407,17 @@ To convert a raster into vector features.
 <dd>
 A drawing of sets as overlapping circles, useful for checking what an AND or OR query will select.
 </dd>
+<dt><span id="term-veracity">veracity</span></dt>
+<dd>
+Whether data can be trusted; sometimes called the fourth V of Big Data.
+</dd>
 <dt><span id="term-vertex">vertex</span></dt>
 <dd>
 An intermediate point where a line or polygon boundary changes direction.
+</dd>
+<dt><span id="term-volunteered-geographic-information">volunteered geographic information</span></dt>
+<dd>
+Geographic data created by individuals, most of them not trained in mapping, and shared on the internet (Goodchild 2007). OpenStreetMap is the best-known example.
 </dd>
 <dt><span id="term-web-mercator">Web Mercator</span></dt>
 <dd>
@@ -897,6 +1430,14 @@ The World Geodetic System of 1984, the global, earth-centered datum used by GPS.
 <dt><span id="term-where-clause">WHERE clause</span></dt>
 <dd>
 The condition part of an SQL query, such as <code>"Area" &gt; 20</code>. It is the part you write in Select by Expression or Select By Attributes.
+</dd>
+<dt><span id="term-zip-code-tabulation-area-zcta">ZIP Code Tabulation Area (ZCTA)</span></dt>
+<dd>
+An approximation of a ZIP Code’s area built from census blocks.
+</dd>
+<dt><span id="term-zip-4">ZIP+4</span></dt>
+<dd>
+A nine-digit ZIP Code whose last four digits identify a short segment of a mail route, such as one side of a block.
 </dd>
 </dl>
 </div>
@@ -1729,8 +2270,8 @@ window.onload = function() {
   </script>
 <nav class="page-navigation" aria-label="Page">
   <div class="nav-page nav-page-previous">
-      <a href="./chapters/attribute-queries.html" class="pagination-link" aria-label="Attribute Data and Queries">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Attribute Data and Queries</span></span>
+      <a href="./chapters/osm-data-quality.html" class="pagination-link" aria-label="OpenStreetMap and Data Quality">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">OpenStreetMap and Data Quality</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

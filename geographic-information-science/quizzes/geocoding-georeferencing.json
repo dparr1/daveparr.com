@@ -1,0 +1,578 @@
+{
+  "id": "geocoding-georeferencing",
+  "title": "Geocoding and Georeferencing",
+  "perSession": 10,
+  "minR": 0,
+  "questions": [
+    {
+      "id": "geocoding-def",
+      "type": "choice",
+      "prompt": "Geocoding is:",
+      "choices": [
+        "Assigning coordinates to data that describe a location another way, such as an address",
+        "Aligning a scanned map to coordinates",
+        "Choosing a map projection",
+        "Joining two tables"
+      ],
+      "answer": 0,
+      "explain": "Address matching is the most common kind."
+    },
+    {
+      "id": "address-matching-def",
+      "type": "choice",
+      "prompt": "Address matching places an address by:",
+      "choices": [
+        "Comparing it with a reference file whose features carry addresses",
+        "Measuring it with GPS",
+        "Interpolating between census tracts",
+        "Asking the post office"
+      ],
+      "answer": 0,
+      "explain": "The output is a point layer that keeps the original attributes."
+    },
+    {
+      "id": "georef-def",
+      "type": "choice",
+      "prompt": "Georeferencing is:",
+      "choices": [
+        "Transforming a raster from file coordinates to map coordinates",
+        "Turning addresses into points",
+        "Joining a CSV to a layer",
+        "Drawing a map legend"
+      ],
+      "answer": 0,
+      "explain": "It is a kind of image rectification."
+    },
+    {
+      "id": "odd-even",
+      "type": "truefalse",
+      "prompt": "On U.S. streets, odd house numbers are usually on one side and even numbers on the other.",
+      "answer": true,
+      "explain": "That, plus numbers that increase along the street, is what makes interpolation possible."
+    },
+    {
+      "id": "most-accurate",
+      "type": "choice",
+      "prompt": "Which reference file gives the most accurate geocoded points?",
+      "choices": [
+        "Parcels or address points",
+        "Street centerlines",
+        "ZIP+4",
+        "Five-digit ZIP Code centroids"
+      ],
+      "answer": 0,
+      "explain": "A match finds the exact property."
+    },
+    {
+      "id": "least-accurate",
+      "type": "choice",
+      "prompt": "Which reference file gives the least accurate points?",
+      "choices": [
+        "Three-digit ZIP Code centroids",
+        "Parcels",
+        "Street centerlines",
+        "ZIP+4"
+      ],
+      "answer": 0,
+      "explain": "Every address in a large region lands on one point."
+    },
+    {
+      "id": "zip-centroid",
+      "type": "choice",
+      "prompt": "With five-digit ZIP Code centroids as the reference, every address in a ZIP Code is placed:",
+      "choices": [
+        "At the same point",
+        "On its parcel",
+        "On the street centerline",
+        "At the nearest intersection"
+      ],
+      "answer": 0,
+      "explain": "Fast and almost always matches, but imprecise."
+    },
+    {
+      "id": "zip4",
+      "type": "choice",
+      "prompt": "A ZIP+4 code identifies:",
+      "choices": [
+        "A short segment of a delivery route, such as one side of a block",
+        "A whole city",
+        "A county",
+        "A census tract"
+      ],
+      "answer": 0,
+      "explain": "The address is placed at the segment's center."
+    },
+    {
+      "id": "tiger-ranges",
+      "type": "choice",
+      "prompt": "TIGER/Line street segments store:",
+      "choices": [
+        "Address ranges for the left and right sides of each segment",
+        "The exact location of every house",
+        "Parcel boundaries",
+        "ZIP+4 codes only"
+      ],
+      "answer": 0,
+      "explain": "Addresses are interpolated along the segment."
+    },
+    {
+      "id": "interp-steps",
+      "type": "order",
+      "prompt": "Put the steps of street-centerline matching in order.",
+      "answer": [
+        "Find the street segment by name and address range",
+        "Choose the side of the street (odd or even)",
+        "Interpolate the position along the segment"
+      ],
+      "explain": "Query, side, then interpolation."
+    },
+    {
+      "id": "interp-1147",
+      "type": "fill",
+      "prompt": "A segment's right side holds 1101–1199, and X runs from 42 to 52. What is the interpolated X of 1147? (one decimal)",
+      "answers": [
+        "46.7"
+      ],
+      "explain": "(1147 − 1101) ÷ 98 = 0.47; 42 + 0.47 × 10 = 46.7.",
+      "numeric": true,
+      "tolerance": 0.05
+    },
+    {
+      "id": "interp-1184",
+      "type": "fill",
+      "prompt": "The same segment's left side holds 1100–1198. What is the interpolated X of 1184? (one decimal)",
+      "answers": [
+        "50.6",
+        "50.57"
+      ],
+      "explain": "(1184 − 1100) ÷ 98 = 0.857; 42 + 8.57 = 50.6.",
+      "numeric": true,
+      "tolerance": 0.05
+    },
+    {
+      "id": "side-1184",
+      "type": "choice",
+      "prompt": "Which side of the street is 1184 on, if the left side holds 1100–1198 and the right 1101–1199?",
+      "choices": [
+        "Left",
+        "Right",
+        "Either",
+        "Neither"
+      ],
+      "answer": 0,
+      "explain": "1184 is even."
+    },
+    {
+      "id": "interp-assume",
+      "type": "choice",
+      "prompt": "Linear interpolation assumes that:",
+      "choices": [
+        "Addresses are spaced evenly along the segment",
+        "Every house is on a corner",
+        "The street is curved",
+        "Houses are numbered by construction date"
+      ],
+      "answer": 0,
+      "explain": "Uneven lots or unused numbers move the true house away from the estimate."
+    },
+    {
+      "id": "offset",
+      "type": "choice",
+      "prompt": "Why do geocoders move interpolated points a few meters off the centerline?",
+      "choices": [
+        "So houses on opposite sides of the street don't land on the same spot",
+        "To protect privacy",
+        "To correct the datum",
+        "To match the ZIP Code"
+      ],
+      "answer": 0,
+      "explain": "The offset puts each point on its own side."
+    },
+    {
+      "id": "census-geocoder",
+      "type": "choice",
+      "prompt": "The Census Geocoder can match a batch of up to how many addresses?",
+      "choices": [
+        "10,000",
+        "100",
+        "1 million",
+        "Unlimited"
+      ],
+      "answer": 0,
+      "explain": "It also returns the census tract, block group, and block."
+    },
+    {
+      "id": "match-score",
+      "type": "choice",
+      "prompt": "A match score measures:",
+      "choices": [
+        "How closely an address agrees with a reference candidate",
+        "The share of addresses matched",
+        "The RMSE",
+        "The distance to the ZIP centroid"
+      ],
+      "answer": 0,
+      "explain": "Often from 0 to 100."
+    },
+    {
+      "id": "match-rate",
+      "type": "choice",
+      "prompt": "The match rate is:",
+      "choices": [
+        "The share of addresses that were matched",
+        "The score of the best candidate",
+        "The number of reference files",
+        "The geocoding speed"
+      ],
+      "answer": 0,
+      "explain": "Always report it with your results."
+    },
+    {
+      "id": "tie",
+      "type": "choice",
+      "prompt": "A tied address is one that:",
+      "choices": [
+        "Has two or more candidates with the same score",
+        "Has no candidate",
+        "Matched perfectly",
+        "Is a PO Box"
+      ],
+      "answer": 0,
+      "explain": "Such as Main St in two towns."
+    },
+    {
+      "id": "missing-random",
+      "type": "truefalse",
+      "prompt": "Unmatched addresses are usually missing at random, so they don't bias a map.",
+      "answer": false,
+      "explain": "Rural routes, new subdivisions, and messy entries fail more often."
+    },
+    {
+      "id": "standardize",
+      "type": "choice",
+      "prompt": "Address standardization:",
+      "choices": [
+        "Parses addresses into parts so that 'East Franklin Street' and 'E Franklin St' match",
+        "Converts addresses to ZIP Codes",
+        "Removes unmatched addresses",
+        "Projects the points"
+      ],
+      "answer": 0,
+      "explain": "It happens before matching."
+    },
+    {
+      "id": "japan",
+      "type": "choice",
+      "prompt": "In a traditional Japanese address, buildings on a block were often numbered:",
+      "choices": [
+        "In the order they were built",
+        "In order along the street",
+        "By odd and even sides",
+        "Alphabetically"
+      ],
+      "answer": 0,
+      "explain": "Which is why street interpolation doesn't work there."
+    },
+    {
+      "id": "file-coords",
+      "type": "choice",
+      "prompt": "A scanned map's file coordinates are:",
+      "choices": [
+        "Pixel columns and rows",
+        "Latitude and longitude",
+        "UTM eastings and northings",
+        "State Plane feet"
+      ],
+      "answer": 0,
+      "explain": "Georeferencing converts them to map coordinates."
+    },
+    {
+      "id": "gcp-def",
+      "type": "choice",
+      "prompt": "A ground control point (GCP) is:",
+      "choices": [
+        "A feature you can find on both the image and a reference layer",
+        "Any pixel on the image",
+        "A survey benchmark only",
+        "The center of the image"
+      ],
+      "answer": 0,
+      "explain": "GCPs tie the image to the map."
+    },
+    {
+      "id": "good-gcp",
+      "type": "choice",
+      "prompt": "Which makes the best ground control point?",
+      "choices": [
+        "A road intersection",
+        "A shoreline",
+        "A parked car",
+        "A tree's shadow"
+      ],
+      "answer": 0,
+      "explain": "Good GCPs are easy to find, accurate, and stable."
+    },
+    {
+      "id": "gcp-spread",
+      "type": "choice",
+      "prompt": "GCPs should be:",
+      "choices": [
+        "Spread evenly across the whole image",
+        "Bunched in the center",
+        "All along one edge",
+        "As close together as possible"
+      ],
+      "answer": 0,
+      "explain": "Unconstrained areas can warp badly."
+    },
+    {
+      "id": "georef-steps",
+      "type": "order",
+      "prompt": "Put the georeferencing steps in order.",
+      "answer": [
+        "Get to know the data",
+        "Set up ground control points",
+        "Transform the raster",
+        "Validate with residuals and RMSE",
+        "Rectify: save the result"
+      ],
+      "explain": "Know, control, transform, validate, rectify."
+    },
+    {
+      "id": "affine-params",
+      "type": "choice",
+      "prompt": "A first-order (affine) transformation has how many coefficients?",
+      "choices": [
+        "6",
+        "3",
+        "10",
+        "2"
+      ],
+      "answer": 0,
+      "explain": "a0, a1, a2 and b0, b1, b2."
+    },
+    {
+      "id": "affine-corrects",
+      "type": "choice",
+      "prompt": "An affine transformation can correct all of these EXCEPT:",
+      "choices": [
+        "Terrain relief",
+        "Translation",
+        "Rotation",
+        "Skew"
+      ],
+      "answer": 0,
+      "explain": "Nonlinear distortion needs a higher-order polynomial."
+    },
+    {
+      "id": "min-gcp-1",
+      "type": "fill",
+      "prompt": "Minimum number of GCPs for a first-order transformation?",
+      "answers": [
+        "3",
+        "three"
+      ],
+      "explain": "Three points fix the six coefficients.",
+      "ignoreCase": true
+    },
+    {
+      "id": "min-gcp-2",
+      "type": "fill",
+      "prompt": "Minimum number of GCPs for a second-order transformation?",
+      "answers": [
+        "6",
+        "six"
+      ],
+      "explain": "Second order has 12 coefficients.",
+      "ignoreCase": true
+    },
+    {
+      "id": "min-gcp-3",
+      "type": "fill",
+      "prompt": "Minimum number of GCPs for a third-order transformation?",
+      "answers": [
+        "10",
+        "ten"
+      ],
+      "explain": "Third order has 20 coefficients.",
+      "ignoreCase": true
+    },
+    {
+      "id": "more-than-min",
+      "type": "choice",
+      "prompt": "Why collect more than the minimum number of GCPs?",
+      "choices": [
+        "So the error can be measured",
+        "To make the image larger",
+        "To change the projection",
+        "It isn't needed"
+      ],
+      "answer": 0,
+      "explain": "With exactly the minimum, the fit is perfect and the RMSE is zero."
+    },
+    {
+      "id": "lowest-order",
+      "type": "choice",
+      "prompt": "Which transformation order should you use?",
+      "choices": [
+        "The lowest order that gives acceptable error",
+        "Always third order",
+        "Always the highest available",
+        "Whichever has the most GCPs"
+      ],
+      "answer": 0,
+      "explain": "High orders warp areas far from the GCPs."
+    },
+    {
+      "id": "least-squares",
+      "type": "choice",
+      "prompt": "GCP-based transformation coefficients are usually solved by:",
+      "choices": [
+        "Least squares",
+        "Nearest neighbor",
+        "Kriging",
+        "Trial and error"
+      ],
+      "answer": 0,
+      "explain": "It minimizes the overall error at the GCPs."
+    },
+    {
+      "id": "spline",
+      "type": "choice",
+      "prompt": "A spline (rubber-sheet) transformation:",
+      "choices": [
+        "Fits every GCP exactly, so the residuals are all zero",
+        "Can't bend the image",
+        "Needs exactly 3 GCPs",
+        "Is the same as affine"
+      ],
+      "answer": 0,
+      "explain": "That hides errors at the GCPs."
+    },
+    {
+      "id": "resample-nn",
+      "type": "choice",
+      "prompt": "Which resampling method keeps the original cell values, for categorical data?",
+      "choices": [
+        "Nearest neighbor",
+        "Bilinear",
+        "Cubic convolution",
+        "Least squares"
+      ],
+      "answer": 0,
+      "explain": "Use it for land cover."
+    },
+    {
+      "id": "resample-cubic",
+      "type": "choice",
+      "prompt": "Cubic convolution resampling uses how many input cells?",
+      "choices": [
+        "16",
+        "4",
+        "1",
+        "9"
+      ],
+      "answer": 0,
+      "explain": "Bilinear uses 4; nearest neighbor uses 1."
+    },
+    {
+      "id": "residual-def",
+      "type": "choice",
+      "prompt": "A GCP's residual is:",
+      "choices": [
+        "The distance between where the transformation puts it and where it really is",
+        "The number of GCPs",
+        "The cell size",
+        "The order of the polynomial"
+      ],
+      "answer": 0,
+      "explain": "A large residual flags a misplaced GCP."
+    },
+    {
+      "id": "rmse-steps",
+      "type": "order",
+      "prompt": "Put the steps for computing the RMSE in order.",
+      "answer": [
+        "Square each residual",
+        "Average the squares",
+        "Take the square root"
+      ],
+      "explain": "Root of the mean of the squares."
+    },
+    {
+      "id": "rmse-calc",
+      "type": "fill",
+      "prompt": "Residuals of 3, 4, and 0 m. What is the RMSE, to one decimal place?",
+      "answers": [
+        "2.9"
+      ],
+      "explain": "√((9 + 16 + 0) ÷ 3) = √8.33 = 2.9.",
+      "numeric": true,
+      "tolerance": 0.05
+    },
+    {
+      "id": "rmse-lecture",
+      "type": "fill",
+      "prompt": "Four GCPs have squared residuals averaging 3,275.77. What is the RMSE, to one decimal place?",
+      "answers": [
+        "57.2",
+        "57.23"
+      ],
+      "explain": "√3,275.77 = 57.2.",
+      "numeric": true,
+      "tolerance": 0.1
+    },
+    {
+      "id": "rmse-target",
+      "type": "choice",
+      "prompt": "A common target RMSE is:",
+      "choices": [
+        "Smaller than the raster's cell size",
+        "Exactly zero",
+        "Larger than the image",
+        "10 times the cell size"
+      ],
+      "answer": 0,
+      "explain": "For 1 m air photos, under 1 m."
+    },
+    {
+      "id": "big-residual",
+      "type": "choice",
+      "prompt": "One GCP's residual is far larger than the others. What should you do first?",
+      "choices": [
+        "Check whether it was placed on the wrong feature, and fix or delete it",
+        "Switch to a third-order polynomial",
+        "Ignore it",
+        "Add more GCPs next to it"
+      ],
+      "answer": 0,
+      "explain": "Then recheck the RMSE."
+    },
+    {
+      "id": "save-vs-new",
+      "type": "choice",
+      "prompt": "In ArcGIS Pro, Save (rather than Save as New) after georeferencing:",
+      "choices": [
+        "Stores the transformation in an auxiliary file without changing the pixels",
+        "Writes a new rectified raster",
+        "Deletes the GCPs",
+        "Reprojects the basemap"
+      ],
+      "answer": 0,
+      "explain": "Save as New writes a rectified copy."
+    },
+    {
+      "id": "qgis-georef",
+      "type": "choice",
+      "prompt": "Where is the Georeferencer in QGIS?",
+      "choices": [
+        "Layer > Georeferencer",
+        "Vector > Geoprocessing",
+        "Processing > Toolbox only",
+        "It isn't in QGIS"
+      ],
+      "answer": 0,
+      "explain": "It is built in."
+    }
+  ]
+}
