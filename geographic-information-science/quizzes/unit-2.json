@@ -4,6 +4,7 @@
   "perSession": 20,
   "chapters": [
     "census-data",
+    "federal-data",
     "geocoding-georeferencing",
     "osm-data-quality"
   ]

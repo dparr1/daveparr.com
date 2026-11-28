@@ -1,0 +1,615 @@
+{
+  "id": "federal-data",
+  "title": "Federal Spatial Data Sets",
+  "perSession": 10,
+  "minR": 0,
+  "questions": [
+    {
+      "id": "public-domain",
+      "type": "choice",
+      "prompt": "Why can you download, change, and republish most federal data without permission?",
+      "choices": [
+        "Works made by U.S. government employees are not protected by copyright",
+        "Federal data carry a Creative Commons license",
+        "Federal agencies sell unlimited licenses to universities",
+        "Data are facts, so no data are ever copyrighted"
+      ],
+      "answer": 0,
+      "explain": "Under 17 U.S.C. § 105, works of the U.S. government are in the public domain. Check the use constraints anyway: some data sets include partners' data."
+    },
+    {
+      "id": "cite-anyway",
+      "type": "truefalse",
+      "prompt": "Because federal data are public domain, you don't need to cite them.",
+      "answer": false,
+      "explain": "Good practice, and most agencies, ask you to cite the agency, product, version, and access date."
+    },
+    {
+      "id": "why-federal",
+      "type": "choice",
+      "prompt": "Which is NOT a usual advantage of federal data sets?",
+      "choices": [
+        "They are always the newest and most detailed data for any place",
+        "They cover the whole country with one method",
+        "They come with standard metadata",
+        "They are free"
+      ],
+      "answer": 0,
+      "explain": "State and local data are often newer or finer, such as North Carolina's flood maps and lidar. Always check for them."
+    },
+    {
+      "id": "regulatory",
+      "type": "choice",
+      "prompt": "Which federal data set is a legal, regulatory boundary rather than just a map?",
+      "choices": [
+        "FEMA's National Flood Hazard Layer",
+        "MODIS NDVI",
+        "Landsat surface reflectance",
+        "NLCD tree canopy"
+      ],
+      "answer": 0,
+      "explain": "Flood Insurance Rate Maps decide who must buy flood insurance, and change only through a formal process."
+    },
+    {
+      "id": "portal-3dep",
+      "type": "choice",
+      "prompt": "Which portal is the main place to download 3DEP elevation, NHD streams, and watershed boundaries?",
+      "choices": [
+        "The National Map Downloader",
+        "Earthdata Search",
+        "FEMA Flood Map Service Center",
+        "How's My Waterway"
+      ],
+      "answer": 0,
+      "explain": "The USGS National Map Downloader serves elevation, hydrography, boundaries, and US Topo maps."
+    },
+    {
+      "id": "portal-modis",
+      "type": "choice",
+      "prompt": "Where would you search for MODIS and VIIRS products?",
+      "choices": [
+        "NASA Earthdata Search",
+        "MRLC.gov",
+        "The National Map Downloader",
+        "msc.fema.gov"
+      ],
+      "answer": 0,
+      "explain": "NASA's Earthdata Search finds data from every NASA archive, with one free Earthdata Login."
+    },
+    {
+      "id": "naip-agency",
+      "type": "choice",
+      "prompt": "NAIP aerial photography is run by:",
+      "choices": [
+        "The U.S. Department of Agriculture",
+        "NASA",
+        "FEMA",
+        "The Census Bureau"
+      ],
+      "answer": 0,
+      "explain": "NAIP is run by USDA's Aerial Photography Field Office, to check compliance with farm programs."
+    },
+    {
+      "id": "naip-bands",
+      "type": "choice",
+      "prompt": "Which bands does recent NAIP imagery have?",
+      "choices": [
+        "Red, green, blue, and near-infrared",
+        "Red, green, and blue only",
+        "36 bands from visible to thermal",
+        "A single panchromatic band"
+      ],
+      "answer": 0,
+      "explain": "The near-infrared band lets you make false-color images and NDVI at sub-meter resolution."
+    },
+    {
+      "id": "naip-leafon",
+      "type": "choice",
+      "prompt": "NAIP is flown leaf-on. What does that make it poor at?",
+      "choices": [
+        "Seeing the ground, streams, and sidewalks under trees",
+        "Mapping tree canopy",
+        "Telling crops from forest",
+        "Digitizing building roofs"
+      ],
+      "answer": 0,
+      "explain": "Leaf-on photos are great for vegetation, but the canopy hides what is beneath it."
+    },
+    {
+      "id": "naip-pixels",
+      "type": "fill",
+      "prompt": "How many 60 cm NAIP pixels fit in one 30 × 30 m Landsat pixel?",
+      "answers": [
+        "2500",
+        "2,500"
+      ],
+      "explain": "(30 / 0.6)² = 50² = 2,500.",
+      "numeric": true
+    },
+    {
+      "id": "resolution-square",
+      "type": "choice",
+      "prompt": "If you halve the pixel size of a raster, the number of pixels covering the same area:",
+      "choices": [
+        "Quadruples",
+        "Doubles",
+        "Halves",
+        "Stays the same"
+      ],
+      "answer": 0,
+      "explain": "Pixel count rises with the square of the resolution: half the size in each direction makes 2 × 2 = 4 times as many."
+    },
+    {
+      "id": "match-resolution",
+      "type": "choice",
+      "prompt": "You need to map individual sidewalks on campus. Which data set fits best?",
+      "choices": [
+        "NAIP",
+        "NLCD",
+        "MODIS",
+        "Landsat 9"
+      ],
+      "answer": 0,
+      "explain": "Sidewalks are a few meters wide, so they need sub-meter imagery such as NAIP. 30 m pixels can't show them."
+    },
+    {
+      "id": "nlcd-source",
+      "type": "choice",
+      "prompt": "NLCD land cover is classified from:",
+      "choices": [
+        "Landsat images",
+        "NAIP photographs",
+        "MODIS images",
+        "Lidar point clouds"
+      ],
+      "answer": 0,
+      "explain": "NLCD's 30 m cells match Landsat's, from which it is classified."
+    },
+    {
+      "id": "nlcd-developed",
+      "type": "choice",
+      "prompt": "NLCD's four developed classes are defined by:",
+      "choices": [
+        "The percentage of impervious surface in each cell",
+        "Zoning",
+        "Population density",
+        "The age of the buildings"
+      ],
+      "answer": 0,
+      "explain": "Open space has under 20 percent impervious surface; low 20–49; medium 50–79; high 80–100."
+    },
+    {
+      "id": "nlcd-openspace",
+      "type": "choice",
+      "prompt": "Most of NLCD's 'Developed, Open Space' class is:",
+      "choices": [
+        "Lawns, golf courses, and grassy road margins",
+        "Public parks only",
+        "Vacant lots zoned for development",
+        "Forest inside city limits"
+      ],
+      "answer": 0,
+      "explain": "Open space has under 20 percent impervious surface. It is not the same as parkland."
+    },
+    {
+      "id": "nlcd-code",
+      "type": "choice",
+      "prompt": "In NLCD's two-digit codes, what does a first digit of 4 mean?",
+      "choices": [
+        "Forest",
+        "Water",
+        "Developed",
+        "Wetlands"
+      ],
+      "answer": 0,
+      "explain": "1 is water, 2 developed, 4 forest, 8 agriculture, and 9 wetlands. 41 is deciduous forest."
+    },
+    {
+      "id": "nlcd-mix",
+      "type": "truefalse",
+      "prompt": "For a change study, it is fine to compare a classic NLCD edition with an Annual NLCD map.",
+      "answer": false,
+      "explain": "Mixing products mixes methods, so the 'change' may be a change in method. Use the Annual NLCD for every year."
+    },
+    {
+      "id": "nlcd-confused",
+      "type": "choice",
+      "prompt": "Which NLCD classes are most often confused with each other?",
+      "choices": [
+        "Grassland and pasture, and the kinds of wetland",
+        "Open water and high-intensity developed",
+        "Evergreen forest and open water",
+        "Barren land and woody wetlands"
+      ],
+      "answer": 0,
+      "explain": "Classes that look alike from space are confused most. Water and developed land are mapped reliably."
+    },
+    {
+      "id": "nlcd-projection",
+      "type": "choice",
+      "prompt": "Why should you keep NLCD in its Albers Equal Area projection when measuring land cover area?",
+      "choices": [
+        "Every cell then has the same area",
+        "It makes the cells square",
+        "It is the only projection QGIS can read",
+        "Albers preserves shapes exactly"
+      ],
+      "answer": 0,
+      "explain": "In an equal-area projection, cell counts convert directly to area. In geographic coordinates, cell areas vary with latitude."
+    },
+    {
+      "id": "landsat-free",
+      "type": "choice",
+      "prompt": "What happened to the Landsat archive in 2008?",
+      "choices": [
+        "It was opened for free download",
+        "It was sold to a private company",
+        "It was moved to the European Space Agency",
+        "Landsat 8 was launched"
+      ],
+      "answer": 0,
+      "explain": "Free access sent downloads from thousands of scenes a year to millions."
+    },
+    {
+      "id": "landsat-res",
+      "type": "choice",
+      "prompt": "What is the resolution of Landsat 8 and 9's multispectral bands?",
+      "choices": [
+        "30 m",
+        "60 cm",
+        "250 m",
+        "1 km"
+      ],
+      "answer": 0,
+      "explain": "30 m multispectral, 15 m panchromatic, and 100 m thermal."
+    },
+    {
+      "id": "landsat-revisit",
+      "type": "fill",
+      "prompt": "Together, Landsat 8 and 9 image the same place every how many days?",
+      "answers": [
+        "8"
+      ],
+      "explain": "Each satellite revisits every 16 days; offset from each other, they give one image every 8 days.",
+      "numeric": true
+    },
+    {
+      "id": "false-color",
+      "type": "choice",
+      "prompt": "In a false color infrared image, which band is shown in the red channel?",
+      "choices": [
+        "Near-infrared",
+        "Red",
+        "Green",
+        "Thermal"
+      ],
+      "answer": 0,
+      "explain": "Near-infrared goes into red, so healthy vegetation, which reflects NIR strongly, looks bright red."
+    },
+    {
+      "id": "ndvi-calc",
+      "type": "fill",
+      "prompt": "A cell reflects 0.05 of red light and 0.45 of near-infrared light. What is its NDVI?",
+      "answers": [
+        "0.8",
+        ".8",
+        "0.80"
+      ],
+      "explain": "(0.45 − 0.05) / (0.45 + 0.05) = 0.40 / 0.50 = 0.8: dense, healthy vegetation.",
+      "numeric": true,
+      "tolerance": 0.01
+    },
+    {
+      "id": "ndvi-water",
+      "type": "choice",
+      "prompt": "Which surface usually has a negative NDVI?",
+      "choices": [
+        "Water",
+        "Healthy forest",
+        "Pasture",
+        "Bare soil"
+      ],
+      "answer": 0,
+      "explain": "Water reflects less near-infrared than red, so NIR − Red is negative."
+    },
+    {
+      "id": "modis-tradeoff",
+      "type": "choice",
+      "prompt": "What does MODIS trade for its daily images of the whole Earth?",
+      "choices": [
+        "Spatial detail: its pixels are 250 m to 1 km",
+        "Spectral detail: it has only one band",
+        "Coverage: it images only the United States",
+        "Cost: its data must be bought"
+      ],
+      "answer": 0,
+      "explain": "Coarse pixels, frequent images: ideal for phenology, drought, fire, and snow over large areas."
+    },
+    {
+      "id": "appeears",
+      "type": "choice",
+      "prompt": "Which NASA tool clips MODIS, VIIRS, or Landsat products to your own area and dates?",
+      "choices": [
+        "AppEEARS",
+        "Worldview",
+        "LidarExplorer",
+        "ATTAINS"
+      ],
+      "answer": 0,
+      "explain": "AppEEARS returns just your area and dates as GeoTIFFs or a CSV."
+    },
+    {
+      "id": "hls",
+      "type": "choice",
+      "prompt": "Harmonized Landsat and Sentinel-2 (HLS) gives:",
+      "choices": [
+        "30 m surface reflectance every 2 to 3 days",
+        "60 cm imagery every 3 years",
+        "1 km images twice a day",
+        "10 m elevation"
+      ],
+      "answer": 0,
+      "explain": "Combining Landsat 8 and 9 with Europe's Sentinel-2 satellites fills in the gaps between Landsat passes."
+    },
+    {
+      "id": "3dep-ql2",
+      "type": "choice",
+      "prompt": "3DEP's Quality Level 2 lidar has a vertical accuracy of about:",
+      "choices": [
+        "10 cm",
+        "1 m",
+        "10 m",
+        "1 mm"
+      ],
+      "answer": 0,
+      "explain": "QL2 is about 2 points per square meter with 10 cm vertical accuracy."
+    },
+    {
+      "id": "3dep-static",
+      "type": "truefalse",
+      "prompt": "The seamless 3DEP DEMs are never updated after release, so the download date doesn't matter.",
+      "answer": false,
+      "explain": "They are updated as each new lidar project is added, so always record the date."
+    },
+    {
+      "id": "nhd-network",
+      "type": "choice",
+      "prompt": "What lets a GIS trace water downstream through the NHD?",
+      "choices": [
+        "Flowlines carry a flow direction and reach code",
+        "Streams are stored as rasters",
+        "Each lake has a HUC",
+        "The lines are drawn at 1:24,000"
+      ],
+      "answer": 0,
+      "explain": "NHD flowlines form a network with flow direction."
+    },
+    {
+      "id": "huc8-digits",
+      "type": "fill",
+      "prompt": "How many digits are in the code of a HUC subbasin, the level whose code for the Haw River is 03030002?",
+      "answers": [
+        "8"
+      ],
+      "explain": "A HUC-8 subbasin has 8 digits; each level adds two.",
+      "numeric": true
+    },
+    {
+      "id": "huc-order",
+      "type": "order",
+      "prompt": "Put the hydrologic units in order, from largest to smallest.",
+      "answer": [
+        "Region (HUC-2)",
+        "Subregion (HUC-4)",
+        "Basin (HUC-6)",
+        "Subbasin (HUC-8)",
+        "Watershed (HUC-10)",
+        "Subwatershed (HUC-12)"
+      ],
+      "extra": [
+        "Block group"
+      ],
+      "explain": "Each level adds two digits and nests inside the one above."
+    },
+    {
+      "id": "wbd-ridges",
+      "type": "choice",
+      "prompt": "In a map of WBD boundaries over a hillshade, HUC-12 boundaries follow:",
+      "choices": [
+        "Ridges, the drainage divides",
+        "Stream channels",
+        "County lines",
+        "Roads"
+      ],
+      "answer": 0,
+      "explain": "A watershed is the land draining to one outlet, so its edge runs along the divides."
+    },
+    {
+      "id": "sfha",
+      "type": "choice",
+      "prompt": "FEMA's Special Flood Hazard Area is the land flooded by:",
+      "choices": [
+        "The 1 percent annual chance flood",
+        "The 0.2 percent annual chance flood",
+        "Any flood in the last 100 years",
+        "The largest flood on record"
+      ],
+      "answer": 0,
+      "explain": "The 1 percent annual chance, or '100-year,' flood. Zones begin with A or V."
+    },
+    {
+      "id": "zone-ae",
+      "type": "choice",
+      "prompt": "What does Zone AE have that Zone A does not?",
+      "choices": [
+        "A base flood elevation",
+        "Coastal wave action",
+        "Minimal flood hazard",
+        "A 0.2 percent annual chance"
+      ],
+      "answer": 0,
+      "explain": "Zone A has no detailed study and no base flood elevation; AE has one; VE adds waves."
+    },
+    {
+      "id": "shaded-x",
+      "type": "choice",
+      "prompt": "Shaded Zone X on a FIRM marks:",
+      "choices": [
+        "The 0.2 percent annual chance flood",
+        "The regulatory floodway",
+        "The 1 percent annual chance flood",
+        "Areas with no flood risk at all"
+      ],
+      "answer": 0,
+      "explain": "Shaded X is the '500-year' floodplain. Unshaded X is minimal hazard, which is not no hazard."
+    },
+    {
+      "id": "floodway",
+      "type": "choice",
+      "prompt": "The regulatory floodway is:",
+      "choices": [
+        "The channel and nearby floodplain that must stay open to carry flood flows",
+        "Any land in Zone X",
+        "The area protected by levees",
+        "Land above the base flood elevation"
+      ],
+      "answer": 0,
+      "explain": "Building in the floodway must not raise flood heights."
+    },
+    {
+      "id": "flood-30",
+      "type": "fill",
+      "prompt": "To the nearest whole percent, what is the chance of at least one 1 percent annual chance flood in 30 years?",
+      "answers": [
+        "26",
+        "26%"
+      ],
+      "explain": "1 − 0.99³⁰ ≈ 0.26, about 1 in 4."
+    },
+    {
+      "id": "hundred-year",
+      "type": "truefalse",
+      "prompt": "After a 100-year flood, the next one can't come for about a century.",
+      "answer": false,
+      "explain": "It has a 1 percent chance every year, independent of past years. Two can happen in back-to-back years."
+    },
+    {
+      "id": "nri-parts",
+      "type": "choice",
+      "prompt": "Which three parts does the National Risk Index combine?",
+      "choices": [
+        "Expected annual loss, social vulnerability, and community resilience",
+        "Elevation, slope, and land cover",
+        "Population, income, and race",
+        "Rainfall, temperature, and wind"
+      ],
+      "answer": 0,
+      "explain": "Risk rises with expected loss and social vulnerability, and falls with resilience."
+    },
+    {
+      "id": "nri-join",
+      "type": "choice",
+      "prompt": "How do you attach National Risk Index scores to census tract boundaries?",
+      "choices": [
+        "Join on the tract GEOID",
+        "Spatial join by nearest neighbor",
+        "Georeference the NRI table",
+        "Join on the HUC-12 code"
+      ],
+      "answer": 0,
+      "explain": "NRI tables carry the GEOID, so they join directly to census data and boundaries."
+    },
+    {
+      "id": "nri-site",
+      "type": "truefalse",
+      "prompt": "The National Risk Index is designed to assess the flood risk of a single building.",
+      "answer": false,
+      "explain": "It is a screening tool for comparing places, not a site-level risk assessment."
+    },
+    {
+      "id": "303d",
+      "type": "choice",
+      "prompt": "A state's 303(d) list is a list of:",
+      "choices": [
+        "Impaired waters that need pollution cut",
+        "Flood zones",
+        "Landsat scenes",
+        "Federal data portals"
+      ],
+      "answer": 0,
+      "explain": "Section 303(d) of the Clean Water Act requires states to list impaired waters."
+    },
+    {
+      "id": "hmw",
+      "type": "choice",
+      "prompt": "Which EPA tool gives plain-language water quality information for any address?",
+      "choices": [
+        "How's My Waterway",
+        "ATTAINS",
+        "WATERS",
+        "AppEEARS"
+      ],
+      "answer": 0,
+      "explain": "How's My Waterway is built on ATTAINS and WATERS, which link state assessments to NHDPlus."
+    },
+    {
+      "id": "not-assessed",
+      "type": "truefalse",
+      "prompt": "A stream that has not been assessed can be assumed to be clean.",
+      "answer": false,
+      "explain": "Not assessed is not clean. Most stream miles have never been assessed."
+    },
+    {
+      "id": "pick-flood-week",
+      "type": "choice",
+      "prompt": "You need to track floodwater across eastern North Carolina every few days after a hurricane. Which fits best?",
+      "choices": [
+        "HLS or MODIS",
+        "NAIP",
+        "3DEP 1 m DEM",
+        "NLCD"
+      ],
+      "answer": 0,
+      "explain": "Fast-changing events need frequent images; accept coarser pixels."
+    },
+    {
+      "id": "pick-forest-loss",
+      "type": "choice",
+      "prompt": "You need to measure forest lost to development in a county from 2000 to 2020. Which fits best?",
+      "choices": [
+        "The Annual NLCD",
+        "FEMA's NFHL",
+        "MODIS active fire",
+        "The Water Quality Portal"
+      ],
+      "answer": 0,
+      "explain": "The Annual NLCD maps every year with one method, so you can measure change consistently."
+    },
+    {
+      "id": "crs-overlay",
+      "type": "choice",
+      "prompt": "3DEP's seamless DEM is in NAD83 geographic coordinates and NLCD in Albers Equal Area. Before overlaying them you should:",
+      "choices": [
+        "Project them to a common coordinate system",
+        "Convert both to vector",
+        "Resample NLCD to 1 m",
+        "Nothing; the GIS ignores coordinate systems"
+      ],
+      "answer": 0,
+      "explain": "Project to a common CRS before overlay, ideally an equal-area one when measuring area."
+    },
+    {
+      "id": "good-practice",
+      "type": "choice",
+      "prompt": "Which habit protects your project if a federal portal is redesigned or a data set is withdrawn?",
+      "choices": [
+        "Keep a local copy and record the version and access date",
+        "Use only web services",
+        "Link to the portal's home page",
+        "Download again each time you need it"
+      ],
+      "answer": 0,
+      "explain": "Federal sites and products change. Save what you used and write down where it came from."
+    }
+  ]
+}
