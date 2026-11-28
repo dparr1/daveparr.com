@@ -1,0 +1,11 @@
+{
+  "id": "unit-5",
+  "title": "Unit 5 quiz: Surfaces and Spatial Modeling",
+  "perSession": 20,
+  "chapters": [
+    "interpolation",
+    "kriging",
+    "suitability-modeling",
+    "risk-analysis"
+  ]
+}

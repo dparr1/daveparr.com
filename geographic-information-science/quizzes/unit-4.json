@@ -1,0 +1,11 @@
+{
+  "id": "unit-4",
+  "title": "Unit 4 quiz: Spatial Analysis",
+  "perSession": 20,
+  "chapters": [
+    "spatial-analysis",
+    "geocoding-georeferencing",
+    "density",
+    "raster"
+  ]
+}

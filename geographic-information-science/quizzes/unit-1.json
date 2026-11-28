@@ -6,9 +6,6 @@
     "what-is-gis",
     "what-is-geographic-data",
     "location-and-coordinates",
-    "map-projections",
-    "attribute-queries",
-    "database-joins",
-    "spatial-joins"
+    "map-projections"
   ]
 }

@@ -1,17 +1,12 @@
 {
   "id": "unit-3",
-  "title": "Unit 3 quiz: Spatial Analysis",
+  "title": "Unit 3 quiz: Spatial Data Sources and Quality",
   "perSession": 20,
   "chapters": [
-    "data-classing",
-    "density",
-    "spatial-analysis",
-    "raster",
-    "digital-elevation-models",
-    "interpolation",
-    "kriging",
-    "suitability-modeling",
-    "risk-analysis",
-    "uncertainty"
+    "census-data",
+    "federal-data",
+    "osm-data-quality",
+    "uncertainty",
+    "digital-elevation-models"
   ]
 }

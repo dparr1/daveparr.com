@@ -1,11 +1,11 @@
 {
   "id": "unit-2",
-  "title": "Unit 2 quiz: Spatial Data Quality",
+  "title": "Unit 2 quiz: Attributes, Joins, and Classification",
   "perSession": 20,
   "chapters": [
-    "census-data",
-    "federal-data",
-    "geocoding-georeferencing",
-    "osm-data-quality"
+    "attribute-queries",
+    "database-joins",
+    "spatial-joins",
+    "data-classing"
   ]
 }

@@ -596,7 +596,7 @@
     {
       "id": "ch15",
       "type": "choice",
-      "prompt": "On the made-up surface from Chapter 17, kriging with trend removal had an RMSE of 5.2. Which was lower?",
+      "prompt": "On the made-up surface from Chapter 18, kriging with trend removal had an RMSE of 5.2. Which was lower?",
       "choices": [
         "The radial basis function, 4.2",
         "IDW, 8.2",

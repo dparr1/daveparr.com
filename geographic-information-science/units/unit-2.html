@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Unit 2: Spatial Data Quality – Geographic Information Science</title>
+<title>Unit 2: Attributes, Joins, and Classification – Geographic Information Science</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -36,8 +36,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../chapters/census-data.html" rel="next">
-<link href="../chapters/spatial-joins.html" rel="prev">
+<link href="../chapters/attribute-queries.html" rel="next">
+<link href="../chapters/map-projections.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
@@ -121,7 +121,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../units/unit-2.html">Unit 2: Spatial Data Quality</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../units/unit-2.html">Unit 2: Attributes, Joins, and Classification</a></li></ol></nav>
         <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -188,6 +188,17 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Map Projections</span></span></a>
   </div>
 </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../units/unit-2.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text" id="quarto-sidebar-section-2-label">Unit 2: Attributes, Joins, and Classification</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section: Unit 2: Attributes, Joins, and Classification">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/attribute-queries.html" class="sidebar-item-text sidebar-link">
@@ -206,33 +217,33 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Spatial Joins</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/data-classing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Data Classing and Choropleth Maps</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../units/unit-2.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text" id="quarto-sidebar-section-2-label">Unit 2: Spatial Data Quality</span></a>
-            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section: Unit 2: Spatial Data Quality">
+            <a href="../units/unit-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Unit 3: Spatial Data Sources and Quality</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section: Unit 3: Spatial Data Sources and Quality">
               <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
             </button> 
       </div>
-      <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/census-data.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Census Data</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Census Data</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/federal-data.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Federal Spatial Data Sets</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/geocoding-georeferencing.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Geocoding and Georeferencing</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Federal Spatial Data Sets</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -241,29 +252,29 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">OpenStreetMap and Data Quality</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/uncertainty.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Uncertainty in Geospatial Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/digital-elevation-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Digital Elevation Models</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../units/unit-3.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text" id="quarto-sidebar-section-3-label">Unit 3: Spatial Analysis</span></a>
-            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section: Unit 3: Spatial Analysis">
+            <a href="../units/unit-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-4-label">Unit 4: Spatial Analysis</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section: Unit 4: Spatial Analysis">
               <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
             </button> 
       </div>
-      <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/data-classing.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Data Classing and Choropleth Maps</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/density.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Density and Neighborhoods</span></span></a>
-  </div>
-</li>
+      <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/spatial-analysis.html" class="sidebar-item-text sidebar-link">
@@ -272,54 +283,65 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../chapters/geocoding-georeferencing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Geocoding and Georeferencing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/density.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Density and Neighborhoods</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../chapters/raster.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Raster Analysis</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/digital-elevation-models.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Digital Elevation Models</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/interpolation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Spatial Interpolation</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/kriging.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Kriging</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/suitability-modeling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Suitability Modeling</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/risk-analysis.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Risk Analysis</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/uncertainty.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Uncertainty in Geospatial Data</span></span></a>
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Raster Analysis</span></span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-4-label">GIS Software</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+            <a href="../units/unit-5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-5-label">Unit 5: Surfaces and Spatial Modeling</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-controls="quarto-sidebar-section-5" aria-expanded="true" aria-label="Toggle section: Unit 5: Surfaces and Spatial Modeling">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
       </div>
-      <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-5" aria-labelledby="quarto-sidebar-section-5-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/interpolation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Spatial Interpolation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/kriging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Kriging</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/suitability-modeling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Suitability Modeling</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/risk-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Risk Analysis</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-controls="quarto-sidebar-section-6" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-6-label">GIS Software</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-6" aria-labelledby="quarto-sidebar-section-6-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/qgis.html" class="sidebar-item-text sidebar-link">
@@ -336,10 +358,10 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-controls="quarto-sidebar-section-5" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-5-label">Looking Ahead</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-controls="quarto-sidebar-section-7" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-7-label">Looking Ahead</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
-      <ul id="quarto-sidebar-section-5" aria-labelledby="quarto-sidebar-section-5-label" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-7" aria-labelledby="quarto-sidebar-section-7-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/whats-next.html" class="sidebar-item-text sidebar-link">
@@ -350,10 +372,10 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-controls="quarto-sidebar-section-6" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-6-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" aria-controls="quarto-sidebar-section-8" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-8-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
-      <ul id="quarto-sidebar-section-6" aria-labelledby="quarto-sidebar-section-6-label" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-8" aria-labelledby="quarto-sidebar-section-8-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../glossary.html" class="sidebar-item-text sidebar-link">
@@ -384,10 +406,10 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#chapter-8-census-data" id="toc-chapter-8-census-data" class="nav-link active" data-scroll-target="#chapter-8-census-data">Chapter 8: Census Data</a></li>
-  <li><a href="#chapter-9-federal-spatial-data-sets" id="toc-chapter-9-federal-spatial-data-sets" class="nav-link" data-scroll-target="#chapter-9-federal-spatial-data-sets">Chapter 9: Federal Spatial Data Sets</a></li>
-  <li><a href="#chapter-10-geocoding-and-georeferencing" id="toc-chapter-10-geocoding-and-georeferencing" class="nav-link" data-scroll-target="#chapter-10-geocoding-and-georeferencing">Chapter 10: Geocoding and Georeferencing</a></li>
-  <li><a href="#chapter-11-openstreetmap-and-data-quality" id="toc-chapter-11-openstreetmap-and-data-quality" class="nav-link" data-scroll-target="#chapter-11-openstreetmap-and-data-quality">Chapter 11: OpenStreetMap and Data Quality</a></li>
+  <li><a href="#chapter-5-attribute-data-and-queries" id="toc-chapter-5-attribute-data-and-queries" class="nav-link active" data-scroll-target="#chapter-5-attribute-data-and-queries">Chapter 5: Attribute Data and Queries</a></li>
+  <li><a href="#chapter-6-databases-and-table-joins" id="toc-chapter-6-databases-and-table-joins" class="nav-link" data-scroll-target="#chapter-6-databases-and-table-joins">Chapter 6: Databases and Table Joins</a></li>
+  <li><a href="#chapter-7-spatial-joins" id="toc-chapter-7-spatial-joins" class="nav-link" data-scroll-target="#chapter-7-spatial-joins">Chapter 7: Spatial Joins</a></li>
+  <li><a href="#chapter-8-data-classing-and-choropleth-maps" id="toc-chapter-8-data-classing-and-choropleth-maps" class="nav-link" data-scroll-target="#chapter-8-data-classing-and-choropleth-maps">Chapter 8: Data Classing and Choropleth Maps</a></li>
   </ul>
 </nav>
     </div>
@@ -396,7 +418,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Unit 2: Spatial Data Quality</h1>
+<h1 class="title">Unit 2: Attributes, Joins, and Classification</h1>
 </div>
 
 
@@ -413,27 +435,28 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Every dataset has a source, a method, and limits. This unit is about where <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-data" data-term="spatial data">spatial data</span> come from and how good they are. It starts with the largest source of free data about people and places in the United States, the census, and how to read its estimates honestly, then tours the other federal agencies whose free imagery, land cover, elevation, water, and hazard data underlie most <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> work in the country. It then turns to two ways of making new GIS <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layers</span> from things that aren’t yet spatial data, addresses and scanned maps, and how to measure the error each one adds. It ends with data made by volunteers, in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-openstreetmap" data-term="OpenStreetMap">OpenStreetMap</span>, and the ways the crowd checks its own work. By the end of the unit you can find, join, create, and judge spatial data in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span>.</p>
-<section id="chapter-8-census-data" class="level2">
-<h2 class="anchored" data-anchor-id="chapter-8-census-data">Chapter 8: <a href="../chapters/census-data.html">Census Data</a></h2>
-<p>The U.S. Census Bureau decides how many members of Congress each state gets and where trillions of federal dollars go. This chapter separates authoritative from <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-asserted-data" data-term="asserted data">asserted data</span> and describes the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-decennial-census" data-term="decennial census">decennial census</span>, the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-american-community-survey-acs" data-term="American Community Survey (ACS)">American Community Survey</span>, and the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-economic-census" data-term="Economic Census">Economic Census</span>. It explains the hierarchy of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-census-geography" data-term="census geography">census geography</span>, from states to blocks, and the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geoid" data-term="GEOID">GEOIDs</span> that identify each area. It shows how to choose between decennial, ACS 1-year, and ACS 5-year data, how to read a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-margin-of-error-moe" data-term="margin of error (MOE)">margin of error</span>, and how to join a census table to its boundaries in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span>.</p>
+<p>Geometry says where; <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-attribute" data-term="attribute">attributes</span> say what. This unit is about the tables behind every <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layer</span> and what you can do with them. It starts with attribute tables and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-sql" data-term="SQL">SQL</span> queries, then links tables to each other with keys and table joins, and links layers that share no key by their location, with <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-join" data-term="spatial join">spatial joins</span>. It ends by turning a column of numbers into a map, choosing the classes for a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-choropleth-map" data-term="choropleth map">choropleth map</span>. By the end of the unit you can query, join, and map attribute data in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span>.</p>
+<section id="chapter-5-attribute-data-and-queries" class="level2">
+<h2 class="anchored" data-anchor-id="chapter-5-attribute-data-and-queries">Chapter 5: <a href="../chapters/attribute-queries.html">Attribute Data and Queries</a></h2>
+<p>Geometry says where; <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-attribute" data-term="attribute">attributes</span> say what. This chapter looks at the attribute table, its records and fields, the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-data-type" data-term="data type">data types</span> that store them and the binary limits behind them, and the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-level-of-measurement" data-term="level of measurement">levels of measurement</span> that decide which questions make sense. It then teaches attribute queries in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-sql" data-term="SQL">SQL</span>, from simple comparisons to AND, OR, NOT, brackets, LIKE, BETWEEN, and IN, with a way to check any query using sets and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-venn-diagram" data-term="Venn diagram">Venn diagrams</span>, and the trap of NULL values.</p>
 </section>
-<section id="chapter-9-federal-spatial-data-sets" class="level2">
-<h2 class="anchored" data-anchor-id="chapter-9-federal-spatial-data-sets">Chapter 9: <a href="../chapters/federal-data.html">Federal Spatial Data Sets</a></h2>
-<p>Beyond the census, U.S. federal agencies publish free, nationally consistent data for almost every <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> project. This chapter tours the ones used most: <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-national-agriculture-imagery-program-naip" data-term="National Agriculture Imagery Program (NAIP)">NAIP</span> aerial photography, the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-national-land-cover-database-nlcd" data-term="National Land Cover Database (NLCD)">National Land Cover Database</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-landsat" data-term="Landsat">Landsat</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-modis" data-term="MODIS">MODIS</span>, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-earthdata" data-term="Earthdata">NASA Earthdata</span>, the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-3d-elevation-program-3dep" data-term="3D Elevation Program (3DEP)">3D Elevation Program</span>, the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-national-hydrography-dataset-nhd" data-term="National Hydrography Dataset (NHD)">National Hydrography Dataset</span> and its nested watersheds, FEMA’s flood maps and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-national-risk-index" data-term="National Risk Index">National Risk Index</span>, and EPA’s water quality tools. For each it covers who makes it, what it measures, its resolution and update cycle, and where to download it, and it ends with how to choose between them and how to read, record, and cite federal data.</p>
+<section id="chapter-6-databases-and-table-joins" class="level2">
+<h2 class="anchored" data-anchor-id="chapter-6-databases-and-table-joins">Chapter 6: <a href="../chapters/database-joins.html">Databases and Table Joins</a></h2>
+<p>Most <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-information-system-gis" data-term="geographic information system (GIS)">GIS</span> data live in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-database" data-term="database">databases</span>. This chapter explains what a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-database-management-system-dbms" data-term="database management system (DBMS)">database management system</span> does, how <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-relational-database" data-term="relational database">relational databases</span> link tables with primary and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-foreign-key" data-term="foreign key">foreign keys</span>, and how codes such as <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-fips-code" data-term="FIPS code">FIPS codes</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geoid" data-term="GEOID">GEOIDs</span> serve as keys. It then teaches table joins: the destination and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-source-table" data-term="source table">source tables</span>, inner, left, right, and full joins, and how <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cardinality" data-term="cardinality">cardinality</span> decides what a join can do, with ways to handle <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-one-to-many" data-term="one-to-many">one-to-many</span> relationships. It ends with a census join in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span>, and the problems that most often break a join.</p>
 </section>
-<section id="chapter-10-geocoding-and-georeferencing" class="level2">
-<h2 class="anchored" data-anchor-id="chapter-10-geocoding-and-georeferencing">Chapter 10: <a href="../chapters/geocoding-georeferencing.html">Geocoding and Georeferencing</a></h2>
-<p>Many records describe a location without <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-coordinate-system" data-term="coordinate system">coordinates</span>: a street address, or a place on an old paper map. This chapter covers both ways of giving them coordinates. <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geocoding" data-term="geocoding">Geocoding</span> matches addresses against reference files, from ZIP Code <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-centroid" data-term="centroid">centroids</span> to <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-parcel" data-term="parcel">parcels</span>, and interpolates positions along streets; <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-match-score" data-term="match score">match scores</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-match-rate" data-term="match rate">match rates</span> tell you how well it worked. <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-georeferencing" data-term="georeferencing">Georeferencing</span> ties a scanned map to the ground with <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-control-point" data-term="control point">control points</span> and a transformation, and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-residual" data-term="residual">residuals</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-root-mean-square-error-rmse" data-term="root mean square error (RMSE)">RMSE</span> measure its error. Both are shown step by step in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span>.</p>
+<section id="chapter-7-spatial-joins" class="level2">
+<h2 class="anchored" data-anchor-id="chapter-7-spatial-joins">Chapter 7: <a href="../chapters/spatial-joins.html">Spatial Joins</a></h2>
+<p>When two <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-layer" data-term="layer">layers</span> share no key, location can link them. This chapter explains <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-predicate" data-term="spatial predicate">spatial predicates</span> such as intersects, within, and contains, and the four kinds of <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-join" data-term="spatial join">spatial join</span>, from simple <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-inside-join" data-term="inside join">inside joins</span> to summarized <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-distance-join" data-term="distance join">distance joins</span>. Worked examples match North Carolina towns to their nearest airports and septic systems to the geology beneath them. It covers <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cardinality" data-term="cardinality">cardinality</span>, why distances need a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-projected-coordinate-system" data-term="projected coordinate system">projected coordinate system</span>, six questions to plan any spatial join, and the tools that do the work in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span>.</p>
 </section>
-<section id="chapter-11-openstreetmap-and-data-quality" class="level2">
-<h2 class="anchored" data-anchor-id="chapter-11-openstreetmap-and-data-quality">Chapter 11: <a href="../chapters/osm-data-quality.html">OpenStreetMap and Data Quality</a></h2>
-<p>What makes <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-data" data-term="spatial data">geographic data</span> good enough to use? This chapter defines <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-data-quality" data-term="spatial data quality">spatial data quality</span> by its seven elements, from lineage to completeness, then looks at <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-volunteered-geographic-information" data-term="volunteered geographic information">volunteered geographic information</span>, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-big-data" data-term="Big Data">Big Data</span>, and the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-fair-principles" data-term="FAIR principles">FAIR principles</span>. It explains how <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-openstreetmap" data-term="OpenStreetMap">OpenStreetMap</span> works, from its license to its nodes, ways, and tags, and how its quality is measured against <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-authoritative-data" data-term="authoritative data">authoritative data</span> and from its own history. It ends with <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-crisis-mapping" data-term="crisis mapping">crisis mapping</span>, from Haiti in 2010 to the 2015 Nepal earthquake, where thousands of new volunteers mapped a country in weeks.</p>
+<section id="chapter-8-data-classing-and-choropleth-maps" class="level2">
+<h2 class="anchored" data-anchor-id="chapter-8-data-classing-and-choropleth-maps">Chapter 8: <a href="../chapters/data-classing.html">Data Classing and Choropleth Maps</a></h2>
+<p>The same data can tell different stories depending on how they are grouped into classes. This chapter explains why <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-choropleth-map" data-term="choropleth map">choropleth maps</span> should show rates and densities rather than counts, how to choose the number of classes, and how the main classification methods work: <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-equal-interval" data-term="equal interval">equal interval</span>, quantile, <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-natural-breaks" data-term="natural breaks">natural breaks</span> (Jenks), arithmetic and geometric intervals, and standard deviation. Using the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-population-density" data-term="population density">population density</span> of North Carolina’s 100 counties, it compares the methods with <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-histogram" data-term="histogram">histograms</span> and the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-goodness-of-variance-fit" data-term="goodness of variance fit">goodness of variance fit</span>.</p>
 
 
 <div class="glossary-defs" hidden="">
-<span id="gloss-spatial-data">Data tied to a location on or near Earth, such as the address of a
-house, the outline of a county, or the elevation at a point.</span>
+<span id="gloss-attribute">A non-spatial fact about a feature, such as a building’s name or the
+year it was built. Attributes are stored in a table with one row per
+feature.</span>
 <span id="gloss-geographic-information-system-gis">“A computer-based system to aid in the collection, maintenance, storage,
 analysis, output, and distribution of spatial data and information”
 (Bolstad). Its five components are data, hardware, software, people, and
@@ -441,76 +464,55 @@ procedures.</span>
 <span id="gloss-layer">A set of spatial data about one theme, such as roads, soils, or
 elevation. Layers for the same area stack on top of each other to make a
 map.</span>
-<span id="gloss-openstreetmap">A free, editable map of the world built by volunteers, founded in 2004.</span>
+<span id="gloss-sql">Structured Query Language, the standard language for asking databases
+questions. In a GIS you usually write only its WHERE clause.</span>
+<span id="gloss-spatial-join">A join that matches the features of two layers by location instead of by
+a shared key, then appends attributes from one to the other.</span>
+<span id="gloss-choropleth-map">A map that shades each area, such as a county, by its value, usually in
+a few classes from light to dark.</span>
 <span id="gloss-qgis">A free and open-source desktop GIS that runs on Windows, Mac, and Linux.</span>
 <span id="gloss-arcgis-pro">Esri’s commercial desktop GIS, for Windows.</span>
-<span id="gloss-asserted-data">Data contributed by the public, such as OpenStreetMap. Their accuracy is
-undocumented and uneven.</span>
-<span id="gloss-decennial-census">The full count of every U.S. resident, taken every ten years as the
-Constitution requires.</span>
-<span id="gloss-american-community-survey-acs">The Census Bureau’s yearly sample survey of about 3.5 million addresses,
-the main source of social, economic, and housing data.</span>
-<span id="gloss-economic-census">The Census Bureau’s survey of businesses, taken every five years in
-years ending in 2 and 7.</span>
-<span id="gloss-census-geography">The hierarchy of areas for which census data are published, from the
-nation down to the block.</span>
+<span id="gloss-data-type">How a field is stored, such as text, integer, double, or date. It limits
+what the field can hold.</span>
+<span id="gloss-level-of-measurement">What kind of values an attribute holds, which decides what questions
+make sense: nominal, ordinal, interval, or ratio.</span>
+<span id="gloss-venn-diagram">A drawing of sets as overlapping circles, useful for checking what an
+AND or OR query will select.</span>
+<span id="gloss-database">An organized collection of tables, usually stored and managed by a
+database management system.</span>
+<span id="gloss-database-management-system-dbms">Software that stores data once and lets many programs and people query
+and edit it, while it controls who may change what.</span>
+<span id="gloss-relational-database">A database that stores data in tables and links them through key fields
+that hold the same values.</span>
+<span id="gloss-foreign-key">A field that holds values of another table’s primary key. Its values can
+repeat.</span>
+<span id="gloss-fips-code">A numeric code the U.S. government assigns to each state, county, and
+other area, such as 37 for North Carolina and 37135 for Orange County.</span>
 <span id="gloss-geoid">The Census Bureau’s identifier for a geographic area, made by stringing
 FIPS codes together. A tract GEOID has 11 characters.</span>
-<span id="gloss-margin-of-error-moe">The likely range of sampling error around an estimate. Census Bureau
-margins of error use a 90 percent confidence level.</span>
-<span id="gloss-national-agriculture-imagery-program-naip">USDA aerial photography of the lower 48 states, flown leaf-on about
-every 3 years per state, with 60 cm to 1 m pixels in red, green, blue,
-and near-infrared bands.</span>
-<span id="gloss-national-land-cover-database-nlcd">The standard land cover map of the United States: 16 classes at 30 m,
-classified from Landsat by the USGS-led MRLC consortium, yearly from
-1985 in the Annual NLCD.</span>
-<span id="gloss-landsat">A series of U.S. Earth-observing satellites, run by NASA and the USGS,
-that have imaged the whole planet since 1972, mostly with 30-meter
-cells.</span>
-<span id="gloss-modis">A NASA sensor on the Terra and Aqua satellites that images the whole
-Earth every 1 to 2 days at 250 m to 1 km, with ready-made products such
-as NDVI and active fires.</span>
-<span id="gloss-earthdata">NASA’s system for distributing Earth science data. One free Earthdata
-Login gives access to every NASA archive.</span>
-<span id="gloss-3d-elevation-program-3dep">The USGS program that collects lidar and publishes free elevation data
-and DEMs for the whole United States.</span>
-<span id="gloss-national-hydrography-dataset-nhd">The USGS map of the nation’s streams, rivers, lakes, and coastlines,
-with flowlines that form a network. Final updates were in 2023.</span>
-<span id="gloss-national-risk-index">FEMA’s map of risk for every U.S. county and census tract, combining
-expected annual losses from 18 natural hazards with social vulnerability
-and community resilience.</span>
-<span id="gloss-coordinate-system">A system of numbers, such as latitude and longitude, that gives every
-location a unique position so layers line up with each other.</span>
-<span id="gloss-geocoding">Turning an address or place name into coordinates, so it can be put on a
-map.</span>
-<span id="gloss-centroid">The center point of a polygon.</span>
-<span id="gloss-parcel">A polygon for one piece of property, usually with its owner and address.</span>
-<span id="gloss-match-score">How closely an address agrees with a candidate in the reference file,
-often on a scale from 0 to 100.</span>
-<span id="gloss-match-rate">The share of addresses in a table that were successfully geocoded.</span>
-<span id="gloss-georeferencing">Transforming a raster, such as a scanned map or image, from file
-coordinates to map coordinates.</span>
-<span id="gloss-control-point">A point on the ground, often marked with a bronze disk, whose
-coordinates have been measured precisely. Control points tie a datum to
-the Earth.</span>
-<span id="gloss-residual">The difference between an observed value and the value a model predicts;
-in georeferencing, the distance between a GCP’s true and transformed
-positions.</span>
-<span id="gloss-root-mean-square-error-rmse">The square root of the average squared residual: one number that sums up
-how well a model fits.</span>
-<span id="gloss-spatial-data-quality">How well a geographic dataset fits its intended use, described by
-elements such as lineage, accuracy, consistency, and completeness.</span>
-<span id="gloss-volunteered-geographic-information">Geographic data created by individuals, most of them not trained in
-mapping, and shared on the internet (Goodchild 2007). OpenStreetMap is
-the best-known example.</span>
-<span id="gloss-big-data">Datasets too large, too fast, or too varied for traditional tools, often
-described by three Vs: volume, velocity, and variety.</span>
-<span id="gloss-fair-principles">Guidelines saying that good data should be Findable, Accessible,
-Interoperable, and Reusable (Wilkinson et al. 2016).</span>
-<span id="gloss-authoritative-data">Data from official agencies, collected under documented standards and
-published with metadata.</span>
-<span id="gloss-crisis-mapping">Mapping by volunteers to support the response to a disaster or other
-crisis.</span>
+<span id="gloss-source-table">In a join, the table whose fields are appended to the destination.</span>
+<span id="gloss-cardinality">How many records in one table match each record in another: one-to-one,
+many-to-one, one-to-many, or many-to-many.</span>
+<span id="gloss-one-to-many">One destination record matches many source records. Summarize the source
+first, or use a relate.</span>
+<span id="gloss-spatial-predicate">A rule that tests a spatial relationship between two geometries, such as
+intersects, contains, within, or touches.</span>
+<span id="gloss-inside-join">A spatial join that matches features that contain, lie within, or
+intersect each other, such as points inside polygons.</span>
+<span id="gloss-distance-join">A spatial join that matches each feature to the closest feature, or to
+every feature within a set distance, and can record the distance.</span>
+<span id="gloss-projected-coordinate-system">A coordinate system that gives positions as <em>x, y</em> in meters or
+feet, on a map projection built on a datum, such as UTM or State Plane.</span>
+<span id="gloss-equal-interval">A classification method that divides the range of the data into classes
+of equal width.</span>
+<span id="gloss-natural-breaks">A classification method (Jenks) that groups similar values by minimizing
+the variance within classes. The default in ArcGIS Pro.</span>
+<span id="gloss-population-density">The number of people per unit of area, such as people per square mile.</span>
+<span id="gloss-histogram">A bar chart of how many values fall in each range, used to see the shape
+of a distribution.</span>
+<span id="gloss-goodness-of-variance-fit">A measure from 0 to 1 of how well classes fit the data: 1 minus the
+squared deviations from the class means divided by those from the
+overall mean.</span>
 </div>
 </section>
 
@@ -1340,13 +1342,13 @@ window.onload = function() {
   </script>
 <nav class="page-navigation" aria-label="Page">
   <div class="nav-page nav-page-previous">
-      <a href="../chapters/spatial-joins.html" class="pagination-link" aria-label="Spatial Joins">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Spatial Joins</span></span>
+      <a href="../chapters/map-projections.html" class="pagination-link" aria-label="Map Projections">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Map Projections</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../chapters/census-data.html" class="pagination-link" aria-label="Census Data">
-        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Census Data</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../chapters/attribute-queries.html" class="pagination-link" aria-label="Attribute Data and Queries">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Attribute Data and Queries</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

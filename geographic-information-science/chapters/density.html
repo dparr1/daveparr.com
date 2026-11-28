@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>13&nbsp; Density and Neighborhoods – Geographic Information Science</title>
+<title>16&nbsp; Density and Neighborhoods – Geographic Information Science</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -36,8 +36,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../chapters/spatial-analysis.html" rel="next">
-<link href="../chapters/data-classing.html" rel="prev">
+<link href="../chapters/raster.html" rel="next">
+<link href="../chapters/geocoding-georeferencing.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
@@ -150,7 +150,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../units/unit-3.html">Unit 3: Spatial Analysis</a></li><li class="breadcrumb-item"><a href="../chapters/density.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Density and Neighborhoods</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../units/unit-4.html">Unit 4: Spatial Analysis</a></li><li class="breadcrumb-item"><a href="../chapters/density.html"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Density and Neighborhoods</span></a></li></ol></nav>
         <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -217,6 +217,17 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Map Projections</span></span></a>
   </div>
 </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../units/unit-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-2-label">Unit 2: Attributes, Joins, and Classification</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section: Unit 2: Attributes, Joins, and Classification">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/attribute-queries.html" class="sidebar-item-text sidebar-link">
@@ -235,33 +246,33 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Spatial Joins</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/data-classing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Data Classing and Choropleth Maps</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../units/unit-2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text" id="quarto-sidebar-section-2-label">Unit 2: Spatial Data Quality</span></a>
-            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section: Unit 2: Spatial Data Quality">
+            <a href="../units/unit-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Unit 3: Spatial Data Sources and Quality</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section: Unit 3: Spatial Data Sources and Quality">
               <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
             </button> 
       </div>
-      <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/census-data.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Census Data</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Census Data</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/federal-data.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Federal Spatial Data Sets</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/geocoding-georeferencing.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Geocoding and Georeferencing</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Federal Spatial Data Sets</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -270,29 +281,29 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">OpenStreetMap and Data Quality</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/uncertainty.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Uncertainty in Geospatial Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/digital-elevation-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Digital Elevation Models</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../units/unit-3.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text" id="quarto-sidebar-section-3-label">Unit 3: Spatial Analysis</span></a>
-            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section: Unit 3: Spatial Analysis">
+            <a href="../units/unit-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-4-label">Unit 4: Spatial Analysis</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section: Unit 4: Spatial Analysis">
               <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
             </button> 
       </div>
-      <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/data-classing.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Data Classing and Choropleth Maps</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/density.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Density and Neighborhoods</span></span></a>
-  </div>
-</li>
+      <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/spatial-analysis.html" class="sidebar-item-text sidebar-link">
@@ -301,54 +312,65 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../chapters/geocoding-georeferencing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Geocoding and Georeferencing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/density.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Density and Neighborhoods</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../chapters/raster.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Raster Analysis</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/digital-elevation-models.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Digital Elevation Models</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/interpolation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Spatial Interpolation</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/kriging.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Kriging</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/suitability-modeling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Suitability Modeling</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/risk-analysis.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Risk Analysis</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/uncertainty.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Uncertainty in Geospatial Data</span></span></a>
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Raster Analysis</span></span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-4-label">GIS Software</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+            <a href="../units/unit-5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-5-label">Unit 5: Surfaces and Spatial Modeling</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-controls="quarto-sidebar-section-5" aria-expanded="true" aria-label="Toggle section: Unit 5: Surfaces and Spatial Modeling">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
       </div>
-      <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-5" aria-labelledby="quarto-sidebar-section-5-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/interpolation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Spatial Interpolation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/kriging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Kriging</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/suitability-modeling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Suitability Modeling</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/risk-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Risk Analysis</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-controls="quarto-sidebar-section-6" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-6-label">GIS Software</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-6" aria-labelledby="quarto-sidebar-section-6-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/qgis.html" class="sidebar-item-text sidebar-link">
@@ -365,10 +387,10 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-controls="quarto-sidebar-section-5" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-5-label">Looking Ahead</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-controls="quarto-sidebar-section-7" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-7-label">Looking Ahead</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
-      <ul id="quarto-sidebar-section-5" aria-labelledby="quarto-sidebar-section-5-label" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-7" aria-labelledby="quarto-sidebar-section-7-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/whats-next.html" class="sidebar-item-text sidebar-link">
@@ -379,10 +401,10 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-controls="quarto-sidebar-section-6" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-6-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" aria-controls="quarto-sidebar-section-8" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-8-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
-      <ul id="quarto-sidebar-section-6" aria-labelledby="quarto-sidebar-section-6-label" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-8" aria-labelledby="quarto-sidebar-section-8-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../glossary.html" class="sidebar-item-text sidebar-link">
@@ -413,34 +435,34 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#sec-density-ratio" id="toc-sec-density-ratio" class="nav-link active" data-scroll-target="#sec-density-ratio"><span class="header-section-number">13.1</span> Density: things per area</a></li>
-  <li><a href="#sec-neighborhoods" id="toc-sec-neighborhoods" class="nav-link" data-scroll-target="#sec-neighborhoods"><span class="header-section-number">13.2</span> Neighborhoods</a>
+  <li><a href="#sec-density-ratio" id="toc-sec-density-ratio" class="nav-link active" data-scroll-target="#sec-density-ratio"><span class="header-section-number">16.1</span> Density: things per area</a></li>
+  <li><a href="#sec-neighborhoods" id="toc-sec-neighborhoods" class="nav-link" data-scroll-target="#sec-neighborhoods"><span class="header-section-number">16.2</span> Neighborhoods</a>
   <ul class="collapse">
-  <li><a href="#what-is-a-neighborhood" id="toc-what-is-a-neighborhood" class="nav-link" data-scroll-target="#what-is-a-neighborhood"><span class="header-section-number">13.2.1</span> What is a neighborhood?</a></li>
-  <li><a href="#toblers-first-law" id="toc-toblers-first-law" class="nav-link" data-scroll-target="#toblers-first-law"><span class="header-section-number">13.2.2</span> Tobler’s first law</a></li>
-  <li><a href="#by-distance" id="toc-by-distance" class="nav-link" data-scroll-target="#by-distance"><span class="header-section-number">13.2.3</span> By distance</a></li>
-  <li><a href="#by-contiguity" id="toc-by-contiguity" class="nav-link" data-scroll-target="#by-contiguity"><span class="header-section-number">13.2.4</span> By contiguity</a></li>
-  <li><a href="#by-number-of-neighbors" id="toc-by-number-of-neighbors" class="nav-link" data-scroll-target="#by-number-of-neighbors"><span class="header-section-number">13.2.5</span> By number of neighbors</a></li>
+  <li><a href="#what-is-a-neighborhood" id="toc-what-is-a-neighborhood" class="nav-link" data-scroll-target="#what-is-a-neighborhood"><span class="header-section-number">16.2.1</span> What is a neighborhood?</a></li>
+  <li><a href="#toblers-first-law" id="toc-toblers-first-law" class="nav-link" data-scroll-target="#toblers-first-law"><span class="header-section-number">16.2.2</span> Tobler’s first law</a></li>
+  <li><a href="#by-distance" id="toc-by-distance" class="nav-link" data-scroll-target="#by-distance"><span class="header-section-number">16.2.3</span> By distance</a></li>
+  <li><a href="#by-contiguity" id="toc-by-contiguity" class="nav-link" data-scroll-target="#by-contiguity"><span class="header-section-number">16.2.4</span> By contiguity</a></li>
+  <li><a href="#by-number-of-neighbors" id="toc-by-number-of-neighbors" class="nav-link" data-scroll-target="#by-number-of-neighbors"><span class="header-section-number">16.2.5</span> By number of neighbors</a></li>
   </ul></li>
-  <li><a href="#sec-kde" id="toc-sec-kde" class="nav-link" data-scroll-target="#sec-kde"><span class="header-section-number">13.3</span> Kernel density estimation</a>
+  <li><a href="#sec-kde" id="toc-sec-kde" class="nav-link" data-scroll-target="#sec-kde"><span class="header-section-number">16.3</span> Kernel density estimation</a>
   <ul class="collapse">
-  <li><a href="#from-points-to-a-surface" id="toc-from-points-to-a-surface" class="nav-link" data-scroll-target="#from-points-to-a-surface"><span class="header-section-number">13.3.1</span> From points to a surface</a></li>
-  <li><a href="#kernel-shape" id="toc-kernel-shape" class="nav-link" data-scroll-target="#kernel-shape"><span class="header-section-number">13.3.2</span> Kernel shape</a></li>
-  <li><a href="#bandwidth" id="toc-bandwidth" class="nav-link" data-scroll-target="#bandwidth"><span class="header-section-number">13.3.3</span> Bandwidth</a></li>
-  <li><a href="#cell-size-and-units" id="toc-cell-size-and-units" class="nav-link" data-scroll-target="#cell-size-and-units"><span class="header-section-number">13.3.4</span> Cell size and units</a></li>
+  <li><a href="#from-points-to-a-surface" id="toc-from-points-to-a-surface" class="nav-link" data-scroll-target="#from-points-to-a-surface"><span class="header-section-number">16.3.1</span> From points to a surface</a></li>
+  <li><a href="#kernel-shape" id="toc-kernel-shape" class="nav-link" data-scroll-target="#kernel-shape"><span class="header-section-number">16.3.2</span> Kernel shape</a></li>
+  <li><a href="#bandwidth" id="toc-bandwidth" class="nav-link" data-scroll-target="#bandwidth"><span class="header-section-number">16.3.3</span> Bandwidth</a></li>
+  <li><a href="#cell-size-and-units" id="toc-cell-size-and-units" class="nav-link" data-scroll-target="#cell-size-and-units"><span class="header-section-number">16.3.4</span> Cell size and units</a></li>
   </ul></li>
-  <li><a href="#sec-kde-gis" id="toc-sec-kde-gis" class="nav-link" data-scroll-target="#sec-kde-gis"><span class="header-section-number">13.4</span> Kernel density in a GIS</a>
+  <li><a href="#sec-kde-gis" id="toc-sec-kde-gis" class="nav-link" data-scroll-target="#sec-kde-gis"><span class="header-section-number">16.4</span> Kernel density in a GIS</a>
   <ul class="collapse">
-  <li><a href="#arcgis-pro" id="toc-arcgis-pro" class="nav-link" data-scroll-target="#arcgis-pro"><span class="header-section-number">13.4.1</span> ArcGIS Pro</a></li>
-  <li><a href="#qgis" id="toc-qgis" class="nav-link" data-scroll-target="#qgis"><span class="header-section-number">13.4.2</span> QGIS</a></li>
+  <li><a href="#arcgis-pro" id="toc-arcgis-pro" class="nav-link" data-scroll-target="#arcgis-pro"><span class="header-section-number">16.4.1</span> ArcGIS Pro</a></li>
+  <li><a href="#qgis" id="toc-qgis" class="nav-link" data-scroll-target="#qgis"><span class="header-section-number">16.4.2</span> QGIS</a></li>
   </ul></li>
-  <li><a href="#check-your-understanding" id="toc-check-your-understanding" class="nav-link" data-scroll-target="#check-your-understanding"><span class="header-section-number">13.5</span> Check your understanding</a></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">13.6</span> Summary</a></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">13.7</span> Exercises</a></li>
-  <li><a href="#further-reading-and-online-resources" id="toc-further-reading-and-online-resources" class="nav-link" data-scroll-target="#further-reading-and-online-resources"><span class="header-section-number">13.8</span> Further reading and online resources</a>
+  <li><a href="#check-your-understanding" id="toc-check-your-understanding" class="nav-link" data-scroll-target="#check-your-understanding"><span class="header-section-number">16.5</span> Check your understanding</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">16.6</span> Summary</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">16.7</span> Exercises</a></li>
+  <li><a href="#further-reading-and-online-resources" id="toc-further-reading-and-online-resources" class="nav-link" data-scroll-target="#further-reading-and-online-resources"><span class="header-section-number">16.8</span> Further reading and online resources</a>
   <ul class="collapse">
-  <li><a href="#books-and-articles" id="toc-books-and-articles" class="nav-link" data-scroll-target="#books-and-articles"><span class="header-section-number">13.8.1</span> Books and articles</a></li>
-  <li><a href="#online-resources" id="toc-online-resources" class="nav-link" data-scroll-target="#online-resources"><span class="header-section-number">13.8.2</span> Online resources</a></li>
+  <li><a href="#books-and-articles" id="toc-books-and-articles" class="nav-link" data-scroll-target="#books-and-articles"><span class="header-section-number">16.8.1</span> Books and articles</a></li>
+  <li><a href="#online-resources" id="toc-online-resources" class="nav-link" data-scroll-target="#online-resources"><span class="header-section-number">16.8.2</span> Online resources</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -448,9 +470,9 @@ window.Quarto = {
 <!-- main -->
 <main class="content" id="quarto-document-content" tabindex="-1">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../units/unit-3.html">Unit 3: Spatial Analysis</a></li><li class="breadcrumb-item"><a href="../chapters/density.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Density and Neighborhoods</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../units/unit-4.html">Unit 4: Spatial Analysis</a></li><li class="breadcrumb-item"><a href="../chapters/density.html"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Density and Neighborhoods</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Density and Neighborhoods</span></h1>
+<h1 class="title"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Density and Neighborhoods</span></h1>
 </div>
 
 
@@ -488,9 +510,9 @@ window.Quarto = {
 </ol>
 </div>
 </div>
-<p>Chapter 12 mapped the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-population-density" data-term="population density">population density</span> of North Carolina’s counties. The counties were ready-made areas to divide by. But much of the data we care about arrives as points with no area around them: crimes, trees, cases of a disease, car crashes, or 911 calls. Where are they concentrated? To answer that, we need an area to divide by, and when no area exists, we have to define one. This chapter is about how to do that: with <strong>neighborhoods</strong>, and with <strong>kernel density estimation</strong>, which turns a set of points into a smooth surface of density.</p>
-<section id="sec-density-ratio" class="level2" data-number="13.1">
-<h2 data-number="13.1" class="anchored" data-anchor-id="sec-density-ratio"><span class="header-section-number">13.1</span> Density: things per area</h2>
+<p>Chapter 8 mapped the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-population-density" data-term="population density">population density</span> of North Carolina’s counties. The counties were ready-made areas to divide by. But much of the data we care about arrives as points with no area around them: crimes, trees, cases of a disease, car crashes, or 911 calls. Where are they concentrated? To answer that, we need an area to divide by, and when no area exists, we have to define one. This chapter is about how to do that: with <strong>neighborhoods</strong>, and with <strong>kernel density estimation</strong>, which turns a set of points into a smooth surface of density.</p>
+<section id="sec-density-ratio" class="level2" data-number="16.1">
+<h2 data-number="16.1" class="anchored" data-anchor-id="sec-density-ratio"><span class="header-section-number">16.1</span> Density: things per area</h2>
 <p><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-density" data-term="density">Density</span></strong> is a count divided by an area. <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-population-density" data-term="population density">Population density</span></strong> is the number of people divided by the area they live in. North Carolina had 10,439,388 people in the 2020 Census, so:</p>
 <p><span class="math display">\[
 \text{density} = \frac{10{,}439{,}388 \text{ people}}{53{,}819 \text{ mi}^2} \approx 194 \text{ people per mi}^2
@@ -511,10 +533,10 @@ window.Quarto = {
 </div>
 </div>
 </section>
-<section id="sec-neighborhoods" class="level2" data-number="13.2">
-<h2 data-number="13.2" class="anchored" data-anchor-id="sec-neighborhoods"><span class="header-section-number">13.2</span> Neighborhoods</h2>
-<section id="what-is-a-neighborhood" class="level3" data-number="13.2.1">
-<h3 data-number="13.2.1" class="anchored" data-anchor-id="what-is-a-neighborhood"><span class="header-section-number">13.2.1</span> What is a neighborhood?</h3>
+<section id="sec-neighborhoods" class="level2" data-number="16.2">
+<h2 data-number="16.2" class="anchored" data-anchor-id="sec-neighborhoods"><span class="header-section-number">16.2</span> Neighborhoods</h2>
+<section id="what-is-a-neighborhood" class="level3" data-number="16.2.1">
+<h3 data-number="16.2.1" class="anchored" data-anchor-id="what-is-a-neighborhood"><span class="header-section-number">16.2.1</span> What is a neighborhood?</h3>
 <p>Ask people to describe their <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-neighborhood" data-term="neighborhood">neighborhood</span>, and you get three kinds of answer:</p>
 <ul>
 <li><strong>A distance</strong>: “everything within a 10-minute walk.”</li>
@@ -523,8 +545,8 @@ window.Quarto = {
 </ul>
 <p>In <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-analysis" data-term="spatial analysis">spatial analysis</span>, a <strong>neighborhood</strong> is a zone of analysis drawn around a location, and those are the three ways to draw it: by <strong>distance</strong>, by <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-contiguity" data-term="contiguity">contiguity</span></strong>, or by a <strong>number of neighbors</strong>. We need neighborhoods because many things we map show <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-neighborhood-effect" data-term="neighborhood effect">neighborhood effects</span></strong>. A house’s price tracks the prices of the houses around it; dense blocks sit next to dense blocks; species cluster in suitable habitat; and a disease spreads to nearby people first.</p>
 </section>
-<section id="toblers-first-law" class="level3" data-number="13.2.2">
-<h3 data-number="13.2.2" class="anchored" data-anchor-id="toblers-first-law"><span class="header-section-number">13.2.2</span> Tobler’s first law</h3>
+<section id="toblers-first-law" class="level3" data-number="16.2.2">
+<h3 data-number="16.2.2" class="anchored" data-anchor-id="toblers-first-law"><span class="header-section-number">16.2.2</span> Tobler’s first law</h3>
 <p>Why are nearby places alike? Waldo Tobler put it in one sentence in 1970:</p>
 <blockquote class="blockquote">
 <p>“Everything is related to everything else, but near things are more related than distant things.” <span class="citation" data-cites="tobler1970">(Tobler 1970)</span></p>
@@ -545,16 +567,16 @@ window.Quarto = {
 </div>
 </div>
 </section>
-<section id="by-distance" class="level3" data-number="13.2.3">
-<h3 data-number="13.2.3" class="anchored" data-anchor-id="by-distance"><span class="header-section-number">13.2.3</span> By distance</h3>
-<p>A <strong>distance-based neighborhood</strong> includes every location within a set radius, <span class="math inline">\(d\)</span>, of the location in question (<a href="#fig-distance-neighbors" class="quarto-xref">Figure&nbsp;<span>13.1</span></a>). In the simplest, <strong>binary</strong> version, each pair of locations gets a weight of 1 if they are neighbors and 0 if they are not. Repeating this for every location builds a table of who neighbors whom, often stored as a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-weights-matrix" data-term="spatial weights matrix">spatial weights matrix</span></strong>.</p>
+<section id="by-distance" class="level3" data-number="16.2.3">
+<h3 data-number="16.2.3" class="anchored" data-anchor-id="by-distance"><span class="header-section-number">16.2.3</span> By distance</h3>
+<p>A <strong>distance-based neighborhood</strong> includes every location within a set radius, <span class="math inline">\(d\)</span>, of the location in question (<a href="#fig-distance-neighbors" class="quarto-xref">Figure&nbsp;<span>16.1</span></a>). In the simplest, <strong>binary</strong> version, each pair of locations gets a weight of 1 if they are neighbors and 0 if they are not. Repeating this for every location builds a table of who neighbors whom, often stored as a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-weights-matrix" data-term="spatial weights matrix">spatial weights matrix</span></strong>.</p>
 <div id="fig-distance-neighbors" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Two square study areas with the same 20 points. Left: a circle of radius d around a point in the middle of a cluster contains 7 other points, filled blue. Right: the same radius around a point near the left edge contains only 1 neighbor, and part of the circle falls outside the study area, labeled as such.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-distance-neighbors-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="../images/density/distance-neighbors.png" class="img-fluid figure-img" alt="Two square study areas with the same 20 points. Left: a circle of radius d around a point in the middle of a cluster contains 7 other points, filled blue. Right: the same radius around a point near the left edge contains only 1 neighbor, and part of the circle falls outside the study area, labeled as such.">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-distance-neighbors-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;13.1: Distance neighborhoods. Every point within a radius <em>d</em> of the red diamond (filled blue) is its neighbor; the hollow points are not. The points are made up.
+Figure&nbsp;16.1: Distance neighborhoods. Every point within a radius <em>d</em> of the red diamond (filled blue) is its neighbor; the hollow points are not. The points are made up.
 </figcaption>
 </figure>
 </div>
@@ -562,13 +584,13 @@ Figure&nbsp;13.1: Distance neighborhoods. Every point within a radius <em>d</em>
 <p>Distance neighborhoods have two weaknesses:</p>
 <ul>
 <li><strong>Isolated locations may have no neighbors at all.</strong> A point in an empty corner of the map gets nothing within <span class="math inline">\(d\)</span>.</li>
-<li><strong>The <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-edge-effect" data-term="edge effect">edge effect</span>.</strong> A point near the edge of the study area has part of its circle outside the data, so it finds fewer neighbors than it should (<a href="#fig-distance-neighbors" class="quarto-xref">Figure&nbsp;<span>13.1</span></a>, right). Its true neighbors exist, but we never observed them. Boundary locations look less dense than they are. The fix is to collect data in a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-buffer" data-term="buffer">buffer</span> beyond the study area, or to apply an edge correction.</li>
+<li><strong>The <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-edge-effect" data-term="edge effect">edge effect</span>.</strong> A point near the edge of the study area has part of its circle outside the data, so it finds fewer neighbors than it should (<a href="#fig-distance-neighbors" class="quarto-xref">Figure&nbsp;<span>16.1</span></a>, right). Its true neighbors exist, but we never observed them. Boundary locations look less dense than they are. The fix is to collect data in a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-buffer" data-term="buffer">buffer</span> beyond the study area, or to apply an edge correction.</li>
 </ul>
 </section>
-<section id="by-contiguity" class="level3" data-number="13.2.4">
-<h3 data-number="13.2.4" class="anchored" data-anchor-id="by-contiguity"><span class="header-section-number">13.2.4</span> By contiguity</h3>
+<section id="by-contiguity" class="level3" data-number="16.2.4">
+<h3 data-number="16.2.4" class="anchored" data-anchor-id="by-contiguity"><span class="header-section-number">16.2.4</span> By contiguity</h3>
 <p>For <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-polygon" data-term="polygon">polygons</span>, such as counties or <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-census-tract" data-term="census tract">census tracts</span>, we can define neighbors by <strong>contiguity</strong>: polygons that touch are neighbors. No distance is needed: shared borders define the neighborhood. Contiguity is a <em>relative</em>, topological measure of nearness. Two counties are neighbors because they touch, not because their centers are within some distance.</p>
-<p>There are two ways for polygons to touch, named for chess pieces (<a href="#fig-contiguity-grid" class="quarto-xref">Figure&nbsp;<span>13.2</span></a>):</p>
+<p>There are two ways for polygons to touch, named for chess pieces (<a href="#fig-contiguity-grid" class="quarto-xref">Figure&nbsp;<span>16.2</span></a>):</p>
 <ul>
 <li>In <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-rook-s-case" data-term="rook’s case">rook’s case</span></strong> contiguity, neighbors share an <em>edge</em>. The rook moves only in straight lines.</li>
 <li>In <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-queen-s-case" data-term="queen’s case">queen’s case</span></strong> contiguity, neighbors share an edge <em>or a corner</em>. The queen moves straight or diagonally. Queen’s case always finds the same or more neighbors than rook’s case. It is the default in many tools, such as GeoDa.</li>
@@ -579,33 +601,33 @@ Figure&nbsp;13.1: Distance neighborhoods. Every point within a radius <em>d</em>
 <img src="../images/density/contiguity-grid.png" class="img-fluid figure-img" alt="Two 5 by 5 grids with a yellow cell in the center. Rook's case: the four cells above, below, left, and right of it are green, 4 neighbors. Queen's case: those four plus the four diagonal cells are green, 8 neighbors.">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-contiguity-grid-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;13.2: Rook’s and queen’s case contiguity on a grid. The yellow cell’s <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-first-order-neighbor" data-term="first-order neighbor">first-order neighbors</span> are green.
+Figure&nbsp;16.2: Rook’s and queen’s case contiguity on a grid. The yellow cell’s <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-first-order-neighbor" data-term="first-order neighbor">first-order neighbors</span> are green.
 </figcaption>
 </figure>
 </div>
-<p>The neighbors that touch a polygon directly are its <strong>first-order</strong> neighbors. The neighbors of those neighbors are <strong>second-order</strong> neighbors, and so on. On real maps, few polygons meet only at a corner, so rook’s and queen’s case often agree. Orange County has the same five first-order neighbors either way (<a href="#fig-contiguity-nc" class="quarto-xref">Figure&nbsp;<span>13.3</span></a>). The famous exception is the Four Corners, where Arizona and Colorado, and Utah and New Mexico, touch only at a point.</p>
+<p>The neighbors that touch a polygon directly are its <strong>first-order</strong> neighbors. The neighbors of those neighbors are <strong>second-order</strong> neighbors, and so on. On real maps, few polygons meet only at a corner, so rook’s and queen’s case often agree. Orange County has the same five first-order neighbors either way (<a href="#fig-contiguity-nc" class="quarto-xref">Figure&nbsp;<span>16.3</span></a>). The famous exception is the Four Corners, where Arizona and Colorado, and Utah and New Mexico, touch only at a point.</p>
 <div id="fig-contiguity-nc" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A map of Orange County in yellow, surrounded by five green counties that share a border with it: Caswell and Person to the north, Durham to the east, Chatham to the south, and Alamance to the west.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-contiguity-nc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="../images/density/contiguity-nc.png" class="img-fluid figure-img" style="width:60.0%" alt="A map of Orange County in yellow, surrounded by five green counties that share a border with it: Caswell and Person to the north, Durham to the east, Chatham to the south, and Alamance to the west.">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-contiguity-nc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;13.3: Orange County, North Carolina (yellow), and its five first-order neighbors (green).
+Figure&nbsp;16.3: Orange County, North Carolina (yellow), and its five first-order neighbors (green).
 </figcaption>
 </figure>
 </div>
 <p>Contiguity works only for polygons, and it struggles with odd shapes and <strong>islands</strong>: an island, or a county split by water, may touch fewer neighbors than it is really connected to by bridges and ferries, or none at all.</p>
 </section>
-<section id="by-number-of-neighbors" class="level3" data-number="13.2.5">
-<h3 data-number="13.2.5" class="anchored" data-anchor-id="by-number-of-neighbors"><span class="header-section-number">13.2.5</span> By number of neighbors</h3>
-<p>A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-k-nearest-neighbors" data-term="k nearest neighbors">k-nearest-neighbor</span></strong> neighborhood fixes the <em>number</em> of neighbors, <span class="math inline">\(k\)</span>, instead of the distance. Each location reaches out until it has found its <span class="math inline">\(k\)</span> closest locations (<a href="#fig-knn" class="quarto-xref">Figure&nbsp;<span>13.4</span></a>). Distance doesn’t matter, only rank: the nearest wins.</p>
+<section id="by-number-of-neighbors" class="level3" data-number="16.2.5">
+<h3 data-number="16.2.5" class="anchored" data-anchor-id="by-number-of-neighbors"><span class="header-section-number">16.2.5</span> By number of neighbors</h3>
+<p>A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-k-nearest-neighbors" data-term="k nearest neighbors">k-nearest-neighbor</span></strong> neighborhood fixes the <em>number</em> of neighbors, <span class="math inline">\(k\)</span>, instead of the distance. Each location reaches out until it has found its <span class="math inline">\(k\)</span> closest locations (<a href="#fig-knn" class="quarto-xref">Figure&nbsp;<span>16.4</span></a>). Distance doesn’t matter, only rank: the nearest wins.</p>
 <div id="fig-knn" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Two square study areas with the same 20 points. k = 1: the red diamond in the cluster points to one very close neighbor; the green diamond in the upper-right corner points to one neighbor much farther away. k = 4: the red diamond points to four nearby points; the green diamond's four arrows stretch far across the map toward the cluster.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-knn-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="../images/density/knn.png" class="img-fluid figure-img" alt="Two square study areas with the same 20 points. k = 1: the red diamond in the cluster points to one very close neighbor; the green diamond in the upper-right corner points to one neighbor much farther away. k = 4: the red diamond points to four nearby points; the green diamond's four arrows stretch far across the map toward the cluster.">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-knn-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;13.4: k nearest neighbors with k = 1 and k = 4, for a point in the cluster (red) and an isolated point in the corner (green). The points are the same as in <a href="#fig-distance-neighbors" class="quarto-xref">Figure&nbsp;<span>13.1</span></a>.
+Figure&nbsp;16.4: k nearest neighbors with k = 1 and k = 4, for a point in the cluster (red) and an isolated point in the corner (green). The points are the same as in <a href="#fig-distance-neighbors" class="quarto-xref">Figure&nbsp;<span>16.1</span></a>.
 </figcaption>
 </figure>
 </div>
@@ -613,7 +635,7 @@ Figure&nbsp;13.4: k nearest neighbors with k = 1 and k = 4, for a point in the c
 <div id="tbl-neighborhoods" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-neighborhoods-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;13.1: Three ways to define neighborhoods.
+Table&nbsp;16.1: Three ways to define neighborhoods.
 </figcaption>
 <div aria-describedby="tbl-neighborhoods-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
@@ -670,12 +692,12 @@ Table&nbsp;13.1: Three ways to define neighborhoods.
 </div>
 </section>
 </section>
-<section id="sec-kde" class="level2" data-number="13.3">
-<h2 data-number="13.3" class="anchored" data-anchor-id="sec-kde"><span class="header-section-number">13.3</span> Kernel density estimation</h2>
-<section id="from-points-to-a-surface" class="level3" data-number="13.3.1">
-<h3 data-number="13.3.1" class="anchored" data-anchor-id="from-points-to-a-surface"><span class="header-section-number">13.3.1</span> From points to a surface</h3>
+<section id="sec-kde" class="level2" data-number="16.3">
+<h2 data-number="16.3" class="anchored" data-anchor-id="sec-kde"><span class="header-section-number">16.3</span> Kernel density estimation</h2>
+<section id="from-points-to-a-surface" class="level3" data-number="16.3.1">
+<h3 data-number="16.3.1" class="anchored" data-anchor-id="from-points-to-a-surface"><span class="header-section-number">16.3.1</span> From points to a surface</h3>
 <p><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-density" data-term="density">Density</span> estimation almost always uses distance <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-neighborhood" data-term="neighborhood">neighborhoods</span>, because density is a quantity per unit of area. <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-kernel-density-estimation" data-term="kernel density estimation">Kernel density estimation</span> (KDE)</strong> goes one step further: it lets nearer points count more than farther ones, and it produces a continuous surface, a <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-raster" data-term="raster">raster</span></strong>, rather than one value per point.</p>
-<p>Picture a grid of cells laid over the study area (<a href="#fig-kernel-window" class="quarto-xref">Figure&nbsp;<span>13.5</span></a>). A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-kernel" data-term="kernel">kernel</span></strong>, a window with a set radius called the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-bandwidth" data-term="bandwidth">bandwidth</span></strong> or <strong>search radius</strong>, is centered on each cell in turn. At each cell, the tool:</p>
+<p>Picture a grid of cells laid over the study area (<a href="#fig-kernel-window" class="quarto-xref">Figure&nbsp;<span>16.5</span></a>). A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-kernel" data-term="kernel">kernel</span></strong>, a window with a set radius called the <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-bandwidth" data-term="bandwidth">bandwidth</span></strong> or <strong>search radius</strong>, is centered on each cell in turn. At each cell, the tool:</p>
 <ol type="1">
 <li>finds the points that fall inside the kernel;</li>
 <li>gives each one a weight, from the kernel’s shape: more for nearby points, less for distant ones;</li>
@@ -688,16 +710,16 @@ Table&nbsp;13.1: Three ways to define neighborhoods.
 <img src="../images/density/kernel-window.png" class="img-fluid figure-img" style="width:60.0%" alt="A grid over a square study area of scattered dark points with three clusters. One grid cell in the lower right is red, with a large pale red circle around it whose radius is labeled bandwidth. A note says 44 points fall inside the kernel around the red cell.">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-kernel-window-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;13.5: A kernel of a set bandwidth (red circle) centered on one cell (red square) of a grid laid over made-up incident points. The kernel moves to every cell in turn.
+Figure&nbsp;16.5: A kernel of a set bandwidth (red circle) centered on one cell (red square) of a grid laid over made-up incident points. The kernel moves to every cell in turn.
 </figcaption>
 </figure>
 </div>
 <p>The result is a smooth surface whose value in each cell is the density of points around it, in points per square mile or per square kilometer. Maps of such surfaces are often called <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-heat-map" data-term="heat map">heat maps</span></strong>.</p>
 <p>The idea was developed in statistics in the 1950s and 1960s, to estimate the shape of a distribution from a sample without assuming it was normal <span class="citation" data-cites="silverman1986">(Silverman 1986)</span>. Geographers applied the same idea in two dimensions.</p>
 </section>
-<section id="kernel-shape" class="level3" data-number="13.3.2">
-<h3 data-number="13.3.2" class="anchored" data-anchor-id="kernel-shape"><span class="header-section-number">13.3.2</span> Kernel shape</h3>
-<p>The kernel’s shape decides how much weight each point gets (<a href="#fig-kernel-shapes" class="quarto-xref">Figure&nbsp;<span>13.6</span></a>):</p>
+<section id="kernel-shape" class="level3" data-number="16.3.2">
+<h3 data-number="16.3.2" class="anchored" data-anchor-id="kernel-shape"><span class="header-section-number">16.3.2</span> Kernel shape</h3>
+<p>The kernel’s shape decides how much weight each point gets (<a href="#fig-kernel-shapes" class="quarto-xref">Figure&nbsp;<span>16.6</span></a>):</p>
 <ul>
 <li>A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-uniform-kernel" data-term="uniform kernel">uniform</span></strong> kernel gives every point inside the bandwidth the same weight, like a cookie cutter. It is the simplest, and gives the same result as counting points in a circle.</li>
 <li>A <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-quartic-kernel" data-term="quartic kernel">quartic</span></strong> kernel gives the most weight to points at the center and less and less toward the edge, reaching zero at the bandwidth. It is the default in <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span> and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-qgis" data-term="QGIS">QGIS</span>.</li>
@@ -709,15 +731,15 @@ Figure&nbsp;13.5: A kernel of a set bandwidth (red circle) centered on one cell 
 <img src="../images/density/kernel-shapes.png" class="img-fluid figure-img" alt="A line chart. The horizontal axis runs from minus bandwidth through the cell to plus bandwidth. The uniform kernel is a flat rectangle, equal weight everywhere inside the bandwidth. The quartic kernel is a smooth hump, highest at the cell and falling to zero at the bandwidth. The Gaussian kernel is a similar bell curve with thin tails beyond the bandwidth.">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-kernel-shapes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;13.6: Three kernel shapes. Each shows how much weight a point gets, depending on its distance from the cell.
+Figure&nbsp;16.6: Three kernel shapes. Each shows how much weight a point gets, depending on its distance from the cell.
 </figcaption>
 </figure>
 </div>
 <p>The shape of the kernel changes the result far less than its size does <span class="citation" data-cites="silverman1986">(Silverman 1986)</span>.</p>
 </section>
-<section id="bandwidth" class="level3" data-number="13.3.3">
-<h3 data-number="13.3.3" class="anchored" data-anchor-id="bandwidth"><span class="header-section-number">13.3.3</span> Bandwidth</h3>
-<p><strong>Bandwidth</strong> is the most important choice in kernel density estimation (<a href="#fig-bandwidths" class="quarto-xref">Figure&nbsp;<span>13.7</span></a>):</p>
+<section id="bandwidth" class="level3" data-number="16.3.3">
+<h3 data-number="16.3.3" class="anchored" data-anchor-id="bandwidth"><span class="header-section-number">16.3.3</span> Bandwidth</h3>
+<p><strong>Bandwidth</strong> is the most important choice in kernel density estimation (<a href="#fig-bandwidths" class="quarto-xref">Figure&nbsp;<span>16.7</span></a>):</p>
 <ul>
 <li>A <strong>small bandwidth</strong> lets each point influence only a short distance. It shows local hot spots, but if it is too small, it produces a spiky surface of isolated peaks, one for each point.</li>
 <li>A <strong>large bandwidth</strong> spreads each point’s influence widely. It shows the broad regional pattern, but if it is too large, it produces one smooth blob that hides the hot spots.</li>
@@ -728,14 +750,14 @@ Figure&nbsp;13.6: Three kernel shapes. Each shows how much weight a point gets, 
 <img src="../images/density/bandwidths.png" class="img-fluid figure-img" alt="Three panels of the same points with a yellow-to-red density surface. Small bandwidth: tight red spots on the densest parts of each cluster and faint specks around single points. Medium bandwidth: three clear hot spots, one for each cluster, with a small dashed circle for scale. Large bandwidth: the two biggest clusters merge into one large red blob that fades across most of the map, and the small cluster disappears.">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-bandwidths-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;13.7: Kernel density surfaces of the same made-up incident points with three bandwidths. The dashed circle in the upper-left corner shows the size of the bandwidth. Darker red means a higher density.
+Figure&nbsp;16.7: Kernel density surfaces of the same made-up incident points with three bandwidths. The dashed circle in the upper-left corner shows the size of the bandwidth. Darker red means a higher density.
 </figcaption>
 </figure>
 </div>
 <p>A good bandwidth matches the scale of the process you are studying: a few blocks for street crime, several miles for wildfire ignitions. Try several, and report which you used.</p>
 </section>
-<section id="cell-size-and-units" class="level3" data-number="13.3.4">
-<h3 data-number="13.3.4" class="anchored" data-anchor-id="cell-size-and-units"><span class="header-section-number">13.3.4</span> Cell size and units</h3>
+<section id="cell-size-and-units" class="level3" data-number="16.3.4">
+<h3 data-number="16.3.4" class="anchored" data-anchor-id="cell-size-and-units"><span class="header-section-number">16.3.4</span> Cell size and units</h3>
 <p>The <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cell-size" data-term="cell size">cell size</span></strong> of the output raster controls how fine the surface looks, but not the pattern. Smaller cells give a smoother-looking surface and a larger file. Because the cell size and the search radius are both distances, <strong>project your data first.</strong> If the data are in a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-geographic-coordinate-system-gcs" data-term="geographic coordinate system (GCS)">geographic coordinate system</span>, both are measured in degrees, whose length changes with <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-latitude" data-term="latitude">latitude</span> (Chapter 3).</p>
 <div class="did-you-know callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -752,10 +774,10 @@ Figure&nbsp;13.7: Kernel density surfaces of the same made-up incident points wi
 </div>
 </section>
 </section>
-<section id="sec-kde-gis" class="level2" data-number="13.4">
-<h2 data-number="13.4" class="anchored" data-anchor-id="sec-kde-gis"><span class="header-section-number">13.4</span> Kernel density in a GIS</h2>
-<section id="arcgis-pro" class="level3" data-number="13.4.1">
-<h3 data-number="13.4.1" class="anchored" data-anchor-id="arcgis-pro"><span class="header-section-number">13.4.1</span> ArcGIS Pro</h3>
+<section id="sec-kde-gis" class="level2" data-number="16.4">
+<h2 data-number="16.4" class="anchored" data-anchor-id="sec-kde-gis"><span class="header-section-number">16.4</span> Kernel density in a GIS</h2>
+<section id="arcgis-pro" class="level3" data-number="16.4.1">
+<h3 data-number="16.4.1" class="anchored" data-anchor-id="arcgis-pro"><span class="header-section-number">16.4.1</span> ArcGIS Pro</h3>
 <p>The <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-kernel-density-estimation" data-term="kernel density estimation">Kernel Density</span></strong> tool (<em>Spatial Analyst</em> toolbox, <em><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-density" data-term="density">Density</span></em> toolset) needs a Spatial Analyst license.</p>
 <ol type="1">
 <li><strong>Project your data</strong> to a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-projected-coordinate-system" data-term="projected coordinate system">projected coordinate system</span>, such as <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-state-plane-coordinate-system-spcs" data-term="State Plane Coordinate System (SPCS)">NC State Plane</span> (EPSG:32119).</li>
@@ -768,8 +790,8 @@ Figure&nbsp;13.7: Kernel density surfaces of the same made-up incident points wi
 </ol>
 <p><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-arcgis-pro" data-term="ArcGIS Pro">ArcGIS Pro</span>’s <strong>Point Density</strong> tool is the simpler, uniform-kernel version: it counts the points in a <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-neighborhood" data-term="neighborhood">neighborhood</span> (a circle, rectangle, ring, or wedge) around each cell and divides by its area.</p>
 </section>
-<section id="qgis" class="level3" data-number="13.4.2">
-<h3 data-number="13.4.2" class="anchored" data-anchor-id="qgis"><span class="header-section-number">13.4.2</span> QGIS</h3>
+<section id="qgis" class="level3" data-number="16.4.2">
+<h3 data-number="16.4.2" class="anchored" data-anchor-id="qgis"><span class="header-section-number">16.4.2</span> QGIS</h3>
 <p>The <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-heat-map" data-term="heat map">Heatmap</span> (Kernel Density Estimation)</strong> tool is in the <em>Processing Toolbox</em>, under <em><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-interpolation" data-term="spatial interpolation">Interpolation</span></em>.</p>
 <ol type="1">
 <li>Project the points, as above.</li>
@@ -781,8 +803,8 @@ Figure&nbsp;13.7: Kernel density surfaces of the same made-up incident points wi
 <p>For a quick look, without creating a new raster, set the layer’s <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-symbology" data-term="symbology">symbology</span> to the <strong>Heatmap</strong> renderer, which draws a kernel density surface on the fly.</p>
 </section>
 </section>
-<section id="check-your-understanding" class="level2" data-number="13.5">
-<h2 data-number="13.5" class="anchored" data-anchor-id="check-your-understanding"><span class="header-section-number">13.5</span> Check your understanding</h2>
+<section id="check-your-understanding" class="level2" data-number="16.5">
+<h2 data-number="16.5" class="anchored" data-anchor-id="check-your-understanding"><span class="header-section-number">16.5</span> Check your understanding</h2>
 <ol type="1">
 <li><p>North Carolina had 10,439,388 people and 48,618 square miles of land in 2020. What was its population density, in people per square mile? (one decimal) <input class="webex-solveme nospaces" size="6" data-answer="[&quot;214.7&quot;]"></p></li>
 <li><p>“Near things are more related than distant things” is: <select class="webex-select"><option value="blank"></option><option value="">Linus’s Law</option><option value="answer">Tobler’s first law of geography</option><option value="">Sturges’ rule</option><option value="">The ecological fallacy</option></select></p></li>
@@ -794,8 +816,8 @@ Figure&nbsp;13.7: Kernel density surfaces of the same made-up incident points wi
 <li><p>ArcGIS Pro’s Kernel Density tool can take polygons as input. <select class="webex-select"><option value="blank"></option><option value="">TRUE</option><option value="answer">FALSE</option></select></p></li>
 </ol>
 </section>
-<section id="summary" class="level2" data-number="13.6">
-<h2 data-number="13.6" class="anchored" data-anchor-id="summary"><span class="header-section-number">13.6</span> Summary</h2>
+<section id="summary" class="level2" data-number="16.6">
+<h2 data-number="16.6" class="anchored" data-anchor-id="summary"><span class="header-section-number">16.6</span> Summary</h2>
 <ul>
 <li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-density" data-term="density">Density</span></strong> is a count divided by an area. The area you divide by, such as total or land area, changes the answer.</li>
 <li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-tobler-s-first-law-of-geography" data-term="Tobler’s first law of geography">Tobler’s first law</span></strong> says near things are more related than distant things. <strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-autocorrelation" data-term="spatial autocorrelation">Spatial autocorrelation</span></strong> measures how much nearby values are alike.</li>
@@ -805,8 +827,8 @@ Figure&nbsp;13.7: Kernel density surfaces of the same made-up incident points wi
 <li><strong><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-bandwidth" data-term="bandwidth">Bandwidth</span></strong> matters far more than kernel shape: small bandwidths show local hot spots, large ones the regional pattern. Project your data so that <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-cell-size" data-term="cell size">cell size</span> and bandwidth are in meters or feet.</li>
 </ul>
 </section>
-<section id="exercises" class="level2" data-number="13.7">
-<h2 data-number="13.7" class="anchored" data-anchor-id="exercises"><span class="header-section-number">13.7</span> Exercises</h2>
+<section id="exercises" class="level2" data-number="16.7">
+<h2 data-number="16.7" class="anchored" data-anchor-id="exercises"><span class="header-section-number">16.7</span> Exercises</h2>
 <ol type="1">
 <li><strong>Which area?</strong> Look up the population, total area, and land area of Dare County and of Orange County, North Carolina. Compute the <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-density" data-term="density">density</span> of each with both areas. Why is the difference so much larger for Dare County?</li>
 <li><strong>Neighbors by hand.</strong> Draw a 4 by 4 grid of cells. How many <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-rook-s-case" data-term="rook’s case">rook’s case</span> neighbors does a corner cell have? An edge cell? An interior cell? Repeat for <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-queen-s-case" data-term="queen’s case">queen’s case</span>.</li>
@@ -816,10 +838,10 @@ Figure&nbsp;13.7: Kernel density surfaces of the same made-up incident points wi
 <li><strong>Hot spots and fairness.</strong> Read about the debate over predictive policing. Write a paragraph on how a hot-spot map could reinforce existing patterns of policing, and what you would check before using one.</li>
 </ol>
 </section>
-<section id="further-reading-and-online-resources" class="level2" data-number="13.8">
-<h2 data-number="13.8" class="anchored" data-anchor-id="further-reading-and-online-resources"><span class="header-section-number">13.8</span> Further reading and online resources</h2>
-<section id="books-and-articles" class="level3" data-number="13.8.1">
-<h3 data-number="13.8.1" class="anchored" data-anchor-id="books-and-articles"><span class="header-section-number">13.8.1</span> Books and articles</h3>
+<section id="further-reading-and-online-resources" class="level2" data-number="16.8">
+<h2 data-number="16.8" class="anchored" data-anchor-id="further-reading-and-online-resources"><span class="header-section-number">16.8</span> Further reading and online resources</h2>
+<section id="books-and-articles" class="level3" data-number="16.8.1">
+<h3 data-number="16.8.1" class="anchored" data-anchor-id="books-and-articles"><span class="header-section-number">16.8.1</span> Books and articles</h3>
 <ul>
 <li>Tobler, “A Computer Movie Simulating Urban Growth in the Detroit Region” <span class="citation" data-cites="tobler1970">(Tobler 1970)</span>, the source of the first law.</li>
 <li>Silverman, <em><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-density" data-term="density">Density</span> Estimation for Statistics and Data Analysis</em> <span class="citation" data-cites="silverman1986">(Silverman 1986)</span>, the classic text on <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-kernel-density-estimation" data-term="kernel density estimation">kernel density estimation</span>.</li>
@@ -828,8 +850,8 @@ Figure&nbsp;13.7: Kernel density surfaces of the same made-up incident points wi
 <li><em>Intro to GIS and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-analysis" data-term="spatial analysis">Spatial Analysis</span></em>, by Manuel Gimond, free online, with chapters on point pattern analysis and <span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-spatial-autocorrelation" data-term="spatial autocorrelation">spatial autocorrelation</span>: <a href="https://mgimond.github.io/Spatial/" class="uri">https://mgimond.github.io/Spatial/</a>.</li>
 </ul>
 </section>
-<section id="online-resources" class="level3" data-number="13.8.2">
-<h3 data-number="13.8.2" class="anchored" data-anchor-id="online-resources"><span class="header-section-number">13.8.2</span> Online resources</h3>
+<section id="online-resources" class="level3" data-number="16.8.2">
+<h3 data-number="16.8.2" class="anchored" data-anchor-id="online-resources"><span class="header-section-number">16.8.2</span> Online resources</h3>
 <ul>
 <li><span class="glossary-term" tabindex="0" role="button" aria-describedby="gloss-esri" data-term="Esri">Esri</span>, “How Kernel Density works”: <a href="https://pro.arcgis.com/en/pro-app/latest/tool-reference/spatial-analyst/how-kernel-density-works.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/tool-reference/spatial-analyst/how-kernel-density-works.htm</a>.</li>
 <li>Esri, “Kernel Density” tool reference: <a href="https://pro.arcgis.com/en/pro-app/latest/tool-reference/spatial-analyst/kernel-density.htm" class="uri">https://pro.arcgis.com/en/pro-app/latest/tool-reference/spatial-analyst/kernel-density.htm</a>.</li>
@@ -1747,13 +1769,13 @@ window.onload = function() {
   </script>
 <nav class="page-navigation" aria-label="Page">
   <div class="nav-page nav-page-previous">
-      <a href="../chapters/data-classing.html" class="pagination-link" aria-label="Data Classing and Choropleth Maps">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Data Classing and Choropleth Maps</span></span>
+      <a href="../chapters/geocoding-georeferencing.html" class="pagination-link" aria-label="Geocoding and Georeferencing">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Geocoding and Georeferencing</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../chapters/spatial-analysis.html" class="pagination-link" aria-label="Spatial Analysis: Selection, Buffers, and Overlay">
-        <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Spatial Analysis: Selection, Buffers, and Overlay</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../chapters/raster.html" class="pagination-link" aria-label="Raster Analysis">
+        <span class="nav-page-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Raster Analysis</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
