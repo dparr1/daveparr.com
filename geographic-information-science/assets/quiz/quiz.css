@@ -212,6 +212,23 @@
 .sds-q-stats .l { font-size: 0.82rem; color: var(--q-muted); }
 .sds-q-stats .sds-q-stat-score { border-color: var(--q-accent); }
 .sds-q-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+/* Weekly leaderboard on the finish screen */
+.sds-lb { margin: 24px 0 0; padding-top: 18px; border-top: 2px solid var(--q-border); text-align: left; }
+.sds-lb-title { margin: 0 0 4px; font-size: 1.1rem; text-align: center; border: 0; padding: 0; }
+.sds-q-done .sds-lb-week { margin: 0 auto 12px; text-align: center; font-size: 0.9rem; }
+.sds-lb-table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.sds-lb-table th { font-size: 0.78rem; font-weight: 600; color: var(--q-muted); text-align: left; padding: 4px 8px;
+  border-bottom: 2px solid var(--q-border); }
+.sds-lb-table td { padding: 8px; border-bottom: 1px solid var(--q-border); }
+.sds-lb-table .sds-lb-rank { width: 2.5em; text-align: center; font-weight: 700; }
+.sds-lb-table .sds-lb-quizzes, .sds-lb-table .sds-lb-score { text-align: right; white-space: nowrap; }
+.sds-lb-table td.sds-lb-score { font-weight: 700; }
+.sds-lb-table tr.is-me td { background: var(--q-right-bg); color: #1f2933; }
+.sds-lb-table tr.is-me td:first-child { border-radius: 8px 0 0 8px; }
+.sds-lb-table tr.is-me td:last-child { border-radius: 0 8px 8px 0; }
+.sds-lb-table tr.is-outside td { border-top: 2px dashed var(--q-border); }
+.sds-lb-alias { color: inherit; opacity: 0.75; font-size: 0.9em; }
+.sds-q-done .sds-lb-note { margin: 10px 0 0; max-width: none; font-size: 0.8rem; text-align: center; }
 .sds-q-confetti { position: absolute; inset: 0; pointer-events: none; }
 .sds-q-error { color: #b42318; }
 

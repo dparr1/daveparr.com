@@ -65,10 +65,56 @@
     return `${h.slice(0, 8)}-${h.slice(8, 12)}-${h.slice(12, 16)}-${h.slice(16, 20)}-${h.slice(20)}`;
   }
 
+  // Returns the save's promise (or null), so the leaderboard can wait for the
+  // last answer to be saved before it asks for this week's scores.
   function record(fn, args) {
     try {
-      if (window.sdsProgress && window.sdsProgress.record) window.sdsProgress.record(fn, args);
+      if (window.sdsProgress && window.sdsProgress.record) return window.sdsProgress.record(fn, args);
     } catch (_) { /* saving never breaks the quiz */ }
+    return null;
+  }
+
+  // ---- Weekly leaderboard ----------------------------------------------------
+  // After a quiz, the top ten quiz scores in the student's class this week
+  // (Saturday to Friday), from quiz_week_leaderboard() in supabase/setup.sql
+  // in the GEOG 215 repo. Classmates appear under made-up leaderboard names,
+  // never real names (quiz scores are FERPA education records); the student's
+  // own row says "You". On daveparr.com (no sign-in) it isn't shown.
+  const shortDate = (iso) => new Date(iso + "T12:00:00").toLocaleDateString("en-US",
+    { month: "short", day: "numeric" });
+
+  function leaderboardHtml(rows) {
+    const first = rows[0];
+    const me = rows.find((r) => r.is_me);
+    const ordinal = (n) => n + ({ 1: "st", 2: "nd", 3: "rd" }[(n % 100 >= 11 && n % 100 <= 13) ? 0 : n % 10] || "th");
+    const body = rows.map((r) => `
+      <tr class="${r.is_me ? "is-me" : ""}${Number(r.rank) > 10 ? " is-outside" : ""}">
+        <td class="sds-lb-rank">${Number(r.rank)}</td>
+        <td class="sds-lb-name">${r.is_me ? `<strong>You</strong> <span class="sds-lb-alias">(${esc(r.name)})</span>` : esc(r.name)}</td>
+        <td class="sds-lb-quizzes">${Number(r.quizzes)}</td>
+        <td class="sds-lb-score">${fmtScore(Number(r.score))}</td>
+      </tr>`).join("");
+    const where = me ? `You're ${ordinal(Number(me.rank))} of ${Number(first.students)} this week.` : "";
+    return `
+      <h3 class="sds-lb-title">This week's top ten</h3>
+      <p class="sds-lb-week">${shortDate(first.week_start)} to ${shortDate(first.week_end)} (ends Friday)${where ? " &middot; " + where : ""}</p>
+      <table class="sds-lb-table">
+        <thead><tr><th class="sds-lb-rank">#</th><th>Leaderboard name</th><th class="sds-lb-quizzes">Quizzes</th><th class="sds-lb-score">Points</th></tr></thead>
+        <tbody>${body}</tbody>
+      </table>
+      <p class="sds-lb-note">Points from every chapter and unit quiz started this week. Classmates are shown by
+        made-up leaderboard names, never real names, and only you see that a row is yours.</p>`;
+  }
+
+  async function showLeaderboard(box, saves) {
+    if (!window.sdsProgress || !window.sdsProgress.read) return;
+    try {
+      await Promise.all(saves.filter(Boolean));
+      const rows = await window.sdsProgress.read("quiz_week_leaderboard", {});
+      if (!Array.isArray(rows) || !rows.length) return;
+      box.innerHTML = leaderboardHtml(rows);
+      box.hidden = false;
+    } catch (_) { /* the leaderboard is optional */ }
   }
 
   const el = (tag, attrs, html) => {
@@ -305,6 +351,7 @@
 
     start() {
       this.session = uuid();
+      this.saves = [];
       this.items = this.pick().map((q) => ({ q, missed: false, done: false }));
       this.queue = this.items.slice();
       this.fixing = false;
@@ -530,14 +577,14 @@
         this.stats.incorrect++;
         item.missed = true;
       }
-      record("record_chapter_quiz_answer", {
+      this.saves.push(record("record_chapter_quiz_answer", {
         p_session: this.session, p_chapter: this.bank.id, p_chapter_title: this.bank.title,
         // The label includes the code, so "What does this code print?"
         // questions can be told apart on the admin page.
         p_size: this.items.length, p_question: q.id,
         p_label: q.code ? q.prompt + " " + q.code.replace(/\s*\n\s*/g, "; ") : q.prompt,
         p_correct: !!result.correct, p_first_try: firstTry,
-      });
+      }));
 
       // Update the bar straight away, as Duolingo does.
       const top = this.root.querySelector(".sds-q-top");
@@ -576,7 +623,7 @@
     }
 
     finish() {
-      record("record_chapter_quiz_finish", { p_session: this.session });
+      this.saves.push(record("record_chapter_quiz_finish", { p_session: this.session }));
       const s = this.stats;
       const total = s.correct + s.incorrect;
       const success = total ? Math.round((s.correct / total) * 100) : 100;
@@ -598,7 +645,8 @@
         </div>
         <div class="sds-q-actions">
           <button type="button" class="sds-q-btn sds-q-primary">New quiz</button>
-        </div>`);
+        </div>
+        <div class="sds-lb" aria-live="polite" hidden></div>`);
       card.prepend(coach("happy", lines[Math.floor(Math.random() * lines.length)]));
       const again = card.querySelector("button");
       again.addEventListener("click", () => this.start());
@@ -606,6 +654,7 @@
       again.focus();
       playSound("finish");
       if (!reduceMotion()) confetti(this.root);
+      showLeaderboard(card.querySelector(".sds-lb"), this.saves);
     }
   }
 
