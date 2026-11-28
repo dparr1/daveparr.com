@@ -473,6 +473,50 @@
     ]
   },
   {
+    "objectID": "chapters/r-basics-exercise.html",
+    "href": "chapters/r-basics-exercise.html",
+    "title": "Chapter exercise: R Basics",
+    "section": "",
+    "text": "Purpose\nNorth Carolina Cities in Numbers\nThis exercise goes with Chapter 3, R Basics. It should take you about one hour. Read this whole section before you start.\nSkills you’ll practice. By the end of this exercise you will be able to:\nKnowledge you’ll gain. You’ll learn how much six North Carolina cities grew between the 2010 and 2020 Censuses.\nWhy this matters. Every map and analysis in this course is built on these pieces. Most of the problems students hit in the first few weeks come from one of them: chunks run out of order, a package that was never loaded, a number stored as text, or an error message nobody read. If you can catch these problems yourself, you’ll spend much less time stuck later on. Checking that numbers really are numbers is also a skill professional analysts use every day, because real data is messy.",
+    "crumbs": [
+      "Unit 1: R and Spatial Data Science",
+      "Chapter exercise: R Basics"
+    ]
+  },
+  {
+    "objectID": "chapters/r-basics-exercise.html#purpose",
+    "href": "chapters/r-basics-exercise.html#purpose",
+    "title": "Chapter exercise: R Basics",
+    "section": "",
+    "text": "Run the chunks of an R Markdown file in order, and use Restart R and Run All Chunks to check that a file will knit.\nInstall a package once (with the Packages tab) and load it in every file (with library()).\nMake vectors of each of R’s four basic data types (logical, integer, numeric, and character) and check them with class().\nSpot and fix coercion, when one stray value turns a column of numbers into text.\nName variables clearly and consistently in snake_case.\nRead an error message, find the broken line, and fix it.\nUse a help page to learn how a function works.",
+    "crumbs": [
+      "Unit 1: R and Spatial Data Science",
+      "Chapter exercise: R Basics"
+    ]
+  },
+  {
+    "objectID": "chapters/r-basics-exercise.html#task",
+    "href": "chapters/r-basics-exercise.html#task",
+    "title": "Chapter exercise: R Basics",
+    "section": "Task",
+    "text": "Task\nWork through Parts 1 to 8 in order, top to bottom. In each part:\n\nRead the short explanation, then do each step marked with a bullet (•).\nWherever you see ___, replace it with the missing code before you run the chunk. A chunk with ___ in it won’t run.\nAnswer each question (Q1, Q2, …) in a sentence or two of Markdown, where it says Your answer here. Delete Your answer here. when you write your answer.\nRun each chunk with the green arrow or Ctrl+Enter (Cmd+Return on a Mac), and look at the output before you move on.\n\n\n\n\nPart\nWhat you’ll do\nAbout\n\n\n\n\n1\nSet up your file\n5 min\n\n\n2\nSee why the order you run code in matters\n8 min\n\n\n3\nInstall and load a package, and read a help page\n10 min\n\n\n4\nMake vectors of each data type and do math with them\n12 min\n\n\n5\nFind and fix coercion\n8 min\n\n\n6\nRename badly named variables\n5 min\n\n\n7\nDebug broken code\n10 min\n\n\n8\nLearn a new function from its help page\n5 min\n\n\n9\nReflect, knit, and turn in\n5 min\n\n\n\nTurn in your .Rmd file and your knitted .html file on Canvas.",
+    "crumbs": [
+      "Unit 1: R and Spatial Data Science",
+      "Chapter exercise: R Basics"
+    ]
+  },
+  {
+    "objectID": "chapters/r-basics-exercise.html#criteria-for-success",
+    "href": "chapters/r-basics-exercise.html#criteria-for-success",
+    "title": "Chapter exercise: R Basics",
+    "section": "Criteria for success",
+    "text": "Criteria for success\nUse this checklist before you turn your work in. Each item matches a row of the rubric below.\n\nThe file knits to HTML with no errors, and the author and date at the top are yours.\nEvery ___ has been filled in, and every chunk runs.\nNo install.packages() line is anywhere in the file.\nEvery question (Q1 to Q12) has an answer in complete sentences.\nEach answer explains why, not just what. (See the examples below.)\nAll the variable names you create are in snake_case and say what they hold.\nThe pipe |&gt; is used where the instructions ask for it.\nThe broken code in Part 7 has been fixed, and the chunk now runs.\nThe three reflection questions are answered.\n\n\n\n\n\n\n\n\n\n\nCriterion\nFull credit\nPartial credit\nNo credit\n\n\n\n\nKnits (2 pts)\nKnits to HTML with no errors\nKnits, but some chunks have errors shown\nDoesn’t knit, or no HTML turned in\n\n\nCode (4 pts)\nEvery blank filled in correctly; every chunk runs\nMost blanks correct\nMany blanks missing or wrong\n\n\nQuestions (8 pts)\nQ1 to Q12 answered correctly, with reasons\nSome answers missing, wrong, or with no reason\nMost answers missing\n\n\nStyle (3 pts)\nsnake_case names that say what they hold; pipe used where asked; no install.packages() in the file\nOne or two style problems\nMany style problems\n\n\nDebugging (2 pts)\nAll six lines in Part 7 fixed, with the mistake named\nSome lines fixed\nNone fixed\n\n\nReflection (1 pt)\nAll three answered\n\nMissing\n\n\n\nWhat a good answer looks like. Here is a question, a weak answer, and a strong one.\n\nQuestion: Why does mean(c(\"5\", \"10\")) return NA?\nWeak answer: “Because it’s wrong.”\nStrong answer: “The numbers are in quotation marks, so R stores them as character (text), not numeric. mean() can only average numbers, so it returns NA with a warning. Removing the quotation marks fixes it.”\n\nThe strong answer says what happened, why it happened, and how to fix it. It doesn’t need to be long.\nIMPORTANT! Save often. Before you knit, choose Run &gt; Restart R and Run All Chunks to make sure every chunk works from a fresh start.\n\n\n\nThe integrated development environment (IDE) where you write and run R.\nR does the computing; RStudio is the workspace around it.\nA block of R code inside an R Markdown file, starting with\n```{r} and ending with three backticks.\nA document format (.Rmd) that mixes formatted text with\nchunks of R code. Knitting it runs the code and builds a finished\nreport.\nTo build an R Markdown file into a finished document (HTML, PDF, or\nWord). Knitting reruns every code chunk from the top in a fresh R\nsession.\nA bundle of code, written by other users, that adds new functions to R.\nInstall it once with install.packages(), then load it in\neach session with library().\nA sequence of values that R stores together, made with c(),\nsuch as c(71, 75, 68).\nThe kind of value R is storing. The four main atomic types are logical,\ninteger, numeric, and character; class() tells you which\nyou have.\nR converting values from one data type to another. Mixing types in one\nvector coerces them all to the type that can hold everything, usually\ncharacter.\nIn R, a named piece of memory that holds data, such as\nmonths &lt;- 12. In a dataset, a measured characteristic,\nsuch as median income; each Census variable has a code.\nA way of naming variables with lowercase words joined by underscores, as\nin pop_chapel_hill. The tidyverse style guide uses it.\nA function’s documentation, opened with ?name or\nhelp(name). Every help page has a Description, Usage,\nArguments, and Examples.\nCode that takes inputs (arguments), does a job, and returns an output,\nsuch as mean(temps).\nA simple way of formatting plain text: # for headings,\n*italic*, **bold**, and - for\nlist items.\nFinding and fixing the mistakes (bugs) in code: read the error message,\nfind the line, make a guess, and test it.\nThe operator |&gt;, which passes the result on its left as\nthe first argument of the function on its right. Read it as “and then.”",
+    "crumbs": [
+      "Unit 1: R and Spatial Data Science",
+      "Chapter exercise: R Basics"
+    ]
+  },
+  {
     "objectID": "chapters/indexing-vectors-data-frames.html",
     "href": "chapters/indexing-vectors-data-frames.html",
     "title": "4  Indexing Vectors and Data Frames",
@@ -591,6 +635,50 @@
     "crumbs": [
       "Unit 1: R and Spatial Data Science",
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Indexing Vectors and Data Frames</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/indexing-vectors-data-frames-exercise.html",
+    "href": "chapters/indexing-vectors-data-frames-exercise.html",
+    "title": "Chapter exercise: Indexing Vectors and Data Frames",
+    "section": "",
+    "text": "Purpose\nPicking Out Cities and States\nThis exercise goes with Chapter 4, Indexing Vectors and Data Frames. It builds on the R Basics exercise from Chapter 3. It should take you about one hour. Read this whole section before you start.\nSkills you’ll practice. By the end of this exercise you will be able to:\nKnowledge you’ll gain. You’ll find out how North Carolina’s median income compares with the other states, and which states saw their median income fall between 2010 and 2015.\nWhy this matters. Most of data analysis is not making data but picking out the part you need: the counties above the state median, the tracts inside one city, the states where income fell. Every map you make this semester starts by selecting the right rows and columns. Later, the tidyverse gives you shortcuts for this (filter() and select()), but they work exactly like the brackets you’ll use today, so understanding brackets now makes the rest of the course easier.",
+    "crumbs": [
+      "Unit 1: R and Spatial Data Science",
+      "Chapter exercise: Indexing Vectors and Data Frames"
+    ]
+  },
+  {
+    "objectID": "chapters/indexing-vectors-data-frames-exercise.html#purpose",
+    "href": "chapters/indexing-vectors-data-frames-exercise.html#purpose",
+    "title": "Chapter exercise: Indexing Vectors and Data Frames",
+    "section": "",
+    "text": "Index a vector by position, by a logical condition, and by name.\nWrite comparisons (&gt;, &lt;, ==, !=, …) and combine them with &, |, and !.\nCount how many values meet a condition.\nLook inside a data frame with str(), nrow(), ncol(), and names().\nPull out rows, columns, and single values from a data frame with [row, column] and $.\nRead a CSV file into R with read.csv(), and check that each column has the type you expect.",
+    "crumbs": [
+      "Unit 1: R and Spatial Data Science",
+      "Chapter exercise: Indexing Vectors and Data Frames"
+    ]
+  },
+  {
+    "objectID": "chapters/indexing-vectors-data-frames-exercise.html#task",
+    "href": "chapters/indexing-vectors-data-frames-exercise.html#task",
+    "title": "Chapter exercise: Indexing Vectors and Data Frames",
+    "section": "Task",
+    "text": "Task\nWork through Parts 1 to 7 in order, top to bottom. In each part:\n\nRead the short explanation, then do each step marked with a bullet (•).\nWherever you see ___, replace it with the missing code before you run the chunk. A chunk with ___ in it won’t run.\nBefore you run each chunk, predict what it will return. Then run it and check. Predicting first is the fastest way to learn indexing.\nAnswer each question (Q1, Q2, …) in a sentence or two of Markdown, where it says Your answer here.\n\n\n\n\nPart\nWhat you’ll do\nAbout\n\n\n\n\n1\nSet up your file and load the data\n5 min\n\n\n2\nIndex a vector by position\n8 min\n\n\n3\nIndex a vector with conditions, AND, OR, and NOT\n12 min\n\n\n4\nIndex a vector by name\n7 min\n\n\n5\nExplore and index a data frame of the 50 states\n18 min\n\n\n6\nMake a CSV file and read it into R\n8 min\n\n\n7\nReflect, knit, and turn in\n2 min\n\n\n\nTurn in your .Rmd file and your knitted .html file on Canvas.",
+    "crumbs": [
+      "Unit 1: R and Spatial Data Science",
+      "Chapter exercise: Indexing Vectors and Data Frames"
+    ]
+  },
+  {
+    "objectID": "chapters/indexing-vectors-data-frames-exercise.html#criteria-for-success",
+    "href": "chapters/indexing-vectors-data-frames-exercise.html#criteria-for-success",
+    "title": "Chapter exercise: Indexing Vectors and Data Frames",
+    "section": "Criteria for success",
+    "text": "Criteria for success\nUse this checklist before you turn your work in. Each item matches a row of the rubric below.\n\nThe file knits to HTML with no errors, and the author and date at the top are yours.\nEvery ___ has been filled in, and every chunk runs.\nEvery question (Q1 to Q12) has an answer in complete sentences.\nAnswers that ask for a number or a state use the output of your code, and say what the number means.\nYou used == (two equals signs) for every “is equal to” test.\nYour CSV file, nc_cities.csv, is saved in the same folder as this .Rmd file, and read.csv() reads it with the right column types.\nThe pipe |&gt; is used where the instructions ask for it.\nNo install.packages() line is anywhere in the file.\nThe three reflection questions are answered.\n\n\n\n\n\n\n\n\n\n\nCriterion\nFull credit\nPartial credit\nNo credit\n\n\n\n\nKnits (2 pts)\nKnits to HTML with no errors\nKnits, but some chunks have errors shown\nDoesn’t knit, or no HTML turned in\n\n\nIndexing code (6 pts)\nEvery blank filled in correctly; every chunk returns what was asked\nMost blanks correct\nMany blanks missing or wrong\n\n\nQuestions (8 pts)\nQ1 to Q12 answered correctly, using the output, with reasons\nSome answers missing, wrong, or with no reason\nMost answers missing\n\n\nCSV file (2 pts)\nnc_cities.csv read in, with pop_2010 numeric after the fix\nRead in, but the type problem isn’t fixed\nNot done\n\n\nStyle (1 pt)\n== for equality, pipe where asked, no install.packages()\n\nSeveral problems\n\n\nReflection (1 pt)\nAll three answered\n\nMissing\n\n\n\nWhat a good answer looks like. Here is a question, a weak answer, and a strong one.\n\nQuestion: What does nc_pop[3] return?\nWeak answer: “3.”\nStrong answer: “It returns 299,035, Greensboro’s 2020 population. 3 is the index, the position in the vector; the value at that position is 299,035.”\n\nThe strong answer gives the value, says what it means, and keeps the index and the value apart.\nIMPORTANT! Save often. Before you knit, choose Run &gt; Restart R and Run All Chunks to make sure every chunk works from a fresh start.\n\n\n\nA sequence of values that R stores together, made with c(),\nsuch as c(71, 75, 68).\nR’s table: rows are observations and columns are variables. A tibble is\nthe tidyverse’s version of a data frame.\nThe integrated development environment (IDE) where you write and run R.\nR does the computing; RStudio is the workspace around it.\nA plain-text table in which each line is a row and commas separate the\nvalues. Read one into R with read.csv() or\nread_csv().\nThe middle value when values are sorted, so half are above and half\nbelow. Unlike counts, medians can’t be added across areas.\nA small area of about 1,200 to 8,000 people (4,000 on average), drawn to\nbe fairly stable over time. The workhorse unit for neighborhood\nanalysis.\nA family of R packages (including dplyr,\nggplot2, and readr) for reading,\ncleaning, reshaping, summarizing, and plotting data, all designed to\nwork together.\nA block of R code inside an R Markdown file, starting with\n```{r} and ending with three backticks.\nA simple way of formatting plain text: # for headings,\n*italic*, **bold**, and - for\nlist items.\nTo build an R Markdown file into a finished document (HTML, PDF, or\nWord). Knitting reruns every code chunk from the top in a fresh R\nsession.\nThe operator |&gt;, which passes the result on its left as\nthe first argument of the function on its right. Read it as “and then.”",
+    "crumbs": [
+      "Unit 1: R and Spatial Data Science",
+      "Chapter exercise: Indexing Vectors and Data Frames"
     ]
   },
   {
@@ -723,6 +811,50 @@
     "crumbs": [
       "Unit 1: R and Spatial Data Science",
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Blocks, Loops, and Functions</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/blocks-loops-functions-exercise.html",
+    "href": "chapters/blocks-loops-functions-exercise.html",
+    "title": "Chapter exercise: Blocks, Loops, and Functions",
+    "section": "",
+    "text": "Purpose\nHow Fast Are NC Cities Growing?\nThis exercise goes with Chapter 5, Blocks, Loops, and Functions. It builds on the R Basics (Chapter 3) and Indexing (Chapter 4) exercises. It should take you about one hour. Read this whole section before you start.\nSkills you’ll practice. By the end of this exercise you will be able to:\nKnowledge you’ll gain. You’ll estimate how many years it would take six North Carolina cities to double in size if they kept growing at their 2010 to 2020 rate, and sort the states into low, middle, and high income groups.\nWhy this matters. Real projects repeat the same steps many times: the same calculation for 100 counties, the same download for five years, the same map for every state. Copying and pasting code is slow and error-prone, because a fix in one copy doesn’t reach the others. Loops and functions let you write the steps once and reuse them, which is how analysts handle big data sets. You’ll also need to read functions: later in the course you’ll use functions that calculate the mean center and standard distance of a map layer, and they’re built from exactly the pieces you’ll practice today.",
+    "crumbs": [
+      "Unit 1: R and Spatial Data Science",
+      "Chapter exercise: Blocks, Loops, and Functions"
+    ]
+  },
+  {
+    "objectID": "chapters/blocks-loops-functions-exercise.html#purpose",
+    "href": "chapters/blocks-loops-functions-exercise.html#purpose",
+    "title": "Chapter exercise: Blocks, Loops, and Functions",
+    "section": "",
+    "text": "Use if, else if, and else to run a block of code only when a test is TRUE.\nUse ifelse() to make the same decision for every element of a vector.\nRepeat a block with a while loop, and keep it from running forever.\nRepeat a block for each item in a vector with a for loop, and save the results.\nDecide when a loop is needed and when a vectorized function already does the job.\nWrite your own functions, with arguments, default values, and a check that stops with a helpful error.\nExplain why a function doesn’t change the variables outside it.",
+    "crumbs": [
+      "Unit 1: R and Spatial Data Science",
+      "Chapter exercise: Blocks, Loops, and Functions"
+    ]
+  },
+  {
+    "objectID": "chapters/blocks-loops-functions-exercise.html#task",
+    "href": "chapters/blocks-loops-functions-exercise.html#task",
+    "title": "Chapter exercise: Blocks, Loops, and Functions",
+    "section": "Task",
+    "text": "Task\nWork through Parts 1 to 7 in order, top to bottom. In each part:\n\nRead the short explanation, then do each step marked with a bullet (•).\nWherever you see ___, replace it with the missing code before you run the chunk. A chunk with ___ in it won’t run.\nBefore you run each chunk, predict what it will return. Then run it and check.\nAnswer each question (Q1, Q2, …) in a sentence or two of Markdown, where it says Your answer here.\nIf R seems stuck (the stop sign in the Console stays red), you’ve made an infinite loop. Click the stop sign or press Esc, then fix the loop.\n\n\n\n\nPart\nWhat you’ll do\nAbout\n\n\n\n\n1\nSet up your file and load the data\n3 min\n\n\n2\nMake decisions with if, else, and ifelse()\n12 min\n\n\n3\nFind a doubling time with a while loop\n10 min\n\n\n4\nRepeat a calculation with a for loop\n10 min\n\n\n5\nWrite your own functions\n15 min\n\n\n6\nPut it all together: a loop that calls your function\n7 min\n\n\n7\nReflect, knit, and turn in\n3 min\n\n\n\nTurn in your .Rmd file and your knitted .html file on Canvas.",
+    "crumbs": [
+      "Unit 1: R and Spatial Data Science",
+      "Chapter exercise: Blocks, Loops, and Functions"
+    ]
+  },
+  {
+    "objectID": "chapters/blocks-loops-functions-exercise.html#criteria-for-success",
+    "href": "chapters/blocks-loops-functions-exercise.html#criteria-for-success",
+    "title": "Chapter exercise: Blocks, Loops, and Functions",
+    "section": "Criteria for success",
+    "text": "Criteria for success\nUse this checklist before you turn your work in. Each item matches a row of the rubric below.\n\nThe file knits to HTML with no errors (except in the two chunks marked error=TRUE, which are meant to show an error), and the author and date at the top are yours.\nEvery ___ has been filled in, and every chunk runs.\nEvery block is indented by two spaces inside its curly braces, and every { has a matching }.\nYour functions growth_rate(), doubling_time(), and income_group() work and return the test values given in the instructions.\ndoubling_time() stops with your own helpful error message when the rate isn’t positive.\nEvery question (Q1 to Q12) has an answer in complete sentences that explains why.\nFunction and variable names are snake_case and say what they hold or do.\nThe pipe |&gt; is used where the instructions ask for it.\nThe three reflection questions are answered.\n\n\n\n\n\n\n\n\n\n\nCriterion\nFull credit\nPartial credit\nNo credit\n\n\n\n\nKnits (2 pts)\nKnits to HTML; only the two error=TRUE chunks show errors\nKnits, but other chunks show errors\nDoesn’t knit, or no HTML turned in\n\n\nif/else and loops (5 pts)\nEvery blank filled in correctly; loops end and save their results\nMost blanks correct, or a loop doesn’t save its results\nMany blanks missing or wrong\n\n\nFunctions (5 pts)\nAll three functions return the test values; input check works\nOne function wrong, or no input check\nFunctions missing or don’t run\n\n\nQuestions (6 pts)\nQ1 to Q12 answered correctly, with reasons\nSome answers missing, wrong, or with no reason\nMost answers missing\n\n\nStyle (1 pt)\nIndented blocks, snake_case names, pipe where asked\n\nSeveral problems\n\n\nReflection (1 pt)\nAll three answered\n\nMissing\n\n\n\nWhat a good answer looks like. Here is a question, a weak answer, and a strong one.\n\nQuestion: Why didn’t the loop while (x &lt; 100) { y &lt;- y + 1 } ever stop?\nWeak answer: “It was broken.”\nStrong answer: “The test checks x, but the block only changes y. x never changes, so x &lt; 100 stays TRUE forever. The block has to change x, for example with x &lt;- x + 1.”\n\nThe strong answer says which part of the code caused the problem, why, and how to fix it.\nIMPORTANT! Save often. Before you knit, choose Run &gt; Restart R and Run All Chunks to make sure every chunk works from a fresh start.\n\n\n\nCode that takes inputs (arguments), does a job, and returns an output,\nsuch as mean(temps).\nThe integrated development environment (IDE) where you write and run R.\nR does the computing; RStudio is the workspace around it.\nA sequence of values that R stores together, made with c(),\nsuch as c(71, 75, 68).\nDone to every element of a vector at once, without a loop. Arithmetic in\nR is vectorized, so distance / air_time divides row by row.\nAn input to a function, written inside its parentheses.\nThe value an argument takes when you don’t supply one, set with\n= in the function definition:\nfunction(x, factor = 1.609).\nIn R, a named piece of memory that holds data, such as\nmonths &lt;- 12. In a dataset, a measured characteristic,\nsuch as median income; each Census variable has a code.\nData too large, fast, or varied for ordinary tools, often described by\nthree Vs: volume, velocity, and variety.\nThe average x coordinate and average y coordinate of a set of features.\nLike the mean, outliers pull it.\nThe typical distance of features from their mean center: the spatial\ncounterpart of the standard deviation, drawn as a circle.\nA block of R code inside an R Markdown file, starting with\n```{r} and ending with three backticks.\nA simple way of formatting plain text: # for headings,\n*italic*, **bold**, and - for\nlist items.\nThe RStudio pane (bottom left) where R runs commands and prints results,\nwarnings, and errors. Nothing typed here is saved.\nA loop that never ends because its test never becomes\nFALSE. Stop it with Esc or RStudio’s red stop sign.\nTo build an R Markdown file into a finished document (HTML, PDF, or\nWord). Knitting reruns every code chunk from the top in a fresh R\nsession.\nA way of naming variables with lowercase words joined by underscores, as\nin pop_chapel_hill. The tidyverse style guide uses it.\nThe operator |&gt;, which passes the result on its left as\nthe first argument of the function on its right. Read it as “and then.”",
+    "crumbs": [
+      "Unit 1: R and Spatial Data Science",
+      "Chapter exercise: Blocks, Loops, and Functions"
     ]
   },
   {
@@ -887,6 +1019,50 @@
     ]
   },
   {
+    "objectID": "chapters/tidyverse-filter-pipe-exercise.html",
+    "href": "chapters/tidyverse-filter-pipe-exercise.html",
+    "title": "Chapter exercise: Into the Tidyverse: glimpse, filter, and the Pipe",
+    "section": "",
+    "text": "Purpose\nFlights to North Carolina\nThis exercise goes with Chapter 6, Into the Tidyverse: glimpse, filter, and the Pipe. It builds on the Indexing exercise from Chapter 4. It should take you about one hour. Read this whole section before you start.\nSkills you’ll practice. By the end of this exercise you will be able to:\nKnowledge you’ll gain. You’ll find out how many flights left New York City for North Carolina’s airports in 2013, which North Carolina airport got the most, and how many of the flights to Raleigh–Durham were cancelled.\nWhy this matters. Almost every analysis this semester starts with a filter: the counties in one state, the tracts in one city, the years after 2010. filter() and the pipe make those steps short enough to read at a glance, so you and anyone checking your work can see exactly which rows you kept. Missing values are the most common reason two “correct” methods give different answers, and nothing warns you when it happens. Learning to check for them now will save you from wrong numbers in your final project.",
+    "crumbs": [
+      "Unit 2: Into the Tidyverse",
+      "Chapter exercise: Into the Tidyverse: glimpse, filter, and the Pipe"
+    ]
+  },
+  {
+    "objectID": "chapters/tidyverse-filter-pipe-exercise.html#purpose",
+    "href": "chapters/tidyverse-filter-pipe-exercise.html#purpose",
+    "title": "Chapter exercise: Into the Tidyverse: glimpse, filter, and the Pipe",
+    "section": "",
+    "text": "Load the tidyverse and a data package, and look inside a data frame with glimpse().\nKeep the rows you need with filter(), using one condition or several.\nChoose between AND (, or &) and OR (|), and predict which gives more rows.\nChain steps together with the pipe, |&gt;, and read a chain top to bottom.\nCount rows with count() and nrow().\nFind missing values with is.na(), and explain why base R brackets and filter() can give different counts.",
+    "crumbs": [
+      "Unit 2: Into the Tidyverse",
+      "Chapter exercise: Into the Tidyverse: glimpse, filter, and the Pipe"
+    ]
+  },
+  {
+    "objectID": "chapters/tidyverse-filter-pipe-exercise.html#task",
+    "href": "chapters/tidyverse-filter-pipe-exercise.html#task",
+    "title": "Chapter exercise: Into the Tidyverse: glimpse, filter, and the Pipe",
+    "section": "Task",
+    "text": "Task\nWork through Parts 1 to 7 in order, top to bottom. In each part:\n\nRead the short explanation, then do each step marked with a bullet (•).\nWherever you see ___, replace it with the missing code before you run the chunk. A chunk with ___ in it won’t run.\nBefore you run each chunk, predict how many rows it will return. Then run it and check.\nAnswer each question (Q1, Q2, …) in a sentence or two of Markdown, where it says Your answer here.\nUse the pipe, |&gt;, for every chain, as the instructions show.\n\n\n\n\nPart\nWhat you’ll do\nAbout\n\n\n\n\n1\nSet up your file and load the data\n5 min\n\n\n2\nLook inside flights with glimpse()\n8 min\n\n\n3\nFilter with one condition\n10 min\n\n\n4\nFilter with several conditions: AND and OR\n12 min\n\n\n5\nChain steps with the pipe\n8 min\n\n\n6\nMissing values: why the counts don’t match\n12 min\n\n\n7\nReflect, knit, and turn in\n5 min\n\n\n\nTurn in your .Rmd file and your knitted .html file on Canvas.",
+    "crumbs": [
+      "Unit 2: Into the Tidyverse",
+      "Chapter exercise: Into the Tidyverse: glimpse, filter, and the Pipe"
+    ]
+  },
+  {
+    "objectID": "chapters/tidyverse-filter-pipe-exercise.html#criteria-for-success",
+    "href": "chapters/tidyverse-filter-pipe-exercise.html#criteria-for-success",
+    "title": "Chapter exercise: Into the Tidyverse: glimpse, filter, and the Pipe",
+    "section": "Criteria for success",
+    "text": "Criteria for success\nUse this checklist before you turn your work in. Each item matches a row of the rubric below.\n\nThe file knits to HTML with no errors (except in the chunk marked error=TRUE, which is meant to show an error), and the author and date at the top are yours.\nEvery ___ has been filled in, and every chunk runs.\nEvery question (Q1 to Q11) has an answer in complete sentences.\nAnswers that ask for a number use the output of your code, and say what the number counts (flights, cancelled flights, airports…).\nYou used == for every “is equal to” test, and is.na() (not == NA) to find missing values.\nEvery chain uses the pipe |&gt;, with one step per line.\nNo install.packages() line is anywhere in the file.\nThe three reflection questions are answered.\n\n\n\n\n\n\n\n\n\n\nCriterion\nFull credit\nPartial credit\nNo credit\n\n\n\n\nKnits (2 pts)\nKnits to HTML with no errors\nKnits, but some chunks have errors shown\nDoesn’t knit, or no HTML turned in\n\n\nFilter code (6 pts)\nEvery blank filled in correctly; every chunk returns what was asked\nMost blanks correct\nMany blanks missing or wrong\n\n\nQuestions (8 pts)\nQ1 to Q11 answered correctly, using the output, with reasons\nSome answers missing, wrong, or with no reason\nMost answers missing\n\n\nMissing values (2 pts)\nPart 6 explains why the two counts differ, and fixes it with is.na()\nCounts given, but not explained\nNot done\n\n\nStyle (1 pt)\nPipe for every chain, one step per line, == and is.na() used correctly, no install.packages()\n\nSeveral problems\n\n\nReflection (1 pt)\nAll three answered\n\nMissing\n\n\n\nWhat a good answer looks like. Here is a question, a weak answer, and a strong one.\n\nQuestion: How many flights left New York for Raleigh–Durham in 2013?\nWeak answer: “8163.”\nStrong answer: “8,163 flights left New York City’s three airports for Raleigh–Durham (RDU) in 2013. That’s about 22 a day. I counted them with filter(dest == \"RDU\") and count().”\n\nThe strong answer gives the number with its units, puts it in context, and says how it was found.\nIMPORTANT! Save often. Before you knit, choose Run &gt; Restart R and Run All Chunks to make sure every chunk works from a fresh start.\n\n\n\nA family of R packages (including dplyr,\nggplot2, and readr) for reading,\ncleaning, reshaping, summarizing, and plotting data, all designed to\nwork together.\nThe operator |&gt;, which passes the result on its left as\nthe first argument of the function on its right. Read it as “and then.”\nThe integrated development environment (IDE) where you write and run R.\nR does the computing; RStudio is the workspace around it.\nA bundle of code, written by other users, that adds new functions to R.\nInstall it once with install.packages(), then load it in\neach session with library().\nR’s table: rows are observations and columns are variables. A tibble is\nthe tidyverse’s version of a data frame.\nA value that is unknown, written NA (“not available”) in R.\nMost calculations with NA give NA; test for it\nwith is.na().\nA small area of about 1,200 to 8,000 people (4,000 on average), drawn to\nbe fairly stable over time. The workhorse unit for neighborhood\nanalysis.\nA block of R code inside an R Markdown file, starting with\n```{r} and ending with three backticks.\nA simple way of formatting plain text: # for headings,\n*italic*, **bold**, and - for\nlist items.\nTo build an R Markdown file into a finished document (HTML, PDF, or\nWord). Knitting reruns every code chunk from the top in a fresh R\nsession.",
+    "crumbs": [
+      "Unit 2: Into the Tidyverse",
+      "Chapter exercise: Into the Tidyverse: glimpse, filter, and the Pipe"
+    ]
+  },
+  {
     "objectID": "chapters/tidyverse-arrange-select-mutate.html",
     "href": "chapters/tidyverse-arrange-select-mutate.html",
     "title": "7  Into the Tidyverse: arrange, distinct, select, and mutate",
@@ -1005,6 +1181,50 @@
     "crumbs": [
       "Unit 2: Into the Tidyverse",
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>Into the Tidyverse: arrange, distinct, select, and mutate</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/tidyverse-arrange-select-mutate-exercise.html",
+    "href": "chapters/tidyverse-arrange-select-mutate-exercise.html",
+    "title": "Chapter exercise: Into the Tidyverse: arrange, distinct, select, and mutate",
+    "section": "",
+    "text": "Purpose\nThe Fastest Flight to North Carolina\nThis exercise goes with Chapter 7, Into the Tidyverse: arrange, distinct, select, and mutate. It builds on the Filter and Pipe exercise from Chapter 6. It should take you about one hour. Read this whole section before you start.\nSkills you’ll practice. By the end of this exercise you will be able to:\nKnowledge you’ll gain. You’ll find out which airlines and routes connected New York with North Carolina in 2013, which flight to North Carolina left latest, and which was the fastest.\nWhy this matters. Real data sets have more columns than you need and rarely have the one you want. Census tables come as counts, and you’ll make your own percentages and densities with mutate(). You’ll sort counties to find the highest and lowest, and use select() to keep a table small enough to read. These four verbs, with filter(), are most of the day-to-day work of getting data into shape for a map.",
+    "crumbs": [
+      "Unit 2: Into the Tidyverse",
+      "Chapter exercise: Into the Tidyverse: arrange, distinct, select, and mutate"
+    ]
+  },
+  {
+    "objectID": "chapters/tidyverse-arrange-select-mutate-exercise.html#purpose",
+    "href": "chapters/tidyverse-arrange-select-mutate-exercise.html#purpose",
+    "title": "Chapter exercise: Into the Tidyverse: arrange, distinct, select, and mutate",
+    "section": "",
+    "text": "Find the unique values, and unique combinations of values, in a data frame with distinct().\nSort rows with arrange(), smallest first or largest first with desc(), and by two columns.\nKeep, drop, and reorder columns with select() and the selection helpers starts_with(), ends_with(), and contains().\nMake new columns from existing ones with mutate(), and check that they make sense.\nChain filter(), mutate(), arrange(), and select() to answer a question one step at a time.",
+    "crumbs": [
+      "Unit 2: Into the Tidyverse",
+      "Chapter exercise: Into the Tidyverse: arrange, distinct, select, and mutate"
+    ]
+  },
+  {
+    "objectID": "chapters/tidyverse-arrange-select-mutate-exercise.html#task",
+    "href": "chapters/tidyverse-arrange-select-mutate-exercise.html#task",
+    "title": "Chapter exercise: Into the Tidyverse: arrange, distinct, select, and mutate",
+    "section": "Task",
+    "text": "Task\nWork through Parts 1 to 7 in order, top to bottom. In each part:\n\nRead the short explanation, then do each step marked with a bullet (•).\nWherever you see ___, replace it with the missing code before you run the chunk. A chunk with ___ in it won’t run.\nBefore you run each chunk, predict what it will return. Then run it and check.\nAnswer each question (Q1, Q2, …) in a sentence or two of Markdown, where it says Your answer here.\nUse the pipe, |&gt;, for every chain, with one step per line.\n\n\n\n\nPart\nWhat you’ll do\nAbout\n\n\n\n\n1\nSet up your file and keep the flights to North Carolina\n5 min\n\n\n2\nFind unique values with distinct()\n10 min\n\n\n3\nSort rows with arrange()\n10 min\n\n\n4\nPick columns with select()\n8 min\n\n\n5\nMake new columns with mutate()\n15 min\n\n\n6\nPut the verbs together\n8 min\n\n\n7\nReflect, knit, and turn in\n4 min\n\n\n\nTurn in your .Rmd file and your knitted .html file on Canvas.",
+    "crumbs": [
+      "Unit 2: Into the Tidyverse",
+      "Chapter exercise: Into the Tidyverse: arrange, distinct, select, and mutate"
+    ]
+  },
+  {
+    "objectID": "chapters/tidyverse-arrange-select-mutate-exercise.html#criteria-for-success",
+    "href": "chapters/tidyverse-arrange-select-mutate-exercise.html#criteria-for-success",
+    "title": "Chapter exercise: Into the Tidyverse: arrange, distinct, select, and mutate",
+    "section": "Criteria for success",
+    "text": "Criteria for success\nUse this checklist before you turn your work in. Each item matches a row of the rubric below.\n\nThe file knits to HTML with no errors, and the author and date at the top are yours.\nEvery ___ has been filled in, and every chunk runs.\nEvery question (Q1 to Q11) has an answer in complete sentences.\nAnswers that ask for a value use the output of your code and give its units (minutes, miles, miles per hour).\nNew columns made with mutate() have clear, snake_case names, and you checked that their values make sense.\nEvery chain uses the pipe |&gt;, with one step per line.\nNo install.packages() line is anywhere in the file.\nThe three reflection questions are answered.\n\n\n\n\n\n\n\n\n\n\nCriterion\nFull credit\nPartial credit\nNo credit\n\n\n\n\nKnits (2 pts)\nKnits to HTML with no errors\nKnits, but some chunks have errors shown\nDoesn’t knit, or no HTML turned in\n\n\nCode (6 pts)\nEvery blank filled in correctly; every chunk returns what was asked\nMost blanks correct\nMany blanks missing or wrong\n\n\nQuestions (8 pts)\nQ1 to Q11 answered correctly, using the output, with units and reasons\nSome answers missing, wrong, or with no units\nMost answers missing\n\n\nPart 6 chain (2 pts)\nThe chain answers the question, in a sensible order of verbs\nRuns, but answers a different question\nNot done\n\n\nStyle (1 pt)\nPipe for every chain, one step per line, snake_case names, no install.packages()\n\nSeveral problems\n\n\nReflection (1 pt)\nAll three answered\n\nMissing\n\n\n\nWhat a good answer looks like. Here is a question, a weak answer, and a strong one.\n\nQuestion: What was the longest flight from New York in 2013?\nWeak answer: “4983.”\nStrong answer: “The longest was Hawaiian Airlines’ flight from JFK to Honolulu (HNL), 4,983 miles. I found it by sorting flights with arrange(desc(distance)).”\n\nThe strong answer names the flight, gives the number with its units, and shows where the number came from.\nIMPORTANT! Save often. Before you knit, choose Run &gt; Restart R and Run All Chunks to make sure every chunk works from a fresh start.\n\n\n\nA family of R packages (including dplyr,\nggplot2, and readr) for reading,\ncleaning, reshaping, summarizing, and plotting data, all designed to\nwork together.\nThe operator |&gt;, which passes the result on its left as\nthe first argument of the function on its right. Read it as “and then.”\nThe integrated development environment (IDE) where you write and run R.\nR does the computing; RStudio is the workspace around it.\nA value counted once, however many times it repeats.\ndistinct() keeps one row for each unique value, or each\nunique combination of values.\nR’s table: rows are observations and columns are variables. A tibble is\nthe tidyverse’s version of a data frame.\nA function that picks columns by name inside select(), such\nas starts_with(), ends_with(), and\ncontains().\nA block of R code inside an R Markdown file, starting with\n```{r} and ending with three backticks.\nA simple way of formatting plain text: # for headings,\n*italic*, **bold**, and - for\nlist items.\nTo build an R Markdown file into a finished document (HTML, PDF, or\nWord). Knitting reruns every code chunk from the top in a fresh R\nsession.\nA way of naming variables with lowercase words joined by underscores, as\nin pop_chapel_hill. The tidyverse style guide uses it.",
+    "crumbs": [
+      "Unit 2: Into the Tidyverse",
+      "Chapter exercise: Into the Tidyverse: arrange, distinct, select, and mutate"
     ]
   },
   {
@@ -1129,6 +1349,50 @@
     ]
   },
   {
+    "objectID": "chapters/tidyverse-summarize-group-by-exercise.html",
+    "href": "chapters/tidyverse-summarize-group-by-exercise.html",
+    "title": "Chapter exercise: Into the Tidyverse: summarize, group_by, and drop_na",
+    "section": "",
+    "text": "Purpose\nWhich North Carolina Airport Has the Worst Delays?\nThis exercise goes with Chapter 8, Into the Tidyverse: summarize, group_by, and drop_na. It builds on the Chapter 6 and 7 exercises, and uses the same flights to North Carolina. It should take you about one hour. Read this whole section before you start.\nSkills you’ll practice. By the end of this exercise you will be able to:\nKnowledge you’ll gain. You’ll compare delays and cancellations at North Carolina’s five airports, find out which airlines were most often late, and see how much the “average speed” of a route depends on how you average it.\nWhy this matters. Most numbers in a report are summaries: the median income of a county, the average commute in a state, the rate of a disease in a region. group_by() and summarize() make those numbers for every place at once, and they are how you’ll turn tract data into county data later in the course. Choosing between a mean and a median, deciding what to do with missing values, and weighting an average correctly are the judgment calls that make a summary honest.",
+    "crumbs": [
+      "Unit 2: Into the Tidyverse",
+      "Chapter exercise: Into the Tidyverse: summarize, group_by, and drop_na"
+    ]
+  },
+  {
+    "objectID": "chapters/tidyverse-summarize-group-by-exercise.html#purpose",
+    "href": "chapters/tidyverse-summarize-group-by-exercise.html#purpose",
+    "title": "Chapter exercise: Into the Tidyverse: summarize, group_by, and drop_na",
+    "section": "",
+    "text": "Collapse a data frame into summary statistics with summarize(), using mean(), median(), sd(), max(), and n().\nCalculate the same statistics for each group with group_by() and summarize(), and count groups with count().\nGroup by two columns, and know when a result is still grouped.\nHandle missing values on purpose, with na.rm = TRUE, sum(is.na()), or drop_na(), and explain how they differ.\nTell an average of averages from a weighted average, and calculate the weighted one.",
+    "crumbs": [
+      "Unit 2: Into the Tidyverse",
+      "Chapter exercise: Into the Tidyverse: summarize, group_by, and drop_na"
+    ]
+  },
+  {
+    "objectID": "chapters/tidyverse-summarize-group-by-exercise.html#task",
+    "href": "chapters/tidyverse-summarize-group-by-exercise.html#task",
+    "title": "Chapter exercise: Into the Tidyverse: summarize, group_by, and drop_na",
+    "section": "Task",
+    "text": "Task\nWork through Parts 1 to 7 in order, top to bottom. In each part:\n\nRead the short explanation, then do each step marked with a bullet (•).\nWherever you see ___, replace it with the missing code before you run the chunk. A chunk with ___ in it won’t run.\nBefore you run each chunk, predict how many rows it will return. Then run it and check.\nAnswer each question (Q1, Q2, …) in a sentence or two of Markdown, where it says Your answer here.\nGive every summary column a name, as in summarize(mean_delay = mean(dep_delay, na.rm = TRUE)).\n\n\n\n\nPart\nWhat you’ll do\nAbout\n\n\n\n\n1\nSet up your file and keep the flights to North Carolina\n3 min\n\n\n2\nSummarize every flight with summarize()\n8 min\n\n\n3\nOne result per airport and airline with group_by()\n15 min\n\n\n4\nGroup by two columns\n8 min\n\n\n5\nMissing values: na.rm, is.na(), and drop_na()\n10 min\n\n\n6\nThe average of averages\n12 min\n\n\n7\nReflect, knit, and turn in\n4 min\n\n\n\nTurn in your .Rmd file and your knitted .html file on Canvas.",
+    "crumbs": [
+      "Unit 2: Into the Tidyverse",
+      "Chapter exercise: Into the Tidyverse: summarize, group_by, and drop_na"
+    ]
+  },
+  {
+    "objectID": "chapters/tidyverse-summarize-group-by-exercise.html#criteria-for-success",
+    "href": "chapters/tidyverse-summarize-group-by-exercise.html#criteria-for-success",
+    "title": "Chapter exercise: Into the Tidyverse: summarize, group_by, and drop_na",
+    "section": "Criteria for success",
+    "text": "Criteria for success\nUse this checklist before you turn your work in. Each item matches a row of the rubric below.\n\nThe file knits to HTML with no errors, and the author and date at the top are yours.\nEvery ___ has been filled in, and every chunk runs.\nEvery question (Q1 to Q11) has an answer in complete sentences.\nAnswers that ask for a statistic say which statistic it is (mean or median), give its units, and name the group it belongs to.\nEvery column made in summarize() has a clear, snake_case name.\nEvery chain uses the pipe |&gt;, with one step per line.\nNo install.packages() line is anywhere in the file.\nThe three reflection questions are answered.\n\n\n\n\n\n\n\n\n\n\nCriterion\nFull credit\nPartial credit\nNo credit\n\n\n\n\nKnits (2 pts)\nKnits to HTML with no errors\nKnits, but some chunks have errors shown\nDoesn’t knit, or no HTML turned in\n\n\nCode (6 pts)\nEvery blank filled in correctly; every chunk returns what was asked\nMost blanks correct\nMany blanks missing or wrong\n\n\nQuestions (8 pts)\nQ1 to Q11 answered correctly, using the output, with units and reasons\nSome answers missing, wrong, or with no reason\nMost answers missing\n\n\nWeighted average (2 pts)\nPart 6 calculates both averages and explains why they differ\nCalculates both, but doesn’t explain\nNot done\n\n\nStyle (1 pt)\nNamed summary columns, pipe for every chain, one step per line, no install.packages()\n\nSeveral problems\n\n\nReflection (1 pt)\nAll three answered\n\nMissing\n\n\n\nWhat a good answer looks like. Here is a question, a weak answer, and a strong one.\n\nQuestion: How late were flights from New York in 2013, on average?\nWeak answer: “12.6.”\nStrong answer: “The mean departure delay was 12.6 minutes, but the median was −2 minutes: more than half of the flights left early. A few very long delays pull the mean up, so the median is the better ‘typical’ delay.”\n\nThe strong answer names the statistic and its units, compares the mean with the median, and says which one describes a typical flight.\nIMPORTANT! Save often. Before you knit, choose Run &gt; Restart R and Run All Chunks to make sure every chunk works from a fresh start.\n\n\n\nA family of R packages (including dplyr,\nggplot2, and readr) for reading,\ncleaning, reshaping, summarizing, and plotting data, all designed to\nwork together.\nThe integrated development environment (IDE) where you write and run R.\nR does the computing; RStudio is the workspace around it.\nR’s table: rows are observations and columns are variables. A tibble is\nthe tidyverse’s version of a data frame.\nOne number that describes many values, such as their mean, median,\nmaximum, or count. summarize() calculates them.\nA value that is unknown, written NA (“not available”) in R.\nMost calculations with NA give NA; test for it\nwith is.na().\nAn average in which some values count more than others. Total distance\ndivided by total air time weights each flight’s speed by its air time.\nThe middle value when values are sorted, so half are above and half\nbelow. Unlike counts, medians can’t be added across areas.\nA small area of about 1,200 to 8,000 people (4,000 on average), drawn to\nbe fairly stable over time. The workhorse unit for neighborhood\nanalysis.\nA block of R code inside an R Markdown file, starting with\n```{r} and ending with three backticks.\nA simple way of formatting plain text: # for headings,\n*italic*, **bold**, and - for\nlist items.\nTo build an R Markdown file into a finished document (HTML, PDF, or\nWord). Knitting reruns every code chunk from the top in a fresh R\nsession.\nA way of naming variables with lowercase words joined by underscores, as\nin pop_chapel_hill. The tidyverse style guide uses it.\nThe operator |&gt;, which passes the result on its left as\nthe first argument of the function on its right. Read it as “and then.”",
+    "crumbs": [
+      "Unit 2: Into the Tidyverse",
+      "Chapter exercise: Into the Tidyverse: summarize, group_by, and drop_na"
+    ]
+  },
+  {
     "objectID": "chapters/tidyverse-ggplot.html",
     "href": "chapters/tidyverse-ggplot.html",
     "title": "9  Into the Tidyverse: Graphs with ggplot2",
@@ -1247,6 +1511,50 @@
     "crumbs": [
       "Unit 2: Into the Tidyverse",
       "<span class='chapter-number'>9</span>  <span class='chapter-title'>Into the Tidyverse: Graphs with ggplot2</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/tidyverse-ggplot-exercise.html",
+    "href": "chapters/tidyverse-ggplot-exercise.html",
+    "title": "Chapter exercise: Into the Tidyverse: Graphs with ggplot2",
+    "section": "",
+    "text": "Purpose\nPicturing Flights to North Carolina\nThis exercise goes with Chapter 9, Into the Tidyverse: Graphs with ggplot2. It uses the flights to North Carolina from the Chapter 6 to 8 exercises. It should take you about one hour. Read this whole section before you start.\nSkills you’ll practice. By the end of this exercise you will be able to:\nKnowledge you’ll gain. You’ll see whether flights that leave late also arrive late, which New York airports serve North Carolina, and which months were worst for delays to each North Carolina airport.\nWhy this matters. A table answers a precise question, but a graph shows you the pattern, the outliers, and the mistakes in your data at a glance. Every report and final project in this course needs clear, labeled graphics. ggplot2 also uses the same grammar as tmap, which you’ll use for maps in the next chapter: data, then layers, then the details. Learning the grammar here makes mapping much easier.",
+    "crumbs": [
+      "Unit 2: Into the Tidyverse",
+      "Chapter exercise: Into the Tidyverse: Graphs with ggplot2"
+    ]
+  },
+  {
+    "objectID": "chapters/tidyverse-ggplot-exercise.html#purpose",
+    "href": "chapters/tidyverse-ggplot-exercise.html#purpose",
+    "title": "Chapter exercise: Into the Tidyverse: Graphs with ggplot2",
+    "section": "",
+    "text": "Build a graph from the ggplot2 template: data, aesthetic mappings in aes(), and a geom.\nMake scatterplots, bar charts, boxplots, and line graphs, and choose the right one for a question.\nTell setting an aesthetic (one color for every point) from mapping one (a color for each group).\nCompare groups with stacked, filled, and side-by-side bars, and with small multiples (facet_wrap()).\nFinish a graph with a title, axis labels with units, a caption, and a theme, and save it with ggsave().",
+    "crumbs": [
+      "Unit 2: Into the Tidyverse",
+      "Chapter exercise: Into the Tidyverse: Graphs with ggplot2"
+    ]
+  },
+  {
+    "objectID": "chapters/tidyverse-ggplot-exercise.html#task",
+    "href": "chapters/tidyverse-ggplot-exercise.html#task",
+    "title": "Chapter exercise: Into the Tidyverse: Graphs with ggplot2",
+    "section": "Task",
+    "text": "Task\nWork through Parts 1 to 8 in order, top to bottom. In each part:\n\nRead the short explanation, then do each step marked with a bullet (•).\nWherever you see ___, replace it with the missing code before you run the chunk. A chunk with ___ in it won’t run.\nBefore you run each chunk, sketch in your head what the graph will look like. Then run it and compare.\nAnswer each question (Q1, Q2, …) in a sentence or two of Markdown, where it says Your answer here.\nRemember that ggplot2 layers are joined with +, not with the pipe.\n\n\n\n\nPart\nWhat you’ll do\nAbout\n\n\n\n\n1\nSet up your file and load the data\n3 min\n\n\n2\nScatterplots and trend lines\n10 min\n\n\n3\nSetting and mapping aesthetics\n7 min\n\n\n4\nBar charts: counts and shares\n10 min\n\n\n5\nBoxplots\n8 min\n\n\n6\nLine graphs from a summary table\n8 min\n\n\n7\nSmall multiples with facets\n6 min\n\n\n8\nFinish and save a graph, reflect, and turn in\n8 min\n\n\n\nTurn in your .Rmd file, your knitted .html file, and the PNG file you save in Part 8, on Canvas.",
+    "crumbs": [
+      "Unit 2: Into the Tidyverse",
+      "Chapter exercise: Into the Tidyverse: Graphs with ggplot2"
+    ]
+  },
+  {
+    "objectID": "chapters/tidyverse-ggplot-exercise.html#criteria-for-success",
+    "href": "chapters/tidyverse-ggplot-exercise.html#criteria-for-success",
+    "title": "Chapter exercise: Into the Tidyverse: Graphs with ggplot2",
+    "section": "Criteria for success",
+    "text": "Criteria for success\nUse this checklist before you turn your work in. Each item matches a row of the rubric below.\n\nThe file knits to HTML with no errors (except in the chunk marked error=TRUE), and every graph appears in it.\nEvery ___ has been filled in, and every chunk runs.\nEvery question (Q1 to Q11) has an answer in complete sentences that describes what the graph shows.\nThe finished graph in Part 8 has a title, axis labels with units, a caption with the data source, and a theme.\nnc_flights_delays.png is saved, 7 inches wide and 5 inches tall.\nLayers are joined with +, and data steps before ggplot() use the pipe |&gt;.\nNo install.packages() line is anywhere in the file.\nThe three reflection questions are answered.\n\n\n\n\n\n\n\n\n\n\nCriterion\nFull credit\nPartial credit\nNo credit\n\n\n\n\nKnits (2 pts)\nKnits to HTML with every graph showing\nKnits, but some chunks have errors\nDoesn’t knit, or no HTML turned in\n\n\nGraph code (5 pts)\nEvery blank filled in correctly; every graph shows what was asked\nMost graphs correct\nMany blanks missing or wrong\n\n\nQuestions (8 pts)\nQ1 to Q11 answered, describing the pattern in the graph, with reasons\nSome answers missing, or vague (“it goes up”)\nMost answers missing\n\n\nFinished graph (3 pts)\nTitle, labeled axes with units, caption with source, theme; PNG saved at 7 × 5 in\nSome labels or the PNG missing\nNot done\n\n\nStyle (1 pt)\n+ between layers, pipe for data steps, no install.packages()\n\nSeveral problems\n\n\nReflection (1 pt)\nAll three answered\n\nMissing\n\n\n\nWhat a good answer looks like. Here is a question, a weak answer, and a strong one.\n\nQuestion: What does a histogram of distance for all flights from New York show?\nWeak answer: “Most flights are short.”\nStrong answer: “Most flights are under about 1,200 miles, with a big peak between 500 and 1,100 miles (the East Coast and Midwest). There’s a smaller group near 2,500 miles (the West Coast), almost nothing in between, and a few flights near 5,000 miles to Hawaii.”\n\nThe strong answer describes the shape with numbers and units, names the groups, and explains them.\nIMPORTANT! Save often. Before you knit, choose Run &gt; Restart R and Run All Chunks to make sure every chunk works from a fresh start.\n\n\n\nA family of R packages (including dplyr,\nggplot2, and readr) for reading,\ncleaning, reshaping, summarizing, and plotting data, all designed to\nwork together.\nThe tidyverse package for making plots and maps by adding layers.\nThe integrated development environment (IDE) where you write and run R.\nR does the computing; RStudio is the workspace around it.\nA value far from all the others. It may be real or an error, so check it\nbefore you report it.\nAn R package for making thematic maps quickly, with sensible defaults.\nA block of R code inside an R Markdown file, starting with\n```{r} and ending with three backticks.\nA simple way of formatting plain text: # for headings,\n*italic*, **bold**, and - for\nlist items.\nThe operator |&gt;, which passes the result on its left as\nthe first argument of the function on its right. Read it as “and then.”\nTo build an R Markdown file into a finished document (HTML, PDF, or\nWord). Knitting reruns every code chunk from the top in a fresh R\nsession.\nA chart that divides a variable’s range into bins and draws a bar for\nhow many values fall in each. geom_histogram() in ggplot2.",
+    "crumbs": [
+      "Unit 2: Into the Tidyverse",
+      "Chapter exercise: Into the Tidyverse: Graphs with ggplot2"
     ]
   },
   {
@@ -1421,6 +1729,50 @@
     ]
   },
   {
+    "objectID": "chapters/thematic-maps-tmap-exercise.html",
+    "href": "chapters/thematic-maps-tmap-exercise.html",
+    "title": "Chapter exercise: Thematic Maps with tmap",
+    "section": "",
+    "text": "Purpose\nPeople, Cities, and Rivers\nThis exercise goes with Chapter 10, Thematic Maps with tmap. It builds on the tidyverse exercises from Chapters 6 to 9. It should take you about one hour. Read this whole section before you start.\nSkills you’ll practice. By the end of this exercise you will be able to:\nKnowledge you’ll gain. You’ll map where people live in the United States, compare a map of population with a map of population density, and map the world’s largest cities on top of life expectancy.\nWhy this matters. Maps are the main product of spatial data science: they are how you will show your results in every remaining assignment and your final project. A thematic map can tell very different stories depending on what you map (counts or rates) and how you classify it. Learning to make those choices on purpose, and to finish a map so a reader can trust it, is the difference between a map that informs and one that misleads.",
+    "crumbs": [
+      "Unit 3: Maps and Geographic Data",
+      "Chapter exercise: Thematic Maps with tmap"
+    ]
+  },
+  {
+    "objectID": "chapters/thematic-maps-tmap-exercise.html#purpose",
+    "href": "chapters/thematic-maps-tmap-exercise.html#purpose",
+    "title": "Chapter exercise: Thematic Maps with tmap",
+    "section": "",
+    "text": "Explain what an sf object is: a data frame of attributes with a geometry column.\nBuild a map in layers with tm_shape() and tm_polygons(), tm_dots(), or tm_lines().\nShade features by an attribute, and control the classes with n and style in tm_scale_intervals().\nExplain how the choice of classification style changes the story a map tells.\nCombine several layers in one map, and finish it with a title, a scale bar, a north arrow, and credits.\nSwitch between static and interactive maps with tmap_mode().",
+    "crumbs": [
+      "Unit 3: Maps and Geographic Data",
+      "Chapter exercise: Thematic Maps with tmap"
+    ]
+  },
+  {
+    "objectID": "chapters/thematic-maps-tmap-exercise.html#task",
+    "href": "chapters/thematic-maps-tmap-exercise.html#task",
+    "title": "Chapter exercise: Thematic Maps with tmap",
+    "section": "Task",
+    "text": "Task\nWork through Parts 1 to 7 in order, top to bottom. In each part:\n\nRead the short explanation, then do each step marked with a bullet (•).\nWherever you see ___, replace it with the missing code before you run the chunk. A chunk with ___ in it won’t run.\nBefore you run each chunk, picture the map you expect. Then run it and compare.\nAnswer each question (Q1, Q2, …) in a sentence or two of Markdown, where it says Your answer here.\ntmap layers are joined with +, like ggplot2. Data steps before tm_shape() use the pipe |&gt;.\n\n\n\n\nPart\nWhat you’ll do\nAbout\n\n\n\n\n1\nSet up your file and look at an sf object\n6 min\n\n\n2\nMap polygons: population and density\n12 min\n\n\n3\nClassification: n and style\n10 min\n\n\n4\nMap points: the world’s largest cities\n8 min\n\n\n5\nMap lines: the rivers of Paris\n5 min\n\n\n6\nPut a finished map together\n14 min\n\n\n7\nReflect, knit, and turn in\n5 min\n\n\n\nTurn in your .Rmd file and your knitted .html file on Canvas.",
+    "crumbs": [
+      "Unit 3: Maps and Geographic Data",
+      "Chapter exercise: Thematic Maps with tmap"
+    ]
+  },
+  {
+    "objectID": "chapters/thematic-maps-tmap-exercise.html#criteria-for-success",
+    "href": "chapters/thematic-maps-tmap-exercise.html#criteria-for-success",
+    "title": "Chapter exercise: Thematic Maps with tmap",
+    "section": "Criteria for success",
+    "text": "Criteria for success\nUse this checklist before you turn your work in. Each item matches a row of the rubric below.\n\nThe file knits to HTML with no errors, and every map appears in it.\nEvery ___ has been filled in, and every chunk runs.\nEvery question (Q1 to Q11) has an answer in complete sentences that describes what the map shows, with place names.\nYour finished map in Part 6 has a title, a legend title, a scale bar, a north arrow, and credits with your name and the data source.\nYour code uses tmap version 4 arguments (fill =, fill.scale =, tm_title()), not the old version 3 ones.\nThe file is back in tmap_mode(\"plot\") before it knits.\nNo install.packages() line is anywhere in the file.\nThe three reflection questions are answered.\n\n\n\n\n\n\n\n\n\n\nCriterion\nFull credit\nPartial credit\nNo credit\n\n\n\n\nKnits (2 pts)\nKnits to HTML with every map showing\nKnits, but some chunks have errors\nDoesn’t knit, or no HTML turned in\n\n\nMap code (5 pts)\nEvery blank filled in correctly; every map shows what was asked\nMost maps correct\nMany blanks missing or wrong\n\n\nQuestions (8 pts)\nQ1 to Q11 answered, describing patterns with place names and reasons\nSome answers missing, or vague (“it’s darker in places”)\nMost answers missing\n\n\nFinished map (3 pts)\nTitle, legend title, scale bar, north arrow, and credits; nothing covers the data\nSome parts missing\nNot done\n\n\nStyle (1 pt)\ntmap v4 arguments, + between layers, pipe for data steps, no install.packages()\n\nSeveral problems\n\n\nReflection (1 pt)\nAll three answered\n\nMissing\n\n\n\nWhat a good answer looks like. Here is a question, a weak answer, and a strong one.\n\nQuestion: Where do the states with the most people cluster?\nWeak answer: “On the coasts.”\nStrong answer: “The darkest class is California, Texas, Florida, and New York, the four biggest states by population. A second band runs through the Midwest and Northeast (Illinois, Ohio, Pennsylvania). The Mountain West and Great Plains are in the lightest class.”\n\nThe strong answer names places, says which class they’re in, and describes the pattern rather than a single impression.\nIMPORTANT! Save often. Before you knit, choose Run &gt; Restart R and Run All Chunks to make sure every chunk works from a fresh start.\n\n\n\nAn R package for making thematic maps quickly, with sensible defaults.\nA family of R packages (including dplyr,\nggplot2, and readr) for reading,\ncleaning, reshaping, summarizing, and plotting data, all designed to\nwork together.\nThe integrated development environment (IDE) where you write and run R.\nR does the computing; RStudio is the workspace around it.\n“Simple features”: the R package for spatial vector data. An sf object\nis a data frame with a geometry column holding each row’s point, line,\nor polygon.\nR’s table: rows are observations and columns are variables. A tibble is\nthe tidyverse’s version of a data frame.\nThe level of detail at which you study something: addresses,\nneighborhoods, counties, or states. A pattern that is clear at one scale\ncan vanish or reverse at another.\nThe use of data that have a location attached to answer questions about\nthe world. It combines what we study (the spatial), how we\nhandle it (data skills), and how we ask and answer questions\n(science).\nA block of R code inside an R Markdown file, starting with\n```{r} and ending with three backticks.\nA simple way of formatting plain text: # for headings,\n*italic*, **bold**, and - for\nlist items.\nThe tidyverse package for making plots and maps by adding layers.\nThe operator |&gt;, which passes the result on its left as\nthe first argument of the function on its right. Read it as “and then.”\nA closed shape that represents an area, such as a county, a lake, or a\ncensus tract.\nTo build an R Markdown file into a finished document (HTML, PDF, or\nWord). Knitting reruns every code chunk from the top in a fresh R\nsession.\nAn input to a function, written inside its parentheses.",
+    "crumbs": [
+      "Unit 3: Maps and Geographic Data",
+      "Chapter exercise: Thematic Maps with tmap"
+    ]
+  },
+  {
     "objectID": "chapters/geographic-information.html",
     "href": "chapters/geographic-information.html",
     "title": "11  What Is Geographic Data?",
@@ -1517,6 +1869,50 @@
     "crumbs": [
       "Unit 3: Maps and Geographic Data",
       "<span class='chapter-number'>11</span>  <span class='chapter-title'>What Is Geographic Data?</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/geographic-information-exercise.html",
+    "href": "chapters/geographic-information-exercise.html",
+    "title": "Chapter exercise: What Is Geographic Data?",
+    "section": "",
+    "text": "Purpose\nPoints, Lines, Polygons, and Grids\nThis exercise goes with Chapter 11, What Is Geographic Data? It builds on the tmap exercise from Chapter 10. It should take you about one hour. Read this whole section before you start.\nSkills you’ll practice. By the end of this exercise you will be able to:\nKnowledge you’ll gain. You’ll work with New Zealand’s regions, its highest peaks, and an elevation grid of one of Auckland’s volcanoes, and see how the same place can be stored in very different ways.\nWhy this matters. Every layer you’ll download this semester, from the Census Bureau, NC OneMap, or an ArcGIS portal, is a model of the world that someone built by making choices: what to keep, how much detail, which file format. Understanding those choices tells you what a layer can and can’t answer, why two “county” layers give different areas, and why a file you emailed to a classmate won’t open. These are the questions you’ll ask of every data source in your final project.",
+    "crumbs": [
+      "Unit 3: Maps and Geographic Data",
+      "Chapter exercise: What Is Geographic Data?"
+    ]
+  },
+  {
+    "objectID": "chapters/geographic-information-exercise.html#purpose",
+    "href": "chapters/geographic-information-exercise.html#purpose",
+    "title": "Chapter exercise: What Is Geographic Data?",
+    "section": "",
+    "text": "Choose how to represent real-world entities (as points, lines, polygons, or a raster) for a map at a given scale.\nTell continuous data from discrete objects, and spatial data from attributes, in an sf object.\nFind the geometry type, the number of features, and the number of vertices of a vector layer.\nExplain how generalization trades detail for size, and how it changes measurements like area.\nTreat a raster as a grid of cell values, and calculate cell counts, areas, and resolution.\nSave a layer as a GeoJSON file and a shapefile, and explain what each format keeps and loses.",
+    "crumbs": [
+      "Unit 3: Maps and Geographic Data",
+      "Chapter exercise: What Is Geographic Data?"
+    ]
+  },
+  {
+    "objectID": "chapters/geographic-information-exercise.html#task",
+    "href": "chapters/geographic-information-exercise.html#task",
+    "title": "Chapter exercise: What Is Geographic Data?",
+    "section": "Task",
+    "text": "Task\nWork through Parts 1 to 7 in order, top to bottom. In each part:\n\nRead the short explanation, then do each step marked with a bullet (•).\nWherever you see ___, replace it with the missing code before you run the chunk. A chunk with ___ in it won’t run.\nBefore you run each chunk, predict what it will return. Then run it and check.\nAnswer each question (Q1, Q2, …) in a sentence or two of Markdown, where it says Your answer here.\n\n\n\n\nPart\nWhat you’ll do\nAbout\n\n\n\n\n1\nSet up your file and load the data\n3 min\n\n\n2\nData abstraction: choose a representation\n10 min\n\n\n3\nThe parts of vector data\n12 min\n\n\n4\nGeneralization and map scale\n8 min\n\n\n5\nA raster is a grid of cell values\n12 min\n\n\n6\nGeographic file formats\n10 min\n\n\n7\nReflect, knit, and turn in\n5 min\n\n\n\nTurn in your .Rmd file and your knitted .html file on Canvas.",
+    "crumbs": [
+      "Unit 3: Maps and Geographic Data",
+      "Chapter exercise: What Is Geographic Data?"
+    ]
+  },
+  {
+    "objectID": "chapters/geographic-information-exercise.html#criteria-for-success",
+    "href": "chapters/geographic-information-exercise.html#criteria-for-success",
+    "title": "Chapter exercise: What Is Geographic Data?",
+    "section": "Criteria for success",
+    "text": "Criteria for success\nUse this checklist before you turn your work in. Each item matches a row of the rubric below.\n\nThe file knits to HTML with no errors, and the author and date at the top are yours.\nEvery ___ has been filled in, and every chunk runs.\nThe table in Part 2 is complete, with a reason for each choice.\nEvery question (Q1 to Q11) has an answer in complete sentences, using the output of your code where it asks for a number.\nYou used the chapter’s vocabulary correctly: feature, attribute, vertex, cell, resolution, extent, and metadata.\nNo install.packages() line is anywhere in the file.\nThe three reflection questions are answered.\n\n\n\n\n\n\n\n\n\n\nCriterion\nFull credit\nPartial credit\nNo credit\n\n\n\n\nKnits (2 pts)\nKnits to HTML with no errors\nKnits, but some chunks have errors shown\nDoesn’t knit, or no HTML turned in\n\n\nCode (5 pts)\nEvery blank filled in correctly; every chunk returns what was asked\nMost blanks correct\nMany blanks missing or wrong\n\n\nAbstraction table (2 pts)\nEvery row has a sensible representation at both scales, with a reason\nSome rows missing reasons\nNot done\n\n\nQuestions (9 pts)\nQ1 to Q11 answered correctly, with numbers from the output and the right vocabulary\nSome answers missing or wrong\nMost answers missing\n\n\nStyle (1 pt)\nPipe where asked, readable code, no install.packages()\n\nSeveral problems\n\n\nReflection (1 pt)\nAll three answered\n\nMissing\n\n\n\nWhat a good answer looks like. Here is a question, a weak answer, and a strong one.\n\nQuestion: Should a map of North Carolina’s rivers store them as vector or raster data?\nWeak answer: “Vector.”\nStrong answer: “Vector lines. A river is a discrete object with a clear location, and we’d want attributes for each river, such as its name and length. A raster would store it as a staircase of cells, and at the scale of a state map most rivers would be narrower than one cell.”\n\nThe strong answer names the data model and the geometry, and explains the choice using the entity and the map’s scale.\nIMPORTANT! Save often. Before you knit, choose Run &gt; Restart R and Run All Chunks to make sure every chunk works from a fresh start.\n\n\n\nA closed shape that represents an area, such as a county, a lake, or a\ncensus tract.\nAn R package for making thematic maps quickly, with sensible defaults.\nThe integrated development environment (IDE) where you write and run R.\nR does the computing; RStudio is the workspace around it.\nSpatial data stored as a grid of cells (pixels), each holding a value,\nsuch as a satellite image or an elevation model. In R, the\nterra package handles rasters.\nThe level of detail at which you study something: addresses,\nneighborhoods, counties, or states. A pattern that is clear at one scale\ncan vanish or reverse at another.\n“Simple features”: the R package for spatial vector data. An sf object\nis a data frame with a geometry column holding each row’s point, line,\nor polygon.\nA sequence of values that R stores together, made with c(),\nsuch as c(71, 75, 68).\nAn open, plain-text format for vector features, written in JSON.\nCoordinates are longitude first, then latitude, in WGS84.\nNorth Carolina’s statewide GIS data portal, https://www.nconemap.gov/, with layers from state and\nlocal agencies.\nA block of R code inside an R Markdown file, starting with\n```{r} and ending with three backticks.\nA simple way of formatting plain text: # for headings,\n*italic*, **bold**, and - for\nlist items.\nSpatial data stored as points, lines, and polygons, each with a table of\nattributes. In R, the sf package handles vector data.\nTo build an R Markdown file into a finished document (HTML, PDF, or\nWord). Knitting reruns every code chunk from the top in a fresh R\nsession.\nData about data: who made a dataset, when, how, and what each part\nmeans. In a YAML header, it describes the document.\nThe operator |&gt;, which passes the result on its left as\nthe first argument of the function on its right. Read it as “and then.”",
+    "crumbs": [
+      "Unit 3: Maps and Geographic Data",
+      "Chapter exercise: What Is Geographic Data?"
     ]
   },
   {
@@ -1652,6 +2048,50 @@
     ]
   },
   {
+    "objectID": "chapters/location-coordinate-systems-exercise.html",
+    "href": "chapters/location-coordinate-systems-exercise.html",
+    "title": "Chapter exercise: Location and Coordinate Systems",
+    "section": "",
+    "text": "Purpose\nMeasuring North Carolina\nThis exercise goes with Chapter 12, Location and Coordinate Systems. It builds on the tmap and geographic data exercises from Chapters 10 and 11. It should take you about one hour. Read this whole section before you start.\nSkills you’ll practice. By the end of this exercise you will be able to:\nKnowledge you’ll gain. You’ll measure the area of North Carolina and the distances between five of its cities, and find out how much the map projection on your phone (Web Mercator) exaggerates them.\nWhy this matters. Every spatial layer comes with a coordinate reference system, and every measurement you make (an area, a distance, a buffer, a density) is only as good as the CRS it was calculated in. Mixing up degrees and meters, or measuring on a Web Mercator map, is one of the most common ways a spatial analysis goes quietly wrong. From here on, every NC assignment asks you to project to NC State Plane (EPSG:32119) before measuring anything; this exercise shows you why.",
+    "crumbs": [
+      "Unit 3: Maps and Geographic Data",
+      "Chapter exercise: Location and Coordinate Systems"
+    ]
+  },
+  {
+    "objectID": "chapters/location-coordinate-systems-exercise.html#purpose",
+    "href": "chapters/location-coordinate-systems-exercise.html#purpose",
+    "title": "Chapter exercise: Location and Coordinate Systems",
+    "section": "",
+    "text": "Calculate the flattening of the ellipsoid, and how long a degree of longitude is at different latitudes.\nConvert coordinates between degrees, minutes, and seconds (DMS) and decimal degrees, with your own functions.\nMake an sf layer of points from a table of latitudes and longitudes.\nCheck a layer’s coordinate reference system with st_crs(), and change it with st_transform().\nMeasure areas and distances in different projections, and explain why the answers differ.\nChoose a projection for a task.",
+    "crumbs": [
+      "Unit 3: Maps and Geographic Data",
+      "Chapter exercise: Location and Coordinate Systems"
+    ]
+  },
+  {
+    "objectID": "chapters/location-coordinate-systems-exercise.html#task",
+    "href": "chapters/location-coordinate-systems-exercise.html#task",
+    "title": "Chapter exercise: Location and Coordinate Systems",
+    "section": "Task",
+    "text": "Task\nWork through Parts 1 to 7 in order, top to bottom. In each part:\n\nRead the short explanation, then do each step marked with a bullet (•).\nWherever you see ___, replace it with the missing code before you run the chunk. A chunk with ___ in it won’t run.\nBefore you run each chunk, predict roughly what it will return. Then run it and check.\nAnswer each question (Q1, Q2, …) in a sentence or two of Markdown, where it says Your answer here.\nGive every distance and area with its units.\n\n\n\n\nPart\nWhat you’ll do\nAbout\n\n\n\n\n1\nSet up your file and load the data\n3 min\n\n\n2\nThe shape of the Earth and the length of a degree\n8 min\n\n\n3\nConvert between DMS and decimal degrees\n10 min\n\n\n4\nMake a layer of NC cities\n7 min\n\n\n5\nCheck and change the CRS, and measure area\n12 min\n\n\n6\nMeasure distances\n12 min\n\n\n7\nChoose a projection, reflect, and turn in\n8 min\n\n\n\nTurn in your .Rmd file and your knitted .html file on Canvas.",
+    "crumbs": [
+      "Unit 3: Maps and Geographic Data",
+      "Chapter exercise: Location and Coordinate Systems"
+    ]
+  },
+  {
+    "objectID": "chapters/location-coordinate-systems-exercise.html#criteria-for-success",
+    "href": "chapters/location-coordinate-systems-exercise.html#criteria-for-success",
+    "title": "Chapter exercise: Location and Coordinate Systems",
+    "section": "Criteria for success",
+    "text": "Criteria for success\nUse this checklist before you turn your work in. Each item matches a row of the rubric below.\n\nThe file knits to HTML with no errors, and the author and date at the top are yours.\nEvery ___ has been filled in, and every chunk runs.\nYour two DMS functions return the test values given in Part 3.\nEvery question (Q1 to Q12) has an answer in complete sentences, with units for every distance and area.\nYou can say which CRS each measurement was made in, and why it does or doesn’t distort.\nLongitudes west of Greenwich are negative.\nNo install.packages() line is anywhere in the file.\nThe three reflection questions are answered.\n\n\n\n\n\n\n\n\n\n\nCriterion\nFull credit\nPartial credit\nNo credit\n\n\n\n\nKnits (2 pts)\nKnits to HTML with no errors\nKnits, but some chunks have errors shown\nDoesn’t knit, or no HTML turned in\n\n\nCode (5 pts)\nEvery blank filled in correctly; functions pass their tests\nMost blanks correct\nMany blanks missing or wrong\n\n\nQuestions (9 pts)\nQ1 to Q12 answered correctly, with units, naming the CRS, with reasons\nSome answers missing, wrong, or without units\nMost answers missing\n\n\nProjection choices (2 pts)\nQ12 names a sensible projection for each task, with a reason\nSome choices without reasons\nNot done\n\n\nStyle (1 pt)\nReadable code, pipe for chains, no install.packages()\n\nSeveral problems\n\n\nReflection (1 pt)\nAll three answered\n\nMissing\n\n\n\nWhat a good answer looks like. Here is a question, a weak answer, and a strong one.\n\nQuestion: How far is it from Chapel Hill to Raleigh?\nWeak answer: “40492.”\nStrong answer: “About 40.5 km (25 miles) in a straight line, measured with st_distance() on the WGS84 points. NC State Plane gives the same distance to within 0.1 km, but Web Mercator says 50 km, about 23% too far.”\n\nThe strong answer gives units, says how the distance was measured, and compares it with the other projections.\nIMPORTANT! Save often. Before you knit, choose Run &gt; Restart R and Run All Chunks to make sure every chunk works from a fresh start.\n\n\n\nThe rules that tie coordinates to places on the Earth, including how the\nround Earth is flattened onto a map (the projection). Layers must share\na coordinate system before you can combine them.\nAn R package for making thematic maps quickly, with sensible defaults.\nThe integrated development environment (IDE) where you write and run R.\nR does the computing; RStudio is the workspace around it.\nA sphere flattened at the poles: the smooth mathematical shape used to\nmodel the Earth, defined by its semi-major and semi-minor axes.\nThe angle east or west of the Prime Meridian, from 0° to 180°. Lines of\nequal longitude are meridians.\nThe angle north or south of the Equator, from 0° to 90°. Lines of equal\nlatitude are parallels.\nCoordinates written as whole degrees, minutes (1/60 of a degree), and\nseconds (1/3,600 of a degree), with a letter N, S, E, or W, such as 79°\n3′ 21″ W.\nCoordinates written as signed decimal numbers, such as −79.05°. Negative\nmeans south latitude or west longitude.\nCode that takes inputs (arguments), does a job, and returns an output,\nsuch as mean(temps).\n“Simple features”: the R package for spatial vector data. An sf object\nis a data frame with a geometry column holding each row’s point, line,\nor polygon.\nA method for flattening the curved graticule onto a flat map. Every\nprojection distorts shape, area, distance, or direction.\nA conformal cylindrical projection, made for navigation, that greatly\nenlarges areas near the poles.\nA set of local projections for the US, with one or more zones per state,\nin feet or meters. North Carolina’s zone is EPSG:32119.\nA block of R code inside an R Markdown file, starting with\n```{r} and ending with three backticks.\nA simple way of formatting plain text: # for headings,\n*italic*, **bold**, and - for\nlist items.\nTo build an R Markdown file into a finished document (HTML, PDF, or\nWord). Knitting reruns every code chunk from the top in a fresh R\nsession.\nThe operator |&gt;, which passes the result on its left as\nthe first argument of the function on its right. Read it as “and then.”\nThe World Geodetic System of 1984, the datum GPS uses. GeoJSON and KML\ngive coordinates as WGS84 longitude and latitude.",
+    "crumbs": [
+      "Unit 3: Maps and Geographic Data",
+      "Chapter exercise: Location and Coordinate Systems"
+    ]
+  },
+  {
     "objectID": "chapters/census-data-apis.html",
     "href": "chapters/census-data-apis.html",
     "title": "13  Census Data and APIs",
@@ -1773,6 +2213,50 @@
     ]
   },
   {
+    "objectID": "chapters/census-data-apis-exercise.html",
+    "href": "chapters/census-data-apis-exercise.html",
+    "title": "Chapter exercise: Census Data and APIs",
+    "section": "",
+    "text": "Purpose\nMedian Income at Three Scales\nThis exercise goes with Chapter 13, Census Data and APIs. It builds on the tmap and coordinate systems exercises from Chapters 10 and 12. It should take you about one hour, plus a few minutes beforehand to get a Census API key. Read this whole section before you start.\nSkills you’ll practice. By the end of this exercise you will be able to:\nKnowledge you’ll gain. You’ll map median household income across the United States, across North Carolina’s 100 counties, and across the census tracts of Orange County, and see how the story changes with scale, and why the smallest areas are the least certain.\nWhy this matters. Census data is the starting point for most spatial data science about people in the United States, and it will probably be part of your final project. Knowing how to find a variable, download it at the right scale, and read its margin of error lets you answer questions about your own community. Seeing the same variable at three scales also shows one of the central ideas of this course: the pattern you find depends on the units you map.",
+    "crumbs": [
+      "Unit 3: Maps and Geographic Data",
+      "Chapter exercise: Census Data and APIs"
+    ]
+  },
+  {
+    "objectID": "chapters/census-data-apis-exercise.html#purpose",
+    "href": "chapters/census-data-apis-exercise.html#purpose",
+    "title": "Chapter exercise: Census Data and APIs",
+    "section": "",
+    "text": "Install a Census API key safely, outside your R Markdown file.\nSearch the thousands of ACS variables with load_variables() to find the code you need.\nDownload ACS estimates with get_acs(), with and without boundaries (geometry = TRUE), for states, counties, and tracts.\nProject the results and map them with tmap.\nCalculate a margin of error as a percent of the estimate, and use it to judge how far to trust each estimate.",
+    "crumbs": [
+      "Unit 3: Maps and Geographic Data",
+      "Chapter exercise: Census Data and APIs"
+    ]
+  },
+  {
+    "objectID": "chapters/census-data-apis-exercise.html#task",
+    "href": "chapters/census-data-apis-exercise.html#task",
+    "title": "Chapter exercise: Census Data and APIs",
+    "section": "Task",
+    "text": "Task\nBefore you start: get a free Census API key at https://api.census.gov/data/key_signup.html and click the activation link in the email. It can take a few minutes to arrive.\nWork through Parts 1 to 8 in order, top to bottom. In each part:\n\nRead the short explanation, then do each step marked with a bullet (•).\nWherever you see ___, replace it with the missing code before you run the chunk. Where you see # your code here, write the code yourself.\nAnswer each question (Q1, Q2, …) in a sentence or two of Markdown, where it says Your answer here.\nThis exercise downloads data, so you need an internet connection. The first download of boundaries takes a minute; after that they’re cached.\n\n\n\n\nPart\nWhat you’ll do\nAbout\n\n\n\n\n1\nInstall your API key and load the packages\n7 min\n\n\n2\nFind variables with load_variables()\n7 min\n\n\n3\nDownload a table of NC counties\n7 min\n\n\n4\nMap the states\n9 min\n\n\n5\nMap North Carolina’s counties\n7 min\n\n\n6\nMap Orange County’s tracts\n9 min\n\n\n7\nMargins of error and scale\n10 min\n\n\n8\nReflect, knit, and turn in\n4 min\n\n\nOptional\nChallenge: households with no vehicle\n15 min\n\n\n\nTurn in your .Rmd file and your knitted .html file on Canvas.",
+    "crumbs": [
+      "Unit 3: Maps and Geographic Data",
+      "Chapter exercise: Census Data and APIs"
+    ]
+  },
+  {
+    "objectID": "chapters/census-data-apis-exercise.html#criteria-for-success",
+    "href": "chapters/census-data-apis-exercise.html#criteria-for-success",
+    "title": "Chapter exercise: Census Data and APIs",
+    "section": "Criteria for success",
+    "text": "Criteria for success\nUse this checklist before you turn your work in. Each item matches a row of the rubric below.\n\nThe file knits to HTML with no errors, and every map appears in it.\nYour API key is not in the file. (It was installed in the Console.)\nEvery ___ and # your code here has been filled in, and every chunk runs.\nEvery question (Q1 to Q10) has an answer in complete sentences, using numbers and place names from your output.\nEvery map has a title, a legend title with units, and credits with your name and “US Census Bureau, 2019-2023 ACS 5-Year Estimates”.\nStates are projected to EPSG:5070, and NC counties and tracts to EPSG:32119.\nNo install.packages() line is anywhere in the file.\nThe three reflection questions are answered.\n\n\n\n\n\n\n\n\n\n\nCriterion\nFull credit\nPartial credit\nNo credit\n\n\n\n\nKnits (2 pts)\nKnits to HTML with every map showing, and no API key in the file\nKnits, but some chunks have errors\nDoesn’t knit, or the key is in the file\n\n\nCode (5 pts)\nEvery blank filled in correctly; downloads and projections right\nMost correct\nMany blanks missing or wrong\n\n\nMaps (3 pts)\nFour maps, each with a title, legend title, and credits\nMaps missing labels\nMaps missing\n\n\nQuestions (8 pts)\nQ1 to Q10 answered, with numbers, place names, and reasons\nSome answers missing, wrong, or vague\nMost answers missing\n\n\nStyle (1 pt)\nPipe for chains, readable code, no install.packages()\n\nSeveral problems\n\n\nReflection (1 pt)\nAll three answered\n\nMissing\n\n\n\nWhat a good answer looks like. Here is a question, a weak answer, and a strong one.\n\nQuestion: What is the median household income of one county?\nWeak answer: “68500.”\nStrong answer: “The 2019–2023 ACS estimates the county’s median household income at $68,500, with a margin of error of ±$2,100, so we can be 90% confident it’s between $66,400 and $70,600. That’s a little below North Carolina’s median.”\n\nThe strong answer names the source and years, gives the margin of error and what it means, and puts the number in context. (The numbers here are only an example; yours come from your output.)\nIMPORTANT! Save often. Before you knit, choose Run &gt; Restart R and Run All Chunks to make sure every chunk works from a fresh start.\n\n\n\nThe middle value when values are sorted, so half are above and half\nbelow. Unlike counts, medians can’t be added across areas.\nApplication Programming Interface: a set of rules for how one program\nasks another for data or services, such as your R script asking the\nCensus Bureau’s server for a table.\nAn R package for making thematic maps quickly, with sensible defaults.\nThe rules that tie coordinates to places on the Earth, including how the\nround Earth is flattened onto a map (the projection). Layers must share\na coordinate system before you can combine them.\nA private code that identifies you to an API. Store it in\n.Renviron, never in a script you share.\nThe integrated development environment (IDE) where you write and run R.\nR does the computing; RStudio is the workspace around it.\nA document format (.Rmd) that mixes formatted text with\nchunks of R code. Knitting it runs the code and builds a finished\nreport.\nThe Census Bureau’s continuous survey of a sample of households every\nyear. It asks many more questions than the decennial census, but every\nvalue is an estimate with a margin of error.\nIn R, a named piece of memory that holds data, such as\nmonths &lt;- 12. In a dataset, a measured characteristic,\nsuch as median income; each Census variable has a code.\nA small area of about 1,200 to 8,000 people (4,000 on average), drawn to\nbe fairly stable over time. The workhorse unit for neighborhood\nanalysis.\nHow far a sample estimate might be from the true value. ACS margins of\nerror use a 90% confidence level: there is a 90% chance the true value\nlies within the estimate plus or minus the MOE.\nThe level of detail at which you study something: addresses,\nneighborhoods, counties, or states. A pattern that is clear at one scale\ncan vanish or reverse at another.\nThe use of data that have a location attached to answer questions about\nthe world. It combines what we study (the spatial), how we\nhandle it (data skills), and how we ask and answer questions\n(science).\nA block of R code inside an R Markdown file, starting with\n```{r} and ending with three backticks.\nA simple way of formatting plain text: # for headings,\n*italic*, **bold**, and - for\nlist items.\nA bundle of code, written by other users, that adds new functions to R.\nInstall it once with install.packages(), then load it in\neach session with library().\nTo build an R Markdown file into a finished document (HTML, PDF, or\nWord). Knitting reruns every code chunk from the top in a fresh R\nsession.\nThe RStudio pane (bottom left) where R runs commands and prints results,\nwarnings, and errors. Nothing typed here is saved.\nACS estimates that pool 60 months of responses. They are the most\nreliable ACS product and the only one for tracts and block groups. An\nestimate labeled 2022 describes 2018 to 2022.\nA method for flattening the curved graticule onto a flat map. Every\nprojection distorts shape, area, distance, or direction.\nThe operator |&gt;, which passes the result on its left as\nthe first argument of the function on its right. Read it as “and then.”",
+    "crumbs": [
+      "Unit 3: Maps and Geographic Data",
+      "Chapter exercise: Census Data and APIs"
+    ]
+  },
+  {
     "objectID": "chapters/arcpullr.html",
     "href": "chapters/arcpullr.html",
     "title": "14  ArcGIS Data with arcpullr",
@@ -1891,6 +2375,50 @@
     "crumbs": [
       "Unit 3: Maps and Geographic Data",
       "<span class='chapter-number'>14</span>  <span class='chapter-title'>ArcGIS Data with arcpullr</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/arcpullr-exercise.html",
+    "href": "chapters/arcpullr-exercise.html",
+    "title": "Chapter exercise: ArcGIS Data with arcpullr",
+    "section": "",
+    "text": "Purpose\nMedical Facilities from NC OneMap\nThis exercise goes with Chapter 14, ArcGIS Data with arcpullr. It builds on the Census Data exercise from Chapter 13, which also downloaded data through an API. It should take you about one hour. Read this whole section before you start.\nSkills you’ll practice. By the end of this exercise you will be able to:\nKnowledge you’ll gain. You’ll find out how many licensed medical facilities North Carolina has, what kinds they are, and how Orange and Durham counties compare.\nWhy this matters. State and local governments publish most of their GIS data (parcels, schools, roads, parks, hospitals) on ArcGIS portals such as NC OneMap. Being able to pull exactly the features you need straight into R, with a script that records where they came from, makes your work faster and reproducible. Portal layers change over time, so knowing how to document a download is part of doing honest analysis.",
+    "crumbs": [
+      "Unit 3: Maps and Geographic Data",
+      "Chapter exercise: ArcGIS Data with arcpullr"
+    ]
+  },
+  {
+    "objectID": "chapters/arcpullr-exercise.html#purpose",
+    "href": "chapters/arcpullr-exercise.html#purpose",
+    "title": "Chapter exercise: ArcGIS Data with arcpullr",
+    "section": "",
+    "text": "Read a layer’s REST Services Directory page and record its geometry type, coordinate system, record limit, and field names.\nDownload a layer from an ArcGIS feature service into R as an sf object with get_spatial_layer().\nWrite where clauses in SQL, with =, IN, AND, and text values in single quotes.\nExplain why filtering on the server is better than downloading everything and filtering in R.\nCheck, project, map, and save a downloaded layer, and record when you downloaded it.",
+    "crumbs": [
+      "Unit 3: Maps and Geographic Data",
+      "Chapter exercise: ArcGIS Data with arcpullr"
+    ]
+  },
+  {
+    "objectID": "chapters/arcpullr-exercise.html#task",
+    "href": "chapters/arcpullr-exercise.html#task",
+    "title": "Chapter exercise: ArcGIS Data with arcpullr",
+    "section": "Task",
+    "text": "Task\nWork through Parts 1 to 7 in order, top to bottom. In each part:\n\nRead the short explanation, then do each step marked with a bullet (•).\nWherever you see ___, replace it with the missing code before you run the chunk. Where you see # your code here, write the code yourself.\nAnswer each question (Q1, Q2, …) in a sentence or two of Markdown, where it says Your answer here.\nThis exercise downloads data, so you need an internet connection. The full statewide download in Part 5 takes a little while.\nYour numbers may differ slightly from a classmate’s if NC OneMap updates the layer between your downloads. That’s expected; say when you downloaded it.\n\n\n\n\nPart\nWhat you’ll do\nAbout\n\n\n\n\n1\nSet up your file and load the packages\n4 min\n\n\n2\nRead the layer’s REST page\n10 min\n\n\n3\nDownload one county\n8 min\n\n\n4\nWrite where clauses\n12 min\n\n\n5\nFilter on the server or in R?\n8 min\n\n\n6\nProject, map, and save\n13 min\n\n\n7\nReflect, knit, and turn in\n5 min\n\n\n\nTurn in your .Rmd file and your knitted .html file on Canvas.",
+    "crumbs": [
+      "Unit 3: Maps and Geographic Data",
+      "Chapter exercise: ArcGIS Data with arcpullr"
+    ]
+  },
+  {
+    "objectID": "chapters/arcpullr-exercise.html#criteria-for-success",
+    "href": "chapters/arcpullr-exercise.html#criteria-for-success",
+    "title": "Chapter exercise: ArcGIS Data with arcpullr",
+    "section": "Criteria for success",
+    "text": "Criteria for success\nUse this checklist before you turn your work in. Each item matches a row of the rubric below.\n\nThe file knits to HTML with no errors, and the author and date at the top are yours.\nEvery ___ and # your code here has been filled in, and every chunk runs.\nEvery question (Q1 to Q10) has an answer in complete sentences, using numbers from your output.\nEvery where clause uses the field names from the REST page, single quotes around text, and = (not ==).\nThe layer is projected to EPSG:32119 before anything is measured.\nYour map has a title, a legend title, and credits with your name, “NC OneMap”, and the date you downloaded the data.\nNo install.packages() line is anywhere in the file.\nThe three reflection questions are answered.\n\n\n\n\n\n\n\n\n\n\nCriterion\nFull credit\nPartial credit\nNo credit\n\n\n\n\nKnits (2 pts)\nKnits to HTML with no errors\nKnits, but some chunks have errors shown\nDoesn’t knit, or no HTML turned in\n\n\nREST page (2 pts)\nQ1 and Q2 record the details correctly\nSome details missing\nNot done\n\n\nDownloads and where clauses (5 pts)\nEvery request correct, with correct SQL\nMost correct\nMany missing or wrong\n\n\nQuestions (7 pts)\nQ3 to Q10 answered with numbers and reasons\nSome answers missing or without reasons\nMost answers missing\n\n\nMap (3 pts)\nProjected, with title, legend title, and credits with the download date\nSome parts missing\nNot done\n\n\nReflection (1 pt)\nAll three answered\n\nMissing\n\n\n\nWhat a good answer looks like. Here is a question, a weak answer, and a strong one.\n\nQuestion: Why use a where clause instead of filter()?\nWeak answer: “It’s faster.”\nStrong answer: “With where, the server sends only the 61 Orange County facilities instead of all 6,800 in the state, so the download took a fraction of the time. For a big layer like statewide parcels, downloading everything might not even be possible, and the where clause also records in my script exactly which features I used.”\n\nThe strong answer uses numbers from the output, explains why, and says when it matters most.\nIMPORTANT! Save often. Before you knit, choose Run &gt; Restart R and Run All Chunks to make sure every chunk works from a fresh start.\n\n\n\nNorth Carolina’s statewide GIS data portal, https://www.nconemap.gov/, with layers from state and\nlocal agencies.\nAn R package that downloads layers from ArcGIS REST services as sf\nobjects, with get_spatial_layer().\nApplication Programming Interface: a set of rules for how one program\nasks another for data or services, such as your R script asking the\nCensus Bureau’s server for a table.\nThe integrated development environment (IDE) where you write and run R.\nR does the computing; RStudio is the workspace around it.\nThe plain web page an ArcGIS server shows for each service and layer,\nlisting its layer ID, geometry type, MaxRecordCount, and fields.\nThe rules that tie coordinates to places on the Earth, including how the\nround Earth is flattened onto a map (the projection). Layers must share\na coordinate system before you can combine them.\nA layer published on an ArcGIS server whose features and attributes can\nbe requested through its REST endpoint.\n“Simple features”: the R package for spatial vector data. An sf object\nis a data frame with a geometry column holding each row’s point, line,\nor polygon.\nStructured Query Language, the language of databases. ArcGIS\nwhere clauses use it: fcounty = 'Orange'.\nA plain file of R code, ending in .R. Anything that isn’t\ncode must be written as a comment.\nThe ability for anyone to rerun an analysis from its code and data and\nget the same result.\nA block of R code inside an R Markdown file, starting with\n```{r} and ending with three backticks.\nA simple way of formatting plain text: # for headings,\n*italic*, **bold**, and - for\nlist items.\nA bundle of code, written by other users, that adds new functions to R.\nInstall it once with install.packages(), then load it in\neach session with library().\nThe most common style of web API: each dataset has its own URL, you ask\nfor data with ordinary web requests, and the answer usually comes back\nas JSON.\nTo build an R Markdown file into a finished document (HTML, PDF, or\nWord). Knitting reruns every code chunk from the top in a fresh R\nsession.\nA method for flattening the curved graticule onto a flat map. Every\nprojection distorts shape, area, distance, or direction.\nAn SQL filter, such as \"fcounty = 'Orange'\", that the\nserver applies before sending data back, so you download only what you\nneed.",
+    "crumbs": [
+      "Unit 3: Maps and Geographic Data",
+      "Chapter exercise: ArcGIS Data with arcpullr"
     ]
   },
   {
@@ -2045,6 +2573,50 @@
     ]
   },
   {
+    "objectID": "chapters/joins-exercise.html",
+    "href": "chapters/joins-exercise.html",
+    "title": "Chapter exercise: Joins: Attribute and Spatial",
+    "section": "",
+    "text": "Purpose\nMatching Tables by Name and by Place\nThis exercise goes with Chapter 15, Joins: Attribute and Spatial. It builds on the tidyverse, tmap, and coordinate systems exercises. It should take you about one hour. Read this whole section before you start.\nSkills you’ll practice. By the end of this exercise you will be able to:\nKnowledge you’ll gain. You’ll attach Census populations to North Carolina cities, map how median income changed across the states, find the London boroughs with the most bike-share stations, and find the nearest airport to ten North Carolina cities.\nWhy this matters. Data almost never arrives in one table. Census counts come without boundaries, boundaries come without the counts, and points such as schools or crimes need to be matched to the neighborhood they fall in. Joining is how you’ll bring your final project’s data together. A join that silently drops or duplicates rows is one of the most common hidden errors in data analysis, so checking the row count before and after every join is a habit worth building now.",
+    "crumbs": [
+      "Unit 4: Spatial Analysis",
+      "Chapter exercise: Joins: Attribute and Spatial"
+    ]
+  },
+  {
+    "objectID": "chapters/joins-exercise.html#purpose",
+    "href": "chapters/joins-exercise.html#purpose",
+    "title": "Chapter exercise: Joins: Attribute and Spatial",
+    "section": "",
+    "text": "Combine two tables with inner_join(), left_join(), right_join(), and full_join(), and predict how many rows each returns.\nName the key with join_by(), including when the key columns have different names.\nFind the rows that didn’t match with anti_join(), and fix a key that doesn’t match.\nDescribe the cardinality of a relationship.\nJoin by location with st_join(), and count the points in each polygon with a summarized join.\nFind the nearest feature with a distance join, after projecting both layers.",
+    "crumbs": [
+      "Unit 4: Spatial Analysis",
+      "Chapter exercise: Joins: Attribute and Spatial"
+    ]
+  },
+  {
+    "objectID": "chapters/joins-exercise.html#task",
+    "href": "chapters/joins-exercise.html#task",
+    "title": "Chapter exercise: Joins: Attribute and Spatial",
+    "section": "Task",
+    "text": "Task\nWork through Parts 1 to 7 in order, top to bottom. In each part:\n\nRead the short explanation, then do each step marked with a bullet (•).\nWherever you see ___, replace it with the missing code before you run the chunk. A chunk with ___ in it won’t run.\nBefore you run each join, predict how many rows it will return. Then run it and check.\nAnswer each question (Q1, Q2, …) in a sentence or two of Markdown, where it says Your answer here.\n\n\n\n\nPart\nWhat you’ll do\nAbout\n\n\n\n\n1\nSet up your file and load the data\n3 min\n\n\n2\nFour kinds of join on two small tables\n12 min\n\n\n3\nJoin income data to state boundaries\n10 min\n\n\n4\nWhen names don’t match\n7 min\n\n\n5\nSpatial joins: which borough is each station in?\n13 min\n\n\n6\nDistance joins: the nearest airport\n10 min\n\n\n7\nReflect, knit, and turn in\n5 min\n\n\n\nTurn in your .Rmd file and your knitted .html file on Canvas.",
+    "crumbs": [
+      "Unit 4: Spatial Analysis",
+      "Chapter exercise: Joins: Attribute and Spatial"
+    ]
+  },
+  {
+    "objectID": "chapters/joins-exercise.html#criteria-for-success",
+    "href": "chapters/joins-exercise.html#criteria-for-success",
+    "title": "Chapter exercise: Joins: Attribute and Spatial",
+    "section": "Criteria for success",
+    "text": "Criteria for success\nUse this checklist before you turn your work in. Each item matches a row of the rubric below.\n\nThe file knits to HTML with no errors, and every map appears in it.\nEvery ___ has been filled in, and every chunk runs.\nEvery question (Q1 to Q11) has an answer in complete sentences, with row counts and names from your output.\nBefore each join, you predicted the number of rows (in your head or in a comment), and checked it after.\nBoth layers in every spatial join are in the same projected CRS.\nEvery map has a title, a legend title, and credits with your name and the data source.\nNo install.packages() line is anywhere in the file.\nThe three reflection questions are answered.\n\n\n\n\n\n\n\n\n\n\nCriterion\nFull credit\nPartial credit\nNo credit\n\n\n\n\nKnits (2 pts)\nKnits to HTML with every map showing\nKnits, but some chunks have errors\nDoesn’t knit, or no HTML turned in\n\n\nJoin code (5 pts)\nEvery blank filled in correctly; right join type and key each time\nMost correct\nMany blanks missing or wrong\n\n\nQuestions (9 pts)\nQ1 to Q11 answered with row counts, names, and reasons\nSome answers missing, wrong, or without reasons\nMost answers missing\n\n\nMaps (2 pts)\nBoth maps finished with title, legend title, and credits\nLabels missing\nMaps missing\n\n\nStyle (1 pt)\nPipe for chains, join_by() for keys, no install.packages()\n\nSeveral problems\n\n\nReflection (1 pt)\nAll three answered\n\nMissing\n\n\n\nWhat a good answer looks like. Here is a question, a weak answer, and a strong one.\n\nQuestion: Why did the join return fewer rows than the first table?\nWeak answer: “Some rows were dropped.”\nStrong answer: “inner_join() keeps only rows with a match in both tables. us_states has the lower 48 states and DC, so Alaska and Hawaii in us_states_df had no match and were dropped: 51 rows became 49. anti_join() lists them.”\n\nThe strong answer names the join type, says which rows were lost and why, gives the counts, and shows how to check.\nIMPORTANT! Save often. Before you knit, choose Run &gt; Restart R and Run All Chunks to make sure every chunk works from a fresh start.\n\n\n\nCombining two tables by matching rows on a shared key column, such as\nattaching Census data to boundaries by GEOID with\nleft_join().\nA family of R packages (including dplyr,\nggplot2, and readr) for reading,\ncleaning, reshaping, summarizing, and plotting data, all designed to\nwork together.\nAn R package for making thematic maps quickly, with sensible defaults.\nThe rules that tie coordinates to places on the Earth, including how the\nround Earth is flattened onto a map (the projection). Layers must share\na coordinate system before you can combine them.\nThe integrated development environment (IDE) where you write and run R.\nR does the computing; RStudio is the workspace around it.\nHow many rows in one table can match a row in another: one-to-one,\none-to-many, many-to-one, or many-to-many.\nA closed shape that represents an area, such as a county, a lake, or a\ncensus tract.\nA spatial join that aggregates all the matching features, such as\ncounting the schools in each county.\nThe middle value when values are sorted, so half are above and half\nbelow. Unlike counts, medians can’t be added across areas.\nA block of R code inside an R Markdown file, starting with\n```{r} and ending with three backticks.\nA simple way of formatting plain text: # for headings,\n*italic*, **bold**, and - for\nlist items.\nA join that matches features by their location, such as attaching to\neach point the polygon it falls inside. st_join() in R.\nTo build an R Markdown file into a finished document (HTML, PDF, or\nWord). Knitting reruns every code chunk from the top in a fresh R\nsession.\nA note for people that R ignores. In R, a comment starts with\n#.\nA method for flattening the curved graticule onto a flat map. Every\nprojection distorts shape, area, distance, or direction.\nA join that keeps every row of the second (right) table.\nright_join() in dplyr.\nThe operator |&gt;, which passes the result on its left as\nthe first argument of the function on its right. Read it as “and then.”",
+    "crumbs": [
+      "Unit 4: Spatial Analysis",
+      "Chapter exercise: Joins: Attribute and Spatial"
+    ]
+  },
+  {
     "objectID": "chapters/esda.html",
     "href": "chapters/esda.html",
     "title": "16  Exploratory Spatial Data Analysis",
@@ -2177,6 +2749,50 @@
     ]
   },
   {
+    "objectID": "chapters/esda-exercise.html",
+    "href": "chapters/esda-exercise.html",
+    "title": "Chapter exercise: Exploratory Spatial Data Analysis",
+    "section": "",
+    "text": "Purpose\nGetting to Know North Carolina’s Births\nThis exercise goes with Chapter 16, Exploratory Spatial Data Analysis. It uses the dplyr, ggplot2, and tmap skills from Chapters 6 to 10. It should take you about one hour. Read this whole section before you start.\nSkills you’ll practice. By the end of this exercise you will be able to:\nKnowledge you’ll gain. You’ll describe how births and sudden infant deaths (SIDS) were spread across North Carolina’s 100 counties in the 1970s, find out which counties are outliers and why, and see where the rate of SIDS was highest.\nWhy this matters. Before you fit any model or make any claim, you have to know your data: how big it is, what’s missing, what’s typical, and what’s unusual. Skipping that step is how analysts end up reporting the “average” of a skewed variable, or mapping counts that only show where people live. Exploratory analysis is the first step of the final project, and of every analysis you’ll do after this course.",
+    "crumbs": [
+      "Unit 4: Spatial Analysis",
+      "Chapter exercise: Exploratory Spatial Data Analysis"
+    ]
+  },
+  {
+    "objectID": "chapters/esda-exercise.html#purpose",
+    "href": "chapters/esda-exercise.html#purpose",
+    "title": "Chapter exercise: Exploratory Spatial Data Analysis",
+    "section": "",
+    "text": "Check the basics of a new table: its size, what one row is, the type of each column, and its missing values.\nCalculate and interpret the mean, median, and mode of a variable.\nCalculate and interpret the range, interquartile range (IQR), and standard deviation.\nShow a distribution with a histogram and a boxplot, choose a bin width, and describe its shape.\nFind outliers and decide what to do about them.\nTurn counts into a rate, map both, and explain why the rate map tells a different story.",
+    "crumbs": [
+      "Unit 4: Spatial Analysis",
+      "Chapter exercise: Exploratory Spatial Data Analysis"
+    ]
+  },
+  {
+    "objectID": "chapters/esda-exercise.html#task",
+    "href": "chapters/esda-exercise.html#task",
+    "title": "Chapter exercise: Exploratory Spatial Data Analysis",
+    "section": "Task",
+    "text": "Task\nWork through Parts 1 to 7 in order, top to bottom. In each part:\n\nRead the short explanation, then do each step marked with a bullet (•).\nWherever you see ___, replace it with the missing code before you run the chunk. A chunk with ___ in it won’t run.\nBefore you run each chunk, predict what it will return. Then run it and check.\nAnswer each question (Q1, Q2, …) in a sentence or two of Markdown, where it says Your answer here.\n\nA note on the data: SIDS is the sudden, unexplained death of a baby under one year old. These are real counts of real losses, from 1974 to 1984; the data are a classic in spatial statistics because the rates vary so much from county to county.\n\n\n\nPart\nWhat you’ll do\nAbout\n\n\n\n\n1\nSet up your file and load the data\n4 min\n\n\n2\nStep one: get to know the table\n8 min\n\n\n3\nDescribe the center: mean, median, mode\n10 min\n\n\n4\nDescribe the spread: range, IQR, standard deviation\n10 min\n\n\n5\nShow the distribution: histograms, boxplots, outliers\n12 min\n\n\n6\nFrom counts to rates, and onto the map\n12 min\n\n\n7\nReflect, knit, and turn in\n4 min\n\n\n\nTurn in your .Rmd file and your knitted .html file on Canvas.",
+    "crumbs": [
+      "Unit 4: Spatial Analysis",
+      "Chapter exercise: Exploratory Spatial Data Analysis"
+    ]
+  },
+  {
+    "objectID": "chapters/esda-exercise.html#criteria-for-success",
+    "href": "chapters/esda-exercise.html#criteria-for-success",
+    "title": "Chapter exercise: Exploratory Spatial Data Analysis",
+    "section": "Criteria for success",
+    "text": "Criteria for success\nUse this checklist before you turn your work in. Each item matches a row of the rubric below.\n\nThe file knits to HTML with no errors, and every graph and map appears in it.\nEvery ___ has been filled in, and every chunk runs.\nEvery question (Q1 to Q11) has an answer in complete sentences, with numbers and county names from your output.\nWhen you describe a variable, you say whether it is skewed, and choose the mean or the median to match.\nEvery graph has axis labels with units, and every map has a title and a legend title.\nNo install.packages() line is anywhere in the file.\nThe three reflection questions are answered.\n\n\n\n\n\n\n\n\n\n\nCriterion\nFull credit\nPartial credit\nNo credit\n\n\n\n\nKnits (2 pts)\nKnits to HTML with every graph and map\nKnits, but some chunks have errors\nDoesn’t knit, or no HTML turned in\n\n\nCode (5 pts)\nEvery blank filled in correctly\nMost blanks correct\nMany blanks missing or wrong\n\n\nStatistics (4 pts)\nCenter and spread calculated and interpreted correctly, with units\nCalculated but not interpreted\nNot done\n\n\nQuestions (6 pts)\nQ1 to Q11 answered with numbers, names, and reasons\nSome answers missing or vague\nMost answers missing\n\n\nGraphs and maps (2 pts)\nLabeled, and the rate map is compared with the count map\nLabels missing\nNot done\n\n\nReflection (1 pt)\nAll three answered\n\nMissing\n\n\n\nWhat a good answer looks like. Here is a question, a weak answer, and a strong one.\n\nQuestion: What is a typical number of births per county?\nWeak answer: “3300.”\nStrong answer: “The median county had about 2,180 births from 1974 to 1978. The mean is higher, 3,300, because a few big counties (Mecklenburg, Cumberland, Guilford) had far more births than the rest, so the distribution is skewed to the right and the median is the better ‘typical’ value.”\n\nThe strong answer gives units and the time period, chooses between the mean and the median, and explains why using the shape of the data.\nIMPORTANT! Save often. Before you knit, choose Run &gt; Restart R and Run All Chunks to make sure every chunk works from a fresh start.\n\n\n\nEDA that also asks how values vary across space, using maps, spatial\nautocorrelation, and clustering.\nThe tidyverse package for transforming data frames: filtering rows,\nchoosing columns, adding new columns, joining tables, and summarizing.\nThe tidyverse package for making plots and maps by adding layers.\nAn R package for making thematic maps quickly, with sensible defaults.\nThe integrated development environment (IDE) where you write and run R.\nR does the computing; RStudio is the workspace around it.\nA value that is unknown, written NA (“not available”) in R.\nMost calculations with NA give NA; test for it\nwith is.na().\nThe middle value when values are sorted, so half are above and half\nbelow. Unlike counts, medians can’t be added across areas.\nIn R, a named piece of memory that holds data, such as\nmonths &lt;- 12. In a dataset, a measured characteristic,\nsuch as median income; each Census variable has a code.\nQ3 minus Q1: the spread of the middle half of the data. Outliers barely\naffect it. IQR() in R.\nA measure of how spread out values are around their mean, in the same\nunits as the values. sd() in R.\nA chart that divides a variable’s range into bins and draws a bar for\nhow many values fall in each. geom_histogram() in ggplot2.\nThe width of each bar in a histogram. Too narrow shows noise; too wide\nhides detail.\nA value far from all the others. It may be real or an error, so check it\nbefore you report it.\nLopsided: most values are bunched at one end, with a long tail of\nunusual values at the other, which pulls the mean away from the median.\nA block of R code inside an R Markdown file, starting with\n```{r} and ending with three backticks.\nA simple way of formatting plain text: # for headings,\n*italic*, **bold**, and - for\nlist items.\nTo build an R Markdown file into a finished document (HTML, PDF, or\nWord). Knitting reruns every code chunk from the top in a fresh R\nsession.\nA language, like R, that runs code one line at a time: an interpreter\nreads each line, translates it, and runs it before moving on.",
+    "crumbs": [
+      "Unit 4: Spatial Analysis",
+      "Chapter exercise: Exploratory Spatial Data Analysis"
+    ]
+  },
+  {
     "objectID": "chapters/spatial-statistics.html",
     "href": "chapters/spatial-statistics.html",
     "title": "17  Spatial Descriptive Statistics",
@@ -2295,6 +2911,50 @@
     "crumbs": [
       "Unit 4: Spatial Analysis",
       "<span class='chapter-number'>17</span>  <span class='chapter-title'>Spatial Descriptive Statistics</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/spatial-statistics-exercise.html",
+    "href": "chapters/spatial-statistics-exercise.html",
+    "title": "Chapter exercise: Spatial Descriptive Statistics",
+    "section": "",
+    "text": "Purpose\nWhere Is the Center of North Carolina’s Births?\nThis exercise goes with Chapter 17, Spatial Descriptive Statistics. It builds on the ESDA exercise from Chapter 16, which used the same county data, and on writing functions (Chapter 5). It should take you about one hour. Read this whole section before you start.\nSkills you’ll practice. By the end of this exercise you will be able to:\nKnowledge you’ll gain. You’ll find the geographic center of North Carolina’s 100 counties and the center of its births in the 1970s, see how far apart they are and why, and check whether the center of births moved between 1974–78 and 1979–84.\nWhy this matters. “Where is the middle?” and “how spread out?” are the first questions to ask about any set of places: stores, crimes, cases of a disease, or the homes of your survey respondents. A shift in a weighted mean center is one of the simplest ways to show that something is moving, like the US center of population moving west over two centuries (Chapter 13). Writing these statistics as functions also gives you tools you can reuse on any layer.",
+    "crumbs": [
+      "Unit 4: Spatial Analysis",
+      "Chapter exercise: Spatial Descriptive Statistics"
+    ]
+  },
+  {
+    "objectID": "chapters/spatial-statistics-exercise.html#purpose",
+    "href": "chapters/spatial-statistics-exercise.html#purpose",
+    "title": "Chapter exercise: Spatial Descriptive Statistics",
+    "section": "",
+    "text": "Calculate a mean center, a weighted mean center, a central feature, and a standard distance, by hand and in R.\nMatch each spatial statistic to the ordinary statistic it extends (mean, weighted mean, median, standard deviation).\nWrite your own functions in R, with inputs, a return value, and tests that check them.\nGet the x and y coordinates of an sf layer with st_coordinates(), and make a new point with st_point().\nExplain why spatial statistics must be calculated in a projected coordinate system.",
+    "crumbs": [
+      "Unit 4: Spatial Analysis",
+      "Chapter exercise: Spatial Descriptive Statistics"
+    ]
+  },
+  {
+    "objectID": "chapters/spatial-statistics-exercise.html#task",
+    "href": "chapters/spatial-statistics-exercise.html#task",
+    "title": "Chapter exercise: Spatial Descriptive Statistics",
+    "section": "Task",
+    "text": "Task\nWork through Parts 1 to 6 in order, top to bottom. In each part:\n\nRead the short explanation, then do each step marked with a bullet (•).\nWherever you see ___, replace it with the missing code before you run the chunk. Where you see # your code here, write the code yourself.\nRun the tests under each function. If a test doesn’t give the value in its comment, fix the function before you go on.\nAnswer each question (Q1, Q2, …) in a sentence or two of Markdown, where it says Your answer here.\n\n\n\n\n\n\n\n\n\nPart\nWhat you’ll do\nAbout\n\n\n\n\n1\nSet up your file and load the data\n4 min\n\n\n2\nFive stores, by hand and in R\n12 min\n\n\n3\nWrite your own functions\n15 min\n\n\n4\nThe centers of North Carolina\n14 min\n\n\n5\nCentral feature and standard distance for North Carolina\n10 min\n\n\n6\nReflect, knit, and turn in\n5 min\n\n\n\nTurn in your .Rmd file and your knitted .html file on Canvas. You can do the Part 2 hand calculations on paper and type your answers into Q1 and Q2.",
+    "crumbs": [
+      "Unit 4: Spatial Analysis",
+      "Chapter exercise: Spatial Descriptive Statistics"
+    ]
+  },
+  {
+    "objectID": "chapters/spatial-statistics-exercise.html#criteria-for-success",
+    "href": "chapters/spatial-statistics-exercise.html#criteria-for-success",
+    "title": "Chapter exercise: Spatial Descriptive Statistics",
+    "section": "Criteria for success",
+    "text": "Criteria for success\nUse this checklist before you turn your work in. Each item matches a row of the rubric below.\n\nThe file knits to HTML with no errors, and every map and plot appears in it.\nEvery ___ and # your code here has been filled in, and every chunk runs.\nYour three functions pass every test given under them.\nEvery question (Q1 to Q10) has an answer in complete sentences, with units (km or m) for every distance.\nAll the North Carolina statistics are calculated in NC State Plane (EPSG:32119).\nYour map in Part 4 has a title, shows the counties and both centers, and has credits.\nNo install.packages() line is anywhere in the file.\nThe three reflection questions are answered.\n\n\n\n\n\n\n\n\n\n\nCriterion\nFull credit\nPartial credit\nNo credit\n\n\n\n\nKnits (2 pts)\nKnits to HTML with every map and plot\nKnits, but some chunks have errors\nDoesn’t knit, or no HTML turned in\n\n\nHand calculations (2 pts)\nQ1 and Q2 correct, with work shown\nSome values wrong\nNot done\n\n\nFunctions (5 pts)\nAll three functions written and pass their tests\nSome functions fail a test\nNot done\n\n\nQuestions (8 pts)\nQ3 to Q10 answered with numbers, units, and reasons\nSome answers missing or without units\nMost answers missing\n\n\nMap (2 pts)\nProjected, titled, both centers shown and labeled\nMissing parts\nNot done\n\n\nReflection (1 pt)\nAll three answered\n\nMissing\n\n\n\nWhat a good answer looks like. Here is a question, a weak answer, and a strong one.\n\nQuestion: What does the standard distance of the five stores tell you?\nWeak answer: “3.58.”\nStrong answer: “The standard distance is about 3.6 km: a typical store is about 3.6 km from the stores’ mean center at (4, 4). Drawn as a circle, it shows how spread out the stores are; a chain with all its stores downtown would have a much smaller one.”\n\nThe strong answer gives units, says what the number measures, and gives a comparison that makes it meaningful.\nIMPORTANT! Save often. Before you knit, choose Run &gt; Restart R and Run All Chunks to make sure every chunk works from a fresh start.\n\n\n\nStatistics that describe the center and spread of a set of locations,\nsuch as the mean center and standard distance.\nEDA that also asks how values vary across space, using maps, spatial\nautocorrelation, and clustering.\nCode that takes inputs (arguments), does a job, and returns an output,\nsuch as mean(temps).\nThe integrated development environment (IDE) where you write and run R.\nR does the computing; RStudio is the workspace around it.\nThe average x coordinate and average y coordinate of a set of features.\nLike the mean, outliers pull it.\nA mean center in which each feature counts in proportion to an\nattribute, such as population.\nThe existing feature with the smallest total distance to all the others:\nthe spatial counterpart of the median.\nThe typical distance of features from their mean center: the spatial\ncounterpart of the standard deviation, drawn as a circle.\nAn average in which some values count more than others. Total distance\ndivided by total air time weights each flight’s speed by its air time.\nThe middle value when values are sorted, so half are above and half\nbelow. Unlike counts, medians can’t be added across areas.\nA measure of how spread out values are around their mean, in the same\nunits as the values. sd() in R.\nWhat a function gives back. In R, it is the value of the last line in\nthe function’s body.\n“Simple features”: the R package for spatial vector data. An sf object\nis a data frame with a geometry column holding each row’s point, line,\nor polygon.\nA method for flattening the curved graticule onto a flat map. Every\nprojection distorts shape, area, distance, or direction.\nThe rules that tie coordinates to places on the Earth, including how the\nround Earth is flattened onto a map (the projection). Layers must share\na coordinate system before you can combine them.\nThe point where a flat map of the country would balance if every\nresident weighed the same.\nA block of R code inside an R Markdown file, starting with\n```{r} and ending with three backticks.\nA note for people that R ignores. In R, a comment starts with\n#.\nA simple way of formatting plain text: # for headings,\n*italic*, **bold**, and - for\nlist items.\nTo build an R Markdown file into a finished document (HTML, PDF, or\nWord). Knitting reruns every code chunk from the top in a fresh R\nsession.\nA set of local projections for the US, with one or more zones per state,\nin feet or meters. North Carolina’s zone is EPSG:32119.",
+    "crumbs": [
+      "Unit 4: Spatial Analysis",
+      "Chapter exercise: Spatial Descriptive Statistics"
     ]
   },
   {
@@ -2480,6 +3140,50 @@
     ]
   },
   {
+    "objectID": "chapters/anova-exercise.html",
+    "href": "chapters/anova-exercise.html",
+    "title": "Chapter exercise: Comparing Groups: p-values and ANOVA",
+    "section": "",
+    "text": "Purpose\nDoes Income Differ by Region?\nThis exercise goes with Chapter 18, Comparing Groups: p-values and ANOVA. It uses joins (Chapter 15) and the summary statistics and boxplots from the ESDA exercise (Chapter 16). It should take you about one hour. Read this whole section before you start.\nSkills you’ll practice. By the end of this exercise you will be able to:\nKnowledge you’ll gain. You’ll test whether median income differs between the four Census regions of the United States, and find out how much the answer depends on one unusual place.\nWhy this matters. “Are these places really different, or is it chance?” is one of the most common questions in spatial data science, and in the news. Reading a p-value correctly, checking what’s behind it, and knowing when a test’s assumptions don’t hold will keep you from overclaiming in your final project, and help you judge the claims other people make with statistics.",
+    "crumbs": [
+      "Unit 5: Statistics and Science",
+      "Chapter exercise: Comparing Groups: p-values and ANOVA"
+    ]
+  },
+  {
+    "objectID": "chapters/anova-exercise.html#purpose",
+    "href": "chapters/anova-exercise.html#purpose",
+    "title": "Chapter exercise: Comparing Groups: p-values and ANOVA",
+    "section": "",
+    "text": "Calculate group means, the sum of squares between and within groups, and the F statistic, by hand and with aov().\nState a null hypothesis, and read a test result in three steps: the statistic, the p-value, and what it means for the question.\nExplore groups with summary statistics and boxplots before testing them.\nFollow a significant ANOVA with Tukey’s HSD to find which groups differ.\nCheck ANOVA’s assumptions, and use kruskal.test() when they fail.\nExplain how outliers, the way regions are drawn, and neighboring places affect a test on spatial data.",
+    "crumbs": [
+      "Unit 5: Statistics and Science",
+      "Chapter exercise: Comparing Groups: p-values and ANOVA"
+    ]
+  },
+  {
+    "objectID": "chapters/anova-exercise.html#task",
+    "href": "chapters/anova-exercise.html#task",
+    "title": "Chapter exercise: Comparing Groups: p-values and ANOVA",
+    "section": "Task",
+    "text": "Task\nWork through Parts 1 to 7 in order, top to bottom. In each part:\n\nRead the short explanation, then do each step marked with a bullet (•).\nWherever you see ___, replace it with the missing code before you run the chunk.\nAnswer each question (Q1, Q2, …) in a sentence or two of Markdown, where it says Your answer here.\nWhen you report a test, give the statistic, its degrees of freedom, and the p-value, and say what it means in words.\n\n\n\n\nPart\nWhat you’ll do\nAbout\n\n\n\n\n1\nSet up your file and load the data\n3 min\n\n\n2\nANOVA by hand\n12 min\n\n\n3\nExplore income by region\n10 min\n\n\n4\nRun the ANOVA\n8 min\n\n\n5\nOne unusual place\n10 min\n\n\n6\nWhich regions differ? Check the assumptions\n12 min\n\n\n7\nReflect, knit, and turn in\n5 min\n\n\n\nTurn in your .Rmd file and your knitted .html file on Canvas. You can do the Part 2 hand calculations on paper and type your answers into Q1.",
+    "crumbs": [
+      "Unit 5: Statistics and Science",
+      "Chapter exercise: Comparing Groups: p-values and ANOVA"
+    ]
+  },
+  {
+    "objectID": "chapters/anova-exercise.html#criteria-for-success",
+    "href": "chapters/anova-exercise.html#criteria-for-success",
+    "title": "Chapter exercise: Comparing Groups: p-values and ANOVA",
+    "section": "Criteria for success",
+    "text": "Criteria for success\nUse this checklist before you turn your work in. Each item matches a row of the rubric below.\n\nThe file knits to HTML with no errors, and the author and date at the top are yours.\nEvery ___ has been filled in, and every chunk runs.\nYour hand calculation of F in Part 2 matches aov().\nEvery question (Q1 to Q11) has an answer in complete sentences.\nEvery test result you report includes the statistic, degrees of freedom, p-value, and a sentence in plain English.\nYou never say a test “proves” anything, or that a large p-value means the groups are the same.\nYour boxplot has axis labels with units and a title.\nThe three reflection questions are answered.\n\n\n\n\n\n\n\n\n\n\nCriterion\nFull credit\nPartial credit\nNo credit\n\n\n\n\nKnits (2 pts)\nKnits to HTML with no errors\nKnits, but some chunks have errors\nDoesn’t knit, or no HTML turned in\n\n\nHand calculation (3 pts)\nMeans, SS between, SS within, and F correct\nSome steps wrong\nNot done\n\n\nCode (4 pts)\nEvery blank filled in correctly\nMost blanks correct\nMany blanks missing or wrong\n\n\nReporting tests (4 pts)\nStatistic, df, p-value, and plain-English meaning every time\nSome parts missing\nResults not interpreted\n\n\nQuestions (6 pts)\nQ2 to Q11 answered correctly, with reasons\nSome answers missing or wrong\nMost answers missing\n\n\nReflection (1 pt)\nAll three answered\n\nMissing\n\n\n\nWhat a good answer looks like. Here is a question, a weak answer, and a strong one.\n\nQuestion: What does a p-value of 0.03 from an ANOVA mean?\nWeak answer: “There’s a 3% chance the result is wrong.”\nStrong answer: “If the groups really had the same mean, we’d see differences this large or larger only about 3% of the time by chance. That’s below 0.05, so we reject the null hypothesis that all the group means are equal. It doesn’t tell us which groups differ, or whether the difference is big enough to matter.”\n\nThe strong answer states what the p-value is a probability of, connects it to the null hypothesis, and says what the test doesn’t tell you.\nIMPORTANT! Save often. Before you knit, choose Run &gt; Restart R and Run All Chunks to make sure every chunk works from a fresh start.\n\n\n\nThe probability of a result at least as extreme as yours if the null\nhypothesis were true. It is not the chance the null hypothesis is true.\nAnalysis of variance: a statistical test of whether the averages of\nthree or more groups differ, such as median age in three regions. It\ncompares variation between groups with variation within them.\nCombining two tables by matching rows on a shared key column, such as\nattaching Census data to boundaries by GEOID with\nleft_join().\nOne number that describes many values, such as their mean, median,\nmaximum, or count. summarize() calculates them.\nEDA that also asks how values vary across space, using maps, spatial\nautocorrelation, and clustering.\nThe integrated development environment (IDE) where you write and run R.\nR does the computing; RStudio is the workspace around it.\nThe squared distances of values from a mean, added up. ANOVA splits it\ninto between-group and within-group parts.\nThe claim a test starts from: that there is no difference or no\nrelationship. A small p-value is evidence against it.\nTukey’s honestly significant difference test: compares every pair of\ngroups after an ANOVA, with p-values adjusted for the number of\ncomparisons.\nA value far from all the others. It may be real or an error, so check it\nbefore you report it.\nThe middle value when values are sorted, so half are above and half\nbelow. Unlike counts, medians can’t be added across areas.\nThe use of data that have a location attached to answer questions about\nthe world. It combines what we study (the spatial), how we\nhandle it (data skills), and how we ask and answer questions\n(science).\nA block of R code inside an R Markdown file, starting with\n```{r} and ending with three backticks.\nA simple way of formatting plain text: # for headings,\n*italic*, **bold**, and - for\nlist items.\nThe number of values free to vary in a calculation. In ANOVA, k\n− 1 between groups and N − k within them.\nTo build an R Markdown file into a finished document (HTML, PDF, or\nWord). Knitting reruns every code chunk from the top in a fresh R\nsession.\nA language, like R, that runs code one line at a time: an interpreter\nreads each line, translates it, and runs it before moving on.",
+    "crumbs": [
+      "Unit 5: Statistics and Science",
+      "Chapter exercise: Comparing Groups: p-values and ANOVA"
+    ]
+  },
+  {
     "objectID": "chapters/regression.html",
     "href": "chapters/regression.html",
     "title": "19  Linear Regression",
@@ -2609,6 +3313,50 @@
     "crumbs": [
       "Unit 5: Statistics and Science",
       "<span class='chapter-number'>19</span>  <span class='chapter-title'>Linear Regression</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/regression-exercise.html",
+    "href": "chapters/regression-exercise.html",
+    "title": "Chapter exercise: Linear Regression",
+    "section": "",
+    "text": "Purpose\nWhat Explains House Values?\nThis exercise goes with Chapter 19, Linear Regression. It builds on the ANOVA exercise from Chapter 18, and uses ggplot2 and tmap. It should take you about one hour. Read this whole section before you start.\nSkills you’ll practice. By the end of this exercise you will be able to:\nKnowledge you’ll gain. You’ll find out how much the number of rooms, the share of low-income residents, crime, and being on the Charles River explain the value of homes in the census tracts of Boston, and where the model gets it most wrong.\nWhy this matters. Regression is the workhorse of data analysis: it is how researchers estimate how much one thing changes with another, and it is the basis of most models you’ll meet after this course. For spatial data, a regression is only half done until you map its residuals: if the errors cluster in one part of the map, the model is missing something about place, and its p-values can’t be trusted. That habit is what makes the analysis spatial data science.",
+    "crumbs": [
+      "Unit 5: Statistics and Science",
+      "Chapter exercise: Linear Regression"
+    ]
+  },
+  {
+    "objectID": "chapters/regression-exercise.html#purpose",
+    "href": "chapters/regression-exercise.html#purpose",
+    "title": "Chapter exercise: Linear Regression",
+    "section": "",
+    "text": "Tell a dependent variable from an independent variable, and correlation from regression.\nFit a linear regression with lm(), write its equation, and use it to predict with predict().\nRead a model summary: the coefficients, their p-values, R², and adjusted R².\nBuild a multivariate model, interpret a coefficient “holding the others constant”, and compare it with a simpler model.\nMap a model’s residuals and explain what clusters of similar residuals mean.",
+    "crumbs": [
+      "Unit 5: Statistics and Science",
+      "Chapter exercise: Linear Regression"
+    ]
+  },
+  {
+    "objectID": "chapters/regression-exercise.html#task",
+    "href": "chapters/regression-exercise.html#task",
+    "title": "Chapter exercise: Linear Regression",
+    "section": "Task",
+    "text": "Task\nWork through Parts 1 to 7 in order, top to bottom. In each part:\n\nRead the short explanation, then do each step marked with a bullet (•).\nWherever you see ___, replace it with the missing code before you run the chunk.\nAnswer each question (Q1, Q2, …) in a sentence or two of Markdown, where it says Your answer here.\nWhen you interpret a coefficient, give its units and the direction of the change.\n\n\n\n\nPart\nWhat you’ll do\nAbout\n\n\n\n\n1\nSet up your file and load the data\n3 min\n\n\n2\nA small regression: ice cream and temperature\n10 min\n\n\n3\nGet to know the Boston data\n6 min\n\n\n4\nA first model of house values\n10 min\n\n\n5\nA multivariate model\n12 min\n\n\n6\nMap the residuals\n14 min\n\n\n7\nReflect, knit, and turn in\n5 min\n\n\n\nTurn in your .Rmd file and your knitted .html file on Canvas.",
+    "crumbs": [
+      "Unit 5: Statistics and Science",
+      "Chapter exercise: Linear Regression"
+    ]
+  },
+  {
+    "objectID": "chapters/regression-exercise.html#criteria-for-success",
+    "href": "chapters/regression-exercise.html#criteria-for-success",
+    "title": "Chapter exercise: Linear Regression",
+    "section": "Criteria for success",
+    "text": "Criteria for success\nUse this checklist before you turn your work in. Each item matches a row of the rubric below.\n\nThe file knits to HTML with no errors, and every graph and map appears in it.\nEvery ___ has been filled in, and every chunk runs.\nEvery question (Q1 to Q11) has an answer in complete sentences.\nEvery coefficient you interpret has its units ($1,000s per room, per percentage point, …) and direction.\nYou compare models with adjusted R², not R².\nYou never say that the model shows one variable causes another.\nYour residual map has a title, a legend title, and a diverging color scale centered on zero.\nThe three reflection questions are answered.\n\n\n\n\n\n\n\n\n\n\nCriterion\nFull credit\nPartial credit\nNo credit\n\n\n\n\nKnits (2 pts)\nKnits to HTML with every graph and map\nKnits, but some chunks have errors\nDoesn’t knit, or no HTML turned in\n\n\nCode (4 pts)\nEvery blank filled in correctly\nMost blanks correct\nMany blanks missing or wrong\n\n\nInterpreting models (6 pts)\nCoefficients, p-values, and R² interpreted with units and direction\nSome interpretations missing units or wrong\nNot interpreted\n\n\nResidual map (3 pts)\nMapped with a diverging scale, and the pattern described\nMapped but not described\nNot done\n\n\nQuestions (4 pts)\nRemaining questions answered with reasons\nSome missing\nMost missing\n\n\nReflection (1 pt)\nAll three answered\n\nMissing\n\n\n\nWhat a good answer looks like. Here is a question, a weak answer, and a strong one.\n\nQuestion: What does the slope of the ice cream model mean?\nWeak answer: “6.77.”\nStrong answer: “For every 1 °F warmer, the model predicts about 6.8 more cones sold. The slope’s p-value is far below 0.05, so the relationship is unlikely to be chance, and R² = 0.96 says temperature explains about 96% of the variation in sales on these 12 days.”\n\nThe strong answer gives the units of both variables, the direction, and how much to trust it.\nIMPORTANT! Save often. Before you knit, choose Run &gt; Restart R and Run All Chunks to make sure every chunk works from a fresh start.\n\n\n\nA statistical model of how one variable (such as home price) changes\nwith one or more others (such as distance to downtown).\nAnalysis of variance: a statistical test of whether the averages of\nthree or more groups differ, such as median age in three regions. It\ncompares variation between groups with variation within them.\nThe tidyverse package for making plots and maps by adding layers.\nAn R package for making thematic maps quickly, with sensible defaults.\nThe integrated development environment (IDE) where you write and run R.\nR does the computing; RStudio is the workspace around it.\nThe outcome a model explains, y. It goes on the left of the\n~ in an R formula.\nA variable used to explain the dependent variable, x. It goes\non the right of the ~.\nThe probability of a result at least as extreme as yours if the null\nhypothesis were true. It is not the chance the null hypothesis is true.\nThe share of the variation in y that a model explains, from 0\nto 1.\nR-squared lowered a little for each independent variable, so adding\nuseless variables can’t make a model look better. Use it to compare\nmodels.\nA regression with more than one independent variable. Each coefficient\nis the change in y with the others held constant.\nAn observation’s actual value minus the value a model predicts for it.\nMap them to see where a model fits poorly.\nA small area of about 1,200 to 8,000 people (4,000 on average), drawn to\nbe fairly stable over time. The workhorse unit for neighborhood\nanalysis.\nA block of R code inside an R Markdown file, starting with\n```{r} and ending with three backticks.\nA simple way of formatting plain text: # for headings,\n*italic*, **bold**, and - for\nlist items.\nTo build an R Markdown file into a finished document (HTML, PDF, or\nWord). Knitting reruns every code chunk from the top in a fresh R\nsession.\nIn R, a named piece of memory that holds data, such as\nmonths &lt;- 12. In a dataset, a measured characteristic,\nsuch as median income; each Census variable has a code.\nThe level of detail at which you study something: addresses,\nneighborhoods, counties, or states. A pattern that is clear at one scale\ncan vanish or reverse at another.\nA language, like R, that runs code one line at a time: an interpreter\nreads each line, translates it, and runs it before moving on.",
+    "crumbs": [
+      "Unit 5: Statistics and Science",
+      "Chapter exercise: Linear Regression"
     ]
   },
   {
