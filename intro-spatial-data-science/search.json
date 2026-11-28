@@ -3591,6 +3591,50 @@
     ]
   },
   {
+    "objectID": "chapters/distance-neighborhoods-exercise.html",
+    "href": "chapters/distance-neighborhoods-exercise.html",
+    "title": "Chapter exercise: Distance and Neighborhoods",
+    "section": "",
+    "text": "Purpose\nWho Are My Neighbors?\nThis exercise goes with Chapter 21, Distance and Neighborhoods. It uses joins (Chapter 15), projections (Chapter 12), and tmap (Chapter 10). It should take you about one hour. Read this whole section before you start.\nSkills you’ll practice. By the end of this exercise you will be able to:\nKnowledge you’ll gain. You’ll find out which states have the most and fewest neighbors, why four states in the Southwest are neighbors under one rule but not another, and whether a state’s income looks like its neighbors’ incomes.\nWhy this matters. Every method in the rest of this course (Moran’s I, hot spots, spatial regression) starts with a decision about who counts as a neighbor. That choice is yours, R won’t make it for you, and different choices give different answers. Building several neighbor definitions on the same map, and seeing how they differ, is the best way to learn to choose one and defend it.",
+    "crumbs": [
+      "Unit 5: Statistics and Science",
+      "Chapter exercise: Distance and Neighborhoods"
+    ]
+  },
+  {
+    "objectID": "chapters/distance-neighborhoods-exercise.html#purpose",
+    "href": "chapters/distance-neighborhoods-exercise.html#purpose",
+    "title": "Chapter exercise: Distance and Neighborhoods",
+    "section": "",
+    "text": "Measure great circle, Euclidean, and Manhattan distances, and choose the right one for your data.\nSelect features within a distance with st_is_within_distance().\nBuild contiguity (queen and rook), k nearest neighbor, and distance band neighbors with spdep, and count each feature’s neighbors.\nExplain the edge effect and why k nearest neighbors aren’t always symmetric.\nTurn neighbors into row-standardized weights and calculate a spatial lag.",
+    "crumbs": [
+      "Unit 5: Statistics and Science",
+      "Chapter exercise: Distance and Neighborhoods"
+    ]
+  },
+  {
+    "objectID": "chapters/distance-neighborhoods-exercise.html#task",
+    "href": "chapters/distance-neighborhoods-exercise.html#task",
+    "title": "Chapter exercise: Distance and Neighborhoods",
+    "section": "Task",
+    "text": "Task\nWork through Parts 1 to 7 in order, top to bottom. In each part:\n\nRead the short explanation, then do each step marked with a bullet (•).\nWherever you see ___, replace it with the missing code before you run the chunk.\nAnswer each question (Q1, Q2, …) in a sentence or two of Markdown, where it says Your answer here.\nGive units with every distance.\n\n\n\n\nPart\nWhat you’ll do\nAbout\n\n\n\n\n1\nSet up your file and load the packages\n3 min\n\n\n2\nMeasure distance three ways\n10 min\n\n\n3\nFind the counties within 50 km\n7 min\n\n\n4\nContiguity neighbors: queen and rook\n12 min\n\n\n5\nk nearest and distance band neighbors\n12 min\n\n\n6\nWeights and the spatial lag\n12 min\n\n\n7\nReflect, knit, and turn in\n4 min\n\n\n\nTurn in your .Rmd file and your knitted .html file on Canvas.",
+    "crumbs": [
+      "Unit 5: Statistics and Science",
+      "Chapter exercise: Distance and Neighborhoods"
+    ]
+  },
+  {
+    "objectID": "chapters/distance-neighborhoods-exercise.html#criteria-for-success",
+    "href": "chapters/distance-neighborhoods-exercise.html#criteria-for-success",
+    "title": "Chapter exercise: Distance and Neighborhoods",
+    "section": "Criteria for success",
+    "text": "Criteria for success\nUse this checklist before you turn your work in. Each item matches a row of the rubric below.\n\nThe file knits to HTML with no errors, and both maps appear in it.\nEvery ___ has been filled in, and every chunk runs.\nEvery question (Q1 to Q11) has an answer in complete sentences.\nEvery distance has its units (km or m).\nYou explain why neighbor definitions differ, not just that they differ.\nYour maps have titles, legend titles, and credits with your name and the data source.\nThe three reflection questions are answered.\n\n\n\n\n\n\n\n\n\n\nCriterion\nFull credit\nPartial credit\nNo credit\n\n\n\n\nKnits (2 pts)\nKnits to HTML with both maps\nKnits, but some chunks have errors\nDoesn’t knit, or no HTML turned in\n\n\nCode (4 pts)\nEvery blank filled in correctly\nMost blanks correct\nMany blanks missing or wrong\n\n\nDistances (3 pts)\nDistances compared with units and the right measure explained\nNumbers given without explanation\nNot done\n\n\nNeighbors (5 pts)\nNeighbor counts found and differences between definitions explained\nCounts found, differences not explained\nNot done\n\n\nSpatial lag (3 pts)\nLag calculated, mapped, and interpreted\nCalculated but not interpreted\nNot done\n\n\nQuestions and reflection (3 pts)\nRemaining questions and all three reflections answered\nSome missing\nMost missing\n\n\n\nWhat a good answer looks like. Here is a question, a weak answer, and a strong one.\n\nQuestion: Why does Kansas have different neighbors with a distance band than with k = 4 nearest neighbors?\nWeak answer: “Because they’re different methods.”\nStrong answer: “A distance band gives every state the neighbors whose centers are within a fixed distance, so a big state like Kansas, whose neighbors’ centers are far away, can end up with few or none. k = 4 always gives exactly four neighbors, so Kansas gets four, but they may be farther away than the band allows.”\n\nThe strong answer names how each rule works and connects it to the place.\nIMPORTANT! Save often. Before you knit, choose Run &gt; Restart R and Run All Chunks to make sure every chunk works from a fresh start.\n\n\n\nCombining two tables by matching rows on a shared key column, such as\nattaching Census data to boundaries by GEOID with\nleft_join().\nA method for flattening the curved graticule onto a flat map. Every\nprojection distorts shape, area, distance, or direction.\nAn R package for making thematic maps quickly, with sensible defaults.\nThe integrated development environment (IDE) where you write and run R.\nR does the computing; RStudio is the workspace around it.\nSharing a border. Contiguity neighbors are polygons that touch, by the\nrook or queen rule.\nA neighbor definition: every feature within a set threshold distance is\na neighbor. dnearneigh() in spdep.\nFeatures near the edge of a study area get too few neighbors because the\ndata stop at the boundary.\nDividing each weight by its row’s total so every row sums to 1. Then\nW times a variable gives the neighbors’ average.\nThe weighted average of an observation’s neighbors’ values, calculated\nwith row-standardized weights. lag.listw() in spdep.\nA global measure of spatial autocorrelation, from −1 (dispersed) through\n0 (random) to +1 (clustered), with a p-value.\nA cluster of places with unusually high values, such as a group of\nneighborhoods with many burglaries. Finding hotspots is a common goal of\nspatial analysis.\nA statistical model of how one variable (such as home price) changes\nwith one or more others (such as distance to downtown).\nA block of R code inside an R Markdown file, starting with\n```{r} and ending with three backticks.\nA simple way of formatting plain text: # for headings,\n*italic*, **bold**, and - for\nlist items.\nA bundle of code, written by other users, that adds new functions to R.\nInstall it once with install.packages(), then load it in\neach session with library().\nTo build an R Markdown file into a finished document (HTML, PDF, or\nWord). Knitting reruns every code chunk from the top in a fresh R\nsession.\nA language, like R, that runs code one line at a time: an interpreter\nreads each line, translates it, and runs it before moving on.",
+    "crumbs": [
+      "Unit 5: Statistics and Science",
+      "Chapter exercise: Distance and Neighborhoods"
+    ]
+  },
+  {
     "objectID": "chapters/spatial-autocorrelation.html",
     "href": "chapters/spatial-autocorrelation.html",
     "title": "22  Spatial Clustering and Spatial Autocorrelation",
@@ -3742,6 +3786,50 @@
     "crumbs": [
       "Unit 5: Statistics and Science",
       "<span class='chapter-number'>22</span>  <span class='chapter-title'>Spatial Clustering and Spatial Autocorrelation</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/spatial-autocorrelation-exercise.html",
+    "href": "chapters/spatial-autocorrelation-exercise.html",
+    "title": "Chapter exercise: Spatial Clustering and Spatial Autocorrelation",
+    "section": "",
+    "text": "Purpose\nIs It Clustered?\nThis exercise goes with Chapter 22, Spatial Clustering and Spatial Autocorrelation. It builds on the neighbors and weights exercise from Chapter 21. It should take you about one hour. Read this whole section before you start.\nSkills you’ll practice. By the end of this exercise you will be able to:\nKnowledge you’ll gain. You’ll find out whether London’s bike-hire docks are clustered, how strongly income and poverty cluster among U.S. states, and where the hot and cold spots of income are.\nWhy this matters. Our eyes find patterns in any map, even a random one. These statistics let you say, with evidence, whether a pattern is real, how strong it is, and where it is. They’re also how you check a regression’s residuals (Chapter 19) and a standard part of a spatial data science project, including your final project.",
+    "crumbs": [
+      "Unit 5: Statistics and Science",
+      "Chapter exercise: Spatial Clustering and Spatial Autocorrelation"
+    ]
+  },
+  {
+    "objectID": "chapters/spatial-autocorrelation-exercise.html#purpose",
+    "href": "chapters/spatial-autocorrelation-exercise.html#purpose",
+    "title": "Chapter exercise: Spatial Clustering and Spatial Autocorrelation",
+    "section": "",
+    "text": "Calculate the Average Nearest Neighbor (ANN) ratio for a set of points, and explain how the study area changes it.\nRun Moran’s I with moran.test() and moran.mc(), and interpret its magnitude, significance, and importance.\nCheck whether a Moran’s I result holds up with a different neighbor definition.\nRun a local Getis-Ord Gi* hot-spot analysis with localG(), classify the z-scores, and map them.\nChoose the right statistic for a question: ANN, Moran’s I, or Gi*.",
+    "crumbs": [
+      "Unit 5: Statistics and Science",
+      "Chapter exercise: Spatial Clustering and Spatial Autocorrelation"
+    ]
+  },
+  {
+    "objectID": "chapters/spatial-autocorrelation-exercise.html#task",
+    "href": "chapters/spatial-autocorrelation-exercise.html#task",
+    "title": "Chapter exercise: Spatial Clustering and Spatial Autocorrelation",
+    "section": "Task",
+    "text": "Task\nWork through Parts 1 to 7 in order, top to bottom. In each part:\n\nRead the short explanation, then do each step marked with a bullet (•).\nWherever you see ___, replace it with the missing code before you run the chunk.\nAnswer each question (Q1, Q2, …) in a sentence or two of Markdown, where it says Your answer here.\nWhen you report Moran’s I, give both I and its p-value, and describe its strength with the rule of thumb in the chapter.\n\n\n\n\n\n\n\n\n\nPart\nWhat you’ll do\nAbout\n\n\n\n\n1\nSet up your file and load the data\n3 min\n\n\n2\nAre the bike docks clustered? The ANN ratio\n14 min\n\n\n3\nMoran’s I for state income\n12 min\n\n\n4\nDoes the answer depend on the neighbors or the variable?\n10 min\n\n\n5\nHot spots with Getis-Ord Gi*\n14 min\n\n\n6\nChoose the statistic\n3 min\n\n\n7\nReflect, knit, and turn in\n4 min\n\n\n\nTurn in your .Rmd file and your knitted .html file on Canvas.",
+    "crumbs": [
+      "Unit 5: Statistics and Science",
+      "Chapter exercise: Spatial Clustering and Spatial Autocorrelation"
+    ]
+  },
+  {
+    "objectID": "chapters/spatial-autocorrelation-exercise.html#criteria-for-success",
+    "href": "chapters/spatial-autocorrelation-exercise.html#criteria-for-success",
+    "title": "Chapter exercise: Spatial Clustering and Spatial Autocorrelation",
+    "section": "Criteria for success",
+    "text": "Criteria for success\nUse this checklist before you turn your work in. Each item matches a row of the rubric below.\n\nThe file knits to HTML with no errors, and the hot-spot map appears in it.\nEvery ___ has been filled in, and every chunk runs.\nEvery question (Q1 to Q11) has an answer in complete sentences.\nEvery Moran’s I result gives I, the p-value, and a description of its strength.\nYou tell a significant result from an important one.\nYour map has a title, a legend title, and credits with your name and the data source.\nThe three reflection questions are answered.\n\n\n\n\n\n\n\n\n\n\nCriterion\nFull credit\nPartial credit\nNo credit\n\n\n\n\nKnits (2 pts)\nKnits to HTML with the map\nKnits, but some chunks have errors\nDoesn’t knit, or no HTML turned in\n\n\nCode (4 pts)\nEvery blank filled in correctly\nMost blanks correct\nMany blanks missing or wrong\n\n\nANN (3 pts)\nRatio calculated and the effect of the study area explained\nCalculated, not explained\nNot done\n\n\nMoran’s I (5 pts)\nMagnitude, significance, and importance interpreted for each result\nSome parts missing\nNot done\n\n\nHot spots (3 pts)\nMapped, and hot and cold spots described\nMapped, not described\nNot done\n\n\nQuestions and reflection (3 pts)\nRemaining questions and all three reflections answered\nSome missing\nMost missing\n\n\n\nWhat a good answer looks like. Here is a question, a weak answer, and a strong one.\n\nQuestion: Is the number of births in North Carolina’s counties spatially autocorrelated?\nWeak answer: “Yes, p = 0.004.”\nStrong answer: “Moran’s I is 0.22, which is slightly clustered by the rule of thumb, and p = 0.004, so the clustering is statistically significant at the 0.05 level. Counties with many births tend to be near each other, but the effect is modest.”\n\nThe strong answer gives I and p, describes the strength, and says what it means on the map. (These numbers are made up for the example.)\nIMPORTANT! Save often. Before you knit, choose Run &gt; Restart R and Run All Chunks to make sure every chunk works from a fresh start.\n\n\n\nMethods that find groups of similar observations, or groups of places\nwith similar values that sit close together.\nThe tendency for things that are close together to be more alike than\nthings that are far apart, such as neighboring counties having similar\nincomes.\nThe integrated development environment (IDE) where you write and run R.\nR does the computing; RStudio is the workspace around it.\nThe observed mean distance from each point to its nearest neighbor\ndivided by the mean expected at random. Below 1 is clustered.\nA global measure of spatial autocorrelation, from −1 (dispersed) through\n0 (random) to +1 (clustered), with a p-value.\nA local statistic that gives each observation a z-score: large positive\nfor hot spots, large negative for cold spots.\nA cluster of places with unusually high values, such as a group of\nneighborhoods with many burglaries. Finding hotspots is a common goal of\nspatial analysis.\nHow many standard deviations a value is from what’s expected. Beyond\n±1.96 is significant at the 0.05 level.\nAn area of low values surrounded by low values: a large negative Gi*\nz-score.\nA statistical model of how one variable (such as home price) changes\nwith one or more others (such as distance to downtown).\nAn observation’s actual value minus the value a model predicts for it.\nMap them to see where a model fits poorly.\nThe use of data that have a location attached to answer questions about\nthe world. It combines what we study (the spatial), how we\nhandle it (data skills), and how we ask and answer questions\n(science).\nA block of R code inside an R Markdown file, starting with\n```{r} and ending with three backticks.\nA simple way of formatting plain text: # for headings,\n*italic*, **bold**, and - for\nlist items.\nThe probability of a result at least as extreme as yours if the null\nhypothesis were true. It is not the chance the null hypothesis is true.\nIn R, a named piece of memory that holds data, such as\nmonths &lt;- 12. In a dataset, a measured characteristic,\nsuch as median income; each Census variable has a code.\nTo build an R Markdown file into a finished document (HTML, PDF, or\nWord). Knitting reruns every code chunk from the top in a fresh R\nsession.\nA language, like R, that runs code one line at a time: an interpreter\nreads each line, translates it, and runs it before moving on.",
+    "crumbs": [
+      "Unit 5: Statistics and Science",
+      "Chapter exercise: Spatial Clustering and Spatial Autocorrelation"
     ]
   },
   {
